@@ -1,4 +1,4 @@
 *.log
 *.enc
-es6
+tsconfig.json
 test

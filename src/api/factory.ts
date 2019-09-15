@@ -1,5 +1,4 @@
 import OAuth from "./oAuth";
-import {Settings} from "../eBay";
 import {Buy} from "./restful/buy";
 import Browse from "./restful/buy/browse";
 import Feed from "./restful/buy/feed";
@@ -22,6 +21,7 @@ import DeveloperAnalytics from "./restful/developer/analytics";
 import Account from "./restful/sell/account";
 import SellAnalytics from "./restful/sell/analytics";
 import Traditional, {Finding, Shopping, Trading} from "./traditional";
+import {Settings} from "../types";
 
 export default class Factory {
 

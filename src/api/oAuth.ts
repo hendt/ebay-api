@@ -1,5 +1,5 @@
 import {postForm} from "../utils/request";
-import {Settings} from "../eBay";
+import {Settings} from "../types";
 
 export default class OAuth {
     settings: Settings;

@@ -5,29 +5,7 @@ import {Commerce} from "./api/restful/commerce";
 import {Developer} from "./api/restful/developer";
 import {Sell} from "./api/restful/sell";
 import {Finding, Shopping, Trading} from "./api/traditional";
-
-/**
- * defaults for eBay API
- */
-type GlobalSettings = {
-    sandbox?: boolean,
-    site?: number,
-    raw?: boolean,
-    perPage?: number,
-    follow?: boolean,
-    grant_type?: string,
-    scope?: string
-}
-
-type AuthSettings = {
-    appId: string, // (Client ID)
-    certId: string, // (Client Secret)
-    devId: string,
-    authNAuth?: string,
-    sandbox: boolean
-};
-
-export type Settings = GlobalSettings & AuthSettings;
+import {GlobalSettings, Settings, SiteID} from "./types";
 
 const defaultSettings: GlobalSettings = {
     sandbox: false,
@@ -39,7 +17,7 @@ const defaultSettings: GlobalSettings = {
     scope: 'https://api.ebay.com/oauth/api_scope'
 };
 
-export default class EBay {
+export default class Index {
 
     private factory: Factory;
     readonly globals: Settings;
@@ -74,7 +52,7 @@ export default class EBay {
         if (!process.env.EBAY_DEV_ID) {
             throw new Env_Error("EBAY_DEV_ID");
         }
-        return new EBay({
+        return new Index({
             appId: process.env.EBAY_APP_ID,
             authNAuth: process.env.AUTH_N_AUTH,
             certId: process.env.EBAY_CERT_ID,
@@ -85,7 +63,7 @@ export default class EBay {
 
     /**
      * @param      {Object}  settings the global settings
-     * @return     {EBay}
+     * @return     {Index}
      */
     constructor(settings: Settings) {
         /**
@@ -112,5 +90,9 @@ export default class EBay {
 
         return this;
     }
+}
 
+export {
+    SiteID,
+    GlobalSettings
 }

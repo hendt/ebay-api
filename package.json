@@ -1,9 +1,10 @@
 {
   "name": "@hendt/ebay-api",
   "author": "Daniil Tomilow",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "eBay typescript API",
-  "main": "./builder/commonjs/eBay.js",
+  "main": "./dist/index.js",
+  "types": "index.d.ts",
   "dependencies": {
     "axios": "^0.19.0",
     "axios-rate-limit": "^1.1.2",

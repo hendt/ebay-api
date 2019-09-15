@@ -2,7 +2,7 @@ import XMLRequest from "./XMLRequest";
 import TradingCalls from "./tradingCalls";
 import ShoppingCalls from "./shoppingCalls";
 import FindingCalls from "./findingCalls";
-import {Settings} from "../../eBay";
+import {Settings} from "../../types";
 
 type ApiCall = (fields?: object, config?: object) => Promise<any>;
 

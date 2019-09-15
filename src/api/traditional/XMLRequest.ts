@@ -2,13 +2,13 @@
 import o2x from 'object-to-xml';
 import debug from "debug"
 
-import {No_Auth_Token_Error, No_Call_Error} from "../../errors"
+import {No_Call_Error} from "../../errors"
 import Parser from "./Parser"
 import range from "../../utils/range"
 import req from '../../utils/request';
+import {Settings} from "../../types";
 
 // Definitions
-import {Settings} from "../../eBay";
 
 const HEADING = '?xml version="1.0" encoding="utf-8"?';
 const LIST = "List";
