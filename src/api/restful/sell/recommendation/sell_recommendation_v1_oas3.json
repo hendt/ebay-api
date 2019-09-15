@@ -1,0 +1,376 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Recommendation API",
+    "description": "The <b>Recommendation API</b> returns information that sellers can use to optimize the configuration of their listings on eBay. <br><br>Currently, the API contains a single method, <b>findListingRecommendations</b>. This method provides information that sellers can use to configure Promoted Listings ad campaigns to maximize the visibility of their items in the eBay marketplace.",
+    "contact": {
+      "name": "eBay Inc,"
+    },
+    "license": {
+      "name": "eBay API License Agreement",
+      "url": "https://go.developer.ebay.com/api-license-agreement"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.ebay.com{basePath}",
+      "description": "Production",
+      "variables": {
+        "basePath": {
+          "default": "/sell/recommendation/v1"
+        }
+      }
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/find": {
+      "post": {
+        "tags": [
+          "listing_recommendation"
+        ],
+        "description": "The find method returns recommendations and information that sellers can use to optimize their listing configurations. The response from this method includes an array of the seller's listing IDs, where each element in the array contains recommendations related to the associated listing ID. The AD recommendation type The method currently returns information for a single recommendation type (AD) which contains information that sellers can use to configure Promoted Listings ad campaigns. AD contains two sets of information: The promoteWithAd indicator The promoteWithAd response field indicates whether or not eBay recommends you place the associated listing in a Promoted Listings ad campaign. The returned value is set to either RECOMMENDED or UNDETERMINED, where RECOMMENDED identifies the listings that will benefit the most from having them included in an ad campaign. The bid percentage Also known as the &quot;ad rate,&quot; the bidPercentage field provides the current trending bid percentage of similarly promoted items in the marketplace. The ad rate is a user-specified value that indicates the level of promotion that eBay applies to the campaign across the marketplace. The value is also used to calculate the Promotion Listings fee, which is assessed to the seller if a Promoted Listings action results in the sale of an item. Configuring the request You can configure a request to review all of a seller's currently active listings, or just a subset of them. All active listings &ndash; If you leave the request body empty, the request targets all the items currently listed by the seller. Here, the response is filtered to contain only the items where promoteWithAd equals RECOMMENDED. In this case, eBay recommends that all the returned listings should be included in a Promoted Listings ad campaign. Selected listing IDs &ndash; If you populate the request body with a set of listingIds, the response contains data for all the specified listing IDs. In this scenario, the response provides you with information on listings where the promoteWithAd can be either RECOMMENDED or UNDETERMINED. The paginated response Because the response can contain many listing IDs, the findListingRecommendations method paginates the response set. You can control size of the returned pages, as well as an offset that dictates where to start the pagination, using query parameters in the request.",
+        "operationId": "findListingRecommendations",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Provide a list of key-value pairs to specify the criteria you want to use to filter the response. In the list, separate each filter key from its associated value with a colon (&quot;:&quot;). Currently, the only supported filter value is recommendationTypes and it supports only the (&quot;AD&quot;) type. Follow the recommendationTypes specifier with the filter type(s) enclosed in curly braces (&quot;{ }&quot;), and separate multiple types with commas. Example: filter=recommendationTypes:{AD} Default: recommendationTypes:{AD}",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Use this query parameter to set the maximum number of ads to return on a page from the paginated response. Default: 10 Maximum: 500",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Specifies the number of ads to skip in the result set before returning the first ad in the paginated response. Combine offset with the limit query parameter to control the items returned in the response. For example, if you supply an offset of 0 and a limit of 10, the first page of the response contains the first 10 items from the complete list of items retrieved by the call. If offset is 10 and limit is 20, the first page of the response contains items 11-30 from the complete result set. Default: 0",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-EBAY-C-MARKETPLACE-ID",
+            "in": "header",
+            "description": "Use this header to specify the eBay marketplace where you list the items for which you want to get recommendations.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FindListingRecommendationRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedListingRecommendationCollection"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "145101": {
+                  "domain": "API_RECOMMENDATION",
+                  "category": "REQUEST",
+                  "description": "The marketplace value {marketplaceId} is not supported. The supported values are: {marketplaceIds}. "
+                },
+                "145102": {
+                  "domain": "API_RECOMMENDATION",
+                  "category": "REQUEST",
+                  "description": "Invalid value {recommendationTypes} for recommendationTypes filter"
+                },
+                "145103": {
+                  "domain": "API_RECOMMENDATION",
+                  "category": "REQUEST",
+                  "description": "You must specify at least one listing ID."
+                },
+                "145104": {
+                  "domain": "API_RECOMMENDATION",
+                  "category": "REQUEST",
+                  "description": "The recommendationTypes filter accepts a single value only."
+                },
+                "145105": {
+                  "domain": "API_RECOMMENDATION",
+                  "category": "REQUEST",
+                  "description": "Invalid listing Ids {listingIds}."
+                },
+                "145106": {
+                  "domain": "API_RECOMMENDATION",
+                  "category": "REQUEST",
+                  "description": "Listing ID limit exceeded. You can pass up to a maximum of 500 listing IDs per request."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "145000": {
+                  "domain": "API_RECOMMENDATION",
+                  "category": "APPLICATION",
+                  "description": "Internal error. Please wait a few minutes and try the call again"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Ad": {
+        "type": "object",
+        "properties": {
+          "bidPercentages": {
+            "type": "array",
+            "description": "This field returns information that you can use to configure the bidPercentage field in a Promoted Listings campaign. While this field returns an array, TRENDING is currently the only supported bid percentage type, so the array is populated with just a single element. The TRENDING bid percentage is calculated by reviewing the average ad rates of other similar promoted listings in the marketplace. Setting the bidPercentage of your ad campaign to this rate will help the items in the campaign be competitive with other items in the marketplace by improving their chances of being displayed more often in the marketplace.",
+            "items": {
+              "$ref": "#/components/schemas/BidPercentages"
+            }
+          },
+          "promoteWithAd": {
+            "description": "An enum whose values describe whether or not eBay recommends you place the associated listing in a Promoted Listings ad campaign. IDs deemed RECOMMENDED by eBay are the listings with the highest potential of benefiting from being promoted. The recommendation calculation is based on marketplace trends, like buyer demand and the competition in the item&rsquo;s category. Note: A promoteWithAd value cannot be calculated for listings that are part of Promoted Listings campaigns. Because of this, if you call findListingRecommendations with a specific set of listing IDs, the promoteWithAd field is not returned for any of the listings that are involved in a promotion. However, as long as they are eligible, the trending bidPercentage is returned for all specified listings, even if they are part of an ad campaign.",
+            "$ref": "#/components/schemas/PromoteWithAd"
+          }
+        },
+        "description": "A complex type that contains recommendations and information on how to configure Promoted Listings ad campaigns."
+      },
+      "Basis": {
+        "type": "object",
+        "description": "An enum that describes the different ways, or the basis, by which the bid percentage value is calculated. Currently, TRENDING is the only valid basis.",
+        "enum": [
+          "TRENDING"
+        ]
+      },
+      "BidPercentages": {
+        "type": "object",
+        "properties": {
+          "basis": {
+            "description": "The basis by which the ad rate is calculated. TRENDING is the currently supported value.",
+            "$ref": "#/components/schemas/Basis"
+          },
+          "value": {
+            "type": "string",
+            "description": "The bid percentage data is a single precision value, as calculated by the associated basis. A TRENDING value is calculated by taking into account the average bid percentages of similar promoted listings in the associated marketplace. In Promoted listings ad campaigns, the bid percentage (also known as the ad rate) is a user-defined value that sets the level that eBay raises the visibility of the listing in the marketplace. It is also the rate that is used to calculate the Promoted Listings fee. Minimum value: 1.0 &nbsp; Maximum value: 100.0"
+          }
+        },
+        "description": "A complex type that returns data related to Promoted Listings bid percentages."
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Identifies the type of erro."
+          },
+          "domain": {
+            "type": "string",
+            "description": "Name for the primary system where the error occurred. This is relevant for application errors."
+          },
+          "errorId": {
+            "type": "integer",
+            "description": "A unique number to identify the error.",
+            "format": "int32"
+          },
+          "inputRefIds": {
+            "type": "array",
+            "description": "An array of request elements most closely associated to the error.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "longMessage": {
+            "type": "string",
+            "description": "A more detailed explanation of the error."
+          },
+          "message": {
+            "type": "string",
+            "description": "Information on how to correct the problem, in the end user's terms and language where applicable."
+          },
+          "outputRefIds": {
+            "type": "array",
+            "description": "An array of request elements most closely associated to the error.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "parameters": {
+            "type": "array",
+            "description": "An array of name/value pairs that describe details the error condition. These are useful when multiple errors are returned.",
+            "items": {
+              "$ref": "#/components/schemas/ErrorParameter"
+            }
+          },
+          "subdomain": {
+            "type": "string",
+            "description": "Further helps indicate which subsystem the error is coming from. System subcategories include: Initialization, Serialization, Security, Monitoring, Rate Limiting, etc."
+          }
+        },
+        "description": "This type defines the fields that can be returned in an error."
+      },
+      "ErrorParameter": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The object of the error."
+          },
+          "value": {
+            "type": "string",
+            "description": "The value of the object."
+          }
+        }
+      },
+      "FindListingRecommendationRequest": {
+        "type": "object",
+        "properties": {
+          "listingIds": {
+            "type": "array",
+            "description": "A comma-separated list of listing IDs for which you want Promoted Listings ad configuration information. Currently, this method accepts only listingId values from the Trading API. Max: 500 listing IDs",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "description": "An list of listing ID values for which you want Promoted Listings ad configuration information."
+      },
+      "ListingRecommendation": {
+        "type": "object",
+        "properties": {
+          "listingId": {
+            "type": "string",
+            "description": "An ID that identifies the active listing associated with the eBay recommendations."
+          },
+          "marketing": {
+            "description": "This return object provides the eBay recommendations and information related to the associated listing ID. The container currently returns the AD recommendation type, which contains information that sellers can use to configure Promoted Listings ad campaigns. This container is returned with each ListingRecommendation object, except when: The listing ID is not eligible for Promoted Listings The listing ID is currently in a Promoted Listings campaign The listing ID is invalid",
+            "$ref": "#/components/schemas/MarketingRecommendation"
+          }
+        },
+        "description": "A complex type that contains the ID of an actively listed item and a set of related listing recommendations. The recommendations contain information the seller can use to optimize their listing configurations."
+      },
+      "MarketingRecommendation": {
+        "type": "object",
+        "properties": {
+          "ad": {
+            "description": "An object that contains Promoted Listings recommendations and information related to the associated listing ID.",
+            "$ref": "#/components/schemas/Ad"
+          },
+          "message": {
+            "type": "string",
+            "description": "A message that can conditionally accompany the listing information."
+          }
+        },
+        "description": "A complex type that contains information about how a seller can improve their listing configurations. The AD object contains Promoted Listings recommendations and information, which the seller can use to improve buyer conversions. The response can also contain an optional message about the returned data."
+      },
+      "PagedListingRecommendationCollection": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "The URI of the current page of results from the result set."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The number of items returned on a single page from the result set. This value can be set with the limit request parameter.",
+            "format": "int32"
+          },
+          "listingRecommendations": {
+            "type": "array",
+            "description": "Returns a list of listingRecommendations, where each element in the list offers recommendations for the associated listing ID.",
+            "items": {
+              "$ref": "#/components/schemas/ListingRecommendation"
+            }
+          },
+          "next": {
+            "type": "string",
+            "description": "The URI for the next page of results. This value is returned only if there is an additional page of results in the result set. Max length: 2048"
+          },
+          "offset": {
+            "type": "integer",
+            "description": "The number of results skipped in the result set before listing the first returned result. This value can be set with the offset request parameter.",
+            "format": "int32"
+          },
+          "prev": {
+            "type": "string",
+            "description": "The URI for the previous page of results. This value is returned only if there is a previous page of results in the result set. Max length: 2048"
+          },
+          "total": {
+            "type": "integer",
+            "description": "The total number of items in the result set.",
+            "format": "int32"
+          }
+        },
+        "description": "The high-level object used to return a set of Promoted Listings ad recommendations."
+      },
+      "PromoteWithAd": {
+        "type": "object",
+        "description": "An enum that describes whether or not eBay recommends placing the associated listing in a Promoted Listings ad campaign.",
+        "enum": [
+          "RECOMMENDED",
+          "UNDETERMINED"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "api_auth": {
+        "type": "oauth2",
+        "description": "The security definitions for this API. Please check individual operations for applicable scopes.",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.ebay.com/oauth2/authorize",
+            "tokenUrl": "https://api.ebay.com/identity/v1/oauth2/token",
+            "scopes": {
+              "https://api.ebay.com/oauth/api_scope/sell.inventory": "View and manage your inventory and offers"
+            }
+          }
+        }
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

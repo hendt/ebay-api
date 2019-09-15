@@ -1,0 +1,48 @@
+{
+  "name": "@hendt/ebay-api",
+  "author": "Daniil Tomilow",
+  "version": "0.0.1",
+  "description": "eBay typescript API",
+  "main": "./builder/commonjs/eBay.js",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "axios-rate-limit": "^1.1.2",
+    "debug": "^2.1.1",
+    "object-to-xml": "^2.0.0",
+    "qs": "^6.8.0",
+    "xml2json-light": "^1.0.6"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "@types/node": "^12.7.4",
+    "@types/qs": "^6.5.3",
+    "@types/xml2json": "^0.11.0",
+    "chai": "^3.5.0",
+    "mocha": "^6.2.0",
+    "ts-node-dev": "^1.0.0-pre.42",
+    "tslint": "^5.19.0",
+    "typescript": "^3.6.2"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/hendtling/ebay-api.git"
+  },
+  "keywords": [
+    "ebay",
+    "api",
+    "ts",
+    "typescript"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hendtling/ebay-api/issues"
+  },
+  "homepage": "https://github.com/hendtling/ebay-api#readme",
+  "directories": {
+    "test": "test"
+  }
+}

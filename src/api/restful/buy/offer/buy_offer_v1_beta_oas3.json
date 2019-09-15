@@ -1,0 +1,549 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Buy Offer API",
+    "description": "The Buy Offer API enables Partners to place proxy bids for a buyer and retrieve the auctions where the buyer is bidding.  By placing a proxy bid, the buyer is agreeing to purchase the item if they win the auction. </p> ",
+    "contact": {
+      "name": "eBay Inc,"
+    },
+    "license": {
+      "name": "eBay API License Agreement",
+      "url": "https://go.developer.ebay.com/api-license-agreement"
+    },
+    "version": "v1_beta.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.ebay.com{basePath}",
+      "description": "Production",
+      "variables": {
+        "basePath": {
+          "default": "/buy/offer/v1_beta"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/bidding/{item_id}": {
+      "get": {
+        "tags": [
+          "bidding"
+        ],
+        "description": "This method retrieves the bidding details that are specific to the buyer of the specified auction. This must be an auction where the buyer has already placed a bid. To retrieve the bidding information you use a user access token and pass in the item ID of the auction. You can also retrieve general bidding details about the auction, such as start price, minimum bid price, and the count of unique bidders, using the Browse API getItem method. URLs for this method Production URL: https://api.ebay.com/buy/offer/v1_beta/bidding/ Sandbox URL: https://api.sandbox.ebay.com/buy/offer/v1_beta/bidding/ Restrictions For a list of supported sites and other restrictions, see API Restrictions.",
+        "operationId": "getBidding",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "description": "The eBay RESTful identifier of an item that you want the buyer's bidding information. This ID is returned by the Browse and Feed API methods. RESTful Item ID example: v1|272394640372|0 For more information about item ID for RESTful APIs, see the Legacy API compatibility section of the Buy APIs Overview. Restriction: The buyer must have placed a bid for this item.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-EBAY-C-MARKETPLACE-ID",
+            "in": "header",
+            "description": "The ID of the eBay marketplace where the buyer is based. Note: This value is case sensitive. For example: &nbsp;&nbsp;X-EBAY-C-MARKETPLACE-ID = EBAY_US For a list of supported sites see, API Restrictions.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bidding"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "120001": {
+                  "domain": "API_OFFER",
+                  "category": "REQUEST",
+                  "description": "The item ID {item_id} was not found. Check that this is an active auction item ID."
+                },
+                "120015": {
+                  "domain": "API_OFFER",
+                  "category": "REQUEST",
+                  "description": "The X-EBAY-C-MARKETPLACE-ID header is missing. This is a required header."
+                },
+                "120017": {
+                  "domain": "API_OFFER",
+                  "category": "REQUEST",
+                  "description": "The Marketplace {marketplace_id} is not supported. Supported values are [marketplace_ids]."
+                },
+                "120033": {
+                  "domain": "API_OFFER",
+                  "category": "REQUEST",
+                  "description": "There is no bidding activity for this auction (item ID {item_id})."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "120000": {
+                  "domain": "API_OFFER",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/buy.offer.auction"
+            ]
+          }
+        ]
+      }
+    },
+    "/bidding/{item_id}/place_proxy_bid": {
+      "post": {
+        "tags": [
+          "bidding"
+        ],
+        "description": "This method uses a user access token to place a proxy bid for the buyer on a specific auction item. The item must offer AUCTION as one of the buyingOptions. To place a bid, you pass in the item ID of the auction as a URI parameter and the buyer's maximum bid amount (maxAmount ) in the payload. By placing a proxy bid, the buyer is agreeing to purchase the item if they win the auction. After this bid is placed, if someone else outbids the buyer a bid, eBay automatically bids again for the buyer up to the amount of their maximum bid. When the bid exceeds the buyer's maximum bid, eBay will notify them that they have been outbid. To find auctions, you can use the Browse API to search for items and use a filter to return only auction items. For example: /buy/browse/v1/item_summary/search?q=iphone&amp;filter=buyingOptions:{AUCTION} URLs for this method Production URL: https://api.ebay.com/buy/offer/v1_beta/bidding/ Sandbox URL: https://api.sandbox.ebay.com/buy/offer/v1_beta/bidding/ Restrictions For a list of supported sites and other restrictions, see API Restrictions.",
+        "operationId": "placeProxyBid",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "description": "The eBay RESTful identifier of an item you want to bid on. This ID is returned by the Browse and Feed API methods. RESTful Item ID Example: v1|272394640372|0 For more information about item ID for RESTful APIs, see the Legacy API compatibility section of the Buy APIs Overview.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-EBAY-C-MARKETPLACE-ID",
+            "in": "header",
+            "description": "The ID of the eBay marketplace where the buyer is based. Note: This value is case sensitive. For example: &nbsp;&nbsp;X-EBAY-C-MARKETPLACE-ID = EBAY_US For a list of supported sites see, API Restrictions.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlaceProxyBidRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlaceProxyBidResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "x-response-codes": {
+              "errors": {
+                "120001": {
+                  "domain": "API_OFFER",
+                  "category": "REQUEST",
+                  "description": "The item ID {item_id} was not found. Check that this is an active auction item ID."
+                },
+                "120007": {
+                  "domain": "API_OFFER",
+                  "category": "REQUEST",
+                  "description": "The bid amount is too high."
+                },
+                "120011": {
+                  "domain": "API_OFFER",
+                  "category": "REQUEST",
+                  "description": "The bid amount exceeds the limit."
+                },
+                "120013": {
+                  "domain": "API_OFFER",
+                  "category": "REQUEST",
+                  "description": "The bid amount is missing or invalid."
+                },
+                "120014": {
+                  "domain": "API_OFFER",
+                  "category": "REQUEST",
+                  "description": "The bid currency is invalid. Refer to the documentation for a list of currency codes."
+                },
+                "120015": {
+                  "domain": "API_OFFER",
+                  "category": "REQUEST",
+                  "description": "The X-EBAY-C-MARKETPLACE-ID header is missing. This is a required header."
+                },
+                "120016": {
+                  "domain": "API_OFFER",
+                  "category": "REQUEST",
+                  "description": "The maximum bid amount is missing."
+                },
+                "120017": {
+                  "domain": "API_OFFER",
+                  "category": "REQUEST",
+                  "description": "The Marketplace {marketplaceId} is not supported. Supported values are {allowedMarketplaces}."
+                },
+                "120018": {
+                  "domain": "API_OFFER",
+                  "category": "REQUEST",
+                  "description": "For this auction, the bid amount cannot have decimals."
+                },
+                "120032": {
+                  "domain": "API_OFFER",
+                  "category": "REQUEST",
+                  "description": "This requires the user's consent for adult items."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "409": {
+            "description": "Conflict",
+            "x-response-codes": {
+              "errors": {
+                "120002": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "The auction was ended because the item was purchased with Buy It Now (fixed_price)."
+                },
+                "120003": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "A seller cannot place a bid."
+                },
+                "120004": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "You are not eligible to bid on this item."
+                },
+                "120005": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "The bid price cannot be greater than the Buy It Now price."
+                },
+                "120006": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "You are not eligible to bid on this item due to seller restrictions."
+                },
+                "120008": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "The bid amount is too low."
+                },
+                "120009": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "The bid currency needs to match the item price currency."
+                },
+                "120010": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "You cannot lower your proxy bid."
+                },
+                "120012": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "The auction has ended."
+                },
+                "120019": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "You must be pre-approval to bid on this auction."
+                },
+                "120020": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "A user agreement acceptance is required for this auction."
+                },
+                "120021": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "You are not authorized to bid on adult items. See the eBay help on adult items."
+                },
+                "120022": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "A privacy user agreement is required for this auction."
+                },
+                "120023": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "This is a business to business only auction."
+                },
+                "120024": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "The item is currently unavailable."
+                },
+                "120025": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "The bid was blocked because you have exceeded the item purchased limit."
+                },
+                "120026": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "The bid was blocked due to a seller restriction based on your feedback score."
+                },
+                "120027": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "The bid was blocked due to a seller restriction on the shipping location."
+                },
+                "120028": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "The auction is restricted to users with a linked PayPal accounts."
+                },
+                "120029": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "There has been a buyer policy violation."
+                },
+                "120030": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "The bid was blocked due to unpaid items."
+                },
+                "120031": {
+                  "domain": "API_OFFER",
+                  "category": "BUSINESS",
+                  "description": "This requires credit card verification."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "120000": {
+                  "domain": "API_OFFER",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/buy.offer.auction"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Amount": {
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string",
+            "description": "The three-letter ISO 4217 code representing the currency of the amount in the value field. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/offer/types/CurrencyCodeEnum.html'>eBay API documentation</a>"
+          },
+          "value": {
+            "type": "string",
+            "description": "The monetary amount."
+          }
+        },
+        "description": "The type that defines the fields for a monetary value and its currency."
+      },
+      "Bidding": {
+        "type": "object",
+        "properties": {
+          "auctionEndDate": {
+            "type": "string",
+            "description": "The date the auction will end."
+          },
+          "auctionStatus": {
+            "type": "string",
+            "description": "An enumeration value that represents the current state of the auction, such as ENDED or LIVE. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/offer/types/AuctionStatusEnum.html'>eBay API documentation</a>"
+          },
+          "bidCount": {
+            "type": "integer",
+            "description": "The number of proxy bids that have been placed for the auction.",
+            "format": "int32"
+          },
+          "currentPrice": {
+            "description": "The amount of the highest bid, which is the current price of the item.",
+            "$ref": "#/components/schemas/Amount"
+          },
+          "currentProxyBid": {
+            "description": "The buyer's proxy bid, which is the maxAmount specified in the request.",
+            "$ref": "#/components/schemas/ProxyBid"
+          },
+          "highBidder": {
+            "type": "boolean",
+            "description": "Indicates if the buyer is the highest bidder."
+          },
+          "itemId": {
+            "type": "string",
+            "description": "The eBay RESTful identifier of an item being bid on, which was submitted in the request."
+          },
+          "reservePriceMet": {
+            "type": "boolean",
+            "description": "This indicates if the reserve price of the item has been met. A reserve price is set by the seller and is the minimum amount the seller is willing to sell the item for. If the highest bid is not equal to or higher than the reserve price when the auction ends, the listing ends and the item is not sold. Note: This is returned only for auctions that have a reserve price."
+          },
+          "suggestedBidAmounts": {
+            "type": "array",
+            "description": "The suggested bid amount for the next bid. Note: These are generated suggestions and do not guarantee the buyer will win the bid. This means these suggestions do not take into account the max bid amount of other bidders. The buyer can be outbid even if they submit the highest suggested bid.",
+            "items": {
+              "$ref": "#/components/schemas/Amount"
+            }
+          }
+        },
+        "description": "The type the defines the field for the auction details."
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Identifies the type of erro."
+          },
+          "domain": {
+            "type": "string",
+            "description": "Name for the primary system where the error occurred. This is relevant for application errors."
+          },
+          "errorId": {
+            "type": "integer",
+            "description": "A unique number to identify the error.",
+            "format": "int32"
+          },
+          "inputRefIds": {
+            "type": "array",
+            "description": "An array of request elements most closely associated to the error.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "longMessage": {
+            "type": "string",
+            "description": "A more detailed explanation of the error."
+          },
+          "message": {
+            "type": "string",
+            "description": "Information on how to correct the problem, in the end user's terms and language where applicable."
+          },
+          "outputRefIds": {
+            "type": "array",
+            "description": "An array of request elements most closely associated to the error.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "parameters": {
+            "type": "array",
+            "description": "An array of name/value pairs that describe details the error condition. These are useful when multiple errors are returned.",
+            "items": {
+              "$ref": "#/components/schemas/ErrorParameter"
+            }
+          },
+          "subdomain": {
+            "type": "string",
+            "description": "Further helps indicate which subsystem the error is coming from. System subcategories include: Initialization, Serialization, Security, Monitoring, Rate Limiting, etc."
+          }
+        },
+        "description": "This type defines the fields that can be returned in an error."
+      },
+      "ErrorParameter": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The object of the error."
+          },
+          "value": {
+            "type": "string",
+            "description": "The value of the object."
+          }
+        }
+      },
+      "PlaceProxyBidRequest": {
+        "type": "object",
+        "properties": {
+          "maxAmount": {
+            "description": "The amount of the proxy bid to be placed. This is the maximum amount the buyer is willing to pay for the item. Note: Currency for the bid must be the currency specified by the seller when listing the item. If the currency has been converted, the seller's currency will be returned in the convertedFromCurrency field. VAT (value added tax) does not need to be added to the proxy bid amount even if VAT applies.",
+            "$ref": "#/components/schemas/Amount"
+          },
+          "userConsent": {
+            "description": "Specifics whether buyer wants to give their consent to bid on adult-only items. For a buyer to bid on an adult-only item, you must collect their consent using this field and they must agree to the Terms of Use. For more information about adult-only items on eBay, see Adult-Only items on eBay. Default: false",
+            "$ref": "#/components/schemas/UserConsent"
+          }
+        },
+        "description": "The type that defines the fields for placing a proxy bid."
+      },
+      "PlaceProxyBidResponse": {
+        "type": "object",
+        "properties": {
+          "proxyBidId": {
+            "type": "string",
+            "description": "Identifier of the proxy bid created by the request. This indicates that the bid was placed and is not used for anything else."
+          }
+        },
+        "description": "The type that defines the fields for the place proxy bid response."
+      },
+      "ProxyBid": {
+        "type": "object",
+        "properties": {
+          "maxAmount": {
+            "description": "The maximum amount the buyer is willing to pay for the item.",
+            "$ref": "#/components/schemas/Amount"
+          },
+          "proxyBidId": {
+            "type": "string",
+            "description": "Identifier of a specific proxy bid."
+          }
+        },
+        "description": "The type the defines the fields for the proxy bid information."
+      },
+      "UserConsent": {
+        "type": "object",
+        "properties": {
+          "adultOnlyItem": {
+            "type": "boolean",
+            "description": "The type that defines the fields for buyer consent to bid on adult-only items. For more information about adult-only items on eBay, see Adult-Only items on eBay."
+          }
+        },
+        "description": "The type that defines the fields for collecting the buyers consent."
+      }
+    },
+    "securitySchemes": {
+      "api_auth": {
+        "type": "oauth2",
+        "description": "The security definitions for this API. Please check individual operations for applicable scopes.",
+        "flows": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,496 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Sherpa Compliance Service",
+    "description": "Service for providing the compliance violations of seller account/listings",
+    "contact": {
+      "name": "eBay Inc,"
+    },
+    "license": {
+      "name": "eBay API License Agreement",
+      "url": "https://go.developer.ebay.com/api-license-agreement"
+    },
+    "version": "1.2.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.ebay.com{basePath}",
+      "description": "Production",
+      "variables": {
+        "basePath": {
+          "default": "/sell/compliance/v1"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/listing_violation_summary": {
+      "get": {
+        "tags": [
+          "listing_violation_summary"
+        ],
+        "summary": "getListingViolationsSummary",
+        "description": "This call returns listing violation counts for a seller. A user can pass in one or more compliance types through the compliance_type query parameter. See ComplianceTypeEnum for more information on the five different compliance types. Listing violations are returned for multiple marketplaces if the seller sells on multiple eBay marketplaces. Note: Only a canned response, with counts for all listing compliance types, is returned in the Sandbox environment. Due to this limitation, the compliance_type query parameter (if used) will not have an effect on the response.",
+        "operationId": "getListingViolationsSummary",
+        "parameters": [
+          {
+            "name": "X-EBAY-C-MARKETPLACE-ID",
+            "in": "header",
+            "description": "Use this header to specify the eBay marketplace identifier. Supported values for this header can be found in the MarketplaceIdEnum type definition. Note that Version 1.2.0 of the Compliance API is only supported on the US, UK, Australia, Canada {English), and Germany sites.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "compliance_type",
+            "in": "query",
+            "description": "A user passes in one or more compliance type values through this query parameter. See ComplianceTypeEnum for more information on the compliance types that can be passed in here. If more than one compliance type value is used, delimit these values with a comma. If no compliance type values are passed in, the listing count for all compliance types will be returned. Note: Only a canned response, with counts for all listing compliance types, is returned in the Sandbox environment. Due to this limitation, the compliance_type query parameter (if used) will not have an effect on the response.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComplianceSummary"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory"
+            ]
+          }
+        ]
+      }
+    },
+    "/listing_violation": {
+      "get": {
+        "tags": [
+          "listing_violation"
+        ],
+        "summary": "getListingViolations",
+        "description": "This call returns specific listing violations for five different compliance types. Only one compliance type can be passed in per call, and the response will include all the listing violations for this compliance type, and are grouped together by eBay listing ID. See ComplianceTypeEnum for more information on the five different compliance types. This method also has pagination control. Note: A maximum of 2000 listing violations will be returned in a result set. If the seller has more than 2000 listing violations, some/all of those listing violations must be corrected before additional listing violations will be retrieved. The user should pay attention to the total value in the response. If this value is '2000', it is possible that the seller has more than 2000 listing violations, but this field maxes out at 2000. Note: In a future release of this API, the seller will be able to pass in a specific eBay listing ID as a query parameter to see if this specific listing has any violations. Note: Only a canned response for this call will be returned in the Sandbox environment, so the non-compliant listing data will not be specific to the seller.",
+        "operationId": "getListingViolations",
+        "parameters": [
+          {
+            "name": "X-EBAY-C-MARKETPLACE-ID",
+            "in": "header",
+            "description": "This header is required and is used to specify the eBay marketplace identifier. Supported values for this header can be found in the MarketplaceIdEnum type definition. Note that Version 1.2.0 of the Compliance API is only supported on the US, UK, Australia, Canada {English), and Germany sites.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "compliance_type",
+            "in": "query",
+            "description": "A seller uses this query parameter to retrieve listing violations of a specific compliance type. Only one compliance type value should be passed in here. See ComplianceTypeEnum for more information on the compliance types that can be passed in here. If the listing_id query parameter is used, the compliance_type query parameter {if passed in) will be ignored. This is because all of a listing's policy violations {each compliance type) will be returned if a listing_id is provided. Either the listing_id or a compliance_type query parameter must be used, and if the seller only wants to view listing violations of a specific compliance type, both of these parameters can be used. Note: The listing_id query parameter is not yet available for use, so the seller does not have the ability to retrieve listing violations for one or more specific listings. Until the listing_id query parameter becomes available, the compliance_type query parameter is required with each getListingViolations call.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The first policy violation to return based on its position in the collection of listing violations. Use this parameter in conjunction with the limit parameter to control the pagination of the output. For example, if offset is set to 10 and limit is set to 10, the call retrieves listing violations 11 thru 20 from the resulting collection of listing violations. Note: This feature employs a zero-based list, where the first item in the list has an offset of 0. If the listing_id parameter is included in the request, this parameter will be ignored. Default: 0 {zero)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "listing_id",
+            "in": "query",
+            "description": "Note: This query parameter is not yet supported for the Compliance API. Please not that until this query parameter becomes available, the compliance_type query parameter is required with each getListingViolations call. This query parameter is used if the user wants to view all listing violations for one or more eBay listings. The string value passed into this field is the unique identifier of the listing, sometimes referred to as the Item ID. Either the listing_id or a compliance_type query parameter must be used, and if the seller only wants to view listing violations of a specific compliance type, both of these parameters can be used. Up to 50 listing IDs can be specified with this query parameter, and each unique listing ID is separated with a comma.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "This query parameter is used if the user wants to set a limit on the number of listing violations that are returned in the current result set. This parameter is used in conjunction with the offset parameter to control the pagination of the output. For example, if offset is set to 10 and limit is set to 10, the call retrieves listing violations 11 thru 20 from the collection of listing violations that match the value set in the compliance_type parameter. Note: This feature employs a zero-based list, where the first item in the list has an offset of 0. If the listing_id parameter is included in the request, this parameter will be ignored. Default: 100 Maximum: 200",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedComplianceViolationCollection"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json;charset=UTF-8": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "NameValueList": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "This is the name of the variation aspect, or the name of the category of information that is returned through the name-value pair. The type of information that appears here will vary based on the compliance type and type of violation."
+          },
+          "value": {
+            "type": "string",
+            "description": "This is the value of the variation aspect (in name field), or the value of the category of information that is returned through the name-value pair. The type of information that appears here will vary based on the compliance type and type of violation."
+          }
+        },
+        "description": "This type is used to provide a name-value pair, including the identifying aspects of a product variation through the variationAspectscontainer."
+      },
+      "VariationDetails": {
+        "type": "object",
+        "properties": {
+          "sku": {
+            "type": "string",
+            "description": "The seller-defined SKU value of the variation within the multiple-variation listing with the violation{s). This field is only returned if a seller-defined SKU value is defined for the variation. SKU values are optional in listing except when creating listings using the Inventory API."
+          },
+          "variationAspects": {
+            "type": "array",
+            "description": "An array of one or more variation aspects that define a variation within a multiple variation listing. The aspect{s) returned here define the individual variation because these aspects will differ for each variation. Common varying aspects include color and size.",
+            "items": {
+              "$ref": "#/components/schemas/NameValueList"
+            }
+          }
+        },
+        "description": "This type is used to identify the product variation that has the listing violation."
+      },
+      "ComplianceDetail": {
+        "type": "object",
+        "properties": {
+          "reasonCode": {
+            "type": "string",
+            "description": "This value states the nature of the listing violation. A reasonCode value is returned for each listing violation, and each compliance type can have several reason codes and related messages. The reason codes for each compliance type are summarized below. The PRODUCT_ADOPTION reason codes and how to revise your listings based on these reason codes are summarized in the Using Compliance API reason codes to revise listings topic in the Product-Based Shopping Experience Playbook. The OUTSIDE_EBAY_BUYING_AND_SELLING reason codes include the following. For each of these violations, the seller will just need to remove this information with a revise listing call: UNAPPROVED_DOMAIN_WEBLINK_IN_LISTING PHONE_NUMBER_IN_LISTING EMAIL_ADDRESS_IN_LISTING The HTTPS reason codes include the following. For each of these violations, the seller will just need to remove the HTTP link (or update to HTTPS) from the listing details or product details: NON_SECURE_HTTP_LINK_IN_LISTING NON_SECURE_HTTP_LINK_IN_PRODUCT The PRODUCT_ADOPTION_CONFORMANCE reason codes include the following: PRODUCT_MISMATCH: indicates that wrong eBay catalog product is being used. TITLE_MISMATCH: indicates that the listing title does not match the product title in the eBay catalog product. TITLE_OR_ITEMSPECIFICS_MISMATCH: indicates that either the listing's title and/or Item Specifics do not match the product title and Item Specifics in the eBay catalog product. PRICE_OR_CONDITION_MISMATCH: indicates that the item's price and/or condition do not match what is expected for a listing associated with the eBay catalog product. The only RETURNS_POLICY reason code is UNSUPPORTED_RETURNS_PERIOD. The seller will have to revise their listing (or return business policy) with a supported return period for the site and category."
+          },
+          "message": {
+            "type": "string",
+            "description": "This field provides a textual summary of the listing violation. A message field is returned for each listing violation. This message will vary widely based on the compliance type and corresponding reason code."
+          },
+          "variation": {
+            "description": "This container defines the variation within a multiple-variation listing that has the listing violation. This container is only returned if an individual variation within a multiple-variation listing has the listing violation.",
+            "$ref": "#/components/schemas/VariationDetails"
+          },
+          "violationData": {
+            "type": "array",
+            "description": "Note: This container is for future use. Once it becomes available, this container will provide more information about the listing violation if applicable. The type of information that appears here will vary based on the compliance type and type of violation.",
+            "items": {
+              "$ref": "#/components/schemas/NameValueList"
+            }
+          },
+          "correctiveRecommendations": {
+            "description": "This container is returned if eBay has found an eBay Catalog product that may be a match for the product (or product variation) that has a listing violation. Note: As of August 2018, this container is only returned for the following Product-Based Shopping Experience categories: Smart Speakers (Cat. ID 184435), Audio Docks &amp; Mini Speakers (Cat. ID 111694), Internet TV &amp; Media Streamers (Cat. ID 168058), Space Heaters (Cat. ID 20613), Air Purifiers (Cat. ID 43510), Humidifiers (Cat. ID 71240), Portable Fans (Cat. ID 20612), and Programmable Thermostats (Cat. ID 115949).",
+            "$ref": "#/components/schemas/CorrectiveRecommendations"
+          }
+        },
+        "description": "This type is used by each listing violation that is returned under the violations container."
+      },
+      "ComplianceSummary": {
+        "type": "object",
+        "properties": {
+          "violationSummaries": {
+            "type": "array",
+            "description": "This container is an array of one or more policy violation counts. A policy violation count is returned for each unique eBay marketplace and compliance type violation. As long as there is at least one non-compliant listing for the specified compliance type(s), this container will be returned. If no non-compliant listings are found for the specified compliance type(s), an HTTP status code of 204 No Content is returned, and there is no response body.",
+            "items": {
+              "$ref": "#/components/schemas/ComplianceSummaryInfo"
+            }
+          }
+        },
+        "description": "This type is the base type for the getListingViolationsSummary response. The violationSummaries container contains an array of policy violation counts for each unique eBay marketplace and compliance type violation."
+      },
+      "CorrectiveRecommendations": {
+        "type": "object",
+        "properties": {
+          "productRecommendation": {
+            "description": "This container is returned if eBay has found an eBay Catalog product that may be a match for the product (or product variation) that has a listing violation. Note: As of August 2018, this container is only returned for the following Product-Based Shopping Experience categories: Smart Speakers (Cat. ID 184435), Audio Docks &amp; Mini Speakers (Cat. ID 111694), Internet TV &amp; Media Streamers (Cat. ID 168058), Space Heaters (Cat. ID 20613), Air Purifiers (Cat. ID 43510), Humidifiers (Cat. ID 71240), Portable Fans (Cat. ID 20612), and Programmable Thermostats (Cat. ID 115949).",
+            "$ref": "#/components/schemas/ProductRecommendation"
+          }
+        },
+        "description": "This type is used by the correctiveRecommendations container, which is returned if eBay has found an eBay Catalog product that may be a match for the product (or product variation) that has a listing violation. Note: As of August 2018, this container is only returned for the following Product-Based Shopping Experience categories: Smart Speakers (Cat. ID 184435), Audio Docks &amp; Mini Speakers (Cat. ID 111694), Internet TV &amp; Media Streamers (Cat. ID 168058), Space Heaters (Cat. ID 20613), Air Purifiers (Cat. ID 43510), Humidifiers (Cat. ID 71240), Portable Fans (Cat. ID 20612), and Programmable Thermostats (Cat. ID 115949)."
+      },
+      "ComplianceViolation": {
+        "type": "object",
+        "properties": {
+          "complianceType": {
+            "type": "string",
+            "description": "This enumeration value indicates the compliance type of listing violation. See ComplianceTypeEnum for more information on each compliance type. This will always be returned for each listing violation that is found. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/compliance/types/ComplianceTypeEnum.html'>eBay API documentation</a>"
+          },
+          "listingId": {
+            "type": "string",
+            "description": "The unique identifier of the eBay listing that currently has the corresponding listing violation{s). This will always be returned for each listing that has one or more violations."
+          },
+          "sku": {
+            "type": "string",
+            "description": "The seller-defined SKU value of the product in the listing with the violation{s). This field is only returned if defined in the listing. SKU values are optional in listings except when creating listings using the Inventory API model."
+          },
+          "offerId": {
+            "type": "string",
+            "description": "Note: This field is for future use, and will not be returned, even for listings created through the Inventory API. The unique identifier of the offer. This field is only applicable and returned for listings that were created through the Inventory API. To convert an Inventory Item object into an eBay listing, an Offer object must be created and published."
+          },
+          "violations": {
+            "type": "array",
+            "description": "This container consists of an array of one or more listing violations applicable to the eBay listing specified in the listingId field. This array is returned for each eBay listing that has one or more violations.",
+            "items": {
+              "$ref": "#/components/schemas/ComplianceDetail"
+            }
+          }
+        },
+        "description": "This type is used by each listing violation that is returned under the listingViolations container."
+      },
+      "ComplianceSummaryInfo": {
+        "type": "object",
+        "properties": {
+          "complianceType": {
+            "type": "string",
+            "description": "This enumeration value indicates the type of compliance. See ComplianceTypeEnum for more information on each compliance type. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/compliance/types/ComplianceTypeEnum.html'>eBay API documentation</a>"
+          },
+          "marketplaceId": {
+            "type": "string",
+            "description": "This enumeration value indicates the eBay marketplace where the listing violations are occurring. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/compliance/types/MarketplaceIdEnum.html'>eBay API documentation</a>"
+          },
+          "listingCount": {
+            "type": "integer",
+            "description": "This integer value indicates the number of eBay listings that are currently violating the compliance type indicated in the complianceType field for the eBay marketplace indicated in the marketplaceId field.",
+            "format": "int32"
+          }
+        },
+        "description": "This type is used by each unique eBay marketplace and compliance type combination that is returned in the getListingViolationsSummary response to indicate the total number of listing violations in regards to that eBay marketplace and compliance type."
+      },
+      "PagedComplianceViolationCollection": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "description": "The distance {number of records) from the first policy violation in the collection to the first policy violation in this result set. In the call request, you can use the offset parameter in conjunction with the limit parameter to control the pagination of the output. For example, if offset is set to 30 and limit is set to 10, the call retrieves policy violations 31 thru 40 from the resulting collection of policy violations. Note: This feature employs a zero-based list, where the first item in the list has an offset of 0. Default: 0 {zero)",
+            "format": "int32"
+          },
+          "href": {
+            "type": "string",
+            "description": "The URI of the getListingViolations call request that produced the current page of the result set."
+          },
+          "total": {
+            "type": "integer",
+            "description": "The total number of policy violations in the result set. Note: If no policy violations are found, this field is returned with a value of 0.",
+            "format": "int32"
+          },
+          "next": {
+            "type": "string",
+            "description": "The getListingViolations call URI to use to view the next page of the result set. For example, the following URI returns policy violations 41 thru 50 from the collection of policy violations: path/listing_violation?limit=10&amp;offset=40 This field is only returned if an additional page of listing violations exists."
+          },
+          "prev": {
+            "type": "string",
+            "description": "The getListingViolations call URI to use to view the previous page of the result set. For example, the following URI returns policy violations 21 thru 30 from the collection of policy violations: path/listing_violation?limit=10&amp;offset=20 Note: This feature employs a zero-based list, where the first policy violation in the list has an offset of 0. This field is only returned if a previous page of listing violations exists."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The maximum number of policy violations returned per page of the result set. Note: If this is the last or only result set in the collection, it may contain fewer listing violations than the limit value. To determine the number of pages in the result set, divide this value into the value of total and round up to the next integer. Default: 50 Max: 200",
+            "format": "int32"
+          },
+          "listingViolations": {
+            "type": "array",
+            "description": "An array of listing violations that match the criteria in the call request, including pagination control {if set). As long as there is at least one violation for the specified compliance type, this container will be returned. If no listing violations are found for the seller, an HTTP status code of 204 No Content is returned, and there is no response body.",
+            "items": {
+              "$ref": "#/components/schemas/ComplianceViolation"
+            }
+          }
+        },
+        "description": "This type is used by the base response of the getListingViolations method."
+      },
+      "ProductRecommendation": {
+        "type": "object",
+        "properties": {
+          "epid": {
+            "type": "string",
+            "description": "This field will return the eBay Product ID {ePID) of an eBay Catalog product that eBay recommends that the seller use to make their listing compliant. See the Product-Based Shopping Experience Playbook for more details on passing in an ePID for single and multiple-variation listings using the Inventory or Trading APIs. Note: As of August 2018, this container is only returned for the following Product-Based Shopping Experience categories: Smart Speakers (Cat. ID 184435), Audio Docks &amp; Mini Speakers (Cat. ID 111694), Internet TV &amp; Media Streamers (Cat. ID 168058), Space Heaters (Cat. ID 20613), Air Purifiers (Cat. ID 43510), Humidifiers (Cat. ID 71240), Portable Fans (Cat. ID 20612), and Programmable Thermostats (Cat. ID 115949)."
+          }
+        },
+        "description": "This type is used by the productRecommendation container, which is returned if eBay has found an eBay Catalog product that may be a match for the product (or product variation) that has a listing violation. Note: As of August 2018, this container is only returned for the following Product-Based Shopping Experience categories: Smart Speakers (Cat. ID 184435), Audio Docks &amp; Mini Speakers (Cat. ID 111694), Internet TV &amp; Media Streamers (Cat. ID 168058), Space Heaters (Cat. ID 20613), Air Purifiers (Cat. ID 43510), Humidifiers (Cat. ID 71240), Portable Fans (Cat. ID 20612), and Programmable Thermostats (Cat. ID 115949)."
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Identifies the type of erro."
+          },
+          "domain": {
+            "type": "string",
+            "description": "Name for the primary system where the error occurred. This is relevant for application errors."
+          },
+          "errorId": {
+            "type": "integer",
+            "description": "A unique number to identify the error.",
+            "format": "int32"
+          },
+          "inputRefIds": {
+            "type": "array",
+            "description": "An array of request elements most closely associated to the error.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "longMessage": {
+            "type": "string",
+            "description": "A more detailed explanation of the error."
+          },
+          "message": {
+            "type": "string",
+            "description": "Information on how to correct the problem, in the end user's terms and language where applicable."
+          },
+          "outputRefIds": {
+            "type": "array",
+            "description": "An array of request elements most closely associated to the error.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "parameters": {
+            "type": "array",
+            "description": "An array of name/value pairs that describe details the error condition. These are useful when multiple errors are returned.",
+            "items": {
+              "$ref": "#/components/schemas/ErrorParameter"
+            }
+          },
+          "subdomain": {
+            "type": "string",
+            "description": "Further helps indicate which subsystem the error is coming from. System subcategories include: Initialization, Serialization, Security, Monitoring, Rate Limiting, etc."
+          }
+        },
+        "description": "This type defines the fields that can be returned in an error."
+      },
+      "ErrorParameter": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The object of the error."
+          },
+          "value": {
+            "type": "string",
+            "description": "The value of the object."
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "api_auth": {
+        "type": "oauth2",
+        "description": "The security definitions for this API. Please check individual operations for applicable scopes.",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.ebay.com/oauth2/authorize",
+            "tokenUrl": "https://api.ebay.com/identity/v1/oauth2/token",
+            "scopes": {
+              "https://api.ebay.com/oauth/api_scope/sell.inventory": "View and manage your inventory and offers"
+            }
+          }
+        }
+      }
+    }
+  }
+}
