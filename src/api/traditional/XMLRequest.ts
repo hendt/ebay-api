@@ -2,13 +2,11 @@
 import o2x from 'object-to-xml';
 import debug from "debug"
 
-import {No_Call_Error} from "../../errors"
+import {Ebay_Api_Error, No_Call_Error} from "../../errors"
 import Parser from "./Parser"
 import range from "../../utils/range"
 import req from '../../utils/request';
 import {Settings} from "../../types";
-
-// Definitions
 
 const HEADING = '?xml version="1.0" encoding="utf-8"?';
 const LIST = "List";
@@ -129,7 +127,7 @@ export default class XMLRequest<T> {
 
         return o2x({
             [HEADING]: null,
-            [this.xmlnsRequest]: {...this.credentials, ...payload }
+            [this.xmlnsRequest]: {...this.credentials, ...payload}
         })
     }
 
@@ -179,7 +177,7 @@ export default class XMLRequest<T> {
      */
     async fetch(options: Options) {
         const xml = this.xml(options);
-        debug(xml);
+        log(xml);
         try {
             const post = await req.post(this.endpoint, xml, {
                 headers: {
@@ -199,9 +197,14 @@ export default class XMLRequest<T> {
             const unwrapp = Parser.unwrap(this.responseWrapper, json);
 
             return Parser.clean(unwrapp);
-        } catch (e) {
-            console.error(e);
-            return Promise.reject(e);
+        } catch (error) {
+            log(error);
+            if (error.response && error.response.data) {
+                const json = Parser.toJSON(error.response.data);
+                throw new Ebay_Api_Error(json);
+            }
+
+            throw error;
         }
     }
 
@@ -218,13 +221,18 @@ export default class XMLRequest<T> {
             throw new No_Call_Error();
         }
 
-        const firstResponse = await this.fetch(options);
+        try {
+            const firstResponse = await this.fetch(options);
 
-        if (options.follow) {
-            return this.schedule(firstResponse, options);
+            if (options.follow) {
+                return this.schedule(firstResponse, options);
+            }
+
+            return firstResponse
+        } catch (error) {
+            log(error);
+            throw error;
         }
-
-        return firstResponse
     }
 
     /**

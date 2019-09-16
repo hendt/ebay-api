@@ -68,22 +68,16 @@ export class Env_Error extends ResponseError {
 
 /**
  * Thrown when an Error occurs on eBay's side.
- * Allows for easier control flow with Promises
- *
- * @example
- *
- * Ebay
- *  .create(config)
- *  .GetSellerList()
- *  .run()
- *  .catch(errors.Ebay.Api_Error, App.handleErr)
- *  .catch( function (other_error) {
- *    handle(other_error)
- *  })
  */
 export class Ebay_Api_Error extends ResponseError {
     constructor(err: any) {
-        super(err.LongMessage || err.ShortMessage)
+        let message = '';
+        if (err.errorMessage) {
+            message = err.errorMessage.error.message;
+        } else {
+            message = err.LongMessage || err.ShortMessage;
+        }
+        super(message);
         this.meta = err
     }
 }

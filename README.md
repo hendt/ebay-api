@@ -70,13 +70,17 @@ ebay.trading.GetMyeBaySelling({
 }).then(data => {
     console.log(data.results)
 });
+
 ```
 
 ## Contribution:
-Check [here](https://github.com/pajaydev/ebay-node-api/blob/master/CONTRIBUTING.md)
+Check [here](https://github.com/hendtling/ebay-api/blob/master/CONTRIBUTING.md)
 
 ## Supported By:
-Check [hendt.de](https://hendt.de)
+[hendt.de](https://hendt.de)
+
+Thanks to:
+[ebay-promised](https://github.com/ondreian/ebay-promised)
 
 ## 📝 License:
 MIT.

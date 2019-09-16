@@ -21,7 +21,7 @@ export type Finding = {
 export type AllCalls = typeof TradingCalls | typeof ShoppingCalls | typeof FindingCalls;
 
 export default class Traditional {
-    endpoints = {
+    readonly endpoints = {
         FindingService: {
             production: 'https://svcs.ebay.com/services/search/FindingService/v1'
         },
@@ -40,14 +40,13 @@ export default class Traditional {
         this.globals = globals;
     }
 
-    // ,
     createTraditionalApi<T>(calls: AllCalls, endpoint: string, headers: (call: string) => Promise<any>, xmlns: string): T {
         const service: any = {};
         for (let call in calls) {
             service[call] = async (fields: object = {}, config?: any) => {
                 const eBayHeaders = await headers(call);
                 const request = new XMLRequest(call, fields, this.globals, endpoint, eBayHeaders, xmlns);
-                return request.run(config);
+                return request.run(config)
             };
         }
 
@@ -68,7 +67,7 @@ export default class Traditional {
         };
         const xmlns = 'urn:ebay:apis:eBLBaseComponents';
         return this.createTraditionalApi<Trading>(TradingCalls, endpoint, headers, xmlns);
-    };
+    }
 
     createShoppingApi(): Shopping {
         const headers = async (call: string) => ({
@@ -80,7 +79,7 @@ export default class Traditional {
         });
         const xmlns = 'urn:ebay:apis:eBLBaseComponents';
         return this.createTraditionalApi<Shopping>(ShoppingCalls, this.endpoints.Shopping.production, headers, xmlns);
-    };
+    }
 
     createFindingApi(): Finding {
         const headers = async (call: string) => ({
@@ -89,5 +88,5 @@ export default class Traditional {
         });
         const xmlns = 'http://www.ebay.com/marketplace/search/v1/services';
         return this.createTraditionalApi<Finding>(FindingCalls, this.endpoints.FindingService.production, headers, xmlns);
-    };
+    }
 }

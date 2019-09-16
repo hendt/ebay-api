@@ -19,19 +19,19 @@ const defaultSettings: GlobalSettings = {
 
 export default class Index {
 
-    private factory: Factory;
-    readonly globals: Settings;
+    private readonly factory: Factory;
+    private readonly globals: Settings;
 
     // RESTful
-    buy: Buy;
-    commerce: Commerce;
-    developer: Developer;
-    sell: Sell;
+    readonly buy: Buy;
+    readonly commerce: Commerce;
+    readonly developer: Developer;
+    readonly sell: Sell;
 
     // Traditional
-    trading: Trading;
-    finding: Finding;
-    shopping: Shopping;
+    readonly trading: Trading;
+    readonly finding: Finding;
+    readonly shopping: Shopping;
 
     /**
      * Loads credentials from `process.env`
@@ -81,12 +81,6 @@ export default class Index {
         this.trading = this.factory.createTradingApi();
         this.finding = this.factory.createFindingApi();
         this.shopping = this.factory.createShoppingApi();
-
-        /**
-         * insure an error is thrown if internals are changed
-         * allows for better assertions about the statefulness
-         */
-        Object.freeze(this.globals);
 
         return this;
     }

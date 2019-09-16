@@ -37,15 +37,15 @@ export default class Factory {
 
     createTradingApi(): Trading {
         return this.traditional.createTradingApi();
-    };
+    }
 
     createShoppingApi(): Shopping {
         return this.traditional.createShoppingApi();
-    };
+    }
 
     createFindingApi(): Finding {
         return this.traditional.createFindingApi();
-    };
+    }
 
     createBuyApi(): Buy {
         return {
