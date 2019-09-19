@@ -7,9 +7,9 @@ import {
     InitiatePaymentRequest,
     ShippingAddressImpl,
     UpdatePaymentInformation,
-    UpdateQuantity, UpdateShippingOption
+    UpdateQuantity,
+    UpdateShippingOption
 } from "../../types";
-
 
 /**
  * The Order API provides interfaces that lets shoppers pay for items (for both eBay guest and eBay member buyers).
@@ -56,8 +56,8 @@ export default class Order extends Api {
      * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
      */
     placeOrder(checkoutSessionId: string) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/checkout_session/${id}/place_order`);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/checkout_session/${checkoutSessionId}/place_order`);
     }
 
     /**
@@ -67,8 +67,8 @@ export default class Order extends Api {
      * @param body CouponRequest
      */
     removeCoupon(checkoutSessionId: string, body?: CouponRequest) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/checkout_session/${id}/remove_coupon`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/checkout_session/${checkoutSessionId}/remove_coupon`, body);
     }
 
     /**
@@ -78,8 +78,19 @@ export default class Order extends Api {
      * @param body UpdatePaymentInformation
      */
     updatePaymentInfo(checkoutSessionId: string, body?: UpdatePaymentInformation) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/checkout_session/${id}/update_payment_info`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/checkout_session/${checkoutSessionId}/update_payment_info`, body);
+    }
+
+    /**
+     * This method changes the quantity of the specified line item in an eBay member checkout session.
+     *
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param body UpdateQuantity
+     */
+    updateQuantity(checkoutSessionId: string, body?: UpdateQuantity) {
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/checkout_session/${checkoutSessionId}/update_quantity`, body);
     }
 
     /**
@@ -89,8 +100,8 @@ export default class Order extends Api {
      * @param body UpdateQuantity
      */
     checkoutSessionId(checkoutSessionId: string, body?: UpdateQuantity) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/checkout_session/${id}/update_quantity`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/checkout_session/${checkoutSessionId}/update_quantity`, body);
     }
 
     /**
@@ -100,8 +111,8 @@ export default class Order extends Api {
      * @param body ShippingAddressImpl
      */
     updateShippingAddress(checkoutSessionId: string, body?: ShippingAddressImpl) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/checkout_session/${id}/update_shipping_address`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/checkout_session/${checkoutSessionId}/update_shipping_address`, body);
     }
 
     /**
@@ -111,8 +122,8 @@ export default class Order extends Api {
      * @param body UpdateShippingOption
      */
     updateShippingOption(checkoutSessionId: string, body?: UpdateShippingOption) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/checkout_session/${id}/update_shipping_option`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/checkout_session/${checkoutSessionId}/update_shipping_option`, body);
     }
 
     /**
@@ -123,8 +134,8 @@ export default class Order extends Api {
      * @param body CouponRequest
      */
     applyGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${id}/apply_coupon`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${checkoutSessionId}/apply_coupon`, body);
     }
 
     /**
@@ -133,8 +144,8 @@ export default class Order extends Api {
      * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
      */
     getGuestCheckoutSession(checkoutSessionId: string) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.get(`/guest_checkout_session/${id}`);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.get(`/guest_checkout_session/${checkoutSessionId}`);
     }
 
     /**
@@ -153,8 +164,8 @@ export default class Order extends Api {
      *  @param body InitiatePaymentRequest
      */
     initiateGuestPayment(checkoutSessionId: string, body?: InitiatePaymentRequest) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${id}/initiate_payment`, body);
+        checkoutSessionId= encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${checkoutSessionId}/initiate_payment`, body);
     }
 
     /**
@@ -164,8 +175,8 @@ export default class Order extends Api {
      * @param body GuestPlaceOrderRequest
      */
     placeGuestOrder(checkoutSessionId: string, body?: GuestPlaceOrderRequest) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${id}/place_order`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${checkoutSessionId}/place_order`, body);
     }
 
     /**
@@ -175,8 +186,8 @@ export default class Order extends Api {
      * @param body CouponRequest
      */
     removeGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${id}/remove_coupon`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${checkoutSessionId}/remove_coupon`, body);
     }
 
     /**
@@ -186,8 +197,8 @@ export default class Order extends Api {
      * @param body UpdatePaymentInformation
      */
     updateGuestPaymentInfo(checkoutSessionId: string, body?: UpdatePaymentInformation) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${id}/update_payment_info`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${checkoutSessionId}/update_payment_info`, body);
     }
 
     /**
@@ -197,8 +208,8 @@ export default class Order extends Api {
      * @param body UpdateQuantity
      */
     updateGuestQuantity(checkoutSessionId: string, body?: UpdateQuantity) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${id}/update_quantity`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${checkoutSessionId}/update_quantity`, body);
     }
 
     /**
@@ -208,8 +219,8 @@ export default class Order extends Api {
      * @param body ShippingAddressImpl
      */
     updateGuestShippingAddress(checkoutSessionId: string, body?: ShippingAddressImpl) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${id}/update_shipping_address`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${checkoutSessionId}/update_shipping_address`, body);
     }
 
     /**
@@ -219,8 +230,8 @@ export default class Order extends Api {
      * @param body UpdateShippingOption
      */
     updateGuestShippingOption(checkoutSessionId: string, body?: UpdateShippingOption) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${id}/update_shipping_option`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${checkoutSessionId}/update_shipping_option`, body);
     }
 
     /**
@@ -231,8 +242,8 @@ export default class Order extends Api {
      * @param body CouponRequest
      */
     applyProxyGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/proxy_guest_checkout_session/${id}/apply_coupon`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/apply_coupon`, body);
     }
 
     /**
@@ -241,8 +252,8 @@ export default class Order extends Api {
      * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
      */
     getProxyGuestCheckoutSession(checkoutSessionId: string) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.get(`/proxy_guest_checkout_session/${id}`);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.get(`/proxy_guest_checkout_session/${checkoutSessionId}`);
     }
 
     /**
@@ -262,8 +273,8 @@ export default class Order extends Api {
      * @param body GuestPlaceOrderRequest
      */
     placeProxyGuestOrder(checkoutSessionId: string, body?: GuestPlaceOrderRequest) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.get(`/proxy_guest_checkout_session/${id}/place_order`);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.get(`/proxy_guest_checkout_session/${checkoutSessionId}/place_order`);
     }
 
     /**
@@ -274,8 +285,8 @@ export default class Order extends Api {
      * @param body CouponRequest
      */
     removeProxyGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/proxy_guest_checkout_session/${id}/remove_coupon`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/remove_coupon`, body);
     }
 
     /**
@@ -298,8 +309,8 @@ export default class Order extends Api {
         signature: string,
         body?: UpdatePaymentInformation
     ) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/proxy_guest_checkout_session/${id}/update_payment_info`, body, {
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_payment_info`, body, {
             headers: {
                 Authorization: authorization,
                 'X-EBAY-C-DATE': date,
@@ -317,8 +328,8 @@ export default class Order extends Api {
      * @param body UpdateQuantity
      */
     updateProxyGuestQuantity(checkoutSessionId: string, body?: UpdateQuantity) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/proxy_guest_checkout_session/${id}/update_quantity`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_quantity`, body);
     }
 
     /**
@@ -328,8 +339,8 @@ export default class Order extends Api {
      * @param body ShippingAddressImpl
      */
     updateProxyGuestShippingAddress(checkoutSessionId: string, body?: ShippingAddressImpl) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/proxy_guest_checkout_session/${id}/update_shipping_address`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_shipping_address`, body);
     }
 
     /**
@@ -339,8 +350,8 @@ export default class Order extends Api {
      * @param body UpdateShippingOption
      */
     updateProxyGuestShippingOption(checkoutSessionId: string, body?: UpdateShippingOption) {
-        const id = encodeURIComponent(checkoutSessionId);
-        return this.post(`/proxy_guest_checkout_session/${id}/update_shipping_option`, body);
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_shipping_option`, body);
     }
 
     /**
@@ -349,8 +360,8 @@ export default class Order extends Api {
      * @param purchaseOrderId The unique identifier of a purchase order made by a guest buyer, for which details are to be retrieved.
      */
     getGuestPurchaseOrder(purchaseOrderId: string) {
-        const id = encodeURIComponent(purchaseOrderId);
-        return this.get(`/guest_purchase_order/${id}`);
+        purchaseOrderId = encodeURIComponent(purchaseOrderId);
+        return this.get(`/guest_purchase_order/${purchaseOrderId}`);
     }
 
     /**
@@ -359,7 +370,7 @@ export default class Order extends Api {
      * @param purchaseOrderId The unique identifier of a purchase order made by an eBay member, for which details are to be retrieved.
      */
     getPurchaseOrder(purchaseOrderId: string) {
-        const id = encodeURIComponent(purchaseOrderId);
-        return this.get(`/purchase_order/${id}`);
+        purchaseOrderId= encodeURIComponent(purchaseOrderId);
+        return this.get(`/purchase_order/${purchaseOrderId}`);
     }
 }

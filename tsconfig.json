@@ -6,9 +6,10 @@
     "declaration": true,
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "./dist",
+    "outDir": "./lib",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
   "include": ["src"],
   "exclude": [

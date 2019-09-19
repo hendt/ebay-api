@@ -2,5 +2,5 @@ node_modules
 lib
 *.sublime*
 *.log
-dist
+lib
 *.iml

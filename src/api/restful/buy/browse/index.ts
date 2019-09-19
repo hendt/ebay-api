@@ -80,7 +80,7 @@ export default class Browse extends Api {
      *
      * @param itemGroupId
      */
-    getItemByItemGroup(itemGroupId: string) {
+    getItemsByItemGroup(itemGroupId: string) {
         return this.get(`/item/get_items_by_item_group`, {
             params: {
                 item_group_id: itemGroupId
