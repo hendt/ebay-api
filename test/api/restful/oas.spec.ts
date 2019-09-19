@@ -4,10 +4,12 @@ import OAuth from "../../../src/api/oAuth";
 
 import buyTests from './buy';
 import commerceTests from './commerce';
+import developerTests from './developer';
 
 const allTests = {
     'Buy': buyTests,
-    'Commerce': commerceTests
+    'Commerce': commerceTests,
+    'Developer': developerTests
 };
 
 describe('API > restful > OAS', () => {
