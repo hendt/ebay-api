@@ -30,8 +30,8 @@ export default class Marketing extends Api {
      * @param body This type defines the fields for the bulkCreateAdsByInventoryReference request.
      */
     bulkCreateAdsByInventoryReference(campaignId: string, body: BulkCreateAdsByInventoryReferenceRequest) {
-        const id = encodeURIComponent(campaignId);
-        return this.post(`/ad_campaign/${id}/bulk_create_ads_by_inventory_reference`, body);
+        campaignId = encodeURIComponent(campaignId);
+        return this.post(`/ad_campaign/${campaignId}/bulk_create_ads_by_inventory_reference`, body);
     }
 
     /**
@@ -41,8 +41,8 @@ export default class Marketing extends Api {
      * @param body The container for the bulk request to create ads for eBay listing IDs. eBay listing IDs are generated when the listing is created on eBay.
      */
     bulkCreateAdsByListingId(campaignId: string, body: BulkCreateAdRequest) {
-        const id = encodeURIComponent(campaignId);
-        return this.post(`/ad_campaign/${id}/bulk_create_ads_by_listing_id`, body)
+        campaignId = encodeURIComponent(campaignId);
+        return this.post(`/ad_campaign/${campaignId}/bulk_create_ads_by_listing_id`, body)
     }
 
     /**
@@ -52,8 +52,8 @@ export default class Marketing extends Api {
      * @param body This type defines the fields for a bulkDeleteAdsByInventoryReference request.
      */
     bulkDeleteAdsByInventoryReference(campaignId: string, body: BulkDeleteAdsByInventoryReferenceRequest) {
-        const id = encodeURIComponent(campaignId);
-        return this.post(`/ad_campaign/${id}/bulk_delete_ads_by_inventory_reference`, body)
+        campaignId = encodeURIComponent(campaignId);
+        return this.post(`/ad_campaign/${campaignId}/bulk_delete_ads_by_inventory_reference`, body)
     }
 
     /**
@@ -63,8 +63,8 @@ export default class Marketing extends Api {
      * @param body This type defines the fields for the bulkDeleteAdsByListingId request.
      */
     bulkDeleteAdsByListingId(campaignId: string, body: BulkDeleteAdRequest) {
-        const id = encodeURIComponent(campaignId);
-        return this.post(`/ad_campaign/${id}/bulk_delete_ads_by_listing_id`, body);
+        campaignId = encodeURIComponent(campaignId);
+        return this.post(`/ad_campaign/${campaignId}/bulk_delete_ads_by_listing_id`, body);
     }
 
     /**
@@ -74,8 +74,8 @@ export default class Marketing extends Api {
      * @param body This type defines the fields for the BulkCreateAdsByInventoryReference request.
      */
     bulkUpdateAdsBidByInventoryReference(campaignId: string, body: BulkCreateAdsByInventoryReferenceRequest) {
-        const id = encodeURIComponent(campaignId);
-        return this.post(`/ad_campaign/${id}/bulk_update_ads_bid_by_inventory_reference`, body);
+        campaignId = encodeURIComponent(campaignId);
+        return this.post(`/ad_campaign/${campaignId}/bulk_update_ads_bid_by_inventory_reference`, body);
     }
 
     /**
@@ -85,8 +85,8 @@ export default class Marketing extends Api {
      * @param body Container for the bulk request to update ads.
      */
     bulkUpdateAdsBidByListingId(campaignId: string, body: BulkCreateAdRequest) {
-        const id = encodeURIComponent(campaignId);
-        return this.post(`/ad_campaign/${id}/bulk_update_ads_bid_by_listing_id`, body)
+        campaignId = encodeURIComponent(campaignId);
+        return this.post(`/ad_campaign/${campaignId}/bulk_update_ads_bid_by_listing_id`, body)
     }
 
     /**
@@ -98,8 +98,8 @@ export default class Marketing extends Api {
      * @param offset Specifies the number of ads to skip in the result set before returning the first ad in the paginated response.
      */
     getAds(campaignId: string, {limit, listingIds, offset}: { limit?: number, listingIds?: number, offset?: number } = {}) {
-        const id = encodeURIComponent(campaignId);
-        return this.get(`/ad_campaign/${id}/ad`, {
+        campaignId = encodeURIComponent(campaignId);
+        return this.get(`/ad_campaign/${campaignId}/ad`, {
             params: {
                 limit,
                 listing_ids: listingIds,
@@ -116,8 +116,8 @@ export default class Marketing extends Api {
      * @param body This type defines the fields for the createAdsByInventoryReference request.
      */
     createAdsByInventoryReference(campaignId: string, body: CreateAdsByInventoryReferenceRequest) {
-        const id = encodeURIComponent(campaignId);
-        return this.post(`/ad_campaign/${id}/create_ads_by_inventory_reference`, body);
+        campaignId = encodeURIComponent(campaignId);
+        return this.post(`/ad_campaign/${campaignId}/create_ads_by_inventory_reference`, body);
     }
 
     /**
@@ -127,9 +127,9 @@ export default class Marketing extends Api {
      * @param adId Identifier of an ad. This ID was generated when the ad was created.
      */
     getAd(campaignId: string, adId: string) {
-        const cId = encodeURIComponent(campaignId);
-        const aId = encodeURIComponent(adId);
-        return this.get(`/ad_campaign/${cId}/ad/${aId}`);
+        campaignId = encodeURIComponent(campaignId);
+        adId = encodeURIComponent(adId);
+        return this.get(`/ad_campaign/${campaignId}/ad/${adId}`);
     }
 
     /**
@@ -138,8 +138,8 @@ export default class Marketing extends Api {
      * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get a seller's campaign IDs by calling getCampaigns.
      */
     deleteAdsByInventoryReference(campaignId: string) {
-        const id = encodeURIComponent(campaignId);
-        return this.post(`/ad_campaign/${id}/delete_ads_by_inventory_reference`)
+        campaignId = encodeURIComponent(campaignId);
+        return this.post(`/ad_campaign/${campaignId}/delete_ads_by_inventory_reference`)
     }
 
     /**
@@ -150,8 +150,8 @@ export default class Marketing extends Api {
      * @param inventoryReferenceType The type of the inventory reference ID. Set this value to either INVENTORY_ITEM (a single listing) or INVENTORY_ITEM_GROUP (a multi-variation listing).
      */
     getAdsByInventoryReference(campaignId: string, inventoryReferenceId: string, inventoryReferenceType: string) {
-        const id = encodeURIComponent(campaignId);
-        return this.get(`/ad_campaign/${id}/get_ads_by_inventory_reference`, {
+        campaignId = encodeURIComponent(campaignId);
+        return this.get(`/ad_campaign/${campaignId}/get_ads_by_inventory_reference`, {
             params: {
                 inventory_reference_id: inventoryReferenceId,
                 inventory_reference_type: inventoryReferenceType
@@ -167,9 +167,9 @@ export default class Marketing extends Api {
      * @param body This type defines the fields for the updateBid request.
      */
     updateBid(campaignId: string, adId: string, body: UpdateBidPercentageRequest) {
-        const cId = encodeURIComponent(campaignId);
-        const aId = encodeURIComponent(adId);
-        return this.post(`/ad_campaign/${cId}/ad/${aId}/update_bid`, body);
+        campaignId = encodeURIComponent(campaignId);
+        adId = encodeURIComponent(adId);
+        return this.post(`/ad_campaign/${campaignId}/ad/${adId}/update_bid`, body);
     }
 
     /**
@@ -179,8 +179,8 @@ export default class Marketing extends Api {
      * @param body This type defines the fields for a clone campaign request.
      */
     cloneCampaign(campaignId: string, body: CloneCampaignRequest) {
-        const id = encodeURIComponent(campaignId);
-        return this.post(`/ad_campaign/${id}/clone`, body);
+        campaignId = encodeURIComponent(campaignId);
+        return this.post(`/ad_campaign/${campaignId}/clone`, body);
     }
 
     /**
@@ -213,8 +213,8 @@ export default class Marketing extends Api {
      * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get a seller's campaign IDs by calling getCampaigns.
      */
     getCampaign(campaignId: string) {
-        const id = encodeURIComponent(campaignId);
-        return this.get(`/ad_campaign/${id}`);
+        campaignId = encodeURIComponent(campaignId);
+        return this.get(`/ad_campaign/${campaignId}`);
     }
 
     /**
@@ -223,8 +223,8 @@ export default class Marketing extends Api {
      * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get a seller's campaign IDs by calling getCampaigns.
      */
     endCampaign(campaignId: string) {
-        const id = encodeURIComponent(campaignId);
-        return this.post(`/ad_campaign/${id}/end`)
+        campaignId = encodeURIComponent(campaignId);
+        return this.post(`/ad_campaign/${campaignId}/end`)
     }
 
     /**
@@ -263,13 +263,24 @@ export default class Marketing extends Api {
     }
 
     /**
+     * This method pauses an active (RUNNING) campaign. You can restarted by calling resumeCampaign, as long as the campaign's end date is in the future..
+     *
+     * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get a seller's campaign IDs by calling getCampaigns.
+     */
+    pauseCampaign(campaignId: string) {
+        campaignId = encodeURIComponent(campaignId);
+        return this.post(`/ad_campaign/${campaignId}/resume`)
+    }
+
+
+    /**
      * This method resumes a paused campaign, as long as it's end date is in the future.
      *
      * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get a seller's campaign IDs by calling getCampaigns.
      */
     resumeCampaign(campaignId: string) {
-        const id = encodeURIComponent(campaignId);
-        return this.post(`/ad_campaign/${id}/resume`)
+        campaignId = encodeURIComponent(campaignId);
+        return this.post(`/ad_campaign/${campaignId}/resume`)
     }
 
     /**
@@ -279,8 +290,8 @@ export default class Marketing extends Api {
      * @param body This type defines the fields to updated the campaign name and start and end dates.
      */
     updateCampaignIdentification(campaignId: string, body: UpdateCampaignIdentificationRequest) {
-        const id = encodeURIComponent(campaignId);
-        return this.post(`/ad_campaign/${id}/update_campaign_identification`, body);
+        campaignId = encodeURIComponent(campaignId);
+        return this.post(`/ad_campaign/${campaignId}/update_campaign_identification`, body);
     }
 
     /**
@@ -289,8 +300,8 @@ export default class Marketing extends Api {
      * @param reportId The unique ID of the Promoted Listings report you want to get. This ID is generated by eBay when you run a report task with a call to createReportTask.
      */
     getReport(reportId: string) {
-        const id = encodeURIComponent(reportId);
-        return this.get(`/ad_report/${id}`);
+        reportId = encodeURIComponent(reportId);
+        return this.get(`/ad_report/${reportId}`);
     }
 
     /**
@@ -306,8 +317,8 @@ export default class Marketing extends Api {
      * @param reportType The name of the report type whose metadata you want to get.
      */
     getReportMetadataForReportType(reportType: string) {
-        const type = encodeURIComponent(reportType);
-        return this.get(`/ad_report_metadata/${type}`);
+        reportType = encodeURIComponent(reportType);
+        return this.get(`/ad_report_metadata/${reportType}`);
     }
 
     /**
@@ -333,8 +344,8 @@ export default class Marketing extends Api {
      * @param reportTaskId A unique eBay-assigned ID for the report task that's generated when the report task is created by a call to createReportTask.
      */
     getReportTask(reportTaskId: string) {
-        const id = encodeURIComponent(reportTaskId);
-        return this.get(`/ad_report_task/${id}`);
+        reportTaskId = encodeURIComponent(reportTaskId);
+        return this.get(`/ad_report_task/${reportTaskId}`);
     }
 
     /**
@@ -353,8 +364,8 @@ export default class Marketing extends Api {
      * @param promotion_id The ID of the promotion you want to retrieve.
      */
     getItemPriceMarkdownPromotion(promotion_id: string) {
-        const id = encodeURIComponent(promotion_id);
-        return this.get(`/item_price_markdown/${id}`)
+        promotion_id = encodeURIComponent(promotion_id);
+        return this.get(`/item_price_markdown/${promotion_id}`)
     }
 
     /**
@@ -373,8 +384,8 @@ export default class Marketing extends Api {
      * @param promotionId The ID of the promotion you want to retrieve. The promotion ID is a unique eBay-assigned value that's generated when the promotion is created.
      */
     getItemPromotion(promotionId: string) {
-        const id = encodeURIComponent(promotionId);
-        return this.get(`/item_promotion/${id}`)
+        promotionId = encodeURIComponent(promotionId);
+        return this.get(`/item_promotion/${promotionId}`)
     }
 
     /**
@@ -433,8 +444,8 @@ export default class Marketing extends Api {
      * @param promotionId Identifier of the promotion you want to pause.
      */
     pausePromotion(promotionId: string) {
-        const id = encodeURIComponent(promotionId);
-        return this.post(`promotion/${id}/pause`)
+        promotionId = encodeURIComponent(promotionId);
+        return this.post(`promotion/${promotionId}/pause`)
     }
 
     /**
@@ -443,8 +454,8 @@ export default class Marketing extends Api {
      * @param promotionId Identifier of the promotion you want to make active. The ID is a unique eBay-assigned value that's generated when the promotion is created.
      */
     resumePromotion(promotionId: string) {
-        const id = encodeURIComponent(promotionId);
-        return this.post(`/promotion/${id}/resume`)
+        promotionId = encodeURIComponent(promotionId);
+        return this.post(`/promotion/${promotionId}/resume`)
     }
 
     /**

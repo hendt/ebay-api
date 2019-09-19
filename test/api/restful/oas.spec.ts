@@ -5,11 +5,13 @@ import OAuth from "../../../src/api/oAuth";
 import buyTests from './buy';
 import commerceTests from './commerce';
 import developerTests from './developer';
+import sellTests from './sell';
 
 const allTests = {
     'Buy': buyTests,
     'Commerce': commerceTests,
-    'Developer': developerTests
+    'Developer': developerTests,
+    'Sell': sellTests
 };
 
 describe('API > restful > OAS', () => {
@@ -25,7 +27,9 @@ describe('API > restful > OAS', () => {
             const api = new Api(testOAuth);
 
             it('"'+ name + ':' + Api.name + '" should return correct path', () => {
-                expect(api.basePath).to.equal(Oas.servers[0].variables.basePath.default);
+                if (Oas.servers) {
+                    expect(api.basePath).to.equal(Oas.servers[0].variables.basePath.default);
+                }
             });
 
             Object.keys(Oas.paths).forEach((path: any) => {
@@ -37,5 +41,4 @@ describe('API > restful > OAS', () => {
             });
         });
     });
-
 });
