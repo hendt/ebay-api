@@ -41,8 +41,7 @@ ebay.finding.findItemsByKeywords({
         name: 'Seller',
         value: 'hendt_de'
     }
-}, {raw: true}).then(result => {
-    // Return raw XML
+}).then(result => {
     console.log(result);
 });
 ```

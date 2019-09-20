@@ -9,7 +9,7 @@ import {GlobalSettings, Settings, SiteID} from "./types";
 
 const defaultSettings: GlobalSettings = {
     sandbox: false,
-    site: 0,
+    site: SiteID.EBAY_DE,
     raw: false,      // return raw XML -> JSON response from Ebay
     perPage: 100,
     grant_type: 'client_credentials',
@@ -17,21 +17,21 @@ const defaultSettings: GlobalSettings = {
     scope: 'https://api.ebay.com/oauth/api_scope'
 };
 
-export default class Index {
+export default class EBay {
 
     private readonly factory: Factory;
     private readonly globals: Settings;
 
     // RESTful
-    readonly buy: Buy;
-    readonly commerce: Commerce;
-    readonly developer: Developer;
-    readonly sell: Sell;
+    private _buy?: Buy;
+    private _commerce?: Commerce;
+    private _developer?: Developer;
+    private _sell?: Sell;
 
     // Traditional
-    readonly trading: Trading;
-    readonly finding: Finding;
-    readonly shopping: Shopping;
+    private _trading?: Trading;
+    private _finding?: Finding;
+    private _shopping?: Shopping;
 
     /**
      * Loads credentials from `process.env`
@@ -52,7 +52,7 @@ export default class Index {
         if (!process.env.EBAY_DEV_ID) {
             throw new Env_Error("EBAY_DEV_ID");
         }
-        return new Index({
+        return new EBay({
             appId: process.env.EBAY_APP_ID,
             authNAuth: process.env.AUTH_N_AUTH,
             certId: process.env.EBAY_CERT_ID,
@@ -63,26 +63,40 @@ export default class Index {
 
     /**
      * @param      {Object}  settings the global settings
-     * @return     {Index}
      */
     constructor(settings: Settings) {
-        /**
-         * global settings for all following Ebay requests
-         */
         this.globals = {...defaultSettings, ...settings};
         this.factory = new Factory(this.globals);
+    }
 
-        this.buy = this.factory.createBuyApi();
-        this.commerce = this.factory.createCommerceApi();
-        this.developer = this.factory.createDeveloperApi();
-        this.sell = this.factory.createSellApi();
+    get buy(): Buy {
+        return this._buy || (this._buy = this.factory.createBuyApi());
+    }
 
-        // Traditional
-        this.trading = this.factory.createTradingApi();
-        this.finding = this.factory.createFindingApi();
-        this.shopping = this.factory.createShoppingApi();
+    get commerce(): Commerce {
+        return this._commerce || (this._commerce = this.factory.createCommerceApi());
+    }
 
-        return this;
+    get developer(): Developer {
+        return this._developer || (this._developer = this.factory.createDeveloperApi());
+    }
+
+    get sell(): Sell {
+        return this._sell || (this._sell = this.factory.createSellApi());
+    }
+
+    // Traditional
+
+    get trading(): Trading {
+        return this._trading || (this._trading = this.factory.createTradingApi());
+    }
+
+    get finding(): Finding {
+        return this._finding || (this._finding = this.factory.createFindingApi());
+    }
+
+    get shopping(): Shopping {
+        return this._shopping || (this._shopping = this.factory.createShoppingApi());
     }
 }
 

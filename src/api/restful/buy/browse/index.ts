@@ -56,8 +56,8 @@ export default class Browse extends Api {
      * @param {String} fieldgroups
      */
     getItem(itemId: string, fieldgroups?: string) {
-        const id = encodeURIComponent(itemId);
-        return this.get(`/item/${id}`, {
+        itemId = encodeURIComponent(itemId);
+        return this.get(`/item/${itemId}`, {
             params: {
                 fieldgroups
             },
@@ -95,8 +95,8 @@ export default class Browse extends Api {
      * @param {Object} body CompatibilityPayload
      */
     checkCompatibility(itemId: string, marketplaceId: string, body?: CompatibilityPayload) {
-        const id = encodeURIComponent(itemId);
-        return this.post(`/item/${id}/check_compatibility`, body, {
+        itemId = encodeURIComponent(itemId);
+        return this.post(`/item/${itemId}/check_compatibility`, body, {
             headers: {
                 'X-EBAY-C-MARKETPLACE-ID': marketplaceId
             }
