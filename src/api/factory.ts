@@ -11,14 +11,13 @@ import {Settings} from "../types";
 
 export default class Factory {
 
-    globals: Settings;
-    authToken: OAuth;
-    traditional: Traditional;
+    readonly globals: Settings;
+    readonly authToken: OAuth;
+    private _traditional?: Traditional;
 
     constructor(globals: Settings) {
         this.globals = globals;
         this.authToken = new OAuth(this.globals);
-        this.traditional = new Traditional(this.globals);
     }
 
     createBuyApi(): Buy {
@@ -60,6 +59,10 @@ export default class Factory {
     }
 
     // Traditional
+
+    get traditional() {
+        return this._traditional || (this._traditional = new Traditional(this.globals));
+    }
 
     createTradingApi(): Trading {
         return this.traditional.createTradingApi();

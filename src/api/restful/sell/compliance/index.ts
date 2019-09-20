@@ -24,8 +24,6 @@ export default class Compliance extends Api {
                 compliance_type: complianceType
             },
             headers
-        }).then(({data}) => {
-            return data;
         });
     }
 
@@ -53,8 +51,6 @@ export default class Compliance extends Api {
                 limit
             },
             headers
-        }).then(({data}) => {
-            return data;
         });
     }
 }

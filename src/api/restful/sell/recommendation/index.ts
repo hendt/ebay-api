@@ -23,7 +23,7 @@ export default class Recommendation extends Api {
         marketplaceId: string, {filter, limit, offset} : {filter?: string, limit?: number, offset?: number} = {},
         body?: FindListingRecommendationRequest
     ) {
-        return this.get(`/find`, {
+        return this.post(`/find`, {
             data: body,
             params: {
                 filter,

@@ -35,10 +35,11 @@ export default class Order extends Api {
     /**
      * This method returns the details of the specified eBay member checkout session.
      *
-     * @param {String} body The container for the fields used by the initiateCheckoutSession method.
+     * @param {String} checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
      */
-    getCheckoutSession(body?: string) {
-        return this.post(`/checkout_session/initiate`, body);
+    getCheckoutSession(checkoutSessionId: string) {
+        checkoutSessionId = encodeURIComponent(checkoutSessionId);
+        return this.get(`/checkout_session/{checkoutSessionId}`);
     }
 
     /**
@@ -274,7 +275,7 @@ export default class Order extends Api {
      */
     placeProxyGuestOrder(checkoutSessionId: string, body?: GuestPlaceOrderRequest) {
         checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.get(`/proxy_guest_checkout_session/${checkoutSessionId}/place_order`);
+        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/place_order`);
     }
 
     /**

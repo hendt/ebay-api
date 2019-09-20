@@ -61,7 +61,7 @@ export default class Traditional {
                 "X-EBAY-API-CERT-NAME": this.globals.certId,
                 "X-EBAY-API-APP-NAME": this.globals.appId,
                 "X-EBAY-API-DEV-NAME": this.globals.devId,
-                "X-EBAY-API-SITEID": this.globals.site || 0,
+                "X-EBAY-API-SITEID": this.globals.site,
                 "X-EBAY-API-COMPATIBILITY-LEVEL": 967
             }
         };
@@ -72,7 +72,7 @@ export default class Traditional {
     createShoppingApi(): Shopping {
         const headers = async (call: string) => ({
             "X-EBAY-API-APP-ID": this.globals.appId,
-            "X-EBAY-API-SITE-ID": this.globals.site || 0,
+            "X-EBAY-API-SITE-ID": this.globals.site,
             "X-EBAY-API-CALL-NAME": call,
             "X-EBAY-API-VERSION": 863,
             "X-EBAY-API-REQUEST-ENCODING": "xml"

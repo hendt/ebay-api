@@ -10,9 +10,9 @@ import sellTests from './sell';
 
 const allTests = {
     'Buy': buyTests,
-    //'Commerce': commerceTests,
-    //'Developer': developerTests,
-    //'Sell': sellTests
+    'Commerce': commerceTests,
+    'Developer': developerTests,
+    'Sell': sellTests
 };
 
 describe('API > restful > OAS', () => {
@@ -40,6 +40,8 @@ describe('API > restful > OAS', () => {
                 const method = Oas.paths[path].get ? 'get' : 'post';
                 const endpoint = Oas.paths[path];
                 const call = endpoint[method];
+                const paramsInPath = call.parameters ? call.parameters.filter((p:any) => p.in === 'path') : [];
+                const paramsInHeader = call.parameters ? call.parameters.filter((p:any) => p.in === 'header') : [];
 
                 const req = {
                     getStub: sinon.stub().returns({catch: sinon.stub()}),
@@ -64,15 +66,16 @@ describe('API > restful > OAS', () => {
                 });
 
                 it('"' + name + ':' + Api.name + ':' + call.operationId + '" call correct method', () => {
-                    if (!call.parameters && !call.body) {
-                        return api[call.operationId]().then(() => {
-                            if (method === 'get') {
-                                expect(req.getStub.calledOnce).to.be.true;
-                            } else {
-                                expect(req.postStub.calledOnce).to.be.true;
-                            }
-                        });
-                    }
+                    const args = paramsInPath.map((p:any, i: number) => {
+                        return 'param' + i
+                    });
+                    return api[call.operationId](...args).then(() => {
+                        if (method === 'get') {
+                            expect(req.getStub.calledOnce).to.be.true;
+                        } else if (method === 'post') {
+                            expect(req.postStub.calledOnce).to.be.true;
+                        }
+                    });
                 });
             });
         });

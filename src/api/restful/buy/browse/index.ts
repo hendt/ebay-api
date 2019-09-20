@@ -103,7 +103,6 @@ export default class Browse extends Api {
         });
     }
 
-
     //
     // Shopping Cart
     // Authorization Code: https://api.ebay.com/oauth/api_scope/buy.shopping.cart
