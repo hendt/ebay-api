@@ -14,8 +14,8 @@ export default class Metadata extends Api {
      * @param countryCode This path parameter specifies the two-letter ISO 3166-1 Alpha-2 country code for the country whose jurisdictions you want to retrieve.
      */
     getSalesTaxJurisdictions(countryCode: string) {
-        const code = encodeURIComponent(countryCode);
-        return this.get(`/country/${code}/sales_tax_jurisdiction`);
+        countryCode = encodeURIComponent(countryCode);
+        return this.get(`/country/${countryCode}/sales_tax_jurisdiction`);
     }
 
     /**
@@ -25,8 +25,8 @@ export default class Metadata extends Api {
      * @param filter This query parameter limits the response by returning eBay policy information for only the leaf categories specified by this parameter.
      */
     getAutomotivePartsCompatibilityPolicies(marketplaceId: string, filter?: string) {
-        const id = encodeURIComponent(marketplaceId);
-        return this.get(`/marketplace/${id}/get_automotive_parts_compatibility_policies`, {
+        marketplaceId = encodeURIComponent(marketplaceId);
+        return this.get(`/marketplace/${marketplaceId}/get_automotive_parts_compatibility_policies`, {
             params: {
                 filter
             }
@@ -40,8 +40,8 @@ export default class Metadata extends Api {
      * @param filter This query parameter limits the response by returning eBay policy information for only the leaf categories specified by this parameter.
      */
     getItemConditionPolicies(marketplaceId: string, filter?: string) {
-        const id = encodeURIComponent(marketplaceId);
-        return this.get(`/marketplace/${id}/get_item_condition_policies`, {
+        marketplaceId = encodeURIComponent(marketplaceId);
+        return this.get(`/marketplace/${marketplaceId}/get_item_condition_policies`, {
             params: {
                 filter
             }
@@ -55,8 +55,8 @@ export default class Metadata extends Api {
      * @param filter This query parameter limits the response by returning eBay policy information for only the leaf categories specified by this parameter.
      */
     getListingStructurePolicies(marketplaceId: string, filter?: string) {
-        const id = encodeURIComponent(marketplaceId);
-        return this.get(`/marketplace/${id}/get_listing_structure_policies`, {
+        marketplaceId= encodeURIComponent(marketplaceId);
+        return this.get(`/marketplace/${marketplaceId}/get_listing_structure_policies`, {
             params: {
                 filter
             }
@@ -70,8 +70,8 @@ export default class Metadata extends Api {
      * @param filter This query parameter limits the response by returning eBay policy information for only the leaf categories specified by this parameter.
      */
     getNegotiatedPricePolicies(marketplaceId: string, filter?: string) {
-        const id = encodeURIComponent(marketplaceId);
-        return this.get(`/marketplace/${id}/get_negotiated_price_policies`, {
+        marketplaceId = encodeURIComponent(marketplaceId);
+        return this.get(`/marketplace/${marketplaceId}/get_negotiated_price_policies`, {
             params: {
                 filter
             }
@@ -86,8 +86,8 @@ export default class Metadata extends Api {
      * @param filter This query parameter limits the response by returning eBay policy information for only the leaf categories specified by this parameter.
      */
     getProductAdoptionPolicies(marketplaceId: string, filter?: string) {
-        const id = encodeURIComponent(marketplaceId);
-        return this.get(`/marketplace/${id}/get_product_adoption_policies`, {
+        marketplaceId = encodeURIComponent(marketplaceId);
+        return this.get(`/marketplace/${marketplaceId}/get_product_adoption_policies`, {
             params: {
                 filter
             }
@@ -102,8 +102,8 @@ export default class Metadata extends Api {
      * @param filter This query parameter limits the response by returning eBay policy information for only the leaf categories specified by this parameter.
      */
     getReturnPolicies(marketplaceId: string, filter?: string) {
-        const id = encodeURIComponent(marketplaceId);
-        return this.get(`/marketplace/${id}/get_return_policies`, {
+        marketplaceId = encodeURIComponent(marketplaceId);
+        return this.get(`/marketplace/${marketplaceId}/get_return_policies`, {
             params: {
                 filter
             }

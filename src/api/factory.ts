@@ -1,25 +1,11 @@
 import OAuth from "./oAuth";
-import {Buy} from "./restful/buy";
-import Browse from "./restful/buy/browse";
-import Feed from "./restful/buy/feed";
-import BuyMarketing from "./restful/buy/marketing";
-import SellMarketing from "./restful/sell/marketing";
-import Offer from "./restful/buy/offer";
-import Order from "./restful/buy/order";
-import {Commerce} from "./restful/commerce";
-import Identity from "./restful/commerce/identity";
-import Taxonomy from "./restful/commerce/taxonomy";
-import Translation from "./restful/commerce/translation";
-import {Developer} from "./restful/developer";
-import Compliance from "./restful/sell/compliance";
-import Fulfillment from "./restful/sell/fulfillment";
-import Inventory from "./restful/sell/inventory";
-import Recommendation from "./restful/sell/recommendation";
-import {Sell} from "./restful/sell";
-import Catalog from "./restful/commerce/catalog";
-import DeveloperAnalytics from "./restful/developer/analytics";
-import Account from "./restful/sell/account";
-import SellAnalytics from "./restful/sell/analytics";
+import {
+    Buy, Browse, Feed, BuyMarketing, Offer, Order,
+    Commerce, Catalog, Identity, Taxonomy, Translation,
+    Developer, DeveloperAnalytics,
+    Sell, Account, SellAnalytics, Compliance, Fulfillment, Inventory, SellMarketing, Metadata, Recommendation,
+} from "./restful";
+
 import Traditional, {Finding, Shopping, Trading} from "./traditional";
 import {Settings} from "../types";
 
@@ -33,18 +19,6 @@ export default class Factory {
         this.globals = globals;
         this.authToken = new OAuth(this.globals);
         this.traditional = new Traditional(this.globals);
-    }
-
-    createTradingApi(): Trading {
-        return this.traditional.createTradingApi();
-    }
-
-    createShoppingApi(): Shopping {
-        return this.traditional.createShoppingApi();
-    }
-
-    createFindingApi(): Finding {
-        return this.traditional.createFindingApi();
     }
 
     createBuyApi(): Buy {
@@ -80,8 +54,23 @@ export default class Factory {
             fulfillment: new Fulfillment(this.authToken),
             inventory: new Inventory(this.authToken),
             marketing: new SellMarketing(this.authToken),
+            metadata: new Metadata(this.authToken),
             recommendation: new Recommendation(this.authToken)
         }
+    }
+
+    // Traditional
+
+    createTradingApi(): Trading {
+        return this.traditional.createTradingApi();
+    }
+
+    createShoppingApi(): Shopping {
+        return this.traditional.createShoppingApi();
+    }
+
+    createFindingApi(): Finding {
+        return this.traditional.createFindingApi();
     }
 }
 

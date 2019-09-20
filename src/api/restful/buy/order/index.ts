@@ -263,7 +263,7 @@ export default class Order extends Api {
      * @param body CheckoutSessionRequest
      */
     initiateProxyGuestCheckoutSession(body?: CheckoutSessionRequest) {
-        return this.get(`/proxy_guest_checkout_session/initiate`);
+        return this.post(`/proxy_guest_checkout_session/initiate`, body);
     }
 
     /**

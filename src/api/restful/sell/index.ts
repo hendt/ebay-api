@@ -1,6 +1,6 @@
 import Account from "./account";
-import Compliance from "./compliance";
 import Analytics from "./analytics";
+import Compliance from "./compliance";
 import Fulfillment from "./fulfillment";
 import Inventory from "./inventory";
 import Marketing from "./marketing";

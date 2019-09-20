@@ -20,10 +20,10 @@ export default class OAuth {
         if (!this.settings.grant_type || !this.settings.scope) throw new Error('Missing Body, required Grant type');
 
         scope = scope ||  this.settings.scope;
-        console.log(scope);
+
         return postForm(this.url, {
             scope,
-            grant_type: 'authorization_code'// this.settings.grant_type
+            grant_type: 'authorization_code'
         }, {
             auth: {
                 username: this.settings.appId,
