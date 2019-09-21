@@ -179,14 +179,12 @@ export default class XMLRequest<T> {
         const xml = this.xml(options);
         log(xml);
         try {
-            const post = await req.post(this.endpoint, xml, {
+            const data = await req.post(this.endpoint, xml, {
                 headers: {
                     "Content-Type": "text/xml",
                     ...this.headers
                 }
             });
-
-            const {data} = post;
 
             // resolve to raw XML
             if (options.raw) {

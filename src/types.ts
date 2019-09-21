@@ -1,4 +1,4 @@
-export enum SiteID {
+export enum SiteId {
     EBAY_US = 0,
     EBAY_ENCA = 2,
     EBAY_GB = 3,
@@ -28,7 +28,7 @@ export enum SiteID {
  */
 export type GlobalSettings = {
     sandbox?: boolean,
-    site?: number,
+    siteId?: number,
     raw?: boolean,
     perPage?: number,
     follow?: boolean,

@@ -1,4 +1,4 @@
-import {postForm} from "../utils/request";
+import request from "../utils/request";
 import {Settings} from "../types";
 
 export default class OAuth {
@@ -21,7 +21,7 @@ export default class OAuth {
 
         scope = scope ||  this.settings.scope;
 
-        return postForm(this.url, {
+        return request.postForm(this.url, {
             scope,
             grant_type: 'authorization_code'
         }, {
@@ -29,13 +29,11 @@ export default class OAuth {
                 username: this.settings.appId,
                 password: this.settings.certId
             }
-        }).then((data) => {
-            console.log(data);
+        }).then((data: any) => {
             this.token = data.access_token;
             return data.access_token;
-        }).catch(e => {
-            console.log(e);
-            return null;
+        }).catch((e: any) => {
+            throw e;
         })
     }
 }

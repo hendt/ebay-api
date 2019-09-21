@@ -1,15 +1,16 @@
 import request from '../../utils/request';
-import {AxiosRequestConfig} from "axios";
 import OAuth from "../oAuth";
 
 export default abstract class Api {
-    oAuth: OAuth;
-    private req = request;
+    readonly oAuth: OAuth;
+    private req: any;
 
     constructor(oAuth: OAuth, req?: any) {
         this.oAuth = oAuth;
         if (req) {
             this.req = req;
+        } else {
+            this.req = request;
         }
     }
 
@@ -28,24 +29,22 @@ export default abstract class Api {
         return 'https://api.ebay.com' + this.basePath
     };
 
-    async get(url: string, config: AxiosRequestConfig = {}): Promise<any> {
+    async get(url: string, config: any = {}): Promise<any> {
         const authHeaders = await this.getHeaders();
         config.headers = config.headers ? {...authHeaders, ...config.headers} : authHeaders;
 
         return this.req.get(this.baseUrl + url, config)
-            .then(({data}) => data)
-            .catch(e => {
+            .catch((e: any) => {
                 throw e.response.data;
             })
     }
 
-    async post(url: string, data?: any, config: AxiosRequestConfig = {}): Promise<any> {
+    async post(url: string, data?: any, config: any = {}): Promise<any> {
         const authHeaders = await this.getHeaders();
         config.headers = config.headers ? {...authHeaders, ...config.headers} : authHeaders;
 
         return this.req.post(this.baseUrl + url, data, config)
-            .then(({data}) => data)
-            .catch(e => {
+            .catch((e: any) => {
                 throw e.response.data;
             });
     }

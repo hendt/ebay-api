@@ -461,7 +461,7 @@ export default class Marketing extends Api {
     /**
      * This method generates a report that lists the seller's running, paused, and ended promotions for the specified eBay marketplace.
      *
-     * @param marketplaceId The eBay marketplace ID of the site for which you want the promotions report.
+     * @param marketplaceId The eBay marketplace ID of the siteId for which you want the promotions report.
      * @param limit Specifies the maximum number of promotions returned on a page from the result set. Default: 200 Maximum: 200
      * @param offset Specifies the number of promotions to skip in the result set before returning the first promotion in the paginated response.
      * @param promotionStatus Limits the results to the promotions that are in the state specified by this query parameter.
@@ -485,7 +485,7 @@ export default class Marketing extends Api {
     /**
      * This method generates a report that summarizes the seller's promotions for the specified eBay marketplace.
      *
-     * @param marketplaceId The eBay marketplace ID of the site you for which you want a promotion summary report.
+     * @param marketplaceId The eBay marketplace ID of the siteId you for which you want a promotion summary report.
      */
     getPromotionSummaryReport(marketplaceId: string) {
         return this.get(`/promotion_summary_report`, {

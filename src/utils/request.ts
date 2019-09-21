@@ -22,8 +22,19 @@ const req: RateLimitedAxiosInstance = axiosRateLimit(AxiosInstance, {
     perMilliseconds: 5000
 });
 
-export function postForm<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
-    return req.post(url, qs.stringify(data), config).then(({data}) => data);
+export class LimitedAxiosRequest {
+    get<T = any, R = any>(url: string, config?: AxiosRequestConfig): Promise<R> {
+        return req.get(url, config).then(({data}) => data);
+    }
+
+    post<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R>  {
+        return req.post(url, data, config).then(({data}) => data);
+    }
+
+    postForm<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R>  {
+        return req.post(url, qs.stringify(data), config).then(({data}) => data);
+    }
 }
 
-export default req;
+const instance = new LimitedAxiosRequest();
+export default instance;

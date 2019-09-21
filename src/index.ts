@@ -5,12 +5,11 @@ import {Commerce} from "./api/restful/commerce";
 import {Developer} from "./api/restful/developer";
 import {Sell} from "./api/restful/sell";
 import {Finding, Shopping, Trading} from "./api/traditional";
-import {GlobalSettings, Settings, SiteID} from "./types";
+import {GlobalSettings, Settings, SiteId} from "./types";
 
 const defaultSettings: GlobalSettings = {
     sandbox: false,
-    site: SiteID.EBAY_DE,
-    raw: false,      // return raw XML -> JSON response from Ebay
+    siteId: SiteId.EBAY_DE,
     perPage: 100,
     grant_type: 'client_credentials',
     //you may need to define the oauth scope
@@ -40,23 +39,21 @@ export default class EBay {
      * @throws {Env_Error}
      */
     static fromEnv() {
-        if (!process.env.EBAY_TOKEN) {
-            throw new Env_Error("EBAY_TOKEN");
+        if (!process.env.EBAY_APP_ID) {
+            throw new Env_Error("EBAY_APP_ID");
         }
         if (!process.env.EBAY_CERT_ID) {
             throw new Env_Error("EBAY_CERT_ID");
-        }
-        if (!process.env.EBAY_APP_ID) {
-            throw new Env_Error("EBAY_APP_ID");
         }
         if (!process.env.EBAY_DEV_ID) {
             throw new Env_Error("EBAY_DEV_ID");
         }
         return new EBay({
             appId: process.env.EBAY_APP_ID,
-            authNAuth: process.env.AUTH_N_AUTH,
             certId: process.env.EBAY_CERT_ID,
             devId: process.env.EBAY_DEV_ID,
+            authNAuth: process.env.EBAY_AUTH_N_AUTH,
+            siteId: process.env.EBAY_SITE_ID ? parseInt(process.env.EBAY_SITE_ID, 10) : SiteId.EBAY_DE,
             sandbox: !!process.env.EBAY_SANDBOX || false
         })
     }
@@ -101,6 +98,6 @@ export default class EBay {
 }
 
 export {
-    SiteID,
+    SiteId,
     GlobalSettings
 }
