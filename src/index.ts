@@ -10,7 +10,6 @@ import {GlobalSettings, Settings, SiteId} from "./types";
 const defaultSettings: GlobalSettings = {
     sandbox: false,
     siteId: SiteId.EBAY_DE,
-    perPage: 100,
     grant_type: 'client_credentials',
     //you may need to define the oauth scope
     scope: 'https://api.ebay.com/oauth/api_scope'

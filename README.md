@@ -21,7 +21,7 @@ const ebay = new EBay({
   authNAuth: '--  Auth\'n Auth for traditional API (used by trading) --',
 
   sandbox: false,
-  site: SiteID.EBAY_DE
+  siteId: SiteID.EBAY_DE
 });
 ```
 

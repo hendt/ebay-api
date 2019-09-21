@@ -18,15 +18,17 @@ type Field = {
 }
 
 type Options = {
+    raw?: boolean,
+    paginate?: boolean,
     page?: number,
-    follow?: boolean,
-    raw?: boolean
+    entriesPerPage?: number
 }
 
 const defaultOptions: Options = {
+    raw: false,
+    paginate: false,
     page: 1,
-    follow: false,
-    raw: false
+    entriesPerPage: 100
 };
 
 /**
@@ -66,7 +68,7 @@ export default class XMLRequest<T> {
      * @private
      * @return     {Array<String>}  the array of names
      */
-    get fieldKeys() {
+    private get fieldKeys() {
         return Object.keys(this.fields);
     }
 
@@ -76,7 +78,7 @@ export default class XMLRequest<T> {
      * @private
      * @return     {String}  { description_of_the_return_value }
      */
-    get responseWrapper() {
+    private get responseWrapper() {
         return `${this.call}Response`
     }
 
@@ -86,7 +88,7 @@ export default class XMLRequest<T> {
      * @private
      * @return     {String}  eBay Auth token
      */
-    get token() {
+    private get token() {
         return this.globals.authNAuth
     }
 
@@ -96,7 +98,7 @@ export default class XMLRequest<T> {
      * @private
      * @return     {Object}  the SOAP
      */
-    get credentials() {
+    private get credentials() {
         return this.token ? {RequesterCredentials: {eBayAuthToken: this.token}} : {};
     }
 
@@ -106,7 +108,7 @@ export default class XMLRequest<T> {
      * @private
      * @return     {String}  the XML namespace from the verb
      */
-    get xmlnsRequest() {
+    private get xmlnsRequest() {
         return `${this.call}Request xmlns="${this.xmlns}"`
     }
 
@@ -117,12 +119,14 @@ export default class XMLRequest<T> {
      * @param      {Object}  options  The options
      * @return     {String}           The XML string of the Request
      */
-    xml(options: Options) {
+    private xml(options: Options) {
         const payload = this.fields;
         const listKey: string | null = this.listKey();
 
         if (listKey !== null) {
-            payload[listKey] = {...payload[listKey], ...this.pagination(options.page)}
+            payload[listKey] = {
+                ...payload[listKey], ...this.pagination(options)
+            }
         }
 
         return o2x({
@@ -137,7 +141,7 @@ export default class XMLRequest<T> {
      * @private
      * @return     {string|null}   the key that is a List
      */
-    listKey() {
+    private listKey() {
         const fields = this.fieldKeys;
         while (fields.length) {
             const field = fields.pop();
@@ -155,15 +159,42 @@ export default class XMLRequest<T> {
     /**
      * generates a pagination Object
      *
-     * @param      {number}  page    The page to fetch
+     * @param      {Options}  the options
      * @return     {Object}          The pagination representation
      */
-    pagination(page = 1) {
+    private pagination({page, entriesPerPage}: Options) {
         return {
             Pagination: {
                 PageNumber: page,
-                EntriesPerPage: this.globals.perPage
+                EntriesPerPage: entriesPerPage
             }
+        }
+    }
+
+    /**
+     * runs the current Request
+     *
+     * @param      {<type>}  options  The options
+     * @return     {<type>}  { description_of_the_return_value }
+     */
+    async run(options: Options = defaultOptions) {
+        options = {...defaultOptions, ...options};
+
+        if (!this.call) {
+            throw new No_Call_Error();
+        }
+
+        try {
+            const firstResponse = await this.fetch(options);
+
+            if (options.paginate) {
+                return this.schedule(firstResponse, options);
+            }
+
+            return firstResponse
+        } catch (error) {
+            log(error);
+            throw error;
         }
     }
 
@@ -175,7 +206,7 @@ export default class XMLRequest<T> {
      * @return     {Promise}           resolves to the response
      *
      */
-    async fetch(options: Options) {
+    private async fetch(options: Options) {
         const xml = this.xml(options);
         log(xml);
         try {
@@ -186,6 +217,7 @@ export default class XMLRequest<T> {
                 }
             });
 
+            log(data);
             // resolve to raw XML
             if (options.raw) {
                 return data;
@@ -207,33 +239,6 @@ export default class XMLRequest<T> {
     }
 
     /**
-     * runs the current Request
-     *
-     * @param      {<type>}  options  The options
-     * @return     {<type>}  { description_of_the_return_value }
-     */
-    async run(options: Options = defaultOptions) {
-        options = {...defaultOptions, ...options};
-
-        if (!this.call) {
-            throw new No_Call_Error();
-        }
-
-        try {
-            const firstResponse = await this.fetch(options);
-
-            if (options.follow) {
-                return this.schedule(firstResponse, options);
-            }
-
-            return firstResponse
-        } catch (error) {
-            log(error);
-            throw error;
-        }
-    }
-
-    /**
      * schedules pagination requests
      *
      * @private
@@ -241,7 +246,7 @@ export default class XMLRequest<T> {
      * @param      {Options}   options   The options
      * @return     {Promise}          resolves to the first resposne or the concatenated Responses
      */
-    async schedule(first: any, options: Options) {
+    private async schedule(first: any, options: Options) {
         // we aren't handling pagination
         if (!first.pagination || first.pagination.pages < 2) {
             return first;
@@ -251,7 +256,7 @@ export default class XMLRequest<T> {
 
         const results = await Promise.all(range(2, first.pagination.pages).map(page => this.fetch({
             ...options,
-            page,
+            page
         })));
 
         return results.reduce((all, result) => {
