@@ -23,7 +23,7 @@ export default class OAuth {
 
         return request.postForm(this.url, {
             scope,
-            grant_type: 'authorization_code'
+            grant_type: this.settings.grant_type
         }, {
             auth: {
                 username: this.settings.appId,
