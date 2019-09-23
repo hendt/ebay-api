@@ -2,7 +2,7 @@
 import o2x from 'object-to-xml';
 import debug from "debug"
 
-import {Ebay_Api_Error, No_Call_Error} from "../../errors"
+import {EbayApiError, NoCallError} from "../../errors"
 import Parser from "./Parser"
 import range from "../../utils/range"
 import req from '../../utils/request';
@@ -181,7 +181,7 @@ export default class XMLRequest<T> {
         options = {...defaultOptions, ...options};
 
         if (!this.call) {
-            throw new No_Call_Error();
+            throw new NoCallError();
         }
 
         try {
@@ -231,7 +231,7 @@ export default class XMLRequest<T> {
             log(error);
             if (error.response && error.response.data) {
                 const json = Parser.toJSON(error.response.data);
-                throw new Ebay_Api_Error(json);
+                throw new EbayApiError(json);
             }
 
             throw error;

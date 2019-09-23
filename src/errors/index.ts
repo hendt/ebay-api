@@ -3,7 +3,7 @@
  *
  * @ignore
  */
-abstract class ResponseError extends Error {
+abstract class EBayError extends Error {
 
     meta: any = null;
 
@@ -28,7 +28,7 @@ abstract class ResponseError extends Error {
  *
  * @class      No_Auth_Token (name)
  */
-export class No_Auth_Token_Error extends ResponseError {
+export class NoAuthTokenError extends EBayError {
     constructor(msg = "no oAuth present.  Please invoke `Ebay.prototype.oAuth(<Token>)`.") {
         super(msg)
     }
@@ -38,38 +38,25 @@ export class No_Auth_Token_Error extends ResponseError {
  * thrown when Request.prototype.run() is called without having defined an eBay API call
  */
 
-export class No_Call_Error extends ResponseError {
+export class NoCallError extends EBayError {
     constructor(msg = "no eBay API call defined, please invoke one.") {
         super(msg)
     }
 }
 
 /**
- * thrown when attempting to change a setting that cannot be changed
- *
- * @param {String} setting    the setting that was attempted
- */
-
-export class Setting_Error extends ResponseError {
-    constructor(setting: any) {
-        super(`cannot configure "state.${setting}" at this time, are you trying to define a Global on a Request?`)
-    }
-}
-
-/**
  * thrown when attempting to load environment variables that don't exist
  */
-export class Env_Error extends ResponseError {
+export class EnvError extends EBayError {
     constructor(key: any) {
         super(`could not find ${key} in process.env`)
     }
 }
 
-
 /**
  * Thrown when an Error occurs on eBay's side.
  */
-export class Ebay_Api_Error extends ResponseError {
+export class EbayApiError extends EBayError {
     constructor(err: any) {
         let message = '';
         if (err.errorMessage) {
@@ -79,5 +66,12 @@ export class Ebay_Api_Error extends ResponseError {
         }
         super(message);
         this.meta = err
+    }
+}
+
+export class EBayAccessDenied extends EBayError {
+    constructor(err: any) {
+        super('Access denied');
+        this.meta = err.response.data;
     }
 }

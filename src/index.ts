@@ -1,5 +1,5 @@
 import Factory from "./api/factory";
-import {Env_Error} from "./errors";
+import {EnvError} from "./errors";
 import {Buy} from "./api/restful/buy";
 import {Commerce} from "./api/restful/commerce";
 import {Developer} from "./api/restful/developer";
@@ -35,17 +35,17 @@ export default class EBay {
      * Loads credentials from `process.env`
      *
      * @return {this}          a new Ebay instance
-     * @throws {Env_Error}
+     * @throws {EnvError}
      */
     static fromEnv() {
         if (!process.env.EBAY_APP_ID) {
-            throw new Env_Error("EBAY_APP_ID");
+            throw new EnvError("EBAY_APP_ID");
         }
         if (!process.env.EBAY_CERT_ID) {
-            throw new Env_Error("EBAY_CERT_ID");
+            throw new EnvError("EBAY_CERT_ID");
         }
         if (!process.env.EBAY_DEV_ID) {
-            throw new Env_Error("EBAY_DEV_ID");
+            throw new EnvError("EBAY_DEV_ID");
         }
         return new EBay({
             appId: process.env.EBAY_APP_ID,

@@ -1,4 +1,5 @@
 import EBay from '../';
+import Api from '../api/restful/api';
 
 const ebay = EBay.fromEnv();
 

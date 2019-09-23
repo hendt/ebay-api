@@ -1,4 +1,4 @@
-import Api from "../../api";
+import Api, {scope} from "../../api";
 import {
     AddCartItemInput, CompatibilityPayload,
     LegacyItemParams,
@@ -105,7 +105,6 @@ export default class Browse extends Api {
 
     //
     // Shopping Cart
-    // Authorization Code: https://api.ebay.com/oauth/api_scope/buy.shopping.cart
     //
 
     /**
@@ -113,6 +112,7 @@ export default class Browse extends Api {
      *
      * @param {Object} item AddCartItemInput
      */
+    @scope('buy.shopping.cart')
     addItem(item: AddCartItemInput) {
         return this.post(`/shopping_cart/add_item`, item);
     }
@@ -121,6 +121,7 @@ export default class Browse extends Api {
      * This is an experimental method. This method retrieves all the items in the eBay member's cart;
      * items added to the cart while on ebay.com as well as items added to the cart using the Browse API.
      */
+    @scope('buy.shopping.cart')
     getShoppingCart() {
         return this.get(`/shopping_cart/`);
     }
@@ -130,6 +131,7 @@ export default class Browse extends Api {
      *
      *  @param {Object} item RemoveCartItemInput
      */
+    @scope('buy.shopping.cart')
     removeItem(item: RemoveCartItemInput) {
         return this.post(`/shopping_cart/remove_item`, item);
     }
@@ -139,6 +141,7 @@ export default class Browse extends Api {
      *
      * @param {UpdateCartItemInput} item UpdateCartItemInput
      */
+    @scope('buy.shopping.cart')
     updateQuantity(item: UpdateCartItemInput) {
         return this.post(`/shopping_cart/update_quantity`, item);
     }

@@ -1,17 +1,16 @@
 import request from '../../utils/request';
 import OAuth from "../oAuth";
+import {EBayAccessDenied} from "../../errors";
 
 export default abstract class Api {
-    readonly oAuth: OAuth;
-    private req: any;
+    static scopes: any = {};
 
-    constructor(oAuth: OAuth, req?: any) {
+    readonly oAuth: OAuth;
+    readonly req: any;
+
+    constructor(oAuth: OAuth, req = request) {
         this.oAuth = oAuth;
-        if (req) {
-            this.req = req;
-        } else {
-            this.req = request;
-        }
+        this.req = req;
     }
 
     async getHeaders() {
@@ -33,19 +32,36 @@ export default abstract class Api {
         const authHeaders = await this.getHeaders();
         config.headers = config.headers ? {...authHeaders, ...config.headers} : authHeaders;
 
-        return this.req.get(this.baseUrl + url, config)
-            .catch((e: any) => {
-                throw e.response.data;
-            })
+        return this.req.get(this.baseUrl + url, config).catch(Api.handleError)
     }
 
     async post(url: string, data?: any, config: any = {}): Promise<any> {
         const authHeaders = await this.getHeaders();
         config.headers = config.headers ? {...authHeaders, ...config.headers} : authHeaders;
 
-        return this.req.post(this.baseUrl + url, data, config)
-            .catch((e: any) => {
-                throw e.response.data;
-            });
+        return this.req.post(this.baseUrl + url, data, config).catch(Api.handleError);
+    }
+
+    private static handleError(e: any) {
+        if (e.response.data) {
+            const data = e.response.data;
+            if (data.errors[0].domain === 'ACCESS') {
+                throw new EBayAccessDenied(e);
+            }
+        }
+
+        throw e.response.data;
+    }
+}
+
+/**
+ * Decorators.
+ *
+ * @param scopes
+ */
+export function scope(scopes: string | string[]) {
+    return function (target: any, propertyKey: string, descriptor: any) {
+        const className = target.constructor.name;
+        Api.scopes[className + "." + propertyKey] = scopes;
     }
 }

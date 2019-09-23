@@ -3,7 +3,7 @@ import {xml2json} from "xml2json-light"
 import Extraneous from "./definitions/extraneous"
 import dateNodes from "./definitions/nodes.date"
 import numericNodes from "./definitions/nodes.numeric"
-import {Ebay_Api_Error} from "../../errors";
+import {EbayApiError} from "../../errors";
 
 /**
  * A collection of pure methods that are used to parse eBay API responses
@@ -116,7 +116,7 @@ export default class Parser {
      */
     static clean(res: any) {
         if (res.Ack === "Error" || res.Ack === "Failure") {
-            throw new Ebay_Api_Error(res.Errors)
+            throw new EbayApiError(res.Errors)
         }
 
         // Drop extraneous keys
