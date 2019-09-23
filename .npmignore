@@ -2,3 +2,4 @@
 *.enc
 tsconfig.json
 test
+examples

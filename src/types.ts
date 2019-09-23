@@ -26,22 +26,13 @@ export enum SiteId {
 /**
  * defaults for eBay API
  */
-export type GlobalSettings = {
-    sandbox?: boolean,
-    siteId?: number,
-    raw?: boolean,
-    perPage?: number,
-    follow?: boolean,
-    grant_type?: string,
-    scope?: string
-}
-
-export type AuthSettings = {
+export type Settings = {
     appId: string, // (Client ID)
     certId: string, // (Client Secret)
     devId: string,
     authNAuth?: string,
-    sandbox: boolean
-};
-
-export type Settings = GlobalSettings & AuthSettings;
+    sandbox: boolean,
+    siteId?: number,
+    grantType?: string,
+    scope?: string | string[]
+}

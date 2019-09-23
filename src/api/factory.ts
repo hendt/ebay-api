@@ -11,57 +11,57 @@ import {Settings} from "../types";
 
 export default class Factory {
 
-    readonly globals: Settings;
-    readonly authToken: OAuth;
+    readonly settings: Settings;
+    readonly oAuth: OAuth;
     private _traditional?: Traditional;
 
-    constructor(globals: Settings) {
-        this.globals = globals;
-        this.authToken = new OAuth(this.globals);
+    constructor(settings: Settings, oAuth: OAuth) {
+        this.settings = settings;
+        this.oAuth = oAuth;
     }
 
     createBuyApi(): Buy {
         return {
-            browse: new Browse(this.authToken),
-            feed: new Feed(this.authToken),
-            marketing: new BuyMarketing(this.authToken),
-            offer: new Offer(this.authToken),
-            order: new Order(this.authToken)
+            browse: new Browse(this.oAuth),
+            feed: new Feed(this.oAuth),
+            marketing: new BuyMarketing(this.oAuth),
+            offer: new Offer(this.oAuth),
+            order: new Order(this.oAuth)
         }
     }
 
     createCommerceApi(): Commerce {
         return {
-            catalog: new Catalog(this.authToken),
-            identity: new Identity(this.authToken),
-            taxonomy: new Taxonomy(this.authToken),
-            translation: new Translation(this.authToken),
+            catalog: new Catalog(this.oAuth),
+            identity: new Identity(this.oAuth),
+            taxonomy: new Taxonomy(this.oAuth),
+            translation: new Translation(this.oAuth),
         }
     }
 
     createDeveloperApi(): Developer {
         return {
-            analytics: new DeveloperAnalytics(this.authToken)
+            analytics: new DeveloperAnalytics(this.oAuth)
         }
     }
 
     createSellApi(): Sell {
         return {
-            account: new Account(this.authToken),
-            analytics: new SellAnalytics(this.authToken),
-            compliance: new Compliance(this.authToken),
-            fulfillment: new Fulfillment(this.authToken),
-            inventory: new Inventory(this.authToken),
-            marketing: new SellMarketing(this.authToken),
-            metadata: new Metadata(this.authToken),
-            recommendation: new Recommendation(this.authToken)
+            account: new Account(this.oAuth),
+            analytics: new SellAnalytics(this.oAuth),
+            compliance: new Compliance(this.oAuth),
+            fulfillment: new Fulfillment(this.oAuth),
+            inventory: new Inventory(this.oAuth),
+            marketing: new SellMarketing(this.oAuth),
+            metadata: new Metadata(this.oAuth),
+            recommendation: new Recommendation(this.oAuth)
         }
     }
 
     // Traditional
 
     get traditional() {
-        return this._traditional || (this._traditional = new Traditional(this.globals));
+        return this._traditional || (this._traditional = new Traditional(this.settings));
     }
 
     createTradingApi(): Trading {

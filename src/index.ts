@@ -5,20 +5,19 @@ import {Commerce} from "./api/restful/commerce";
 import {Developer} from "./api/restful/developer";
 import {Sell} from "./api/restful/sell";
 import {Finding, Shopping, Trading} from "./api/traditional";
-import {GlobalSettings, Settings, SiteId} from "./types";
+import {Settings, SiteId} from "./types";
+import OAuth, {OAuthRequest} from "./api/oAuth";
 
-const defaultSettings: GlobalSettings = {
+const defaultSettings = {
     sandbox: false,
-    siteId: SiteId.EBAY_DE,
-    grant_type: 'client_credentials',
-    //you may need to define the oauth scope
-    scope: 'https://api.ebay.com/oauth/api_scope'
+    siteId: SiteId.EBAY_DE
 };
 
 export default class EBay {
 
+    readonly oAuth: OAuth;
     private readonly factory: Factory;
-    private readonly globals: Settings;
+    private readonly settings: Settings;
 
     // RESTful
     private _buy?: Buy;
@@ -58,11 +57,13 @@ export default class EBay {
     }
 
     /**
-     * @param      {Object}  settings the global settings
+     * @param {Object}  settings the global settings
+     * @param {OAuthRequest} oAuthRequest the oAuth request
      */
-    constructor(settings: Settings) {
-        this.globals = {...defaultSettings, ...settings};
-        this.factory = new Factory(this.globals);
+    constructor(settings: Settings, oAuthRequest?: OAuthRequest) {
+        this.settings = {...defaultSettings, ...settings};
+        this.oAuth = new OAuth(this.settings.appId, this.settings.certId, oAuthRequest);
+        this.factory = new Factory(this.settings, this.oAuth);
     }
 
     get buy(): Buy {
@@ -98,5 +99,5 @@ export default class EBay {
 
 export {
     SiteId,
-    GlobalSettings
+    Settings
 }

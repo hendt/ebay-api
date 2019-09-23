@@ -15,14 +15,13 @@ const allTests = {
     'Sell': sellTests
 };
 
-const testOAuth = new OAuth({
-    appId: '',
-    certId: '',
-    devId: 'string',
-    sandbox: true
-});
+const testOAuth = new OAuth(  'appId', 'certId');
 
-testOAuth.token = 'token';
+testOAuth.setToken({
+    access_token: 'token',
+    expires_in: 1,
+    token_type: 'test'
+});
 
 Object.entries(allTests).forEach(([name, tests]) => {
     describe('API > restful > ' + name, () => {

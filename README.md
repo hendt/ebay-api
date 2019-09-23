@@ -32,6 +32,21 @@ const ebay = new EBay({
 });
 ```
 
+## RESTful API
+
+### Buy
+```javascript
+
+ebay.buy.browse.getItem('v1|382282567190|651094235351').catch(e => {
+    console.log(e)
+}).then(a => {
+    console.log(a);
+});
+
+```
+
+## Traditional
+
 ### Finding
 ```javascript
 ebay.finding.findItemsIneBayStores({
@@ -53,16 +68,6 @@ ebay.finding.findItemsByKeywords({
 });
 ```
 
-### Browse
-```javascript
-ebay.buy.browse.getItem('v1|382282567190|651094235351').catch(e => {
-    console.log(e)
-}).then(a => {
-    console.log(a);
-});
-
-```
-
 ### Trading
 ```javascript
 ebay.trading.GetMyeBaySelling({
@@ -80,7 +85,7 @@ ebay.trading.GetMyeBaySelling({
 ```
 
 ## Contribution:
-Check [here](https://github.com/hendtling/ebay-api/blob/master/CONTRIBUTING.md)
+Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
 
 ## Supported By:
 [hendt.de](https://hendt.de)
