@@ -1,10 +1,17 @@
-# A Typescript library for working with the eBay API (WIP)
-This API implements both traditional (xml) and RESTful eBay API. 
+# A Typescript library for working with the eBay API
+This API implements both Traditional (xml) and the RESTful eBay API. 
+
+* [eBay API Explorer](https://developer.ebay.com/my/api_test_tool)
 
 ## Installation
 
 ```shell
 npm install @hendt/ebay-api
+```
+
+## Tests
+```bash
+npm run test
 ```
 
 ## ️ Usage:
