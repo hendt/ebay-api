@@ -15,19 +15,18 @@ const allTests = {
     'Sell': sellTests
 };
 
-describe('API > restful > OAS', () => {
-    const testOAuth = new OAuth({
-        appId: '',
-        certId: '',
-        devId: 'string',
-        sandbox: true
-    });
+const testOAuth = new OAuth({
+    appId: '',
+    certId: '',
+    devId: 'string',
+    sandbox: true
+});
 
-    testOAuth.token = 'token';
+testOAuth.token = 'token';
 
-    Object.entries(allTests).forEach(([name, tests]) => {
+Object.entries(allTests).forEach(([name, tests]) => {
+    describe('API > restful > ' + name, () => {
         tests.forEach((Oas, Api) => {
-
             const api = new Api(testOAuth);
 
             it('"' + name + ':' + Api.name + '" should return correct path', () => {
@@ -40,24 +39,15 @@ describe('API > restful > OAS', () => {
                 const method = Oas.paths[path].get ? 'get' : 'post';
                 const endpoint = Oas.paths[path];
                 const call = endpoint[method];
-                const paramsInPath = call.parameters ? call.parameters.filter((p: any) => p.in === 'path') : [];
+                const queryParams = path.match(/(?<={).+?(?=})/ig);
+                const paramsInPath = queryParams ? queryParams : [];
                 const paramsInHeader = call.parameters ? call.parameters.filter((p: any) => p.in === 'header') : [];
-                const args = paramsInPath.map((p: any, i: number) => 'param' + i)
-                    .concat(paramsInHeader.map((p: any, i: number) => 'header' + i));
+                const args = paramsInPath.map((name: any) => '{' + name + '}')
+                    .concat(paramsInHeader.map((p: any) => p.name));
 
                 const req = {
-                    getStub: sinon.stub().returns({catch: sinon.stub()}),
-                    get() {
-                        return {
-                            then: req.getStub
-                        }
-                    },
-                    postStub: sinon.stub().returns({catch: sinon.stub()}),
-                    post() {
-                        return {
-                            then: req.postStub
-                        }
-                    }
+                    get: sinon.stub().returns({then: sinon.stub(), catch: sinon.stub()}),
+                    post: sinon.stub().returns({then: sinon.stub(), catch: sinon.stub()}),
                 };
 
                 const api = new Api(testOAuth, req);
@@ -70,9 +60,9 @@ describe('API > restful > OAS', () => {
                 it('"' + name + ':' + Api.name + ':' + call.operationId + '" call correct method', () => {
                     return api[call.operationId](...args).then(() => {
                         if (method === 'get') {
-                            expect(req.getStub.calledOnce).to.be.true;
+                            expect(req.get.calledOnce).to.be.true;
                         } else if (method === 'post') {
-                            expect(req.postStub.calledOnce).to.be.true;
+                            expect(req.post.calledOnce).to.be.true;
                         }
                     });
                 });
@@ -80,10 +70,9 @@ describe('API > restful > OAS', () => {
                 it('"' + name + ':' + Api.name + ':' + call.operationId + '" calls correct url', () => {
                     return api[call.operationId](...args).then(() => {
                         if (method === 'get') {
-                            console.log(req.getStub.args);
-                            expect(req.getStub.args[0][0]).to.equal(path);
+                            expect(decodeURI(req.get.args[0][0])).to.equal(decodeURI(encodeURI(api.baseUrl + path)));
                         } else if (method === 'post') {
-                            expect(req.getStub.args[0][0]).to.equal(path);
+                            expect(decodeURI(req.post.args[0][0])).to.equal(decodeURI(encodeURI(api.baseUrl + path)));
                         }
                     });
                 });

@@ -20,7 +20,7 @@ export default class Fulfillment extends Api {
      * @param orderId The unique identifier of the order.
      */
     getOrder(orderId: string) {
-        return this.get(`${this.baseUrl}/order/${orderId}`);
+        return this.get(`/order/${orderId}`);
     }
 
     /**
@@ -35,7 +35,7 @@ export default class Fulfillment extends Api {
     getOrders({
                   filter, limit, offset, orderIds
               }: { filter?: string, limit?: number, offset?: number, orderIds?: string[] } = {}) {
-        return this.get(`${this.baseUrl}/order`, {
+        return this.get(`/order`, {
             params: {
                 filter,
                 limit,
@@ -49,11 +49,12 @@ export default class Fulfillment extends Api {
      * This method allows a seller (opted in to eBay Managed Payments) to issue a full or partial refund to a buyer for an order.
      * auth: https://api.ebay.com/oauth/api_scope/sell.finances
      *
-     * @param order_id The unique identifier of the order. Order IDs are returned in the getOrders method (and GetOrders call of Trading API).
+     * @param orderId The unique identifier of the order. Order IDs are returned in the getOrders method (and GetOrders call of Trading API).
      * @param body IssueRefundRequest
      */
-    issueRefund(order_id: string, body?: IssueRefundRequest) {
-        return this.post(`${this.baseUrl}/order/${order_id}/issue_refund`, body);
+    issueRefund(orderId: string, body?: IssueRefundRequest) {
+        orderId = encodeURIComponent(orderId);
+        return this.post(`/order/${orderId}/issue_refund`, body);
     }
 
     /**
@@ -62,8 +63,8 @@ export default class Fulfillment extends Api {
      * @param orderId The unique identifier of the order.
      */
     getShippingFulfillments(orderId: string) {
-        const id = encodeURIComponent(orderId);
-        return this.get(`${this.baseUrl}/order/${id}/shipping_fulfillment`);
+        orderId = encodeURIComponent(orderId);
+        return this.get(`/order/${orderId}/shipping_fulfillment`);
     }
 
     /**
@@ -73,8 +74,8 @@ export default class Fulfillment extends Api {
      * @param fulfillmentId The unique identifier of the fulfillment.
      */
     getShippingFulfillment(orderId: string, fulfillmentId: string) {
-        const oId = encodeURIComponent(orderId);
-        const fId = encodeURIComponent(fulfillmentId);
-        return this.get(`${this.baseUrl}/order/${oId}/shipping_fulfillment/${fId}`);
+        orderId = encodeURIComponent(orderId);
+        fulfillmentId = encodeURIComponent(fulfillmentId);
+        return this.get(`/order/${orderId}/shipping_fulfillment/${fulfillmentId}`);
     }
 }

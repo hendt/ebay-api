@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "prepublish": "tsc",
+    "prepare": "tsc",
     "test": "mocha -r ts-node/register test/**/*.spec.ts --reporter=dot"
   },
   "repository": {

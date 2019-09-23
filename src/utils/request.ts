@@ -1,5 +1,5 @@
-import axiosRateLimit from "axios-rate-limit";
-import axios, {AxiosRequestConfig, AxiosInstance} from "axios";
+import axiosRateLimit from 'axios-rate-limit';
+import axios, {AxiosRequestConfig, AxiosInstance} from 'axios';
 import qs from 'qs';
 
 interface RateLimitedAxiosInstance extends AxiosInstance {

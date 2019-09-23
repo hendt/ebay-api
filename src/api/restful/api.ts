@@ -43,14 +43,17 @@ export default abstract class Api {
     }
 
     private static handleError(e: any) {
-        if (e.response.data) {
-            const data = e.response.data;
-            if (data.errors[0].domain === 'ACCESS') {
-                throw new EBayAccessDenied(e);
+        if (e.response) {
+            if (e.response.data) {
+                const data = e.response.data;
+                if (data.errors[0].domain === 'ACCESS') {
+                    throw new EBayAccessDenied(e);
+                }
             }
+            throw e.response.data;
         }
 
-        throw e.response.data;
+        throw e;
     }
 }
 

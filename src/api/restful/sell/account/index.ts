@@ -119,7 +119,7 @@ export default class Account extends Api {
      * @param body Program being opted-in to.
      */
     optInToProgram(body?: Program) {
-        return this.post(`/program/get_opted_in_programs`, body);
+        return this.post(`/program/opt_in`, body);
     }
 
     /**

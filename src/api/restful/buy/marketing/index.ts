@@ -35,7 +35,7 @@ export default class Marketing extends Api {
      * @param params
      */
     getAlsoViewedByProduct(params: AlsoViewedByProductParams) {
-        return this.get(`/merchandised_product/get_also_bought_products`, {
+        return this.get(`/merchandised_product/get_also_viewed_products`, {
             params
         });
     }

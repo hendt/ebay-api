@@ -43,7 +43,7 @@ export default class Compliance extends Api {
         if (marketplaceId) {
             headers['X-EBAY-C-MARKETPLACE-ID'] = marketplaceId;
         }
-        return this.get(`/listing_violation_summary`, {
+        return this.get(`/listing_violation`, {
             params: {
                 compliance_type: complianceType,
                 offset,

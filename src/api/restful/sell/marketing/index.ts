@@ -269,7 +269,7 @@ export default class Marketing extends Api {
      */
     pauseCampaign(campaignId: string) {
         campaignId = encodeURIComponent(campaignId);
-        return this.post(`/ad_campaign/${campaignId}/resume`)
+        return this.post(`/ad_campaign/${campaignId}/pause`)
     }
 
 
@@ -400,6 +400,7 @@ export default class Marketing extends Api {
      */
     getListingSet(promotionId: string,
                   {limit, offset, q, sort, status}: { limit?: number, offset?: number, q?: string, sort?: string, status?: string } = {}) {
+        promotionId = encodeURIComponent(promotionId);
         return this.get(`/promotion/${promotionId}/get_listing_set`, {
             params: {
                 limit,
@@ -445,7 +446,7 @@ export default class Marketing extends Api {
      */
     pausePromotion(promotionId: string) {
         promotionId = encodeURIComponent(promotionId);
-        return this.post(`promotion/${promotionId}/pause`)
+        return this.post(`/promotion/${promotionId}/pause`)
     }
 
     /**
