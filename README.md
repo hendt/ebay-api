@@ -17,7 +17,7 @@ npm run test
 ## ️ Usage:
 
 ```javascript
-import EBay, {SiteID} from '@hendt/ebay-api';
+import EBay, {SiteId} from '@hendt/ebay-api';
 
 const ebay = new EBay({
   appId: '-- or Client ID --',
@@ -28,7 +28,7 @@ const ebay = new EBay({
   authNAuth: '--  Auth\'n Auth for traditional API (used by trading) --',
 
   sandbox: false,
-  siteId: SiteID.EBAY_DE
+  siteId: SiteId.EBAY_DE
 });
 ```
 
@@ -92,6 +92,10 @@ Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
 
 Thanks to:
 [ebay-promised](https://github.com/ondreian/ebay-promised)
+Similar projects:
+[ebay-client](https://github.com/CoinPoet/ebay-client)
+[ebay-node-api](https://github.com/pajaydev/ebay-node-api)
+
 
 ## 📝 License:
 MIT.
