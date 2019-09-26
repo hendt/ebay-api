@@ -23,15 +23,30 @@ const req: RateLimitedAxiosInstance = axiosRateLimit(AxiosInstance, {
 });
 
 export class LimitedAxiosRequest {
+    /**
+     * Use custom param serializer for Call-Specific Params.
+     * @param url the url
+     * @param config the config
+     */
+    getCFP<T = any, R = any>(url: string, config: AxiosRequestConfig = {}): Promise<R> {
+        config.paramsSerializer = params => {
+            return qs.stringify(params, {allowDots: true})
+                .replace(/%5B/gi, '(')
+                .replace(/%5D/gi, ')');
+        };
+
+        return this.get(url, config);
+    }
+
     get<T = any, R = any>(url: string, config?: AxiosRequestConfig): Promise<R> {
         return req.get(url, config).then(({data}) => data);
     }
 
-    post<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R>  {
+    post<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
         return req.post(url, data, config).then(({data}) => data);
     }
 
-    postForm<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R>  {
+    postForm<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
         return req.post(url, qs.stringify(data), config).then(({data}) => data);
     }
 }

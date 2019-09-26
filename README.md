@@ -2,6 +2,7 @@
 This API implements both Traditional (xml) and the RESTful eBay API. 
 
 * [eBay API Explorer](https://developer.ebay.com/my/api_test_tool)
+* [eBay API Docs](https://developer.ebay.com/docs)
 
 ## Installation
 

@@ -4,7 +4,7 @@ import {Buy} from "./api/restful/buy";
 import {Commerce} from "./api/restful/commerce";
 import {Developer} from "./api/restful/developer";
 import {Sell} from "./api/restful/sell";
-import {Finding, Shopping, Trading} from "./api/traditional";
+import {ClientAlerts, Finding, Shopping, Trading} from "./api/traditional";
 import {Settings, SiteId} from "./types";
 import OAuth, {OAuthRequest} from "./api/oAuth";
 
@@ -29,6 +29,7 @@ export default class EBay {
     private _trading?: Trading;
     private _finding?: Finding;
     private _shopping?: Shopping;
+    private _clientAlerts?: ClientAlerts;
 
     /**
      * Loads credentials from `process.env`
@@ -94,6 +95,10 @@ export default class EBay {
 
     get shopping(): Shopping {
         return this._shopping || (this._shopping = this.factory.createShoppingApi());
+    }
+
+    get clientAlerts(): ClientAlerts {
+        return this._clientAlerts || (this._clientAlerts = this.factory.createClientAlertsApi());
     }
 }
 

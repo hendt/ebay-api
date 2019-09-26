@@ -6,7 +6,7 @@ import {
     Sell, Account, SellAnalytics, Compliance, Fulfillment, Inventory, SellMarketing, Metadata, Recommendation,
 } from "./restful";
 
-import Traditional, {Finding, Shopping, Trading} from "./traditional";
+import Traditional, {ClientAlerts, Finding, Shopping, Trading} from "./traditional";
 import {Settings} from "../types";
 
 export default class Factory {
@@ -74,6 +74,10 @@ export default class Factory {
 
     createFindingApi(): Finding {
         return this.traditional.createFindingApi();
+    }
+
+    createClientAlertsApi(): ClientAlerts {
+        return this.traditional.createClientAlertsApi();
     }
 }
 
