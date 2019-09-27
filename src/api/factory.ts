@@ -61,7 +61,7 @@ export default class Factory {
     // Traditional
 
     get traditional() {
-        return this._traditional || (this._traditional = new Traditional(this.settings));
+        return this._traditional || (this._traditional = new Traditional(this.settings, this.oAuth));
     }
 
     createTradingApi(): Trading {

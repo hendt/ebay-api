@@ -1,9 +1,12 @@
-// O(1) lookup for Date/Time nodes
-type DateTime = {
-    [key: string]: any;
+type Node = {
+    [key: string]: true;
 }
 
-const date_time: DateTime = {
+export const numericNodes: Node  = {
+    categorycount: true
+};
+
+export const dateTimeNodes: Node = {
     shippingtime: true,
     starttime: true,
     endtime: true,
@@ -97,5 +100,3 @@ const date_time: DateTime = {
     useridlastchanged: true,
     actionrequiredby: true
 };
-
-export default date_time;

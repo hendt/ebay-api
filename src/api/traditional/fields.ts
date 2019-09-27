@@ -1943,4 +1943,8 @@ enum fields {
     ZeroFeedbackScore
 }
 
+export type Fields = {
+    [key in typeof fields[number]]: Fields | number | string
+}
+
 export default fields;

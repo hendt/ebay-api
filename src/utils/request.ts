@@ -30,9 +30,11 @@ export class LimitedAxiosRequest {
      */
     getCFP<T = any, R = any>(url: string, config: AxiosRequestConfig = {}): Promise<R> {
         config.paramsSerializer = params => {
-            return qs.stringify(params, {allowDots: true})
+            const query = qs.stringify(params, {allowDots: true})
                 .replace(/%5B/gi, '(')
                 .replace(/%5D/gi, ')');
+            console.log(query);
+            return query;
         };
 
         return this.get(url, config);

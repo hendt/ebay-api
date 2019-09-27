@@ -1,16 +1,19 @@
 // @ts-ignore
 import {xml2json} from "xml2json-light"
-import Extraneous from "./definitions/extraneous"
-import dateNodes from "./definitions/nodes.date"
-import numericNodes from "./definitions/nodes.numeric"
+import {numericNodes, dateTimeNodes} from "./nodes"
 import {EbayApiError} from "../../errors";
 
+const Extraneous = [
+    '@',
+    'Ack',
+    'ack',
+    'Version',
+    'Build',
+    'xmlns'
+];
+
 /**
- * A collection of pure methods that are used to parse eBay API responses
- * should generally be bound to a Request via:
- *   `Function.prototype.bind`
- *   `Promise.prototype.bind`
- *
+ * XML response parser.
  */
 export default class Parser {
 
@@ -21,7 +24,13 @@ export default class Parser {
      * @return     {JSON}         resolves to a JSON representation of the HTML
      */
     static toJSON(xml: string) {
-        return xml2json(xml);
+        const res = xml2json(xml);
+
+        if (res.Ack === "Error" || res.Ack === "Failure") {
+            throw new EbayApiError(res.Errors);
+        }
+
+        return xml;
     }
 
     /**
@@ -39,6 +48,7 @@ export default class Parser {
      * Casts text representations to Javascript representations
      *
      * @param      {String}       value   The value
+     * @param      {String}       key   The key
      * @return     {Date|Number}          The cast value
      */
     static cast(value: any, key: any) {
@@ -48,7 +58,7 @@ export default class Parser {
         if (value === "false") return false;
 
         if (key) {
-            if (typeof key === 'string' && dateNodes[key.toLowerCase()]) {
+            if (typeof key === 'string' && dateTimeNodes[key.toLowerCase()]) {
                 return new Date(value)
             }
 
@@ -69,7 +79,6 @@ export default class Parser {
      * @return     {Object}          the flattened output
      */
     static flatten(o: any, key?: any): any {
-
         if (o.value) {
             return Parser.cast(o.value, key)
         }
@@ -109,16 +118,12 @@ export default class Parser {
     }
 
     /**
-     * cleans the Ebay response up
+     * cleans the Ebay response
      *
      * @param      {Object}  res     The response object
      * @return     {Object}  res     The cleaned response
      */
     static clean(res: any) {
-        if (res.Ack === "Error" || res.Ack === "Failure") {
-            throw new EbayApiError(res.Errors)
-        }
-
         // Drop extraneous keys
         res = Object.keys(res)
             .filter(key => !~Extraneous.indexOf(key))
@@ -140,11 +145,18 @@ export default class Parser {
         return Object.keys(res).reduce(function (cleaned: any, key) {
             const value = res[key];
             if (key.match(/List/)) {
-                return {...cleaned, ...Parser.parsePagination(value), ...Parser.getList(value)}
+                return {
+                    ...cleaned,
+                    ...Parser.parsePagination(value),
+                    ...Parser.getList(value)
+                }
             }
 
             if (key.match(/Array/)) {
-                return {...cleaned, ...Parser.getList(value)}
+                return {
+                    ...cleaned,
+                    ...Parser.getList(value)
+                }
             }
 
             cleaned[key] = value;
@@ -181,5 +193,4 @@ export default class Parser {
         }
         return obj
     }
-
 }

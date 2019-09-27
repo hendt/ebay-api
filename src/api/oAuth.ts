@@ -25,17 +25,20 @@ export default class OAuth {
 
     readonly appId: string;
     readonly certId: string;
+    readonly authNAuth?: string;
 
     private oAuthRequest: OAuthRequest;
 
     constructor(
         appId: string,
         certId: string,
-        oAuthRequest: OAuthRequest = defaultRequest
+        oAuthRequest: OAuthRequest = defaultRequest,
+        authNAuth?: string
     ) {
         this.appId = appId;
         this.certId = certId;
         this.oAuthRequest = oAuthRequest;
+        this.authNAuth = authNAuth;
     }
 
     get token () {

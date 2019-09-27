@@ -1,4 +1,5 @@
 import EBay from '../index';
+import {EventType} from "../api/traditional/clientAlerts";
 
 const ebay = EBay.fromEnv();
 
@@ -7,12 +8,12 @@ ebay.clientAlerts.GetPublicAlerts({
         {
             ChannelType: 'Item',
             ChannelID: 174028462015,
-            EventType: ['ItemSold']
+            EventType: [EventType.ItemEnded]
         },
         {
             ChannelType: 'Item',
             ChannelID: 180434053857,
-            EventType: ['ItemEnded']
+            EventType: [EventType.ItemEnded]
         }
     ]
 }).then(alerts => {

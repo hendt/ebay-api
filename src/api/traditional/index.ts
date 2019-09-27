@@ -1,27 +1,30 @@
-import XMLRequest from "./XMLRequest";
+import XMLRequest, {Config} from "./XMLRequest";
 import ClientAlertsCalls from "./clientAlerts";
 import TradingCalls from "./trading";
 import ShoppingCalls from "./shopping";
 import FindingCalls from "./finding";
 import request from '../../utils/request';
 import {Settings} from "../../types";
+import {Fields} from './fields';
+import {Options} from "./XMLRequest";
+import OAuth from "../oAuth";
 
-type ApiCall = (fields?: object, config?: object) => Promise<any>;
+type XMLApiCall = (fields?: Fields, options?: Options) => Promise<any>;
 
 export type Trading = {
-    [key in typeof TradingCalls[number]]: ApiCall;
+    [key in typeof TradingCalls[number]]: XMLApiCall;
 }
 
 export type Shopping = {
-    [key in typeof ShoppingCalls[number]]: ApiCall;
+    [key in typeof ShoppingCalls[number]]: XMLApiCall;
 }
 
 export type Finding = {
-    [key in typeof FindingCalls[number]]: ApiCall;
+    [key in typeof FindingCalls[number]]: XMLApiCall;
 }
 
 export type ClientAlerts = {
-    [key in typeof ClientAlertsCalls[number]]: ApiCall;
+    [key in typeof ClientAlertsCalls[number]]: (fields?: object, options?: Options) => Promise<any>;
 }
 
 export type AllCalls = typeof TradingCalls | typeof ShoppingCalls | typeof FindingCalls | typeof ClientAlertsCalls;
@@ -45,40 +48,41 @@ export default class Traditional {
     };
 
     readonly settings: Settings;
+    readonly oAuth: OAuth;
 
-    constructor(globals: Settings) {
-        this.settings = globals;
+    constructor(settings: Settings, oAuth: OAuth) {
+        this.settings = settings;
+        this.oAuth = oAuth;
     }
 
-    private createTraditionalXMLApi<T>(calls: AllCalls, endpoint: string, headers: (call: string) => Promise<any>, xmlns: string): T {
+    private createTraditionalXMLApi<T>(calls: AllCalls, config: Config): T {
         const service: any = {};
-        for (let call in calls) {
-            service[call] = async (fields: object = {}, config?: any) => {
-                const eBayHeaders = await headers(call);
-                const request = new XMLRequest(call, fields, this.settings, endpoint, eBayHeaders, xmlns);
-                return request.run(config)
+        for (let callname in calls) {
+            service[callname] = async (fields: Fields, options?: Options) => {
+                const request = new XMLRequest(callname, fields, this.oAuth, config);
+                return request.run(options);
             };
         }
 
         return service;
     }
 
-    createClientAlertsApi(): ClientAlerts {
+    createClientAlertsApi(version = 643): ClientAlerts {
         const endpoint = this.endpoints.ClientAlerts[this.settings.sandbox ? 'sandbox' : 'production'];
         const service: any = {};
         const params = {
             appid: this.settings.appId,
             siteid: this.settings.siteId,
-            version: 643
+            version
         };
 
-        for (let call in ClientAlertsCalls) {
-            service[call] = async (fields: object = {}, config?: any) => {
+        for (let callname in ClientAlertsCalls) {
+            service[callname] = async (fields: Fields, options?: Options) => {
                 return request.getCFP(endpoint, {
                     params: {
                         ...params,
                         ...fields,
-                        callname: call
+                        callname
                     }
                 });
             }
@@ -86,40 +90,55 @@ export default class Traditional {
         return service;
     }
 
-    createTradingApi(): Trading {
-        const endpoint = this.endpoints.Trading[this.settings.sandbox ? 'sandbox' : 'production'];
-        const headers = async (call: string) => {
-            return {
-                "X-EBAY-API-CALL-NAME": call,
-                "X-EBAY-API-CERT-NAME": this.settings.certId,
-                "X-EBAY-API-APP-NAME": this.settings.appId,
-                "X-EBAY-API-DEV-NAME": this.settings.devId,
-                "X-EBAY-API-SITEID": this.settings.siteId,
-                "X-EBAY-API-COMPATIBILITY-LEVEL": 967
-            }
+    createTradingApi(compatibilityLevel = 967): Trading {
+        const headers = (callname: string) => ({
+            "X-EBAY-API-CALL-NAME": callname,
+            "X-EBAY-API-CERT-NAME": this.settings.certId,
+            "X-EBAY-API-APP-NAME": this.settings.appId,
+            "X-EBAY-API-DEV-NAME": this.settings.devId,
+            "X-EBAY-API-SITEID": this.settings.siteId,
+            "X-EBAY-API-COMPATIBILITY-LEVEL": compatibilityLevel
+        });
+
+        const config = {
+            headers,
+            endpoint: this.endpoints.Trading[this.settings.sandbox ? 'sandbox' : 'production'],
+            xmlns: 'urn:ebay:apis:eBLBaseComponents'
         };
-        const xmlns = 'urn:ebay:apis:eBLBaseComponents';
-        return this.createTraditionalXMLApi<Trading>(TradingCalls, endpoint, headers, xmlns);
+
+        return this.createTraditionalXMLApi<Trading>(TradingCalls, config);
     }
 
-    createShoppingApi(): Shopping {
-        const headers = async (call: string) => ({
+    createShoppingApi(apiVersion = 863): Shopping {
+        const headers = (callname: string) => ({
+            "X-EBAY-API-CALL-NAME": callname,
             "X-EBAY-API-APP-ID": this.settings.appId,
             "X-EBAY-API-SITE-ID": this.settings.siteId,
-            "X-EBAY-API-CALL-NAME": call,
-            "X-EBAY-API-VERSION": 863,
+            "X-EBAY-API-VERSION": apiVersion,
             "X-EBAY-API-REQUEST-ENCODING": "xml"
         });
-        const xmlns = 'urn:ebay:apis:eBLBaseComponents';
-        return this.createTraditionalXMLApi<Shopping>(ShoppingCalls, this.endpoints.Shopping.production, headers, xmlns);
+
+        const config = {
+            endpoint: this.endpoints.Shopping.production,
+            headers,
+            xmlns: 'urn:ebay:apis:eBLBaseComponents'
+        };
+
+        return this.createTraditionalXMLApi<Shopping>(ShoppingCalls, config);
     }
 
     createFindingApi(): Finding {
-        const headers = async (call: string) => ({
+        const headers = (callname: string) => ({
             "X-EBAY-SOA-SECURITY-APPNAME": this.settings.appId,
-            "X-EBAY-SOA-OPERATION-NAME": call
+            "X-EBAY-SOA-OPERATION-NAME": callname
         });
-        const xmlns = 'http://www.ebay.com/marketplace/search/v1/services';
-        return this.createTraditionalXMLApi<Finding>(FindingCalls, this.endpoints.FindingService.production, headers, xmlns);
+
+        const config = {
+            headers,
+            endpoint: this.endpoints.FindingService.production,
+            xmlns: 'http://www.ebay.com/marketplace/search/v1/services'
+        };
+
+        return this.createTraditionalXMLApi<Finding>(FindingCalls, config);
     }
 }

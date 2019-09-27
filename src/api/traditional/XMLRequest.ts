@@ -6,70 +6,66 @@ import {EbayApiError, NoCallError} from "../../errors"
 import Parser from "./Parser"
 import range from "../../utils/range"
 import req from '../../utils/request';
-import {Settings} from "../../types";
+import {Fields} from "./fields";
+import OAuth from "../oAuth";
 
 const HEADING = '?xml version="1.0" encoding="utf-8"?';
 const LIST = "List";
 const LISTING = "Listing";
 const log = debug("ebay:request");
 
-type Field = {
-    [key: string]: any;
-}
-
-type Options = {
+export type Options = {
     raw?: boolean,
     paginate?: boolean,
     page?: number,
-    entriesPerPage?: number
+    entriesPerPage?: number,
+    cleanup?: boolean
 }
+
+type Headers = {
+    [key: string]: string | number | undefined;
+}
+
+export type Config = {
+    headers: (callname: string) => Headers,
+    endpoint: string,
+    xmlns: string
+};
 
 const defaultOptions: Options = {
     raw: false,
     paginate: false,
     page: 1,
-    entriesPerPage: 100
+    entriesPerPage: 100,
+    cleanup: true
 };
 
 /**
  * Immmutable request object for making eBay API verbs
  */
 export default class XMLRequest<T> {
-    readonly call: T;
-    readonly fields: Field;
-    readonly globals: Settings;
-    readonly endpoint: string;
-    readonly xmlns: string;
-    readonly headers: object;
+    readonly callname: string;
+    readonly fields: Fields;
+    readonly oAuth: OAuth;
+    readonly config: Config;
+    readonly defaultHeaders = {
+        "Content-Type": "text/xml"
+    };
 
     /**
      * creates the new Request object
      *
      * @private
-     * @param      {T}  call call
+     * @param      {string}  callname the callname
      * @param      {Object}  fields the fields
-     * @param      {Settings} globals the global
-     * @param      {String}  endpoint
-     * @param      {Object}  headers
-     * @param      {String}  xmlns
+     * @param      {OAuth} oAuth the oAuth
+     * @param      {Config}  config
      */
-    constructor(call: T, fields: object, globals: Settings, endpoint: string, headers: object, xmlns: string) {
-        this.call = call;
-        this.fields = {...fields};
-        this.globals = globals;
-        this.endpoint = endpoint;
-        this.xmlns = xmlns;
-        this.headers = headers;
-    }
-
-    /**
-     * returns an array of all the field names that have been added to the Request
-     *
-     * @private
-     * @return     {Array<String>}  the array of names
-     */
-    private get fieldKeys() {
-        return Object.keys(this.fields);
+    constructor(callname: string, fields: Fields, oAuth: OAuth, config: Config) {
+        this.callname = callname;
+        this.fields = fields;
+        this.oAuth = oAuth;
+        this.config = config;
     }
 
     /**
@@ -79,7 +75,7 @@ export default class XMLRequest<T> {
      * @return     {String}  { description_of_the_return_value }
      */
     private get responseWrapper() {
-        return `${this.call}Response`
+        return `${this.callname}Response`
     }
 
     /**
@@ -89,7 +85,7 @@ export default class XMLRequest<T> {
      * @return     {String}  eBay Auth token
      */
     private get token() {
-        return this.globals.authNAuth
+        return this.oAuth.authNAuth
     }
 
     /**
@@ -99,7 +95,11 @@ export default class XMLRequest<T> {
      * @return     {Object}  the SOAP
      */
     private get credentials() {
-        return this.token ? {RequesterCredentials: {eBayAuthToken: this.token}} : {};
+        return this.token ? {
+            RequesterCredentials: {
+                eBayAuthToken: this.token
+            }
+        } : {};
     }
 
     /**
@@ -109,7 +109,7 @@ export default class XMLRequest<T> {
      * @return     {String}  the XML namespace from the verb
      */
     private get xmlnsRequest() {
-        return `${this.call}Request xmlns="${this.xmlns}"`
+        return `${this.callname}Request xmlns="${this.config.xmlns}"`
     }
 
     /**
@@ -119,19 +119,24 @@ export default class XMLRequest<T> {
      * @param      {Object}  options  The options
      * @return     {String}           The XML string of the Request
      */
-    private xml(options: Options) {
+    private xml(options: Required<Options>) {
         const payload = this.fields;
         const listKey: string | null = this.listKey();
 
         if (listKey !== null) {
+            const value = payload[listKey] as object;
             payload[listKey] = {
-                ...payload[listKey], ...this.pagination(options)
+                ...value,
+                ...this.pagination(options)
             }
         }
 
         return o2x({
             [HEADING]: null,
-            [this.xmlnsRequest]: {...this.credentials, ...payload}
+            [this.xmlnsRequest]: {
+                ...this.credentials,
+                ...payload
+            }
         })
     }
 
@@ -142,7 +147,7 @@ export default class XMLRequest<T> {
      * @return     {string|null}   the key that is a List
      */
     private listKey() {
-        const fields = this.fieldKeys;
+        const fields = Object.keys(this.fields);
         while (fields.length) {
             const field = fields.pop();
 
@@ -162,7 +167,7 @@ export default class XMLRequest<T> {
      * @param      {Options}  the options
      * @return     {Object}          The pagination representation
      */
-    private pagination({page, entriesPerPage}: Options) {
+    private pagination({page, entriesPerPage}: Required<Options>) {
         return {
             Pagination: {
                 PageNumber: page,
@@ -178,17 +183,20 @@ export default class XMLRequest<T> {
      * @return     {<type>}  { description_of_the_return_value }
      */
     async run(options: Options = defaultOptions) {
-        options = {...defaultOptions, ...options};
-
-        if (!this.call) {
+        if (!this.callname) {
             throw new NoCallError();
         }
 
+        const requiredOptions = {
+            ...defaultOptions,
+            ...options
+        } as Required<Options>;
+
         try {
-            const firstResponse = await this.fetch(options);
+            const firstResponse = await this.fetch(requiredOptions);
 
             if (options.paginate) {
-                return this.schedule(firstResponse, options);
+                return this.schedule(firstResponse, requiredOptions);
             }
 
             return firstResponse
@@ -206,27 +214,36 @@ export default class XMLRequest<T> {
      * @return     {Promise}           resolves to the response
      *
      */
-    private async fetch(options: Options) {
+    private async fetch(options: Required<Options>) {
         const xml = this.xml(options);
         log(xml);
         try {
-            const data = await req.post(this.endpoint, xml, {
-                headers: {
-                    "Content-Type": "text/xml",
-                    ...this.headers
-                }
+            const headers = {
+                ...this.defaultHeaders,
+                ...this.config.headers(this.callname)
+            };
+            log('Make request: ' + this.config.endpoint, headers);
+            const data = await req.post(this.config.endpoint, xml, {
+                headers
             });
 
-            log(data);
+            log('Response', data);
+
             // resolve to raw XML
             if (options.raw) {
                 return data;
             }
 
             const json = Parser.toJSON(data);
-            const unwrapp = Parser.unwrap(this.responseWrapper, json);
+            const unwrap = Parser.unwrap(this.responseWrapper, json);
 
-            return Parser.clean(unwrapp);
+            // cleans the Ebay response
+            if (options.cleanup) {
+                return Parser.clean(unwrap);
+            }
+
+            return unwrap;
+
         } catch (error) {
             log(error);
             if (error.response && error.response.data) {
@@ -246,7 +263,7 @@ export default class XMLRequest<T> {
      * @param      {Options}   options   The options
      * @return     {Promise}          resolves to the first resposne or the concatenated Responses
      */
-    private async schedule(first: any, options: Options) {
+    private async schedule(first: any, options: Required<Options>) {
         // we aren't handling pagination
         if (!first.pagination || first.pagination.pages < 2) {
             return first;

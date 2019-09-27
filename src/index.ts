@@ -63,7 +63,7 @@ export default class EBay {
      */
     constructor(settings: Settings, oAuthRequest?: OAuthRequest) {
         this.settings = {...defaultSettings, ...settings};
-        this.oAuth = new OAuth(this.settings.appId, this.settings.certId, oAuthRequest);
+        this.oAuth = new OAuth(this.settings.appId, this.settings.certId, oAuthRequest, settings.authNAuth);
         this.factory = new Factory(this.settings, this.oAuth);
     }
 
