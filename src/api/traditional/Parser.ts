@@ -1,7 +1,5 @@
-// @ts-ignore
-import {xml2json} from "xml2json-light"
+import {xml2json} from "@hendt/xml2json"
 import {numericNodes, dateTimeNodes} from "./nodes"
-import {EbayApiError} from "../../errors";
 
 const Extraneous = [
     '@',
@@ -24,24 +22,7 @@ export default class Parser {
      * @return     {JSON}         resolves to a JSON representation of the HTML
      */
     static toJSON(xml: string) {
-        const res = xml2json(xml);
-
-        if (res.Ack === "Error" || res.Ack === "Failure") {
-            throw new EbayApiError(res.Errors);
-        }
-
-        return xml;
-    }
-
-    /**
-     * unwraps a TradingCallsType Response from eBay
-     * must be verbed within the context of an {Ebay.Response}
-     *
-     * @param      {Call}    verb    The verb
-     * @return     {Object}          The unwrapped verb
-     */
-    static unwrap(responseWrapper: string, json: any) {
-        return Parser.flatten(json[responseWrapper])
+        return xml2json(xml, {aloneValueName: '@value'});
     }
 
     /**
@@ -79,7 +60,7 @@ export default class Parser {
      * @return     {Object}          the flattened output
      */
     static flatten(o: any, key?: any): any {
-        if (o.value) {
+        if (o && o.value) {
             return Parser.cast(o.value, key)
         }
 

@@ -6,12 +6,12 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.js",
   "dependencies": {
+    "@hendt/xml2json": "^1.0.2",
     "axios": "^0.19.0",
     "axios-rate-limit": "^1.1.2",
     "debug": "^2.1.1",
     "object-to-xml": "^2.0.0",
-    "qs": "^6.8.0",
-    "xml2json-light": "^1.0.6"
+    "qs": "^6.8.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.3",

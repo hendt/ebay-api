@@ -1944,7 +1944,7 @@ enum fields {
 }
 
 export type Fields = {
-    [key in typeof fields[number]]: Fields | number | string
+    [key in typeof fields[number]]: Fields | number | string | boolean
 }
 
 export default fields;

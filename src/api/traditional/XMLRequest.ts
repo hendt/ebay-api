@@ -222,6 +222,7 @@ export default class XMLRequest<T> {
                 ...this.defaultHeaders,
                 ...this.config.headers(this.callname)
             };
+
             log('Make request: ' + this.config.endpoint, headers);
             const data = await req.post(this.config.endpoint, xml, {
                 headers
@@ -234,16 +235,23 @@ export default class XMLRequest<T> {
                 return data;
             }
 
-            const json = Parser.toJSON(data);
-            const unwrap = Parser.unwrap(this.responseWrapper, json);
+            let json = Parser.toJSON(data);
+
+            // Unwrap
+            if (json[this.responseWrapper]) {
+                json = Parser.flatten(json[this.responseWrapper]);
+            }
+
+            if (json.Ack === "Error" || json.Ack === "Failure") {
+                throw new EbayApiError(json.Errors);
+            }
 
             // cleans the Ebay response
             if (options.cleanup) {
-                return Parser.clean(unwrap);
+                return Parser.clean(json);
             }
 
-            return unwrap;
-
+            return json;
         } catch (error) {
             log(error);
             if (error.response && error.response.data) {

@@ -3,15 +3,16 @@ import EBay from '../index';
 const ebay = EBay.fromEnv();
 
 ebay.trading.GetMyeBaySelling({
-    ActiveList: {
-        Sort: 'TimeLeft'
+    SoldList: {
+        Include: true,
+        OrderStatusFilter: 'AwaitingPayment'
     },
     Pagination: {
         EntriesPerPage: 3,
         PageNumber: 1
     }
 }).then(sellings => {
-    console.log('sellings', sellings);
+    console.log('sellings', JSON.stringify(sellings, null, 2));
 }).catch(e => {
     console.log('error', {error: e.message});
 });
