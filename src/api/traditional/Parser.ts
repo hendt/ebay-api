@@ -1,4 +1,4 @@
-import {xml2json} from "@hendt/xml2json"
+import xml2json from "@hendt/xml2json"
 import {numericNodes, dateTimeNodes} from "./nodes"
 
 const Extraneous = [
