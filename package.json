@@ -1,7 +1,7 @@
 {
   "name": "@hendt/ebay-api",
   "author": "Daniil Tomilow",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "eBay typescript API",
   "main": "./lib/index.js",
   "types": "./lib/index.d.js",
@@ -29,7 +29,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "prepare": "tsc",
+    "prepare": "tsc && npm run test",
     "test": "mocha -r ts-node/register test/**/*.spec.ts --reporter=dot"
   },
   "repository": {

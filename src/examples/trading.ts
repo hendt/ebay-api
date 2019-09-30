@@ -5,7 +5,7 @@ const ebay = EBay.fromEnv();
 ebay.trading.GetMyeBaySelling({
     SoldList: {
         Include: true,
-        OrderStatusFilter: 'AwaitingPayment'
+        OrderStatusFilter: 'AwaitingPayment',
         Pagination: {
             EntriesPerPage: 20,
             PageNumber: 1
