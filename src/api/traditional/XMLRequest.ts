@@ -124,10 +124,11 @@ export default class XMLRequest<T> {
         const listKey: string | null = this.listKey();
 
         if (listKey !== null) {
-            const value = payload[listKey] as object;
+            const value = payload[listKey] as any;
+            const pagination = value.Pagination || this.pagination(options);
             payload[listKey] = {
                 ...value,
-                ...this.pagination(options)
+                ...pagination
             }
         }
 

@@ -22,7 +22,9 @@ export default class Parser {
      * @return     {JSON}         resolves to a JSON representation of the HTML
      */
     static toJSON(xml: string) {
-        return xml2json(xml, {aloneValueName: '@value'});
+        return xml2json(xml, {
+            aloneValueName: 'value'
+        });
     }
 
     /**
@@ -155,8 +157,9 @@ export default class Parser {
         const parent = Parser.getMatchingKey(list, "Array");
         const wrapper = Object.keys(parent)[0];
         const entries = parent[wrapper] || [];
-        // Ensure we always have an Iterable interface for things that should be iterable
-        return {results: Array.isArray(entries) ? entries : [entries]}
+        return {
+            results: [].concat(entries)
+        }
     }
 
     /**

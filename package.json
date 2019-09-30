@@ -20,7 +20,6 @@
     "@types/node": "^12.7.4",
     "@types/qs": "^6.5.3",
     "@types/sinon": "^7.0.13",
-    "@types/xml2json": "^0.11.0",
     "chai": "^3.5.0",
     "mocha": "^6.2.0",
     "sinon": "^7.4.2",
@@ -35,7 +34,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/hendtling/ebay-api.git"
+    "url": "git+ssh://git@github.com/hendt/ebay-api.git"
   },
   "keywords": [
     "api",
@@ -92,9 +91,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hendtling/ebay-api/issues"
+    "url": "https://github.com/hendt/ebay-api/issues"
   },
-  "homepage": "https://github.com/hendtling/ebay-api#readme",
+  "homepage": "https://github.com/hendt/ebay-api#readme",
   "directories": {
     "test": "test"
   }
