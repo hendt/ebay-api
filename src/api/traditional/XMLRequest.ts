@@ -1,10 +1,8 @@
-// @ts-ignore
-import o2x from 'object-to-xml';
+import {j2xParser} from "fast-xml-parser"
 import debug from "debug"
 
 import {EbayApiError, NoCallError} from "../../errors"
 import Parser from "./Parser"
-import range from "../../utils/range"
 import req from '../../utils/request';
 import {Fields} from "./fields";
 import OAuth from "../oAuth";
@@ -14,12 +12,28 @@ const LIST = "List";
 const LISTING = "Listing";
 const log = debug("ebay:request");
 
+const defaultXmlOptions = {
+    attributeNamePrefix : "@_",
+    textNodeName : "#text",
+    ignoreAttributes : false,
+    cdataTagName: "__cdata", //default is false
+    cdataPositionChar: "\\c",
+    format: false,
+    indentBy: "  ",
+    supressEmptyNode: false
+};
+
+const parser = new j2xParser(defaultXmlOptions);
+
+
+const defaultParseOptions = {
+    textNodeName: 'value'
+};
+
 export type Options = {
     raw?: boolean,
-    paginate?: boolean,
-    page?: number,
-    entriesPerPage?: number,
-    cleanup?: boolean
+    cleanup?: boolean,
+    parseOptions?: object
 }
 
 type Headers = {
@@ -34,10 +48,8 @@ export type Config = {
 
 const defaultOptions: Options = {
     raw: false,
-    paginate: false,
-    page: 1,
-    entriesPerPage: 100,
-    cleanup: true
+    cleanup: true,
+    parseOptions: defaultParseOptions
 };
 
 /**
@@ -103,16 +115,6 @@ export default class XMLRequest<T> {
     }
 
     /**
-     * returns the XML namespace
-     *
-     * @private
-     * @return     {String}  the XML namespace from the verb
-     */
-    private get xmlnsRequest() {
-        return `${this.callname}Request xmlns="${this.config.xmlns}"`
-    }
-
-    /**
      * returns the XML document for the request
      *
      * @private
@@ -125,16 +127,17 @@ export default class XMLRequest<T> {
 
         if (listKey !== null) {
             const value = payload[listKey] as any;
-            const pagination = value.Pagination || this.pagination(options);
             payload[listKey] = {
                 ...value,
-                ...pagination
             }
         }
 
-        return o2x({
+        // xmlns="${this.config.xmlns}"
+
+        return parser.parse({
             [HEADING]: null,
-            [this.xmlnsRequest]: {
+            [this.callname + 'Request']: {
+                '@_xmlns': this.config.xmlns,
                 ...this.credentials,
                 ...payload
             }
@@ -163,21 +166,6 @@ export default class XMLRequest<T> {
     }
 
     /**
-     * generates a pagination Object
-     *
-     * @param      {Options}  the options
-     * @return     {Object}          The pagination representation
-     */
-    private pagination({page, entriesPerPage}: Required<Options>) {
-        return {
-            Pagination: {
-                PageNumber: page,
-                EntriesPerPage: entriesPerPage
-            }
-        }
-    }
-
-    /**
      * runs the current Request
      *
      * @param      {<type>}  options  The options
@@ -194,13 +182,7 @@ export default class XMLRequest<T> {
         } as Required<Options>;
 
         try {
-            const firstResponse = await this.fetch(requiredOptions);
-
-            if (options.paginate) {
-                return this.schedule(firstResponse, requiredOptions);
-            }
-
-            return firstResponse
+            return await this.fetch(requiredOptions)
         } catch (error) {
             log(error);
             throw error;
@@ -236,7 +218,7 @@ export default class XMLRequest<T> {
                 return data;
             }
 
-            let json = Parser.toJSON(data);
+            let json = Parser.toJSON(data, options.parseOptions);
 
             // Unwrap
             if (json[this.responseWrapper]) {
@@ -256,38 +238,11 @@ export default class XMLRequest<T> {
         } catch (error) {
             log(error);
             if (error.response && error.response.data) {
-                const json = Parser.toJSON(error.response.data);
+                const json = Parser.toJSON(error.response.data, options.parseOptions);
                 throw new EbayApiError(json);
             }
 
             throw error;
         }
-    }
-
-    /**
-     * schedules pagination requests
-     *
-     * @private
-     * @param      {Object}   first   The first response from the API
-     * @param      {Options}   options   The options
-     * @return     {Promise}          resolves to the first resposne or the concatenated Responses
-     */
-    private async schedule(first: any, options: Required<Options>) {
-        // we aren't handling pagination
-        if (!first.pagination || first.pagination.pages < 2) {
-            return first;
-        }
-
-        log(`beginning pagination for [2..${first.pagination.pages}]`);
-
-        const results = await Promise.all(range(2, first.pagination.pages).map(page => this.fetch({
-            ...options,
-            page
-        })));
-
-        return results.reduce((all, result) => {
-            all.results = all.results.concat(result.results);
-            return all
-        }, first)
     }
 }

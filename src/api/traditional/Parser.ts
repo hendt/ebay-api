@@ -1,4 +1,4 @@
-import xml2json from "@hendt/xml2json"
+import parser from "fast-xml-parser"
 import {numericNodes, dateTimeNodes} from "./nodes"
 
 const Extraneous = [
@@ -19,12 +19,11 @@ export default class Parser {
      * converts an XML response to JSON
      *
      * @param      {xml}     xml     The xml
+     * @param      {object}     parseOptions     The parse options
      * @return     {JSON}         resolves to a JSON representation of the HTML
      */
-    static toJSON(xml: string) {
-        return xml2json(xml, {
-            aloneValueName: 'value'
-        });
+    static toJSON(xml: string, parseOptions: object) {
+        return parser.parse(xml, parseOptions);
     }
 
     /**
