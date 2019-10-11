@@ -8,7 +8,7 @@ TODO https://developer.ebay.com/Devzone/post-order/Concepts/UsageGuide.html
 
 ## Installation
 
-```shell
+```bash
 npm install @hendt/ebay-api
 ```
 
@@ -35,10 +35,43 @@ const ebay = new EBay({
 });
 ```
 
+## Exchanging the authorization code for a User access token
+[Docs](https://developer.ebay.com/api-docs/static/oauth-auth-code-grant-request.html)
+
+
+```javascript
+const ebay = EBay.fromEnv();
+
+// 1. Generate URL
+const runName = ''; // RuName (eBay Redirect URL name)
+const url = ebay.oAuth.generateAuthUrl(runName, [
+    'https://api.ebay.com/oauth/api_scope/sell.inventory',
+    'https://api.ebay.com/oauth/api_scope/sell.account',
+    'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
+]);
+
+// 2. Open Url and Grant Access
+
+// 3. Get the code that is placed as query parameter in redirected page
+const code = 'code'; // from www.your-website?code=XXXX
+
+// 4. Get the token
+const token = await ebay.oAuth.getToken(code, runName);
+ebay.oAuth.setCredentials(token);
+
+// You can now call the APIs e.g.
+ebay.sell.fulfillment.getOrder('<order-id>').then(order => {
+        console.log('order', JSON.stringify(order, null, 2));
+    }).catch(e => {
+        console.log('error', {error: e.message});
+    });
+
+```
+
 ## RESTful API
 
 ### Scope
-```shell script
+```javascript
 const ebay = new EBay({
   // ...
   scope: ['https://api.ebay.com/oauth/api_scope']
