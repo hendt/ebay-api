@@ -75,3 +75,19 @@ export class EBayAccessDenied extends EBayError {
         this.meta = err.response.data;
     }
 }
+
+export class EBayUnauthorized extends EBayError {
+    constructor(err: any) {
+        super('Unauthorized after refreshing token');
+        this.meta = err.response.data;
+    }
+}
+
+export const getEBayError = (e: any) => {
+    if (e.response && e.response.data) {
+        const data = e.response.data;
+        return data.errors[0] ? data.errors[0] : null;
+    }
+
+    return null;
+};

@@ -47,13 +47,14 @@ export default class EBay {
         if (!process.env.EBAY_DEV_ID) {
             throw new EnvError("EBAY_DEV_ID");
         }
+
         return new EBay({
             appId: process.env.EBAY_APP_ID,
             certId: process.env.EBAY_CERT_ID,
             devId: process.env.EBAY_DEV_ID,
             authNAuth: process.env.EBAY_AUTH_N_AUTH,
             siteId: process.env.EBAY_SITE_ID ? parseInt(process.env.EBAY_SITE_ID, 10) : SiteId.EBAY_DE,
-            sandbox: !!process.env.EBAY_SANDBOX || false
+            sandbox: (process.env.EBAY_SANDBOX === 'true')
         })
     }
 

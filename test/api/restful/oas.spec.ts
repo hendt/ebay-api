@@ -1,5 +1,5 @@
-import {expect} from 'chai';
 import 'mocha';
+import {expect} from 'chai';
 import OAuth from "../../../src/api/oAuth";
 import sinon from 'sinon';
 
@@ -45,8 +45,8 @@ Object.entries(allTests).forEach(([name, tests]) => {
                     .concat(paramsInHeader.map((p: any) => p.name));
 
                 const req = {
-                    get: sinon.stub().returns({then: sinon.stub(), catch: sinon.stub()}),
-                    post: sinon.stub().returns({then: sinon.stub(), catch: sinon.stub()}),
+                    get: sinon.stub().returns(Promise.resolve()),
+                    post: sinon.stub().returns(Promise.resolve()),
                 };
 
                 const api = new Api(testOAuth, req);

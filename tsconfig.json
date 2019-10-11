@@ -9,8 +9,7 @@
     "outDir": "./lib",
     "strict": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "experimentalDecorators": true
+    "resolveJsonModule": true
   },
   "include": ["src"],
   "exclude": [

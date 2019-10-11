@@ -40,7 +40,7 @@ export default class OAuth {
     readonly authNAuth?: string;
 
     private scope: Scope;
-    private endpoint: string;
+    readonly endpoint: string;
 
     constructor(
         appId: string,
@@ -57,16 +57,16 @@ export default class OAuth {
         this.authNAuth = authNAuth;
     }
 
-    get clientToken() {
-        return this._clientToken;
-    }
-
-    async getAccessToken(scopes: Scope = this.scope) {
+    /**
+     * Return the access token.
+     */
+    async getAccessToken() {
         if (this._userAccessToken) {
             return this._userAccessToken.access_token;
         }
+
         // Fallback to Client Token
-        return this.getClientToken(scopes);
+        return this.getClientToken();
     }
 
     get accessToken() {
@@ -77,52 +77,53 @@ export default class OAuth {
         return null;
     }
 
-    async getClientToken(scopes: Scope = this.scope): Promise<string> {
-        if (this.clientToken) {
-            log('Client Token exists: ', this.clientToken);
-            return this.clientToken.access_token;
+    async getClientToken(): Promise<string> {
+        if (this._clientToken) {
+            log('Return existing client token: ', this._clientToken);
+            return this._clientToken.access_token;
         }
 
         try {
-            const token = await this.obtainClientToken(scopes);
+            const token = await this.refreshClientToken();
             return token.access_token;
         } catch (e) {
             throw e;
         }
     }
 
-    setClientToken(clientToken: Token) {
+    public setClientToken(clientToken: Token) {
         this._clientToken = clientToken;
     }
 
-    setScope(scope: Scope) {
+    public setScope(scope: Scope) {
         this.scope = scope;
     }
 
     // Client Credential Grant
-    private obtainClientToken(scope: Scope): Promise<Token> {
+    public async refreshClientToken(): Promise<Token> {
         if (!this.appId) throw new Error('Missing App ID (Client Id)');
         if (!this.certId) throw new Error('Missing Cert Id (Client Secret)');
 
-        log('Obtain a new Client Token with scope:', scope);
+        log('Obtain a new Client Token with scope: ', this.scope);
 
-        return request.postForm(this.client[this.endpoint], {
-            scope: scope.join(' '),
-            grant_type: 'client_credentials'
-        }, {
-            auth: {
-                username: this.appId,
-                password: this.certId
-            }
-        }).then((token: any) => {
-            this.setScope(scope);
-            this.setClientToken(token);
+        try {
+            const token = await request.postForm(this.client[this.endpoint], {
+                scope: this.scope.join(' '),
+                grant_type: 'client_credentials'
+            }, {
+                auth: {
+                    username: this.appId,
+                    password: this.certId
+                }
+            });
+
             log('Stored a new Client Token:', token);
+            this.setClientToken(token);
             return token;
-        }).catch((error: any) => {
-            log('Can\'s store client token', error);
-            throw error;
-        })
+        } catch (ex) {
+            log('Can\'s store client token', ex);
+            throw ex;
+        }
     }
 
     /**
@@ -148,24 +149,62 @@ export default class OAuth {
      * @param redirectUri the redirectUri
      */
     async getToken(code: string, redirectUri: string) {
-        return request.postForm(this.client[this.endpoint], {
-            grant_type: 'authorization_code',
-            code: code,
-            redirect_uri: redirectUri
-        }, {
-            auth: {
-                username: this.appId,
-                password: this.certId
-            }
-        }).then(token => {
+        try {
+            const token = await request.postForm(this.client[this.endpoint], {
+                grant_type: 'authorization_code',
+                code: code,
+                redirect_uri: redirectUri
+            }, {
+                auth: {
+                    username: this.appId,
+                    password: this.certId
+                }
+            });
+
             log('Successfully obtained a new User Access Token:', token);
             return token;
-        }).catch(error => {
-            throw error;
-        })
+        } catch (ex) {
+            log('Can\'t get token:', ex);
+            throw ex;
+        }
     }
 
-    setCredentials(userAccessToken: UserAccessToken) {
+    public setCredentials(userAccessToken: UserAccessToken) {
         this._userAccessToken = userAccessToken;
+    }
+
+    public async refreshAuthToken() {
+        if (!this._userAccessToken) {
+            log('Tried to refresh auth token before it was set.');
+            throw new Error('Can\t refresh token if it was never set.');
+        }
+
+        try {
+            const token = await request.postForm(this.client[this.endpoint], {
+                grant_type: 'refresh_token',
+                refresh_token: this._userAccessToken.refresh_token,
+                scope: this.scope.join(' ')
+            }, {
+                auth: {
+                    username: this.appId,
+                    password: this.certId
+                }
+            });
+            log('Successfully refreshed token', token);
+            this.setCredentials(token);
+        } catch (ex) {
+            log('Can\t refresh token', ex);
+            throw ex;
+        }
+    }
+
+    async refreshToken() {
+        if (this._clientToken) {
+            return await this.refreshClientToken();
+        } else if (this._userAccessToken) {
+            return await this.refreshAuthToken();
+        }
+
+        throw new Error("To refresh a Token a client token or user access token must be already set.")
     }
 }

@@ -4,7 +4,22 @@ This API implements both Traditional (xml) and the RESTful eBay API.
 * [eBay API Explorer](https://developer.ebay.com/my/api_test_tool)
 * [eBay API Docs](https://developer.ebay.com/docs)
 
-TODO https://developer.ebay.com/Devzone/post-order/Concepts/UsageGuide.html
+| RESTful API       | Implemented                         |
+|-------------------|-------------------------------------|
+| Sell APIs         | yes                                 |
+| Buy APIs          | Marketplace Insights API is missing |
+| Commerce APIs     | yes                                 |
+| Developer APIs    | yes                                 |
+
+| Traditional API   | Implemented                         |
+|-------------------|-------------------------------------|
+| Finding API       | yes                                 |
+| Shopping API      | yes                                 |
+| Merchandising API | yes                                 |
+| Trading API       | yes                                 |
+| Client Alerts API | yes                                 |
+| Post Order API    | no                                  |
+| Feedback API      | no                                  |
 
 ## Installation
 

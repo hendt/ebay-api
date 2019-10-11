@@ -23,6 +23,7 @@ rl.question('Enter the code from that page here: ', async (code: string) => {
     code = decodeURIComponent(code);
     console.log('Enter code', code);
     const token = await ebay.oAuth.getToken(code, runName);
+    console.log('Token: ', token);
     ebay.oAuth.setCredentials(token);
 
     ebay.sell.fulfillment.getOrder('<order-id>').then(order => {

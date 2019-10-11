@@ -1,4 +1,4 @@
-import Api, {scope} from "../../api";
+import Api from "../../api";
 import {FeedParams} from "../../types";
 
 /**
@@ -19,7 +19,6 @@ export default class Feed extends Api {
      * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
      *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
      */
-    @scope('buy.item.feed')
     getItemFeed(params: FeedParams, marketplaceId: string, range: String) {
         return this.get(`/item`, {
             params,
@@ -37,7 +36,6 @@ export default class Feed extends Api {
      * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
      *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
      */
-    @scope('buy.item.feed')
     getItemGroupFeed(params: FeedParams, marketplaceId: string, range: String) {
         return this.get(`/item_group`, {
             params,
@@ -57,7 +55,6 @@ export default class Feed extends Api {
      * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
      *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
      */
-    @scope('buy.item.feed')
     getItemSnapshotFeed(params: FeedParams, snapshotDate: string, marketplaceId: string, range: String) {
         return this.get(`/item_snapshot`, {
             params: {
@@ -80,7 +77,6 @@ export default class Feed extends Api {
      * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
      *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
      */
-    @scope('buy.item.feed')
     getProductFeed(params: FeedParams, snapshotDate: string, marketplaceId: string, range: String) {
         return this.get(`/product`, {
             params: {

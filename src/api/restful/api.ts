@@ -1,10 +1,12 @@
 import request from '../../utils/request';
 import OAuth from "../oAuth";
-import {EBayAccessDenied} from "../../errors";
+import debug from 'debug';
+import {EBayAccessDenied, EBayUnauthorized, getEBayError} from "../../errors";
+import {PRIVACY_PRIVATE} from "tslint/lib/rules/completedDocsRule";
+
+const log = debug('ebay:restful:api');
 
 export default abstract class Api {
-    static scopes: any = {};
-
     readonly oAuth: OAuth;
     readonly req: any;
     readonly sandbox: boolean;
@@ -39,42 +41,68 @@ export default abstract class Api {
     };
 
     async get(url: string, config: any = {}): Promise<any> {
-        const authHeaders = await this.getHeaders();
-        config.headers = config.headers ? {...authHeaders, ...config.headers} : authHeaders;
+        const headers = await this.getHeaders();
+        const authConfig = {
+            ...config,
+            headers: {
+                ...headers,
+                ...config.headers
+            }
+        };
 
-        return this.req.get(this.baseUrl + url, config).catch(Api.handleError)
+        try {
+            return await this.req.get(this.baseUrl + url, authConfig);
+        } catch (ex) {
+            return this.handleEBayError(ex)
+                .then(() => {
+                    return this.get(url, config)
+                        .catch((ex: any) => this.handleEBayError(ex, true));
+                });
+        }
     }
 
     async post(url: string, data?: any, config: any = {}): Promise<any> {
-        const authHeaders = await this.getHeaders();
-        config.headers = config.headers ? {...authHeaders, ...config.headers} : authHeaders;
+        const headers = await this.getHeaders();
+        const authConfig = {
+            ...config,
+            headers: {
+                ...headers,
+                ...config.headers
+            }
+        };
 
-        return this.req.post(this.baseUrl + url, data, config).catch(Api.handleError);
+        try {
+            return await this.req.post(this.baseUrl + url, data, authConfig);
+        } catch (ex) {
+            return this.handleEBayError(ex)
+                .then(() => {
+                    return this.post(url, data, config)
+                        .catch((ex: any) => this.handleEBayError(ex, true));
+                });
+        }
     }
 
-    private static handleError(e: any) {
-        if (e.response) {
-            if (e.response.data) {
-                const data = e.response.data;
-                if (data.errors[0].domain === 'ACCESS') {
-                    throw new EBayAccessDenied(e);
+    async handleEBayError(ex: any, refreshedToken?: boolean) {
+        const error = getEBayError(ex);
+
+        if (error) {
+            if (error.domain === 'ACCESS') {
+                throw new EBayAccessDenied(ex);
+            } else if (error.message === 'Invalid access token') {
+                if (!refreshedToken) {
+                    log('Token expired. Refresh the token.');
+                    return this.oAuth.refreshToken()
+                        .catch((ex) => {
+                            log("error refreshToken", ex);
+                            return ex;
+                        });
                 }
+                throw new EBayUnauthorized(ex);
             }
-            throw e.response.data;
         }
 
-        throw e;
+        log("Unknown ebay Error", ex);
+        throw ex;
     }
-}
 
-/**
- * Decorators.
- *
- * @param scopes
- */
-export function scope(scopes: string | string[]) {
-    return function (target: any, propertyKey: string, descriptor: any) {
-        const className = target.constructor.name;
-        Api.scopes[className + "." + propertyKey] = scopes;
-    }
 }
