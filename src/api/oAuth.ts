@@ -38,8 +38,8 @@ export default class OAuth {
     readonly certId: string;
     readonly sandbox: boolean;
     readonly authNAuth?: string;
-    private scope: Scope;
 
+    private scope: Scope;
     private endpoint: string;
 
     constructor(
@@ -67,6 +67,14 @@ export default class OAuth {
         }
         // Fallback to Client Token
         return this.getClientToken(scopes);
+    }
+
+    get accessToken() {
+        if (this._userAccessToken) {
+            return this._userAccessToken.access_token
+        }
+
+        return null;
     }
 
     async getClientToken(scopes: Scope = this.scope): Promise<string> {

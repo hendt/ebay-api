@@ -13,9 +13,9 @@ const LISTING = "Listing";
 const log = debug("ebay:xml:request");
 
 const defaultXmlOptions = {
-    attributeNamePrefix : "@_",
-    textNodeName : "#text",
-    ignoreAttributes : false,
+    attributeNamePrefix: "@_",
+    textNodeName: "#text",
+    ignoreAttributes: false,
     cdataTagName: "__cdata", //default is false
     cdataPositionChar: "\\c",
     format: false,
@@ -24,7 +24,6 @@ const defaultXmlOptions = {
 };
 
 const parser = new j2xParser(defaultXmlOptions);
-
 
 const defaultParseOptions = {
     textNodeName: 'value'
@@ -97,7 +96,11 @@ export default class XMLRequest<T> {
      * @return     {String}  eBay Auth token
      */
     private get token() {
-        return this.oAuth.authNAuth
+        if (this.oAuth.authNAuth) {
+            return this.oAuth.authNAuth;
+        }
+
+        return this.oAuth.accessToken;
     }
 
     /**
