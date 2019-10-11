@@ -6,7 +6,7 @@ import {Developer} from "./api/restful/developer";
 import {Sell} from "./api/restful/sell";
 import {ClientAlerts, Finding, Shopping, Trading} from "./api/traditional";
 import {Settings, SiteId} from "./types";
-import OAuth, {OAuthRequest} from "./api/oAuth";
+import OAuth, {Scope} from "./api/oAuth";
 
 const defaultSettings = {
     sandbox: false,
@@ -59,15 +59,15 @@ export default class EBay {
 
     /**
      * @param {Object}  settings the global settings
-     * @param {OAuthRequest} oAuthRequest the oAuth request
+     * @param {Scope} scope the scope
      */
-    constructor(settings: Settings, oAuthRequest?: OAuthRequest) {
+    constructor(settings: Settings, scope?: Scope) {
         this.settings = {...defaultSettings, ...settings};
         this.oAuth = new OAuth(
             this.settings.appId,
             this.settings.certId,
             this.settings.sandbox,
-            oAuthRequest,
+            scope,
             settings.authNAuth
         );
         this.factory = new Factory(this.settings, this.oAuth);

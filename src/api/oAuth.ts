@@ -9,73 +9,74 @@ type Token = {
     token_type: string
 }
 
-export type OAuthRequest = {
-    grant_type: 'client_credentials' | 'authorization_code',
-    scope: string[];
-}
-
-const defaultRequest: OAuthRequest = {
-    grant_type: 'client_credentials',
-    scope: ['https://api.ebay.com/oauth/api_scope']
+// User Access Token
+type UserAccessToken = Token & {
+    refresh_token: string,
+    refresh_token_expires_in: number
 };
+
+export type Scope = string[];
+
+const defaultScopes: Scope = ['https://api.ebay.com/oauth/api_scope'];
 
 export default class OAuth {
     // If all the calls in our application require just an Application access token
-    private client = {
+    private client: any = {
         production: 'https://api.ebay.com/identity/v1/oauth2/token',
-        sandbox: 'https://api.sandbox.ebay.com/identity/v1/oauth2/token',
+        sandbox: 'https://api.sandbox.ebay.com/identity/v1/oauth2/token'
     };
 
-    private authorize = {
+    private authorize: any = {
         production: 'https://auth.ebay.com/oauth2/authorize',
         sandbox: 'https://auth.sandbox.ebay.com/oauth2/authorize'
     };
 
-    private _token?: Token;
+    private _clientToken?: Token;
+    private _userAccessToken?: UserAccessToken;
 
     readonly appId: string;
     readonly certId: string;
     readonly sandbox: boolean;
     readonly authNAuth?: string;
+    private scope: Scope;
 
-    private oAuthRequest: OAuthRequest;
+    private endpoint: string;
 
     constructor(
         appId: string,
         certId: string,
         sandbox: boolean,
-        oAuthRequest: OAuthRequest = defaultRequest,
+        scopes: Scope = defaultScopes,
         authNAuth?: string
     ) {
         this.appId = appId;
         this.certId = certId;
         this.sandbox = sandbox;
-        this.oAuthRequest = oAuthRequest;
+        this.endpoint = sandbox ? 'sandbox' : 'production';
+        this.scope = scopes;
         this.authNAuth = authNAuth;
     }
 
-    get token() {
-        return this._token;
+    get clientToken() {
+        return this._clientToken;
     }
 
-    async getClientToken(oAuthRequest: OAuthRequest = this.oAuthRequest): Promise<string> {
-        if (this.token) {
-            log('Client Token exists: ', this.token);
-            return this.token.access_token;
+    async getAccessToken(scopes: Scope = this.scope) {
+        if (this._userAccessToken) {
+            return this._userAccessToken.access_token;
+        }
+        // Fallback to Client Token
+        return this.getClientToken(scopes);
+    }
+
+    async getClientToken(scopes: Scope = this.scope): Promise<string> {
+        if (this.clientToken) {
+            log('Client Token exists: ', this.clientToken);
+            return this.clientToken.access_token;
         }
 
         try {
-            const token = await this.obtainClientToken(oAuthRequest);
-            return token.access_token;
-        } catch (e) {
-            throw e;
-        }
-    }
-
-    async refreshToken(oAuthRequest: OAuthRequest): Promise<string> {
-        try {
-            log('Refresh Token: ', oAuthRequest);
-            const token = await this.obtainClientToken(oAuthRequest);
+            const token = await this.obtainClientToken(scopes);
             return token.access_token;
         } catch (e) {
             throw e;
@@ -83,31 +84,30 @@ export default class OAuth {
     }
 
     setClientToken(clientToken: Token) {
-        this._token = clientToken;
+        this._clientToken = clientToken;
     }
 
-    setOAuthRequest(oAuthRequest: OAuthRequest) {
-        this.oAuthRequest = oAuthRequest;
+    setScope(scope: Scope) {
+        this.scope = scope;
     }
 
     // Client Credential Grant
-    private obtainClientToken(oAuthRequest: OAuthRequest): Promise<Token> {
-        if (!this.appId) throw new Error('Missing Client ID');
-        if (!this.certId) throw new Error('Missing Client Secret or Cert Id');
+    private obtainClientToken(scope: Scope): Promise<Token> {
+        if (!this.appId) throw new Error('Missing App ID (Client Id)');
+        if (!this.certId) throw new Error('Missing Cert Id (Client Secret)');
 
-        log('Obtain a new Token:', oAuthRequest);
+        log('Obtain a new Client Token with scope:', scope);
 
-        const endpoint = this.sandbox ? 'sandbox' : 'production';
-        return request.postForm(this.client[endpoint], {
-            scope: oAuthRequest.scope.join(' '),
-            grant_type: oAuthRequest.grant_type
+        return request.postForm(this.client[this.endpoint], {
+            scope: scope.join(' '),
+            grant_type: 'client_credentials'
         }, {
             auth: {
                 username: this.appId,
                 password: this.certId
             }
         }).then((token: any) => {
-            this.oAuthRequest = oAuthRequest;
+            this.setScope(scope);
             this.setClientToken(token);
             log('Stored a new Client Token:', token);
             return token;
@@ -117,4 +117,47 @@ export default class OAuth {
         })
     }
 
+    /**
+     * @param redirectUri RuName
+     * @param scope the scopes
+     * @param state state parameter returned in the redirect URL
+     */
+    generateAuthUrl(redirectUri: string, scope: string[], state = '') {
+        return [
+            this.authorize[this.endpoint],
+            '?client_id=', encodeURIComponent(this.appId),
+            '&redirect_uri=', encodeURIComponent(redirectUri),
+            '&response_type=code',
+            '&state=', encodeURIComponent(state),
+            '&scope=', encodeURIComponent(scope.join(' '))
+        ].join('');
+    }
+
+    /**
+     * Get User Access Token
+     *
+     * @param code the code
+     * @param redirectUri the redirectUri
+     */
+    async getToken(code: string, redirectUri: string) {
+        return request.postForm(this.client[this.endpoint], {
+            grant_type: 'authorization_code',
+            code: code,
+            redirect_uri: redirectUri
+        }, {
+            auth: {
+                username: this.appId,
+                password: this.certId
+            }
+        }).then(token => {
+            log('Successfully obtained a new User Access Token:', token);
+            return token;
+        }).catch(error => {
+            throw error;
+        })
+    }
+
+    setCredentials(userAccessToken: UserAccessToken) {
+        this._userAccessToken = userAccessToken;
+    }
 }

@@ -16,7 +16,7 @@ export default abstract class Api {
     }
 
     async getHeaders() {
-        const accessToken = await this.oAuth.getClientToken();
+        const accessToken = await this.oAuth.getAccessToken();
         return {
             'Content-Type': 'application/json',
             'authorization': 'Bearer ' + accessToken,
