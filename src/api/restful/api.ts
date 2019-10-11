@@ -7,14 +7,16 @@ export default abstract class Api {
 
     readonly oAuth: OAuth;
     readonly req: any;
+    readonly sandbox: boolean;
 
     constructor(oAuth: OAuth, req = request) {
         this.oAuth = oAuth;
+        this.sandbox = oAuth.sandbox;
         this.req = req;
     }
 
     async getHeaders() {
-        const accessToken = await this.oAuth.getAccessToken();
+        const accessToken = await this.oAuth.getClientToken();
         return {
             'Content-Type': 'application/json',
             'authorization': 'Bearer ' + accessToken,
@@ -24,8 +26,16 @@ export default abstract class Api {
 
     abstract get basePath(): string;
 
+    get serverUrl() {
+        return 'https://api.' + (this.sandbox ? 'sandbox.' : '') + 'ebay.com'
+    }
+
+    get apiVersionPath() {
+        return '';
+    }
+
     get baseUrl() {
-        return 'https://api.ebay.com' + this.basePath
+        return this.serverUrl + this.apiVersionPath + this.basePath
     };
 
     async get(url: string, config: any = {}): Promise<any> {

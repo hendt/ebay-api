@@ -15,9 +15,9 @@ const allTests = {
     'Sell': sellTests
 };
 
-const testOAuth = new OAuth(  'appId', 'certId');
+const testOAuth = new OAuth(  'appId', 'certId', true);
 
-testOAuth.setToken({
+testOAuth.setClientToken({
     access_token: 'token',
     expires_in: 1,
     token_type: 'test'

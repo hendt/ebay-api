@@ -1,5 +1,5 @@
-import EBay from '../index';
-import {EventType} from "../api/traditional/clientAlerts";
+import EBay from '../src';
+import {EventType} from "../src/api/traditional/clientAlerts";
 
 const ebay = EBay.fromEnv();
 

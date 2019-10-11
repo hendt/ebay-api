@@ -14,6 +14,10 @@ export default class Fulfillment extends Api {
         return '';
     }
 
+    get apiVersionPath() {
+        return '/sell/fulfillment/v1'
+    };
+
     /**
      * Use this call to retrieve the contents of an order based on its unique identifier, orderId.
      *

@@ -1,4 +1,4 @@
-import EBay from '../index';
+import EBay from '../src';
 
 const ebay = EBay.fromEnv();
 

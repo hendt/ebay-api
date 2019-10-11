@@ -10,7 +10,7 @@ import OAuth from "../oAuth";
 const HEADING = '?xml version="1.0" encoding="utf-8"?';
 const LIST = "List";
 const LISTING = "Listing";
-const log = debug("ebay:request");
+const log = debug("ebay:xml:request");
 
 const defaultXmlOptions = {
     attributeNamePrefix : "@_",

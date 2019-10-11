@@ -2,5 +2,5 @@
 *.enc
 tsconfig.json
 test
-lib/examples
+examples
 *.iml

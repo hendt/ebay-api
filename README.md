@@ -37,6 +37,14 @@ const ebay = new EBay({
 
 ## RESTful API
 
+### Scope
+```shell script
+const ebay = new EBay({
+  // ...
+  scope: ['https://api.ebay.com/oauth/api_scope']
+});
+```
+
 ### Buy
 ```javascript
 

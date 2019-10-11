@@ -1,6 +1,8 @@
 import axiosRateLimit from 'axios-rate-limit';
 import axios, {AxiosRequestConfig, AxiosInstance} from 'axios';
 import qs from 'qs';
+import debug from "debug";
+const log = debug("ebay:request");
 
 interface RateLimitedAxiosInstance extends AxiosInstance {
 }
@@ -33,7 +35,7 @@ export class LimitedAxiosRequest {
             const query = qs.stringify(params, {allowDots: true})
                 .replace(/%5B/gi, '(')
                 .replace(/%5D/gi, ')');
-            console.log(query);
+            log('getCFP:' + url, query);
             return query;
         };
 
@@ -41,15 +43,19 @@ export class LimitedAxiosRequest {
     }
 
     get<T = any, R = any>(url: string, config?: AxiosRequestConfig): Promise<R> {
+        log('get:' + url);
         return req.get(url, config).then(({data}) => data);
     }
 
     post<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
+        log('post: ' + url, data);
         return req.post(url, data, config).then(({data}) => data);
     }
 
     postForm<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
-        return req.post(url, qs.stringify(data), config).then(({data}) => data);
+        const body = qs.stringify(data);
+        log('postForm: ' + url, body);
+        return req.post(url, body, config).then(({data}) => data);
     }
 }
 
