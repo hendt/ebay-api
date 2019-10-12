@@ -7,7 +7,7 @@ import request from '../../utils/request';
 import {Settings} from "../../types";
 import {Fields} from './fields';
 import {Options} from "./XMLRequest";
-import OAuth from "../oAuth";
+import OAuth2 from "../оAuth2";
 
 type XMLApiCall = (fields?: Fields, options?: Options) => Promise<any>;
 
@@ -48,11 +48,11 @@ export default class Traditional {
     };
 
     readonly settings: Settings;
-    readonly oAuth: OAuth;
+    readonly oAuth: OAuth2;
 
-    constructor(settings: Settings, oAuth: OAuth) {
+    constructor(settings: Settings, oAuth2: OAuth2) {
         this.settings = settings;
-        this.oAuth = oAuth;
+        this.oAuth = oAuth2;
     }
 
     private createTraditionalXMLApi<T>(calls: AllCalls, config: Config): T {

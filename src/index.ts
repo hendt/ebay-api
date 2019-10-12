@@ -1,12 +1,12 @@
-import Factory from "./api/factory";
-import {EnvError} from "./errors";
-import {Buy} from "./api/restful/buy";
-import {Commerce} from "./api/restful/commerce";
-import {Developer} from "./api/restful/developer";
-import {Sell} from "./api/restful/sell";
-import {ClientAlerts, Finding, Shopping, Trading} from "./api/traditional";
-import {Settings, SiteId} from "./types";
-import OAuth, {Scope} from "./api/oAuth";
+import Factory from './api/factory';
+import {EnvError} from './errors';
+import {Buy} from './api/restful/buy';
+import {Commerce} from './api/restful/commerce';
+import {Developer} from './api/restful/developer';
+import {Sell} from './api/restful/sell';
+import {ClientAlerts, Finding, Shopping, Trading} from './api/traditional';
+import {Settings, SiteId} from './types';
+import OAuth2, {Scope} from './api/оAuth2';
 
 const defaultSettings = {
     sandbox: false,
@@ -15,7 +15,7 @@ const defaultSettings = {
 
 export default class EBay {
 
-    readonly oAuth: OAuth;
+    readonly oAuth2: OAuth2;
     private readonly factory: Factory;
     private readonly settings: Settings;
 
@@ -64,14 +64,14 @@ export default class EBay {
      */
     constructor(settings: Settings, scope?: Scope) {
         this.settings = {...defaultSettings, ...settings};
-        this.oAuth = new OAuth(
+        this.oAuth2 = new OAuth2(
             this.settings.appId,
             this.settings.certId,
             this.settings.sandbox,
             scope,
             settings.authNAuth
         );
-        this.factory = new Factory(this.settings, this.oAuth);
+        this.factory = new Factory(this.settings, this.oAuth2);
     }
 
     get buy(): Buy {

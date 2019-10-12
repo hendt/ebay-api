@@ -1,7 +1,7 @@
-import debug from "debug"
-import request from "../utils/request";
+import debug from 'debug';
+import request from '../utils/request';
 
-const log = debug("ebay:oauth");
+const log = debug('ebay:oauth');
 
 type Token = {
     access_token: string,
@@ -19,7 +19,7 @@ export type Scope = string[];
 
 const defaultScopes: Scope = ['https://api.ebay.com/oauth/api_scope'];
 
-export default class OAuth {
+export default class OAuth2 {
     // If all the calls in our application require just an Application access token
     private client: any = {
         production: 'https://api.ebay.com/identity/v1/oauth2/token',
@@ -61,23 +61,19 @@ export default class OAuth {
      * Return the access token.
      */
     async getAccessToken() {
-        if (this._userAccessToken) {
-            return this._userAccessToken.access_token;
-        }
-
         // Fallback to Client Token
-        return this.getClientToken();
+        return this.accessToken || this.getClientAccessToken();
     }
 
     get accessToken() {
         if (this._userAccessToken) {
-            return this._userAccessToken.access_token
+            return this._userAccessToken.access_token;
         }
 
         return null;
     }
 
-    async getClientToken(): Promise<string> {
+    async getClientAccessToken(): Promise<string> {
         if (this._clientToken) {
             log('Return existing client token: ', this._clientToken);
             return this._clientToken.access_token;
@@ -121,12 +117,14 @@ export default class OAuth {
             this.setClientToken(token);
             return token;
         } catch (ex) {
-            log('Can\'s store client token', ex);
+            log('Failed to store client token', ex);
             throw ex;
         }
     }
 
     /**
+     * Generates URL for consent page landing.
+     *
      * @param redirectUri RuName
      * @param scope the scopes
      * @param state state parameter returned in the redirect URL
@@ -143,7 +141,7 @@ export default class OAuth {
     }
 
     /**
-     * Get User Access Token
+     * Gets the access token for the given code.
      *
      * @param code the code
      * @param redirectUri the redirectUri
@@ -164,7 +162,7 @@ export default class OAuth {
             log('Successfully obtained a new User Access Token:', token);
             return token;
         } catch (ex) {
-            log('Can\'t get token:', ex);
+            log('Failed to get the token:', ex);
             throw ex;
         }
     }
@@ -176,7 +174,7 @@ export default class OAuth {
     public async refreshAuthToken() {
         if (!this._userAccessToken) {
             log('Tried to refresh auth token before it was set.');
-            throw new Error('Can\t refresh token if it was never set.');
+            throw new Error('Failed to refresh the token. Token is not set.');
         }
 
         try {
@@ -193,18 +191,18 @@ export default class OAuth {
             log('Successfully refreshed token', token);
             this.setCredentials(token);
         } catch (ex) {
-            log('Can\t refresh token', ex);
+            log('Failed to refresh the token', ex);
             throw ex;
         }
     }
 
     async refreshToken() {
-        if (this._clientToken) {
-            return await this.refreshClientToken();
-        } else if (this._userAccessToken) {
-            return await this.refreshAuthToken();
+        if (this._userAccessToken) {
+            return this.refreshAuthToken();
+        } else if (this._clientToken) {
+            return this.refreshClientToken();
         }
 
-        throw new Error("To refresh a Token a client token or user access token must be already set.")
+        throw new Error('To refresh a Token a client token or user access token must be already set.');
     }
 }

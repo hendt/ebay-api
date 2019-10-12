@@ -59,7 +59,7 @@ const ebay = EBay.fromEnv();
 
 // 1. Generate URL
 const runName = ''; // RuName (eBay Redirect URL name)
-const url = ebay.oAuth.generateAuthUrl(runName, [
+const url = ebay.oAuth2.generateAuthUrl(runName, [
     'https://api.ebay.com/oauth/api_scope/sell.inventory',
     'https://api.ebay.com/oauth/api_scope/sell.account',
     'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
@@ -71,8 +71,8 @@ const url = ebay.oAuth.generateAuthUrl(runName, [
 const code = 'code'; // from www.your-website?code=XXXX
 
 // 4. Get the token
-const token = await ebay.oAuth.getToken(code, runName);
-ebay.oAuth.setCredentials(token);
+const token = await ebay.oAuth2.getToken(code, runName);
+ebay.oAuth2.setCredentials(token);
 
 // You can now call the APIs e.g.
 ebay.sell.fulfillment.getOrder('<order-id>').then(order => {

@@ -1,24 +1,23 @@
-import request from '../../utils/request';
-import OAuth from "../oAuth";
 import debug from 'debug';
-import {EBayAccessDenied, EBayUnauthorized, getEBayError} from "../../errors";
-import {PRIVACY_PRIVATE} from "tslint/lib/rules/completedDocsRule";
+import request from '../../utils/request';
+import OAuth2 from '../оAuth2';
+import {EBayAccessDenied, EBayInvalidScope, EBayUnauthorized, getEBayError} from '../../errors';
 
 const log = debug('ebay:restful:api');
 
 export default abstract class Api {
-    readonly oAuth: OAuth;
+    readonly oAuth2: OAuth2;
     readonly req: any;
     readonly sandbox: boolean;
 
-    constructor(oAuth: OAuth, req = request) {
-        this.oAuth = oAuth;
-        this.sandbox = oAuth.sandbox;
+    constructor(oAuth2: OAuth2, req = request) {
+        this.oAuth2 = oAuth2;
+        this.sandbox = oAuth2.sandbox;
         this.req = req;
     }
 
-    async getHeaders() {
-        const accessToken = await this.oAuth.getAccessToken();
+    async getAuthHeaders() {
+        const accessToken = await this.oAuth2.getAccessToken();
         return {
             'Content-Type': 'application/json',
             'authorization': 'Bearer ' + accessToken,
@@ -26,10 +25,21 @@ export default abstract class Api {
         };
     }
 
+    async getAuthConfig(config: any) {
+        const authHeaders = await this.getAuthHeaders();
+        return {
+            ...config,
+            headers: {
+                ...authHeaders,
+                ...config.headers
+            }
+        };
+    }
+
     abstract get basePath(): string;
 
     get serverUrl() {
-        return 'https://api.' + (this.sandbox ? 'sandbox.' : '') + 'ebay.com'
+        return 'https://api.' + (this.sandbox ? 'sandbox.' : '') + 'ebay.com';
     }
 
     get apiVersionPath() {
@@ -37,52 +47,36 @@ export default abstract class Api {
     }
 
     get baseUrl() {
-        return this.serverUrl + this.apiVersionPath + this.basePath
+        return this.serverUrl + this.apiVersionPath + this.basePath;
     };
 
     async get(url: string, config: any = {}): Promise<any> {
-        const headers = await this.getHeaders();
-        const authConfig = {
-            ...config,
-            headers: {
-                ...headers,
-                ...config.headers
-            }
-        };
+        const authConfig = await this.getAuthConfig(config);
 
         try {
             return await this.req.get(this.baseUrl + url, authConfig);
         } catch (ex) {
-            return this.handleEBayError(ex)
-                .then(() => {
-                    return this.get(url, config)
-                        .catch((ex: any) => this.handleEBayError(ex, true));
-                });
+            await this.handleEBayError(ex);
+
+            // Token refreshed -> try again
+            return this.get(url, config).catch((ex: any) => this.handleEBayError(ex, true));
         }
     }
 
     async post(url: string, data?: any, config: any = {}): Promise<any> {
-        const headers = await this.getHeaders();
-        const authConfig = {
-            ...config,
-            headers: {
-                ...headers,
-                ...config.headers
-            }
-        };
+        const authConfig = await this.getAuthConfig(config);
 
         try {
             return await this.req.post(this.baseUrl + url, data, authConfig);
         } catch (ex) {
-            return this.handleEBayError(ex)
-                .then(() => {
-                    return this.post(url, data, config)
-                        .catch((ex: any) => this.handleEBayError(ex, true));
-                });
+            await this.handleEBayError(ex);
+
+            // Token refreshed -> try again
+            return this.post(url, data, config).catch((ex: any) => this.handleEBayError(ex, true));
         }
     }
 
-    async handleEBayError(ex: any, refreshedToken?: boolean) {
+    async handleEBayError(ex: any, refreshedToken?: boolean): Promise<any> {
         const error = getEBayError(ex);
 
         if (error) {
@@ -91,18 +85,21 @@ export default abstract class Api {
             } else if (error.message === 'Invalid access token') {
                 if (!refreshedToken) {
                     log('Token expired. Refresh the token.');
-                    return this.oAuth.refreshToken()
-                        .catch((ex) => {
-                            log("error refreshToken", ex);
-                            return ex;
-                        });
+                    return this.oAuth2.refreshToken().catch((ex: Error) => {
+                        const error = getEBayError(ex);
+                        if (error.message === 'invalid_scope') {
+                            throw new EBayInvalidScope(ex);
+                        }
+
+                        throw ex;
+                    });
                 }
+
                 throw new EBayUnauthorized(ex);
             }
         }
 
-        log("Unknown ebay Error", ex);
+        log('handleEBayError', ex);
         throw ex;
     }
-
 }

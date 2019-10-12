@@ -24,12 +24,12 @@ abstract class EBayError extends Error {
 
 
 /**
- * thrown when Request.prototype.run() is called without an oAuth
+ * thrown when Request.prototype.run() is called without an oAuth2
  *
  * @class      No_Auth_Token (name)
  */
 export class NoAuthTokenError extends EBayError {
-    constructor(msg = "no oAuth present.  Please invoke `Ebay.prototype.oAuth(<Token>)`.") {
+    constructor(msg = "no oAuth2 present.  Please invoke `Ebay.prototype.oAuth2(<Token>)`.") {
         super(msg)
     }
 }
@@ -83,9 +83,22 @@ export class EBayUnauthorized extends EBayError {
     }
 }
 
+export class EBayInvalidScope extends EBayError {
+    constructor(err: any) {
+        super(err.response.data.error_description);
+        this.meta = err.response.data;
+    }
+}
+
 export const getEBayError = (e: any) => {
     if (e.response && e.response.data) {
         const data = e.response.data;
+        if (data.error) {
+            return {
+                message: data.error,
+                description: data.error_description
+            }
+        }
         return data.errors[0] ? data.errors[0] : null;
     }
 

@@ -1,25 +1,25 @@
-import {j2xParser} from "fast-xml-parser"
-import debug from "debug"
+import {j2xParser} from 'fast-xml-parser';
+import debug from 'debug';
 
-import {EbayApiError, NoCallError} from "../../errors"
-import Parser from "./Parser"
+import {EbayApiError, NoCallError} from '../../errors';
+import Parser from './Parser';
 import req from '../../utils/request';
-import {Fields} from "./fields";
-import OAuth from "../oAuth";
+import {Fields} from './fields';
+import OAuth2 from '../оAuth2';
 
 const HEADING = '?xml version="1.0" encoding="utf-8"?';
-const LIST = "List";
-const LISTING = "Listing";
-const log = debug("ebay:xml:request");
+const LIST = 'List';
+const LISTING = 'Listing';
+const log = debug('ebay:xml:request');
 
 const defaultXmlOptions = {
-    attributeNamePrefix: "@_",
-    textNodeName: "#text",
+    attributeNamePrefix: '@_',
+    textNodeName: '#text',
     ignoreAttributes: false,
-    cdataTagName: "__cdata", //default is false
-    cdataPositionChar: "\\c",
+    cdataTagName: '__cdata', //default is false
+    cdataPositionChar: '\\c',
     format: false,
-    indentBy: "  ",
+    indentBy: '  ',
     supressEmptyNode: false
 };
 
@@ -57,10 +57,10 @@ const defaultOptions: Options = {
 export default class XMLRequest<T> {
     readonly callname: string;
     readonly fields: Fields;
-    readonly oAuth: OAuth;
+    readonly oAuth2: OAuth2;
     readonly config: Config;
     readonly defaultHeaders = {
-        "Content-Type": "text/xml"
+        'Content-Type': 'text/xml'
     };
 
     /**
@@ -69,13 +69,13 @@ export default class XMLRequest<T> {
      * @private
      * @param      {string}  callname the callname
      * @param      {Object}  fields the fields
-     * @param      {OAuth} oAuth the oAuth
+     * @param      {OAuth2} oAuth the oAuth2
      * @param      {Config}  config
      */
-    constructor(callname: string, fields: Fields, oAuth: OAuth, config: Config) {
+    constructor(callname: string, fields: Fields, oAuth: OAuth2, config: Config) {
         this.callname = callname;
         this.fields = fields;
-        this.oAuth = oAuth;
+        this.oAuth2 = oAuth;
         this.config = config;
     }
 
@@ -86,7 +86,7 @@ export default class XMLRequest<T> {
      * @return     {String}  { description_of_the_return_value }
      */
     private get responseWrapper() {
-        return `${this.callname}Response`
+        return `${this.callname}Response`;
     }
 
     /**
@@ -96,11 +96,11 @@ export default class XMLRequest<T> {
      * @return     {String}  eBay Auth token
      */
     private get token() {
-        if (this.oAuth.authNAuth) {
-            return this.oAuth.authNAuth;
+        if (this.oAuth2.authNAuth) {
+            return this.oAuth2.authNAuth;
         }
 
-        return this.oAuth.accessToken;
+        return this.oAuth2.accessToken;
     }
 
     /**
@@ -131,8 +131,8 @@ export default class XMLRequest<T> {
         if (listKey !== null) {
             const value = payload[listKey] as any;
             payload[listKey] = {
-                ...value,
-            }
+                ...value
+            };
         }
 
         // xmlns="${this.config.xmlns}"
@@ -144,7 +144,7 @@ export default class XMLRequest<T> {
                 ...this.credentials,
                 ...payload
             }
-        })
+        });
     }
 
     /**
@@ -162,7 +162,7 @@ export default class XMLRequest<T> {
                 continue;
             }
             if (~field.indexOf(LIST)) {
-                return field
+                return field;
             }
         }
         return null;
@@ -185,7 +185,7 @@ export default class XMLRequest<T> {
         } as Required<Options>;
 
         try {
-            return await this.fetch(requiredOptions)
+            return await this.fetch(requiredOptions);
         } catch (error) {
             log(error);
             throw error;
@@ -228,7 +228,7 @@ export default class XMLRequest<T> {
                 json = Parser.flatten(json[this.responseWrapper]);
             }
 
-            if (json.Ack === "Error" || json.Ack === "Failure") {
+            if (json.Ack === 'Error' || json.Ack === 'Failure') {
                 throw new EbayApiError(json.Errors);
             }
 

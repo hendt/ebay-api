@@ -1,4 +1,4 @@
-import OAuth from "./oAuth";
+import OAuth2 from "./оAuth2";
 import {
     Buy, Browse, Feed, BuyMarketing, Offer, Order,
     Commerce, Catalog, Identity, Taxonomy, Translation,
@@ -12,10 +12,10 @@ import {Settings} from "../types";
 export default class Factory {
 
     readonly settings: Settings;
-    readonly oAuth: OAuth;
+    readonly oAuth: OAuth2;
     private _traditional?: Traditional;
 
-    constructor(settings: Settings, oAuth: OAuth) {
+    constructor(settings: Settings, oAuth: OAuth2) {
         this.settings = settings;
         this.oAuth = oAuth;
     }
