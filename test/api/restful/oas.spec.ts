@@ -26,7 +26,7 @@ testOAuth.setClientToken({
 Object.entries(allTests).forEach(([name, tests]) => {
     describe('API > restful > ' + name, () => {
         tests.forEach((Oas, Api) => {
-            const api = new Api(testOAuth);
+            const api = new Api({oAuth2: testOAuth});
 
             it('"' + name + ':' + Api.name + '" should return correct path', () => {
                 if (Oas.servers) {
@@ -49,7 +49,7 @@ Object.entries(allTests).forEach(([name, tests]) => {
                     post: sinon.stub().returns(Promise.resolve()),
                 };
 
-                const api = new Api(testOAuth, req);
+                const api = new Api({oAuth2: testOAuth}, req);
 
                 it('"' + name + ':' + Api.name + '" should implement this method', () => {
                     expect(api[call.operationId]).to

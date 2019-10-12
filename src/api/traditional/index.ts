@@ -1,13 +1,14 @@
-import XMLRequest, {Config} from "./XMLRequest";
-import ClientAlertsCalls from "./clientAlerts";
-import TradingCalls from "./trading";
-import ShoppingCalls from "./shopping";
-import FindingCalls from "./finding";
+import XMLRequest, {Config} from './XMLRequest';
+import ClientAlertsCalls from './clientAlerts';
+import TradingCalls from './trading';
+import ShoppingCalls from './shopping';
+import FindingCalls from './finding';
 import request from '../../utils/request';
-import {Settings} from "../../types";
+import {Settings} from '../../types';
 import {Fields} from './fields';
-import {Options} from "./XMLRequest";
-import OAuth2 from "../оAuth2";
+import {Options} from './XMLRequest';
+import OAuth2 from '../оAuth2';
+import {Auth} from '../factory';
 
 type XMLApiCall = (fields?: Fields, options?: Options) => Promise<any>;
 
@@ -48,18 +49,18 @@ export default class Traditional {
     };
 
     readonly settings: Settings;
-    readonly oAuth: OAuth2;
+    readonly auth: Auth;
 
-    constructor(settings: Settings, oAuth2: OAuth2) {
+    constructor(settings: Settings, auth: Auth) {
         this.settings = settings;
-        this.oAuth = oAuth2;
+        this.auth = auth;
     }
 
     private createTraditionalXMLApi<T>(calls: AllCalls, config: Config): T {
         const service: any = {};
         for (let callname in calls) {
             service[callname] = async (fields: Fields, options?: Options) => {
-                const request = new XMLRequest(callname, fields, this.oAuth, config);
+                const request = new XMLRequest(callname, fields, this.auth, config);
                 return request.run(options);
             };
         }
@@ -85,19 +86,19 @@ export default class Traditional {
                         callname
                     }
                 });
-            }
+            };
         }
         return service;
     }
 
     createTradingApi(compatibilityLevel = 967): Trading {
         const headers = (callname: string) => ({
-            "X-EBAY-API-CALL-NAME": callname,
-            "X-EBAY-API-CERT-NAME": this.settings.certId,
-            "X-EBAY-API-APP-NAME": this.settings.appId,
-            "X-EBAY-API-DEV-NAME": this.settings.devId,
-            "X-EBAY-API-SITEID": this.settings.siteId,
-            "X-EBAY-API-COMPATIBILITY-LEVEL": compatibilityLevel
+            'X-EBAY-API-CALL-NAME': callname,
+            'X-EBAY-API-CERT-NAME': this.settings.certId,
+            'X-EBAY-API-APP-NAME': this.settings.appId,
+            'X-EBAY-API-DEV-NAME': this.settings.devId,
+            'X-EBAY-API-SITEID': this.settings.siteId,
+            'X-EBAY-API-COMPATIBILITY-LEVEL': compatibilityLevel
         });
 
         const config = {
@@ -111,11 +112,11 @@ export default class Traditional {
 
     createShoppingApi(apiVersion = 863): Shopping {
         const headers = (callname: string) => ({
-            "X-EBAY-API-CALL-NAME": callname,
-            "X-EBAY-API-APP-ID": this.settings.appId,
-            "X-EBAY-API-SITE-ID": this.settings.siteId,
-            "X-EBAY-API-VERSION": apiVersion,
-            "X-EBAY-API-REQUEST-ENCODING": "xml"
+            'X-EBAY-API-CALL-NAME': callname,
+            'X-EBAY-API-APP-ID': this.settings.appId,
+            'X-EBAY-API-SITE-ID': this.settings.siteId,
+            'X-EBAY-API-VERSION': apiVersion,
+            'X-EBAY-API-REQUEST-ENCODING': 'xml'
         });
 
         const config = {
@@ -129,8 +130,8 @@ export default class Traditional {
 
     createFindingApi(): Finding {
         const headers = (callname: string) => ({
-            "X-EBAY-SOA-SECURITY-APPNAME": this.settings.appId,
-            "X-EBAY-SOA-OPERATION-NAME": callname
+            'X-EBAY-SOA-SECURITY-APPNAME': this.settings.appId,
+            'X-EBAY-SOA-OPERATION-NAME': callname
         });
 
         const config = {

@@ -1,23 +1,23 @@
 import debug from 'debug';
 import request from '../../utils/request';
-import OAuth2 from '../оAuth2';
 import {EBayAccessDenied, EBayInvalidScope, EBayUnauthorized, getEBayError} from '../../errors';
+import {Auth} from '../../../src/api/factory';
 
 const log = debug('ebay:restful:api');
 
 export default abstract class Api {
-    readonly oAuth2: OAuth2;
+    readonly auth: Auth;
     readonly req: any;
     readonly sandbox: boolean;
 
-    constructor(oAuth2: OAuth2, req = request) {
-        this.oAuth2 = oAuth2;
-        this.sandbox = oAuth2.sandbox;
+    constructor(auth: Auth, req = request) {
+        this.auth = auth;
+        this.sandbox = auth.sandbox;
         this.req = req;
     }
 
     async getAuthHeaders() {
-        const accessToken = await this.oAuth2.getAccessToken();
+        const accessToken = await this.auth.oAuth2.getAccessToken();
         return {
             'Content-Type': 'application/json',
             'authorization': 'Bearer ' + accessToken,
@@ -85,7 +85,7 @@ export default abstract class Api {
             } else if (error.message === 'Invalid access token') {
                 if (!refreshedToken) {
                     log('Token expired. Refresh the token.');
-                    return this.oAuth2.refreshToken().catch((ex: Error) => {
+                    return this.auth.oAuth2.refreshToken().catch((ex: Error) => {
                         const error = getEBayError(ex);
                         if (error.message === 'invalid_scope') {
                             throw new EBayInvalidScope(ex);

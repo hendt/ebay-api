@@ -30,7 +30,7 @@ export type Settings = {
     appId: string, // (Client ID)
     certId: string, // (Client Secret)
     devId: string,
-    authNAuth?: string,
+    authToken?: string,
     sandbox: boolean,
     siteId?: number,
     grantType?: string,

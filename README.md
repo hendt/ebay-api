@@ -41,12 +41,11 @@ const ebay = new EBay({
   appId: '-- or Client ID --',
   certId: '-- or Client Secret',
   devId: 'devId',
+  sandbox: false,
+  siteId: SiteId.EBAY_DE,
 
   // Traditional
-  authNAuth: '--  Auth\'n Auth for traditional API (used by trading) --',
-
-  sandbox: false,
-  siteId: SiteId.EBAY_DE
+  authToken: '--  Auth\'n Auth for traditional API (used by trading) --',
 });
 ```
 
@@ -59,7 +58,7 @@ const ebay = EBay.fromEnv();
 
 // 1. Generate URL
 const runName = ''; // RuName (eBay Redirect URL name)
-const url = ebay.oAuth2.generateAuthUrl(runName, [
+const url = ebay.oAuth2.getSessionIdAndAuthUrl(runName, [
     'https://api.ebay.com/oauth/api_scope/sell.inventory',
     'https://api.ebay.com/oauth/api_scope/sell.account',
     'https://api.ebay.com/oauth/api_scope/sell.fulfillment'

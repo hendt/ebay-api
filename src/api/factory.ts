@@ -1,67 +1,78 @@
-import OAuth2 from "./оAuth2";
+import OAuth2 from './оAuth2';
 import {
     Buy, Browse, Feed, BuyMarketing, Offer, Order,
     Commerce, Catalog, Identity, Taxonomy, Translation,
     Developer, DeveloperAnalytics,
-    Sell, Account, SellAnalytics, Compliance, Fulfillment, Inventory, SellMarketing, Metadata, Recommendation,
-} from "./restful";
+    Sell, Account, SellAnalytics, Compliance, Fulfillment, Inventory, SellMarketing, Metadata, Recommendation
+} from './restful';
 
-import Traditional, {ClientAlerts, Finding, Shopping, Trading} from "./traditional";
-import {Settings} from "../types";
+import Traditional, {ClientAlerts, Finding, Shopping, Trading} from './traditional';
+import {Settings} from '../types';
+import {AuthToken} from '../';
+
+export type Auth = {
+    sandbox: boolean,
+    oAuth2: OAuth2,
+    authToken?: AuthToken
+}
 
 export default class Factory {
-
     readonly settings: Settings;
-    readonly oAuth: OAuth2;
-    private _traditional?: Traditional;
 
-    constructor(settings: Settings, oAuth: OAuth2) {
+    private _traditional?: Traditional;
+    readonly auth: Auth;
+
+    constructor(settings: Settings, oAuth2: OAuth2, authToken?: AuthToken) {
         this.settings = settings;
-        this.oAuth = oAuth;
+        this.auth = {
+            sandbox: settings.sandbox,
+            oAuth2,
+            authToken
+        };
     }
 
     createBuyApi(): Buy {
         return {
-            browse: new Browse(this.oAuth),
-            feed: new Feed(this.oAuth),
-            marketing: new BuyMarketing(this.oAuth),
-            offer: new Offer(this.oAuth),
-            order: new Order(this.oAuth)
-        }
+            browse: new Browse(this.auth),
+            feed: new Feed(this.auth),
+            marketing: new BuyMarketing(this.auth),
+            offer: new Offer(this.auth),
+            order: new Order(this.auth)
+        };
     }
 
     createCommerceApi(): Commerce {
         return {
-            catalog: new Catalog(this.oAuth),
-            identity: new Identity(this.oAuth),
-            taxonomy: new Taxonomy(this.oAuth),
-            translation: new Translation(this.oAuth),
-        }
+            catalog: new Catalog(this.auth),
+            identity: new Identity(this.auth),
+            taxonomy: new Taxonomy(this.auth),
+            translation: new Translation(this.auth)
+        };
     }
 
     createDeveloperApi(): Developer {
         return {
-            analytics: new DeveloperAnalytics(this.oAuth)
-        }
+            analytics: new DeveloperAnalytics(this.auth)
+        };
     }
 
     createSellApi(): Sell {
         return {
-            account: new Account(this.oAuth),
-            analytics: new SellAnalytics(this.oAuth),
-            compliance: new Compliance(this.oAuth),
-            fulfillment: new Fulfillment(this.oAuth),
-            inventory: new Inventory(this.oAuth),
-            marketing: new SellMarketing(this.oAuth),
-            metadata: new Metadata(this.oAuth),
-            recommendation: new Recommendation(this.oAuth)
-        }
+            account: new Account(this.auth),
+            analytics: new SellAnalytics(this.auth),
+            compliance: new Compliance(this.auth),
+            fulfillment: new Fulfillment(this.auth),
+            inventory: new Inventory(this.auth),
+            marketing: new SellMarketing(this.auth),
+            metadata: new Metadata(this.auth),
+            recommendation: new Recommendation(this.auth)
+        };
     }
 
     // Traditional
 
     get traditional() {
-        return this._traditional || (this._traditional = new Traditional(this.settings, this.oAuth));
+        return this._traditional || (this._traditional = new Traditional(this.settings, this.auth));
     }
 
     createTradingApi(): Trading {

@@ -37,7 +37,6 @@ export default class OAuth2 {
     readonly appId: string;
     readonly certId: string;
     readonly sandbox: boolean;
-    readonly authNAuth?: string;
 
     private scope: Scope;
     readonly endpoint: string;
@@ -47,14 +46,12 @@ export default class OAuth2 {
         certId: string,
         sandbox: boolean,
         scopes: Scope = defaultScopes,
-        authNAuth?: string
     ) {
         this.appId = appId;
         this.certId = certId;
         this.sandbox = sandbox;
         this.endpoint = sandbox ? 'sandbox' : 'production';
         this.scope = scopes;
-        this.authNAuth = authNAuth;
     }
 
     /**

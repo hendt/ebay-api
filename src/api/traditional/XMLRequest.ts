@@ -6,6 +6,7 @@ import Parser from './Parser';
 import req from '../../utils/request';
 import {Fields} from './fields';
 import OAuth2 from '../оAuth2';
+import {Auth} from '../factory';
 
 const HEADING = '?xml version="1.0" encoding="utf-8"?';
 const LIST = 'List';
@@ -57,7 +58,7 @@ const defaultOptions: Options = {
 export default class XMLRequest<T> {
     readonly callname: string;
     readonly fields: Fields;
-    readonly oAuth2: OAuth2;
+    readonly auth: Auth;
     readonly config: Config;
     readonly defaultHeaders = {
         'Content-Type': 'text/xml'
@@ -69,13 +70,13 @@ export default class XMLRequest<T> {
      * @private
      * @param      {string}  callname the callname
      * @param      {Object}  fields the fields
-     * @param      {OAuth2} oAuth the oAuth2
+     * @param      {OAuth2} auth the auth wrapper
      * @param      {Config}  config
      */
-    constructor(callname: string, fields: Fields, oAuth: OAuth2, config: Config) {
+    constructor(callname: string, fields: Fields, auth: Auth, config: Config) {
         this.callname = callname;
-        this.fields = fields;
-        this.oAuth2 = oAuth;
+        this.fields = fields || {};
+        this.auth = auth;
         this.config = config;
     }
 
@@ -96,11 +97,11 @@ export default class XMLRequest<T> {
      * @return     {String}  eBay Auth token
      */
     private get token() {
-        if (this.oAuth2.authNAuth) {
-            return this.oAuth2.authNAuth;
+        if (this.auth.authToken) {
+            return this.auth.authToken.eBayAuthToken;
         }
 
-        return this.oAuth2.accessToken;
+        return this.auth.oAuth2.accessToken;
     }
 
     /**

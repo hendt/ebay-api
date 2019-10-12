@@ -1,4 +1,4 @@
-import EBay from '../../src';
+import EBay from '../../../src';
 
 const ebay = EBay.fromEnv();
 

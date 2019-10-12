@@ -13,9 +13,22 @@ const defaultSettings = {
     siteId: SiteId.EBAY_DE
 };
 
+export type AuthToken = {
+    eBayAuthToken: string,
+    Timestamp?: string,
+    HardExpirationTime?: string
+}
+
 export default class EBay {
 
     readonly oAuth2: OAuth2;
+    private authToken?: AuthToken;
+
+    readonly signin = {
+        sandbox: 'https://signin.sandbox.ebay.com/ws/eBayISAPI.dll',
+        production: 'https://signin.ebay.com/ws/eBayISAPI.dll'
+    };
+
     private readonly factory: Factory;
     private readonly settings: Settings;
 
@@ -39,23 +52,23 @@ export default class EBay {
      */
     static fromEnv() {
         if (!process.env.EBAY_APP_ID) {
-            throw new EnvError("EBAY_APP_ID");
+            throw new EnvError('EBAY_APP_ID');
         }
         if (!process.env.EBAY_CERT_ID) {
-            throw new EnvError("EBAY_CERT_ID");
+            throw new EnvError('EBAY_CERT_ID');
         }
         if (!process.env.EBAY_DEV_ID) {
-            throw new EnvError("EBAY_DEV_ID");
+            throw new EnvError('EBAY_DEV_ID');
         }
 
         return new EBay({
             appId: process.env.EBAY_APP_ID,
             certId: process.env.EBAY_CERT_ID,
             devId: process.env.EBAY_DEV_ID,
-            authNAuth: process.env.EBAY_AUTH_N_AUTH,
+            authToken: process.env.EBAY_AUTH_TOKEN,
             siteId: process.env.EBAY_SITE_ID ? parseInt(process.env.EBAY_SITE_ID, 10) : SiteId.EBAY_DE,
             sandbox: (process.env.EBAY_SANDBOX === 'true')
-        })
+        });
     }
 
     /**
@@ -68,10 +81,16 @@ export default class EBay {
             this.settings.appId,
             this.settings.certId,
             this.settings.sandbox,
-            scope,
-            settings.authNAuth
+            scope
         );
-        this.factory = new Factory(this.settings, this.oAuth2);
+
+        if (settings.authToken) {
+            this.authToken = {
+                eBayAuthToken: settings.authToken
+            };
+        }
+
+        this.factory = new Factory(this.settings, this.oAuth2, this.authToken);
     }
 
     get buy(): Buy {
@@ -91,7 +110,6 @@ export default class EBay {
     }
 
     // Traditional
-
     get trading(): Trading {
         return this._trading || (this._trading = this.factory.createTradingApi());
     }
@@ -107,9 +125,42 @@ export default class EBay {
     get clientAlerts(): ClientAlerts {
         return this._clientAlerts || (this._clientAlerts = this.factory.createClientAlertsApi());
     }
+
+    // XML Flow Tutorial: Getting Tokens: Auth'n'Auth
+
+    /**
+     * Generates URL for consent page landing.
+     *
+     * @param redirectUri RuName
+     */
+    async getSessionIdAndAuthUrl(redirectUri: string) {
+        const response = await this.trading.GetSessionID({
+            RuName: redirectUri
+        });
+
+        return {
+            sessionId: response.SessionID,
+            url: [
+                this.signin[this.settings.sandbox ? 'sandbox' : 'production'],
+                '?SignIn',
+                '&RuName=', encodeURIComponent(redirectUri),
+                '&SessID=', encodeURIComponent(response.SessionID)
+            ].join('')
+        };
+    }
+
+    async fetchAuthToken(sessionId: string) {
+        return this.trading.FetchToken({
+            SessionID: sessionId
+        });
+    }
+
+    setAuthToken(authToken: AuthToken) {
+        this.authToken = authToken;
+    }
 }
 
 export {
     SiteId,
     Settings
-}
+};
