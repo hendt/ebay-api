@@ -57,7 +57,7 @@ export class EnvError extends EBayError {
  * Thrown when an Error occurs on eBay's side.
  */
 export class EbayApiError extends EBayError {
-    constructor(err: any) {
+    constructor(err: any, name = 'EbayApiError') {
         let message = '';
         if (err.errorMessage) {
             message = err.errorMessage.error.message;
@@ -65,7 +65,8 @@ export class EbayApiError extends EBayError {
             message = err.LongMessage || err.ShortMessage;
         }
         super(message);
-        this.meta = err
+        this.meta = err;
+        this.name = name;
     }
 }
 
@@ -73,13 +74,30 @@ export class EBayAccessDenied extends EBayError {
     constructor(err: any) {
         super('Access denied');
         this.meta = err.response.data;
+        this.name = 'EBayAccessDenied';
     }
 }
 
-export class EBayUnauthorized extends EBayError {
+export class EBayUnauthorizedAfterRefresh extends EBayError {
     constructor(err: any) {
-        super('Unauthorized after refreshing token');
+        super('Unauthorized after refreshing token.');
         this.meta = err.response.data;
+        this.name = 'EBayUnauthorized';
+    }
+}
+
+export class EBayIAFTokenExpired extends EbayApiError {
+    static code = 21917053;
+    constructor(err: any) {
+        super(err, 'EBayIAFTokenExpired');
+    }
+}
+
+export class EBayTokenRequired extends EbayApiError {
+    static code = 930;
+
+    constructor(err: any) {
+        super(err, 'EBayTokenRequired');
     }
 }
 
@@ -87,6 +105,7 @@ export class EBayInvalidScope extends EBayError {
     constructor(err: any) {
         super(err.response.data.error_description);
         this.meta = err.response.data;
+        this.name = 'EBayInvalidScope';
     }
 }
 

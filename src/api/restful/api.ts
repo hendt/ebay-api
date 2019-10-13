@@ -1,6 +1,6 @@
 import debug from 'debug';
 import request from '../../utils/request';
-import {EBayAccessDenied, EBayInvalidScope, EBayUnauthorized, getEBayError} from '../../errors';
+import {EBayAccessDenied, EBayInvalidScope, EBayUnauthorizedAfterRefresh, getEBayError} from '../../errors';
 import {Auth} from '../../../src/api/factory';
 
 const log = debug('ebay:restful:api');
@@ -95,7 +95,7 @@ export default abstract class Api {
                     });
                 }
 
-                throw new EBayUnauthorized(ex);
+                throw new EBayUnauthorizedAfterRefresh(ex);
             }
         }
 

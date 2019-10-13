@@ -1,16 +1,14 @@
 import {j2xParser} from 'fast-xml-parser';
 import debug from 'debug';
 
-import {EbayApiError, NoCallError} from '../../errors';
+import {EbayApiError, EBayIAFTokenExpired, EBayTokenRequired, NoCallError} from '../../errors';
 import Parser from './Parser';
-import req from '../../utils/request';
+import request, {LimitedRequest} from '../../utils/request';
 import {Fields} from './fields';
 import OAuth2 from '../оAuth2';
 import {Auth} from '../factory';
 
 const HEADING = '?xml version="1.0" encoding="utf-8"?';
-const LIST = 'List';
-const LISTING = 'Listing';
 const log = debug('ebay:xml:request');
 
 const defaultXmlOptions = {
@@ -41,7 +39,7 @@ type Headers = {
 }
 
 export type Config = {
-    headers: (callname: string) => Headers,
+    headers: Headers,
     endpoint: string,
     xmlns: string
 };
@@ -53,13 +51,15 @@ const defaultOptions: Options = {
 };
 
 /**
- * Immmutable request object for making eBay API verbs
+ * XML request for making eBay API call.
  */
 export default class XMLRequest<T> {
     readonly callname: string;
     readonly fields: Fields;
     readonly auth: Auth;
     readonly config: Config;
+    readonly req: any;
+
     readonly defaultHeaders = {
         'Content-Type': 'text/xml'
     };
@@ -71,13 +71,15 @@ export default class XMLRequest<T> {
      * @param      {string}  callname the callname
      * @param      {Object}  fields the fields
      * @param      {OAuth2} auth the auth wrapper
+     * @param      {Object} req the request
      * @param      {Config}  config
      */
-    constructor(callname: string, fields: Fields, auth: Auth, config: Config) {
+    constructor(callname: string, fields: Fields, auth: Auth, config: Config, req: LimitedRequest = request) {
         this.callname = callname;
         this.fields = fields || {};
         this.auth = auth;
         this.config = config;
+        this.req = req;
     }
 
     /**
@@ -91,29 +93,15 @@ export default class XMLRequest<T> {
     }
 
     /**
-     * returns the auth token for this request
-     *
-     * @private
-     * @return     {String}  eBay Auth token
-     */
-    private get token() {
-        if (this.auth.authToken) {
-            return this.auth.authToken.eBayAuthToken;
-        }
-
-        return this.auth.oAuth2.accessToken;
-    }
-
-    /**
      * returns the XML structure for the SOAP auth
      *
      * @private
      * @return     {Object}  the SOAP
      */
     private get credentials() {
-        return this.token ? {
+        return this.auth.authToken ? {
             RequesterCredentials: {
-                eBayAuthToken: this.token
+                eBayAuthToken: this.auth.authToken.eBayAuthToken
             }
         } : {};
     }
@@ -122,51 +110,19 @@ export default class XMLRequest<T> {
      * returns the XML document for the request
      *
      * @private
+     * @param      {Fields}  fields  the fields
      * @param      {Object}  options  The options
      * @return     {String}           The XML string of the Request
      */
-    private xml(options: Required<Options>) {
-        const payload = this.fields;
-        const listKey: string | null = this.listKey();
-
-        if (listKey !== null) {
-            const value = payload[listKey] as any;
-            payload[listKey] = {
-                ...value
-            };
-        }
-
-        // xmlns="${this.config.xmlns}"
-
+    public toXML(fields: Fields, options: Required<Options>) {
         return parser.parse({
             [HEADING]: null,
             [this.callname + 'Request']: {
                 '@_xmlns': this.config.xmlns,
                 ...this.credentials,
-                ...payload
+                ...fields
             }
         });
-    }
-
-    /**
-     * determines if the Request uses a List and which key it is
-     *
-     * @private
-     * @return     {string|null}   the key that is a List
-     */
-    private listKey() {
-        const fields = Object.keys(this.fields);
-        while (fields.length) {
-            const field = fields.pop();
-
-            if (!field || ~field.indexOf(LISTING)) {
-                continue;
-            }
-            if (~field.indexOf(LIST)) {
-                return field;
-            }
-        }
-        return null;
     }
 
     /**
@@ -202,16 +158,16 @@ export default class XMLRequest<T> {
      *
      */
     private async fetch(options: Required<Options>) {
-        const xml = this.xml(options);
+        const xml = this.toXML(this.fields, options);
         log(xml);
         try {
             const headers = {
                 ...this.defaultHeaders,
-                ...this.config.headers(this.callname)
+                ...this.config.headers
             };
 
             log('Make request: ' + this.config.endpoint, headers);
-            const data = await req.post(this.config.endpoint, xml, {
+            const data = await this.req.post(this.config.endpoint, xml, {
                 headers
             });
 
@@ -229,9 +185,7 @@ export default class XMLRequest<T> {
                 json = Parser.flatten(json[this.responseWrapper]);
             }
 
-            if (json.Ack === 'Error' || json.Ack === 'Failure') {
-                throw new EbayApiError(json.Errors);
-            }
+            this.handleEBayJsonError(json);
 
             // cleans the Ebay response
             if (options.cleanup) {
@@ -241,12 +195,28 @@ export default class XMLRequest<T> {
             return json;
         } catch (error) {
             log(error);
-            if (error.response && error.response.data) {
-                const json = Parser.toJSON(error.response.data, options.parseOptions);
-                throw new EbayApiError(json);
+            this.handleEBayResponseError(error);
+            throw error;
+        }
+    }
+
+    handleEBayJsonError(json: any) {
+        if (json.Ack === 'Error' || json.Ack === 'Failure') {
+            if (json.Errors) {
+                switch (json.Errors.ErrorCode) {
+                    case EBayIAFTokenExpired.code: throw new EBayIAFTokenExpired(json);
+                    case EBayTokenRequired.code: throw new EBayTokenRequired(json);
+                }
             }
 
-            throw error;
+            throw new EbayApiError(json.Errors);
+        }
+    }
+
+    handleEBayResponseError(error: any) {
+        if (error.response && error.response.data) {
+            const json = Parser.toJSON(error.response.data, defaultParseOptions);
+            this.handleEBayJsonError(json);
         }
     }
 }
