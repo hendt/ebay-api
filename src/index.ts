@@ -21,7 +21,7 @@ export default class EBay {
 
     private readonly factory: Factory;
     private readonly settings: Settings;
-    private readonly auth: Auth;
+    readonly auth: Auth;
 
     // RESTful
     private _buy?: Buy;
