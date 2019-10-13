@@ -37,6 +37,7 @@ export default class OAuth2 {
     readonly appId: string;
     readonly certId: string;
     readonly sandbox: boolean;
+    readonly ruName?: string;
 
     private scope: Scope;
     readonly endpoint: string;
@@ -46,12 +47,14 @@ export default class OAuth2 {
         certId: string,
         sandbox: boolean,
         scopes: Scope = defaultScopes,
+        ruName?: string
     ) {
         this.appId = appId;
         this.certId = certId;
         this.sandbox = sandbox;
         this.endpoint = sandbox ? 'sandbox' : 'production';
         this.scope = scopes;
+        this.ruName = ruName;
     }
 
     /**
@@ -92,6 +95,10 @@ export default class OAuth2 {
         this.scope = scope;
     }
 
+    public getScope() {
+        return [...this.scope];
+    }
+
     // Client Credential Grant
     public async refreshClientToken(): Promise<Token> {
         if (!this.appId) throw new Error('Missing App ID (Client Id)');
@@ -119,18 +126,11 @@ export default class OAuth2 {
         }
     }
 
-    /**
-     * Generates URL for consent page landing.
-     *
-     * @param redirectUri RuName
-     * @param scope the scopes
-     * @param state state parameter returned in the redirect URL
-     */
-    generateAuthUrl(redirectUri: string, scope: string[], state = '') {
+    public static generateAuthUrl(endpoint: string, appId: string, ruName: string, scope: string[], state = ''): string {
         return [
-            this.authorize[this.endpoint],
-            '?client_id=', encodeURIComponent(this.appId),
-            '&redirect_uri=', encodeURIComponent(redirectUri),
+            endpoint,
+            '?client_id=', encodeURIComponent(appId),
+            '&redirect_uri=', encodeURIComponent(ruName),
             '&response_type=code',
             '&state=', encodeURIComponent(state),
             '&scope=', encodeURIComponent(scope.join(' '))
@@ -138,17 +138,34 @@ export default class OAuth2 {
     }
 
     /**
+     * Generates URL for consent page landing.
+     *
+     * @param ruName RuName
+     * @param scope the scopes
+     * @param state state parameter returned in the redirect URL
+     */
+    generateAuthUrl(ruName?: string, scope: string[] = this.scope, state = ''): string {
+        ruName = ruName || this.ruName;
+
+        if (!ruName) {
+            throw new Error('RuName is required.')
+        }
+
+        return OAuth2.generateAuthUrl(this.authorize[this.endpoint], this.appId, ruName, scope, state);
+    }
+
+    /**
      * Gets the access token for the given code.
      *
      * @param code the code
-     * @param redirectUri the redirectUri
+     * @param ruName the redirectUri
      */
-    async getToken(code: string, redirectUri: string) {
+    async getToken(code: string, ruName = this.ruName) {
         try {
             const token = await request.postForm(this.client[this.endpoint], {
                 grant_type: 'authorization_code',
                 code: code,
-                redirect_uri: redirectUri
+                redirect_uri: ruName
             }, {
                 auth: {
                     username: this.appId,

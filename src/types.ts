@@ -33,6 +33,6 @@ export type Settings = {
     authToken?: string,
     sandbox: boolean,
     siteId?: number,
-    grantType?: string,
-    scope?: string | string[]
+    ruName?: string,
+    scope?: string[]
 }

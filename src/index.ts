@@ -67,6 +67,7 @@ export default class EBay {
             devId: process.env.EBAY_DEV_ID,
             authToken: process.env.EBAY_AUTH_TOKEN,
             siteId: process.env.EBAY_SITE_ID ? parseInt(process.env.EBAY_SITE_ID, 10) : SiteId.EBAY_DE,
+            ruName: process.env.EBAY_RU_NAME,
             sandbox: (process.env.EBAY_SANDBOX === 'true')
         });
     }

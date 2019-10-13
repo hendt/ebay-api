@@ -23,12 +23,12 @@ This API implements both Traditional (xml) and the RESTful eBay API.
 
 ## Installation
 
-```bash
+```shell script
 npm install @hendt/ebay-api
 ```
 
 ## Tests
-```bash
+```shell script
 npm run test
 ```
 
@@ -43,9 +43,10 @@ const ebay = new EBay({
   devId: 'devId',
   sandbox: false,
   siteId: SiteId.EBAY_DE,
+  ruName: '', // Optional
 
   // Traditional
-  authToken: '--  Auth\'n Auth for traditional API (used by trading) --',
+  authToken: '--  Auth\'n Auth for traditional API (used by trading) --', // Optional
 });
 ```
 
