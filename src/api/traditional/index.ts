@@ -5,9 +5,8 @@ import TradingCalls from './trading';
 import ShoppingCalls from './shopping';
 import FindingCalls from './finding';
 import request from '../../utils/request';
-import {Settings} from '../../types';
+import {Auth, Settings} from '../../types';
 import {Fields} from './fields';
-import {Auth} from '../factory';
 import {EBayIAFTokenExpired} from '../../errors';
 
 type XMLApiCall = (fields?: Fields, options?: Options) => Promise<any>;
@@ -32,8 +31,8 @@ export type ClientAlerts = {
  * Traditional eBay API.
  */
 export default class Traditional {
-    readonly settings: Settings;
-    readonly auth: Auth;
+    private readonly settings: Settings;
+    private readonly auth: Auth;
 
     constructor(settings: Settings, auth: Auth) {
         this.settings = settings;

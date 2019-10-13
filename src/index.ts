@@ -5,7 +5,7 @@ import {Commerce} from './api/restful/commerce';
 import {Developer} from './api/restful/developer';
 import {Sell} from './api/restful/sell';
 import {ClientAlerts, Finding, Shopping, Trading} from './api/traditional';
-import {Settings, SiteId} from './types';
+import {Auth, AuthToken, Settings, SiteId} from './types';
 import OAuth2, {Scope} from './api/оAuth2';
 
 const defaultSettings = {
@@ -13,17 +13,7 @@ const defaultSettings = {
     siteId: SiteId.EBAY_DE
 };
 
-export type AuthToken = {
-    eBayAuthToken: string,
-    Timestamp?: string,
-    HardExpirationTime?: string
-}
-
 export default class EBay {
-
-    readonly oAuth2: OAuth2;
-    private authToken?: AuthToken;
-
     readonly signin = {
         sandbox: 'https://signin.sandbox.ebay.com/ws/eBayISAPI.dll',
         production: 'https://signin.ebay.com/ws/eBayISAPI.dll'
@@ -31,6 +21,7 @@ export default class EBay {
 
     private readonly factory: Factory;
     private readonly settings: Settings;
+    private readonly auth: Auth;
 
     // RESTful
     private _buy?: Buy;
@@ -78,20 +69,26 @@ export default class EBay {
      */
     constructor(settings: Settings, scope?: Scope) {
         this.settings = {...defaultSettings, ...settings};
-        this.oAuth2 = new OAuth2(
-            this.settings.appId,
-            this.settings.certId,
-            this.settings.sandbox,
-            scope
-        );
+
+        this.auth = {
+            oAuth2: new OAuth2(
+                this.settings.appId,
+                this.settings.certId,
+                this.settings.sandbox,
+                scope,
+                this.settings.ruName
+            ),
+            sandbox: settings.sandbox,
+            ruName: settings.ruName,
+        };
 
         if (settings.authToken) {
-            this.authToken = {
+            this.setAuthToken({
                 eBayAuthToken: settings.authToken
-            };
+            })
         }
 
-        this.factory = new Factory(this.settings, this.oAuth2, this.authToken);
+        this.factory = new Factory(this.settings, this.auth);
     }
 
     get buy(): Buy {
@@ -132,11 +129,16 @@ export default class EBay {
     /**
      * Generates URL for consent page landing.
      *
-     * @param redirectUri RuName
+     * @param ruName RuName
      */
-    async getSessionIdAndAuthUrl(redirectUri: string) {
+    async getSessionIdAndAuthUrl(ruName?: string) {
+        ruName = ruName || this.auth.ruName;
+        if (!ruName) {
+            throw new Error('RuName is required.');
+        }
+
         const response = await this.trading.GetSessionID({
-            RuName: redirectUri
+            RuName: ruName
         });
 
         return {
@@ -144,7 +146,7 @@ export default class EBay {
             url: [
                 this.signin[this.settings.sandbox ? 'sandbox' : 'production'],
                 '?SignIn',
-                '&RuName=', encodeURIComponent(redirectUri),
+                '&RuName=', encodeURIComponent(ruName),
                 '&SessID=', encodeURIComponent(response.SessionID)
             ].join('')
         };
@@ -157,7 +159,7 @@ export default class EBay {
     }
 
     setAuthToken(authToken: AuthToken) {
-        this.authToken = authToken;
+        this.auth.authToken = authToken;
     }
 }
 

@@ -1,18 +1,16 @@
 import debug from 'debug';
 import request from '../../utils/request';
 import {EBayAccessDenied, EBayInvalidScope, EBayUnauthorizedAfterRefresh, getEBayError} from '../../errors';
-import {Auth} from '../../../src/api/factory';
+import {Auth} from '../../types';
 
 const log = debug('ebay:restful:api');
 
 export default abstract class Api {
-    readonly auth: Auth;
-    readonly req: any;
-    readonly sandbox: boolean;
+    private readonly auth: Auth;
+    private readonly req: any;
 
     constructor(auth: Auth, req = request) {
         this.auth = auth;
-        this.sandbox = auth.sandbox;
         this.req = req;
     }
 
@@ -39,7 +37,7 @@ export default abstract class Api {
     abstract get basePath(): string;
 
     get serverUrl() {
-        return 'https://api.' + (this.sandbox ? 'sandbox.' : '') + 'ebay.com';
+        return 'https://api.' + (this.auth.sandbox ? 'sandbox.' : '') + 'ebay.com';
     }
 
     get apiVersionPath() {

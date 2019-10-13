@@ -1,4 +1,3 @@
-import OAuth2 from './оAuth2';
 import {
     Buy, Browse, Feed, BuyMarketing, Offer, Order,
     Commerce, Catalog, Identity, Taxonomy, Translation,
@@ -7,14 +6,8 @@ import {
 } from './restful';
 
 import Traditional, {ClientAlerts, Finding, Shopping, Trading} from './traditional';
-import {Settings} from '../types';
-import {AuthToken} from '../';
-
-export type Auth = {
-    sandbox: boolean,
-    oAuth2: OAuth2,
-    authToken?: AuthToken
-}
+import {Auth, Settings} from '../types';
+import Api from './restful/api';
 
 export default class Factory {
     readonly settings: Settings;
@@ -22,50 +15,46 @@ export default class Factory {
     private _traditional?: Traditional;
     readonly auth: Auth;
 
-    constructor(settings: Settings, oAuth2: OAuth2, authToken?: AuthToken) {
+    constructor(settings: Settings, auth: Auth) {
         this.settings = settings;
-        this.auth = {
-            sandbox: settings.sandbox,
-            oAuth2,
-            authToken
-        };
+        this.auth = auth;
     }
 
     createBuyApi(): Buy {
         return {
-            browse: new Browse(this.auth),
-            feed: new Feed(this.auth),
-            marketing: new BuyMarketing(this.auth),
-            offer: new Offer(this.auth),
-            order: new Order(this.auth)
+            browse: this.createApi(Browse),
+            feed: this.createApi(Feed),
+            marketing: this.createApi(BuyMarketing),
+            offer: this.createApi(Offer),
+            order: this.createApi(Order)
         };
     }
 
     createCommerceApi(): Commerce {
         return {
-            catalog: new Catalog(this.auth),
-            identity: new Identity(this.auth),
-            taxonomy: new Taxonomy(this.auth),
-            translation: new Translation(this.auth)
+            catalog: this.createApi(Catalog),
+            identity: this.createApi(Identity),
+            taxonomy: this.createApi(Taxonomy),
+            translation: this.createApi(Translation)
         };
     }
 
     createDeveloperApi(): Developer {
         return {
-            analytics: new DeveloperAnalytics(this.auth)
+            analytics: this.createApi(DeveloperAnalytics)
         };
     }
 
     createSellApi(): Sell {
         return {
-            account: new Account(this.auth),
-            analytics: new SellAnalytics(this.auth),
-            compliance: new Compliance(this.auth),
-            fulfillment: new Fulfillment(this.auth),
-            inventory: new Inventory(this.auth),
-            marketing: new SellMarketing(this.auth),
-            metadata: new Metadata(this.auth),
-            recommendation: new Recommendation(this.auth)
+            account: this.createApi(Account),
+            analytics: this.createApi(SellAnalytics),
+            compliance: this.createApi(Compliance),
+            fulfillment: this.createApi(Fulfillment),
+            inventory: this.createApi(Inventory),
+            marketing: this.createApi(SellMarketing),
+            metadata: this.createApi(Metadata),
+            recommendation: this.createApi(Recommendation)
         };
     }
 
@@ -89,6 +78,10 @@ export default class Factory {
 
     createClientAlertsApi(): ClientAlerts {
         return this.traditional.createClientAlertsApi();
+    }
+
+    private createApi<T extends Api>(ApiClass: new (auth: Auth) => T): T {
+        return new ApiClass(this.auth);
     }
 }
 

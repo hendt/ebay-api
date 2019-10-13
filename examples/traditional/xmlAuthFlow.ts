@@ -9,9 +9,7 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-const ruName = process.env.EBAY_RUN_NAME || ''; //; 'ruName (eBay Redirect URL name)';
-
-ebay.getSessionIdAndAuthUrl(ruName).then(({url, sessionId}) => {
+ebay.getSessionIdAndAuthUrl().then(({url, sessionId}) => {
     console.log('Authorize this app by visiting this url: ', url);
 
     rl.question('Press Enter after grant access', async () => {

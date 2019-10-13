@@ -3,8 +3,8 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 
 import XMLRequest, {Config} from '../../../src/api/traditional/XMLRequest';
-import {Auth} from '../../../src/api/factory';
 import OAuth2 from '../../../src/api/оAuth2';
+import {Auth} from '../../../src/types';
 
 describe('XMLRequestTest', () => {
 

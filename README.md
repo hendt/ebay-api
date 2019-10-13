@@ -43,9 +43,8 @@ const ebay = new EBay({
   devId: 'devId',
   sandbox: false,
   siteId: SiteId.EBAY_DE,
-  ruName: '', // Optional
-
-  // Traditional
+  
+  ruName: '-- eBay Redirect URL name --', // Optional
   authToken: '--  Auth\'n Auth for traditional API (used by trading) --', // Optional
 });
 ```

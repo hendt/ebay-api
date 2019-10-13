@@ -6,7 +6,7 @@ import Parser from './Parser';
 import request, {LimitedRequest} from '../../utils/request';
 import {Fields} from './fields';
 import OAuth2 from '../оAuth2';
-import {Auth} from '../factory';
+import {Auth} from '../../types';
 
 const HEADING = '?xml version="1.0" encoding="utf-8"?';
 const log = debug('ebay:xml:request');
@@ -58,7 +58,7 @@ export default class XMLRequest<T> {
     readonly fields: Fields;
     readonly auth: Auth;
     readonly config: Config;
-    readonly req: any;
+    private readonly req: any;
 
     readonly defaultHeaders = {
         'Content-Type': 'text/xml'
