@@ -5,8 +5,9 @@ import {Commerce} from './api/restful/commerce';
 import {Developer} from './api/restful/developer';
 import {Sell} from './api/restful/sell';
 import {ClientAlerts, Finding, Shopping, Trading} from './api/traditional';
-import {Auth, AuthToken, Settings, SiteId} from './types';
-import OAuth2, {Scope} from './api/оAuth2';
+import {Auth, Settings, SiteId, Scope} from './types';
+import OAuth2 from './api/оAuth2';
+import AuthNAuth from './api/authNAuth';
 
 const defaultSettings = {
     sandbox: false,
@@ -14,14 +15,13 @@ const defaultSettings = {
 };
 
 export default class EBay {
-    readonly signin = {
-        sandbox: 'https://signin.sandbox.ebay.com/ws/eBayISAPI.dll',
-        production: 'https://signin.ebay.com/ws/eBayISAPI.dll'
-    };
+    readonly oAuth2: OAuth2;
+    readonly authNAuth: AuthNAuth;
+
+    private readonly auth: Auth;
 
     private readonly factory: Factory;
     private readonly settings: Settings;
-    readonly auth: Auth;
 
     // RESTful
     private _buy?: Buy;
@@ -36,7 +36,7 @@ export default class EBay {
     private _clientAlerts?: ClientAlerts;
 
     /**
-     * Loads credentials from `process.env`
+     * Loads settings from `process.env`
      *
      * @return {this}          a new Ebay instance
      * @throws {EnvError}
@@ -67,26 +67,33 @@ export default class EBay {
      * @param {Object}  settings the global settings
      * @param {Scope} scope the scope
      */
-    constructor(settings: Settings, scope?: Scope) {
+    constructor(settings: Settings) {
         this.settings = {...defaultSettings, ...settings};
 
-        this.auth = {
-            oAuth2: new OAuth2(
-                this.settings.appId,
-                this.settings.certId,
-                this.settings.sandbox,
-                scope,
-                this.settings.ruName
-            ),
-            sandbox: settings.sandbox,
-            ruName: settings.ruName,
-        };
+        this.oAuth2 = new OAuth2(
+            this.settings.appId,
+            this.settings.certId,
+            this.settings.sandbox,
 
-        if (settings.authToken) {
-            this.setAuthToken({
-                eBayAuthToken: settings.authToken
-            })
-        }
+            this.settings.scope,
+            this.settings.ruName
+        );
+
+        this.authNAuth = new AuthNAuth(
+            this.settings.appId,
+            this.settings.certId,
+            this.settings.sandbox,
+
+            this.settings.devId,
+            this.settings.siteId,
+            this.settings.ruName,
+            this.settings.authToken
+        );
+
+        this.auth = {
+            oAuth2: this.oAuth2,
+            authNAuth: this.authNAuth
+        };
 
         this.factory = new Factory(this.settings, this.auth);
     }
@@ -123,47 +130,13 @@ export default class EBay {
     get clientAlerts(): ClientAlerts {
         return this._clientAlerts || (this._clientAlerts = this.factory.createClientAlertsApi());
     }
-
-    // XML Flow Tutorial: Getting Tokens: Auth'n'Auth
-
-    /**
-     * Generates URL for consent page landing.
-     *
-     * @param ruName RuName
-     */
-    async getSessionIdAndAuthUrl(ruName?: string) {
-        ruName = ruName || this.auth.ruName;
-        if (!ruName) {
-            throw new Error('RuName is required.');
-        }
-
-        const response = await this.trading.GetSessionID({
-            RuName: ruName
-        });
-
-        return {
-            sessionId: response.SessionID,
-            url: [
-                this.signin[this.settings.sandbox ? 'sandbox' : 'production'],
-                '?SignIn',
-                '&RuName=', encodeURIComponent(ruName),
-                '&SessID=', encodeURIComponent(response.SessionID)
-            ].join('')
-        };
-    }
-
-    async fetchAuthToken(sessionId: string) {
-        return this.trading.FetchToken({
-            SessionID: sessionId
-        });
-    }
-
-    setAuthToken(authToken: AuthToken) {
-        this.auth.authToken = authToken;
-    }
 }
 
 export {
     SiteId,
-    Settings
+    Settings,
+    Factory,
+    Auth,
+    OAuth2,
+    AuthNAuth
 };

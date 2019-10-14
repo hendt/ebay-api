@@ -1,4 +1,5 @@
 import EBay from '../../src';
+// @ts-ignore
 import readline from 'readline';
 
 const ebay = EBay.fromEnv();
@@ -9,12 +10,12 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-ebay.getSessionIdAndAuthUrl().then(({url, sessionId}) => {
+ebay.authNAuth.getSessionIdAndAuthUrl().then(({url, sessionId}) => {
     console.log('Authorize this app by visiting this url: ', url);
 
     rl.question('Press Enter after grant access', async () => {
-        const token = await ebay.fetchAuthToken(sessionId);
-        ebay.setAuthToken(token);
+        const token = await ebay.authNAuth.fetchAuthToken(sessionId);
+        ebay.authNAuth.setAuthToken(token);
 
         const time = ebay.trading.GeteBayOfficialTime();
         console.log(time);

@@ -8,12 +8,13 @@ import {
 import Traditional, {ClientAlerts, Finding, Shopping, Trading} from './traditional';
 import {Auth, Settings} from '../types';
 import Api from './restful/api';
+import OAuth2 from './оAuth2';
 
 export default class Factory {
     readonly settings: Settings;
+    readonly auth: Auth;
 
     private _traditional?: Traditional;
-    readonly auth: Auth;
 
     constructor(settings: Settings, auth: Auth) {
         this.settings = settings;
@@ -61,7 +62,13 @@ export default class Factory {
     // Traditional
 
     get traditional() {
-        return this._traditional || (this._traditional = new Traditional(this.settings, this.auth));
+        return this._traditional || (this._traditional = new Traditional(
+            this.settings.appId,
+            this.settings.certId,
+            this.settings.devId,
+            this.settings.siteId,
+            this.auth
+        ));
     }
 
     createTradingApi(): Trading {
@@ -80,8 +87,8 @@ export default class Factory {
         return this.traditional.createClientAlertsApi();
     }
 
-    private createApi<T extends Api>(ApiClass: new (auth: Auth) => T): T {
-        return new ApiClass(this.auth);
+    private createApi<T extends Api>(ApiClass: new (oAuth2: OAuth2) => T): T {
+        return new ApiClass(this.auth.oAuth2);
     }
 }
 

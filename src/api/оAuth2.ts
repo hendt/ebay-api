@@ -1,5 +1,6 @@
 import debug from 'debug';
 import request from '../utils/request';
+import {Scope} from '../types';
 
 const log = debug('ebay:oauth');
 
@@ -15,32 +16,30 @@ type UserAccessToken = Token & {
     refresh_token_expires_in: number
 };
 
-export type Scope = string[];
-
 const defaultScopes: Scope = ['https://api.ebay.com/oauth/api_scope'];
 
 export default class OAuth2 {
     // If all the calls in our application require just an Application access token
-    private client: any = {
+    static IDENTITY_ENDPOINT: any = {
         production: 'https://api.ebay.com/identity/v1/oauth2/token',
         sandbox: 'https://api.sandbox.ebay.com/identity/v1/oauth2/token'
     };
 
-    private authorize: any = {
+    static AUTHORIZE_ENDPOINT: any = {
         production: 'https://auth.ebay.com/oauth2/authorize',
         sandbox: 'https://auth.sandbox.ebay.com/oauth2/authorize'
     };
-
-    private _clientToken?: Token;
-    private _userAccessToken?: UserAccessToken;
 
     readonly appId: string;
     readonly certId: string;
     readonly sandbox: boolean;
     readonly ruName?: string;
-
     private scope: Scope;
-    readonly endpoint: string;
+
+    private _clientToken?: Token;
+    private _userAccessToken?: UserAccessToken;
+
+    private readonly endpoint: string;
 
     constructor(
         appId: string,
@@ -107,7 +106,7 @@ export default class OAuth2 {
         log('Obtain a new Client Token with scope: ', this.scope);
 
         try {
-            const token = await request.postForm(this.client[this.endpoint], {
+            const token = await request.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
                 scope: this.scope.join(' '),
                 grant_type: 'client_credentials'
             }, {
@@ -126,9 +125,9 @@ export default class OAuth2 {
         }
     }
 
-    public static generateAuthUrl(endpoint: string, appId: string, ruName: string, scope: string[], state = ''): string {
+    public static generateAuthUrl(sandbox: boolean, appId: string, ruName: string, scope: string[], state = ''): string {
         return [
-            endpoint,
+            OAuth2.AUTHORIZE_ENDPOINT[sandbox ? 'sandbox' : 'production'],
             '?client_id=', encodeURIComponent(appId),
             '&redirect_uri=', encodeURIComponent(ruName),
             '&response_type=code',
@@ -148,10 +147,10 @@ export default class OAuth2 {
         ruName = ruName || this.ruName;
 
         if (!ruName) {
-            throw new Error('RuName is required.')
+            throw new Error('RuName is required.');
         }
 
-        return OAuth2.generateAuthUrl(this.authorize[this.endpoint], this.appId, ruName, scope, state);
+        return OAuth2.generateAuthUrl(this.sandbox, this.appId, ruName, scope, state);
     }
 
     /**
@@ -162,7 +161,7 @@ export default class OAuth2 {
      */
     async getToken(code: string, ruName = this.ruName) {
         try {
-            const token = await request.postForm(this.client[this.endpoint], {
+            const token = await request.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
                 grant_type: 'authorization_code',
                 code: code,
                 redirect_uri: ruName
@@ -192,7 +191,7 @@ export default class OAuth2 {
         }
 
         try {
-            const token = await request.postForm(this.client[this.endpoint], {
+            const token = await request.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
                 grant_type: 'refresh_token',
                 refresh_token: this._userAccessToken.refresh_token,
                 scope: this.scope.join(' ')

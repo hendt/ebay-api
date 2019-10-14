@@ -41,7 +41,8 @@ type Headers = {
 export type Config = {
     headers: Headers,
     endpoint: string,
-    xmlns: string
+    xmlns: string,
+    eBayAuthToken?: string | null
 };
 
 const defaultOptions: Options = {
@@ -56,7 +57,6 @@ const defaultOptions: Options = {
 export default class XMLRequest<T> {
     readonly callname: string;
     readonly fields: Fields;
-    readonly auth: Auth;
     readonly config: Config;
     private readonly req: any;
 
@@ -70,14 +70,12 @@ export default class XMLRequest<T> {
      * @private
      * @param      {string}  callname the callname
      * @param      {Object}  fields the fields
-     * @param      {OAuth2} auth the auth wrapper
      * @param      {Object} req the request
      * @param      {Config}  config
      */
-    constructor(callname: string, fields: Fields, auth: Auth, config: Config, req: LimitedRequest = request) {
+    constructor(callname: string, fields: Fields, config: Config, req: LimitedRequest = request) {
         this.callname = callname;
         this.fields = fields || {};
-        this.auth = auth;
         this.config = config;
         this.req = req;
     }
@@ -99,9 +97,9 @@ export default class XMLRequest<T> {
      * @return     {Object}  the SOAP
      */
     private get credentials() {
-        return this.auth.authToken ? {
+        return this.config.eBayAuthToken ? {
             RequesterCredentials: {
-                eBayAuthToken: this.auth.authToken.eBayAuthToken
+                eBayAuthToken: this.config.eBayAuthToken
             }
         } : {};
     }

@@ -1,4 +1,5 @@
 import OAuth2 from './api/оAuth2';
+import AuthNAuth from './api/authNAuth';
 
 export enum SiteId {
     EBAY_US = 0,
@@ -28,17 +29,20 @@ export enum SiteId {
 type Keyset = {
     appId: string, // (Client ID)
     certId: string, // (Client Secret)
-    devId: string,
+    devId?: string,
 }
+
+export type Scope = string[];
+
 /**
  * defaults for eBay API
  */
 export type Settings = Keyset & {
-    authToken?: string,
     sandbox: boolean,
     siteId?: number,
     ruName?: string,
-    scope?: string[]
+    scope?: Scope,
+    authToken?: string,
 }
 
 export type AuthToken = {
@@ -49,7 +53,5 @@ export type AuthToken = {
 
 export type Auth = {
     oAuth2: OAuth2,
-    authToken?: AuthToken,
-    sandbox: boolean,
-    ruName?: string
+    authNAuth: AuthNAuth
 }

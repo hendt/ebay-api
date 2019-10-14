@@ -7,7 +7,6 @@ import buyTests from './buy';
 import commerceTests from './commerce';
 import developerTests from './developer';
 import sellTests from './sell';
-import {LimitedRequest} from '../../../src/utils/request';
 
 const allTests = {
     'Buy': buyTests,
@@ -28,7 +27,7 @@ describe('Open API Tests', () => {
     Object.entries(allTests).forEach(([name, tests]) => {
         describe('API > restful > ' + name, () => {
             tests.forEach((Oas, Api) => {
-                const api = new Api({oAuth2: testOAuth});
+                const api = new Api(testOAuth);
 
                 it('"' + name + ':' + Api.name + '" should return correct path', () => {
                     if (Oas.servers) {
@@ -52,7 +51,7 @@ describe('Open API Tests', () => {
                         postForm: sinon.stub().returns(Promise.resolve())
                     };
 
-                    const api = new Api({oAuth2: testOAuth}, req);
+                    const api = new Api(testOAuth, req);
 
                     it('"' + name + ':' + Api.name + '" should implement this method', () => {
                         expect(api[call.operationId]).to

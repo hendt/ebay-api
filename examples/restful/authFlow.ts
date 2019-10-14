@@ -1,4 +1,5 @@
 import EBay from '../../src';
+// @ts-ignore
 import readline from 'readline';
 
 const ebay = EBay.fromEnv();
@@ -21,9 +22,9 @@ rl.question('Enter the code from that page here: ', async (code: string) => {
     rl.close();
     code = decodeURIComponent(code);
     console.log('Enter code', code);
-    const token = await ebay.auth.oAuth2.getToken(code);
+    const token = await ebay.oAuth2.getToken(code);
     console.log('Token: ', token);
-    ebay.auth.oAuth2.setCredentials(token);
+    ebay.oAuth2.setCredentials(token);
 
     ebay.sell.fulfillment.getOrder('<order-id>').then(order => {
         console.log('order', JSON.stringify(order, null, 2));

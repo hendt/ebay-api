@@ -5,15 +5,13 @@ import sinon from 'sinon';
 import XMLRequest, {Config} from '../../../src/api/traditional/XMLRequest';
 import OAuth2 from '../../../src/api/оAuth2';
 import {Auth} from '../../../src/types';
+import AuthNAuth from '../../../src/api/authNAuth';
 
 describe('XMLRequestTest', () => {
 
     const testAuth: Auth = {
-        authToken: {
-            eBayAuthToken: 'eBayAuthToken'
-        },
-        oAuth2: new OAuth2('appId', 'certId', true),
-        sandbox: true
+        authNAuth: new AuthNAuth('appId', 'certId', true, 'devId', 0),
+        oAuth2: new OAuth2('appId', 'certId', true)
     };
 
     const config: Config = {
@@ -21,7 +19,8 @@ describe('XMLRequestTest', () => {
             'CALL': 'CALL'
         },
         endpoint: 'endpoint',
-        xmlns: 'xmlns'
+        xmlns: 'xmlns',
+        eBayAuthToken: 'eBayAuthToken'
     };
 
     const response = '<CALL>response</CALL>';
@@ -36,21 +35,21 @@ describe('XMLRequestTest', () => {
     });
 
     it('Return Raw Response XML', () => {
-        const request = new XMLRequest('CALL', {}, testAuth, config, req);
+        const request = new XMLRequest('CALL', {}, config, req);
         return request.run({raw: true}).then(result => {
             expect(result).to.equal(response);
         });
     });
 
     it('Calls correct endpoint', () => {
-        const request = new XMLRequest('CALL', {Param: 'Param'}, testAuth, config, req);
+        const request = new XMLRequest('CALL', {Param: 'Param'}, config, req);
         return request.run({raw: true}).then(() => {
             expect(req.post.args[0][0]).to.equal('endpoint');
         });
     });
 
     it('Adds eBayAuthToken', () => {
-        const request = new XMLRequest('CALL', {Param: 'Param'}, testAuth, config, req);
+        const request = new XMLRequest('CALL', {Param: 'Param'}, config, req);
         return request.run({raw: true}).then(() => {
             expect(req.post.args[0][1]).to.equal([
                 '<?xml version="1.0" encoding="utf-8"?/>',
@@ -72,7 +71,7 @@ describe('XMLRequestTest', () => {
 </CALLResponse>`;
 
         req.post = sinon.stub().returns(Promise.resolve(response));
-        const request = new XMLRequest('CALL', {}, testAuth, config, req);
+        const request = new XMLRequest('CALL', {}, config, req);
         return request.run().then((result) => {
             expect(result).to.deep.equal({});
         });
@@ -85,7 +84,7 @@ describe('XMLRequestTest', () => {
 </CALLResponse>`;
 
         req.post = sinon.stub().returns(Promise.resolve(response));
-        const request = new XMLRequest('CALL', {}, testAuth, config, req);
+        const request = new XMLRequest('CALL', {}, config, req);
         return request.run().then((result) => {
             expect({
                 Item: 'Item'
