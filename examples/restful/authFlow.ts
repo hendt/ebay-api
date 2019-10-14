@@ -4,8 +4,8 @@ import readline from 'readline';
 
 const ebay = EBay.fromEnv();
 ebay.oAuth2.setScope([
-    'https://api.ebay.com/oauth/api_scope/sell.inventory',
-    'https://api.ebay.com/oauth/api_scope/sell.account',
+    'https://api.ebay.com/oauth/api_scope',
+    'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
     'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
 ]);
 
@@ -18,7 +18,7 @@ const rl = readline.createInterface({
     output: process.stdout,
 });
 
-rl.question('Enter the code from that page here: ', async (code: string) => {
+rl.question('Enter the code from that page here (from the url query ?code=) : ', async (code: string) => {
     rl.close();
     code = decodeURIComponent(code);
     console.log('Enter code', code);
@@ -26,7 +26,7 @@ rl.question('Enter the code from that page here: ', async (code: string) => {
     console.log('Token: ', token);
     ebay.oAuth2.setCredentials(token);
 
-    ebay.sell.fulfillment.getOrder('<order-id>').then(order => {
+    ebay.sell.fulfillment.getOrder('12-12345-12345').then(order => {
         console.log('order', JSON.stringify(order, null, 2));
     }).catch(e => {
         console.log('error', {error: e.message});

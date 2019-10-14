@@ -60,14 +60,13 @@ export default class Factory {
     }
 
     // Traditional
-
     get traditional() {
         return this._traditional || (this._traditional = new Traditional(
+            this.auth,
             this.settings.appId,
             this.settings.certId,
             this.settings.devId,
             this.settings.siteId,
-            this.auth
         ));
     }
 

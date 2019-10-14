@@ -35,13 +35,13 @@ export type ClientAlerts = {
 export default class Traditional {
     readonly appId: string;
     readonly certId: string;
-    readonly devId: string;
+    readonly devId?: string;
     readonly siteId: number;
 
     private readonly oAuth2: OAuth2;
     private readonly authNAuth: AuthNAuth;
 
-    constructor(appId: string, certId: string, devId: string, siteId = SiteId.EBAY_DE, auth: Auth) {
+    constructor(auth: Auth, appId: string, certId: string, devId?: string, siteId = SiteId.EBAY_DE) {
         this.appId = appId;
         this.certId = certId;
         this.devId = devId;
@@ -52,6 +52,9 @@ export default class Traditional {
     }
 
     public createTradingApi(): Trading {
+        if (!this.devId) {
+            throw new Error('DevId is required for trading API.')
+        }
         return this.createTraditionalXMLApi<Trading>({
             endpoint: {
                 production: 'https://api.ebay.com/ws/api.dll',

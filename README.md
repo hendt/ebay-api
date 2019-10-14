@@ -40,46 +40,51 @@ import EBay, {SiteId} from '@hendt/ebay-api';
 const ebay = new EBay({
   appId: '-- or Client ID --',
   certId: '-- or Client Secret',
-  devId: 'devId',
+  devId: 'devId', // Required for traditional trading API
   sandbox: false,
-  siteId: SiteId.EBAY_DE,
+  siteId: SiteId.EBAY_DE, // see https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html
   
-  ruName: '-- eBay Redirect URL name --', // Optional
+  ruName: '-- eBay Redirect URL name --', // Required for authorization code grant
   authToken: '--  Auth\'n Auth for traditional API (used by trading) --', // Optional
 });
 ```
 
-## Exchanging the authorization code for a User access token
+## oAuth2: Exchanging the authorization code for a User access token
 [Docs](https://developer.ebay.com/api-docs/static/oauth-auth-code-grant-request.html)
 
 
 ```javascript
+// 1. Create new EBay instance and set the scope.
 const ebay = EBay.fromEnv();
+// Attention: appId, certId, ruName is required.
 
-// 1. Generate URL
-const runName = ''; // RuName (eBay Redirect URL name)
-const url = ebay.oAuth2.getSessionIdAndAuthUrl(runName, [
-    'https://api.ebay.com/oauth/api_scope/sell.inventory',
-    'https://api.ebay.com/oauth/api_scope/sell.account',
+ebay.oAuth2.setScope([
+    'https://api.ebay.com/oauth/api_scope',
+    'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
     'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
 ]);
 
+const url = ebay.oAuth2.generateAuthUrl();
 // 2. Open Url and Grant Access
 
 // 3. Get the code that is placed as query parameter in redirected page
 const code = 'code'; // from www.your-website?code=XXXX
 
 // 4. Get the token
-const token = await ebay.oAuth2.getToken(code, runName);
+(async () => {
+
+// Use async/await or
+const token = await ebay.oAuth2.getToken(code);
 ebay.oAuth2.setCredentials(token);
 
-// You can now call the APIs e.g.
-ebay.sell.fulfillment.getOrder('<order-id>').then(order => {
+// Promise based
+ebay.sell.fulfillment.getOrder('12-12345-12345').then(order => {
         console.log('order', JSON.stringify(order, null, 2));
     }).catch(e => {
         console.log('error', {error: e.message});
     });
 
+})();
 ```
 
 ## RESTful API

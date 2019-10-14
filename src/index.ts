@@ -74,7 +74,6 @@ export default class EBay {
             this.settings.appId,
             this.settings.certId,
             this.settings.sandbox,
-
             this.settings.scope,
             this.settings.ruName
         );
@@ -83,7 +82,6 @@ export default class EBay {
             this.settings.appId,
             this.settings.certId,
             this.settings.sandbox,
-
             this.settings.devId,
             this.settings.siteId,
             this.settings.ruName,

@@ -17,7 +17,7 @@ ebay.authNAuth.getSessionIdAndAuthUrl().then(({url, sessionId}) => {
         const token = await ebay.authNAuth.fetchAuthToken(sessionId);
         ebay.authNAuth.setAuthToken(token);
 
-        const time = ebay.trading.GeteBayOfficialTime();
+        const time = await ebay.trading.GeteBayOfficialTime();
         console.log(time);
 
         rl.close();
