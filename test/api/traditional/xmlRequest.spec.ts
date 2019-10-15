@@ -52,7 +52,7 @@ describe('XMLRequestTest', () => {
         const request = new XMLRequest('CALL', {Param: 'Param'}, config, req);
         return request.run({raw: true}).then(() => {
             expect(req.post.args[0][1]).to.equal([
-                '<?xml version="1.0" encoding="utf-8"?/>',
+                '<?xml version="1.0" encoding="utf-8"?>',
                 '<CALLRequest xmlns="xmlns">',
                 '<RequesterCredentials><eBayAuthToken>eBayAuthToken</eBayAuthToken></RequesterCredentials>',
                 '<Param>Param</Param>',

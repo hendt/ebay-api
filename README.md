@@ -1,5 +1,6 @@
 # A Typescript library for working with the eBay API
 This API implements both Traditional (xml) and the RESTful eBay API. 
+It supports Client credentials grant and Authorization code grant (traditional and oAuth2).   
 
 * [eBay API Explorer](https://developer.ebay.com/my/api_test_tool)
 * [eBay API Docs](https://developer.ebay.com/docs)
@@ -45,7 +46,7 @@ const ebay = new EBay({
   siteId: SiteId.EBAY_DE, // see https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html
   
   ruName: '-- eBay Redirect URL name --', // Required for authorization code grant
-  authToken: '--  Auth\'n Auth for traditional API (used by trading) --', // Optional
+  authToken: '--  Auth\'n Auth for traditional API (used by trading) --', // Optional - can be set to use traditional API without code grant
 });
 ```
 
@@ -95,6 +96,13 @@ const ebay = new EBay({
   // ...
   scope: ['https://api.ebay.com/oauth/api_scope']
 });
+
+// Or:
+ebay.oAuth2.setScope([
+    'https://api.ebay.com/oauth/api_scope',
+    'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
+    'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
+]);
 ```
 
 ### Buy
@@ -153,10 +161,10 @@ Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
 ## Supported By:
 [hendt.de](https://hendt.de)
 
-Thanks to:
-[ebay-promised](https://github.com/ondreian/ebay-promised)
+Thanks to: [ebay-promised](https://github.com/ondreian/ebay-promised)
 Similar projects:
 [ebay-client](https://github.com/CoinPoet/ebay-client)
+
 [ebay-node-api](https://github.com/pajaydev/ebay-node-api)
 
 

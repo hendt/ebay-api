@@ -5,10 +5,8 @@ import {EbayApiError, EBayIAFTokenExpired, EBayTokenRequired, NoCallError} from 
 import Parser from './Parser';
 import request, {LimitedRequest} from '../../utils/request';
 import {Fields} from './fields';
-import OAuth2 from '../оAuth2';
-import {Auth} from '../../types';
 
-const HEADING = '?xml version="1.0" encoding="utf-8"?';
+const HEADING = '<?xml version="1.0" encoding="utf-8"?>';
 const log = debug('ebay:xml:request');
 
 const defaultXmlOptions = {
@@ -113,8 +111,7 @@ export default class XMLRequest<T> {
      * @return     {String}           The XML string of the Request
      */
     public toXML(fields: Fields, options: Required<Options>) {
-        return parser.parse({
-            [HEADING]: null,
+        return HEADING + parser.parse({
             [this.callname + 'Request']: {
                 '@_xmlns': this.config.xmlns,
                 ...this.credentials,
@@ -157,7 +154,7 @@ export default class XMLRequest<T> {
      */
     private async fetch(options: Required<Options>) {
         const xml = this.toXML(this.fields, options);
-        log(xml);
+        log('XML', xml);
         try {
             const headers = {
                 ...this.defaultHeaders,
