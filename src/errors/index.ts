@@ -59,11 +59,15 @@ export class EnvError extends EBayError {
 export class EbayApiError extends EBayError {
     constructor(err: any, name = 'EbayApiError') {
         let message = '';
-        if (err.errorMessage) {
+        const resError = getEBayError(err);
+        if (resError) {
+            message = resError.message;
+        } else if (err.errorMessage) {
             message = err.errorMessage.error.message;
         } else {
             message = err.LongMessage || err.ShortMessage;
         }
+
         super(message);
         this.meta = err;
         this.name = name;
