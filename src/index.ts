@@ -5,16 +5,22 @@ import {Commerce} from './api/restful/commerce';
 import {Developer} from './api/restful/developer';
 import {Sell} from './api/restful/sell';
 import {ClientAlerts, Finding, Shopping, Trading} from './api/traditional';
-import {Auth, Settings, SiteId, Scope} from './types';
+import {Auth, Settings, SiteId} from './types';
 import OAuth2 from './api/оAuth2';
 import AuthNAuth from './api/authNAuth';
+import {LimitedRequest, createRequest} from './utils/request';
 
 const defaultSettings = {
     sandbox: false,
     siteId: SiteId.EBAY_DE
 };
 
-export default class EBay {
+export default class eBayApi {
+    static SiteId = SiteId;
+    static Factory = Factory;
+    static OAuth2 = OAuth2;
+    static AuthNAuth = AuthNAuth;
+
     readonly oAuth2: OAuth2;
     readonly authNAuth: AuthNAuth;
 
@@ -22,6 +28,7 @@ export default class EBay {
 
     private readonly factory: Factory;
     private readonly settings: Settings;
+    private readonly req: LimitedRequest;
 
     // RESTful
     private _buy?: Buy;
@@ -39,9 +46,10 @@ export default class EBay {
      * Loads settings from `process.env`
      *
      * @return {this}          a new Ebay instance
+     * @param {request} req request
      * @throws {EnvError}
      */
-    static fromEnv() {
+    static fromEnv(req = createRequest()) {
         if (!process.env.EBAY_APP_ID) {
             throw new EnvError('EBAY_APP_ID');
         }
@@ -52,30 +60,33 @@ export default class EBay {
             throw new EnvError('EBAY_DEV_ID');
         }
 
-        return new EBay({
-            appId: process.env.EBAY_APP_ID,
-            certId: process.env.EBAY_CERT_ID,
-            devId: process.env.EBAY_DEV_ID,
-            authToken: process.env.EBAY_AUTH_TOKEN,
-            siteId: process.env.EBAY_SITE_ID ? parseInt(process.env.EBAY_SITE_ID, 10) : SiteId.EBAY_DE,
-            ruName: process.env.EBAY_RU_NAME,
-            sandbox: (process.env.EBAY_SANDBOX === 'true')
-        });
+        return new eBayApi({
+                appId: process.env.EBAY_APP_ID,
+                certId: process.env.EBAY_CERT_ID,
+                devId: process.env.EBAY_DEV_ID,
+                authToken: process.env.EBAY_AUTH_TOKEN,
+                siteId: process.env.EBAY_SITE_ID ? parseInt(process.env.EBAY_SITE_ID, 10) : SiteId.EBAY_DE,
+                ruName: process.env.EBAY_RU_NAME,
+                sandbox: (process.env.EBAY_SANDBOX === 'true')
+            },
+            req);
     }
 
     /**
      * @param {Object}  settings the global settings
-     * @param {Scope} scope the scope
+     * @param {LimitedRequest} req the request
      */
-    constructor(settings: Settings) {
+    constructor(settings: Settings, req?: LimitedRequest) {
         this.settings = {...defaultSettings, ...settings};
+        this.req = req || createRequest(this.settings.interceptors);
 
         this.oAuth2 = new OAuth2(
             this.settings.appId,
             this.settings.certId,
             this.settings.sandbox,
             this.settings.scope,
-            this.settings.ruName
+            this.settings.ruName,
+            this.req
         );
 
         this.authNAuth = new AuthNAuth(
@@ -85,7 +96,8 @@ export default class EBay {
             this.settings.devId,
             this.settings.siteId,
             this.settings.ruName,
-            this.settings.authToken
+            this.settings.authToken,
+            this.req
         );
 
         this.auth = {
@@ -93,7 +105,7 @@ export default class EBay {
             authNAuth: this.authNAuth
         };
 
-        this.factory = new Factory(this.settings, this.auth);
+        this.factory = new Factory(this.settings, this.auth, this.req);
     }
 
     get buy(): Buy {
@@ -130,11 +142,3 @@ export default class EBay {
     }
 }
 
-export {
-    SiteId,
-    Settings,
-    Factory,
-    Auth,
-    OAuth2,
-    AuthNAuth
-};

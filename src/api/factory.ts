@@ -4,6 +4,7 @@ import {
     Developer, DeveloperAnalytics,
     Sell, Account, SellAnalytics, Compliance, Fulfillment, Inventory, SellMarketing, Metadata, Recommendation
 } from './restful';
+import {LimitedRequest, createRequest} from '../utils/request';
 
 import Traditional, {ClientAlerts, Finding, Shopping, Trading} from './traditional';
 import {Auth, Settings} from '../types';
@@ -13,12 +14,14 @@ import OAuth2 from './оAuth2';
 export default class Factory {
     readonly settings: Settings;
     readonly auth: Auth;
+    readonly req: LimitedRequest;
 
     private _traditional?: Traditional;
 
-    constructor(settings: Settings, auth: Auth) {
+    constructor(settings: Settings, auth: Auth, req: LimitedRequest = createRequest()) {
         this.settings = settings;
         this.auth = auth;
+        this.req = req;
     }
 
     createBuyApi(): Buy {
@@ -67,6 +70,7 @@ export default class Factory {
             this.settings.certId,
             this.settings.devId,
             this.settings.siteId,
+            this.req
         ));
     }
 

@@ -34,6 +34,11 @@ type Keyset = {
 
 export type Scope = string[];
 
+export type Interceptors = {
+    request?: (value: any) => any;
+    response?: (value: any) => any;
+}
+
 /**
  * defaults for eBay API
  */
@@ -43,6 +48,7 @@ export type Settings = Keyset & {
     ruName?: string,
     scope?: Scope,
     authToken?: string,
+    interceptors?: Interceptors
 }
 
 export type AuthToken = {

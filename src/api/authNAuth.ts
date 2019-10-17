@@ -1,6 +1,7 @@
 import debug from 'debug';
 import {AuthToken, SiteId} from '../types';
 import XMLRequest from './traditional/XMLRequest';
+import {LimitedRequest, createRequest} from '../utils/request';
 
 const log = debug('ebay:authNAuth');
 
@@ -18,19 +19,30 @@ export default class AuthNAuth {
     readonly appId: string;
     readonly certId: string;
     readonly sandbox: boolean;
+    readonly req: LimitedRequest;
 
     readonly devId?: string;
     readonly siteId: number;
     readonly ruName?: string;
     private authToken?: AuthToken;
 
-    constructor(appId: string, certId: string, sandbox: boolean, devId?: string, siteId = SiteId.EBAY_DE, ruName?: string, authToken?: string) {
+    constructor(
+        appId: string,
+        certId: string,
+        sandbox: boolean,
+        devId?: string,
+        siteId = SiteId.EBAY_DE,
+        ruName?: string,
+        authToken?: string,
+        req: LimitedRequest = createRequest()
+    ) {
         this.appId = appId;
         this.certId = certId;
         this.devId = devId;
         this.siteId = siteId;
         this.sandbox = sandbox;
         this.ruName = ruName;
+        this.req = req;
 
         if (authToken) {
             this.authToken = {
@@ -64,8 +76,9 @@ export default class AuthNAuth {
         }
 
         const request = new XMLRequest('GetSessionID', {
-            RuName: ruName
-        }, this.getRequestConfig('GetSessionID'));
+                RuName: ruName
+            }, this.getRequestConfig('GetSessionID'),
+            this.req);
 
         const response = await request.run();
 
@@ -82,8 +95,9 @@ export default class AuthNAuth {
             throw new Error('DevId is required.');
         }
         const request = new XMLRequest('FetchToken', {
-            SessionID: sessionId
-        }, this.getRequestConfig('FetchToken'));
+                SessionID: sessionId
+            }, this.getRequestConfig('FetchToken'),
+            this.req);
 
         return request.run();
     }

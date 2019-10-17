@@ -3,7 +3,7 @@ import debug from 'debug';
 
 import {EbayApiError, EBayIAFTokenExpired, EBayTokenRequired, NoCallError} from '../../errors';
 import Parser from './Parser';
-import request, {LimitedRequest} from '../../utils/request';
+import {LimitedRequest, createRequest} from '../../utils/request';
 import {Fields} from './fields';
 
 const HEADING = '<?xml version="1.0" encoding="utf-8"?>';
@@ -71,7 +71,7 @@ export default class XMLRequest<T> {
      * @param      {Object} req the request
      * @param      {Config}  config
      */
-    constructor(callname: string, fields: Fields, config: Config, req: LimitedRequest = request) {
+    constructor(callname: string, fields: Fields, config: Config, req: LimitedRequest = createRequest()) {
         this.callname = callname;
         this.fields = fields || {};
         this.config = config;

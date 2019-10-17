@@ -1,5 +1,5 @@
 import debug from 'debug';
-import request from '../../utils/request';
+import {createRequest} from '../../utils/request';
 import {EBayAccessDenied, EBayInvalidScope, EBayUnauthorizedAfterRefresh, getEBayError} from '../../errors';
 import OAuth2 from '../оAuth2';
 
@@ -9,7 +9,7 @@ export default abstract class Api {
     private readonly oAuth2: OAuth2;
     private readonly req: any;
 
-    constructor(oAuth2: OAuth2, req = request) {
+    constructor(oAuth2: OAuth2, req = createRequest()) {
         this.oAuth2 = oAuth2;
         this.req = req;
     }

@@ -1,5 +1,5 @@
 import debug from 'debug';
-import request from '../utils/request';
+import {LimitedRequest, createRequest} from '../utils/request';
 import {Scope} from '../types';
 
 const log = debug('ebay:oauth');
@@ -34,6 +34,8 @@ export default class OAuth2 {
     readonly certId: string;
     readonly sandbox: boolean;
     readonly ruName?: string;
+    readonly req: LimitedRequest;
+
     private scope: Scope;
 
     private _clientToken?: Token;
@@ -46,7 +48,8 @@ export default class OAuth2 {
         certId: string,
         sandbox: boolean,
         scopes: Scope = defaultScopes,
-        ruName?: string
+        ruName?: string,
+        req: LimitedRequest = createRequest()
     ) {
         this.appId = appId;
         this.certId = certId;
@@ -54,6 +57,7 @@ export default class OAuth2 {
         this.endpoint = sandbox ? 'sandbox' : 'production';
         this.scope = scopes;
         this.ruName = ruName;
+        this.req = req;
     }
 
     /**
@@ -106,7 +110,7 @@ export default class OAuth2 {
         log('Obtain a new Client Token with scope: ', this.scope);
 
         try {
-            const token = await request.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
+            const token = await this.req.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
                 scope: this.scope.join(' '),
                 grant_type: 'client_credentials'
             }, {
@@ -161,7 +165,7 @@ export default class OAuth2 {
      */
     async getToken(code: string, ruName = this.ruName) {
         try {
-            const token = await request.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
+            const token = await this.req.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
                 grant_type: 'authorization_code',
                 code: code,
                 redirect_uri: ruName
@@ -191,7 +195,7 @@ export default class OAuth2 {
         }
 
         try {
-            const token = await request.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
+            const token = await this.req.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
                 grant_type: 'refresh_token',
                 refresh_token: this._userAccessToken.refresh_token,
                 scope: this.scope.join(' ')

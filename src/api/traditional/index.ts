@@ -4,12 +4,12 @@ import ClientAlertsCalls from './clientAlerts';
 import TradingCalls from './trading';
 import ShoppingCalls from './shopping';
 import FindingCalls from './finding';
-import request from '../../utils/request';
 import {Auth, SiteId} from '../../types';
 import {Fields} from './fields';
 import {EBayIAFTokenExpired} from '../../errors';
 import OAuth2 from '../оAuth2';
 import AuthNAuth from '../authNAuth';
+import {createRequest, LimitedRequest} from '../../utils/request';
 
 type XMLApiCall = (fields?: Fields, options?: Options) => Promise<any>;
 
@@ -40,8 +40,9 @@ export default class Traditional {
 
     private readonly oAuth2: OAuth2;
     private readonly authNAuth: AuthNAuth;
+    private readonly req: LimitedRequest;
 
-    constructor(auth: Auth, appId: string, certId: string, devId?: string, siteId = SiteId.EBAY_DE) {
+    constructor(auth: Auth, appId: string, certId: string, devId?: string, siteId = SiteId.EBAY_DE, req: LimitedRequest = createRequest()) {
         this.appId = appId;
         this.certId = certId;
         this.devId = devId;
@@ -49,11 +50,12 @@ export default class Traditional {
 
         this.oAuth2 = auth.oAuth2;
         this.authNAuth = auth.authNAuth;
+        this.req = req;
     }
 
     public createTradingApi(): Trading {
         if (!this.devId) {
-            throw new Error('DevId is required for trading API.')
+            throw new Error('DevId is required for trading API.');
         }
         return this.createTraditionalXMLApi<Trading>({
             endpoint: {
@@ -132,7 +134,7 @@ export default class Traditional {
         const service: any = {};
         for (let callname in ClientAlertsCalls) {
             service[callname] = async (fields: Fields, options?: Options) => {
-                return request.get(endpoint, {
+                return this.req.get(endpoint, {
                     paramsSerializer,
                     params: {
                         ...params,
@@ -178,7 +180,7 @@ export default class Traditional {
             eBayAuthToken: this.authNAuth.eBayAuthToken
         };
 
-        const request = new XMLRequest(callname, fields, config);
+        const request = new XMLRequest(callname, fields, config, this.req);
 
         return request.run(options).catch((ex) => {
             if (ex.name === 'EBayIAFTokenExpired') {

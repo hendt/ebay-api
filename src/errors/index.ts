@@ -122,7 +122,7 @@ export const getEBayError = (e: any) => {
                 description: data.error_description
             }
         }
-        return data.errors[0] ? data.errors[0] : null;
+        return data.errors && data.errors[0] ? data.errors[0] : null;
     }
 
     return null;

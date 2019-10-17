@@ -2,6 +2,7 @@ import axiosRateLimit from 'axios-rate-limit';
 import axios, {AxiosRequestConfig, AxiosInstance} from 'axios';
 import qs from 'qs';
 import debug from 'debug';
+import {Interceptors} from '../types';
 
 const log = debug('ebay:request');
 
@@ -29,12 +30,25 @@ export interface LimitedRequest {
 }
 
 export class LimitedAxiosRequest implements LimitedRequest {
-    req: RateLimitedAxiosInstance;
+    private req: RateLimitedAxiosInstance;
 
-    constructor(ratelimit = RATELIMIT, perMilliseconds = 5000) {
-        const AxiosInstance = axios.create();
+    constructor(interceptors?: Interceptors, ratelimit = RATELIMIT, perMilliseconds = 5000) {
+        const axiosInstance = axios.create({
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'X-Requested-With, Origin, Content-Type, X-Auth-Token',
+                'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE'
+            }
+        });
 
-        this.req = axiosRateLimit(AxiosInstance, {
+        if (interceptors && interceptors.request) {
+            axiosInstance.interceptors.request.use(interceptors.request);
+        }
+        if (interceptors && interceptors.response) {
+            axiosInstance.interceptors.response.use(interceptors.response);
+        }
+
+        this.req = axiosRateLimit(axiosInstance, {
             maxRequests: Math.floor(RATELIMIT),
             perMilliseconds
         });
@@ -52,10 +66,12 @@ export class LimitedAxiosRequest implements LimitedRequest {
 
     postForm<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
         const body = qs.stringify(data);
-        log('postForm: ' + url, body);
         return this.req.post(url, body, config).then(({data}) => data);
     }
 }
 
-const instance = new LimitedAxiosRequest();
-export default instance;
+let request: LimitedRequest;
+
+export const createRequest = (interceptors?: any) => {
+    return request || (request = new LimitedAxiosRequest(interceptors));
+};
