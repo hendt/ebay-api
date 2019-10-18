@@ -4,8 +4,7 @@
   "version": "0.7.0",
   "description": "eBay TypeScript API.",
   "browser": "./lib/ebay-api.min.js",
-  "module": "./lib/ebay-api.esm.js",
-  "main": "./lib/ebay-api.common.js",
+  "main": "./lib/index.js",
   "types": "./lib/ebay-api.d.js",
   "dependencies": {
     "axios": "^0.19.0",
