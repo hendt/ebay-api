@@ -5,7 +5,7 @@
   "description": "eBay TypeScript API.",
   "browser": "./lib/ebay-api.min.js",
   "main": "./lib/index.js",
-  "types": "./lib/ebay-api.d.js",
+  "types": "./lib/index.d.js",
   "dependencies": {
     "axios": "^0.19.0",
     "axios-rate-limit": "^1.1.2",
