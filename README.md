@@ -35,6 +35,43 @@ npm run test
 
 ## ️ Usage:
 
+### Browser
+Check out getItem example: https://hendt.github.io/ebay-api/.
+A Proxy server is required to use the API in the Browser. For testing purpose you can use: https://ebay.hendt.workers.dev/.
+You can also setup your own Proxy server. We have added a example for cloudfront workers: https://github.com/hendt/ebay-api/blob/master/proxy/worker.js
+
+```html
+<script type="text/javascript" src="https://unpkg.com/@hendt/ebay-api/lib/ebay-api.min.js"></script>
+<script>
+ const eBay = new eBayApi({
+      appId: 'appId',
+      certId: 'certId',
+      devId: 'devId',
+
+      sandbox: true,
+      siteId: 77,
+
+      interceptors: {
+        request: (request) => {
+          // Add Proxy
+          request.url = 'https://ebay.hendt.workers.dev/' + request.url;
+          return request;
+        }
+      }
+    });
+
+ eBay.buy.browse.getItem('v1|254188828753|0')
+.then(item => {
+      document.getElementById('response').value = JSON.stringify(item, null, 2)
+}).catch(e => {
+        document.getElementById('response').value = e.message
+});
+</script>
+
+```
+
+### Node
+
 ```javascript
 import EBay, {SiteId} from '@hendt/ebay-api';
 
