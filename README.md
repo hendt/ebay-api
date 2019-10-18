@@ -73,14 +73,14 @@ You can also setup your own Proxy server. We have added a example for cloudfront
 ### Node
 
 ```javascript
-import EBay, {SiteId} from '@hendt/ebay-api';
+import eBayApi from '@hendt/ebay-api';
 
-const ebay = new EBay({
+const ebay = new eBayApi({
   appId: '-- or Client ID --',
   certId: '-- or Client Secret',
   devId: 'devId', // Required for traditional trading API
   sandbox: false,
-  siteId: SiteId.EBAY_DE, // see https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html
+  siteId: eBayApi.SiteId.EBAY_DE, // see https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html
   
   ruName: '-- eBay Redirect URL name --', // Required for authorization code grant
   authToken: '--  Auth\'n Auth for traditional API (used by trading) --', // Optional - can be set to use traditional API without code grant
@@ -92,8 +92,8 @@ const ebay = new EBay({
 
 
 ```javascript
-// 1. Create new EBay instance and set the scope.
-const ebay = EBay.fromEnv();
+// 1. Create new eBayApi instance and set the scope.
+const ebay = eBayApi.fromEnv();
 // Attention: appId, certId, ruName is required.
 
 ebay.oAuth2.setScope([
@@ -129,7 +129,7 @@ ebay.sell.fulfillment.getOrder('12-12345-12345').then(order => {
 
 ### Scope
 ```javascript
-const ebay = new EBay({
+const ebay = new eBayApi({
   // ...
   scope: ['https://api.ebay.com/oauth/api_scope']
 });
