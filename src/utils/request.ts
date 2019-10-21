@@ -20,13 +20,13 @@ const day = 24 * hour;
 const RATELIMIT = Math.floor((5000 / day) * second * minute); // req/sec
 
 export interface LimitedRequest {
-    get<T = any, R = any>(url: string, config?: AxiosRequestConfig): Promise<R>
+    get<R = any>(url: string, config?: AxiosRequestConfig): Promise<R>
 
     post<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R>
 
-    post<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R>
+    post<R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R>
 
-    postForm<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R>
+    postForm<R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R>
 }
 
 export class LimitedAxiosRequest implements LimitedRequest {
@@ -49,22 +49,22 @@ export class LimitedAxiosRequest implements LimitedRequest {
         }
 
         this.req = axiosRateLimit(axiosInstance, {
-            maxRequests: Math.floor(RATELIMIT),
+            maxRequests: Math.floor(ratelimit),
             perMilliseconds
         });
     }
 
-    get<T = any, R = any>(url: string, config?: AxiosRequestConfig): Promise<R> {
+    get<R = any>(url: string, config?: AxiosRequestConfig): Promise<R> {
         log('get:' + url);
         return this.req.get(url, config).then(({data}) => data);
     }
 
-    post<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
+    post<R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
         log('post: ' + url, data);
         return this.req.post(url, data, config).then(({data}) => data);
     }
 
-    postForm<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
+    postForm<R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
         const body = qs.stringify(data);
         return this.req.post(url, body, config).then(({data}) => data);
     }

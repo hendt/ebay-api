@@ -4,13 +4,13 @@ import {Buy} from './api/restful/buy';
 import {Commerce} from './api/restful/commerce';
 import {Developer} from './api/restful/developer';
 import {Sell} from './api/restful/sell';
-import {ClientAlerts, Finding, Shopping, Trading} from './api/traditional';
-import {Auth, Settings, SiteId} from './types';
+import {AppConfig, Config, SiteId} from './types';
 import OAuth2 from './api/оAuth2';
 import AuthNAuth from './api/authNAuth';
 import {LimitedRequest, createRequest} from './utils/request';
+import {ClientAlerts, Finding, Shopping, Trading} from './api/traditional/types';
 
-const defaultSettings = {
+const defaultConfig = {
     sandbox: false,
     siteId: SiteId.EBAY_DE
 };
@@ -24,10 +24,10 @@ export default class eBayApi {
     readonly oAuth2: OAuth2;
     readonly authNAuth: AuthNAuth;
 
-    private readonly auth: Auth;
+    readonly appConfig: AppConfig;
 
     private readonly factory: Factory;
-    private readonly settings: Settings;
+    private readonly config: Config;
     private readonly req: LimitedRequest;
 
     // RESTful
@@ -73,39 +73,39 @@ export default class eBayApi {
     }
 
     /**
-     * @param {Object}  settings the global settings
+     * @param {Object}  config the global config
      * @param {LimitedRequest} req the request
      */
-    constructor(settings: Settings, req?: LimitedRequest) {
-        this.settings = {...defaultSettings, ...settings};
-        this.req = req || createRequest(this.settings.interceptors);
+    constructor(config: Config, req?: LimitedRequest) {
+        this.config = {...defaultConfig, ...config};
+        this.req = req || createRequest(this.config.interceptors);
+
+        this.appConfig = {
+            appId: this.config.appId,
+            certId: this.config.certId,
+            sandbox: this.config.sandbox,
+            ruName: this.config.ruName
+        };
 
         this.oAuth2 = new OAuth2(
-            this.settings.appId,
-            this.settings.certId,
-            this.settings.sandbox,
-            this.settings.scope,
-            this.settings.ruName,
+            this.appConfig,
+            this.config.scope,
             this.req
         );
 
         this.authNAuth = new AuthNAuth(
-            this.settings.appId,
-            this.settings.certId,
-            this.settings.sandbox,
-            this.settings.devId,
-            this.settings.siteId,
-            this.settings.ruName,
-            this.settings.authToken,
+            this.appConfig,
+            this.config.authToken,
             this.req
         );
 
-        this.auth = {
-            oAuth2: this.oAuth2,
-            authNAuth: this.authNAuth
-        };
-
-        this.factory = new Factory(this.settings, this.auth, this.req);
+        this.factory = new Factory(
+            this.appConfig,
+            {
+                oAuth2: this.oAuth2,
+                authNAuth: this.authNAuth
+            },
+            this.req);
     }
 
     get buy(): Buy {

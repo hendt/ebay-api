@@ -1,18 +1,11 @@
 import 'mocha';
 import {expect} from 'chai';
+// @ts-ignore
 import sinon from 'sinon';
 
 import XMLRequest, {Config} from '../../../src/api/traditional/XMLRequest';
-import OAuth2 from '../../../src/api/оAuth2';
-import {Auth} from '../../../src/types';
-import AuthNAuth from '../../../src/api/authNAuth';
 
 describe('XMLRequestTest', () => {
-
-    const testAuth: Auth = {
-        authNAuth: new AuthNAuth('appId', 'certId', true, 'devId', 0),
-        oAuth2: new OAuth2('appId', 'certId', true)
-    };
 
     const config: Config = {
         headers: {

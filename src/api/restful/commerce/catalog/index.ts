@@ -62,10 +62,14 @@ export default class Catalog extends Api {
     /**
      * This call searches for and retrieves summaries of one or more products in the eBay catalog that match the search criteria provided by a seller.
      *
-     * @param body SearchCatalogParams
+     * @param params SearchCatalogParams
      */
-    search(body?: SearchCatalogParams) {
-        return this.get(`/product_summary/search`);
+    search(params?: SearchCatalogParams) {
+        return this.get(`/product_summary/search`, {
+            params: {
+                ...(params && params)
+            }
+        });
     }
 
     /**

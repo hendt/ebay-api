@@ -37,7 +37,7 @@ export default abstract class Api {
     abstract get basePath(): string;
 
     get serverUrl() {
-        return 'https://api.' + (this.oAuth2.sandbox ? 'sandbox.' : '') + 'ebay.com';
+        return 'https://api.' + (this.oAuth2.appConfig.sandbox ? 'sandbox.' : '') + 'ebay.com';
     }
 
     get apiVersionPath() {
@@ -77,27 +77,27 @@ export default abstract class Api {
     async handleEBayError(ex: any, refreshedToken?: boolean): Promise<any> {
         const error = getEBayError(ex);
 
-        if (error) {
-            if (error.domain === 'ACCESS') {
-                throw new EBayAccessDenied(ex);
-            } else if (error.message === 'Invalid access token') {
-                if (!refreshedToken) {
-                    log('Token expired. Refresh the token.');
-                    return this.oAuth2.refreshToken().catch((ex: Error) => {
-                        const error = getEBayError(ex);
-                        if (error.message === 'invalid_scope') {
-                            throw new EBayInvalidScope(ex);
-                        }
-
-                        throw ex;
-                    });
-                }
-
-                throw new EBayUnauthorizedAfterRefresh(ex);
-            }
+        if (!error) {
+            log('handleEBayError', ex);
+            throw ex;
         }
 
-        log('handleEBayError', ex);
-        throw ex;
+        if (error.domain === 'ACCESS') {
+            throw new EBayAccessDenied(ex);
+        } else if (error.message === 'Invalid access token') {
+            if (!refreshedToken) {
+                log('Token expired. Refresh the token.');
+                return this.oAuth2.refreshToken().catch((ex: Error) => {
+                    const error = getEBayError(ex);
+                    if (error && error.message === 'invalid_scope') {
+                        throw new EBayInvalidScope(ex);
+                    }
+
+                    throw ex;
+                });
+            }
+
+            throw new EBayUnauthorizedAfterRefresh(ex);
+        }
     }
 }

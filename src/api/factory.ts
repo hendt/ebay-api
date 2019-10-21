@@ -6,21 +6,29 @@ import {
 } from './restful';
 import {LimitedRequest, createRequest} from '../utils/request';
 
-import Traditional, {ClientAlerts, Finding, Shopping, Trading} from './traditional';
-import {Auth, Settings} from '../types';
+import {AuthNOAuth2, Traditional} from './traditional';
+import {AppConfig} from '../types';
 import Api from './restful/api';
 import OAuth2 from './оAuth2';
+import {ClientAlerts, Finding, Shopping, Trading} from './traditional/types';
+import AuthNAuth from './authNAuth';
 
 export default class Factory {
-    readonly settings: Settings;
-    readonly auth: Auth;
+    readonly appConfig: AppConfig;
+
+    readonly oAuth2?: OAuth2;
+    readonly authNAuth?: AuthNAuth;
+
     readonly req: LimitedRequest;
 
     private _traditional?: Traditional;
 
-    constructor(settings: Settings, auth: Auth, req: LimitedRequest = createRequest()) {
-        this.settings = settings;
-        this.auth = auth;
+    constructor(appConfig: AppConfig, {oAuth2, authNAuth}: { oAuth2?: OAuth2, authNAuth?: AuthNAuth }, req: LimitedRequest = createRequest()) {
+        this.appConfig = appConfig;
+
+        this.oAuth2 = oAuth2;
+        this.authNAuth = authNAuth;
+
         this.req = req;
     }
 
@@ -64,14 +72,37 @@ export default class Factory {
 
     // Traditional
     get traditional() {
-        return this._traditional || (this._traditional = new Traditional(
-            this.auth,
-            this.settings.appId,
-            this.settings.certId,
-            this.settings.devId,
-            this.settings.siteId,
+        if (this._traditional) {
+            return this._traditional;
+        }
+
+        const authNOAuth2 = this.createAuthNOAuth2();
+
+        return (this._traditional = new Traditional(
+            this.appConfig,
+            authNOAuth2,
             this.req
         ));
+    }
+
+    createAuthNOAuth2(): AuthNOAuth2 {
+        return {
+            geteBayAuthToken: () => {
+                if (!this.authNAuth) {
+                    return null;
+                }
+                return this.authNAuth.eBayAuthToken;
+            },
+            getOAuth2AccessToken: () => {
+                if (!this.oAuth2) {
+                    return null;
+                }
+                return this.oAuth2.accessToken;
+            },
+            refreshOAuth2Token: this.oAuth2 ?
+                this.oAuth2.refreshAuthToken.bind(this.oAuth2) :
+                () => Promise.reject('OAuth2 is required.')
+        };
     }
 
     createTradingApi(): Trading {
@@ -91,7 +122,11 @@ export default class Factory {
     }
 
     private createApi<T extends Api>(ApiClass: new (oAuth2: OAuth2) => T): T {
-        return new ApiClass(this.auth.oAuth2);
+        if (!this.oAuth2) {
+            throw new Error('OAuth2 needs to be configured for RESTful API.');
+        }
+
+        return new ApiClass(this.oAuth2);
     }
 }
 

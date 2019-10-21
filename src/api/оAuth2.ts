@@ -1,6 +1,6 @@
 import debug from 'debug';
 import {LimitedRequest, createRequest} from '../utils/request';
-import {Scope} from '../types';
+import {AppConfig, Scope} from '../types';
 
 const log = debug('ebay:oauth');
 
@@ -30,10 +30,7 @@ export default class OAuth2 {
         sandbox: 'https://auth.sandbox.ebay.com/oauth2/authorize'
     };
 
-    readonly appId: string;
-    readonly certId: string;
-    readonly sandbox: boolean;
-    readonly ruName?: string;
+    readonly appConfig: AppConfig;
     readonly req: LimitedRequest;
 
     private scope: Scope;
@@ -44,19 +41,13 @@ export default class OAuth2 {
     private readonly endpoint: string;
 
     constructor(
-        appId: string,
-        certId: string,
-        sandbox: boolean,
+        appConfig: AppConfig,
         scopes: Scope = defaultScopes,
-        ruName?: string,
         req: LimitedRequest = createRequest()
     ) {
-        this.appId = appId;
-        this.certId = certId;
-        this.sandbox = sandbox;
-        this.endpoint = sandbox ? 'sandbox' : 'production';
+        this.appConfig = appConfig;
+        this.endpoint = appConfig.sandbox ? 'sandbox' : 'production';
         this.scope = scopes;
-        this.ruName = ruName;
         this.req = req;
     }
 
@@ -90,7 +81,7 @@ export default class OAuth2 {
         }
     }
 
-    public setClientToken(clientToken: Token) {
+    public setClientToken(clientToken?: Token) {
         this._clientToken = clientToken;
     }
 
@@ -98,16 +89,16 @@ export default class OAuth2 {
         this.scope = scope;
     }
 
-    public getScope() {
+    public getScope(): string[] {
         return [...this.scope];
     }
 
     // Client Credential Grant
     public async refreshClientToken(): Promise<Token> {
-        if (!this.appId) throw new Error('Missing App ID (Client Id)');
-        if (!this.certId) throw new Error('Missing Cert Id (Client Secret)');
+        if (!this.appConfig.appId) throw new Error('Missing App ID (Client Id)');
+        if (!this.appConfig.certId) throw new Error('Missing Cert Id (Client Secret)');
 
-        log('Obtain a new Client Token with scope: ', this.scope);
+        log('Obtain a new Client Token with scope: ', this.scope.join(','));
 
         try {
             const token = await this.req.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
@@ -115,8 +106,8 @@ export default class OAuth2 {
                 grant_type: 'client_credentials'
             }, {
                 auth: {
-                    username: this.appId,
-                    password: this.certId
+                    username: this.appConfig.appId,
+                    password: this.appConfig.certId
                 }
             });
 
@@ -148,13 +139,13 @@ export default class OAuth2 {
      * @param state state parameter returned in the redirect URL
      */
     generateAuthUrl(ruName?: string, scope: string[] = this.scope, state = ''): string {
-        ruName = ruName || this.ruName;
+        ruName = ruName || this.appConfig.ruName;
 
         if (!ruName) {
             throw new Error('RuName is required.');
         }
 
-        return OAuth2.generateAuthUrl(this.sandbox, this.appId, ruName, scope, state);
+        return OAuth2.generateAuthUrl(this.appConfig.sandbox, this.appConfig.appId, ruName, scope, state);
     }
 
     /**
@@ -163,7 +154,7 @@ export default class OAuth2 {
      * @param code the code
      * @param ruName the redirectUri
      */
-    async getToken(code: string, ruName = this.ruName) {
+    async getToken(code: string, ruName = this.appConfig.ruName) {
         try {
             const token = await this.req.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
                 grant_type: 'authorization_code',
@@ -171,8 +162,8 @@ export default class OAuth2 {
                 redirect_uri: ruName
             }, {
                 auth: {
-                    username: this.appId,
-                    password: this.certId
+                    username: this.appConfig.appId,
+                    password: this.appConfig.certId
                 }
             });
 
@@ -188,7 +179,7 @@ export default class OAuth2 {
         this._userAccessToken = userAccessToken;
     }
 
-    public async refreshAuthToken() {
+    public async refreshAuthToken(): Promise<void> {
         if (!this._userAccessToken) {
             log('Tried to refresh auth token before it was set.');
             throw new Error('Failed to refresh the token. Token is not set.');
@@ -201,8 +192,8 @@ export default class OAuth2 {
                 scope: this.scope.join(' ')
             }, {
                 auth: {
-                    username: this.appId,
-                    password: this.certId
+                    username: this.appConfig.appId,
+                    password: this.appConfig.certId
                 }
             });
             log('Successfully refreshed token', token);

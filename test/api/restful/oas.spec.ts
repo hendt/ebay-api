@@ -1,6 +1,7 @@
 import 'mocha';
 import {expect} from 'chai';
 import OAuth2 from '../../../src/api/оAuth2';
+// @ts-ignore
 import sinon from 'sinon';
 
 import buyTests from './buy';
@@ -15,7 +16,7 @@ const allTests = {
     'Sell': sellTests
 };
 
-const testOAuth = new OAuth2('appId', 'certId', true);
+const testOAuth = new OAuth2({appId: 'appId', certId: 'certId', sandbox: true});
 
 testOAuth.setClientToken({
     access_token: 'token',

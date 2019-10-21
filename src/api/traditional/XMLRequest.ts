@@ -52,7 +52,7 @@ const defaultOptions: Options = {
 /**
  * XML request for making eBay API call.
  */
-export default class XMLRequest<T> {
+export default class XMLRequest {
     readonly callname: string;
     readonly fields: Fields;
     readonly config: Config;
@@ -107,10 +107,9 @@ export default class XMLRequest<T> {
      *
      * @private
      * @param      {Fields}  fields  the fields
-     * @param      {Object}  options  The options
      * @return     {String}           The XML string of the Request
      */
-    public toXML(fields: Fields, options: Required<Options>) {
+    public toXML(fields: Fields) {
         return HEADING + parser.parse({
             [this.callname + 'Request']: {
                 '@_xmlns': this.config.xmlns,
@@ -153,7 +152,7 @@ export default class XMLRequest<T> {
      *
      */
     private async fetch(options: Required<Options>) {
-        const xml = this.toXML(this.fields, options);
+        const xml = this.toXML(this.fields);
         log('XML', xml);
         try {
             const headers = {

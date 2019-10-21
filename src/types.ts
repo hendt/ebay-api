@@ -1,6 +1,3 @@
-import OAuth2 from './api/оAuth2';
-import AuthNAuth from './api/authNAuth';
-
 export enum SiteId {
     EBAY_US = 0,
     EBAY_ENCA = 2,
@@ -26,12 +23,6 @@ export enum SiteId {
     EBAY_SG = 216
 }
 
-type Keyset = {
-    appId: string, // (Client ID)
-    certId: string, // (Client Secret)
-    devId?: string,
-}
-
 export type Scope = string[];
 
 export type Interceptors = {
@@ -39,13 +30,22 @@ export type Interceptors = {
     response?: (value: any) => any;
 }
 
-/**
- * defaults for eBay API
- */
-export type Settings = Keyset & {
+export type Keyset = {
+    appId: string, // (Client ID)
+    certId: string, // (Client Secret)
+    devId?: string,
+}
+
+export type AppConfig = Keyset & {
     sandbox: boolean,
     siteId?: number,
     ruName?: string,
+}
+
+/**
+ * defaults for eBay API
+ */
+export type Config = AppConfig & {
     scope?: Scope,
     authToken?: string,
     interceptors?: Interceptors
@@ -55,9 +55,4 @@ export type AuthToken = {
     eBayAuthToken: string,
     Timestamp?: string,
     HardExpirationTime?: string
-}
-
-export type Auth = {
-    oAuth2: OAuth2,
-    authNAuth: AuthNAuth
 }

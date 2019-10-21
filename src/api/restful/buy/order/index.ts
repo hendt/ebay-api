@@ -275,7 +275,7 @@ export default class Order extends Api {
      */
     placeProxyGuestOrder(checkoutSessionId: string, body?: GuestPlaceOrderRequest) {
         checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/place_order`);
+        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/place_order`, body);
     }
 
     /**

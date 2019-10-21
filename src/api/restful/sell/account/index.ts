@@ -176,7 +176,8 @@ export default class Account extends Api {
     getReturnPolicyByName(marketplaceId: string, name: string) {
         return this.get(`/return_policy/get_by_policy_name`, {
             params: {
-                marketplace_id: marketplaceId
+                marketplace_id: marketplaceId,
+                name
             }
         });
     }
