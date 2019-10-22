@@ -5,14 +5,18 @@ It supports Client credentials grant and Authorization code grant (traditional a
 * [eBay API Explorer](https://developer.ebay.com/my/api_test_tool)
 * [eBay API Docs](https://developer.ebay.com/docs)
 
-| RESTful API       | Implemented                         |
+## RESTful API
+
+| API               | Implemented                         |
 |-------------------|-------------------------------------|
 | Sell APIs         | yes                                 |
 | Buy APIs          | Marketplace Insights API is missing |
 | Commerce APIs     | yes                                 |
 | Developer APIs    | yes                                 |
 
-| Traditional API   | Implemented                         |
+## Traditional API
+
+| API               | Implemented                         |
 |-------------------|-------------------------------------|
 | Finding API       | yes                                 |
 | Shopping API      | yes                                 |
@@ -37,7 +41,10 @@ npm run test
 
 ### Browser
 Check out getItem example: https://hendt.github.io/ebay-api/.
-A Proxy server is required to use the API in the Browser. For testing purpose you can use: https://ebay.hendt.workers.dev/.
+
+A Proxy server is required to use the API in the Browser. 
+
+For testing purpose you can use: ```https://ebay.hendt.workers.dev/```.
 You can also setup your own Proxy server. We have added a example for cloudfront workers: https://github.com/hendt/ebay-api/blob/master/proxy/worker.js
 
 ```html
@@ -67,7 +74,6 @@ You can also setup your own Proxy server. We have added a example for cloudfront
         document.getElementById('response').value = e.message
 });
 </script>
-
 ```
 
 ### Node
@@ -198,10 +204,9 @@ Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
 ## Supported By:
 [hendt.de](https://hendt.de)
 
-Thanks to: [ebay-promised](https://github.com/ondreian/ebay-promised)
-Similar projects:
+## Similar projects:
+[ebay-promised](https://github.com/ondreian/ebay-promised)
 [ebay-client](https://github.com/CoinPoet/ebay-client)
-
 [ebay-node-api](https://github.com/pajaydev/ebay-node-api)
 
 

@@ -6,13 +6,16 @@ import {
 } from './restful';
 import {LimitedRequest, createRequest} from '../utils/request';
 
-import {AuthNOAuth2, Traditional} from './traditional';
-import {AppConfig} from '../types';
 import Api from './restful/api';
+import Traditional from './traditional';
+import {AppConfig} from '../types';
 import OAuth2 from './оAuth2';
-import {ClientAlerts, Finding, Shopping, Trading} from './traditional/types';
 import AuthNAuth from './authNAuth';
+import {AuthNOAuth2, ClientAlerts, Finding, Shopping, Trading} from './traditional/types';
 
+/**
+ * Factory class to create RESTFul API or Traditional API.
+ */
 export default class Factory {
     readonly appConfig: AppConfig;
 
@@ -23,54 +26,55 @@ export default class Factory {
 
     private _traditional?: Traditional;
 
-    constructor(appConfig: AppConfig, {oAuth2, authNAuth}: { oAuth2?: OAuth2, authNAuth?: AuthNAuth }, req: LimitedRequest = createRequest()) {
+    constructor(
+        appConfig: AppConfig,
+        {oAuth2, authNAuth}: { oAuth2?: OAuth2, authNAuth?: AuthNAuth },
+        req: LimitedRequest = createRequest()
+    ) {
         this.appConfig = appConfig;
-
         this.oAuth2 = oAuth2;
         this.authNAuth = authNAuth;
-
         this.req = req;
     }
 
     createBuyApi(): Buy {
         return {
-            browse: this.createApi(Browse),
-            feed: this.createApi(Feed),
-            marketing: this.createApi(BuyMarketing),
-            offer: this.createApi(Offer),
-            order: this.createApi(Order)
+            browse: this.createRestfulApi(Browse),
+            feed: this.createRestfulApi(Feed),
+            marketing: this.createRestfulApi(BuyMarketing),
+            offer: this.createRestfulApi(Offer),
+            order: this.createRestfulApi(Order)
         };
     }
 
     createCommerceApi(): Commerce {
         return {
-            catalog: this.createApi(Catalog),
-            identity: this.createApi(Identity),
-            taxonomy: this.createApi(Taxonomy),
-            translation: this.createApi(Translation)
+            catalog: this.createRestfulApi(Catalog),
+            identity: this.createRestfulApi(Identity),
+            taxonomy: this.createRestfulApi(Taxonomy),
+            translation: this.createRestfulApi(Translation)
         };
     }
 
     createDeveloperApi(): Developer {
         return {
-            analytics: this.createApi(DeveloperAnalytics)
+            analytics: this.createRestfulApi(DeveloperAnalytics)
         };
     }
 
     createSellApi(): Sell {
         return {
-            account: this.createApi(Account),
-            analytics: this.createApi(SellAnalytics),
-            compliance: this.createApi(Compliance),
-            fulfillment: this.createApi(Fulfillment),
-            inventory: this.createApi(Inventory),
-            marketing: this.createApi(SellMarketing),
-            metadata: this.createApi(Metadata),
-            recommendation: this.createApi(Recommendation)
+            account: this.createRestfulApi(Account),
+            analytics: this.createRestfulApi(SellAnalytics),
+            compliance: this.createRestfulApi(Compliance),
+            fulfillment: this.createRestfulApi(Fulfillment),
+            inventory: this.createRestfulApi(Inventory),
+            marketing: this.createRestfulApi(SellMarketing),
+            metadata: this.createRestfulApi(Metadata),
+            recommendation: this.createRestfulApi(Recommendation)
         };
     }
 
-    // Traditional
     get traditional() {
         if (this._traditional) {
             return this._traditional;
@@ -85,7 +89,7 @@ export default class Factory {
         ));
     }
 
-    createAuthNOAuth2(): AuthNOAuth2 {
+    private createAuthNOAuth2(): AuthNOAuth2 {
         return {
             geteBayAuthToken: () => {
                 if (!this.authNAuth) {
@@ -121,9 +125,9 @@ export default class Factory {
         return this.traditional.createClientAlertsApi();
     }
 
-    private createApi<T extends Api>(ApiClass: new (oAuth2: OAuth2) => T): T {
+    private createRestfulApi<T extends Api>(ApiClass: new (oAuth2: OAuth2) => T): T {
         if (!this.oAuth2) {
-            throw new Error('OAuth2 needs to be configured for RESTful API.');
+            throw new Error('oAuth2 needs to be configured for RESTful API.');
         }
 
         return new ApiClass(this.oAuth2);

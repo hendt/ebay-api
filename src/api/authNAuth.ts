@@ -60,12 +60,14 @@ export default class AuthNAuth {
             throw new Error('RuName is required.');
         }
 
+        const config = this.getRequestConfig('GetSessionID');
+
         const request = new XMLRequest('GetSessionID', {
                 RuName: ruName
-            }, this.getRequestConfig('GetSessionID'),
+            }, config,
             this.req);
 
-        const response = await request.run();
+        const response = await request.fetch({useIaf: false});
 
         log('GetSessionID response', response);
 
@@ -84,7 +86,7 @@ export default class AuthNAuth {
             }, this.getRequestConfig('FetchToken'),
             this.req);
 
-        return request.run();
+        return request.fetch({useIaf: false});
     }
 
 

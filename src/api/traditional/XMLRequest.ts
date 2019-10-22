@@ -29,7 +29,8 @@ const defaultParseOptions = {
 export type Options = {
     raw?: boolean,
     cleanup?: boolean,
-    parseOptions?: object
+    parseOptions?: object,
+    useIaf?: boolean
 }
 
 type Headers = {
@@ -43,10 +44,11 @@ export type Config = {
     eBayAuthToken?: string | null
 };
 
-const defaultOptions: Options = {
+export const defaultOptions: Required<Options> = {
     raw: false,
     cleanup: true,
-    parseOptions: defaultParseOptions
+    parseOptions: defaultParseOptions,
+    useIaf: true
 };
 
 /**
@@ -72,6 +74,10 @@ export default class XMLRequest {
      * @param      {Config}  config
      */
     constructor(callname: string, fields: Fields, config: Config, req: LimitedRequest = createRequest()) {
+        if (!callname) {
+            throw new NoCallError();
+        }
+
         this.callname = callname;
         this.fields = fields || {};
         this.config = config;
@@ -120,30 +126,6 @@ export default class XMLRequest {
     }
 
     /**
-     * runs the current Request
-     *
-     * @param      {<type>}  options  The options
-     * @return     {<type>}  { description_of_the_return_value }
-     */
-    async run(options: Options = defaultOptions) {
-        if (!this.callname) {
-            throw new NoCallError();
-        }
-
-        const requiredOptions = {
-            ...defaultOptions,
-            ...options
-        } as Required<Options>;
-
-        try {
-            return await this.fetch(requiredOptions);
-        } catch (error) {
-            log(error);
-            throw error;
-        }
-    }
-
-    /**
      * runs the HTTP Post to eBay
      *
      * @private
@@ -151,7 +133,9 @@ export default class XMLRequest {
      * @return     {Promise}           resolves to the response
      *
      */
-    private async fetch(options: Required<Options>) {
+    public async fetch(options: Options = defaultOptions) {
+        const requiredOptions = {...defaultOptions, ...options};
+
         const xml = this.toXML(this.fields);
         log('XML', xml);
         try {
@@ -172,7 +156,7 @@ export default class XMLRequest {
                 return data;
             }
 
-            let json = Parser.toJSON(data, options.parseOptions);
+            let json = Parser.toJSON(data, requiredOptions.parseOptions);
 
             // Unwrap
             if (json[this.responseWrapper]) {
@@ -188,19 +172,17 @@ export default class XMLRequest {
 
             return json;
         } catch (error) {
-            log(error);
             this.handleEBayResponseError(error);
-            throw error;
         }
     }
 
     handleEBayJsonError(json: any) {
-        if (json.Ack === 'Error' || json.Ack === 'Failure') {
-            if (json.Errors) {
-                switch (json.Errors.ErrorCode) {
-                    case EBayIAFTokenExpired.code: throw new EBayIAFTokenExpired(json);
-                    case EBayTokenRequired.code: throw new EBayTokenRequired(json);
-                }
+        if (json.Ack === 'Error' || json.Ack === 'Failure' || json.Errors) {
+            switch (json.Errors.ErrorCode) {
+                case EBayIAFTokenExpired.code:
+                    throw new EBayIAFTokenExpired(json);
+                case EBayTokenRequired.code:
+                    throw new EBayTokenRequired(json);
             }
 
             throw new EbayApiError(json.Errors);
@@ -208,9 +190,13 @@ export default class XMLRequest {
     }
 
     handleEBayResponseError(error: any) {
+        log('eBayResponseError', error);
+
         if (error.response && error.response.data) {
             const json = Parser.toJSON(error.response.data, defaultParseOptions);
             this.handleEBayJsonError(json);
+        } else {
+            throw error;
         }
     }
 }
