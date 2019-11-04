@@ -83,6 +83,7 @@ export default class eBayApi {
         this.appConfig = {
             appId: this.config.appId,
             certId: this.config.certId,
+            devId: this.config.devId,
             sandbox: this.config.sandbox,
             ruName: this.config.ruName
         };
