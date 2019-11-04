@@ -153,19 +153,8 @@ export default class Traditional {
 
     private createXMLRequest = (callname: string, api: TraditionalApi) => async (fields: Fields, opts: Options) => {
         const options = {...defaultOptions, ...opts};
-        const eBayAuthToken = this.geteBayAuthToken;
-        const accessToken = this.getOAuth2AccessToken;
-        const useIafToken = (!eBayAuthToken || accessToken && options && options.useIaf);
 
-        const config = {
-            xmlns: api.xmlns,
-            endpoint: api.endpoint[this.appConfig.sandbox ? 'sandbox' : 'production'],
-            headers: {
-                ...api.headers(callname, accessToken && useIafToken ? accessToken : undefined)
-            },
-            ...(eBayAuthToken && !useIafToken && {eBayAuthToken})
-        };
-
+        const config = this.getConfig(options, api, callname);
         const request = new XMLRequest(callname, fields, config, this.req);
 
         try {
@@ -174,6 +163,9 @@ export default class Traditional {
             // Try to refresh the token.
             if (e.name === EBayIAFTokenExpired.name && this.authNOAuth2.refreshOAuth2Token) {
                 return this.authNOAuth2.refreshOAuth2Token().then(() => {
+                    const config = this.getConfig(options, api, callname);
+                    const request = new XMLRequest(callname, fields, config, this.req);
+
                     return request.fetch(options);
                 }).catch((ex) => {
                     throw ex;
@@ -183,6 +175,22 @@ export default class Traditional {
             throw e;
         }
     };
+
+    private getConfig(options: Options, api: TraditionalApi, callname: string) {
+        const eBayAuthToken = this.geteBayAuthToken;
+        const accessToken = this.getOAuth2AccessToken;
+        const useIafToken = (!eBayAuthToken || accessToken && options.useIaf);
+
+        const config = {
+            xmlns: api.xmlns,
+            endpoint: api.endpoint[this.appConfig.sandbox ? 'sandbox' : 'production'],
+            headers: {
+                ...api.headers(callname, accessToken && useIafToken ? accessToken : undefined)
+            },
+            ...(eBayAuthToken && !useIafToken && {eBayAuthToken})
+        };
+        return config;
+    }
 
     private createTraditionalXMLApi<T>(api: TraditionalApi): T {
         const service: any = {};

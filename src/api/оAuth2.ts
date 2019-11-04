@@ -197,7 +197,11 @@ export default class OAuth2 {
                 }
             });
             log('Successfully refreshed token', token);
-            this.setCredentials(token);
+
+            this.setCredentials({
+                ...this._userAccessToken,
+                ...token
+            });
         } catch (ex) {
             log('Failed to refresh the token', ex);
             throw ex;
