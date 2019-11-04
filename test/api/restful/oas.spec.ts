@@ -16,7 +16,7 @@ const allTests = {
     'Sell': sellTests
 };
 
-const testOAuth = new OAuth2({appId: 'appId', certId: 'certId', sandbox: true});
+const testOAuth = new OAuth2({appId: 'appId', certId: 'certId', sandbox: true, siteId: 77});
 
 testOAuth.setClientToken({
     access_token: 'token',

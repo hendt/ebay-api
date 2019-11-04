@@ -38,7 +38,7 @@ export type Keyset = {
 
 export type AppConfig = Keyset & {
     sandbox: boolean,
-    siteId?: number,
+    siteId: number,
     ruName?: string,
 }
 

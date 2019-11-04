@@ -27,7 +27,6 @@ export default class eBayApi {
     readonly appConfig: AppConfig;
 
     private readonly factory: Factory;
-    private readonly config: Config;
     private readonly req: LimitedRequest;
 
     // RESTful
@@ -77,26 +76,28 @@ export default class eBayApi {
      * @param {LimitedRequest} req the request
      */
     constructor(config: Config, req?: LimitedRequest) {
-        this.config = {...defaultConfig, ...config};
-        this.req = req || createRequest(this.config.interceptors);
+        const cfg = {...defaultConfig, ...config};
+        this.req = req || createRequest(cfg.interceptors);
 
         this.appConfig = {
-            appId: this.config.appId,
-            certId: this.config.certId,
-            devId: this.config.devId,
-            sandbox: this.config.sandbox,
-            ruName: this.config.ruName
+            appId: cfg.appId,
+            certId: cfg.certId,
+            devId: cfg.devId,
+            
+            sandbox: cfg.sandbox,
+            siteId: cfg.siteId,
+            ruName: cfg.ruName
         };
 
         this.oAuth2 = new OAuth2(
             this.appConfig,
-            this.config.scope,
+            cfg.scope,
             this.req
         );
 
         this.authNAuth = new AuthNAuth(
             this.appConfig,
-            this.config.authToken,
+            cfg.authToken,
             this.req
         );
 
