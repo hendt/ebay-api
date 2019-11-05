@@ -82,6 +82,14 @@ export class EBayAccessDenied extends EBayError {
     }
 }
 
+export class EBayNotFound extends EBayError {
+    constructor(err: any) {
+        super(err.message);
+        this.meta = err.response.data;
+        this.name = 'EBayEBayNotFound';
+    }
+}
+
 export class EBayUnauthorizedAfterRefresh extends EBayError {
     constructor(err: any) {
         super('Unauthorized after refreshing token.');

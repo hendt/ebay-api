@@ -1,6 +1,12 @@
 import debug from 'debug';
 import {createRequest} from '../../utils/request';
-import {EBayAccessDenied, EBayInvalidScope, EBayUnauthorizedAfterRefresh, getEBayError} from '../../errors';
+import {
+    EBayAccessDenied,
+    EBayInvalidScope,
+    EBayNotFound,
+    EBayUnauthorizedAfterRefresh,
+    getEBayError
+} from '../../errors';
 import OAuth2 from '../оAuth2';
 
 const log = debug('ebay:restful:api');
@@ -49,28 +55,30 @@ export default abstract class Api {
     };
 
     async get(url: string, config: any = {}): Promise<any> {
-        const authConfig = await this.getAuthConfig(config);
-
         try {
+            const authConfig = await this.getAuthConfig(config);
             return await this.req.get(this.baseUrl + url, authConfig);
         } catch (ex) {
             await this.handleEBayError(ex);
 
             // Token refreshed -> try again
-            return this.get(url, config).catch((ex: any) => this.handleEBayError(ex, true));
+            const authConfig = await this.getAuthConfig(config);
+            return this.req.get(this.baseUrl + url, authConfig)
+                .catch((ex: any) => this.handleEBayError(ex, true));
         }
     }
 
     async post(url: string, data?: any, config: any = {}): Promise<any> {
-        const authConfig = await this.getAuthConfig(config);
-
         try {
+            const authConfig = await this.getAuthConfig(config);
             return await this.req.post(this.baseUrl + url, data, authConfig);
         } catch (ex) {
             await this.handleEBayError(ex);
 
             // Token refreshed -> try again
-            return this.post(url, data, config).catch((ex: any) => this.handleEBayError(ex, true));
+            const authConfig = await this.getAuthConfig(config);
+            return this.req.post(this.baseUrl + url, data, authConfig)
+                .catch((ex: any) => this.handleEBayError(ex, true));
         }
     }
 
@@ -98,6 +106,10 @@ export default abstract class Api {
             }
 
             throw new EBayUnauthorizedAfterRefresh(ex);
+        } else if (error.errorId === 11001) {
+            throw new EBayNotFound(ex);
         }
+
+        throw ex;
     }
 }
