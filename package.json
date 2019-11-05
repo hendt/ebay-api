@@ -1,7 +1,7 @@
 {
   "name": "@hendt/ebay-api",
   "author": "Daniil Tomilow",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "eBay TypeScript API.",
   "browser": "./lib/ebay-api.min.js",
   "main": "./lib/index.js",
