@@ -48,7 +48,7 @@ For testing purpose you can use: ```https://ebay.hendt.workers.dev/```.
 You can also setup your own Proxy server. We have added a example for cloudfront workers: https://github.com/hendt/ebay-api/blob/master/proxy/worker.js
 
 ```html
-<script type="text/javascript" src="https://unpkg.com/@hendt/ebay-api/lib/ebay-api.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@hendt/ebay-api@latest/lib/ebay-api.min.js"></script>
 <script>
  const eBay = new eBayApi({
       appId: 'appId',

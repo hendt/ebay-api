@@ -1,6 +1,7 @@
 import debug from 'debug';
 import {LimitedRequest, createRequest} from '../utils/request';
 import {AppConfig, Scope} from '../types';
+import NanoEvents from 'nanoevents';
 
 const log = debug('ebay:oauth');
 
@@ -16,8 +17,6 @@ type UserAccessToken = Token & {
     refresh_token_expires_in: number
 };
 
-const defaultScopes: Scope = ['https://api.ebay.com/oauth/api_scope'];
-
 export default class OAuth2 {
     // If all the calls in our application require just an Application access token
     static IDENTITY_ENDPOINT: any = {
@@ -30,6 +29,8 @@ export default class OAuth2 {
         sandbox: 'https://auth.sandbox.ebay.com/oauth2/authorize'
     };
 
+    static defaultScopes: Scope = ['https://api.ebay.com/oauth/api_scope'];
+
     readonly appConfig: AppConfig;
     readonly req: LimitedRequest;
 
@@ -40,15 +41,34 @@ export default class OAuth2 {
 
     private readonly endpoint: string;
 
+    private readonly emitter: NanoEvents<any>;
+
     constructor(
         appConfig: AppConfig,
-        scopes: Scope = defaultScopes,
+        scopes: Scope = OAuth2.defaultScopes,
         req: LimitedRequest = createRequest()
     ) {
         this.appConfig = appConfig;
         this.endpoint = appConfig.sandbox ? 'sandbox' : 'production';
         this.scope = scopes;
         this.req = req;
+
+        this.emitter = new NanoEvents();
+    }
+
+    public static generateAuthUrl(sandbox: boolean, appId: string, ruName: string, scope: string[], state = ''): string {
+        return [
+            OAuth2.AUTHORIZE_ENDPOINT[sandbox ? 'sandbox' : 'production'],
+            '?client_id=', encodeURIComponent(appId),
+            '&redirect_uri=', encodeURIComponent(ruName),
+            '&response_type=code',
+            '&state=', encodeURIComponent(state),
+            '&scope=', encodeURIComponent(scope.join(' '))
+        ].join('');
+    }
+
+    on(name: string, callBack: (arg: any) => any) {
+        return this.emitter.on(name, callBack);
     }
 
     /**
@@ -112,23 +132,15 @@ export default class OAuth2 {
             });
 
             log('Stored a new Client Token:', token);
+
             this.setClientToken(token);
+            this.emitter.emit('refreshClientToken', token);
+
             return token;
         } catch (ex) {
             log('Failed to store client token', ex);
             throw ex;
         }
-    }
-
-    public static generateAuthUrl(sandbox: boolean, appId: string, ruName: string, scope: string[], state = ''): string {
-        return [
-            OAuth2.AUTHORIZE_ENDPOINT[sandbox ? 'sandbox' : 'production'],
-            '?client_id=', encodeURIComponent(appId),
-            '&redirect_uri=', encodeURIComponent(ruName),
-            '&response_type=code',
-            '&state=', encodeURIComponent(state),
-            '&scope=', encodeURIComponent(scope.join(' '))
-        ].join('');
     }
 
     /**
@@ -175,6 +187,15 @@ export default class OAuth2 {
         }
     }
 
+    public getCredentials(): UserAccessToken | null {
+        if (this._userAccessToken) {
+            return {
+                ...this._userAccessToken
+            };
+        }
+        return null;
+    }
+
     public setCredentials(userAccessToken: UserAccessToken) {
         this._userAccessToken = userAccessToken;
     }
@@ -198,10 +219,14 @@ export default class OAuth2 {
             });
             log('Successfully refreshed token', token);
 
-            this.setCredentials({
+            const refreshedToken = {
                 ...this._userAccessToken,
                 ...token
-            });
+            };
+
+            this.setCredentials(refreshedToken);
+
+            this.emitter.emit('refreshAuthToken', refreshedToken);
         } catch (ex) {
             log('Failed to refresh the token', ex);
             throw ex;

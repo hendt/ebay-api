@@ -89,7 +89,6 @@ export default class AuthNAuth {
         return request.fetch({useIaf: false});
     }
 
-
     setAuthToken(authToken: AuthToken | string) {
         if (typeof authToken === 'string') {
             this.authToken = {

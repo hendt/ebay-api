@@ -11,12 +11,14 @@
     "axios-rate-limit": "^1.1.2",
     "debug": "^2.1.1",
     "fast-xml-parser": "^3.13.0",
+    "nanoevents": "^2.0.0",
     "qs": "^6.8.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.3",
     "@types/debug": "^4.1.5",
     "@types/mocha": "^5.2.7",
+    "@types/nanoevents": "^1.0.0",
     "@types/node": "^12.7.4",
     "@types/qs": "^6.5.3",
     "@types/sinon": "^7.0.13",
