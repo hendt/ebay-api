@@ -1,8 +1,27 @@
 import {
-    Buy, Browse, Feed, BuyMarketing, Offer, Order,
-    Commerce, Catalog, Identity, Taxonomy, Translation,
-    Developer, DeveloperAnalytics,
-    Sell, Account, SellAnalytics, Compliance, Fulfillment, Inventory, SellMarketing, Metadata, Recommendation
+    Buy,
+    Browse,
+    Feed,
+    BuyMarketing,
+    Offer,
+    Order,
+    Commerce,
+    Catalog,
+    Identity,
+    Taxonomy,
+    Translation,
+    Developer,
+    DeveloperAnalytics,
+    Sell,
+    Account,
+    SellAnalytics,
+    Compliance,
+    Fulfillment,
+    Inventory,
+    SellMarketing,
+    Metadata,
+    Recommendation,
+    Cancellation, Case
 } from './restful';
 import {LimitedRequest, createRequest} from '../utils/request';
 
@@ -12,6 +31,7 @@ import {AppConfig} from '../types';
 import OAuth2 from './оAuth2';
 import AuthNAuth from './authNAuth';
 import {AuthNOAuth2, ClientAlerts, Finding, Shopping, Trading} from './traditional/types';
+import {PostOrder} from './restful/postOrder/index';
 
 /**
  * Factory class to create RESTFul API or Traditional API.
@@ -59,6 +79,13 @@ export default class Factory {
     createDeveloperApi(): Developer {
         return {
             analytics: this.createRestfulApi(DeveloperAnalytics)
+        };
+    }
+
+    createPostOrderApi(): PostOrder {
+        return {
+            cancellation: this.createRestfulApi(Cancellation),
+            case: this.createRestfulApi(Case)
         };
     }
 

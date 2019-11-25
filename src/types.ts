@@ -48,7 +48,8 @@ export type AppConfig = Keyset & {
 export type Config = AppConfig & {
     scope?: Scope,
     authToken?: string,
-    interceptors?: Interceptors
+    interceptors?: Interceptors,
+    maxRequests?: number
 }
 
 export type AuthToken = {

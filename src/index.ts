@@ -9,6 +9,7 @@ import OAuth2 from './api/оAuth2';
 import AuthNAuth from './api/authNAuth';
 import {LimitedRequest, createRequest} from './utils/request';
 import {ClientAlerts, Finding, Shopping, Trading} from './api/traditional/types';
+import {PostOrder} from './api/restful/postOrder/index';
 
 const defaultConfig = {
     sandbox: false,
@@ -33,6 +34,7 @@ export default class eBayApi {
     private _buy?: Buy;
     private _commerce?: Commerce;
     private _developer?: Developer;
+    private _postOrder?: PostOrder;
     private _sell?: Sell;
 
     // Traditional
@@ -77,13 +79,13 @@ export default class eBayApi {
      */
     constructor(config: Config, req?: LimitedRequest) {
         const cfg = {...defaultConfig, ...config};
-        this.req = req || createRequest(cfg.interceptors);
+        this.req = req || createRequest(cfg.interceptors, cfg.maxRequests);
 
         this.appConfig = {
             appId: cfg.appId,
             certId: cfg.certId,
             devId: cfg.devId,
-            
+
             sandbox: cfg.sandbox,
             siteId: cfg.siteId,
             ruName: cfg.ruName
@@ -120,6 +122,10 @@ export default class eBayApi {
 
     get developer(): Developer {
         return this._developer || (this._developer = this.factory.createDeveloperApi());
+    }
+
+    get postOrder(): PostOrder {
+        return this._postOrder || (this._postOrder = this.factory.createPostOrderApi());
     }
 
     get sell(): Sell {

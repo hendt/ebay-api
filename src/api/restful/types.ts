@@ -556,3 +556,124 @@ export type ItemPromotion = {
     promotionType: string,
     startDate: string
 }
+
+export type DateTime = {
+    value: string
+}
+
+export type LineItem = {
+    itemId: number,
+    quantity: number,
+    transactionId: number
+}
+
+export type CreateCancelRequest = {
+    buyerPaid?: boolean,
+    buyerPaidDate?: DateTime
+    cancelReason?: any, // token
+    legacyOrderId: string,
+    relistLineItem?: LineItem[]
+}
+
+export type ConfirmRefundRequest = {
+    refundDate?: DateTime,
+    unpaidOrder?: boolean
+}
+
+export type RejectCancelRequest = {
+    shipmentDate?: DateTime,
+    trackingNumber?: string
+}
+
+export enum UserRoleFilterEnum {
+    BUYER = 'BUYER',
+    SELLER = 'SELLER'
+}
+
+export type CancelSortField = {
+    ascending: boolean,
+    enumValue: 'CANCEL_ID' | 'CANCEL_REQUEST_DATE',
+    field: '+' | '-'
+}
+
+export type CancellationSearchParams = {
+    cancel_id?: string;
+    creation_date_range_from?: string;
+    creation_date_range_to?: string;
+    item_id?: string;
+    legacy_order_id?: string;
+    limit?: string;
+    offset?: string;
+    role?: UserRoleFilterEnum; // default SELLER
+    sort?: CancelSortField;
+    transaction_id?: string;
+}
+
+export type Text = {
+    content: string,
+    language: string,
+    translatedFromContent: string,
+    translatedFromLanguage: string
+}
+
+export type AppealRequest = {
+    comments: Text
+}
+
+export type BuyerCloseCaseRequest = {
+    closeReason: boolean,
+    comments?: Text
+}
+
+export type Address = {
+    addressLine1?: string,
+    addressLine2?: string,
+    addressType?: string,
+    city?: string,
+    country?: string,
+    county?: string,
+    isTransliterated?: boolean,
+    nationalRegion?: string,
+    postalCode?: string,
+    script?: string,
+    stateOrProvince?: string,
+    transliteratedFromScript?: string,
+    worldRegion?: string
+}
+
+export type ReturnAddressRequest = {
+    firstName?: string;
+    lastName?: string;
+    returnAddress?: Address
+    RMA?: string
+}
+
+export enum CaseStatusFilter {
+    CLOSED = 'CLOSED',
+    CS_CLOSED = 'CS_CLOSED',
+    ON_HOLD = 'ON_HOLD',
+    OPEN = 'OPEN',
+    OTHER = 'OTHER',
+    REFUND_AGREED_BUT_FAILED = 'REFUND_AGREED_BUT_FAILED',
+    WAITING_CS = 'WAITING_CS',
+    WAITING_DELIVERY = 'WAITING_DELIVERY'
+}
+
+export enum CaseSearchFieldGroupEnum {
+    DEFAULT = 'DEFAULT',
+    SUMMARY = 'SUMMARY'
+}
+
+export type CaseSearchParams = {
+    case_creation_date_range_from: string;
+    case_creation_date_range_to: string;
+    case_status_filter: CaseStatusFilter;
+    fieldgroups: CaseSearchFieldGroupEnum;
+    item_id: string;
+    limit: number;
+    offset: number;
+    order_id: string;
+    return_id: string;
+    sort: string;
+    transaction_id: string;
+}

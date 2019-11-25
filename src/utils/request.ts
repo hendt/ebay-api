@@ -14,10 +14,7 @@ const minute = 60 * second;
 const hour = 60 * minute;
 const day = 24 * hour;
 
-/**
- * Ebay ratelimits to 5000 calls per day per default
- */
-const RATELIMIT = Math.floor((5000 / day) * second * minute); // req/sec
+const RATELIMIT_PER_DAY = 5000; // Ebay ratelimits to 5000 calls per day per default
 
 export interface LimitedRequest {
     get<R = any>(url: string, config?: AxiosRequestConfig): Promise<R>
@@ -32,7 +29,7 @@ export interface LimitedRequest {
 export class LimitedAxiosRequest implements LimitedRequest {
     private req: RateLimitedAxiosInstance;
 
-    constructor(interceptors?: Interceptors, ratelimit = RATELIMIT, perMilliseconds = 5000) {
+    constructor(interceptors?: Interceptors, maxRequests = RATELIMIT_PER_DAY) {
         const axiosInstance = axios.create({
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -49,8 +46,8 @@ export class LimitedAxiosRequest implements LimitedRequest {
         }
 
         this.req = axiosRateLimit(axiosInstance, {
-            maxRequests: Math.floor(ratelimit),
-            perMilliseconds
+            maxRequests,
+            perMilliseconds: day
         });
     }
 
@@ -72,6 +69,6 @@ export class LimitedAxiosRequest implements LimitedRequest {
 
 let request: LimitedRequest;
 
-export const createRequest = (interceptors?: any) => {
-    return request || (request = new LimitedAxiosRequest(interceptors));
+export const createRequest = (interceptors?: any, maxRequests?: number) => {
+    return request || (request = new LimitedAxiosRequest(interceptors, maxRequests));
 };
