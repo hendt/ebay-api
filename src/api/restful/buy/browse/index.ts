@@ -4,7 +4,7 @@ import {
     LegacyItemParams,
     RemoveCartItemInput,
     SearchByImageParams,
-    SearchParams,
+    BrowseSearchParams,
     UpdateCartItemInput
 } from "../../types";
 
@@ -27,9 +27,9 @@ export default class Browse extends Api {
     /**
      * This method searches for eBay items by various query parameters and retrieves summaries of the items.
      *
-     * @param {SearchParams} params
+     * @param {BrowseSearchParams} params
      */
-    search(params: SearchParams) {
+    search(params: BrowseSearchParams) {
         return this.get(`/item_summary/search`, {
             params
         });
@@ -38,7 +38,7 @@ export default class Browse extends Api {
     /**
      * This is an Experimental method. This method searches for eBay items based on a image and retrieves summaries of the items.
      *
-     * @param {SearchParams} params
+     * @param {BrowseSearchParams} params
      * @param {Object} body The container for the image information fields.
      */
     searchByImage(params: SearchByImageParams, body = {}) {

@@ -47,7 +47,7 @@ export default class Case extends Api {
      * @param caseId The unique identifier of a case.
      * @param payload the CaseVoluntaryRefundRequest (Text)
      */
-    issueRefund(caseId: string, payload?: Text) {
+    issueCaseRefund(caseId: string, payload?: Text) {
         const id = encodeURIComponent(caseId);
         return this.post(`/${id}/issue_refund`, payload);
     }

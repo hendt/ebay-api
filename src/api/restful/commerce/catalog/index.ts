@@ -1,5 +1,5 @@
 import Api from "../../api";
-import {SearchCatalogParams} from "../../types";
+import {CatalogSearchParams} from "../../types";
 
 /**
  * Use the Catalog API to search the eBay catalog for products on which to base a seller's item listing;
@@ -64,7 +64,7 @@ export default class Catalog extends Api {
      *
      * @param params SearchCatalogParams
      */
-    search(params?: SearchCatalogParams) {
+    search(params?: CatalogSearchParams) {
         return this.get(`/product_summary/search`, {
             params: {
                 ...(params && params)

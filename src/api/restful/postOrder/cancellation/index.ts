@@ -24,7 +24,7 @@ export default class Cancellation extends Api {
      *
      * @param legacyOrderId The unique ID of the order being canceled or the order being considered for cancellation.
      */
-    checkEligibility(legacyOrderId: string) {
+    checkCancellationEligibility(legacyOrderId: string) {
         return this.post(`/check_eligibility`, {
             legacyOrderId
         });

@@ -17,7 +17,7 @@ import {
 
 import {Developer, Analytics as DeveloperAnalytics} from './developer';
 
-import {Cancellation, Case} from './postOrder';
+import {PostOrder, Cancellation, Case, Inquiry, Return} from './postOrder';
 
 import {
     Sell,
@@ -48,8 +48,11 @@ export {
     Developer,
     DeveloperAnalytics,
 
+    PostOrder,
     Cancellation,
     Case,
+    Inquiry,
+    Return,
 
     Sell,
     Account,

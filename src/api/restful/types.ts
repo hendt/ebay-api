@@ -1,3 +1,19 @@
+import {
+    CaseSearchFieldGroup,
+    CaseStatusFilter, DecisionEnum,
+    EscalateReasonEnum,
+    FilePurposeEnum,
+    InquirySearchFieldGroup,
+    InquiryStatusFilter,
+    RequestTypeEnum,
+    ReturnCountFilterEnum,
+    ReturnReasonEnum,
+    ReturnStateEnum,
+    ReturnTypeEnum,
+    ShippingCarrierEnum,
+    UserRoleFilter
+} from './enums';
+
 export type AttributeNameValue = {
     name: string,
     value: string
@@ -7,7 +23,7 @@ export type CompatibilityPayload = {
     compatibilityProperties: AttributeNameValue[]
 }
 
-export type SearchCatalogParams = {
+export type CatalogSearchParams = {
     aspect_filter?: string,
     category_ids?: string,
     fieldgroups?: string,
@@ -17,7 +33,7 @@ export type SearchCatalogParams = {
     q?: string,
 }
 
-export type SearchParams = {
+export type BrowseSearchParams = {
     aspect_filter?: string,
     category_ids?: string,
     charity_ids?: string,
@@ -64,6 +80,8 @@ export type UpdateCartItemInput = {
 }
 
 export type Amount = {
+    convertedFromCurrency?: string,
+    convertedFromValue?: number,
     value: string,
     currency: string
 }
@@ -103,7 +121,6 @@ export type PlaceProxyBidRequest = {
     maxAmount: Amount,
     userConsent: UserConsent
 }
-
 
 export type CouponRequest = {
     redemptionCode: string
@@ -585,10 +602,6 @@ export type RejectCancelRequest = {
     trackingNumber?: string
 }
 
-export enum UserRoleFilterEnum {
-    BUYER = 'BUYER',
-    SELLER = 'SELLER'
-}
 
 export type CancelSortField = {
     ascending: boolean,
@@ -604,7 +617,7 @@ export type CancellationSearchParams = {
     legacy_order_id?: string;
     limit?: string;
     offset?: string;
-    role?: UserRoleFilterEnum; // default SELLER
+    role?: UserRoleFilter; // default SELLER
     sort?: CancelSortField;
     transaction_id?: string;
 }
@@ -648,27 +661,11 @@ export type ReturnAddressRequest = {
     RMA?: string
 }
 
-export enum CaseStatusFilter {
-    CLOSED = 'CLOSED',
-    CS_CLOSED = 'CS_CLOSED',
-    ON_HOLD = 'ON_HOLD',
-    OPEN = 'OPEN',
-    OTHER = 'OTHER',
-    REFUND_AGREED_BUT_FAILED = 'REFUND_AGREED_BUT_FAILED',
-    WAITING_CS = 'WAITING_CS',
-    WAITING_DELIVERY = 'WAITING_DELIVERY'
-}
-
-export enum CaseSearchFieldGroupEnum {
-    DEFAULT = 'DEFAULT',
-    SUMMARY = 'SUMMARY'
-}
-
 export type CaseSearchParams = {
     case_creation_date_range_from: string;
     case_creation_date_range_to: string;
     case_status_filter: CaseStatusFilter;
-    fieldgroups: CaseSearchFieldGroupEnum;
+    fieldgroups: CaseSearchFieldGroup;
     item_id: string;
     limit: number;
     offset: number;
@@ -720,24 +717,8 @@ export type ShipmentInfoRequest = {
     trackingNumber?: string;
 }
 
-export enum InquirySearchFieldGroupEnum {
-    DEFAULT = 'DEFAULT',
-    SUMMARY = 'SUMMARY'
-}
-
-export enum InquiryStatusFilter {
-    CLOSED = 'CLOSED',
-    CLOSED_WITH_ESCALATION = 'CLOSED_WITH_ESCALATION',
-    CS_CLOSED = 'CS_CLOSED',
-    OPEN = 'OPEN',
-    OTHER = 'OTHER',
-    PENDING = 'PENDING',
-    WAITING_BUYER_RESPONSE = 'WAITING_BUYER_RESPONSE',
-    WAITING_SELLER_RESPONSE = 'WAITING_SELLER_RESPONSE'
-}
-
 export type InquirySearchParams = {
-    fieldgroups?: InquirySearchFieldGroupEnum;
+    fieldgroups?: InquirySearchFieldGroup;
     inquiry_creation_date_range_from?: string;
     inquiry_creation_date_range_to?: string;
     inquiry_status?: InquiryStatusFilter;
@@ -751,4 +732,135 @@ export type InquirySearchParams = {
 
 export type SendMessageRequest = {
     message: Text
+}
+export type UpdateTrackingRequest = {
+    newCarrierEnum?: ShippingCarrierEnum;
+    newCarrierName?: string;
+    newTrackingNumber?: string;
+    usedCarrierEnum?: ShippingCarrierEnum;
+    usedCarrierName?: string;
+    usedTrackingNumber?: string;
+}
+
+
+export type ReturnRequestType = {
+    carrier?: ShippingCarrierEnum;
+    comments?: Text;
+    itemId: string;
+    reason?: ReturnReasonEnum;
+    requestType: RequestTypeEnum;
+    returnQuantity?: number;
+    transactionId: string;
+    type?: ReturnTypeEnum
+}
+
+export type SetReturnCreationSessionRequest = {
+    returnRequest: ReturnRequestType
+}
+
+export type CreateReturnRequest = {
+    draftId?: string,
+    returnRequest: ReturnRequestType
+}
+
+export type ProvideLabelRequest = {
+    carrierEnum?: ShippingCarrierEnum,
+    carrierName?: string,
+    comments?: Text,
+    fileId?: string,
+    forwardShippingLabelProvided?: boolean,
+    labelAction: Token,
+    labelSentDate?: DateTime,
+    noLabelReason: Token,
+    returnLabelCost?: Amount,
+    trackingNumber?: string
+}
+
+export type CloseReturnRequest = {
+    buyerCloseReason?: Token,
+    comments?: Text
+}
+
+export type CheckEligibilityRequest = {
+    checkTypes: Token[];
+    itemId: string;
+    reason: Token;
+    returnQuantity?: number;
+    transactionId: string;
+}
+
+export type EscalateRequest = {
+    comments: Text;
+    reason: EscalateReasonEnum
+}
+
+export type GetEstimateRequest = {
+    itemId: string,
+    reason?: ReturnReasonEnum,
+    returnQuantity?: number;
+    transactionId: string;
+}
+
+export type MarkAsReceivedRequest = {
+    comments?: Text
+}
+
+export type ItemizedRefundDetailType = {
+    refundAmount: Amount;
+    refundFeeType: Token
+}
+
+export type  RefundDetailType = {
+    itemizedRefundDetail: ItemizedRefundDetailType;
+    totalAmount: Amount
+}
+
+export type MarkRefundSentRequest = {
+    comments?: Text;
+    partialRefundAmount?: Amount;
+    refundDetail: RefundDetailType;
+}
+
+export type MarkAsShippedRequest = {
+    carrierEnum?: ShippingCarrierEnum;
+    carrierName?: string;
+    carrierUsed?: string;
+    comments?: Text;
+    shippedDate?: DateTime;
+    trackingNumber: string;
+}
+
+export type UploadFileRequest = {
+    data: any,
+    fileName?: string;
+    filePurpose: FilePurposeEnum
+}
+
+export type VoidLabelRequest = {
+    comments?: Text;
+    labelId: string
+}
+
+export type SearchReturnParams = {
+    creation_date_range_from?: string;
+    creation_date_range_to?: string;
+    item_id?: string;
+    limit?: number;
+    offset?: number;
+    order_id?: string;
+    return_id?: string;
+    return_state?: Token;
+    role?: Token;
+    sort?: ReturnCountFilterEnum;
+    states?: ReturnStateEnum;
+    transaction_id?: string
+}
+
+export type DecideReturnRequest = {
+    comments?: Text;
+    decision: DecisionEnum;
+    keepOriginalItem: boolean;
+    partialRefundAmount?: Amount;
+    RMANumber?: string;
+    rMAProvided?: boolean;
 }

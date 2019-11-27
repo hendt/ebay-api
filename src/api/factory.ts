@@ -24,7 +24,8 @@ import {
     PostOrder,
     Cancellation,
     Case,
-    Inquiry
+    Inquiry,
+    Return
 } from './restful';
 import {LimitedRequest, createRequest} from '../utils/request';
 
@@ -88,7 +89,8 @@ export default class Factory {
         return {
             cancellation: this.createRestfulApi(Cancellation),
             case: this.createRestfulApi(Case),
-            inquiry: this.createRestfulApi(Inquiry)
+            inquiry: this.createRestfulApi(Inquiry),
+            return: this.createRestfulApi(Return)
         };
     }
 

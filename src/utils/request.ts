@@ -61,6 +61,16 @@ export class LimitedAxiosRequest implements LimitedRequest {
         return this.req.post(url, data, config).then(({data}) => data);
     }
 
+    delete<R = any>(url: string, config?: AxiosRequestConfig): Promise<R> {
+        log('delete: ' + url);
+        return this.req.delete(url, config).then(({data}) => data);
+    }
+
+    put<R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
+        log('put: ' + url, data);
+        return this.req.put(url, data, config).then(({data}) => data);
+    }
+
     postForm<R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
         const body = qs.stringify(data);
         return this.req.post(url, body, config).then(({data}) => data);
