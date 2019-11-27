@@ -21,7 +21,10 @@ import {
     SellMarketing,
     Metadata,
     Recommendation,
-    Cancellation, Case
+    PostOrder,
+    Cancellation,
+    Case,
+    Inquiry
 } from './restful';
 import {LimitedRequest, createRequest} from '../utils/request';
 
@@ -31,7 +34,6 @@ import {AppConfig} from '../types';
 import OAuth2 from './оAuth2';
 import AuthNAuth from './authNAuth';
 import {AuthNOAuth2, ClientAlerts, Finding, Shopping, Trading} from './traditional/types';
-import {PostOrder} from './restful/postOrder/index';
 
 /**
  * Factory class to create RESTFul API or Traditional API.
@@ -85,7 +87,8 @@ export default class Factory {
     createPostOrderApi(): PostOrder {
         return {
             cancellation: this.createRestfulApi(Cancellation),
-            case: this.createRestfulApi(Case)
+            case: this.createRestfulApi(Case),
+            inquiry: this.createRestfulApi(Inquiry)
         };
     }
 

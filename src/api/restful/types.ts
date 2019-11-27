@@ -380,7 +380,7 @@ export type EbayOfferDetailsWithKeys = {
     quantityLimitPerBuyer: number,
     tax: Tax,
     storeCategoryNames: string[],
-    lotSize:number,
+    lotSize: number,
     sku: string,
     marketplaceId: string,
     format: string
@@ -676,4 +676,79 @@ export type CaseSearchParams = {
     return_id: string;
     sort: string;
     transaction_id: string;
+}
+
+export type CheckInquiryEligibilityRequest = {
+    itemId: string,
+    transactionId: string
+}
+
+export type Token = string;  // A string with normalized whitespace (e.g., dropped leading and trailing spaces).
+
+export type BuyerCloseInquiryRequest = {
+    closeReason?: Token,
+    comments?: Text
+}
+
+export type CreateInquiryRequest = {
+    claimQuantity?: number,
+    comments?: Text;
+    desiredOutcome?: Token,
+    itemId: string,
+    transactionId: string
+}
+
+export type EscalateInquiryRequest = {
+    comments?: Text,
+    escalateInquiryReason: Token
+}
+
+export type InquiryVoluntaryRefundRequest = {
+    comments?: Text
+}
+
+export type SellerProvideRefundInfoRequest = {
+    message: Text
+}
+
+export type ShipmentInfoRequest = {
+    proofOfShipmentUploaded?: boolean;
+    sellerComments?: Text;
+    shippedWithTracking?: boolean;
+    shippingCarrierName?: string;
+    shippingDate?: DateTime;
+    trackingNumber?: string;
+}
+
+export enum InquirySearchFieldGroupEnum {
+    DEFAULT = 'DEFAULT',
+    SUMMARY = 'SUMMARY'
+}
+
+export enum InquiryStatusFilter {
+    CLOSED = 'CLOSED',
+    CLOSED_WITH_ESCALATION = 'CLOSED_WITH_ESCALATION',
+    CS_CLOSED = 'CS_CLOSED',
+    OPEN = 'OPEN',
+    OTHER = 'OTHER',
+    PENDING = 'PENDING',
+    WAITING_BUYER_RESPONSE = 'WAITING_BUYER_RESPONSE',
+    WAITING_SELLER_RESPONSE = 'WAITING_SELLER_RESPONSE'
+}
+
+export type InquirySearchParams = {
+    fieldgroups?: InquirySearchFieldGroupEnum;
+    inquiry_creation_date_range_from?: string;
+    inquiry_creation_date_range_to?: string;
+    inquiry_status?: InquiryStatusFilter;
+    item_id?: string;
+    limit?: number;
+    offset?: number;
+    order_id?: string;
+    sort?: string;
+    transaction_id?: string;
+}
+
+export type SendMessageRequest = {
+    message: Text
 }
