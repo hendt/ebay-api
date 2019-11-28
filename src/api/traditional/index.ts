@@ -4,30 +4,26 @@ import ClientAlertsCalls from './clientAlerts';
 import TradingCalls from './trading';
 import ShoppingCalls from './shopping';
 import FindingCalls from './finding';
-import {AppConfig} from '../../types';
 import {Fields} from './fields';
 import {EBayIAFTokenExpired} from '../../errors';
 import {createRequest, LimitedRequest} from '../../utils/request';
-import {AuthNOAuth2, ClientAlerts, Finding, Shopping, Trading, TraditionalApi} from './types';
+import {ClientAlerts, Finding, Shopping, Trading, TraditionalApi} from './types';
+import Auth from '../../auth';
 
 /**
  * Traditional eBay API.
  */
 export default class Traditional {
-    readonly appConfig: AppConfig;
+    readonly auth: Auth;
+    readonly req: LimitedRequest;
 
-    private readonly authNOAuth2: AuthNOAuth2;
-    private readonly req: LimitedRequest;
-
-    constructor(appConfig: AppConfig, authNOAuth2: AuthNOAuth2, req: LimitedRequest = createRequest()) {
-        this.appConfig = appConfig;
-
-        this.authNOAuth2 = authNOAuth2;
+    constructor(auth: Auth, req: LimitedRequest = createRequest()) {
+        this.auth = auth;
         this.req = req;
     }
 
     public createTradingApi(): Trading {
-        if (!this.appConfig.devId) {
+        if (!this.auth.eBayConfig.devId) {
             throw new Error('devId is required for trading API.');
         }
         return this.createTraditionalXMLApi<Trading>({
@@ -39,10 +35,10 @@ export default class Traditional {
             xmlns: 'urn:ebay:apis:eBLBaseComponents',
             headers: (callname: string, accessToken?: string) => ({
                 'X-EBAY-API-CALL-NAME': callname,
-                'X-EBAY-API-CERT-NAME': this.appConfig.certId,
-                'X-EBAY-API-APP-NAME': this.appConfig.appId,
-                'X-EBAY-API-DEV-NAME': this.appConfig.devId,
-                'X-EBAY-API-SITEID': this.appConfig.siteId,
+                'X-EBAY-API-CERT-NAME': this.auth.eBayConfig.certId,
+                'X-EBAY-API-APP-NAME': this.auth.eBayConfig.appId,
+                'X-EBAY-API-DEV-NAME': this.auth.eBayConfig.devId,
+                'X-EBAY-API-SITEID': this.auth.eBayConfig.siteId,
                 'X-EBAY-API-COMPATIBILITY-LEVEL': 967,
                 ...(accessToken && {'X-EBAY-API-IAF-TOKEN': accessToken})
             })
@@ -59,8 +55,8 @@ export default class Traditional {
             calls: ShoppingCalls,
             headers: (callname: string) => ({
                 'X-EBAY-API-CALL-NAME': callname,
-                'X-EBAY-API-APP-ID': this.appConfig.appId,
-                'X-EBAY-API-SITE-ID': this.appConfig.siteId,
+                'X-EBAY-API-APP-ID': this.auth.eBayConfig.appId,
+                'X-EBAY-API-SITE-ID': this.auth.eBayConfig.siteId,
                 'X-EBAY-API-VERSION': 863,
                 'X-EBAY-API-REQUEST-ENCODING': 'xml'
             })
@@ -76,7 +72,7 @@ export default class Traditional {
             xmlns: 'http://www.ebay.com/marketplace/search/v1/services',
             calls: FindingCalls,
             headers: (callname: string) => ({
-                'X-EBAY-SOA-SECURITY-APPNAME': this.appConfig.appId,
+                'X-EBAY-SOA-SECURITY-APPNAME': this.auth.eBayConfig.appId,
                 'X-EBAY-SOA-OPERATION-NAME': callname
             })
         });
@@ -91,7 +87,7 @@ export default class Traditional {
             calls: ClientAlertsCalls
         };
 
-        const endpoint = api.endpoint[this.appConfig.sandbox ? 'sandbox' : 'production'];
+        const endpoint = api.endpoint[this.auth.eBayConfig.sandbox ? 'sandbox' : 'production'];
         const paramsSerializer = (params: object) => {
             return stringify(params, {allowDots: true})
                 .replace(/%5B/gi, '(')
@@ -99,8 +95,8 @@ export default class Traditional {
         };
 
         const params = {
-            appid: this.appConfig.appId,
-            siteid: this.appConfig.siteId,
+            appid: this.auth.eBayConfig.appId,
+            siteid: this.auth.eBayConfig.siteId,
             version: 643
         };
 
@@ -122,17 +118,6 @@ export default class Traditional {
     }
 
     // TODO
-    public createPostOrderApi() {
-        const api = {
-            headers: (_: string, accessToken?: string) => ({
-                ...(accessToken && {'Authorization': 'IAF ' + accessToken})
-            })
-        };
-
-        return api;
-    }
-
-    // TODO
     public createBusinessPolicyManagementApi() {
         const api = {
             headers: (_: string, accessToken?: string) => ({
@@ -141,14 +126,6 @@ export default class Traditional {
         };
 
         return api;
-    }
-
-    get geteBayAuthToken(): string | null {
-        return this.authNOAuth2.geteBayAuthToken ? this.authNOAuth2.geteBayAuthToken() : null;
-    }
-
-    get getOAuth2AccessToken(): string | null {
-        return this.authNOAuth2.getOAuth2AccessToken ? this.authNOAuth2.getOAuth2AccessToken() : null;
     }
 
     private createXMLRequest = (callname: string, api: TraditionalApi) => async (fields: Fields, opts: Options) => {
@@ -161,8 +138,8 @@ export default class Traditional {
             return await request.fetch(options);
         } catch (e) {
             // Try to refresh the token.
-            if (e.name === EBayIAFTokenExpired.name && this.authNOAuth2.refreshOAuth2Token) {
-                return this.authNOAuth2.refreshOAuth2Token().then(() => {
+            if (e.name === EBayIAFTokenExpired.name) {
+                return this.auth.oAuth2.refreshAuthToken().then(() => {
                     const config = this.getConfig(options, api, callname);
                     const request = new XMLRequest(callname, fields, config, this.req);
 
@@ -177,19 +154,18 @@ export default class Traditional {
     };
 
     private getConfig(options: Options, api: TraditionalApi, callname: string) {
-        const eBayAuthToken = this.geteBayAuthToken;
-        const accessToken = this.getOAuth2AccessToken;
+        const eBayAuthToken = this.auth.authNAuth.eBayAuthToken;
+        const accessToken = this.auth.oAuth2.accessToken;
         const useIafToken = (!eBayAuthToken || accessToken && options.useIaf);
 
-        const config = {
+        return {
             xmlns: api.xmlns,
-            endpoint: api.endpoint[this.appConfig.sandbox ? 'sandbox' : 'production'],
+            endpoint: api.endpoint[this.auth.eBayConfig.sandbox ? 'sandbox' : 'production'],
             headers: {
                 ...api.headers(callname, accessToken && useIafToken ? accessToken : undefined)
             },
             ...(eBayAuthToken && !useIafToken && {eBayAuthToken})
         };
-        return config;
     }
 
     private createTraditionalXMLApi<T>(api: TraditionalApi): T {

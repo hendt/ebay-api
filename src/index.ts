@@ -4,31 +4,28 @@ import {Buy} from './api/restful/buy';
 import {Commerce} from './api/restful/commerce';
 import {Developer} from './api/restful/developer';
 import {Sell} from './api/restful/sell';
-import {AppConfig, Config, SiteId} from './types';
-import OAuth2 from './api/оAuth2';
-import AuthNAuth from './api/authNAuth';
+import {PostOrder} from './api/restful/postOrder';
+import {AppConfig} from './types';
 import {LimitedRequest, createRequest} from './utils/request';
 import {ClientAlerts, Finding, Shopping, Trading} from './api/traditional/types';
-import {PostOrder} from './api/restful/postOrder/index';
+import {SiteId, MarketplaceId} from './enums';
+import Auth from './auth';
 
 const defaultConfig = {
     sandbox: false,
-    siteId: SiteId.EBAY_DE
+    siteId: SiteId.EBAY_DE,
+    marketplaceId: MarketplaceId.EBAY_DE
 };
 
 export default class eBayApi {
     static SiteId = SiteId;
-    static Factory = Factory;
-    static OAuth2 = OAuth2;
-    static AuthNAuth = AuthNAuth;
+    static MarketplaceId = MarketplaceId;
 
-    readonly oAuth2: OAuth2;
-    readonly authNAuth: AuthNAuth;
-
+    readonly auth: Auth;
     readonly appConfig: AppConfig;
+    readonly req: LimitedRequest;
 
     private readonly factory: Factory;
-    private readonly req: LimitedRequest;
 
     // RESTful
     private _buy?: Buy;
@@ -67,6 +64,9 @@ export default class eBayApi {
                 devId: process.env.EBAY_DEV_ID,
                 authToken: process.env.EBAY_AUTH_TOKEN,
                 siteId: process.env.EBAY_SITE_ID ? parseInt(process.env.EBAY_SITE_ID, 10) : SiteId.EBAY_DE,
+                marketplaceId: process.env.EBAY_MARKETPLACE_ID && process.env.EBAY_MARKETPLACE_ID in MarketplaceId ?
+                    <MarketplaceId>MarketplaceId[process.env.EBAY_MARKETPLACE_ID as keyof typeof MarketplaceId] :
+                    MarketplaceId.EBAY_DE,
                 ruName: process.env.EBAY_RU_NAME,
                 sandbox: (process.env.EBAY_SANDBOX === 'true')
             },
@@ -77,39 +77,19 @@ export default class eBayApi {
      * @param {Object}  config the global config
      * @param {LimitedRequest} req the request
      */
-    constructor(config: Config, req?: LimitedRequest) {
-        const cfg = {...defaultConfig, ...config};
-        this.req = req || createRequest(cfg.interceptors, cfg.maxRequests);
+    constructor(config: AppConfig, req?: LimitedRequest) {
+        this.appConfig = {...defaultConfig, ...config};
+        this.req = req || createRequest(this.appConfig);
 
-        this.appConfig = {
-            appId: cfg.appId,
-            certId: cfg.certId,
-            devId: cfg.devId,
-
-            sandbox: cfg.sandbox,
-            siteId: cfg.siteId,
-            ruName: cfg.ruName
-        };
-
-        this.oAuth2 = new OAuth2(
+        this.auth = new Auth(
             this.appConfig,
-            cfg.scope,
-            this.req
-        );
-
-        this.authNAuth = new AuthNAuth(
-            this.appConfig,
-            cfg.authToken,
             this.req
         );
 
         this.factory = new Factory(
-            this.appConfig,
-            {
-                oAuth2: this.oAuth2,
-                authNAuth: this.authNAuth
-            },
-            this.req);
+            this.auth,
+            this.req
+        );
     }
 
     get buy(): Buy {

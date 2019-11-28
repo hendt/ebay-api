@@ -3,13 +3,13 @@ import EBay from '../../src';
 import readline from 'readline';
 
 const ebay = EBay.fromEnv();
-ebay.oAuth2.setScope([
+ebay.auth.oAuth2.setScope([
     'https://api.ebay.com/oauth/api_scope',
     'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
     'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
 ]);
 
-const url = ebay.oAuth2.generateAuthUrl();
+const url = ebay.auth.oAuth2.generateAuthUrl();
 
 console.log('Authorize this app by visiting this url:', url);
 
@@ -22,9 +22,9 @@ rl.question('Enter the code from that page here (from the url query ?code=) : ',
     rl.close();
     code = decodeURIComponent(code);
     console.log('Enter code', code);
-    const token = await ebay.oAuth2.getToken(code);
+    const token = await ebay.auth.oAuth2.getToken(code);
     console.log('Token: ', token);
-    ebay.oAuth2.setCredentials(token);
+    ebay.auth.oAuth2.setCredentials(token);
 
     ebay.sell.fulfillment.getOrder('12-12345-12345').then(order => {
         console.log('order', JSON.stringify(order, null, 2));

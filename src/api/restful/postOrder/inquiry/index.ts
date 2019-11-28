@@ -18,6 +18,10 @@ export default class Inquiry extends Api {
         return '/post-order/v2/inquiry';
     }
 
+    useIaf() {
+        return true;
+    }
+
     /**
      * Check if a buyer is eligible to open an inquiry on an order.
      *

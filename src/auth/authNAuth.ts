@@ -1,6 +1,6 @@
 import debug from 'debug';
-import {AppConfig, AuthToken} from '../types';
-import XMLRequest from './traditional/XMLRequest';
+import {eBayConfig, AuthToken} from '../types';
+import XMLRequest from '../api/traditional/XMLRequest';
 import {LimitedRequest, createRequest} from '../utils/request';
 
 const log = debug('ebay:authNAuth');
@@ -16,22 +16,21 @@ export default class AuthNAuth {
         sandbox: 'https://api.sandbox.ebay.com/ws/api.dll'
     };
 
-    readonly appConfig: AppConfig;
+    readonly eBayConfig: eBayConfig;
     readonly req: LimitedRequest;
 
     private authToken?: AuthToken;
 
     constructor(
-        appConfig: AppConfig,
-        authToken?: string,
+        eBayConfig: eBayConfig,
         req: LimitedRequest = createRequest()
     ) {
-        this.appConfig = appConfig;
+        this.eBayConfig = eBayConfig;
         this.req = req;
 
-        if (authToken) {
+        if (this.eBayConfig.authToken) {
             this.authToken = {
-                eBayAuthToken: authToken
+                eBayAuthToken: this.eBayConfig.authToken
             };
         }
     }
@@ -51,11 +50,11 @@ export default class AuthNAuth {
      * @param ruName RuName
      */
     async getSessionIdAndAuthUrl(ruName?: string) {
-        if (!this.appConfig.devId) {
+        if (!this.eBayConfig.devId) {
             throw new Error('DevId is required.');
         }
 
-        ruName = ruName || this.appConfig.ruName;
+        ruName = ruName || this.eBayConfig.ruName;
         if (!ruName) {
             throw new Error('RuName is required.');
         }
@@ -73,12 +72,12 @@ export default class AuthNAuth {
 
         return {
             sessionId: response.SessionID,
-            url: AuthNAuth.generateAuthUrl(this.appConfig.sandbox, ruName, response.SessionID)
+            url: AuthNAuth.generateAuthUrl(this.eBayConfig.sandbox, ruName, response.SessionID)
         };
     }
 
     async fetchAuthToken(sessionId: string) {
-        if (!this.appConfig.devId) {
+        if (!this.eBayConfig.devId) {
             throw new Error('DevId is required.');
         }
         const request = new XMLRequest('FetchToken', {
@@ -114,13 +113,13 @@ export default class AuthNAuth {
     getRequestConfig(callname: string) {
         return {
             xmlns: 'urn:ebay:apis:eBLBaseComponents',
-            endpoint: AuthNAuth.API_ENDPOINT[this.appConfig.sandbox ? 'sandbox' : 'production'],
+            endpoint: AuthNAuth.API_ENDPOINT[this.eBayConfig.sandbox ? 'sandbox' : 'production'],
             headers: {
                 'X-EBAY-API-CALL-NAME': callname,
-                'X-EBAY-API-CERT-NAME': this.appConfig.certId,
-                'X-EBAY-API-APP-NAME': this.appConfig.appId,
-                'X-EBAY-API-DEV-NAME': this.appConfig.devId,
-                'X-EBAY-API-SITEID': this.appConfig.siteId,
+                'X-EBAY-API-CERT-NAME': this.eBayConfig.certId,
+                'X-EBAY-API-APP-NAME': this.eBayConfig.appId,
+                'X-EBAY-API-DEV-NAME': this.eBayConfig.devId,
+                'X-EBAY-API-SITEID': this.eBayConfig.siteId,
                 'X-EBAY-API-COMPATIBILITY-LEVEL': 967
             }
         };

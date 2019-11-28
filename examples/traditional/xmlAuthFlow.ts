@@ -10,12 +10,14 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-ebay.authNAuth.getSessionIdAndAuthUrl().then(({url, sessionId}) => {
+ebay.auth.authNAuth.getSessionIdAndAuthUrl().then(({url, sessionId}) => {
     console.log('Authorize this app by visiting this url: ', url);
 
     rl.question('Press Enter after grant access', async () => {
-        const token = await ebay.authNAuth.fetchAuthToken(sessionId);
-        ebay.authNAuth.setAuthToken(token);
+        const token = await ebay.auth.authNAuth.fetchAuthToken(sessionId);
+        ebay.auth.authNAuth.setAuthToken(token);
+
+        console.log('TOKEN', token);
 
         const time = await ebay.trading.GeteBayOfficialTime();
         console.log(time);

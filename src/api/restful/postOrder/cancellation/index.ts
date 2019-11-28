@@ -9,6 +9,10 @@ export default class Cancellation extends Api {
         return '/post-order/v2/cancellation';
     }
 
+    useIaf() {
+        return true;
+    }
+
     /**
      * Seller approves a cancellation request
      *

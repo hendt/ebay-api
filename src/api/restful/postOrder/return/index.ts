@@ -26,6 +26,10 @@ export default class Inquiry extends Api {
         return '/post-order/v2/return';
     }
 
+    useIaf() {
+        return true;
+    }
+
     /**
      * Create or update a shipping label provided by the seller.
      *

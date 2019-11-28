@@ -23,13 +23,6 @@ export type ClientAlerts = {
     [key in typeof ClientAlertsCalls[number]]: (fields?: object, options?: Options) => Promise<any>;
 }
 
-export type AuthNOAuth2 = {
-    geteBayAuthToken?(): string | null;
-    getOAuth2AccessToken?(): string | null;
-
-    refreshOAuth2Token?(): Promise<void>;
-}
-
 type Endpoint = {
     production: string,
     sandbox: string

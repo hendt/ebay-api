@@ -1,6 +1,5 @@
 import 'mocha';
 import {expect} from 'chai';
-import OAuth2 from '../../../src/api/оAuth2';
 // @ts-ignore
 import sinon from 'sinon';
 
@@ -8,6 +7,8 @@ import buyTests from './buy';
 import commerceTests from './commerce';
 import developerTests from './developer';
 import sellTests from './sell';
+import {LimitedRequest} from '../../../src/utils/request';
+import Auth from '../../../src/auth/index';
 
 const allTests = {
     'Buy': buyTests,
@@ -16,9 +17,17 @@ const allTests = {
     'Sell': sellTests
 };
 
-const testOAuth = new OAuth2({appId: 'appId', certId: 'certId', sandbox: true, siteId: 77});
+const appConfig = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 77};
+const request: LimitedRequest = {
+    get: sinon.stub(),
+    delete: sinon.stub(),
+    put: sinon.stub(),
+    post: sinon.stub(),
+    postForm: sinon.stub()
+};
 
-testOAuth.setClientToken({
+const auth = new Auth(appConfig, request);
+auth.oAuth2.setClientToken({
     access_token: 'token',
     expires_in: 1,
     token_type: 'test'
@@ -28,7 +37,7 @@ describe('Open API Tests', () => {
     Object.entries(allTests).forEach(([name, tests]) => {
         describe('API > restful > ' + name, () => {
             tests.forEach((Oas, Api) => {
-                const api = new Api(testOAuth);
+                const api = new Api(auth);
 
                 it('"' + name + ':' + Api.name + '" should return correct path', () => {
                     if (Oas.servers) {
@@ -52,7 +61,7 @@ describe('Open API Tests', () => {
                         postForm: sinon.stub().returns(Promise.resolve())
                     };
 
-                    const api = new Api(testOAuth, req);
+                    const api = new Api(auth, req);
 
                     it('"' + name + ':' + Api.name + '" should implement this method', () => {
                         expect(api[call.operationId]).to

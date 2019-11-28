@@ -19,6 +19,8 @@ describe('XMLRequestTest', () => {
     const response = '<CALL>response</CALL>';
     const req = {
         get: sinon.stub().returns(Promise.resolve()),
+        delete: sinon.stub().returns(Promise.resolve()),
+        put: sinon.stub().returns(Promise.resolve()),
         post: sinon.stub().returns(Promise.resolve(response)),
         postForm: sinon.stub().returns(Promise.resolve())
     };

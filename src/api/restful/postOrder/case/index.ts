@@ -9,6 +9,10 @@ export default class Case extends Api {
         return '/post-order/v2/casemanagement';
     }
 
+    useIaf() {
+        return true;
+    }
+
     /**
      * Buyer or seller appeals a case decision.
      *

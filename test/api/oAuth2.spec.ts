@@ -3,12 +3,14 @@ import {expect} from 'chai';
 // @ts-ignore
 import sinon from 'sinon';
 import {LimitedRequest} from '../../src/utils/request';
-import OAuth2 from '../../src/api/оAuth2';
+import OAuth2 from '../../src/auth/оAuth2';
 
 describe('oAuth2', () => {
     const appConfig = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 0, devId: 'devId'};
     const request: LimitedRequest = {
         get: sinon.stub(),
+        delete: sinon.stub(),
+        put: sinon.stub(),
         post: sinon.stub(),
         postForm: sinon.stub().returns(Promise.resolve({
             access_token: 'new_access_token'
@@ -16,7 +18,7 @@ describe('oAuth2', () => {
     };
 
     it('emits an refresh event', () => {
-        const oAuth = new OAuth2(appConfig, OAuth2.defaultScopes, request);
+        const oAuth = new OAuth2(appConfig, request);
         oAuth.setCredentials({
             access_token: 'access_token',
             expires_in: 0,

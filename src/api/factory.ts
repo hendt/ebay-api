@@ -31,32 +31,23 @@ import {LimitedRequest, createRequest} from '../utils/request';
 
 import Api from './restful/api';
 import Traditional from './traditional';
-import {AppConfig} from '../types';
-import OAuth2 from './оAuth2';
-import AuthNAuth from './authNAuth';
-import {AuthNOAuth2, ClientAlerts, Finding, Shopping, Trading} from './traditional/types';
+import {ClientAlerts, Finding, Shopping, Trading} from './traditional/types';
+import Auth from '../auth';
 
 /**
  * Factory class to create RESTFul API or Traditional API.
  */
 export default class Factory {
-    readonly appConfig: AppConfig;
-
-    readonly oAuth2?: OAuth2;
-    readonly authNAuth?: AuthNAuth;
-
+    readonly auth: Auth;
     readonly req: LimitedRequest;
 
     private _traditional?: Traditional;
 
     constructor(
-        appConfig: AppConfig,
-        {oAuth2, authNAuth}: { oAuth2?: OAuth2, authNAuth?: AuthNAuth },
+        auth: Auth,
         req: LimitedRequest = createRequest()
     ) {
-        this.appConfig = appConfig;
-        this.oAuth2 = oAuth2;
-        this.authNAuth = authNAuth;
+        this.auth = auth;
         this.req = req;
     }
 
@@ -112,33 +103,10 @@ export default class Factory {
             return this._traditional;
         }
 
-        const authNOAuth2 = this.createAuthNOAuth2();
-
         return (this._traditional = new Traditional(
-            this.appConfig,
-            authNOAuth2,
+            this.auth,
             this.req
         ));
-    }
-
-    private createAuthNOAuth2(): AuthNOAuth2 {
-        return {
-            geteBayAuthToken: () => {
-                if (!this.authNAuth) {
-                    return null;
-                }
-                return this.authNAuth.eBayAuthToken;
-            },
-            getOAuth2AccessToken: () => {
-                if (!this.oAuth2) {
-                    return null;
-                }
-                return this.oAuth2.accessToken;
-            },
-            refreshOAuth2Token: this.oAuth2 ?
-                this.oAuth2.refreshAuthToken.bind(this.oAuth2) :
-                () => Promise.reject('OAuth2 is required.')
-        };
     }
 
     createTradingApi(): Trading {
@@ -157,12 +125,8 @@ export default class Factory {
         return this.traditional.createClientAlertsApi();
     }
 
-    private createRestfulApi<T extends Api>(ApiClass: new (oAuth2: OAuth2) => T): T {
-        if (!this.oAuth2) {
-            throw new Error('oAuth2 needs to be configured for RESTful API.');
-        }
-
-        return new ApiClass(this.oAuth2);
+    private createRestfulApi<T extends Api>(ApiClass: new (auth: Auth) => T): T {
+        return new ApiClass(this.auth);
     }
 }
 

@@ -2,7 +2,7 @@ import axiosRateLimit from 'axios-rate-limit';
 import axios, {AxiosRequestConfig, AxiosInstance} from 'axios';
 import qs from 'qs';
 import debug from 'debug';
-import {Interceptors} from '../types';
+import {Interceptors, RequestConfig} from '../types';
 
 const log = debug('ebay:request');
 
@@ -17,13 +17,15 @@ const day = 24 * hour;
 const RATELIMIT_PER_DAY = 5000; // Ebay ratelimits to 5000 calls per day per default
 
 export interface LimitedRequest {
-    get<R = any>(url: string, config?: AxiosRequestConfig): Promise<R>
+    get<R = any, C = any>(url: string, config?: C): Promise<R>
 
-    post<T = any, R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R>
+    delete<R = any, C = any>(url: string, config?: C): Promise<R>
 
-    post<R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R>
+    post<R = any, C = any>(url: string, data?: any, config?: C): Promise<R>
 
-    postForm<R = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R>
+    postForm<R = any, C = any>(url: string, data?: any, config?: C): Promise<R>
+
+    put<R = any, C = any>(url: string, data?: any, config?: C): Promise<R>
 }
 
 export class LimitedAxiosRequest implements LimitedRequest {
@@ -79,6 +81,6 @@ export class LimitedAxiosRequest implements LimitedRequest {
 
 let request: LimitedRequest;
 
-export const createRequest = (interceptors?: any, maxRequests?: number) => {
+export const createRequest = ({interceptors, maxRequests}: RequestConfig = {}) => {
     return request || (request = new LimitedAxiosRequest(interceptors, maxRequests));
 };

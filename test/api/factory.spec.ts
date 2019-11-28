@@ -4,28 +4,27 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 import Factory from '../../src/api/factory';
 import {LimitedRequest} from '../../src/utils/request';
-import {AppConfig} from '../../src/types';
+import {eBayConfig} from '../../src/types';
+import Auth from '../../src/auth/index';
 
 describe('FactoryTest', () => {
-    let appConfig: AppConfig;
+    let eBayConfig: eBayConfig;
     const request: LimitedRequest = {
         get: sinon.stub(),
+        delete: sinon.stub(),
+        put: sinon.stub(),
         post: sinon.stub(),
         postForm: sinon.stub()
     };
 
     beforeEach(() => {
-        appConfig = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 0, devId: 'devId'};
+        eBayConfig = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 0, devId: 'devId'};
     });
 
     it('Throws an error if devId is not defined', () => {
-        delete appConfig.devId;
-        const factory = new Factory(appConfig, {}, request);
+        delete eBayConfig.devId;
+        let auth: Auth = new Auth(eBayConfig);
+        const factory = new Factory(auth, request);
         expect(factory.createTradingApi.bind(factory)).to.throw(/devId/);
-    });
-
-    it('Throws an error if OAuth2 is not defined', () => {
-        const factory = new Factory(appConfig, {}, request);
-        expect(factory.createCommerceApi.bind(factory)).to.throw(/oAuth2/);
     });
 });

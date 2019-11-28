@@ -1,11 +1,14 @@
-# A Typescript library for working with the eBay API
+# A TypeScript library for working with the eBay API
 This API implements both Traditional (xml) and the RESTful eBay API. 
-It supports Client credentials grant and Authorization code grant (traditional and oAuth2).   
+It supports Client credentials grant and Authorization code grant (traditional, oAuth2 and IAF).   
 
+* [getItem Example](https://hendt.github.io/ebay-api/)
 * [eBay API Explorer](https://developer.ebay.com/my/api_test_tool)
 * [eBay API Docs](https://developer.ebay.com/docs)
 
-## RESTful API
+## Implementation status
+
+### RESTful API
 
 | API               | Implemented                         |
 |-------------------|-------------------------------------|
@@ -14,7 +17,7 @@ It supports Client credentials grant and Authorization code grant (traditional a
 | Commerce APIs     | yes                                 |
 | Developer APIs    | yes                                 |
 
-## Traditional API
+### Traditional API
 
 | API               | Implemented                         |
 |-------------------|-------------------------------------|
@@ -23,7 +26,7 @@ It supports Client credentials grant and Authorization code grant (traditional a
 | Merchandising API | yes                                 |
 | Trading API       | yes                                 |
 | Client Alerts API | yes                                 |
-| Post Order API    | no                                  |
+| Post Order API    | yes                                 |
 | Feedback API      | no                                  |
 
 ## Installation
@@ -40,7 +43,7 @@ npm run test
 ## ️ Usage:
 
 ### Browser
-Check out getItem example: https://hendt.github.io/ebay-api/.
+Check out getItem example: [https://hendt.github.io/ebay-api/](https://hendt.github.io/ebay-api/).
 
 A Proxy server is required to use the API in the Browser. 
 
@@ -67,8 +70,7 @@ You can also setup your own Proxy server. We have added a example for cloudfront
       }
     });
 
- eBay.buy.browse.getItem('v1|254188828753|0')
-.then(item => {
+eBay.buy.browse.getItem('v1|254188828753|0').then(item => {
       document.getElementById('response').value = JSON.stringify(item, null, 2)
 }).catch(e => {
         document.getElementById('response').value = e.message
@@ -93,6 +95,24 @@ const ebay = new eBayApi({
 });
 ```
 
+## Config
+| Config               | Description                         |
+|-------------------|-------------------------------------|
+| appId         | Required. App ID (Client ID) from  [Application Keys](https://developer.ebay.com/my/keys). |
+| certId         | Required. Cert ID (Client Secret) from  [Application Keys](https://developer.ebay.com/my/keys).   |
+| devId     | Conditionally required. The Dev Id from [Application Keys](https://developer.ebay.com/my/keys). |
+| sandbox    | Optional. Default to 'false'. If true, the [Sandbox Environment](https://developer.ebay.com/tools/sandbox) will be used. |
+| scope    | Conditionally required. Default to 'https://api.ebay.com/oauth/api_scope'.                                 |
+| ruName    | Conditionally required. The redirect_url value. [More info](https://developer.ebay.com/api-docs/static/oauth-redirect-uri.html). |
+| authToken    | Optional. The Auth'N'Auth token. The traditional authentication and authorization technology used by the eBay APIs. |
+| marketplaceId    | Conditionally required. REST HTTP Header. X-EBAY-C-MARKETPLACE-ID identifies the user's business context and is specified using a marketplace ID value. |
+| endUserCtx    | Optional – Conditionally recommended. REST HTTP Header. X-EBAY_C_ENDUSERCTX provides various types of information associated with the request. |
+| contentLanguage    | Conditionally required. REST HTTP Header. Content-Language indicates the locale preferred by the client for the response. |
+| acceptLanguage    | Optional. REST HTTP Header. Accept-Language indicates the natural language the client prefers for the response. This specifies the language the client wants to use when the field values provided in the request body are displayed to consumers. |
+| interceptors    | Optional. Intercept request with [Axios interceptors](https://github.com/axios/axios#interceptors). See example in 'Browser' usage above.|
+| maxRequests    | Max request per day. Default to '5000'. |
+
+
 ## oAuth2: Exchanging the authorization code for a User access token
 [Docs](https://developer.ebay.com/api-docs/static/oauth-auth-code-grant-request.html)
 
@@ -102,38 +122,37 @@ const ebay = new eBayApi({
 const ebay = eBayApi.fromEnv();
 // Attention: appId, certId, ruName is required.
 
-ebay.oAuth2.setScope([
+ebay.auth.oAuth2.setScope([
     'https://api.ebay.com/oauth/api_scope',
     'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
     'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
 ]);
 
-const url = ebay.oAuth2.generateAuthUrl();
+const url = ebay.auth.oAuth2.generateAuthUrl();
 // 2. Open Url and Grant Access
+console.log('Open URL', url);
 
 // 3. Get the code that is placed as query parameter in redirected page
 const code = 'code'; // from www.your-website?code=XXXX
 
 // 4. Get the token
 (async () => {
-
-// Use async/await or
-const token = await ebay.oAuth2.getToken(code);
-ebay.oAuth2.setCredentials(token);
-
-// Promise based
-ebay.sell.fulfillment.getOrder('12-12345-12345').then(order => {
+  // Use async/await
+  const token = await ebay.auth.oAuth2.getToken(code);
+  ebay.auth.oAuth2.setCredentials(token);
+ 
+  // Or Promise
+  ebay.sell.fulfillment.getOrder('12-12345-12345').then(order => {
         console.log('order', JSON.stringify(order, null, 2));
     }).catch(e => {
         console.log('error', {error: e.message});
     });
-
 })();
 ```
 
 ## RESTful API
 
-### Scope
+### How to set the Scope
 ```javascript
 const ebay = new eBayApi({
   // ...
@@ -141,27 +160,35 @@ const ebay = new eBayApi({
 });
 
 // Or:
-ebay.oAuth2.setScope([
+ebay.auth.oAuth2.setScope([
     'https://api.ebay.com/oauth/api_scope',
     'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
     'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
 ]);
 ```
 
-### Buy
+## Examples
+### Buy - getItem
 ```javascript
-
-ebay.buy.browse.getItem('v1|382282567190|651094235351').catch(e => {
-    console.log(e)
-}).then(a => {
+ebay.buy.browse.getItem('v1|382282567190|651094235351').then(a => {
     console.log(a);
+}).catch(e => {
+    console.log(e)
 });
 
 ```
 
-## Traditional
+### Post-Order - getReturn
+```javascript
+ebay.postOrder.return.getReturn('5132021997').then(a => {
+    console.log(a);
+}).catch(e => {
+    console.log(e)
+});
 
-### Finding
+```
+
+### Finding - findItemsIneBayStores
 ```javascript
 ebay.finding.findItemsIneBayStores({
     storeName: 'HENDT'
@@ -169,9 +196,10 @@ ebay.finding.findItemsIneBayStores({
     // Return raw XML
     console.log(result);
 });
+```
 
-ebay.finding.getVersion().then((version) => console.log(version));
-
+### Finding - findItemsByKeywords
+```javascript
 ebay.finding.findItemsByKeywords({
     itemFilter: {
         name: 'Seller',
@@ -182,7 +210,7 @@ ebay.finding.findItemsByKeywords({
 });
 ```
 
-### Trading
+### Trading - GetMyeBaySelling
 ```javascript
 ebay.trading.GetMyeBaySelling({
     SoldList: {
@@ -195,7 +223,6 @@ ebay.trading.GetMyeBaySelling({
 }).then(data => {
     console.log(data.results)
 });
-
 ```
 
 ## Contribution:
