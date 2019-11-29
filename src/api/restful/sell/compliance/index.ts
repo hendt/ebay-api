@@ -1,4 +1,4 @@
-import Api from '../../api';
+import Api from '../../';
 
 /**
  * Service for providing the compliance violations of seller account/listings

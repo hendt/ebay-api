@@ -1,4 +1,4 @@
-import Api from '../../api';
+import Api from '../../';
 import {CancellationSearchParams, ConfirmRefundRequest, CreateCancelRequest, RejectCancelRequest} from '../../types';
 
 /**

@@ -1,4 +1,4 @@
-import Api from '../../api';
+import Api from '../../';
 
 enum Metric {
     CLICK_THROUGH_RATE,

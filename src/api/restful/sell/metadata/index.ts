@@ -1,4 +1,4 @@
-import Api from '../../api';
+import Api from '../../';
 
 /**
  * The Metadata API has operations that retrieve configuration details pertaining to the different eBay marketplaces.

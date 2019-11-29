@@ -1,4 +1,4 @@
-import Api from '../../api';
+import Api from '../../';
 import {IssueRefundRequest} from '../../types';
 
 /**

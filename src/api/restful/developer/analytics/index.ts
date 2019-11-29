@@ -1,4 +1,4 @@
-import Api from '../../api';
+import Api from '../../';
 
 /**
  * This method retrieves the call limit and utilization data for an application.

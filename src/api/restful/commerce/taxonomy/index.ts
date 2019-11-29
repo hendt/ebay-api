@@ -1,4 +1,4 @@
-import Api from '../../api';
+import Api from '../../';
 
 /**
  * Use the Taxonomy API to discover the most appropriate eBay categories under which sellers can offer inventory items

@@ -1,4 +1,4 @@
-import Api from '../../api';
+import Api from '../../';
 import {AlsoBoughtByProductParams, AlsoViewedByProductParams, MerchandisedProductsParams} from '../../types';
 
 /**

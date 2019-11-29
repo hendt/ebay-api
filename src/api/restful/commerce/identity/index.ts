@@ -1,4 +1,4 @@
-import Api from '../../api';
+import Api from '../../';
 
 /**
  * Retrieves the authenticated user's account profile information.

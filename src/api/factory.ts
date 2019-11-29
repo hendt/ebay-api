@@ -1,36 +1,21 @@
 import Auth from '../auth';
 import {createRequest, ILimitedRequest} from '../utils/request';
+import Api from './restful/';
+import {Browse, Buy, Feed, Marketing as BuyMarketing, Offer, Order} from './restful/buy';
+import {Catalog, Commerce, Identity, Taxonomy, Translation} from './restful/commerce';
+import {Analytics as DeveloperAnalytics, Developer} from './restful/developer';
+import {Cancellation, Case, Inquiry, PostOrder, Return} from './restful/postOrder/index';
 import {
     Account,
-    Browse,
-    Buy,
-    BuyMarketing,
-    Cancellation,
-    Case,
-    Catalog,
-    Commerce,
+    Analytics as SellAnalytics,
     Compliance,
-    Developer,
-    DeveloperAnalytics,
-    Feed,
     Fulfillment,
-    Identity,
-    Inquiry,
     Inventory,
+    Marketing as SellMarketing,
     Metadata,
-    Offer,
-    Order,
-    PostOrder,
     Recommendation,
-    Return,
-    Sell,
-    SellAnalytics,
-    SellMarketing,
-    Taxonomy,
-    Translation
-} from './restful';
-
-import Api from './restful/api';
+    Sell
+} from './restful/sell';
 import Traditional from './traditional';
 import {ClientAlerts, Finding, Shopping, Trading} from './traditional/types';
 

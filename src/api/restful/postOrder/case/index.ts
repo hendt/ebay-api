@@ -1,4 +1,4 @@
-import Api from '../../api';
+import Api from '../../';
 import {AppealRequest, BuyerCloseCaseRequest, CaseSearchParams, ReturnAddressRequest, Text} from '../../types';
 
 /**
