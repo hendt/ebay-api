@@ -1,14 +1,14 @@
-import 'mocha';
 import {expect} from 'chai';
+import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
-import {eBayConfig} from '../../../src/types';
-import {ILimitedRequest} from '../../../src/utils/request';
 import Traditional from '../../../src/api/traditional/index';
 import Auth from '../../../src/auth/index';
+import {eBayConfig} from '../../../src/types';
+import {ILimitedRequest} from '../../../src/utils/request';
 
 describe('Traditional', () => {
-    let eBayConfig: eBayConfig = {
+    const config: eBayConfig = {
         authToken: 'eBayAuthToken',
         appId: 'appId',
         certId: 'certId',
@@ -28,7 +28,7 @@ describe('Traditional', () => {
     let auth: Auth;
 
     beforeEach(() => {
-        auth = new Auth(eBayConfig, request);
+        auth = new Auth(config, request);
     });
 
     it('return correct eBayAuthToken', () => {
@@ -38,14 +38,14 @@ describe('Traditional', () => {
 
     it('use "eBayAuthToken" if useIaf is set to false', () => {
         const post = sinon.stub().returns(Promise.resolve('<GetAccount></GetAccount>'));
-        const request: ILimitedRequest = {
+        const req: ILimitedRequest = {
             get: sinon.stub(),
             delete: sinon.stub(),
             put: sinon.stub(),
             post,
             postForm: sinon.stub()
         };
-        const traditional = new Traditional(auth, request);
+        const traditional = new Traditional(auth, req);
         const trading = traditional.createTradingApi();
         return trading.GetAccount({}, {raw: true, useIaf: false}).then(data => {
             expect(post.args[0][1]).to.equal([
@@ -60,7 +60,7 @@ describe('Traditional', () => {
 
     it('use IAF token if "accessToken" is available', () => {
         const post = sinon.stub().returns(Promise.resolve('<GetAccountResponse></GetAccountResponse>'));
-        const request: ILimitedRequest = {
+        const req: ILimitedRequest = {
             get: sinon.stub(),
             delete: sinon.stub(),
             put: sinon.stub(),
@@ -74,7 +74,7 @@ describe('Traditional', () => {
             token_type: 'token_type',
             expires_in: 0
         });
-        const traditional = new Traditional(auth, request);
+        const traditional = new Traditional(auth, req);
         const trading = traditional.createTradingApi();
         return trading.GetAccount({}, {raw: true}).then(data => {
             expect(post.args[0][1]).to.equal([
@@ -89,7 +89,7 @@ describe('Traditional', () => {
 
     it('throws EBayIAFTokenExpired of error code is 21917053', () => {
         const post = sinon.stub().returns(Promise.resolve('<GetAccountResponse><Errors><ErrorCode>21917053</ErrorCode></Errors></GetAccountResponse>'));
-        const request: ILimitedRequest = {
+        const req: ILimitedRequest = {
             get: sinon.stub(),
             delete: sinon.stub(),
             put: sinon.stub(),
@@ -103,7 +103,7 @@ describe('Traditional', () => {
             token_type: 'token_type',
             expires_in: 0
         });
-        const traditional = new Traditional(auth, request);
+        const traditional = new Traditional(auth, req);
         const trading = traditional.createTradingApi();
         return trading.GetAccount({}).catch(error => {
             expect(error.name).to.equal('EBayIAFTokenExpired');

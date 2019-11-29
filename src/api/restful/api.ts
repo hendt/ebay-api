@@ -27,12 +27,29 @@ export default abstract class Api {
         return false;
     }
 
-    public async getAuthConfig(config: any) {
-        const authHeaders = await this.auth.getAuthHeaders(this.useIaf());
+    public async enrichConfig(config: any) {
+        const headers = await this.auth.getAuthHeaders(this.useIaf());
+
+        if (this.auth.eBayConfig.marketplaceId) {
+            headers['X-EBAY-C-MARKETPLACE-ID'] = this.auth.eBayConfig.marketplaceId;
+        }
+
+        if (this.auth.eBayConfig.endUserCtx) {
+            headers['X-EBAY-C-ENDUSERCTX'] = this.auth.eBayConfig.endUserCtx;
+        }
+
+        if (this.auth.eBayConfig.acceptLanguage) {
+            headers['Accept-Language'] = this.auth.eBayConfig.acceptLanguage;
+        }
+
+        if (this.auth.eBayConfig.contentLanguage) {
+            headers['Content-Language'] = this.auth.eBayConfig.contentLanguage;
+        }
+
         return {
             ...config,
             headers: {
-                ...authHeaders,
+                ...headers,
                 ...config.headers
             }
         };
@@ -85,10 +102,10 @@ export default abstract class Api {
     }
 
     private async getArgs(method: string, url: string, config: any, data: any): Promise<any> {
-        const authConfig = await this.getAuthConfig(config);
+        const enrichedConfig = await this.enrichConfig(config);
         const args = [this.baseUrl + url];
         if (['get', 'delete'].includes(method)) {
-            args.push(authConfig);
+            args.push(enrichedConfig);
         } else {
             args.push(data, config);
         }

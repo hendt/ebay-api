@@ -1,9 +1,9 @@
-import 'mocha';
 import {expect} from 'chai';
+import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
-import {ILimitedRequest} from '../../src/utils/request';
 import OAuth2 from '../../src/auth/оAuth2';
+import {ILimitedRequest} from '../../src/utils/request';
 
 describe('oAuth2', () => {
     const appConfig = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 0, devId: 'devId'};
@@ -32,6 +32,7 @@ describe('oAuth2', () => {
 
         return oAuth.refreshAuthToken().then(() => {
             expect(oAuth.accessToken).equal('new_access_token');
+            // tslint:disable-next-line:no-unused-expression
             expect(refreshAuthToken.called).to.be.true;
             expect(refreshAuthToken.args[0][0].access_token).to.equal('new_access_token');
         });

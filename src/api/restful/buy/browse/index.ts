@@ -97,8 +97,8 @@ export default class Browse extends Api {
      * @param {Object} body CompatibilityPayload
      */
     public checkCompatibility(itemId: string, marketplaceId: string, body?: CompatibilityPayload) {
-        itemId = encodeURIComponent(itemId);
-        return this.post(`/item/${itemId}/check_compatibility`, body, {
+        const id = encodeURIComponent(itemId);
+        return this.post(`/item/${id}/check_compatibility`, body, {
             headers: {
                 'X-EBAY-C-MARKETPLACE-ID': marketplaceId
             }

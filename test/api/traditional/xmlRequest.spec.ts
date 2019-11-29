@@ -1,5 +1,5 @@
-import 'mocha';
 import {expect} from 'chai';
+import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
 
@@ -9,19 +9,19 @@ describe('XMLRequestTest', () => {
 
     const config: Config = {
         headers: {
-            'CALL': 'CALL'
+            CALL: 'CALL'
         },
         endpoint: 'endpoint',
         xmlns: 'xmlns',
         eBayAuthToken: 'eBayAuthToken'
     };
 
-    const response = '<CALL>response</CALL>';
+    const apiResponse = '<CALL>response</CALL>';
     const req = {
         get: sinon.stub().returns(Promise.resolve()),
         delete: sinon.stub().returns(Promise.resolve()),
         put: sinon.stub().returns(Promise.resolve()),
-        post: sinon.stub().returns(Promise.resolve(response)),
+        post: sinon.stub().returns(Promise.resolve(apiResponse)),
         postForm: sinon.stub().returns(Promise.resolve())
     };
 
@@ -32,7 +32,7 @@ describe('XMLRequestTest', () => {
     it('Return Raw Response XML', () => {
         const request = new XMLRequest('CALL', {}, config, req);
         return request.fetch({raw: true}).then(result => {
-            expect(result).to.equal(response);
+            expect(result).to.equal(apiResponse);
         });
     });
 
@@ -67,7 +67,7 @@ describe('XMLRequestTest', () => {
 
         req.post = sinon.stub().returns(Promise.resolve(response));
         const request = new XMLRequest('CALL', {}, config, req);
-        return request.fetch().then((result) => {
+        return request.fetch().then(result => {
             expect(result).to.deep.equal({});
         });
     });
@@ -80,7 +80,7 @@ describe('XMLRequestTest', () => {
 
         req.post = sinon.stub().returns(Promise.resolve(response));
         const request = new XMLRequest('CALL', {}, config, req);
-        return request.fetch().then((result) => {
+        return request.fetch().then(result => {
             expect({
                 Item: 'Item'
             }).to.deep.equal(result);

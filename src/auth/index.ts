@@ -42,22 +42,6 @@ export default class Auth {
             headers.Authorization = (useIaf ? 'IAF ' : 'Bearer ') + accessToken;
         }
 
-        if (this.eBayConfig.marketplaceId) {
-            headers['X-EBAY-C-MARKETPLACE-ID'] = this.eBayConfig.marketplaceId;
-        }
-
-        if (this.eBayConfig.endUserCtx) {
-            headers['X-EBAY-C-ENDUSERCTX'] = this.eBayConfig.endUserCtx;
-        }
-
-        if (this.eBayConfig.acceptLanguage) {
-            headers['Accept-Language'] = this.eBayConfig.acceptLanguage;
-        }
-
-        if (this.eBayConfig.contentLanguage) {
-            headers['Content-Language'] = this.eBayConfig.contentLanguage;
-        }
-
         return headers;
     }
 }

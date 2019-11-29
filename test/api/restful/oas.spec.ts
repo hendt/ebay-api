@@ -1,20 +1,20 @@
-import 'mocha';
 import {expect} from 'chai';
+import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
+import Auth from '../../../src/auth/index';
+import {ILimitedRequest} from '../../../src/utils/request';
 
 import buyTests from './buy';
 import commerceTests from './commerce';
 import developerTests from './developer';
 import sellTests from './sell';
-import {ILimitedRequest} from '../../../src/utils/request';
-import Auth from '../../../src/auth/index';
 
 const allTests = {
-    'Buy': buyTests,
-    'Commerce': commerceTests,
-    'Developer': developerTests,
-    'Sell': sellTests
+    Buy: buyTests,
+    Commerce: commerceTests,
+    Developer: developerTests,
+    Sell: sellTests
 };
 
 const appConfig = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 77};
@@ -36,6 +36,7 @@ auth.oAuth2.setClientToken({
 describe('Open API Tests', () => {
     Object.entries(allTests).forEach(([name, tests]) => {
         describe('API > restful > ' + name, () => {
+            // tslint:disable-next-line:variable-name
             tests.forEach((Oas, Api) => {
                 const api = new Api(auth);
 
@@ -52,7 +53,7 @@ describe('Open API Tests', () => {
                     const queryParams = path.match(/(?<={).+?(?=})/ig);
                     const paramsInPath = queryParams ? queryParams : [];
                     const paramsInHeader = call.parameters ? call.parameters.filter((p: any) => p.in === 'header') : [];
-                    const args = paramsInPath.map((name: any) => '{' + name + '}')
+                    const args = paramsInPath.map((paramName: any) => '{' + paramName + '}')
                         .concat(paramsInHeader.map((p: any) => p.name));
 
                     const req = {
@@ -61,29 +62,34 @@ describe('Open API Tests', () => {
                         postForm: sinon.stub().returns(Promise.resolve())
                     };
 
-                    const api = new Api(auth, req);
+                    const restApi = new Api(auth, req);
 
                     it('"' + name + ':' + Api.name + '" should implement this method', () => {
-                        expect(api[call.operationId]).to
-                            .be.a('function', 'AssertionError: expected to have "' + call.operationId + '" implemented.');
+                        expect(restApi[call.operationId]).to
+                            .be.a('function', 'AssertionError: expected to have "'
+                            + call.operationId + '" implemented.');
                     });
 
                     it('"' + name + ':' + Api.name + ':' + call.operationId + '" call correct method', () => {
-                        return api[call.operationId](...args).then(() => {
+                        return restApi[call.operationId](...args).then(() => {
                             if (method === 'get') {
+                                // tslint:disable-next-line:no-unused-expression
                                 expect(req.get.calledOnce).to.be.true;
                             } else if (method === 'post') {
+                                // tslint:disable-next-line:no-unused-expression
                                 expect(req.post.calledOnce).to.be.true;
                             }
                         });
                     });
 
                     it('"' + name + ':' + Api.name + ':' + call.operationId + '" calls correct url', () => {
-                        return api[call.operationId](...args).then(() => {
+                        return restApi[call.operationId](...args).then(() => {
                             if (method === 'get') {
-                                expect(decodeURI(req.get.args[0][0])).to.equal(decodeURI(encodeURI(api.baseUrl + path)));
+                                expect(decodeURI(req.get.args[0][0]))
+                                    .to.equal(decodeURI(encodeURI(restApi.baseUrl + path)));
                             } else if (method === 'post') {
-                                expect(decodeURI(req.post.args[0][0])).to.equal(decodeURI(encodeURI(api.baseUrl + path)));
+                                expect(decodeURI(req.post.args[0][0]))
+                                    .to.equal(decodeURI(encodeURI(restApi.baseUrl + path)));
                             }
                         });
                     });

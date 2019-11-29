@@ -1,9 +1,4 @@
-import {
-    Catalog,
-    Identity,
-    Taxonomy,
-    Translation
-} from '../../../../src/api/restful/commerce';
+import {Catalog, Identity, Taxonomy, Translation} from '../../../../src/api/restful/commerce';
 import CatalogOas from './catalog/commerce_catalog_v1_beta_oas3.json';
 import IdentityOas from './identity/buy_identity_v1_oas3.json';
 import TaxonomyOas from './taxonomy/commerce_taxonomy_v1_beta_oas3.json';
