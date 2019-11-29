@@ -1,4 +1,4 @@
-import Api from "../../api";
+import Api from '../../api';
 
 /**
  * Use the Taxonomy API to discover the most appropriate eBay categories under which sellers can offer inventory items
@@ -10,11 +10,12 @@ export default class Taxonomy extends Api {
     }
 
     /**
-     * A given eBay marketplace might use multiple category trees, but one of those trees is considered to be the default for that marketplace.
+     * A given eBay marketplace might use multiple category trees, but one of those trees is considered to be the
+     * default for that marketplace.
      *
      * @param marketplaceId The ID of the eBay marketplace for which the category tree ID is being requested.
      */
-    getDefaultCategoryTreeId(marketplaceId: string) {
+    public getDefaultCategoryTreeId(marketplaceId: string) {
         return this.get(`/get_default_category_tree_id`, {
             params: {
                 marketplace_id: marketplaceId
@@ -27,34 +28,37 @@ export default class Taxonomy extends Api {
      *
      * @param categoryTreeId
      */
-    getCategoryTree(categoryTreeId: string) {
+    public getCategoryTree(categoryTreeId: string) {
         const cId = encodeURIComponent(categoryTreeId);
-        return this.get(`/category_tree/${cId}`)
+        return this.get(`/category_tree/${cId}`);
     }
 
     /**
-     * This call retrieves the details of all nodes of the category tree hierarchy (the subtree) below a specified category of a category tree.
+     * This call retrieves the details of all nodes of the category tree hierarchy (the subtree) below a specified
+     * category of a category tree.
      *
-     * @param categoryTreeId The unique identifier of the eBay category tree from which a category subtree is being requested.
+     * @param categoryTreeId The unique identifier of the eBay category tree from which a category subtree is being
+     *     requested.
      * @param categoryId The unique identifier of the category at the top of the subtree being requested.
      */
-    getCategorySubtree(categoryTreeId: string, categoryId: string) {
+    public getCategorySubtree(categoryTreeId: string, categoryId: string) {
         const cId = encodeURIComponent(categoryTreeId);
         return this.get(`/category_tree/${cId}/get_category_subtree`, {
             params: {
                 category_id: categoryId
             }
-        })
+        });
     }
 
     /**
-     *This call returns an array of category tree leaf nodes in the specified category tree that are considered by eBay
+     * This call returns an array of category tree leaf nodes in the specified category tree that are considered by eBay
      *  to most closely correspond to the query string q.
      *
-     * @param categoryTreeId The unique identifier of the eBay category tree for which suggested nodes are being requested.
+     * @param categoryTreeId The unique identifier of the eBay category tree for which suggested nodes are being
+     *     requested.
      * @param q A quoted string that describes or characterizes the item being offered for sale.
      */
-    getCategorySuggestions(categoryTreeId: string, q: string) {
+    public getCategorySuggestions(categoryTreeId: string, q: string) {
         return this.get(`/category_tree/${categoryTreeId}/get_category_suggestions`, {
             params: {
                 q
@@ -63,12 +67,14 @@ export default class Taxonomy extends Api {
     }
 
     /**
-     * This call returns a list of aspects that are appropriate or necessary for accurately describing items in the specified leaf category.
+     * This call returns a list of aspects that are appropriate or necessary for accurately describing items in the
+     * specified leaf category.
      *
-     * @param categoryTreeId The unique identifier of the eBay category tree from which the specified category's aspects are being requested.
+     * @param categoryTreeId The unique identifier of the eBay category tree from which the specified category's
+     *     aspects are being requested.
      * @param categoryId The unique identifier of the leaf category for which aspects are being requested.
      */
-    getItemAspectsForCategory(categoryTreeId: string, categoryId: string) {
+    public getItemAspectsForCategory(categoryTreeId: string, categoryId: string) {
         const cId = encodeURIComponent(categoryTreeId);
         return this.get(`/category_tree/${cId}/get_item_aspects_for_category`, {
             params: {
@@ -78,14 +84,15 @@ export default class Taxonomy extends Api {
     }
 
     /**
-     * This call retrieves the compatible vehicle aspects that are used to define a motor vehicle that is compatible with a motor vehicle part or accessory.
+     * This call retrieves the compatible vehicle aspects that are used to define a motor vehicle that is compatible
+     * with a motor vehicle part or accessory.
      *
      * @param categoryTreeId This is the unique identifier of category tree. The following is the list of
      * category_tree_id values and the eBay marketplaces that they represent.
      *
      * @param categoryId The unique identifier of an eBay category.
      */
-    getCompatibilityProperties(categoryTreeId: string, categoryId: string) {
+    public getCompatibilityProperties(categoryTreeId: string, categoryId: string) {
         const cId = encodeURIComponent(categoryTreeId);
         return this.get(`/category_tree/${cId}/get_compatibility_properties`, {
             params: {
@@ -100,9 +107,10 @@ export default class Taxonomy extends Api {
      *
      * @param categoryTreeId This is the unique identifier of the category tree.
      * @param categoryId The unique identifier of an eBay category.
-     * @param compatibilityProperty One compatible vehicle property applicable to the specified eBay marketplace and eBay category is specified in this required filter.
+     * @param compatibilityProperty One compatible vehicle property applicable to the specified eBay marketplace and
+     *     eBay category is specified in this required filter.
      */
-    getCompatibilityPropertyValues(categoryTreeId: string, categoryId: string, compatibilityProperty: string) {
+    public getCompatibilityPropertyValues(categoryTreeId: string, categoryId: string, compatibilityProperty: string) {
         const cId = encodeURIComponent(categoryTreeId);
         return this.get(`/category_tree/${cId}/get_compatibility_property_values`, {
             params: {

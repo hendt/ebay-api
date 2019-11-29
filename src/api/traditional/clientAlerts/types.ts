@@ -29,4 +29,4 @@ enum EventType {
     WatchedItemEndingSoon = 'WatchedItemEndingSoon'
 }
 
-export {EventType}
+export {EventType};

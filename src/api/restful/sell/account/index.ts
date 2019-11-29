@@ -1,5 +1,5 @@
-import Api from "../../api";
-import {Program} from "../../types";
+import Api from '../../api';
+import {Program} from '../../types';
 
 /**
  * The <b>Account API</b> gives sellers the ability to configure their eBay seller accounts,
@@ -12,14 +12,15 @@ export default class Account extends Api {
     }
 
     /**
-     * This method retrieves all the fulfillment policies configured for the marketplace you specify using the marketplace_id query parameter.
+     * This method retrieves all the fulfillment policies configured for the marketplace you specify using the
+     * marketplace_id query parameter.
      *
-     * @param marketplace_id This query parameter specifies the eBay marketplace of the policies you want to retrieve.
+     * @param marketplaceId This query parameter specifies the eBay marketplace of the policies you want to retrieve.
      */
-    getFulfillmentPolicies(marketplace_id: string) {
+    public getFulfillmentPolicies(marketplaceId: string) {
         return this.get(`/fulfillment_policy/`, {
             params: {
-                marketplace_id
+                marketplace_id: marketplaceId
             }
         });
     }
@@ -30,44 +31,46 @@ export default class Account extends Api {
      *
      * @param fulfillmentPolicyId This path parameter specifies the ID of the fulfillment policy you want to retrieve.
      */
-    getFulfillmentPolicy(fulfillmentPolicyId: string) {
+    public getFulfillmentPolicy(fulfillmentPolicyId: string) {
         return this.get(`/fulfillment_policy/${fulfillmentPolicyId}`);
     }
 
     /**
      * This method retrieves the complete details for a single fulfillment policy.
      *
-     * @param marketplace_id This query parameter specifies the eBay marketplace of the policy you want to retrieve.
+     * @param marketplaceId This query parameter specifies the eBay marketplace of the policy you want to retrieve.
      * @param name This query parameter specifies the user-defined name of the fulfillment policy you want to retrieve.
      */
-    getFulfillmentPolicyByName(marketplace_id: string, name: string) {
+    public getFulfillmentPolicyByName(marketplaceId: string, name: string) {
         return this.get(`/fulfillment_policy/get_by_policy_name`, {
             params: {
-                marketplace_id,
+                marketplace_id: marketplaceId,
                 name
             }
         });
     }
 
     /**
-     * This method retrieves all the payment policies configured for the marketplace you specify using the marketplace_id query parameter.
+     * This method retrieves all the payment policies configured for the marketplace you specify using the
+     * marketplace_id query parameter.
      *
-     * @param marketplace_id This query parameter specifies the eBay marketplace of the policy you want to retrieve.
+     * @param marketplaceId This query parameter specifies the eBay marketplace of the policy you want to retrieve.
      */
-    getPaymentPolicies(marketplace_id: string) {
+    public getPaymentPolicies(marketplaceId: string) {
         return this.get(`/payment_policy/`, {
             params: {
-                marketplace_id
+                marketplace_id: marketplaceId
             }
         });
     }
 
     /**
-     * This method retrieves the complete details of a payment policy. Supply the ID of the policy you want to retrieve using the paymentPolicyId path parameter.
+     * This method retrieves the complete details of a payment policy. Supply the ID of the policy you want to retrieve
+     * using the paymentPolicyId path parameter.
      *
      * @param paymentPolicyId This path parameter specifies the ID of the payment policy you want to retrieve.
      */
-    getPaymentPolicy(paymentPolicyId: string) {
+    public getPaymentPolicy(paymentPolicyId: string) {
         const id = encodeURIComponent(paymentPolicyId);
         return this.get(`/payment_policy/${id}`);
     }
@@ -75,13 +78,13 @@ export default class Account extends Api {
     /**
      * This method retrieves the complete details of a single payment policy.
      *
-     * @param marketplace_id This query parameter specifies the eBay marketplace of the policy you want to retrieve.
+     * @param marketplaceId This query parameter specifies the eBay marketplace of the policy you want to retrieve.
      * @param name This query parameter specifies the user-defined name of the payment policy you want to retrieve.
      */
-    getPaymentPolicyByName(marketplace_id: string, name: string) {
+    public getPaymentPolicyByName(marketplaceId: string, name: string) {
         return this.get(`/payment_policy/get_by_policy_name`, {
             params: {
-                marketplace_id,
+                marketplace_id: marketplaceId,
                 name
             }
         });
@@ -91,9 +94,10 @@ export default class Account extends Api {
      * This method returns whether or not the user is opted-in to the payment program.
      *
      * @param marketplaceId This query parameter specifies the eBay marketplace of the policy you want to retrieve.
-     * @param paymentsProgramType This path parameter specifies the payments program whose status is returned by the call.
+     * @param paymentsProgramType This path parameter specifies the payments program whose status is returned by the
+     *     call.
      */
-    getPaymentsProgram(marketplaceId: string, paymentsProgramType: string) {
+    public getPaymentsProgram(marketplaceId: string, paymentsProgramType: string) {
         const mId = encodeURIComponent(marketplaceId);
         const pId = encodeURIComponent(paymentsProgramType);
         return this.get(`/payments_program/${mId}/${pId}`);
@@ -102,14 +106,14 @@ export default class Account extends Api {
     /**
      * This method retrieves the seller's current set of privileges.
      */
-    getPrivileges() {
+    public getPrivileges() {
         return this.get(`/privilege/`);
     }
 
     /**
      * This method gets a list of the seller programs that the seller has opted-in to.
      */
-    getOptedInPrograms() {
+    public getOptedInPrograms() {
         return this.get(`/program/get_opted_in_programs`);
     }
 
@@ -118,7 +122,7 @@ export default class Account extends Api {
      *
      * @param body Program being opted-in to.
      */
-    optInToProgram(body?: Program) {
+    public optInToProgram(body?: Program) {
         return this.post(`/program/opt_in`, body);
     }
 
@@ -127,29 +131,33 @@ export default class Account extends Api {
      *
      * @param body Program being opted-out of.
      */
-    optOutOfProgram(body?: Program) {
+    public optOutOfProgram(body?: Program) {
         return this.post(`/program/opt_out`, body);
     }
 
     /**
-     * This method retrieves a seller's shipping rate tables for the country specified in the country_code query parameter.
+     * This method retrieves a seller's shipping rate tables for the country specified in the country_code query
+     * parameter.
      *
-     * @param country_code This query parameter specifies the two-letter ISO 3166-1 Alpha-2 code of country for which you want shipping-rate table information.
+     * @param countryCode This query parameter specifies the two-letter ISO 3166-1 Alpha-2 code of country for which
+     *     you want shipping-rate table information.
      */
-    getRateTables(country_code?: string) {
+    public getRateTables(countryCode?: string) {
         return this.get(`/rate_table/`, {
             params: {
-                country_code
+                country_code: countryCode
             }
         });
     }
 
     /**
-     * This method retrieves all the return policies configured for the marketplace you specify using the marketplace_id query parameter.
+     * This method retrieves all the return policies configured for the marketplace you specify using the
+     * marketplace_id query parameter.
      *
-     * @param marketplaceId This query parameter specifies the ID of the eBay marketplace of the policy you want to retrieve.
+     * @param marketplaceId This query parameter specifies the ID of the eBay marketplace of the policy you want to
+     *     retrieve.
      */
-    getReturnPolicies(marketplaceId: string) {
+    public getReturnPolicies(marketplaceId: string) {
         return this.get(`/return_policy/`, {
             params: {
                 marketplace_id: marketplaceId
@@ -162,7 +170,7 @@ export default class Account extends Api {
      *
      * @param returnPolicyId This path parameter specifies the of the return policy you want to retrieve.
      */
-    getReturnPolicy(returnPolicyId: string) {
+    public getReturnPolicy(returnPolicyId: string) {
         const id = encodeURIComponent(returnPolicyId);
         return this.get(`/return_policy/${id}`);
     }
@@ -170,10 +178,11 @@ export default class Account extends Api {
     /**
      * This method retrieves the complete details of a single return policy.
      *
-     * @param marketplaceId This query parameter specifies the ID of the eBay marketplace of the policy you want to retrieve.
+     * @param marketplaceId This query parameter specifies the ID of the eBay marketplace of the policy you want to
+     *     retrieve.
      * @param name This query parameter specifies the user-defined name of the return policy you want to retrieve.
      */
-    getReturnPolicyByName(marketplaceId: string, name: string) {
+    public getReturnPolicyByName(marketplaceId: string, name: string) {
         return this.get(`/return_policy/get_by_policy_name`, {
             params: {
                 marketplace_id: marketplaceId,
@@ -185,10 +194,12 @@ export default class Account extends Api {
     /**
      * This call gets the current tax table entry for a specific tax jurisdiction.
      *
-     * @param countryCode This path parameter specifies the two-letter ISO 3166-1 Alpha-2 code for the country whose tax table you want to retrieve.
-     * @param jurisdictionId This path parameter specifies the ID of the sales tax jurisdiction for the tax table entry you want to retrieve.
+     * @param countryCode This path parameter specifies the two-letter ISO 3166-1 Alpha-2 code for the country whose
+     *     tax table you want to retrieve.
+     * @param jurisdictionId This path parameter specifies the ID of the sales tax jurisdiction for the tax table entry
+     *     you want to retrieve.
      */
-    getSalesTax(countryCode: string, jurisdictionId: string) {
+    public getSalesTax(countryCode: string, jurisdictionId: string) {
         const cc = encodeURIComponent(countryCode);
         const jId = encodeURIComponent(jurisdictionId);
         return this.get(`/sales_tax/${cc}/${jId}`);
@@ -197,9 +208,10 @@ export default class Account extends Api {
     /**
      * Use this call to retrieve a sales tax table that the seller established for a specific country.
      *
-     * @param countryCode This path parameter specifies the two-letter ISO 3166-1 Alpha-2 code for the country whose tax table you want to retrieve.
+     * @param countryCode This path parameter specifies the two-letter ISO 3166-1 Alpha-2 code for the country whose
+     *     tax table you want to retrieve.
      */
-    getSalesTaxes(countryCode: string) {
+    public getSalesTaxes(countryCode: string) {
         return this.get(`/sales_tax/`, {
             params: {
                 country_code: countryCode

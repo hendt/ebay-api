@@ -1,8 +1,9 @@
-import Api from "../../api";
-import {FindListingRecommendationRequest} from "../../types";
+import Api from '../../api';
+import {FindListingRecommendationRequest} from '../../types';
 
 /**
- * The <b>Recommendation API</b> returns information that sellers can use to optimize the configuration of their listings on eBay.
+ * The <b>Recommendation API</b> returns information that sellers can use to optimize the configuration of their
+ * listings on eBay.
  */
 export default class Recommendation extends Api {
 
@@ -11,16 +12,20 @@ export default class Recommendation extends Api {
     }
 
     /**
-     * The find method returns recommendations and information that sellers can use to optimize their listing configurations.
+     * The find method returns recommendations and information that sellers can use to optimize their listing
+     * configurations.
      *
-     * @param marketplaceId Use this header to specify the eBay marketplace where you list the items for which you want to get recommendations.
+     * @param marketplaceId Use this header to specify the eBay marketplace where you list the items for which you want
+     *     to get recommendations.
      * @param filter Provide a list of key-value pairs to specify the criteria you want to use to filter the response.
-     * @param limit Use this query parameter to set the maximum number of ads to return on a page from the paginated response. Default: 10 Maximum: 500
-     * @param offset Specifies the number of ads to skip in the result set before returning the first ad in the paginated response.
+     * @param limit Use this query parameter to set the maximum number of ads to return on a page from the paginated
+     *     response. Default: 10 Maximum: 500
+     * @param offset Specifies the number of ads to skip in the result set before returning the first ad in the
+     *     paginated response.
      * @param body FindListingRecommendationRequest
      */
-    findListingRecommendations(
-        marketplaceId: string, {filter, limit, offset} : {filter?: string, limit?: number, offset?: number} = {},
+    public findListingRecommendations(
+        marketplaceId: string, {filter, limit, offset}: { filter?: string, limit?: number, offset?: number } = {},
         body?: FindListingRecommendationRequest
     ) {
         return this.post(`/find`, {

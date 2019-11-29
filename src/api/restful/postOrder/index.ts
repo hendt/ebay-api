@@ -1,6 +1,6 @@
-import Cancellation from "./cancellation";
-import Case from "./case";
-import Inquiry from "./inquiry";
+import Cancellation from './cancellation';
+import Case from './case';
+import Inquiry from './inquiry';
 import Return from './return';
 
 export type PostOrder = {
@@ -15,4 +15,4 @@ export {
     Case,
     Inquiry,
     Return
-}
+};

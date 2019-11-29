@@ -1,5 +1,5 @@
 import debug from 'debug';
-import {createRequest, LimitedRequest} from '../../utils/request';
+import Auth from '../../auth/index';
 import {
     EBayAccessDenied,
     EBayInvalidScope,
@@ -7,13 +7,13 @@ import {
     EBayUnauthorizedAfterRefresh,
     getEBayError
 } from '../../errors';
-import Auth from '../../auth/index';
+import {createRequest, ILimitedRequest} from '../../utils/request';
 
 const log = debug('ebay:restful:api');
 
 export default abstract class Api {
-    private readonly auth: Auth;
-    private readonly req: LimitedRequest;
+    public readonly auth: Auth;
+    public readonly req: ILimitedRequest;
 
     constructor(auth: Auth, req = createRequest()) {
         this.auth = auth;
@@ -23,11 +23,11 @@ export default abstract class Api {
     /**
      * Control to use IAF or not.
      */
-    useIaf() {
+    public useIaf() {
         return false;
     }
 
-    async getAuthConfig(config: any) {
+    public async getAuthConfig(config: any) {
         const authHeaders = await this.auth.getAuthHeaders(this.useIaf());
         return {
             ...config,
@@ -50,9 +50,25 @@ export default abstract class Api {
 
     get baseUrl() {
         return this.serverUrl + this.apiVersionPath + this.basePath;
-    };
+    }
 
-    async doRequest(method: keyof LimitedRequest, url: string, config: any, data?: any): Promise<any> {
+    public async get(url: string, config: any = {}) {
+        return this.doRequest('get', url, config);
+    }
+
+    public async delete(url: string, config: any = {}) {
+        return this.doRequest('delete', url, config);
+    }
+
+    public async post(url: string, data?: any, config: any = {}) {
+        return this.doRequest('post', url, config, data);
+    }
+
+    public async put(url: string, data?: any, config: any = {}) {
+        return this.doRequest('put', url, config, data);
+    }
+
+    private async doRequest(method: keyof ILimitedRequest, url: string, config: any, data?: any): Promise<any> {
         try {
             const args = await this.getArgs(method, url, config, data);
             // @ts-ignore
@@ -79,23 +95,7 @@ export default abstract class Api {
         return args;
     }
 
-    async get(url: string, config: any = {}) {
-        return this.doRequest('get', url, config);
-    }
-
-    async delete(url: string, config: any = {}) {
-        return this.doRequest('delete', url, config);
-    }
-
-    async post(url: string, data?: any, config: any = {}) {
-        return this.doRequest('post', url, config, data);
-    }
-
-    async put(url: string, data?: any, config: any = {}) {
-        return this.doRequest('put', url, config, data);
-    }
-
-    async handleEBayError(ex: any, refreshedToken?: boolean): Promise<any> {
+    private async handleEBayError(ex: any, refreshedToken?: boolean): Promise<any> {
         const error = getEBayError(ex);
 
         if (!error) {
@@ -107,14 +107,15 @@ export default abstract class Api {
             throw new EBayAccessDenied(ex);
         } else if (error.message === 'Invalid access token') {
             if (!refreshedToken) {
+                // TODO extract this
                 log('Token expired. Refresh the token.');
-                return this.auth.oAuth2.refreshToken().catch((ex: Error) => {
-                    const error = getEBayError(ex);
-                    if (error && error.message === 'invalid_scope') {
-                        throw new EBayInvalidScope(ex);
+                return this.auth.oAuth2.refreshToken().catch((e: Error) => {
+                    const responseError = getEBayError(e);
+                    if (responseError && responseError.message === 'invalid_scope') {
+                        throw new EBayInvalidScope(e);
                     }
 
-                    throw ex;
+                    throw e;
                 });
             }
 

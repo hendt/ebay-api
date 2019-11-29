@@ -1,8 +1,8 @@
 type Node = {
     [key: string]: true;
-}
+};
 
-export const numericNodes: Node  = {
+export const numericNodes: Node = {
     categorycount: true
 };
 

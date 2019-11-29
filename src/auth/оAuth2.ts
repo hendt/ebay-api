@@ -1,59 +1,42 @@
 import debug from 'debug';
-import {LimitedRequest, createRequest} from '../utils/request';
-import {eBayConfig, Scope} from '../types';
 import NanoEvents from 'nanoevents';
+import {eBayConfig, Scope} from '../types';
+import {createRequest, ILimitedRequest} from '../utils/request';
 
 const log = debug('ebay:oauth');
 
-type Token = {
+export type Token = {
     access_token: string,
     expires_in: number, // default 2 hours
     token_type: string
-}
+};
 
-type UserAccessToken = Token & {
+export type UserAccessToken = Token & {
     refresh_token: string,
     refresh_token_expires_in: number
 };
 
 export default class OAuth2 {
     // If all the calls in our application require just an Application access token we can use this endpoint
-    static IDENTITY_ENDPOINT: any = {
+    public static readonly IDENTITY_ENDPOINT: any = {
         production: 'https://api.ebay.com/identity/v1/oauth2/token',
         sandbox: 'https://api.sandbox.ebay.com/identity/v1/oauth2/token'
     };
 
-    static AUTHORIZE_ENDPOINT: any = {
+    public static readonly AUTHORIZE_ENDPOINT: any = {
         production: 'https://auth.ebay.com/oauth2/authorize',
         sandbox: 'https://auth.sandbox.ebay.com/oauth2/authorize'
     };
 
-    static defaultScopes: Scope = ['https://api.ebay.com/oauth/api_scope'];
+    public static readonly defaultScopes: Scope = ['https://api.ebay.com/oauth/api_scope'];
 
-    readonly eBayConfig: eBayConfig;
-    readonly req: LimitedRequest;
-
-    private scope: Scope;
-
-    private _clientToken?: Token;
-    private _userAccessToken?: UserAccessToken;
-
-    private readonly endpoint: string;
-    private readonly emitter: NanoEvents<any>;
-
-    constructor(
-        eBayConfig: eBayConfig,
-        req: LimitedRequest = createRequest()
-    ) {
-        this.eBayConfig = eBayConfig;
-        this.endpoint = eBayConfig.sandbox ? 'sandbox' : 'production';
-        this.scope = eBayConfig.scope || OAuth2.defaultScopes;
-        this.req = req;
-
-        this.emitter = new NanoEvents();
-    }
-
-    public static generateAuthUrl(sandbox: boolean, appId: string, ruName: string, scope: string[], state = ''): string {
+    public static generateAuthUrl(
+        sandbox: boolean,
+        appId: string,
+        ruName: string,
+        scope: string[],
+        state = ''
+    ): string {
         return [
             OAuth2.AUTHORIZE_ENDPOINT[sandbox ? 'sandbox' : 'production'],
             '?client_id=', encodeURIComponent(appId),
@@ -64,14 +47,36 @@ export default class OAuth2 {
         ].join('');
     }
 
-    on(name: string, callBack: (arg: any) => any) {
+    public readonly eBayConfig: eBayConfig;
+    public readonly req: ILimitedRequest;
+
+    private scope: Scope;
+    private _clientToken?: Token;
+    private _userAccessToken?: UserAccessToken;
+
+    private readonly endpoint: string;
+    private readonly emitter: NanoEvents<any>;
+
+    constructor(
+        config: eBayConfig,
+        req: ILimitedRequest = createRequest()
+    ) {
+        this.eBayConfig = config;
+        this.endpoint = this.eBayConfig.sandbox ? 'sandbox' : 'production';
+        this.scope = this.eBayConfig.scope || OAuth2.defaultScopes;
+        this.req = req;
+
+        this.emitter = new NanoEvents();
+    }
+
+    public on(name: string, callBack: (arg: any) => any) {
         return this.emitter.on(name, callBack);
     }
 
     /**
      * Return the access token.
      */
-    async getAccessToken() {
+    public async getAccessToken() {
         // Fallback to Client Token
         return this.accessToken || this.getClientAccessToken();
     }
@@ -84,7 +89,7 @@ export default class OAuth2 {
         return null;
     }
 
-    async getClientAccessToken(): Promise<string> {
+    public async getClientAccessToken(): Promise<string> {
         if (this._clientToken) {
             log('Return existing client token: ', this._clientToken);
             return this._clientToken.access_token;
@@ -112,8 +117,12 @@ export default class OAuth2 {
 
     // Client Credential Grant
     public async refreshClientToken(): Promise<Token> {
-        if (!this.eBayConfig.appId) throw new Error('Missing App ID (Client Id)');
-        if (!this.eBayConfig.certId) throw new Error('Missing Cert Id (Client Secret)');
+        if (!this.eBayConfig.appId) {
+            throw new Error('Missing App ID (Client Id)');
+        }
+        if (!this.eBayConfig.certId) {
+            throw new Error('Missing Cert Id (Client Secret)');
+        }
 
         log('Obtain a new Client Token with scope: ', this.scope.join(','));
 
@@ -147,7 +156,7 @@ export default class OAuth2 {
      * @param scope the scopes
      * @param state state parameter returned in the redirect URL
      */
-    generateAuthUrl(ruName?: string, scope: string[] = this.scope, state = ''): string {
+    public generateAuthUrl(ruName?: string, scope: string[] = this.scope, state = ''): string {
         ruName = ruName || this.eBayConfig.ruName;
 
         if (!ruName) {
@@ -163,11 +172,11 @@ export default class OAuth2 {
      * @param code the code
      * @param ruName the redirectUri
      */
-    async getToken(code: string, ruName = this.eBayConfig.ruName) {
+    public async getToken(code: string, ruName = this.eBayConfig.ruName) {
         try {
             const token = await this.req.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
                 grant_type: 'authorization_code',
-                code: code,
+                code,
                 redirect_uri: ruName
             }, {
                 auth: {
@@ -230,7 +239,7 @@ export default class OAuth2 {
         }
     }
 
-    async refreshToken() {
+    public async refreshToken() {
         if (this._userAccessToken) {
             return this.refreshAuthToken();
         } else if (this._clientToken) {

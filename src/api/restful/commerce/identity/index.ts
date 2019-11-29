@@ -1,4 +1,4 @@
-import Api from "../../api";
+import Api from '../../api';
 
 /**
  * Retrieves the authenticated user's account profile information.
@@ -9,10 +9,10 @@ export default class Identity extends Api {
     }
 
     /**
-     * This method retrieves the account profile information for an authenticated user, which requires a User access token.
-     * What is returned is controlled by the scopes.
+     * This method retrieves the account profile information for an authenticated user, which requires a User access
+     * token. What is returned is controlled by the scopes.
      */
-    getUser() {
-        return this.get(`/user/`)
+    public getUser() {
+        return this.get(`/user/`);
     }
 }

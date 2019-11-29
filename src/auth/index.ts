@@ -1,20 +1,20 @@
+import {eBayConfig} from '../types';
+import {createRequest, ILimitedRequest} from '../utils/request';
 import AuthNAuth from './authNAuth';
 import OAuth2 from './оAuth2';
-import {eBayConfig} from '../types';
-import {createRequest, LimitedRequest} from '../utils/request';
 
 /**
  * Container with Auth'N'Auth and OAuth2.
  */
 export default class Auth {
-    readonly eBayConfig: eBayConfig;
-    readonly req: LimitedRequest;
+    public readonly eBayConfig: eBayConfig;
+    public readonly req: ILimitedRequest;
 
-    readonly authNAuth: AuthNAuth;
-    readonly oAuth2: OAuth2;
+    public readonly authNAuth: AuthNAuth;
+    public readonly oAuth2: OAuth2;
 
-    constructor(eBayConfig: eBayConfig, req = createRequest()) {
-        this.eBayConfig = eBayConfig;
+    constructor(config: eBayConfig, req = createRequest()) {
+        this.eBayConfig = config;
         this.req = req;
 
         this.authNAuth = new AuthNAuth(
@@ -28,7 +28,7 @@ export default class Auth {
         );
     }
 
-    async getAuthHeaders(useIaf: boolean) {
+    public async getAuthHeaders(useIaf: boolean) {
         const headers: any = {
             'Content-Type': 'application/json',
             'Cache-Control': 'no-cache',
@@ -36,10 +36,10 @@ export default class Auth {
         };
 
         if (this.authNAuth.eBayAuthToken) {
-            headers['Authorization'] = 'Token ' + this.authNAuth.eBayAuthToken;
+            headers.Authorization = 'Token ' + this.authNAuth.eBayAuthToken;
         } else {
             const accessToken = await this.oAuth2.getAccessToken();
-            headers['Authorization'] = (useIaf ? 'IAF ' : 'Bearer ') + accessToken;
+            headers.Authorization = (useIaf ? 'IAF ' : 'Bearer ') + accessToken;
         }
 
         if (this.eBayConfig.marketplaceId) {

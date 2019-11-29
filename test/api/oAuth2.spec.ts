@@ -2,12 +2,12 @@ import 'mocha';
 import {expect} from 'chai';
 // @ts-ignore
 import sinon from 'sinon';
-import {LimitedRequest} from '../../src/utils/request';
+import {ILimitedRequest} from '../../src/utils/request';
 import OAuth2 from '../../src/auth/оAuth2';
 
 describe('oAuth2', () => {
     const appConfig = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 0, devId: 'devId'};
-    const request: LimitedRequest = {
+    const request: ILimitedRequest = {
         get: sinon.stub(),
         delete: sinon.stub(),
         put: sinon.stub(),

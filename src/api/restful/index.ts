@@ -1,34 +1,21 @@
-import {
-    Buy,
-    Browse,
-    Feed,
-    Marketing as BuyMarketing,
-    Offer,
-    Order
-} from './buy';
+import {Browse, Buy, Feed, Marketing as BuyMarketing, Offer, Order} from './buy';
+
+import {Catalog, Commerce, Identity, Taxonomy, Translation} from './commerce';
+
+import {Analytics as DeveloperAnalytics, Developer} from './developer';
+
+import {Cancellation, Case, Inquiry, PostOrder, Return} from './postOrder';
 
 import {
-    Commerce,
-    Catalog,
-    Identity,
-    Taxonomy,
-    Translation
-} from './commerce';
-
-import {Developer, Analytics as DeveloperAnalytics} from './developer';
-
-import {PostOrder, Cancellation, Case, Inquiry, Return} from './postOrder';
-
-import {
-    Sell,
     Account,
-    Compliance,
     Analytics as SellAnalytics,
+    Compliance,
     Fulfillment,
     Inventory,
     Marketing as SellMarketing,
     Metadata,
-    Recommendation
+    Recommendation,
+    Sell
 } from './sell';
 
 export {
@@ -63,4 +50,4 @@ export {
     SellMarketing,
     Metadata,
     Recommendation
-}
+};

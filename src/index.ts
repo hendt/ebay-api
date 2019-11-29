@@ -1,17 +1,17 @@
 import Factory from './api/factory';
-import {EnvError} from './errors';
 import {Buy} from './api/restful/buy';
 import {Commerce} from './api/restful/commerce';
 import {Developer} from './api/restful/developer';
-import {Sell} from './api/restful/sell';
 import {PostOrder} from './api/restful/postOrder';
-import {AppConfig} from './types';
-import {LimitedRequest, createRequest} from './utils/request';
+import {Sell} from './api/restful/sell';
 import {ClientAlerts, Finding, Shopping, Trading} from './api/traditional/types';
-import {SiteId, MarketplaceId} from './enums';
 import Auth from './auth';
 import AuthNAuth from './auth/authNAuth';
 import OAuth2 from './auth/оAuth2';
+import {MarketplaceId, SiteId} from './enums';
+import {EnvError} from './errors';
+import {AppConfig} from './types';
+import {createRequest, ILimitedRequest} from './utils/request';
 
 const defaultConfig = {
     sandbox: false,
@@ -19,42 +19,20 @@ const defaultConfig = {
     marketplaceId: MarketplaceId.EBAY_DE
 };
 
+// tslint:disable-next-line:class-name
 export default class eBayApi {
-    static SiteId = SiteId;
-    static MarketplaceId = MarketplaceId;
 
-    readonly auth: Auth;
-
-    // Shortcuts to auth
-    readonly authNAuth: AuthNAuth;
-    readonly oAuth2: OAuth2;
-
-    readonly appConfig: AppConfig;
-    readonly req: LimitedRequest;
-
-    private readonly factory: Factory;
-
-    // RESTful API
-    private _buy?: Buy;
-    private _commerce?: Commerce;
-    private _developer?: Developer;
-    private _postOrder?: PostOrder;
-    private _sell?: Sell;
-
-    // Traditional API
-    private _trading?: Trading;
-    private _finding?: Finding;
-    private _shopping?: Shopping;
-    private _clientAlerts?: ClientAlerts;
+    public static SiteId = SiteId;
+    public static MarketplaceId = MarketplaceId;
 
     /**
      * Loads settings from `process.env`
      *
-     * @return {this}          a new Ebay instance
+     * @return {eBayApi} a new eBayApi instance
      * @param {request} req request
      * @throws {EnvError}
      */
-    static fromEnv(req = createRequest()) {
+    public static fromEnv(req = createRequest()) {
         if (!process.env.EBAY_APP_ID) {
             throw new EnvError('EBAY_APP_ID');
         }
@@ -72,7 +50,7 @@ export default class eBayApi {
                 authToken: process.env.EBAY_AUTH_TOKEN,
                 siteId: process.env.EBAY_SITE_ID ? parseInt(process.env.EBAY_SITE_ID, 10) : SiteId.EBAY_DE,
                 marketplaceId: process.env.EBAY_MARKETPLACE_ID && process.env.EBAY_MARKETPLACE_ID in MarketplaceId ?
-                    <MarketplaceId>MarketplaceId[process.env.EBAY_MARKETPLACE_ID as keyof typeof MarketplaceId] :
+                    MarketplaceId[process.env.EBAY_MARKETPLACE_ID as keyof typeof MarketplaceId] as MarketplaceId :
                     MarketplaceId.EBAY_DE,
                 ruName: process.env.EBAY_RU_NAME,
                 sandbox: (process.env.EBAY_SANDBOX === 'true')
@@ -80,11 +58,35 @@ export default class eBayApi {
             req);
     }
 
+    public readonly auth: Auth;
+
+    // Shortcuts to auth
+    public readonly authNAuth: AuthNAuth;
+    public readonly oAuth2: OAuth2;
+
+    public readonly appConfig: AppConfig;
+    public readonly req: ILimitedRequest;
+
+    private readonly factory: Factory;
+
+    // RESTful API
+    private _buy?: Buy;
+    private _commerce?: Commerce;
+    private _developer?: Developer;
+    private _postOrder?: PostOrder;
+    private _sell?: Sell;
+
+    // Traditional API
+    private _trading?: Trading;
+    private _finding?: Finding;
+    private _shopping?: Shopping;
+    private _clientAlerts?: ClientAlerts;
+
     /**
-     * @param {Object}  config the global config
-     * @param {LimitedRequest} req the request
+     * @param {AppConfig} config the app config
+     * @param {ILimitedRequest} req the request
      */
-    constructor(config: AppConfig, req?: LimitedRequest) {
+    constructor(config: AppConfig, req?: ILimitedRequest) {
         this.appConfig = {...defaultConfig, ...config};
         this.req = req || createRequest(this.appConfig);
 
@@ -139,4 +141,3 @@ export default class eBayApi {
         return this._clientAlerts || (this._clientAlerts = this.factory.createClientAlertsApi());
     }
 }
-

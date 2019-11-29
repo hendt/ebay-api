@@ -1,4 +1,4 @@
-import Api from "../../api";
+import Api from '../../api';
 import {
     BulkEbayOfferDetailsWithKeys,
     BulkInventoryItem,
@@ -9,10 +9,11 @@ import {
     OfferKeysWithId,
     PublishByInventoryItemGroupRequest,
     WithdrawByInventoryItemGroupRequest
-} from "../../types";
+} from '../../types';
 
 /**
- * The Inventory API is used to create and manage inventory, and then to publish and manage this inventory on an eBay marketplace.
+ * The Inventory API is used to create and manage inventory, and then to publish and manage this inventory on an eBay
+ * marketplace.
  */
 export default class Inventory extends Api {
     get basePath(): string {
@@ -20,31 +21,34 @@ export default class Inventory extends Api {
     }
 
     /**
-     * This call retrieves all defined details of the inventory location that is specified by the <b>merchantLocationKey</b> path parameter.
+     * This call retrieves all defined details of the inventory location that is specified by the
+     * <b>merchantLocationKey</b> path parameter.
      *
      * @param merchantLocationKey A unique merchant-defined key (ID) for an inventory location.
      */
-    getInventoryLocation(merchantLocationKey: string) {
+    public getInventoryLocation(merchantLocationKey: string) {
         const key = encodeURIComponent(merchantLocationKey);
         return this.get(`/location/${key}`);
     }
 
     /**
-     * <p>This call disables the inventory location that is specified in the <code>merchantLocationKey</code> path parameter.
+     * <p>This call disables the inventory location that is specified in the <code>merchantLocationKey</code> path
+     * parameter.
      *
      * @param merchantLocationKey A unique merchant-defined key (ID) for an inventory location.
      */
-    disableInventoryLocation(merchantLocationKey: string) {
+    public disableInventoryLocation(merchantLocationKey: string) {
         const key = encodeURIComponent(merchantLocationKey);
         return this.post(`/location/${key}/disable`);
     }
 
     /**
-     * <p>This call enables a disabled inventory location that is specified in the <code>merchantLocationKey</code> path parameter.
+     * <p>This call enables a disabled inventory location that is specified in the <code>merchantLocationKey</code>
+     * path parameter.
      *
      * @param merchantLocationKey A unique merchant-defined key (ID) for an inventory location.
      */
-    enableInventoryLocation(merchantLocationKey: string) {
+    public enableInventoryLocation(merchantLocationKey: string) {
         const key = encodeURIComponent(merchantLocationKey);
         return this.post(`/location/${key}/enable`);
     }
@@ -52,10 +56,11 @@ export default class Inventory extends Api {
     /**
      * This call retrieves all defined details for every inventory location associated with the seller's account.
      *
-     * @param limit The value passed in this query parameter sets the maximum number of records to return per page of data.
+     * @param limit The value passed in this query parameter sets the maximum number of records to return per page of
+     *     data.
      * @param offset The value passed in this query parameter sets the page number to retrieve.
      */
-    getInventoryLocations({limit, offset}: { limit?: number, offset?: number } = {}) {
+    public getInventoryLocations({limit, offset}: { limit?: number, offset?: number } = {}) {
         return this.get(`/location/`, {
             params: {
                 limit,
@@ -70,7 +75,7 @@ export default class Inventory extends Api {
      * @param merchantLocationKey A unique merchant-defined key (ID) for an inventory location.
      * @param body The inventory location details to be updated (other than the address and geo co-ordinates).
      */
-    updateInventoryLocation(merchantLocationKey: string, body?: InventoryLocation) {
+    public updateInventoryLocation(merchantLocationKey: string, body?: InventoryLocation) {
         const key = encodeURIComponent(merchantLocationKey);
         return this.post(`/location/${key}/update_location_details`, body);
     }
@@ -78,20 +83,22 @@ export default class Inventory extends Api {
     /**
      * This call retrieves the inventory item record for a given SKU.
      *
-     * @param sku his is the seller-defined SKU value of the product whose inventory item record you wish to retrieve.<br/><br/><strong>Max length</strong>: 50.
+     * @param sku his is the seller-defined SKU value of the product whose inventory item record you wish to
+     *     retrieve.<br/><br/><strong>Max length</strong>: 50.
      */
-    getInventoryItem(sku: string) {
+    public getInventoryItem(sku: string) {
         const s = encodeURIComponent(sku);
         return this.get(`/inventory_item/${s}`);
     }
 
     /**
-     *This call retrieves all inventory item records defined for the seller's account.
+     * This call retrieves all inventory item records defined for the seller's account.
      *
-     * @param limit The value passed in this query parameter sets the maximum number of records to return per page of data.
+     * @param limit The value passed in this query parameter sets the maximum number of records to return per page of
+     *     data.
      * @param offset The value passed in this query parameter sets the page number to retrieve.
      */
-    getInventoryItems({limit, offset}: { limit?: number, offset?: number } = {}) {
+    public getInventoryItems({limit, offset}: { limit?: number, offset?: number } = {}) {
         return this.get(`/inventory_item`, {
             params: {
                 limit,
@@ -106,7 +113,7 @@ export default class Inventory extends Api {
      *
      * @param body BulkPriceQuantity
      */
-    bulkUpdatePriceQuantity(body: BulkPriceQuantity) {
+    public bulkUpdatePriceQuantity(body: BulkPriceQuantity) {
         return this.post(`/bulk_update_price_quantity`, body);
     }
 
@@ -115,16 +122,17 @@ export default class Inventory extends Api {
      *
      * @param body BulkInventoryItem
      */
-    bulkCreateOrReplaceInventoryItem(body: BulkInventoryItem) {
+    public bulkCreateOrReplaceInventoryItem(body: BulkInventoryItem) {
         return this.post(`/bulk_create_or_replace_inventory_item`, body);
     }
 
     /**
-     * This call retrieves up to 25 inventory item records. The SKU value of each inventory item record to retrieve is specified in the request payload.
+     * This call retrieves up to 25 inventory item records. The SKU value of each inventory item record to retrieve is
+     * specified in the request payload.
      *
      * @param body BulkInventoryItem
      */
-    bulkGetInventoryItem(body: BulkInventoryItem) {
+    public bulkGetInventoryItem(body: BulkInventoryItem) {
         return this.post(`/bulk_get_inventory_item`, body);
     }
 
@@ -133,7 +141,7 @@ export default class Inventory extends Api {
      *
      * @param sku A SKU (stock keeping unit) is an unique identifier defined by a seller for a product
      */
-    getProductCompatibility(sku: string) {
+    public getProductCompatibility(sku: string) {
         const s = encodeURIComponent(sku);
         return this.get(`/inventory_item/${s}/product_compatibility`);
     }
@@ -144,10 +152,11 @@ export default class Inventory extends Api {
      * @param sku The seller-defined SKU value is passed in as a query parameter.
      * @param marketplace_id The unique identifier of the eBay marketplace.
      * @param format This enumeration value sets the listing format for the offer.
-     * @param limit The value passed in this query parameter sets the maximum number of records to return per page of data.
+     * @param limit The value passed in this query parameter sets the maximum number of records to return per page of
+     *     data.
      * @param offset The value passed in this query parameter sets the page number to retrieve.
      */
-    getOffers(
+    public getOffers(
         {sku, marketplaceId, format, limit, offset}:
             { sku?: string, marketplaceId?: string, format?: string, limit?: number, offset?: number } = {}
     ) {
@@ -167,7 +176,7 @@ export default class Inventory extends Api {
      *
      * @param offerId The unique identifier of the offer that is to be retrieved.
      */
-    getOffer(offerId: string) {
+    public getOffer(offerId: string) {
         const id = encodeURIComponent(offerId);
         return this.get(`/offer/${id}`);
     }
@@ -177,26 +186,28 @@ export default class Inventory extends Api {
      *
      * @param offerId The unique identifier of the offer that is to be published.
      */
-    publishOffer(offerId: string) {
+    public publishOffer(offerId: string) {
         const id = encodeURIComponent(offerId);
         return this.post(`/offer/${id}/publish/`);
     }
 
     /**
-     * This call is used to convert all unpublished offers associated with an inventory item group into an active, multiple-variation listing.
+     * This call is used to convert all unpublished offers associated with an inventory item group into an active,
+     * multiple-variation listing.
      *
      * @param body PublishByInventoryItemGroupRequest
      */
-    publishOfferByInventoryItemGroup(body: PublishByInventoryItemGroupRequest) {
+    public publishOfferByInventoryItemGroup(body: PublishByInventoryItemGroupRequest) {
         return this.post(`/offer/publish_by_inventory_item_group/`, body);
     }
 
     /**
-     * This call is used to end a multiple-variation eBay listing that is associated with the specified inventory item group.
+     * This call is used to end a multiple-variation eBay listing that is associated with the specified inventory item
+     * group.
      *
      * @param body WithdrawByInventoryItemGroupRequest
      */
-    withdrawOfferByInventoryItemGroup(body: WithdrawByInventoryItemGroupRequest) {
+    public withdrawOfferByInventoryItemGroup(body: WithdrawByInventoryItemGroupRequest) {
         return this.post(`/offer/withdraw_by_inventory_item_group`, body);
     }
 
@@ -205,7 +216,7 @@ export default class Inventory extends Api {
      *
      * @param body OfferKeysWithId
      */
-    getListingFees(body: OfferKeysWithId) {
+    public getListingFees(body: OfferKeysWithId) {
         return this.post(`/offer/get_listing_fees`, body);
     }
 
@@ -214,7 +225,7 @@ export default class Inventory extends Api {
      *
      * @param body BulkEbayOfferDetailsWithKeys
      */
-    bulkCreateOffer(body: BulkEbayOfferDetailsWithKeys) {
+    public bulkCreateOffer(body: BulkEbayOfferDetailsWithKeys) {
         return this.post(`/bulk_create_offer`, body);
     }
 
@@ -223,7 +234,7 @@ export default class Inventory extends Api {
      *
      * @param body BulkOffer
      */
-    bulkPublishOffer(body: BulkOffer) {
+    public bulkPublishOffer(body: BulkOffer) {
         return this.post(`/bulk_publish_offer`, body);
     }
 
@@ -232,7 +243,7 @@ export default class Inventory extends Api {
      *
      * @param offerId he unique identifier of the offer that is to be withdrawn.
      */
-    withdrawOffer(offerId: string) {
+    public withdrawOffer(offerId: string) {
         const id = encodeURIComponent(offerId);
         return this.post(`/offer/${id}/withdraw`);
     }
@@ -242,7 +253,7 @@ export default class Inventory extends Api {
      *
      * @param inventoryItemGroupKey The unique identifier of an inventory item group.
      */
-    getInventoryItemGroup(inventoryItemGroupKey: string) {
+    public getInventoryItemGroup(inventoryItemGroupKey: string) {
         const key = encodeURIComponent(inventoryItemGroupKey);
         return this.get(`/inventory_item_group/${key}`);
     }
@@ -252,7 +263,7 @@ export default class Inventory extends Api {
      *
      * @param body BulkMigrateListing
      */
-    bulkMigrateListing(body: BulkMigrateListing) {
+    public bulkMigrateListing(body: BulkMigrateListing) {
         return this.post(`/bulk_migrate_listing`, body);
     }
 }

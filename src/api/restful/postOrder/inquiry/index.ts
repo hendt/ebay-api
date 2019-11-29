@@ -6,7 +6,8 @@ import {
     EscalateInquiryRequest,
     InquirySearchParams,
     InquiryVoluntaryRefundRequest,
-    SellerProvideRefundInfoRequest, SendMessageRequest,
+    SellerProvideRefundInfoRequest,
+    SendMessageRequest,
     ShipmentInfoRequest
 } from '../../types';
 
@@ -18,7 +19,7 @@ export default class Inquiry extends Api {
         return '/post-order/v2/inquiry';
     }
 
-    useIaf() {
+    public useIaf() {
         return true;
     }
 
@@ -27,7 +28,7 @@ export default class Inquiry extends Api {
      *
      * @param payload the CheckInquiryEligibilityRequest
      */
-    checkInquiryEligibility(payload: CheckInquiryEligibilityRequest) {
+    public checkInquiryEligibility(payload: CheckInquiryEligibilityRequest) {
         return this.post(`/check_eligibility`, payload);
     }
 
@@ -37,7 +38,7 @@ export default class Inquiry extends Api {
      * @param inquiryId The unique ID of the inquiry to be closed.
      * @param payload the BuyerCloseInquiryRequest
      */
-    closeInquiry(inquiryId: string, payload?: BuyerCloseInquiryRequest) {
+    public closeInquiry(inquiryId: string, payload?: BuyerCloseInquiryRequest) {
         const id = encodeURIComponent(inquiryId);
         if (payload && payload.closeReason) {
             payload.closeReason = payload.closeReason.trim();
@@ -50,7 +51,7 @@ export default class Inquiry extends Api {
      *
      * @param inquiryId The unique identifier of a case.
      */
-    confirmInquiryRefund(inquiryId: string) {
+    public confirmInquiryRefund(inquiryId: string) {
         const id = encodeURIComponent(inquiryId);
         return this.post(`/${id}/confirm_refund`);
     }
@@ -60,7 +61,7 @@ export default class Inquiry extends Api {
      *
      * @param payload the CreateInquiryRequest
      */
-    createInquiry(payload: CreateInquiryRequest) {
+    public createInquiry(payload: CreateInquiryRequest) {
         if (payload.desiredOutcome) {
             payload.desiredOutcome = payload.desiredOutcome.trim();
         }
@@ -73,7 +74,7 @@ export default class Inquiry extends Api {
      * @param inquiryId the unique identifier of the inquiry to be escalated.
      * @param payload the EscalateInquiryRequest
      */
-    escalateInquiry(inquiryId: string, payload: EscalateInquiryRequest) {
+    public escalateInquiry(inquiryId: string, payload: EscalateInquiryRequest) {
         const id = encodeURIComponent(inquiryId);
         payload.escalateInquiryReason = payload.escalateInquiryReason.trim();
         return this.post(`/${id}/escalate`, payload);
@@ -84,7 +85,7 @@ export default class Inquiry extends Api {
      *
      * @param inquiryId the unique ID of the inquiry for which details and history are to be retrieved.
      */
-    getInquiry(inquiryId: string) {
+    public getInquiry(inquiryId: string) {
         const id = encodeURIComponent(inquiryId);
         return this.get(`/${id}`);
     }
@@ -95,7 +96,7 @@ export default class Inquiry extends Api {
      * @param inquiryId the unique ID of the inquiry for which a refund is to be issued.
      * @param payload   the InquiryVoluntaryRefundRequest
      */
-    issueInquiryRefund(inquiryId: string, payload?: InquiryVoluntaryRefundRequest) {
+    public issueInquiryRefund(inquiryId: string, payload?: InquiryVoluntaryRefundRequest) {
         const id = encodeURIComponent(inquiryId);
         return this.post(`/${id}/issue_refund`, payload);
     }
@@ -106,7 +107,7 @@ export default class Inquiry extends Api {
      * @param inquiryId The unique ID of the inquiry for which to provide refund information.
      * @param payload   the InquiryVoluntaryRefundRequest
      */
-    provideInquiryRefundInfo(inquiryId: string, payload: SellerProvideRefundInfoRequest) {
+    public provideInquiryRefundInfo(inquiryId: string, payload: SellerProvideRefundInfoRequest) {
         const id = encodeURIComponent(inquiryId);
         return this.post(`/${id}/provide_refund_info`, payload);
     }
@@ -117,7 +118,7 @@ export default class Inquiry extends Api {
      * @param inquiryId The unique ID of the inquiry for which to provide shipment information.
      * @param payload the  ShipmentInfoRequest
      */
-    provideInquiryShipmentInfo(inquiryId: string, payload?: ShipmentInfoRequest) {
+    public provideInquiryShipmentInfo(inquiryId: string, payload?: ShipmentInfoRequest) {
         const id = encodeURIComponent(inquiryId);
         return this.post(`/${id}/provide_shipment_info`, payload);
     }
@@ -127,7 +128,7 @@ export default class Inquiry extends Api {
      *
      * @param params the  InquirySearchParams
      */
-    search(params?: InquirySearchParams) {
+    public search(params?: InquirySearchParams) {
         return this.get(`/search`, {
             params
         });
@@ -139,7 +140,7 @@ export default class Inquiry extends Api {
      * @param inquiryId The unique ID of the inquiry being discussed.
      * @param payload the SendMessageRequest
      */
-    sendInquiryMessage(inquiryId: string, payload: SendMessageRequest) {
+    public sendInquiryMessage(inquiryId: string, payload: SendMessageRequest) {
         const id = encodeURIComponent(inquiryId);
         return this.post(`/${id}/send_message`, payload);
     }

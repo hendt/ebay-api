@@ -1,5 +1,5 @@
-import Api from "../../api";
-import {CatalogSearchParams} from "../../types";
+import Api from '../../api';
+import {CatalogSearchParams} from '../../types';
 
 /**
  * Use the Catalog API to search the eBay catalog for products on which to base a seller's item listing;
@@ -10,13 +10,15 @@ export default class Catalog extends Api {
     }
 
     /**
-     * Note: The three catalog change request methods in the Catalog API are deprecated, and are scheduled to be decommissioned in Q1 of 2020.
+     * Note: The three catalog change request methods in the Catalog API are deprecated, and are scheduled to be
+     * decommissioned in Q1 of 2020.
      *
      * @param changeRequestId The unique identifier of the change request being requested.
      * @param marketplaceId Use this header to identify the authenticated user's business context.
-     * @param acceptLanguage Use this header to specify the natural language in which the authenticated user desires the response.
+     * @param acceptLanguage Use this header to specify the natural language in which the authenticated user desires
+     *     the response.
      */
-    getChangeRequest(changeRequestId: string, marketplaceId: string, acceptLanguage: string) {
+    public getChangeRequest(changeRequestId: string, marketplaceId: string, acceptLanguage: string) {
         return this.get(`/change_request/${changeRequestId}`, {
             headers: {
                 'X-EBAY-C-MARKETPLACE-ID': marketplaceId,
@@ -26,16 +28,21 @@ export default class Catalog extends Api {
     }
 
     /**
-     * Note: The three catalog change request methods in the Catalog API are deprecated, and are scheduled to be decommissioned in Q1 of 2020.
+     * Note: The three catalog change request methods in the Catalog API are deprecated, and are scheduled to be
+     * decommissioned in Q1 of 2020.
      *
      * @param marketplaceId Use this header to identify the authenticated user's business context.
-     * @param acceptLanguage Use this header to specify the natural language in which the authenticated user desires the response.
-     * @param filter One or more comma-separated criteria for narrowing down the collection of change requests returned by this call.
-     * @param limit The number of change requests to return. This is the result set, a subset of the full collection of change requests that match the filter criteria of this call.
-     * @param offset The first change request to return based on its position in the returned collection of change requests.
+     * @param acceptLanguage Use this header to specify the natural language in which the authenticated user desires
+     *     the response.
+     * @param filter One or more comma-separated criteria for narrowing down the collection of change requests returned
+     *     by this call.
+     * @param limit The number of change requests to return. This is the result set, a subset of the full collection of
+     *     change requests that match the filter criteria of this call.
+     * @param offset The first change request to return based on its position in the returned collection of change
+     *     requests.
      */
-    getChangeRequests(marketplaceId: string, acceptLanguage: string,
-                      {filter, limit, offset}: { filter?: string, limit?: number, offset?: number } = {}) {
+    public getChangeRequests(marketplaceId: string, acceptLanguage: string,
+                             {filter, limit, offset}: { filter?: string, limit?: number, offset?: number } = {}) {
         return this.get(`/change_request`, {
             params: {
                 filter,
@@ -50,21 +57,23 @@ export default class Catalog extends Api {
     }
 
     /**
-     * This call retrieves details of the catalog product identified by the eBay product identifier (ePID) specified in the request.
+     * This call retrieves details of the catalog product identified by the eBay product identifier (ePID) specified in
+     * the request.
      *
      * @param epid The ePID of the product being requested.
      */
-    getProduct(epid: string) {
+    public getProduct(epid: string) {
         const e = encodeURIComponent(epid);
-        return this.get(`/product/${e}`)
+        return this.get(`/product/${e}`);
     }
 
     /**
-     * This call searches for and retrieves summaries of one or more products in the eBay catalog that match the search criteria provided by a seller.
+     * This call searches for and retrieves summaries of one or more products in the eBay catalog that match the search
+     * criteria provided by a seller.
      *
      * @param params SearchCatalogParams
      */
-    search(params?: CatalogSearchParams) {
+    public search(params?: CatalogSearchParams) {
         return this.get(`/product_summary/search`, {
             params: {
                 ...(params && params)
@@ -74,17 +83,25 @@ export default class Catalog extends Api {
 
     /**
      * This call retrieves an array of all supported aspects, aspect constraints, and aspect values for the specified
-     * catalog product and its associated or suggested categories, as well as the values currently associated with that product.
+     * catalog product and its associated or suggested categories, as well as the values currently associated with that
+     * product.
      *
      * @param epid The unique eBay product identifier of the catalog product that you want to update.
-     * @param acceptLanguage This request header sets the natural language that will be provided in the field values of the response payload.
-     * @param otherApplicableCategoryIds Use only if you are also including the primary_category_id parameter in the request.
-     * @param primaryCategoryId Use only if the seller believes this product is associated with the wrong primary category.
+     * @param acceptLanguage This request header sets the natural language that will be provided in the field values of
+     *     the response payload.
+     * @param otherApplicableCategoryIds Use only if you are also including the primary_category_id parameter in the
+     *     request.
+     * @param primaryCategoryId Use only if the seller believes this product is associated with the wrong primary
+     *     category.
      * @param marketplaceId Use this header to specify the eBay marketplace identifier.
      */
-    getProductMetadata(epid: string,
-                       {acceptLanguage, otherApplicableCategoryIds, primaryCategoryId, marketplaceId}:
-                           { acceptLanguage?: string, otherApplicableCategoryIds?: string, primaryCategoryId?: string, marketplaceId?: string } = {}) {
+    public getProductMetadata(epid: string,
+                              {acceptLanguage, otherApplicableCategoryIds, primaryCategoryId, marketplaceId}: {
+                                  acceptLanguage?: string,
+                                  otherApplicableCategoryIds?: string,
+                                  primaryCategoryId?: string,
+                                  marketplaceId?: string
+                              } = {}) {
         return this.get(`/get_product_metadata`, {
             params: {
                 epid,
@@ -99,18 +116,21 @@ export default class Catalog extends Api {
     }
 
     /**
-     * This call retrieves an array of all supported aspects, aspect constraints, and aspect values for the specified eBay categories.
+     * This call retrieves an array of all supported aspects, aspect constraints, and aspect values for the specified
+     * eBay categories.
      *
-     * @param primaryCategoryId The unique identifier of the primary eBay category for which you will retrieve product aspects.
+     * @param primaryCategoryId The unique identifier of the primary eBay category for which you will retrieve product
+     *     aspects.
      * @param marketplaceId Use this header to specify the eBay marketplace identifier.
-     * @param acceptLanguage This request header sets the natural language that will be provided in the field values of the response payload.
+     * @param acceptLanguage This request header sets the natural language that will be provided in the field values of
+     *     the response payload.
      * @param otherApplicableCategoryIds A string of comma-separated category IDs.
      */
-    getProductMetadataForCategories(primaryCategoryId: string, marketplaceId: string,
-                                    {acceptLanguage, otherApplicableCategoryIds}:
-                                        { acceptLanguage?: string, otherApplicableCategoryIds?: string } = {}) {
+    public getProductMetadataForCategories(primaryCategoryId: string, marketplaceId: string,
+                                           {acceptLanguage, otherApplicableCategoryIds}:
+                                               { acceptLanguage?: string, otherApplicableCategoryIds?: string } = {}) {
         const headers: any = {
-            'X-EBAY-C-MARKETPLACE-ID': marketplaceId,
+            'X-EBAY-C-MARKETPLACE-ID': marketplaceId
         };
 
         if (acceptLanguage) {
@@ -126,7 +146,6 @@ export default class Catalog extends Api {
 
                 'Accept-Language': acceptLanguage
             }
-        })
+        });
     }
 }
-

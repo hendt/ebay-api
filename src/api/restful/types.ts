@@ -1,6 +1,7 @@
 import {
     CaseSearchFieldGroup,
-    CaseStatusFilter, DecisionEnum,
+    CaseStatusFilter,
+    DecisionEnum,
     EscalateReasonEnum,
     FilePurposeEnum,
     InquirySearchFieldGroup,
@@ -17,11 +18,11 @@ import {
 export type AttributeNameValue = {
     name: string,
     value: string
-}
+};
 
 export type CompatibilityPayload = {
     compatibilityProperties: AttributeNameValue[]
-}
+};
 
 export type CatalogSearchParams = {
     aspect_filter?: string,
@@ -31,7 +32,7 @@ export type CatalogSearchParams = {
     limit?: number,
     offset?: number,
     q?: string,
-}
+};
 
 export type BrowseSearchParams = {
     aspect_filter?: string,
@@ -46,7 +47,7 @@ export type BrowseSearchParams = {
     offset?: number,
     q?: string,
     sort?: string
-}
+};
 
 export type SearchByImageParams = {
     aspect_filter?: string,
@@ -63,7 +64,7 @@ export type LegacyItemParams = {
     fieldgroups?: string,
     legacy_variation_id?: string,
     legacy_variation_sku?: string
-}
+};
 
 export type AddCartItemInput = {
     itemId: string,
@@ -72,25 +73,25 @@ export type AddCartItemInput = {
 
 export type RemoveCartItemInput = {
     cartItemId: string
-}
+};
 
 export type UpdateCartItemInput = {
     cartItemId: string,
     quantity: number
-}
+};
 
 export type Amount = {
     convertedFromCurrency?: string,
     convertedFromValue?: number,
     value: string,
     currency: string
-}
+};
 
 export type FeedParams = {
     feed_scope: string,
     category_id: string,
     date: string
-}
+};
 
 export type AlsoBoughtByProductParams = {
     name?: string,
@@ -104,27 +105,27 @@ export type AlsoViewedByProductParams = {
     epid?: string,
     gtin?: string,
     mpn?: string
-}
+};
 
 export type MerchandisedProductsParams = {
     aspect_filter?: false,
     category_id: string,
     limit?: number,
     metric_name: string
-}
+};
 
 export type UserConsent = {
     adultOnlyItem: boolean
-}
+};
 
 export type PlaceProxyBidRequest = {
     maxAmount: Amount,
     userConsent: UserConsent
-}
+};
 
 export type CouponRequest = {
     redemptionCode: string
-}
+};
 
 export type CreditCard = {
     accountHolderName: string,
@@ -134,16 +135,16 @@ export type CreditCard = {
     cvvNumber: string
     expireMonth: number,
     expireYear: number
-}
+};
 
 export type Wallet = {
     paymentToken: string
-}
+};
 
 export type LineItemInput = {
     itemId: string,
     quantity: number
-}
+};
 
 export type ShippingAddress = {
     addressLine1: string,
@@ -155,23 +156,23 @@ export type ShippingAddress = {
     postalCode: string,
     recipient: string,
     stateOrProvince: string
-}
+};
 
 export type CreateSignInCheckoutSessionRequest = {
     creditCard: CreditCard,
     lineItemInputs: LineItemInput,
     shippingAddress: ShippingAddress
-}
+};
 
 export type UpdatePaymentInformation = {
     creditCard: CreditCard,
     wallet: Wallet
-}
+};
 
 export type UpdateQuantity = {
     lineItemId: string,
     quantity: number
-}
+};
 
 export type ShippingAddressImpl = {
     addressLine1: string,
@@ -183,12 +184,12 @@ export type ShippingAddressImpl = {
     postalCode: string,
     recipient: string,
     stateOrProvince: string
-}
+};
 
 export type UpdateShippingOption = {
     lineItemId: string,
     shippingOptionId: string
-}
+};
 
 export type CheckoutSessionRequest = {
     contactEmail: string,
@@ -197,59 +198,59 @@ export type CheckoutSessionRequest = {
     creditCard: string,
     lineItemInputs: LineItemInput,
     shippingAddress: ShippingAddress
-}
+};
 
 export type InitiatePaymentRequest = {
     paymentMethodBrandType: string,
     paymentMethodType: string
-}
+};
 
 export type MarketingTerms = {
     marketingChannels: string[],
     marketingTermsAccepted: boolean,
     marketingTypes: string[]
-}
+};
 
 export type GuestPlaceOrderRequest = {
     marketingTerms: MarketingTerms[]
-}
+};
 
 export type Program = {
     programType: string
-}
+};
 
 export type LegacyReference = {
     legacyItemId: string,
     legacyTransactionId: string
-}
+};
 
 export type RefundItem = {
     refundAmount: Amount,
     lineItemId: string,
     legacyReference: LegacyReference
-}
+};
 
 export type IssueRefundRequest = {
     reasonForRefund: string,
     comment: string,
     refundItems: RefundItem[],
     orderLevelRefundAmount: Amount
-}
+};
 
 export type Interval = {
     close: string,
     open: string
-}
+};
 
 export type OperatingHours = {
     dayOfWeekEnum: string,
     intervals: Interval[]
-}
+};
 
 export type SpecialHours = {
     date: string,
     intervals: Interval[]
-}
+};
 
 export type InventoryLocation = {
     locationAdditionalInformation: string,
@@ -259,57 +260,57 @@ export type InventoryLocation = {
     operatingHours: OperatingHours,
     phone: string,
     specialHours: SpecialHours
-}
+};
 
 export type ShipToLocationAvailability = {
     quantity: number
-}
+};
 
 export type OfferPriceQuantity = {
     offerId: string,
     availableQuantity: number,
     price: Amount
-}
+};
 
 export type PriceQuantity = {
     sku: string,
     shipToLocationAvailability: ShipToLocationAvailability,
     offers: OfferPriceQuantity[]
-}
+};
 
 export type BulkPriceQuantity = {
     requests: PriceQuantity[]
-}
+};
 
 export type PickupAtLocationAvailability = {
     availabilityType: string,
     fulfillmentTime: string,
     merchantLocationKey: string,
     quantity: number
-}
+};
 
 export type Availability = {
     pickupAtLocationAvailability: PickupAtLocationAvailability,
     shipToLocationAvailability: ShipToLocationAvailability
-}
+};
 
 export type Dimension = {
     height: number,
     length: number,
     unit: string,
     width: number
-}
+};
 
 export type Weight = {
     unit: string,
     value: number
-}
+};
 
 export type PackageWeightAndSize = {
     dimensions: Dimension,
     packageType: string,
     weight: Weight
-}
+};
 
 type Product = {
     aspects: any, // TODO
@@ -323,7 +324,7 @@ type Product = {
     upc: string[],
     ean: string[],
     epid: string
-}
+};
 
 export type InventoryItemWithSkuLocale = {
     availability: Availability,
@@ -333,29 +334,29 @@ export type InventoryItemWithSkuLocale = {
     product: Product,
     sku: string,
     locale: string
-}
+};
 
 export type BulkInventoryItem = {
     requests: InventoryItemWithSkuLocale[]
-}
+};
 
 export type PublishByInventoryItemGroupRequest = {
     inventoryItemGroupKey: string,
     marketplaceId: string
-}
+};
 
 export type WithdrawByInventoryItemGroupRequest = {
     inventoryItemGroupKey: string,
     marketplaceId: string
-}
+};
 
 export type OfferKeyWithId = {
     offerId: string
-}
+};
 
 export type OfferKeysWithId = {
     offers: OfferKeyWithId[]
-}
+};
 
 export type ShippingCostOverride = {
     surcharge: Amount,
@@ -363,7 +364,7 @@ export type ShippingCostOverride = {
     priority: number,
     shippingCost: Amount,
     shippingServiceType: string
-}
+};
 
 export type ListingPolicies = {
     paymentPolicyId: string,
@@ -371,7 +372,7 @@ export type ListingPolicies = {
     shippingCostOverrides: ShippingCostOverride,
     fulfillmentPolicyId: string,
     ebayPlusIfEligible: boolean
-}
+};
 
 export type PricingSummary = {
     minimumAdvertisedPrice: Amount,
@@ -379,13 +380,13 @@ export type PricingSummary = {
     originallySoldForRetailPriceOn: string,
     originalRetailPrice: Amount,
     price: Amount
-}
+};
 
 export type Tax = {
     applyTax: boolean,
     thirdPartyTaxCategory: string,
     vatPercentage: number
-}
+};
 
 export type EbayOfferDetailsWithKeys = {
     availableQuantity: number,
@@ -401,103 +402,103 @@ export type EbayOfferDetailsWithKeys = {
     sku: string,
     marketplaceId: string,
     format: string
-}
+};
 
 export type BulkEbayOfferDetailsWithKeys = {
     requests: EbayOfferDetailsWithKeys[]
-}
+};
 
 export type BulkOffer = {
     requests: OfferKeyWithId[]
-}
+};
 
 export type MigrateListing = {
     listingId: string
-}
+};
 
 export type BulkMigrateListing = {
     requests: MigrateListing[]
-}
+};
 
 export type FindListingRecommendationRequest = {
     listingIds: string[]
-}
+};
 
 export type TranslateRequest = {
     from: string,
     to: string,
     translationContext: string,
     text: string[]
-}
+};
 
 export type CreateAdsByInventoryReferenceRequest = {
     bidPercentage: string,
     inventoryReferenceId: string,
     inventoryReferenceType: string
-}
+};
 
 export type BulkCreateAdsByInventoryReferenceRequest = {
     requests: CreateAdsByInventoryReferenceRequest[]
-}
+};
 
 export type CreateAdRequest = {
     bidPercentage: string,
     listingId: string
-}
+};
 
 export type BulkCreateAdRequest = {
     requests: CreateAdRequest[]
-}
+};
 
 export type DeleteAdsByInventoryReferenceRequest = {
     inventoryReferenceId: string,
     inventoryReferenceType: string
-}
+};
 
 export type BulkDeleteAdsByInventoryReferenceRequest = {
     requests: DeleteAdsByInventoryReferenceRequest[]
-}
+};
 
 export type DeleteAdRequest = {
     listingId: string
-}
+};
 
 export type BulkDeleteAdRequest = {
     requests: DeleteAdRequest[]
-}
+};
 
 export type UpdateBidPercentageRequest = {
     bidPercentage: string
-}
+};
 
 export type FundingStrategy = {
     bidPercentage: string,
     fundingModel: string
-}
+};
 
 export type CloneCampaignRequest = {
     campaignName: string,
     endDate: string,
     fundingStrategy: FundingStrategy,
     startDate: string
-}
+};
 
 export type UpdateCampaignIdentificationRequest = {
     campaignName: string,
     endDate: string,
     startDate: string
-}
+};
 
 export type DiscountBenefit = {
     amountOffItem: Amount,
     amountOffOrder: Amount,
     percentageOffItem: string,
     percentageOffOrder: string
-}
+};
 
 export type InventoryItem = {
     inventoryReferenceId: string
-}
+};
 
 export type SelectionRule = {
     brands: string[],
@@ -506,7 +507,7 @@ export type SelectionRule = {
     listingConditionIds: string[],
     maxPrice: Amount,
     minPrice: Amount
-}
+};
 
 export type RuleCriteria = {
     excludeInventoryItems: InventoryItem[],
@@ -514,21 +515,21 @@ export type RuleCriteria = {
     markupInventoryItems: InventoryItem[],
     markupListingIds: string[],
     selectionRules: SelectionRule
-}
+};
 
 export type InventoryCriterion = {
     inventoryCriterionType: string,
     inventoryItems: InventoryItem,
     listingIds: string[],
     ruleCriteria: RuleCriteria
-}
+};
 
 export type SelectedInventoryDiscount = {
     discountBenefit: DiscountBenefit,
     discountId: string,
     inventoryCriterion: InventoryCriterion,
     ruleOrder: number
-}
+};
 
 export type ItemPriceMarkdown = {
     applyFreeShipping: boolean,
@@ -543,7 +544,7 @@ export type ItemPriceMarkdown = {
     promotionStatus: string,
     selectedInventoryDiscounts: SelectedInventoryDiscount,
     startDate: string
-}
+};
 
 export type DiscountSpecification = {
     properties: Amount,
@@ -551,13 +552,13 @@ export type DiscountSpecification = {
     minAmount: Amount,
     minQuantity: number,
     numberOfDiscountedItems: number
-}
+};
 
 export type DiscountRule = {
     discountBenefit: DiscountBenefit,
     discountSpecification: DiscountSpecification,
     ruleOrder: number
-}
+};
 
 export type ItemPromotion = {
     applyDiscountToSingleItemOnly: boolean,
@@ -572,17 +573,17 @@ export type ItemPromotion = {
     promotionStatus: string,
     promotionType: string,
     startDate: string
-}
+};
 
 export type DateTime = {
     value: string
-}
+};
 
 export type LineItem = {
     itemId: number,
     quantity: number,
     transactionId: number
-}
+};
 
 export type CreateCancelRequest = {
     buyerPaid?: boolean,
@@ -590,24 +591,23 @@ export type CreateCancelRequest = {
     cancelReason?: any, // token
     legacyOrderId: string,
     relistLineItem?: LineItem[]
-}
+};
 
 export type ConfirmRefundRequest = {
     refundDate?: DateTime,
     unpaidOrder?: boolean
-}
+};
 
 export type RejectCancelRequest = {
     shipmentDate?: DateTime,
     trackingNumber?: string
-}
-
+};
 
 export type CancelSortField = {
     ascending: boolean,
     enumValue: 'CANCEL_ID' | 'CANCEL_REQUEST_DATE',
     field: '+' | '-'
-}
+};
 
 export type CancellationSearchParams = {
     cancel_id?: string;
@@ -620,23 +620,23 @@ export type CancellationSearchParams = {
     role?: UserRoleFilter; // default SELLER
     sort?: CancelSortField;
     transaction_id?: string;
-}
+};
 
 export type Text = {
     content: string,
     language: string,
     translatedFromContent: string,
     translatedFromLanguage: string
-}
+};
 
 export type AppealRequest = {
     comments: Text
-}
+};
 
 export type BuyerCloseCaseRequest = {
     closeReason: boolean,
     comments?: Text
-}
+};
 
 export type Address = {
     addressLine1?: string,
@@ -652,14 +652,14 @@ export type Address = {
     stateOrProvince?: string,
     transliteratedFromScript?: string,
     worldRegion?: string
-}
+};
 
 export type ReturnAddressRequest = {
     firstName?: string;
     lastName?: string;
     returnAddress?: Address
     RMA?: string
-}
+};
 
 export type CaseSearchParams = {
     case_creation_date_range_from: string;
@@ -673,19 +673,19 @@ export type CaseSearchParams = {
     return_id: string;
     sort: string;
     transaction_id: string;
-}
+};
 
 export type CheckInquiryEligibilityRequest = {
     itemId: string,
     transactionId: string
-}
+};
 
 export type Token = string;  // A string with normalized whitespace (e.g., dropped leading and trailing spaces).
 
 export type BuyerCloseInquiryRequest = {
     closeReason?: Token,
     comments?: Text
-}
+};
 
 export type CreateInquiryRequest = {
     claimQuantity?: number,
@@ -693,20 +693,20 @@ export type CreateInquiryRequest = {
     desiredOutcome?: Token,
     itemId: string,
     transactionId: string
-}
+};
 
 export type EscalateInquiryRequest = {
     comments?: Text,
     escalateInquiryReason: Token
-}
+};
 
 export type InquiryVoluntaryRefundRequest = {
     comments?: Text
-}
+};
 
 export type SellerProvideRefundInfoRequest = {
     message: Text
-}
+};
 
 export type ShipmentInfoRequest = {
     proofOfShipmentUploaded?: boolean;
@@ -715,7 +715,7 @@ export type ShipmentInfoRequest = {
     shippingCarrierName?: string;
     shippingDate?: DateTime;
     trackingNumber?: string;
-}
+};
 
 export type InquirySearchParams = {
     fieldgroups?: InquirySearchFieldGroup;
@@ -728,11 +728,11 @@ export type InquirySearchParams = {
     order_id?: string;
     sort?: string;
     transaction_id?: string;
-}
+};
 
 export type SendMessageRequest = {
     message: Text
-}
+};
 export type UpdateTrackingRequest = {
     newCarrierEnum?: ShippingCarrierEnum;
     newCarrierName?: string;
@@ -740,8 +740,7 @@ export type UpdateTrackingRequest = {
     usedCarrierEnum?: ShippingCarrierEnum;
     usedCarrierName?: string;
     usedTrackingNumber?: string;
-}
-
+};
 
 export type ReturnRequestType = {
     carrier?: ShippingCarrierEnum;
@@ -752,16 +751,16 @@ export type ReturnRequestType = {
     returnQuantity?: number;
     transactionId: string;
     type?: ReturnTypeEnum
-}
+};
 
 export type SetReturnCreationSessionRequest = {
     returnRequest: ReturnRequestType
-}
+};
 
 export type CreateReturnRequest = {
     draftId?: string,
     returnRequest: ReturnRequestType
-}
+};
 
 export type ProvideLabelRequest = {
     carrierEnum?: ShippingCarrierEnum,
@@ -774,12 +773,12 @@ export type ProvideLabelRequest = {
     noLabelReason: Token,
     returnLabelCost?: Amount,
     trackingNumber?: string
-}
+};
 
 export type CloseReturnRequest = {
     buyerCloseReason?: Token,
     comments?: Text
-}
+};
 
 export type CheckEligibilityRequest = {
     checkTypes: Token[];
@@ -787,39 +786,39 @@ export type CheckEligibilityRequest = {
     reason: Token;
     returnQuantity?: number;
     transactionId: string;
-}
+};
 
 export type EscalateRequest = {
     comments: Text;
     reason: EscalateReasonEnum
-}
+};
 
 export type GetEstimateRequest = {
     itemId: string,
     reason?: ReturnReasonEnum,
     returnQuantity?: number;
     transactionId: string;
-}
+};
 
 export type MarkAsReceivedRequest = {
     comments?: Text
-}
+};
 
 export type ItemizedRefundDetailType = {
     refundAmount: Amount;
     refundFeeType: Token
-}
+};
 
 export type  RefundDetailType = {
     itemizedRefundDetail: ItemizedRefundDetailType;
     totalAmount: Amount
-}
+};
 
 export type MarkRefundSentRequest = {
     comments?: Text;
     partialRefundAmount?: Amount;
     refundDetail: RefundDetailType;
-}
+};
 
 export type MarkAsShippedRequest = {
     carrierEnum?: ShippingCarrierEnum;
@@ -828,18 +827,18 @@ export type MarkAsShippedRequest = {
     comments?: Text;
     shippedDate?: DateTime;
     trackingNumber: string;
-}
+};
 
 export type UploadFileRequest = {
     data: any,
     fileName?: string;
     filePurpose: FilePurposeEnum
-}
+};
 
 export type VoidLabelRequest = {
     comments?: Text;
     labelId: string
-}
+};
 
 export type SearchReturnParams = {
     creation_date_range_from?: string;
@@ -854,7 +853,7 @@ export type SearchReturnParams = {
     sort?: ReturnCountFilterEnum;
     states?: ReturnStateEnum;
     transaction_id?: string
-}
+};
 
 export type DecideReturnRequest = {
     comments?: Text;
@@ -863,4 +862,4 @@ export type DecideReturnRequest = {
     partialRefundAmount?: Amount;
     RMANumber?: string;
     rMAProvided?: boolean;
-}
+};

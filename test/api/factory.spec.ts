@@ -3,13 +3,13 @@ import {expect} from 'chai';
 // @ts-ignore
 import sinon from 'sinon';
 import Factory from '../../src/api/factory';
-import {LimitedRequest} from '../../src/utils/request';
+import {ILimitedRequest} from '../../src/utils/request';
 import {eBayConfig} from '../../src/types';
 import Auth from '../../src/auth/index';
 
 describe('FactoryTest', () => {
     let eBayConfig: eBayConfig;
-    const request: LimitedRequest = {
+    const request: ILimitedRequest = {
         get: sinon.stub(),
         delete: sinon.stub(),
         put: sinon.stub(),

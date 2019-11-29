@@ -1,11 +1,11 @@
-import Account from "./account";
-import Analytics from "./analytics";
-import Compliance from "./compliance";
-import Fulfillment from "./fulfillment";
-import Inventory from "./inventory";
-import Marketing from "./marketing";
-import Metadata from "./metadata";
-import Recommendation from "./recommendation";
+import Account from './account';
+import Analytics from './analytics';
+import Compliance from './compliance';
+import Fulfillment from './fulfillment';
+import Inventory from './inventory';
+import Marketing from './marketing';
+import Metadata from './metadata';
+import Recommendation from './recommendation';
 
 export type Sell = {
     account: Account
@@ -16,7 +16,7 @@ export type Sell = {
     marketing: Marketing,
     metadata: Metadata,
     recommendation: Recommendation
-}
+};
 
 export {
     Account,
@@ -27,4 +27,4 @@ export {
     Marketing,
     Metadata,
     Recommendation
-}
+};

@@ -1,5 +1,5 @@
-import Api from "../../api";
-import {FeedParams} from "../../types";
+import Api from '../../api';
+import {FeedParams} from '../../types';
 
 /**
  * The Feed API provides the ability to download TSV_GZIP feed files containing eBay items and an hourly snapshot file
@@ -19,12 +19,12 @@ export default class Feed extends Api {
      * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
      *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
      */
-    getItemFeed(params: FeedParams, marketplaceId: string, range: String) {
+    public getItemFeed(params: FeedParams, marketplaceId: string, range: string) {
         return this.get(`/item`, {
             params,
             headers: {
                 'X-EBAY-C-MARKETPLACE-ID': marketplaceId,
-                Range: range
+                'Range': range
             }
         });
     }
@@ -36,7 +36,7 @@ export default class Feed extends Api {
      * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
      *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
      */
-    getItemGroupFeed(params: FeedParams, marketplaceId: string, range: String) {
+    public getItemGroupFeed(params: FeedParams, marketplaceId: string, range: string) {
         return this.get(`/item_group`, {
             params,
             headers: {
@@ -55,7 +55,7 @@ export default class Feed extends Api {
      * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
      *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
      */
-    getItemSnapshotFeed(params: FeedParams, snapshotDate: string, marketplaceId: string, range: String) {
+    public getItemSnapshotFeed(params: FeedParams, snapshotDate: string, marketplaceId: string, range: string) {
         return this.get(`/item_snapshot`, {
             params: {
                 ...params,
@@ -77,7 +77,7 @@ export default class Feed extends Api {
      * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
      *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
      */
-    getProductFeed(params: FeedParams, snapshotDate: string, marketplaceId: string, range: String) {
+    public getProductFeed(params: FeedParams, snapshotDate: string, marketplaceId: string, range: string) {
         return this.get(`/product`, {
             params: {
                 ...params,

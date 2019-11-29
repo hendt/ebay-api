@@ -1,4 +1,4 @@
-import Api from "../../api";
+import Api from '../../api';
 import {
     CheckoutSessionRequest,
     CouponRequest,
@@ -9,7 +9,7 @@ import {
     UpdatePaymentInformation,
     UpdateQuantity,
     UpdateShippingOption
-} from "../../types";
+} from '../../types';
 
 /**
  * The Order API provides interfaces that lets shoppers pay for items (for both eBay guest and eBay member buyers).
@@ -23,23 +23,27 @@ export default class Order extends Api {
 
     /**
      * (Limited Release) You must be whitelisted to use this method.
-     * This method adds a coupon to an eBay proxy guest checkout session and applies it to all the eligible items in the order.
+     * This method adds a coupon to an eBay proxy guest checkout session and applies it to all the eligible items in
+     * the order.
      *
-     * @param {String} checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param {String} checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is
+     *     returned by the initiateCheckoutSession method.
      * @param body The container for the fields used to apply a coupon to a checkout session.
      */
-    applyCoupon(checkoutSessionId: string, body: CouponRequest) {
-        return this.post(`/checkout_session/${checkoutSessionId}/apply_coupon`, body);
+    public applyCoupon(checkoutSessionId: string, body: CouponRequest) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/checkout_session/${sessionId}/apply_coupon`, body);
     }
 
     /**
      * This method returns the details of the specified eBay member checkout session.
      *
-     * @param {String} checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param {String} checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is
+     *     returned by the initiateCheckoutSession method.
      */
-    getCheckoutSession(checkoutSessionId: string) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.get(`/checkout_session/{checkoutSessionId}`);
+    public getCheckoutSession(checkoutSessionId: string) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.get(`/checkout_session/${sessionId}`);
     }
 
     /**
@@ -47,106 +51,119 @@ export default class Order extends Api {
      *
      * @param body The container for the fields used by the initiateCheckoutSession method.
      */
-    initiateCheckoutSession(body?: CreateSignInCheckoutSessionRequest) {
+    public initiateCheckoutSession(body?: CreateSignInCheckoutSessionRequest) {
         return this.post(`/checkout_session/initiate`, body);
     }
 
     /**
-     *This method creates the purchase order, pays for the items, and terminates the specified eBay member checkout session.
+     * This method creates the purchase order, pays for the items, and terminates the specified eBay member checkout
+     * session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      */
-    placeOrder(checkoutSessionId: string) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/checkout_session/${checkoutSessionId}/place_order`);
+    public placeOrder(checkoutSessionId: string) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/checkout_session/${sessionId}/place_order`);
     }
 
     /**
-     * (Limited Release) You must be whitelisted to use this method. This method removes a coupon from an eBay member checkout session.
+     * (Limited Release) You must be whitelisted to use this method. This method removes a coupon from an eBay member
+     * checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body CouponRequest
      */
-    removeCoupon(checkoutSessionId: string, body?: CouponRequest) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/checkout_session/${checkoutSessionId}/remove_coupon`, body);
+    public removeCoupon(checkoutSessionId: string, body?: CouponRequest) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/checkout_session/${sessionId}/remove_coupon`, body);
     }
 
     /**
      * This method changes the payment method information of the specified eBay member checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body UpdatePaymentInformation
      */
-    updatePaymentInfo(checkoutSessionId: string, body?: UpdatePaymentInformation) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/checkout_session/${checkoutSessionId}/update_payment_info`, body);
+    public updatePaymentInfo(checkoutSessionId: string, body?: UpdatePaymentInformation) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/checkout_session/${sessionId}/update_payment_info`, body);
     }
 
     /**
      * This method changes the quantity of the specified line item in an eBay member checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body UpdateQuantity
      */
-    updateQuantity(checkoutSessionId: string, body?: UpdateQuantity) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/checkout_session/${checkoutSessionId}/update_quantity`, body);
+    public updateQuantity(checkoutSessionId: string, body?: UpdateQuantity) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/checkout_session/${sessionId}/update_quantity`, body);
     }
 
     /**
      * This method changes the quantity of the specified line item in an eBay member checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body UpdateQuantity
      */
-    checkoutSessionId(checkoutSessionId: string, body?: UpdateQuantity) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/checkout_session/${checkoutSessionId}/update_quantity`, body);
+    public checkoutSessionId(checkoutSessionId: string, body?: UpdateQuantity) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/checkout_session/${sessionId}/update_quantity`, body);
     }
 
     /**
-     *This method changes the shipping address for in an eBay member checkout session.
+     * This method changes the shipping address for in an eBay member checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body ShippingAddressImpl
      */
-    updateShippingAddress(checkoutSessionId: string, body?: ShippingAddressImpl) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/checkout_session/${checkoutSessionId}/update_shipping_address`, body);
+    public updateShippingAddress(checkoutSessionId: string, body?: ShippingAddressImpl) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/checkout_session/${sessionId}/update_shipping_address`, body);
     }
 
     /**
      * This method changes the shipping method for the specified line item in an eBay member checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body UpdateShippingOption
      */
-    updateShippingOption(checkoutSessionId: string, body?: UpdateShippingOption) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/checkout_session/${checkoutSessionId}/update_shipping_option`, body);
+    public updateShippingOption(checkoutSessionId: string, body?: UpdateShippingOption) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/checkout_session/${sessionId}/update_shipping_option`, body);
     }
 
     /**
-     * (Limited Release) You must be whitelisted to use this method. This method adds a coupon to an eBay guest checkout
+     * (Limited Release) You must be whitelisted to use this method. This method adds a coupon to an eBay guest
+     * checkout
      *  session and applies it to all the eligible items in the order.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body CouponRequest
      */
-    applyGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${checkoutSessionId}/apply_coupon`, body);
+    public applyGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${sessionId}/apply_coupon`, body);
     }
 
     /**
-     * This method returns the details of the specified guest checkout session. The checkoutSessionId is passed in as a URI parameter and is required.
+     * This method returns the details of the specified guest checkout session. The checkoutSessionId is passed in as a
+     * URI parameter and is required.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      */
-    getGuestCheckoutSession(checkoutSessionId: string) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.get(`/guest_checkout_session/${checkoutSessionId}`);
+    public getGuestCheckoutSession(checkoutSessionId: string) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.get(`/guest_checkout_session/${sessionId}`);
     }
 
     /**
@@ -154,154 +171,171 @@ export default class Order extends Api {
      *
      * @param body CheckoutSessionRequest
      */
-    initiateGuestCheckoutSession(body?: CheckoutSessionRequest) {
+    public initiateGuestCheckoutSession(body?: CheckoutSessionRequest) {
         return this.post(`/guest_checkout_session/initiate`, body);
     }
 
     /**
      * This method is used only in the PayPal Smart Button eBay guest payment flow.
      *
-     *  @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     *  @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      *  @param body InitiatePaymentRequest
      */
-    initiateGuestPayment(checkoutSessionId: string, body?: InitiatePaymentRequest) {
-        checkoutSessionId= encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${checkoutSessionId}/initiate_payment`, body);
+    public initiateGuestPayment(checkoutSessionId: string, body?: InitiatePaymentRequest) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${sessionId}/initiate_payment`, body);
     }
 
     /**
      * This method creates the purchase order, pays for the items, and terminates the specified guest checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body GuestPlaceOrderRequest
      */
-    placeGuestOrder(checkoutSessionId: string, body?: GuestPlaceOrderRequest) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${checkoutSessionId}/place_order`, body);
+    public placeGuestOrder(checkoutSessionId: string, body?: GuestPlaceOrderRequest) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${sessionId}/place_order`, body);
     }
 
     /**
-     * (Limited Release) You must be whitelisted to use this method. This method removes a coupon from an eBay guest checkout session.
+     * (Limited Release) You must be whitelisted to use this method. This method removes a coupon from an eBay guest
+     * checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body CouponRequest
      */
-    removeGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${checkoutSessionId}/remove_coupon`, body);
+    public removeGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${sessionId}/remove_coupon`, body);
     }
 
     /**
      * This method changes the payment method information of the specified guest checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body UpdatePaymentInformation
      */
-    updateGuestPaymentInfo(checkoutSessionId: string, body?: UpdatePaymentInformation) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${checkoutSessionId}/update_payment_info`, body);
+    public updateGuestPaymentInfo(checkoutSessionId: string, body?: UpdatePaymentInformation) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${sessionId}/update_payment_info`, body);
     }
 
     /**
      * This method changes the quantity of the specified line item in an eBay guest checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body UpdateQuantity
      */
-    updateGuestQuantity(checkoutSessionId: string, body?: UpdateQuantity) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${checkoutSessionId}/update_quantity`, body);
+    public updateGuestQuantity(checkoutSessionId: string, body?: UpdateQuantity) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${sessionId}/update_quantity`, body);
     }
 
     /**
      * This method changes the shipping address for the order in an eBay guest checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body ShippingAddressImpl
      */
-    updateGuestShippingAddress(checkoutSessionId: string, body?: ShippingAddressImpl) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${checkoutSessionId}/update_shipping_address`, body);
+    public updateGuestShippingAddress(checkoutSessionId: string, body?: ShippingAddressImpl) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${sessionId}/update_shipping_address`, body);
     }
 
     /**
      * This method changes the shipping method for the specified line item in an eBay guest checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body UpdateShippingOption
      */
-    updateGuestShippingOption(checkoutSessionId: string, body?: UpdateShippingOption) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/guest_checkout_session/${checkoutSessionId}/update_shipping_option`, body);
+    public updateGuestShippingOption(checkoutSessionId: string, body?: UpdateShippingOption) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/guest_checkout_session/${sessionId}/update_shipping_option`, body);
     }
 
     /**
      * (Limited Release) You must be whitelisted to use this method. This method adds a coupon to an eBay proxy guest
      * checkout session and applies it to all the eligible items in the order.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body CouponRequest
      */
-    applyProxyGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/apply_coupon`, body);
+    public applyProxyGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/proxy_guest_checkout_session/${sessionId}/apply_coupon`, body);
     }
 
     /**
      * This method returns the details of the specified eBay proxy guest checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      */
-    getProxyGuestCheckoutSession(checkoutSessionId: string) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.get(`/proxy_guest_checkout_session/${checkoutSessionId}`);
+    public getProxyGuestCheckoutSession(checkoutSessionId: string) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.get(`/proxy_guest_checkout_session/${sessionId}`);
     }
 
     /**
      * This method creates an eBay proxy guest checkout session, which is a payment flow that requires integration
-     * with a VSP (vault service provider), such as Braintree. The VSP handles only the methods within this flow that contain payment information.
+     * with a VSP (vault service provider), such as Braintree. The VSP handles only the methods within this flow that
+     * contain payment information.
      *
      * @param body CheckoutSessionRequest
      */
-    initiateProxyGuestCheckoutSession(body?: CheckoutSessionRequest) {
+    public initiateProxyGuestCheckoutSession(body?: CheckoutSessionRequest) {
         return this.post(`/proxy_guest_checkout_session/initiate`, body);
     }
 
     /**
-     * This method creates the proxy guest purchase order, pays for the items, and terminates the specified guest checkout session.
+     * This method creates the proxy guest purchase order, pays for the items, and terminates the specified guest
+     * checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body GuestPlaceOrderRequest
      */
-    placeProxyGuestOrder(checkoutSessionId: string, body?: GuestPlaceOrderRequest) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/place_order`, body);
+    public placeProxyGuestOrder(checkoutSessionId: string, body?: GuestPlaceOrderRequest) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/proxy_guest_checkout_session/${sessionId}/place_order`, body);
     }
 
     /**
      * (Limited Release) You must be whitelisted to use this method. This method removes a coupon from an eBay proxy
      * guest checkout session. The checkoutSessionId is passed in as a URI parameter and is required.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body CouponRequest
      */
-    removeProxyGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/remove_coupon`, body);
+    public removeProxyGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/proxy_guest_checkout_session/${sessionId}/remove_coupon`, body);
     }
 
     /**
      * This method adds or changes the payment information of the specified proxy guest checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param authorization The oAuth2 token. Note: The eBay partner must include this header in the request.
      * @param date The UTC timestamp of the request, which is generated and added to the request by the VSP.
-     * @param marketplaceId The eBay marketplace ID. For a list of supported sites, see API Restrictions in the Order API overview. Note: The eBay partner must include this header in the request.
-     * @param requestNonce A UUID (a 128-bit universal unique ID), which is generated and added to the request by the VSP.
+     * @param marketplaceId The eBay marketplace ID. For a list of supported sites, see API Restrictions in the Order
+     *     API overview. Note: The eBay partner must include this header in the request.
+     * @param requestNonce A UUID (a 128-bit universal unique ID), which is generated and added to the request by the
+     *     VSP.
      * @param signature The HMAC signature, which is generated and added to the request by the VSP.
      * @param body UpdatePaymentInformation
      */
-    updateProxyGuestPaymentInfo(
+    public updateProxyGuestPaymentInfo(
         checkoutSessionId: string,
         authorization: string,
         date: string,
@@ -310,10 +344,10 @@ export default class Order extends Api {
         signature: string,
         body?: UpdatePaymentInformation
     ) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_payment_info`, body, {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/proxy_guest_checkout_session/${sessionId}/update_payment_info`, body, {
             headers: {
-                Authorization: authorization,
+                'Authorization': authorization,
                 'X-EBAY-C-DATE': date,
                 'X-EBAY-C-MARKETPLACE-ID': marketplaceId,
                 'X-EBAY-C-REQUEST-NONCE': requestNonce,
@@ -323,55 +357,60 @@ export default class Order extends Api {
     }
 
     /**
-     *This method changes the quantity of the specified line item in an eBay proxy guest checkout session.
+     * This method changes the quantity of the specified line item in an eBay proxy guest checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body UpdateQuantity
      */
-    updateProxyGuestQuantity(checkoutSessionId: string, body?: UpdateQuantity) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_quantity`, body);
+    public updateProxyGuestQuantity(checkoutSessionId: string, body?: UpdateQuantity) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/proxy_guest_checkout_session/${sessionId}/update_quantity`, body);
     }
 
     /**
-     *This method changes the shipping address for the order in an eBay proxy guest checkout session.
+     * This method changes the shipping address for the order in an eBay proxy guest checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body ShippingAddressImpl
      */
-    updateProxyGuestShippingAddress(checkoutSessionId: string, body?: ShippingAddressImpl) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_shipping_address`, body);
+    public updateProxyGuestShippingAddress(checkoutSessionId: string, body?: ShippingAddressImpl) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/proxy_guest_checkout_session/${sessionId}/update_shipping_address`, body);
     }
 
     /**
      * This method changes the shipping method for the specified line item in an eBay proxy guest checkout session.
      *
-     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the initiateCheckoutSession method.
+     * @param checkoutSessionId The eBay-assigned session ID, for a specific eBay marketplace, that is returned by the
+     *     initiateCheckoutSession method.
      * @param body UpdateShippingOption
      */
-    updateProxyGuestShippingOption(checkoutSessionId: string, body?: UpdateShippingOption) {
-        checkoutSessionId = encodeURIComponent(checkoutSessionId);
-        return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_shipping_option`, body);
+    public updateProxyGuestShippingOption(checkoutSessionId: string, body?: UpdateShippingOption) {
+        const sessionId = encodeURIComponent(checkoutSessionId);
+        return this.post(`/proxy_guest_checkout_session/${sessionId}/update_shipping_option`, body);
     }
 
     /**
      * This method retrieves the details about a specific guest purchase order.
      *
-     * @param purchaseOrderId The unique identifier of a purchase order made by a guest buyer, for which details are to be retrieved.
+     * @param purchaseOrderId The unique identifier of a purchase order made by a guest buyer, for which details are to
+     *     be retrieved.
      */
-    getGuestPurchaseOrder(purchaseOrderId: string) {
-        purchaseOrderId = encodeURIComponent(purchaseOrderId);
-        return this.get(`/guest_purchase_order/${purchaseOrderId}`);
+    public getGuestPurchaseOrder(purchaseOrderId: string) {
+        const id = encodeURIComponent(purchaseOrderId);
+        return this.get(`/guest_purchase_order/${id}`);
     }
 
     /**
      * This method retrieves the details about a specific eBay member purchase order.
      *
-     * @param purchaseOrderId The unique identifier of a purchase order made by an eBay member, for which details are to be retrieved.
+     * @param purchaseOrderId The unique identifier of a purchase order made by an eBay member, for which details are
+     *     to be retrieved.
      */
-    getPurchaseOrder(purchaseOrderId: string) {
-        purchaseOrderId= encodeURIComponent(purchaseOrderId);
-        return this.get(`/purchase_order/${purchaseOrderId}`);
+    public getPurchaseOrder(purchaseOrderId: string) {
+        const id = encodeURIComponent(purchaseOrderId);
+        return this.get(`/purchase_order/${id}`);
     }
 }

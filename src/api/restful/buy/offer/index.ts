@@ -1,9 +1,9 @@
-import Api from "../../api";
-import {PlaceProxyBidRequest} from "../../types";
+import Api from '../../api';
+import {PlaceProxyBidRequest} from '../../types';
 
 /**
- * The Api Offer API enables Partners to place proxy bids for a buyer and retrieve the auctions where the buyer is bidding.
- * Client Credentials: https://api.ebay.com/oauth/api_scope/buy.offer.auction
+ * The Api Offer API enables Partners to place proxy bids for a buyer and retrieve the auctions where the buyer is
+ * bidding. Client Credentials: https://api.ebay.com/oauth/api_scope/buy.offer.auction
  */
 export default class Offer extends Api {
 
@@ -17,7 +17,7 @@ export default class Offer extends Api {
      * @param itemId
      * @param marketplaceId
      */
-    getBidding(itemId: string, marketplaceId: string) {
+    public getBidding(itemId: string, marketplaceId: string) {
         const id = encodeURIComponent(itemId);
         return this.get(`/bidding/${id}`, {
             headers: {
@@ -33,7 +33,7 @@ export default class Offer extends Api {
      * @param marketplaceId
      * @param {PlaceProxyBidRequest} body
      */
-    placeProxyBid(itemId: string, marketplaceId: string, body?: PlaceProxyBidRequest) {
+    public placeProxyBid(itemId: string, marketplaceId: string, body?: PlaceProxyBidRequest) {
         const id = encodeURIComponent(itemId);
         return this.post(`/bidding/${id}/place_proxy_bid`,
             body, {

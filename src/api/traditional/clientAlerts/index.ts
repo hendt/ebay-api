@@ -1,4 +1,4 @@
-import { EventType } from './types';
+import {EventType} from './types';
 
 // https://developer.ebay.com/devzone/client-alerts/docs/CallRef/index.html
 enum calls {
@@ -10,6 +10,6 @@ enum calls {
 
 export {
     EventType
-}
+};
 
 export default calls;

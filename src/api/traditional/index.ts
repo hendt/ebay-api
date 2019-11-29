@@ -1,23 +1,23 @@
 import {stringify} from 'qs';
-import XMLRequest, {defaultOptions, Options} from './XMLRequest';
-import ClientAlertsCalls from './clientAlerts';
-import TradingCalls from './trading';
-import ShoppingCalls from './shopping';
-import FindingCalls from './finding';
-import {Fields} from './fields';
-import {EBayIAFTokenExpired} from '../../errors';
-import {createRequest, LimitedRequest} from '../../utils/request';
-import {ClientAlerts, Finding, Shopping, Trading, TraditionalApi} from './types';
 import Auth from '../../auth';
+import {EBayIAFTokenExpired} from '../../errors';
+import {createRequest, ILimitedRequest} from '../../utils/request';
+import ClientAlertsCalls from './clientAlerts';
+import {Fields} from './fields';
+import FindingCalls from './finding';
+import ShoppingCalls from './shopping';
+import TradingCalls from './trading';
+import {ClientAlerts, Finding, Shopping, Trading, TraditionalApi} from './types';
+import XMLRequest, {defaultOptions, Options} from './XMLRequest';
 
 /**
  * Traditional eBay API.
  */
 export default class Traditional {
-    readonly auth: Auth;
-    readonly req: LimitedRequest;
+    public readonly auth: Auth;
+    public readonly req: ILimitedRequest;
 
-    constructor(auth: Auth, req: LimitedRequest = createRequest()) {
+    constructor(auth: Auth, req: ILimitedRequest = createRequest()) {
         this.auth = auth;
         this.req = req;
     }
@@ -88,8 +88,8 @@ export default class Traditional {
         };
 
         const endpoint = api.endpoint[this.auth.eBayConfig.sandbox ? 'sandbox' : 'production'];
-        const paramsSerializer = (params: object) => {
-            return stringify(params, {allowDots: true})
+        const paramsSerializer = (args: object) => {
+            return stringify(args, {allowDots: true})
                 .replace(/%5B/gi, '(')
                 .replace(/%5D/gi, ')');
         };
@@ -140,18 +140,18 @@ export default class Traditional {
             // Try to refresh the token.
             if (e.name === EBayIAFTokenExpired.name) {
                 return this.auth.oAuth2.refreshAuthToken().then(() => {
-                    const config = this.getConfig(options, api, callname);
-                    const request = new XMLRequest(callname, fields, config, this.req);
+                    const newConfig = this.getConfig(options, api, callname);
+                    const newRequest = new XMLRequest(callname, fields, newConfig, this.req);
 
-                    return request.fetch(options);
-                }).catch((ex) => {
+                    return newRequest.fetch(options);
+                }).catch(ex => {
                     throw ex;
                 });
             }
 
             throw e;
         }
-    };
+    }
 
     private getConfig(options: Options, api: TraditionalApi, callname: string) {
         const eBayAuthToken = this.auth.authNAuth.eBayAuthToken;

@@ -9,7 +9,7 @@ export default class Case extends Api {
         return '/post-order/v2/casemanagement';
     }
 
-    useIaf() {
+    public useIaf() {
         return true;
     }
 
@@ -19,7 +19,7 @@ export default class Case extends Api {
      * @param caseId The unique identifier of a case.
      * @param payload the AppealRequest
      */
-    appealCaseDecision(caseId: string, payload?: AppealRequest) {
+    public appealCaseDecision(caseId: string, payload?: AppealRequest) {
         const id = encodeURIComponent(caseId);
         return this.post(`/${id}/appeal`, payload);
     }
@@ -30,7 +30,7 @@ export default class Case extends Api {
      * @param caseId The unique identifier of a case.
      * @param payload the BuyerCloseCaseRequest
      */
-    closeCase(caseId: string, payload: BuyerCloseCaseRequest) {
+    public closeCase(caseId: string, payload: BuyerCloseCaseRequest) {
         const id = encodeURIComponent(caseId);
         return this.post(`/${id}/close`, payload);
     }
@@ -40,7 +40,7 @@ export default class Case extends Api {
      *
      * @param caseId The unique identifier of a case.
      */
-    getCase(caseId: string) {
+    public getCase(caseId: string) {
         const id = encodeURIComponent(caseId);
         return this.get(`/${id}`);
     }
@@ -51,19 +51,22 @@ export default class Case extends Api {
      * @param caseId The unique identifier of a case.
      * @param payload the CaseVoluntaryRefundRequest (Text)
      */
-    issueCaseRefund(caseId: string, payload?: Text) {
+    public issueCaseRefund(caseId: string, payload?: Text) {
         const id = encodeURIComponent(caseId);
         return this.post(`/${id}/issue_refund`, payload);
     }
 
     /**
-     * This call allows the buyer to provide shipment tracking information for the item that is being returned to the seller.
+     * This call allows the buyer to provide shipment tracking information for the item that is being returned to the
+     * seller.
      *
      * @param caseId The unique identifier of a case.
-     * @param shippingCarrierName The shipping carrier that is used to ship the item, such as 'FedEx', 'UPS', or 'USPS'.
+     * @param shippingCarrierName The shipping carrier that is used to ship the item, such as 'FedEx', 'UPS', or
+     *     'USPS'.
      * @param trackingNumber The tracking number assigned by the shipping carrier to the item shipment.
      */
-    provideReturnShipmentInfo(caseId: string, {shippingCarrierName, trackingNumber}: { shippingCarrierName: string, trackingNumber: string }) {
+    public provideReturnShipmentInfo(caseId: string, {shippingCarrierName, trackingNumber}:
+        { shippingCarrierName: string, trackingNumber: string }) {
         const id = encodeURIComponent(caseId);
         return this.post(`/${id}/provide_shipment_info`, {
             shippingCarrierName,
@@ -77,7 +80,7 @@ export default class Case extends Api {
      * @param cancelId The unique eBay-assigned identifier of the cancellation request to be rejected.
      * @param payload the ReturnAddressRequest
      */
-    providesReturnAddress(cancelId: string, payload?: ReturnAddressRequest) {
+    public providesReturnAddress(cancelId: string, payload?: ReturnAddressRequest) {
         const id = encodeURIComponent(cancelId);
         return this.post(`/${id}/provide_return_address`, payload);
     }
@@ -87,7 +90,7 @@ export default class Case extends Api {
      *
      * @param params the SearchParams
      */
-    search(params: CaseSearchParams) {
+    public search(params: CaseSearchParams) {
         return this.get(`/search`, {
             params: {
                 params

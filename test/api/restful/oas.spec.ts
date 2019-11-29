@@ -7,7 +7,7 @@ import buyTests from './buy';
 import commerceTests from './commerce';
 import developerTests from './developer';
 import sellTests from './sell';
-import {LimitedRequest} from '../../../src/utils/request';
+import {ILimitedRequest} from '../../../src/utils/request';
 import Auth from '../../../src/auth/index';
 
 const allTests = {
@@ -18,7 +18,7 @@ const allTests = {
 };
 
 const appConfig = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 77};
-const request: LimitedRequest = {
+const request: ILimitedRequest = {
     get: sinon.stub(),
     delete: sinon.stub(),
     put: sinon.stub(),

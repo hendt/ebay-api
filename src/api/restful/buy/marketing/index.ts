@@ -1,12 +1,9 @@
-import Api from "../../api";
-import {
-    AlsoBoughtByProductParams,
-    AlsoViewedByProductParams,
-    MerchandisedProductsParams
-} from "../../types";
+import Api from '../../api';
+import {AlsoBoughtByProductParams, AlsoViewedByProductParams, MerchandisedProductsParams} from '../../types';
 
 /**
- * The Marketing API retrieves eBay products based on a metric, such as Best Selling, as well as products that were also bought and also viewed.
+ * The Marketing API retrieves eBay products based on a metric, such as Best Selling, as well as products that were
+ * also bought and also viewed.
  */
 export default class Marketing extends Api {
 
@@ -23,7 +20,7 @@ export default class Marketing extends Api {
      * This call returns products that were also bought when shoppers bought the product specified in the request.
      * @param params
      */
-    getAlsoBoughtByProduct(params: AlsoBoughtByProductParams) {
+    public getAlsoBoughtByProduct(params: AlsoBoughtByProductParams) {
         return this.get(`/merchandised_product/get_also_bought_products`, {
             params
         });
@@ -34,7 +31,7 @@ export default class Marketing extends Api {
      *
      * @param params
      */
-    getAlsoViewedByProduct(params: AlsoViewedByProductParams) {
+    public getAlsoViewedByProduct(params: AlsoViewedByProductParams) {
         return this.get(`/merchandised_product/get_also_viewed_products`, {
             params
         });
@@ -45,7 +42,7 @@ export default class Marketing extends Api {
      *
      * @param params
      */
-    getMerchandisedProducts(params: MerchandisedProductsParams) {
+    public getMerchandisedProducts(params: MerchandisedProductsParams) {
         return this.get(`/merchandised_product`, {
             params
         });

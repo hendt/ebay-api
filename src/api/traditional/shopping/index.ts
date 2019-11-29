@@ -1,4 +1,4 @@
-//https://developer.ebay.com/devzone/shopping/docs/callref/index.html
+// https://developer.ebay.com/devzone/shopping/docs/callref/index.html
 enum calls {
     FindProducts,
     GetCategoryInfo,

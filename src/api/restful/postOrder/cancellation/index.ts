@@ -9,7 +9,7 @@ export default class Cancellation extends Api {
         return '/post-order/v2/cancellation';
     }
 
-    useIaf() {
+    public useIaf() {
         return true;
     }
 
@@ -18,7 +18,7 @@ export default class Cancellation extends Api {
      *
      * @param cancelId The unique eBay-assigned identifier of the cancellation request to be approved.
      */
-    approveCancellationRequest(cancelId: string) {
+    public approveCancellationRequest(cancelId: string) {
         const id = encodeURIComponent(cancelId);
         return this.post(`/${id}/approve`);
     }
@@ -28,7 +28,7 @@ export default class Cancellation extends Api {
      *
      * @param legacyOrderId The unique ID of the order being canceled or the order being considered for cancellation.
      */
-    checkCancellationEligibility(legacyOrderId: string) {
+    public checkCancellationEligibility(legacyOrderId: string) {
         return this.post(`/check_eligibility`, {
             legacyOrderId
         });
@@ -40,7 +40,7 @@ export default class Cancellation extends Api {
      * @param cancelId The unique eBay-assigned identifier of the cancellation/refund being confirmed.
      * @param payload the ConfirmRefundReceivedPayload
      */
-    confirmRefundReceived(cancelId: string, payload?: ConfirmRefundRequest) {
+    public confirmRefundReceived(cancelId: string, payload?: ConfirmRefundRequest) {
         const id = encodeURIComponent(cancelId);
         return this.post(`/${id}/confirm`, payload);
     }
@@ -50,17 +50,19 @@ export default class Cancellation extends Api {
      *
      * @param payload the CreateCancelRequest
      */
-    createCancellation(payload: CreateCancelRequest) {
+    public createCancellation(payload: CreateCancelRequest) {
         return this.post(`/cancellation/`, payload);
     }
 
     /**
      * Retrieve the details of an order cancellation.
      *
-     * @param cancelId Supply in this path parameter the unique eBay-assigned ID of the cancellation request to retrieve.
-     * @param fieldGroups    The value set in this query parameter controls the level of detail that is returned in the response.
+     * @param cancelId Supply in this path parameter the unique eBay-assigned ID of the cancellation request to
+     *     retrieve.
+     * @param fieldGroups    The value set in this query parameter controls the level of detail that is returned in the
+     *     response.
      */
-    getCancellation(cancelId: string, fieldGroups?: string) {
+    public getCancellation(cancelId: string, fieldGroups?: string) {
         const id = encodeURIComponent(cancelId);
         return this.get(`/${id}`, {
             params: {
@@ -75,7 +77,7 @@ export default class Cancellation extends Api {
      * @param cancelId The unique eBay-assigned identifier of the cancellation request to be rejected.
      * @param payload the RejectCancelRequest
      */
-    rejectCancellationRequest(cancelId: string, payload?: RejectCancelRequest) {
+    public rejectCancellationRequest(cancelId: string, payload?: RejectCancelRequest) {
         const id = encodeURIComponent(cancelId);
         return this.post(`/${id}/reject`, payload);
     }
@@ -85,7 +87,7 @@ export default class Cancellation extends Api {
      *
      * @param params the SearchParams
      */
-    search(params: CancellationSearchParams) {
+    public search(params: CancellationSearchParams) {
         return this.get(`/search`, {
             params: {
                 params

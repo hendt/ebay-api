@@ -1,3 +1,4 @@
+// tslint:disable:max-classes-per-file
 /**
  * Error object for ease of capturing if some service depends on .toJSON() method to log something
  *
@@ -5,23 +6,22 @@
  */
 abstract class EBayError extends Error {
 
-    meta: any = null;
+    public meta: any = null;
 
     /**
      * returns a JSON representation of the Error
      *
      * @return     {Object}  json representation of the Error
      */
-    toJSON() {
+    public toJSON() {
         return {
             message: this.message,
             stack: this.stack,
             type: this.constructor.name,
             meta: this.meta || null
-        }
+        };
     }
 }
-
 
 /**
  * thrown when Request.prototype.run() is called without an oAuth2
@@ -29,8 +29,8 @@ abstract class EBayError extends Error {
  * @class      No_Auth_Token (name)
  */
 export class NoAuthTokenError extends EBayError {
-    constructor(msg = "no oAuth2 present.  Please invoke `Ebay.prototype.oAuth2(<Token>)`.") {
-        super(msg)
+    constructor(msg = 'no oAuth2 present.  Please invoke `Ebay.prototype.oAuth2(<Token>)`.') {
+        super(msg);
     }
 }
 
@@ -39,8 +39,8 @@ export class NoAuthTokenError extends EBayError {
  */
 
 export class NoCallError extends EBayError {
-    constructor(msg = "no eBay API call defined, please invoke one.") {
-        super(msg)
+    constructor(msg = 'no eBay API call defined, please invoke one.') {
+        super(msg);
     }
 }
 
@@ -49,7 +49,7 @@ export class NoCallError extends EBayError {
  */
 export class EnvError extends EBayError {
     constructor(key: any) {
-        super(`could not find ${key} in process.env`)
+        super(`could not find ${key} in process.env`);
     }
 }
 
@@ -99,14 +99,15 @@ export class EBayUnauthorizedAfterRefresh extends EBayError {
 }
 
 export class EBayIAFTokenExpired extends EbayApiError {
-    static code = 21917053;
+    public static code = 21917053;
+
     constructor(err: any) {
         super(err, 'EBayIAFTokenExpired');
     }
 }
 
 export class EBayTokenRequired extends EbayApiError {
-    static code = 930;
+    public static code = 930;
 
     constructor(err: any) {
         super(err, 'EBayTokenRequired');
@@ -128,7 +129,7 @@ export const getEBayError = (e: any) => {
             return {
                 message: data.error,
                 description: data.error_description
-            }
+            };
         }
         return data.errors && data.errors[0] ? data.errors[0] : null;
     }

@@ -1,10 +1,10 @@
-import {j2xParser} from 'fast-xml-parser';
 import debug from 'debug';
+import {j2xParser} from 'fast-xml-parser';
 
 import {EbayApiError, EBayIAFTokenExpired, EBayTokenRequired, NoCallError} from '../../errors';
-import Parser from './Parser';
-import {LimitedRequest, createRequest} from '../../utils/request';
+import {createRequest, ILimitedRequest} from '../../utils/request';
 import {Fields} from './fields';
+import Parser from './Parser';
 
 const HEADING = '<?xml version="1.0" encoding="utf-8"?>';
 const log = debug('ebay:xml:request');
@@ -13,7 +13,7 @@ const defaultXmlOptions = {
     attributeNamePrefix: '@_',
     textNodeName: '#text',
     ignoreAttributes: false,
-    cdataTagName: '__cdata', //default is false
+    cdataTagName: '__cdata',
     cdataPositionChar: '\\c',
     format: false,
     indentBy: '  ',
@@ -31,11 +31,11 @@ export type Options = {
     cleanup?: boolean,
     parseOptions?: object,
     useIaf?: boolean
-}
+};
 
 type Headers = {
     [key: string]: string | number | undefined;
-}
+};
 
 export type Config = {
     headers: Headers,
@@ -55,17 +55,16 @@ export const defaultOptions: Required<Options> = {
  * XML request for making eBay API call.
  */
 export default class XMLRequest {
-    readonly callname: string;
-    readonly fields: Fields;
-    readonly config: Config;
+    private readonly callname: string;
+    private readonly fields: Fields;
+    private readonly config: Config;
     private readonly req: any;
-
-    readonly defaultHeaders = {
+    private readonly defaultHeaders = {
         'Content-Type': 'text/xml'
     };
 
     /**
-     * creates the new Request object
+     * Creates the new Request object
      *
      * @private
      * @param      {string}  callname the callname
@@ -73,7 +72,7 @@ export default class XMLRequest {
      * @param      {Object} req the request
      * @param      {Config}  config
      */
-    constructor(callname: string, fields: Fields, config: Config, req: LimitedRequest = createRequest()) {
+    constructor(callname: string, fields: Fields, config: Config, req: ILimitedRequest = createRequest()) {
         if (!callname) {
             throw new NoCallError();
         }
@@ -176,7 +175,7 @@ export default class XMLRequest {
         }
     }
 
-    handleEBayJsonError(json: any) {
+    private handleEBayJsonError(json: any) {
         if (json.Ack === 'Error' || json.Ack === 'Failure' || json.Errors) {
             switch (json.Errors.ErrorCode) {
                 case EBayIAFTokenExpired.code:
@@ -189,7 +188,7 @@ export default class XMLRequest {
         }
     }
 
-    handleEBayResponseError(error: any) {
+    private handleEBayResponseError(error: any) {
         log('eBayResponseError', error);
 
         if (error.response && error.response.data) {

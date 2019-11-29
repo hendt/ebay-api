@@ -1,8 +1,8 @@
-import Browse from "./browse";
-import Feed from "./feed";
-import Marketing from "./marketing";
-import Offer from "./offer";
-import Order from "./order";
+import Browse from './browse';
+import Feed from './feed';
+import Marketing from './marketing';
+import Offer from './offer';
+import Order from './order';
 
 export type Buy = {
     browse: Browse,
@@ -10,7 +10,7 @@ export type Buy = {
     marketing: Marketing,
     offer: Offer,
     order: Order
-}
+};
 
 export {
     Browse,
@@ -18,4 +18,4 @@ export {
     Marketing,
     Offer,
     Order
-}
+};

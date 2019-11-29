@@ -1,39 +1,20 @@
 import debug from 'debug';
-import {eBayConfig, AuthToken} from '../types';
 import XMLRequest from '../api/traditional/XMLRequest';
-import {LimitedRequest, createRequest} from '../utils/request';
+import {AuthToken, eBayConfig} from '../types';
+import {createRequest, ILimitedRequest} from '../utils/request';
 
 const log = debug('ebay:authNAuth');
 
 export default class AuthNAuth {
-    static SIGNIN_ENDPOINT = {
+    public static readonly SIGNIN_ENDPOINT = {
         sandbox: 'https://signin.sandbox.ebay.com/ws/eBayISAPI.dll',
         production: 'https://signin.ebay.com/ws/eBayISAPI.dll'
     };
 
-    static API_ENDPOINT = {
+    public static readonly API_ENDPOINT = {
         production: 'https://api.ebay.com/ws/api.dll',
         sandbox: 'https://api.sandbox.ebay.com/ws/api.dll'
     };
-
-    readonly eBayConfig: eBayConfig;
-    readonly req: LimitedRequest;
-
-    private authToken?: AuthToken;
-
-    constructor(
-        eBayConfig: eBayConfig,
-        req: LimitedRequest = createRequest()
-    ) {
-        this.eBayConfig = eBayConfig;
-        this.req = req;
-
-        if (this.eBayConfig.authToken) {
-            this.authToken = {
-                eBayAuthToken: this.eBayConfig.authToken
-            };
-        }
-    }
 
     public static generateAuthUrl(sandbox: boolean, ruName: string, sessionId: string) {
         return [
@@ -44,12 +25,31 @@ export default class AuthNAuth {
         ].join('');
     }
 
+    public readonly eBayConfig: eBayConfig;
+    public readonly req: ILimitedRequest;
+
+    private authToken?: AuthToken;
+
+    constructor(
+        config: eBayConfig,
+        req: ILimitedRequest = createRequest()
+    ) {
+        this.eBayConfig = config;
+        this.req = req;
+
+        if (this.eBayConfig.authToken) {
+            this.authToken = {
+                eBayAuthToken: this.eBayConfig.authToken
+            };
+        }
+    }
+
     /**
      * Generates URL for consent page landing.
      *
      * @param ruName RuName
      */
-    async getSessionIdAndAuthUrl(ruName?: string) {
+    public async getSessionIdAndAuthUrl(ruName?: string) {
         if (!this.eBayConfig.devId) {
             throw new Error('DevId is required.');
         }
@@ -76,7 +76,7 @@ export default class AuthNAuth {
         };
     }
 
-    async fetchAuthToken(sessionId: string) {
+    public async fetchAuthToken(sessionId: string) {
         if (!this.eBayConfig.devId) {
             throw new Error('DevId is required.');
         }
@@ -88,7 +88,7 @@ export default class AuthNAuth {
         return request.fetch({useIaf: false});
     }
 
-    setAuthToken(authToken: AuthToken | string) {
+    public setAuthToken(authToken: AuthToken | string) {
         if (typeof authToken === 'string') {
             this.authToken = {
                 eBayAuthToken: authToken
@@ -98,7 +98,7 @@ export default class AuthNAuth {
         }
     }
 
-    getAuthToken() {
+    public getAuthToken() {
         return this.authToken;
     }
 
@@ -110,7 +110,7 @@ export default class AuthNAuth {
         return null;
     }
 
-    getRequestConfig(callname: string) {
+    public getRequestConfig(callname: string) {
         return {
             xmlns: 'urn:ebay:apis:eBLBaseComponents',
             endpoint: AuthNAuth.API_ENDPOINT[this.eBayConfig.sandbox ? 'sandbox' : 'production'],

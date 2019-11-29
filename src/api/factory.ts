@@ -1,57 +1,57 @@
+import Auth from '../auth';
+import {createRequest, ILimitedRequest} from '../utils/request';
 import {
-    Buy,
-    Browse,
-    Feed,
-    BuyMarketing,
-    Offer,
-    Order,
-    Commerce,
-    Catalog,
-    Identity,
-    Taxonomy,
-    Translation,
-    Developer,
-    DeveloperAnalytics,
-    Sell,
     Account,
-    SellAnalytics,
-    Compliance,
-    Fulfillment,
-    Inventory,
-    SellMarketing,
-    Metadata,
-    Recommendation,
-    PostOrder,
+    Browse,
+    Buy,
+    BuyMarketing,
     Cancellation,
     Case,
+    Catalog,
+    Commerce,
+    Compliance,
+    Developer,
+    DeveloperAnalytics,
+    Feed,
+    Fulfillment,
+    Identity,
     Inquiry,
-    Return
+    Inventory,
+    Metadata,
+    Offer,
+    Order,
+    PostOrder,
+    Recommendation,
+    Return,
+    Sell,
+    SellAnalytics,
+    SellMarketing,
+    Taxonomy,
+    Translation
 } from './restful';
-import {LimitedRequest, createRequest} from '../utils/request';
 
 import Api from './restful/api';
 import Traditional from './traditional';
 import {ClientAlerts, Finding, Shopping, Trading} from './traditional/types';
-import Auth from '../auth';
 
 /**
  * Factory class to create RESTFul API or Traditional API.
  */
 export default class Factory {
-    readonly auth: Auth;
-    readonly req: LimitedRequest;
+    public readonly auth: Auth;
+    public readonly req: ILimitedRequest;
 
     private _traditional?: Traditional;
 
     constructor(
         auth: Auth,
-        req: LimitedRequest = createRequest()
+        req: ILimitedRequest = createRequest()
     ) {
         this.auth = auth;
         this.req = req;
     }
 
-    createBuyApi(): Buy {
+    public createBuyApi(): Buy {
         return {
             browse: this.createRestfulApi(Browse),
             feed: this.createRestfulApi(Feed),
@@ -61,7 +61,7 @@ export default class Factory {
         };
     }
 
-    createCommerceApi(): Commerce {
+    public createCommerceApi(): Commerce {
         return {
             catalog: this.createRestfulApi(Catalog),
             identity: this.createRestfulApi(Identity),
@@ -70,13 +70,13 @@ export default class Factory {
         };
     }
 
-    createDeveloperApi(): Developer {
+    public createDeveloperApi(): Developer {
         return {
             analytics: this.createRestfulApi(DeveloperAnalytics)
         };
     }
 
-    createPostOrderApi(): PostOrder {
+    public createPostOrderApi(): PostOrder {
         return {
             cancellation: this.createRestfulApi(Cancellation),
             case: this.createRestfulApi(Case),
@@ -85,7 +85,7 @@ export default class Factory {
         };
     }
 
-    createSellApi(): Sell {
+    public createSellApi(): Sell {
         return {
             account: this.createRestfulApi(Account),
             analytics: this.createRestfulApi(SellAnalytics),
@@ -109,24 +109,24 @@ export default class Factory {
         ));
     }
 
-    createTradingApi(): Trading {
+    public createTradingApi(): Trading {
         return this.traditional.createTradingApi();
     }
 
-    createShoppingApi(): Shopping {
+    public createShoppingApi(): Shopping {
         return this.traditional.createShoppingApi();
     }
 
-    createFindingApi(): Finding {
+    public createFindingApi(): Finding {
         return this.traditional.createFindingApi();
     }
 
-    createClientAlertsApi(): ClientAlerts {
+    public createClientAlertsApi(): ClientAlerts {
         return this.traditional.createClientAlertsApi();
     }
 
+    // tslint:disable-next-line:variable-name
     private createRestfulApi<T extends Api>(ApiClass: new (auth: Auth) => T): T {
         return new ApiClass(this.auth);
     }
 }
-

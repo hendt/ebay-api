@@ -5,13 +5,13 @@ export type Scope = string[];
 export type Interceptors = {
     request?: (value: any) => any;
     response?: (value: any) => any;
-}
+};
 
 export type Keyset = {
     appId: string, // (Client ID)
     certId: string, // (Client Secret)
     devId?: string,
-}
+};
 
 export type eBayConfig = Keyset & {
     sandbox: boolean,
@@ -26,12 +26,12 @@ export type eBayConfig = Keyset & {
     endUserCtx?: string,
     contentLanguage?: string
     acceptLanguage?: string
-}
+};
 
 export type RequestConfig = {
     interceptors?: Interceptors,
     maxRequests?: number
-}
+};
 
 /**
  * Not eBay Config.
@@ -42,4 +42,4 @@ export type AuthToken = {
     eBayAuthToken: string,
     Timestamp?: string,
     HardExpirationTime?: string
-}
+};

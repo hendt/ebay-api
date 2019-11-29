@@ -32,13 +32,14 @@
     "rollup-plugin-terser": "^5.1.2",
     "sinon": "^7.4.2",
     "ts-node": "^8.4.1",
-    "tslint": "^5.19.0",
+    "tslint": "^5.20.1",
     "typescript": "^3.6.2"
   },
   "scripts": {
     "build": "tsc && rollup -c",
-    "prepare": "npm run test && npm run build",
+    "prepare": "npm run test && npm run build npm run tslint",
     "preversion": "npm run prepare",
+    "tslint": "tslint -c tslint.json 'src/**/*.ts'",
     "test": "mocha -r ts-node/register test/**/*.spec.ts --reporter=dot"
   },
   "repository": {

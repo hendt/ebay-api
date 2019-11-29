@@ -1,4 +1,4 @@
-import Api from "../../api";
+import Api from '../../api';
 
 enum Metric {
     CLICK_THROUGH_RATE,
@@ -25,7 +25,7 @@ export default class Analytics extends Api {
     /**
      * This call retrieves all the profiles for the associated seller.
      */
-    findSellerStandardsProfiles() {
+    public findSellerStandardsProfiles() {
         return this.get(`/seller_standards_profile`);
     }
 
@@ -35,7 +35,7 @@ export default class Analytics extends Api {
      * @param program Specifies the program of the requested profile.
      * @param cycle Specifies the cycle of the requested profile.
      */
-    getSellerStandardsProfile(program: string, cycle: string) {
+    public getSellerStandardsProfile(program: string, cycle: string) {
         const p = encodeURIComponent(program);
         const c = encodeURIComponent(cycle);
         return this.get(`/seller_standards_profile/${p}/${c}`);
@@ -49,7 +49,8 @@ export default class Analytics extends Api {
      * @param metric Specifies a comma separated list of the metrics you want included in the report.
      * @param sort Specifies a single metric to be sorted and whether you want to sort in ascending or descending order.
      */
-    getTrafficReport({dimension, filter, metric, sort}:{dimension?: string, filter?: string, metric?: Metric, sort?: string} = {}) {
+    public getTrafficReport({dimension, filter, metric, sort}:
+                                { dimension?: string, filter?: string, metric?: Metric, sort?: string } = {}) {
         return this.get(`/traffic_report`, {
             params: {
                 dimension,
