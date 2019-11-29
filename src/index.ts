@@ -10,6 +10,8 @@ import {LimitedRequest, createRequest} from './utils/request';
 import {ClientAlerts, Finding, Shopping, Trading} from './api/traditional/types';
 import {SiteId, MarketplaceId} from './enums';
 import Auth from './auth';
+import AuthNAuth from './auth/authNAuth';
+import OAuth2 from './auth/оAuth2';
 
 const defaultConfig = {
     sandbox: false,
@@ -22,19 +24,24 @@ export default class eBayApi {
     static MarketplaceId = MarketplaceId;
 
     readonly auth: Auth;
+
+    // Shortcuts to auth
+    readonly authNAuth: AuthNAuth;
+    readonly oAuth2: OAuth2;
+
     readonly appConfig: AppConfig;
     readonly req: LimitedRequest;
 
     private readonly factory: Factory;
 
-    // RESTful
+    // RESTful API
     private _buy?: Buy;
     private _commerce?: Commerce;
     private _developer?: Developer;
     private _postOrder?: PostOrder;
     private _sell?: Sell;
 
-    // Traditional
+    // Traditional API
     private _trading?: Trading;
     private _finding?: Finding;
     private _shopping?: Shopping;
@@ -85,6 +92,9 @@ export default class eBayApi {
             this.appConfig,
             this.req
         );
+
+        this.authNAuth = this.auth.authNAuth;
+        this.oAuth2 = this.auth.oAuth2;
 
         this.factory = new Factory(
             this.auth,
