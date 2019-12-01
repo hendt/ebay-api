@@ -23,7 +23,7 @@ describe('FactoryTest', () => {
 
     it('Throws an error if devId is not defined', () => {
         delete config.devId;
-        const auth: Auth = new Auth(config);
+        const auth: Auth = new Auth(config, request);
         const factory = new Factory(auth, request);
         expect(factory.createTradingApi.bind(factory)).to.throw(/devId/);
     });

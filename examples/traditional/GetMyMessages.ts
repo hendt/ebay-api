@@ -1,3 +1,4 @@
+// tslint:disable:no-console
 import EBay from '../../src';
 
 const ebay = EBay.fromEnv();

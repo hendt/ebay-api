@@ -1,6 +1,7 @@
-import EBay from '../../src';
+// tslint:disable:no-console
 // @ts-ignore
 import readline from 'readline';
+import EBay from '../../src';
 
 const ebay = EBay.fromEnv();
 // DOCS: https://developer.ebay.com/devzone/xml/docs/howto/tokens/gettingtokens.html

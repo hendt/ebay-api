@@ -58,8 +58,8 @@ export default class Browse extends Api {
      * @param {String} fieldgroups
      */
     public getItem(itemId: string, fieldgroups?: string) {
-        itemId = encodeURIComponent(itemId);
-        return this.get(`/item/${itemId}`, {
+        const id = encodeURIComponent(itemId);
+        return this.get(`/item/${id}`, {
             params: {
                 fieldgroups
             }

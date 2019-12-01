@@ -1,5 +1,6 @@
+// tslint:disable:no-console
 import EBay from '../../src';
-import {EventType} from "../../src/api/traditional/clientAlerts";
+import {EventType} from '../../src/api/traditional/clientAlerts';
 
 const ebay = EBay.fromEnv();
 
