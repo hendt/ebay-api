@@ -51,7 +51,7 @@ export class LimitedAxiosRequest implements ILimitedRequest {
     }
 
     public get<R = any>(url: string, config?: AxiosRequestConfig): Promise<R> {
-        log('get:' + url);
+        log('get: ' + url);
         return this.req.get(url, config).then(({data}) => data);
     }
 

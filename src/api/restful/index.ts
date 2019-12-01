@@ -28,23 +28,28 @@ export default abstract class Api {
     }
 
     public async enrichConfig(config: any) {
-        const headers = await this.auth.getAuthHeaders(this.useIaf());
+        const headers: any = {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache',
+            'Accept-Encoding': 'application/gzip'
+        };
 
-        if (this.auth.eBayConfig.marketplaceId) {
-            headers['X-EBAY-C-MARKETPLACE-ID'] = this.auth.eBayConfig.marketplaceId;
-        }
+        headers.Authorization = await this.auth.getHeaderAuthorization(this.useIaf());
 
-        if (this.auth.eBayConfig.endUserCtx) {
-            headers['X-EBAY-C-ENDUSERCTX'] = this.auth.eBayConfig.endUserCtx;
-        }
+        const additionalHeaders: any = {
+            marketplaceId: 'X-EBAY-C-MARKETPLACE-ID',
+            endUserCtx: 'X-EBAY-C-ENDUSERCTX',
+            acceptLanguage: 'Accept-Language',
+            contentLanguage: 'Content-Language'
+        };
 
-        if (this.auth.eBayConfig.acceptLanguage) {
-            headers['Accept-Language'] = this.auth.eBayConfig.acceptLanguage;
-        }
-
-        if (this.auth.eBayConfig.contentLanguage) {
-            headers['Content-Language'] = this.auth.eBayConfig.contentLanguage;
-        }
+        Object.keys(additionalHeaders).forEach(key => {
+            // @ts-ignore
+            const value = this.auth.eBayConfig[key];
+            if (value) {
+                headers[additionalHeaders[key]] = value;
+            }
+        });
 
         return {
             ...config,

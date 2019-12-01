@@ -28,20 +28,12 @@ export default class Auth {
         );
     }
 
-    public async getAuthHeaders(useIaf: boolean) {
-        const headers: any = {
-            'Content-Type': 'application/json',
-            'Cache-Control': 'no-cache',
-            'Accept-Encoding': 'application/gzip'
-        };
-
+    public async getHeaderAuthorization(useIaf: boolean) {
         if (this.authNAuth.eBayAuthToken) {
-            headers.Authorization = 'Token ' + this.authNAuth.eBayAuthToken;
-        } else {
-            const accessToken = await this.oAuth2.getAccessToken();
-            headers.Authorization = (useIaf ? 'IAF ' : 'Bearer ') + accessToken;
+            return 'Token ' + this.authNAuth.eBayAuthToken;
         }
 
-        return headers;
+        const accessToken = await this.oAuth2.getAccessToken();
+        return (useIaf ? 'IAF ' : 'Bearer ') + accessToken;
     }
 }
