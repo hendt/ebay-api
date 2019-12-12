@@ -624,9 +624,9 @@ export type CancellationSearchParams = {
 
 export type Text = {
     content: string,
-    language: string,
-    translatedFromContent: string,
-    translatedFromLanguage: string
+    language?: string,
+    translatedFromContent?: string,
+    translatedFromLanguage?: string
 };
 
 export type AppealRequest = {
@@ -858,7 +858,7 @@ export type SearchReturnParams = {
 export type DecideReturnRequest = {
     comments?: Text;
     decision: DecisionEnum;
-    keepOriginalItem: boolean;
+    keepOriginalItem?: boolean;
     partialRefundAmount?: Amount;
     RMANumber?: string;
     rMAProvided?: boolean;

@@ -16,6 +16,7 @@ It supports Client credentials grant and Authorization code grant (traditional, 
 | Buy APIs          | Marketplace Insights API is missing |
 | Commerce APIs     | yes                                 |
 | Developer APIs    | yes                                 |
+| Post Order API    | yes                                 |
 
 ### Traditional API
 
@@ -23,10 +24,9 @@ It supports Client credentials grant and Authorization code grant (traditional, 
 |-------------------|-------------------------------------|
 | Finding API       | yes                                 |
 | Shopping API      | yes                                 |
-| Merchandising API | yes                                 |
+| Merchandising API | no                                  |
 | Trading API       | yes                                 |
 | Client Alerts API | yes                                 |
-| Post Order API    | yes                                 |
 | Feedback API      | no                                  |
 
 ## Installation

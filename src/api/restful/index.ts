@@ -112,7 +112,7 @@ export default abstract class Api {
         if (['get', 'delete'].includes(method)) {
             args.push(enrichedConfig);
         } else {
-            args.push(data, config);
+            args.push(data, enrichedConfig);
         }
         return args;
     }
