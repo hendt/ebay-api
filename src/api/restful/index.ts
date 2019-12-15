@@ -46,7 +46,7 @@ export default abstract class Api {
         Object.keys(additionalHeaders).forEach(key => {
             // @ts-ignore
             const value = this.auth.eBayConfig[key];
-            if (value) {
+            if (typeof value !== 'undefined') {
                 headers[additionalHeaders[key]] = value;
             }
         });

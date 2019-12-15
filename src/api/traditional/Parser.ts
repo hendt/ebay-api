@@ -42,8 +42,8 @@ export default class Parser {
             return false;
         }
 
-        if (key) {
-            if (typeof key === 'string' && dateTimeNodes[key.toLowerCase()]) {
+        if (typeof key === 'string') {
+            if (dateTimeNodes[key.toLowerCase()]) {
                 return new Date(value);
             }
 
