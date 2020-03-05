@@ -4,10 +4,12 @@
 <head>
   <meta charset="utf-8">
 
-  <title>eBay API example</title>
-  <meta name="description" content="eBay API Browser example">
-  <meta name="author" content="Daniil Tomilow">
+  <title>eBay API Browser example</title>
+  <meta name="description" content="eBay API Browser">
   <style>
+    h1 {
+      font-family: sans-serif;
+    }
     label {
       display: block;
       margin: 10px 0;
@@ -30,12 +32,11 @@
       min-height: 300px;
     }
 
-    #submit {
+    .submit {
       border: none;
       background: cornflowerblue;
       border-radius: 3px;
-      padding: 10px;
-      margin: 10px 0;
+      padding: 5px;
     }
 
     html {
@@ -54,36 +55,17 @@
 </head>
 <body>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@hendt/ebay-api@latest/lib/ebay-api.min.js"></script>
-<script type="text/javascript">
-  function getItem(form) {
-    const eBay = new eBayApi({
-      appId: form.appId.value,
-      certId: form.certId.value,
-      devId: form.devId.value,
+<link rel="stylesheet"
+      href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/default.min.css">
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
+<script
+ charset="UTF-8"
+ src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/languages/json.min.js"></script>
 
-      sandbox: form.sandbox.checked,
-      siteId: form.siteId.value,
-
-      interceptors: {
-        request: (request) => {
-          request.url = 'https://ebay.hendt.workers.dev/' + request.url;
-          return request;
-        }
-      }
-    });
-
-    eBay.buy.browse.getItem('v1|' + form.itemId.value + '|0').then(item => {
-      document.getElementById('response').value = JSON.stringify(item, null, 2)
-    })
-      .catch(e => {
-        document.getElementById('response').value = e.message
-      });
-  }
-</script>
-<h1>eBay API: getItem example</h1>
+<h1>eBay API Browser example</h1>
 <p>This API use https://ebay.hendt.workers.dev/ as a Proxy.</p>
 <p>It's only mention for testing, do not abuse it or use in production.</p>
-<form onsubmit="getItem(this); return false;" method="post">
+<form>
   <label>
     <span>AppId:</span>
     <input name="appId" placeholder="appId" type="text">
@@ -106,14 +88,56 @@
   </label>
 
   <label>
-    <span>Item Id</span>
+    <span>Get Item</span>
     <input value="254188828753" name="itemId" type="text">
+    <button type="button" class="submit" onclick="getItem()">Get Item</button>
   </label>
 
-  <button type="submit" id="submit">Get Item</button>
+  <label>
+    <span>Search</span>
+    <input value="" name="query" type="text">
+    <button type="button" class="submit" onclick="search()">Search</button>
+  </label>
+  <pre><code id="code"></code></pre>
 </form>
-<textarea id="response" placeholder="Response...">
 
-</textarea>
 
+<script type="text/javascript">
+  const form = document.forms[0]
+  const code = document.getElementById('code')
+  function createApi () {
+    code.innerText = 'loading...'
+    return new eBayApi({
+        appId: form.appId.value,
+        certId: form.certId.value,
+        devId: form.devId.value,
+
+        sandbox: form.sandbox.checked,
+        siteId: form.siteId.value,
+
+        interceptors: {
+          request: (request) => {
+            request.url = 'https://ebay.hendt.workers.dev/' + request.url;
+            return request;
+          }
+        }
+    });
+  }
+
+  function handleError(e) {code.innerText = e.message}
+  function handleResponse(data) {
+    code.innerText = JSON.stringify(data, null, 2);  
+    hljs.highlightBlock(code);
+  }
+
+  function getItem() {
+    createApi().buy.browse.getItem('v1|' + form.itemId.value + '|0').then(handleResponse)
+    .catch(handleError);
+  }
+
+  function search() {
+    createApi().buy.browse.search({q: form.query }).then(handleResponse)
+    .catch(handleError);
+  }
+</script>
 </body>
