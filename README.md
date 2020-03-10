@@ -98,7 +98,7 @@ const eBay = new eBayApi({
 });
 ```
 
-## eBayApi Config
+## 🔧 eBayApi Config
 
 The first parameter in eBayApi:
 
