@@ -1,4 +1,4 @@
 # Table of contents
 
-* [Initial page](README.md)
+* [A TypeScript library for working with the eBay API](README.md)
 
