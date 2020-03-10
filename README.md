@@ -1,13 +1,6 @@
----
-description: >-
-  This API implements both Traditional (xml) and the RESTful eBay API. It
-  supports Client credentials grant and Authorization code grant (traditional,
-  oAuth2 and IAF).
----
+# eBay TypeScript/JavaScript API for Browser and Node
 
-# A TypeScript library for working with the eBay API
-
-
+This API implements both Traditional \(xml\) and the RESTful eBay API. It supports Client credentials grant and Authorization code grant \(traditional, oAuth2 and IAF\).
 
 * [getItem Example](https://hendt.github.io/ebay-api/)
 * [eBay API Explorer](https://developer.ebay.com/my/api_test_tool)
@@ -238,21 +231,21 @@ ebay.trading.GetMyeBaySelling({
 });
 ```
 
-## Contribution:
+## Contribution
 
 Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
 
-## Supported By:
+## Supported By
 
 [hendt.de](https://hendt.de)
 
-## Similar projects:
+## Similar projects
 
 [ebay-promised](https://github.com/ondreian/ebay-promised)   
 [ebay-client](https://github.com/CoinPoet/ebay-client)   
 [ebay-node-api](https://github.com/pajaydev/ebay-node-api)
 
-## 📝 License:
+## 📝 License
 
 MIT.
 

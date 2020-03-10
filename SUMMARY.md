@@ -1,4 +1,4 @@
 # Table of contents
 
-* [A TypeScript library for working with the eBay API](README.md)
+* [eBay TypeScript/JavaScript API for Browser and Node](README.md)
 
