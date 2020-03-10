@@ -1,8 +1,8 @@
 # eBay TypeScript/JavaScript API for Browser and Node
 
-This API implements both Traditional \(xml\) and the RESTful eBay API. It supports Client credentials grant and Authorization code grant \(traditional, oAuth2 and IAF\).
+This API implements both Traditional \(xml\) and the RESTful eBay API. It supports client credentials grant and authorization code grant \(traditional, OAuth2 and IAF\).
 
-* [getItem Example](https://hendt.github.io/ebay-api/)
+* [Browser API Examples](https://hendt.github.io/ebay-api/)
 * [eBay API Explorer](https://developer.ebay.com/my/api_test_tool)
 * [eBay API Docs](https://developer.ebay.com/docs)
 
@@ -12,22 +12,22 @@ This API implements both Traditional \(xml\) and the RESTful eBay API. It suppor
 
 | API | Implemented |
 | :--- | :--- |
-| Sell APIs | yes |
-| Buy APIs | Marketplace Insights API is missing |
-| Commerce APIs | yes |
-| Developer APIs | yes |
-| Post Order API | yes |
+| **Sell APIs** |  ✔ |
+| **Buy APIs** | Marketplace Insights API is missing |
+| **Commerce APIs** | ✔ |
+| **Developer APIs** | ✔ |
+| **Post Order API** | ✔ |
 
 ### Traditional API
 
 | API | Implemented |
 | :--- | :--- |
-| Finding API | yes |
-| Shopping API | yes |
-| Merchandising API | no |
-| Trading API | yes |
-| Client Alerts API | yes |
-| Feedback API | no |
+| **Finding API** | ✔ |
+| **Shopping API** | ✔ |
+| **Merchandising API** | ✔ |
+| **Trading API** | ✔ |
+| **Client Alerts API** | ✔ |
+| **Feedback API** | ✔ |
 
 ## Installation
 
@@ -83,8 +83,10 @@ eBay.buy.browse.getItem('v1|254188828753|0').then(item => {
 
 ```javascript
 import eBayApi from '@hendt/ebay-api';
+// or:
+// const eBayApi = require('@hendt/ebay-api').default
 
-const ebay = new eBayApi({
+const eBay = new eBayApi({
   appId: '-- or Client ID --',
   certId: '-- or Client Secret',
   devId: 'devId', // Required for traditional trading API
@@ -96,12 +98,14 @@ const ebay = new eBayApi({
 });
 ```
 
-## Config
+## eBayApi Config
 
-| Config | Description |
+The first parameter in eBayApi:
+
+| Name | Description |
 | :--- | :--- |
-| appId | Required. App ID \(Client ID\) from  [Application Keys](https://developer.ebay.com/my/keys). |
-| certId | Required. Cert ID \(Client Secret\) from  [Application Keys](https://developer.ebay.com/my/keys). |
+| appId**\*** | App ID \(Client ID\) from  [Application Keys](https://developer.ebay.com/my/keys). |
+| certId**\*** | Required. Cert ID \(Client Secret\) from  [Application Keys](https://developer.ebay.com/my/keys). |
 | devId | Conditionally required. The Dev Id from [Application Keys](https://developer.ebay.com/my/keys). |
 | sandbox | Optional. Default to 'false'. If true, the [Sandbox Environment](https://developer.ebay.com/tools/sandbox) will be used. |
 | scope | Conditionally required. Default to '[https://api.ebay.com/oauth/api\_scope](https://api.ebay.com/oauth/api_scope)'. |
@@ -114,22 +118,24 @@ const ebay = new eBayApi({
 | interceptors | Optional. Intercept request with [Axios interceptors](https://github.com/axios/axios#interceptors). See example in 'Browser' usage above. |
 | maxRequests | Max request per day. Default to '5000'. |
 
-## oAuth2: Exchanging the authorization code for a User access token
+**\***: Required
+
+## OAuth2: Exchanging the authorization code for a User access token
 
 [Docs](https://developer.ebay.com/api-docs/static/oauth-auth-code-grant-request.html)
 
 ```javascript
 // 1. Create new eBayApi instance and set the scope.
-const ebay = eBayApi.fromEnv();
+const eBay = eBayApi.fromEnv();
 // Attention: appId, certId, ruName is required.
 
-ebay.auth.oAuth2.setScope([
+eBay.auth.oAuth2.setScope([
     'https://api.ebay.com/oauth/api_scope',
     'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
     'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
 ]);
 
-const url = ebay.auth.oAuth2.generateAuthUrl();
+const url = eBay.auth.oAuth2.generateAuthUrl();
 // 2. Open Url and Grant Access
 console.log('Open URL', url);
 
@@ -139,15 +145,15 @@ const code = 'code'; // from www.your-website?code=XXXX
 // 4. Get the token
 (async () => {
   // Use async/await
-  const token = await ebay.auth.oAuth2.getToken(code);
-  ebay.auth.oAuth2.setCredentials(token);
+  const token = await eBay.auth.oAuth2.getToken(code);
+  eBay.auth.oAuth2.setCredentials(token);
 
   // Or Promise
-  ebay.sell.fulfillment.getOrder('12-12345-12345').then(order => {
-        console.log('order', JSON.stringify(order, null, 2));
-    }).catch(e => {
-        console.log('error', {error: e.message});
-    });
+  eBay.sell.fulfillment.getOrder('12-12345-12345').then(order => {
+    console.log('order', JSON.stringify(order, null, 2));
+  }).catch(e => {
+    console.log('error', {error: e.message});
+  });
 })();
 ```
 
@@ -156,13 +162,13 @@ const code = 'code'; // from www.your-website?code=XXXX
 ### How to set the Scope
 
 ```javascript
-const ebay = new eBayApi({
+const eBay = new eBayApi({
   // ...
   scope: ['https://api.ebay.com/oauth/api_scope']
 });
 
 // Or:
-ebay.auth.oAuth2.setScope([
+eBay.auth.oAuth2.setScope([
     'https://api.ebay.com/oauth/api_scope',
     'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
     'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
@@ -174,7 +180,7 @@ ebay.auth.oAuth2.setScope([
 ### Buy - getItem
 
 ```javascript
-ebay.buy.browse.getItem('v1|382282567190|651094235351').then(a => {
+eBay.buy.browse.getItem('v1|382282567190|651094235351').then(a => {
     console.log(a);
 }).catch(e => {
     console.log(e)
@@ -184,7 +190,7 @@ ebay.buy.browse.getItem('v1|382282567190|651094235351').then(a => {
 ### Post-Order - getReturn
 
 ```javascript
-ebay.postOrder.return.getReturn('5132021997').then(a => {
+eBay.postOrder.return.getReturn('5132021997').then(a => {
     console.log(a);
 }).catch(e => {
     console.log(e)
@@ -194,7 +200,7 @@ ebay.postOrder.return.getReturn('5132021997').then(a => {
 ### Finding - findItemsIneBayStores
 
 ```javascript
-ebay.finding.findItemsIneBayStores({
+eBay.finding.findItemsIneBayStores({
     storeName: 'HENDT'
 }, {raw: true}).then(result => {
     // Return raw XML
@@ -205,7 +211,7 @@ ebay.finding.findItemsIneBayStores({
 ### Finding - findItemsByKeywords
 
 ```javascript
-ebay.finding.findItemsByKeywords({
+eBay.finding.findItemsByKeywords({
     itemFilter: {
         name: 'Seller',
         value: 'hendt_de'
@@ -218,7 +224,7 @@ ebay.finding.findItemsByKeywords({
 ### Trading - GetMyeBaySelling
 
 ```javascript
-ebay.trading.GetMyeBaySelling({
+eBay.trading.GetMyeBaySelling({
     SoldList: {
         Include: true,
         Pagination: {
