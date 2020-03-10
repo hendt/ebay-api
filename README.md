@@ -104,8 +104,8 @@ The first parameter in eBayApi:
 
 | Name | Description |
 | :--- | :--- |
-| appId**\*** | App ID \(Client ID\) from  [Application Keys](https://developer.ebay.com/my/keys). |
-| certId**\*** | Required. Cert ID \(Client Secret\) from  [Application Keys](https://developer.ebay.com/my/keys). |
+| appId\* | App ID \(Client ID\) from  [Application Keys](https://developer.ebay.com/my/keys). |
+| certId\* | Required. Cert ID \(Client Secret\) from  [Application Keys](https://developer.ebay.com/my/keys). |
 | devId | Conditionally required. The Dev Id from [Application Keys](https://developer.ebay.com/my/keys). |
 | sandbox | Optional. Default to 'false'. If true, the [Sandbox Environment](https://developer.ebay.com/tools/sandbox) will be used. |
 | scope | Conditionally required. Default to '[https://api.ebay.com/oauth/api\_scope](https://api.ebay.com/oauth/api_scope)'. |
