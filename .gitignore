@@ -3,3 +3,5 @@ lib
 *.sublime*
 *.log
 *.iml
+.idea
+ebay-api.iml

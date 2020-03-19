@@ -6,6 +6,11 @@ This API implements both Traditional \(xml\) and the RESTful eBay API. It suppor
 * [eBay API Explorer](https://developer.ebay.com/my/api_test_tool)
 * [eBay API Docs](https://developer.ebay.com/docs)
 
+## Changelog
+
+- `v0.9.1` is the latest release.
+- See [here](https://github.com/hendt/ebay-api/blob/master/CHANGELOG.md) for the full changelog.
+
 ## Implementation status
 
 ### RESTful API
@@ -35,12 +40,6 @@ This API implements both Traditional \(xml\) and the RESTful eBay API. It suppor
 npm install @hendt/ebay-api // yarn add @hendt/ebay-api
 ```
 
-### Run Tests
-
-```text
-npm run test
-```
-
 ## Usage
 
 ### Browser
@@ -54,28 +53,28 @@ For testing purpose you can use: `https://ebay.hendt.workers.dev/`. You can also
 ```markup
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@hendt/ebay-api@latest/lib/ebay-api.min.js"></script>
 <script>
- const eBay = new eBayApi({
-      appId: 'appId',
-      certId: 'certId',
-      devId: 'devId',
+  const eBay = new eBayApi({
+    appId: 'appId',
+    certId: 'certId',
+    devId: 'devId',
 
-      sandbox: true,
-      siteId: 77,
+    sandbox: true,
+    siteId: 77,
 
-      interceptors: {
-        request: (request) => {
-          // Add Proxy
-          request.url = 'https://ebay.hendt.workers.dev/' + request.url;
-          return request;
-        }
+    interceptors: {
+      request: (request) => {
+        // Add Proxy
+        request.url = 'https://ebay.hendt.workers.dev/' + request.url;
+        return request;
       }
-    });
+    }
+  });
 
-eBay.buy.browse.getItem('v1|254188828753|0').then(item => {
+  eBay.buy.browse.getItem('v1|254188828753|0').then(item => {
       document.getElementById('response').value = JSON.stringify(item, null, 2)
-}).catch(e => {
-        document.getElementById('response').value = e.message
-});
+  }).catch(e => {
+      document.getElementById('response').value = e.message
+  });
 </script>
 ```
 
@@ -84,17 +83,18 @@ eBay.buy.browse.getItem('v1|254188828753|0').then(item => {
 ```javascript
 import eBayApi from '@hendt/ebay-api';
 // or:
-// const eBayApi = require('@hendt/ebay-api').default
+// const eBayApi = require('@hendt/ebay-api')
 
 const eBay = new eBayApi({
   appId: '-- or Client ID --',
   certId: '-- or Client Secret',
-  devId: 'devId', // Required for traditional trading API
   sandbox: false,
-  siteId: eBayApi.SiteId.EBAY_DE, // see https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html
-
+  siteId: eBayApi.SiteId.EBAY_US, // see https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html
+  
+  // optinal parameters, should be omitted if not used
+  devId: 'devId', // required for traditional trading API
   ruName: '-- eBay Redirect URL name --', // Required for authorization code grant
-  authToken: '--  Auth\'n Auth for traditional API (used by trading) --', // Optional - can be set to use traditional API without code grant
+  authToken: '--  Auth\'n Auth for traditional API (used by trading) --', // can be set to use traditional API without code grant
 });
 ```
 

@@ -20,7 +20,7 @@ const defaultConfig = {
 };
 
 // tslint:disable-next-line:class-name
-export default class eBayApi {
+class eBayApi {
 
     public static SiteId = SiteId;
     public static MarketplaceId = MarketplaceId;
@@ -141,3 +141,5 @@ export default class eBayApi {
         return this._clientAlerts || (this._clientAlerts = this.factory.createClientAlertsApi());
     }
 }
+
+export = eBayApi

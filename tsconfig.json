@@ -6,7 +6,7 @@
     "declaration": true,
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "./lib",
+    "outDir": "lib",
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
@@ -16,9 +16,5 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
-  "exclude": [
-    "node_modules",
-    "test"
-  ]
+  "include": ["src"]
 }
