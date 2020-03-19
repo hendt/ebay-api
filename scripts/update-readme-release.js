@@ -5,5 +5,5 @@ module.exports.readVersion = function(contents) {
 }
 
 module.exports.writeVersion = function(contents, version) {
-  return contents.replace(regex, "- `" + version + "` is the latest release.")
+  return contents.replace(regex, "- `v" + version + "` is the latest release.")
 }
