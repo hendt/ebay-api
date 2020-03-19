@@ -1,0 +1,13 @@
+{
+  "header": "# eBay API Changelog",
+  "repository": {
+    "host": "https://github.com/hendt/ebay-api.git",
+    "url": "https://github.com/hendt/ebay-api.git"
+  },
+  "bumpFiles": [
+    {
+      "filename": "README.md",
+      "updater": "./scripts/update-readme-release.js"
+    }
+  ]
+}

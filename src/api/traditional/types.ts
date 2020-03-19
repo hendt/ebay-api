@@ -8,20 +8,21 @@ import {Options} from './XMLRequest';
 export type XMLApiCall = (fields?: Fields, options?: Options) => Promise<any>;
 
 export type Trading = {
-    [key in TradingCalls]: XMLApiCall;
+    [key in typeof TradingCalls[number]]: XMLApiCall;
 };
 
 export type Shopping = {
-    [key in ShoppingCalls]: XMLApiCall;
+    [key in typeof ShoppingCalls[number]]: XMLApiCall;
 };
 
 export type Finding = {
-    [key in FindingCalls]: XMLApiCall;
+    [key in typeof FindingCalls[number]]: XMLApiCall;
 };
 
 export type ClientAlerts = {
-    [key in ClientAlertsCalls]: (fields?: object, options?: Options) => Promise<any>;
+    [key in typeof ClientAlertsCalls[number]]: (fields?: object, options?: Options) => Promise<any>;
 };
+
 
 type Endpoint = {
     production: string,
