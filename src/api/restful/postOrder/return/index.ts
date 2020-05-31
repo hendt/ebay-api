@@ -10,6 +10,7 @@ import {
     MarkAsReceivedRequest,
     MarkAsShippedRequest,
     MarkRefundSentRequest,
+    PostOrderIssueRefundRequest,
     ProvideLabelRequest,
     ReturnRequestType,
     SearchReturnParams,
@@ -225,10 +226,11 @@ export default class Inquiry extends Api {
      * Issue a refund.
      *
      * @param returnId The unique eBay-assigned ID of the return.
+     * @param payload The IssueRefundRequest.
      */
-    public issueReturnRefund(returnId: string) {
+    public issueReturnRefund(returnId: string, payload: PostOrderIssueRefundRequest) {
         const id = encodeURIComponent(returnId);
-        return this.post(`/${id}/issue_refund`);
+        return this.post(`/${id}/issue_refund`, payload);
     }
 
     /**

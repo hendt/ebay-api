@@ -237,6 +237,30 @@ export type IssueRefundRequest = {
     orderLevelRefundAmount: Amount
 };
 
+export type Comments = {
+    content: string,
+     language?: string,
+     translatedFromContent?: string,
+     translatedFromLanguage?: string
+}
+
+export type PostOrderItemizedRefundDetailType = {
+    refundAmount: Amount,
+    refundFeeType: string,
+    restockingFeePercentage?: string,
+}
+
+export type RefundDetail = {
+    itemizedRefundDetail: PostOrderItemizedRefundDetailType
+    totalAmount: Amount
+}
+
+export type PostOrderIssueRefundRequest = {
+    comments?: Comments,
+    refundDetail: RefundDetail,
+    relistItem: boolean
+};
+
 export type Interval = {
     close: string,
     open: string
