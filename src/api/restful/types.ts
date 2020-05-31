@@ -5,7 +5,7 @@ import {
     EscalateReasonEnum,
     FilePurposeEnum,
     InquirySearchFieldGroup,
-    InquiryStatusFilter,
+    InquiryStatusFilter, RefundFeeTypeEnum,
     RequestTypeEnum,
     ReturnCountFilterEnum,
     ReturnReasonEnum,
@@ -246,7 +246,7 @@ export type Comments = {
 
 export type PostOrderItemizedRefundDetailType = {
     refundAmount: Amount,
-    refundFeeType: string,
+    refundFeeType: RefundFeeTypeEnum,
     restockingFeePercentage?: string,
 }
 
@@ -258,7 +258,7 @@ export type RefundDetail = {
 export type PostOrderIssueRefundRequest = {
     comments?: Comments,
     refundDetail: RefundDetail,
-    relistItem: boolean
+    relistItem?: boolean
 };
 
 export type Interval = {
