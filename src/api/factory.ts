@@ -113,7 +113,7 @@ export default class Factory {
 
     // tslint:disable-next-line:variable-name
     private createRestfulApi<T extends Api>(ApiClass: new (auth: Auth) => T): T {
-        const name = ApiClass.constructor.name
+        const name = ApiClass.name
         return this._restful[name] || (this._restful[name] = new ApiClass(this.auth));
     }
 }
