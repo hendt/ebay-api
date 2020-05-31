@@ -16,12 +16,13 @@ export default class AuthNAuth {
         sandbox: 'https://api.sandbox.ebay.com/ws/api.dll'
     };
 
-    public static generateAuthUrl(sandbox: boolean, ruName: string, sessionId: string) {
+    public static generateAuthUrl(sandbox: boolean, ruName: string, sessionId: string, prompt = false) {
         return [
             AuthNAuth.SIGNIN_ENDPOINT[sandbox ? 'sandbox' : 'production'],
             '?SignIn',
             '&RuName=', encodeURIComponent(ruName),
-            '&SessID=', encodeURIComponent(sessionId)
+            '&SessID=', encodeURIComponent(sessionId),
+            prompt ? '&prompt=login' : ''
         ].join('');
     }
 
