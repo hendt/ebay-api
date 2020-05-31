@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [1.1.1](https://github.com/hendt/ebay-api/compare/v1.1.0...v1.1.1) (2020-05-31)
+
+
+### Bug Fixes
+
+* wrong name for restful cache ([dce891b](https://github.com/hendt/ebay-api/commit/dce891be1da1ec046e3be1f09fb8371fb1999a9c))
+
 ## [1.1.0](https://github.com/hendt/ebay-api/compare/v1.0.1...v1.1.0) (2020-05-31)
 
 
