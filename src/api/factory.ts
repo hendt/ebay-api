@@ -4,7 +4,7 @@ import Api from './restful/';
 import {Browse, Buy, Feed, Marketing as BuyMarketing, Offer, Order} from './restful/buy';
 import {Catalog, Commerce, Identity, Taxonomy, Translation} from './restful/commerce';
 import {Analytics as DeveloperAnalytics, Developer} from './restful/developer';
-import {Cancellation, Case, Inquiry, PostOrder, Return} from './restful/postOrder/index';
+import {Cancellation, Case, Inquiry, PostOrder, Return} from './restful/postOrder';
 import {
     Account,
     Analytics as SellAnalytics,
@@ -27,6 +27,7 @@ export default class Factory {
     public readonly req: ILimitedRequest;
 
     private _traditional?: Traditional;
+    private _restful: any = {}
 
     constructor(
         auth: Auth,
@@ -112,6 +113,7 @@ export default class Factory {
 
     // tslint:disable-next-line:variable-name
     private createRestfulApi<T extends Api>(ApiClass: new (auth: Auth) => T): T {
-        return new ApiClass(this.auth);
+        const name = ApiClass.constructor.name
+        return this._restful[name] || (this._restful[name] = new ApiClass(this.auth));
     }
 }
