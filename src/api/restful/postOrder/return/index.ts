@@ -24,7 +24,7 @@ import {
 /**
  * Post-Order Return API
  */
-export default class Inquiry extends Api {
+export default class Return extends Api {
     get basePath(): string {
         return '/post-order/v2/return';
     }
