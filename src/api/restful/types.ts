@@ -251,7 +251,7 @@ export type PostOrderItemizedRefundDetailType = {
 }
 
 export type RefundDetail = {
-    itemizedRefundDetail: PostOrderItemizedRefundDetailType
+    itemizedRefundDetail: PostOrderItemizedRefundDetailType[]
     totalAmount: Amount
 }
 
