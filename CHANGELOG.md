@@ -1,4 +1,11 @@
 # eBay API Changelog
+## [1.2.0](https://github.com/hendt/ebay-api/compare/v1.1.2...v1.2.0) (2020-06-09)
+
+
+### Features
+
+* add new enum and fix RefundDetail type ([3c15ffc](https://github.com/hendt/ebay-api/commit/3c15ffc0633987bf330d5508d9752c1fa82470bc))
+
 ### [1.1.2](https://github.com/hendt/ebay-api/compare/v1.1.1...v1.1.2) (2020-06-01)
 
 
