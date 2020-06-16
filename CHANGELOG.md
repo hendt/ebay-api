@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [1.2.1](https://github.com/hendt/ebay-api/compare/v1.2.0...v1.2.1) (2020-06-16)
+
+
+### Bug Fixes
+
+* **PostOrder:** create return endpoint ([957c739](https://github.com/hendt/ebay-api/commit/957c739f06f6d6661ebe03fe60c45e22af05749b))
+
 ## [1.2.0](https://github.com/hendt/ebay-api/compare/v1.1.2...v1.2.0) (2020-06-09)
 
 
