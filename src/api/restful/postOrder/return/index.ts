@@ -93,7 +93,7 @@ export default class Return extends Api {
      * @param fieldGroups can be used in the call URI to control the detail level that is returned in response.
      */
     public createReturnRequest(payload: CreateReturnRequest, fieldGroups?: GetReturnFieldGroupEnum) {
-        return this.post(`/return`, payload, {
+        return this.post(``, payload, {
             params: {
                 fieldgroups: fieldGroups
             }
