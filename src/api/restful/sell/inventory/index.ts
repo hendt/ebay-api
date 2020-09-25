@@ -6,6 +6,7 @@ import {
     BulkOffer,
     BulkPriceQuantity,
     InventoryLocation,
+    InventoryLocationFull,
     OfferKeysWithId,
     PublishByInventoryItemGroupRequest,
     WithdrawByInventoryItemGroupRequest
@@ -67,6 +68,27 @@ export default class Inventory extends Api {
                 offset
             }
         });
+    }
+
+    /**
+     * <p>Use this call to create a new inventory location.
+     *
+     * @param merchantLocationKey A unique merchant-defined key (ID) for an inventory location.
+     * @param body Inventory Location details
+     */
+    public createInventoryLocation(merchantLocationKey: string, body: InventoryLocationFull) {
+        const key = encodeURIComponent(merchantLocationKey);
+        return this.post(`/location/${key}`, body);
+    }
+
+    /**
+     * <p>This call deletes the inventory location that is specified in the <code>merchantLocationKey</code> path parameter.
+     *
+     * @param merchantLocationKey A unique merchant-defined key (ID) for an inventory location.
+     */
+    public deleteInventoryLocation(merchantLocationKey: string) {
+        const key = encodeURIComponent(merchantLocationKey);
+        return this.delete(`/location/${key}`);
     }
 
     /**

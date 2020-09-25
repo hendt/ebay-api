@@ -239,9 +239,9 @@ export type IssueRefundRequest = {
 
 export type Comments = {
     content: string,
-     language?: string,
-     translatedFromContent?: string,
-     translatedFromLanguage?: string
+    language?: string,
+    translatedFromContent?: string,
+    translatedFromLanguage?: string
 }
 
 export type PostOrderItemizedRefundDetailType = {
@@ -285,6 +285,22 @@ export type InventoryLocation = {
     phone: string,
     specialHours: SpecialHours
 };
+
+export type GeoCoordinates = {
+    latitude: number
+    longitude: number
+}
+
+export type LocationDetails = {
+    address: Address
+    geoCoordinates: GeoCoordinates
+}
+
+export type InventoryLocationFull = InventoryLocation & {
+    location: LocationDetails
+    locationTypes?: string[]
+    merchantLocationStatus: string
+}
 
 export type ShipToLocationAvailability = {
     quantity: number
