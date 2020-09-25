@@ -1,4 +1,12 @@
 # eBay API Changelog
+## [1.3.0](https://github.com/hendt/ebay-api/compare/v1.2.1...v1.3.0) (2020-09-25)
+
+
+### Features
+
+* **Sell:** add missed api calls ([4749eba](https://github.com/hendt/ebay-api/commit/4749eba505f3c2dfd8543650437ca8902f42779a))
+* **Sell:** add missed API calls ([5aa03c3](https://github.com/hendt/ebay-api/commit/5aa03c3871c26a46545cd9fb29a628ba95789c09))
+
 ### [1.2.1](https://github.com/hendt/ebay-api/compare/v1.2.0...v1.2.1) (2020-06-16)
 
 
