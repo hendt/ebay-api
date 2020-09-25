@@ -5,10 +5,14 @@ import {
     BulkMigrateListing,
     BulkOffer,
     BulkPriceQuantity,
+    Compatibility,
+    EbayOfferDetailsWithKeys,
+    InventoryItemGroup,
     InventoryLocation,
     InventoryLocationFull,
     OfferKeysWithId,
     PublishByInventoryItemGroupRequest,
+    SellInventoryItem,
     WithdrawByInventoryItemGroupRequest
 } from '../../../../types/restfulTypes';
 
@@ -82,7 +86,8 @@ export default class Inventory extends Api {
     }
 
     /**
-     * <p>This call deletes the inventory location that is specified in the <code>merchantLocationKey</code> path parameter.
+     * <p>This call deletes the inventory location that is specified in the <code>merchantLocationKey</code> path
+     * parameter.
      *
      * @param merchantLocationKey A unique merchant-defined key (ID) for an inventory location.
      */
@@ -109,8 +114,31 @@ export default class Inventory extends Api {
      *     retrieve.<br/><br/><strong>Max length</strong>: 50.
      */
     public getInventoryItem(sku: string) {
-        const s = encodeURIComponent(sku);
-        return this.get(`/inventory_item/${s}`);
+        sku = encodeURIComponent(sku);
+        return this.get(`/inventory_item/${sku}`);
+    }
+
+    /**
+     * This call creates a new inventory item record or replaces an existing inventory item record.
+     *
+     * @param sku The seller-defined SKU value for the inventory item is required whether the seller is creating a new
+     *     inventory item, or updating an existing inventory item.
+     * @param body Details of the inventory item record.
+     */
+    public createOrReplaceInventoryItem(sku: string, body: SellInventoryItem) {
+        sku = encodeURIComponent(sku);
+        return this.put(`/inventory_item/${sku}`, body);
+    }
+
+    /**
+     * This call is used to delete an inventory item record associated with a specified SKU.
+     *
+     * @param sku The seller-defined SKU value for the inventory item is required whether the seller is creating a new
+     *     inventory item, or updating an existing inventory item.
+     */
+    public deleteInventoryItem(sku: string) {
+        sku = encodeURIComponent(sku);
+        return this.delete(`/inventory_item/${sku}`);
     }
 
     /**
@@ -164,8 +192,31 @@ export default class Inventory extends Api {
      * @param sku A SKU (stock keeping unit) is an unique identifier defined by a seller for a product
      */
     public getProductCompatibility(sku: string) {
-        const s = encodeURIComponent(sku);
-        return this.get(`/inventory_item/${s}/product_compatibility`);
+        sku = encodeURIComponent(sku);
+        return this.get(`/inventory_item/${sku}/product_compatibility`);
+    }
+
+    /**
+     * This call is used by the seller to create or replace a list of products that are compatible with the inventory
+     * item.
+     *
+     * @param sku A SKU (stock keeping unit) is an unique identifier defined by a seller for a product
+     * @param body Details of the compatibility
+     */
+    public createOrReplaceProductCompatibility(sku: string, body: Compatibility) {
+        sku = encodeURIComponent(sku);
+        return this.put(`/inventory_item/${sku}/product_compatibility`, body);
+    }
+
+    /**
+     * This call is used by the seller to delete the list of products that are compatible with the inventory item that
+     * is associated with the compatible product list.
+     *
+     * @param sku A SKU (stock keeping unit) is an unique identifier defined by a seller for a product
+     */
+    public deleteProductCompatibility(sku: string) {
+        sku = encodeURIComponent(sku);
+        return this.delete(`/inventory_item/${sku}/product_compatibility`);
     }
 
     /**
@@ -199,8 +250,37 @@ export default class Inventory extends Api {
      * @param offerId The unique identifier of the offer that is to be retrieved.
      */
     public getOffer(offerId: string) {
-        const id = encodeURIComponent(offerId);
-        return this.get(`/offer/${id}`);
+        offerId = encodeURIComponent(offerId);
+        return this.get(`/offer/${offerId}`);
+    }
+
+    /**
+     * This call creates an offer for a specific inventory item on a specific eBay marketplace.
+     *
+     * @param body Details of the offer for the channel
+     */
+    public createOffer(body: EbayOfferDetailsWithKeys) {
+        return this.post(`/offer`, body);
+    }
+
+    /**
+     * This call updates an existing offer.
+     *
+     * @param offerId The unique identifier of the offer that is being updated.
+     * @param body Details of the offer for the channel
+     */
+    public updateOffer(offerId: string, body: EbayOfferDetailsWithKeys) {
+        offerId = encodeURIComponent(offerId);
+        return this.put(`/offer/${offerId}`, body);
+    }
+
+    /**
+     * If used against an unpublished offer, this call will permanently delete that offer.
+     *
+     * @param offerId The unique identifier of the offer to delete.
+     */
+    public deleteOffer(offerId: string) {
+        return this.delete(`/offer/${offerId}`);
     }
 
     /**
@@ -276,8 +356,28 @@ export default class Inventory extends Api {
      * @param inventoryItemGroupKey The unique identifier of an inventory item group.
      */
     public getInventoryItemGroup(inventoryItemGroupKey: string) {
-        const key = encodeURIComponent(inventoryItemGroupKey);
-        return this.get(`/inventory_item_group/${key}`);
+        inventoryItemGroupKey = encodeURIComponent(inventoryItemGroupKey);
+        return this.get(`/inventory_item_group/${inventoryItemGroupKey}`);
+    }
+
+    /**
+     * This call creates a new inventory item group or updates an existing inventory item group.
+     *
+     * @param inventoryItemGroupKey Unique identifier of the inventory item group.
+     * @param body Details of the inventory Item Group
+     */
+    public createOrReplaceInventoryItemGroup(inventoryItemGroupKey: string, body: InventoryItemGroup) {
+        inventoryItemGroupKey = encodeURIComponent(inventoryItemGroupKey);
+        return this.put(`/inventory_item_group/${inventoryItemGroupKey}`, body);
+    }
+
+    /**
+     * This call deletes the inventory item group for a given <strong>inventoryItemGroupKey</strong> value.
+     *
+     * @param inventoryItemGroupKey Unique identifier of the inventory item group.
+     */
+    public deleteInventoryItemGroup(inventoryItemGroupKey: string) {
+        return this.delete(`/inventory_item_group/${inventoryItemGroupKey}`);
     }
 
     /**

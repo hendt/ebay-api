@@ -1017,3 +1017,102 @@ export type SalesTaxBase = {
     salesTaxPercentage: string
     shippingAndHandlingTaxed: boolean
 }
+
+export type LineItemReference = {
+    lineItemId: string
+    quantity?: number
+}
+
+export type ShippingFulfillmentDetails = {
+    lineItems: LineItemReference[]
+    shippedDate: string
+    shippingCarrierCode: string
+    trackingNumber: string
+}
+
+export type SellInventoryItem = {
+    availability: Availability
+    condition: string
+    conditionDescription: string
+    packageWeightAndSize: PackageWeightAndSize
+    product: Product
+}
+
+export type ProductFamilyProperties = {
+    make: string
+    model: string
+    year: string
+    trim: string
+    engine: string
+}
+
+export type ProductIdentifier = {
+    epid: string
+    gtin: string
+    ktype: string
+}
+
+export type CompatibleProduct = {
+    productFamilyProperties: ProductFamilyProperties
+    productIdentifier: ProductIdentifier
+    notes?: string
+}
+
+export type Compatibility = {
+    compatibleProducts: CompatibleProduct[]
+    sku: string
+}
+
+export type Specification = {
+    name: string
+    values: string[]
+}
+
+export type VariesBy = {
+    aspectsImageVariesBy: string[]
+    specifications: Specification[]
+}
+
+export type InventoryItemGroup = {
+    aspects: any
+    description: string
+    inventoryItemGroupKey: string
+    imageUrls: string[]
+    subtitle?: string
+    title: string
+    variantSKUs: string[]
+    variesBy: VariesBy
+}
+
+export type CampaignCriterion = {
+    autoSelectFutureInventory: boolean
+    criterionType: string
+    selectionRules: SelectionRule[]
+}
+
+export type CreateCampaignRequest = {
+    campaignCriterion: CampaignCriterion
+    campaignName: string
+    endDate: string
+    fundingStrategy: FundingStrategy
+    marketplaceId: string
+    startDate: string
+}
+
+export type InventoryReference = {
+    inventoryReferenceId?: string
+    inventoryReferenceType?: string
+}
+
+export type CreateReportTask = {
+    campaignIds: string[]
+    dateFrom: string
+    dateTo: string
+    dimensions: Dimension[]
+    inventoryReferences?: InventoryReference
+    listingIds: string[]
+    marketplaceId: string
+    metricKeys: string[]
+    reportFormat: string
+    reportType: string
+}

@@ -5,7 +5,10 @@ import {
     BulkDeleteAdRequest,
     BulkDeleteAdsByInventoryReferenceRequest,
     CloneCampaignRequest,
+    CreateAdRequest,
     CreateAdsByInventoryReferenceRequest,
+    CreateCampaignRequest,
+    CreateReportTask,
     ItemPriceMarkdown,
     ItemPromotion,
     UpdateBidPercentageRequest,
@@ -124,6 +127,19 @@ export default class Marketing extends Api {
     }
 
     /**
+     * This method creates an ad for the specified listing ID, sets the bid percentage for that specific item, and
+     * associates the ad with the specified campaign.
+     *
+     * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+     *     a seller's campaign IDs by calling getCampaigns.
+     * @param body This type defines the fields for the createAd request.
+     */
+    public createAdByListingId(campaignId: string, body: CreateAdRequest) {
+        campaignId = encodeURIComponent(campaignId);
+        return this.post(`/ad_campaign/${campaignId}/ad`, body);
+    }
+
+    /**
      * This method creates an ad for the specified inventory reference ID, sets the bid percentage for that specific
      * item, and associates the ad with the specified campaign.
      *
@@ -147,6 +163,18 @@ export default class Marketing extends Api {
         campaignId = encodeURIComponent(campaignId);
         adId = encodeURIComponent(adId);
         return this.get(`/ad_campaign/${campaignId}/ad/${adId}`);
+    }
+
+    /**
+     * This method retrieves the specified ad from the specified campaign.
+     *
+     * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created.
+     * @param adId Identifier of an ad. This ID was generated when the ad was created.
+     */
+    public deleteAd(campaignId: string, adId: string) {
+        campaignId = encodeURIComponent(campaignId);
+        adId = encodeURIComponent(adId);
+        return this.delete(`/ad_campaign/${campaignId}/ad/${adId}`);
     }
 
     /**
@@ -251,6 +279,26 @@ export default class Marketing extends Api {
     public getCampaign(campaignId: string) {
         campaignId = encodeURIComponent(campaignId);
         return this.get(`/ad_campaign/${campaignId}`);
+    }
+
+    /**
+     * This method creates a Promoted Listings ad campaign.
+     *
+     * @param body his type defines the fields for the create campaign request.
+     */
+    public createCampaign(body: CreateCampaignRequest) {
+        return this.post(`/ad_campaign`, body);
+    }
+
+    /**
+     *This method deletes the campaign specified by the campaign_id query parameter.
+     *
+     * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+     *     a seller's campaign IDs by calling getCampaigns.
+     */
+    public deleteCampaign(campaignId: string) {
+        campaignId = encodeURIComponent(campaignId);
+        return this.delete(`/ad_campaign/${campaignId}`);
     }
 
     /**
@@ -400,6 +448,27 @@ export default class Marketing extends Api {
     }
 
     /**
+     * This method creates a report task, which generates a Promoted Listings report based on the values specified in
+     * the call.
+     *
+     * @param body The container for the fields that define the report task.
+     */
+    public createReportTask(body: CreateReportTask) {
+        return this.post(`/ad_report_task`, body);
+    }
+
+    /**
+     * This call deletes the report task specified by the report_task_id path parameter.
+     *
+     * @param reportTaskId A unique eBay-assigned ID for the report task that's generated when the report task is
+     *     created by a call to createReportTask.
+     */
+    public deleteReportTask(reportTaskId: string) {
+        reportTaskId = encodeURIComponent(reportTaskId);
+        return this.delete(`/ad_report_task/${reportTaskId}`);
+    }
+
+    /**
      * This method creates an item price markdown promotion (know simply as a &quot;markdown promotion&quot;) where a
      * discount amount is applied directly to the items included the promotion.
      *
@@ -410,14 +479,36 @@ export default class Marketing extends Api {
     }
 
     /**
+     * This method updates the specified item price markdown promotion with the new configuration that you supply in
+     * the payload of the request.
+     *
+     * @param promotionId The ID of the promotion you want to update.
+     * @param body This type defines the fields that describe an item price markdown promotion.
+     */
+    public updateItemPriceMarkdownPromotion(promotionId: string, body: ItemPriceMarkdown) {
+        promotionId = encodeURIComponent(promotionId);
+        return this.put(`/item_price_markdown/${promotionId}`, body);
+    }
+
+    /**
+     * This method deletes the item price markdown promotion specified by the promotion_id path parameter.
+     *
+     * @param promotionId The ID of the promotion you want to delete.
+     */
+    public deleteItemPriceMarkdownPromotion(promotionId: string) {
+        promotionId = encodeURIComponent(promotionId);
+        return this.delete(`/item_price_markdown/${promotionId}`);
+    }
+
+    /**
      * This method returns the complete details of the item price markdown promotion that's indicated by the
      * promotion_id path parameter.
      *
      * @param promotionId The ID of the promotion you want to retrieve.
      */
     public getItemPriceMarkdownPromotion(promotionId: string) {
-        const id = encodeURIComponent(promotionId);
-        return this.get(`/item_price_markdown/${id}`);
+        promotionId = encodeURIComponent(promotionId);
+        return this.get(`/item_price_markdown/${promotionId}`);
     }
 
     /**
@@ -428,6 +519,29 @@ export default class Marketing extends Api {
      */
     public createItemPromotion(body: ItemPromotion) {
         return this.post(`/item_promotion`, body);
+    }
+
+    /**
+     * This method updates the specified threshold promotion with the new configuration that you supply in the request.
+     *
+     * @param promotionId The ID of the promotion you want to retrieve. The promotion ID is a unique eBay-assigned
+     *     value that's generated when the promotion is created.
+     * @param body type defines the fields that describe an item promotion.
+     */
+    public updateItemPromotion(promotionId: string, body: ItemPromotion) {
+        promotionId = encodeURIComponent(promotionId);
+        return this.put(`/item_promotion/${promotionId}`, body);
+    }
+
+    /**
+     * This method deletes the threshold promotion specified by the promotion_id path parameter.
+     *
+     * @param promotionId The ID of the promotion you want to retrieve. The promotion ID is a unique eBay-assigned
+     *     value that's generated when the promotion is created.
+     */
+    public deleteItemPromotion(promotionId: string) {
+        promotionId = encodeURIComponent(promotionId);
+        return this.delete(`/item_promotion/${promotionId}`);
     }
 
     /**

@@ -1,5 +1,5 @@
 import Api from '../../';
-import {IssueRefundRequest} from '../../../../types/restfulTypes';
+import {IssueRefundRequest, ShippingFulfillmentDetails} from '../../../../types/restfulTypes';
 
 /**
  * Use the Fulfillment API to complete the process of packaging, addressing, handling, and shipping each order on
@@ -40,8 +40,8 @@ export default class Fulfillment extends Api {
      * @param orderIds A comma-separated list of the unique identifiers of the orders to retrieve (maximum 50).
      */
     public getOrders({
-                  filter, limit, offset, orderIds
-              }: { filter?: string, limit?: number, offset?: number, orderIds?: string[] } = {}) {
+                         filter, limit, offset, orderIds
+                     }: { filter?: string, limit?: number, offset?: number, orderIds?: string[] } = {}) {
         return this.get(`/order`, {
             params: {
                 filter,
@@ -74,6 +74,17 @@ export default class Fulfillment extends Api {
     public getShippingFulfillments(orderId: string) {
         orderId = encodeURIComponent(orderId);
         return this.get(`/order/${orderId}/shipping_fulfillment`);
+    }
+
+    /**
+     * Create a Shipping Fulfillment
+     *
+     * @param orderId The unique identifier of the order.
+     * @param body fulfillment payload
+     */
+    public createShippingFulfillment(orderId: string, body: ShippingFulfillmentDetails) {
+        orderId = encodeURIComponent(orderId);
+        return this.post(`/order/${orderId}/shipping_fulfillment`, body);
     }
 
     /**
