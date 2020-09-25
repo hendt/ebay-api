@@ -2,7 +2,7 @@ import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
 import axiosRateLimit from 'axios-rate-limit';
 import debug from 'debug';
 import qs from 'qs';
-import {Interceptors, RequestConfig} from '../types';
+import {Interceptors, RequestConfig} from '../types/apiTypes';
 
 const log = debug('ebay:request');
 

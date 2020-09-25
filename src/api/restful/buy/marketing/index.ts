@@ -1,5 +1,5 @@
 import Api from '../../';
-import {AlsoBoughtByProductParams, AlsoViewedByProductParams, MerchandisedProductsParams} from '../../types';
+import {AlsoBoughtByProductParams, AlsoViewedByProductParams, MerchandisedProductsParams} from '../../../../types/restfulTypes';
 
 /**
  * The Marketing API retrieves eBay products based on a metric, such as Best Selling, as well as products that were

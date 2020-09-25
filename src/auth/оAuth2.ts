@@ -1,6 +1,6 @@
 import debug from 'debug';
 import NanoEvents from 'nanoevents';
-import {eBayConfig, Scope} from '../types';
+import {eBayConfig, Scope} from '../types/apiTypes';
 import {createRequest, ILimitedRequest} from '../utils/request';
 
 const log = debug('ebay:oauth');

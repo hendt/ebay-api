@@ -1,5 +1,5 @@
 import Api from '../../';
-import {FilePurposeEnum, GetReturnFieldGroupEnum} from '../../enums';
+import {FilePurposeEnum, GetReturnFieldGroupEnum} from '../../../../enums/enums';
 import {
     CheckEligibilityRequest,
     CloseReturnRequest,
@@ -19,7 +19,7 @@ import {
     UpdateTrackingRequest,
     UploadFileRequest,
     VoidLabelRequest
-} from '../../types';
+} from '../../../../types/restfulTypes';
 
 /**
  * Post-Order Return API

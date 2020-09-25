@@ -1,5 +1,5 @@
 import Api from '../../';
-import {FeedParams} from '../../types';
+import {FeedParams} from '../../../../types/restfulTypes';
 
 /**
  * The Feed API provides the ability to download TSV_GZIP feed files containing eBay items and an hourly snapshot file

@@ -13,7 +13,7 @@ import {
     ReturnTypeEnum,
     ShippingCarrierEnum,
     UserRoleFilter
-} from './enums';
+} from '../enums/enums';
 
 export type AttributeNameValue = {
     name: string,

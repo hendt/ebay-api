@@ -1,5 +1,5 @@
 import Api from '../../';
-import {IssueRefundRequest} from '../../types';
+import {IssueRefundRequest} from '../../../../types/restfulTypes';
 
 /**
  * Use the Fulfillment API to complete the process of packaging, addressing, handling, and shipping each order on

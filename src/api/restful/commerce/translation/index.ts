@@ -1,5 +1,5 @@
 import Api from '../../';
-import {TranslateRequest} from '../../types';
+import {TranslateRequest} from '../../../../types/restfulTypes';
 
 /**
  * This API allows 3rd party developers to translate item title, description, search query.

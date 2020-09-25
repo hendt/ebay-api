@@ -17,7 +17,7 @@ import {
     Sell
 } from './restful/sell';
 import Traditional from './traditional';
-import {ClientAlerts, Finding, Shopping, Trading} from './traditional/types';
+import {ClientAlerts, Finding, Shopping, Trading} from '../types/traditonalTypes';
 
 /**
  * Factory class to create RESTFul API or Traditional API.

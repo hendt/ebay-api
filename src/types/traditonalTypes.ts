@@ -1,9 +1,9 @@
-import ClientAlertsCalls from './clientAlerts/index';
-import {Fields} from './fields';
-import FindingCalls from './finding/index';
-import ShoppingCalls from './shopping/index';
-import TradingCalls from './trading/index';
-import {Options} from './XMLRequest';
+import ClientAlertsCalls from '../api/traditional/clientAlerts/index';
+import {Fields} from '../api/traditional/fields';
+import FindingCalls from '../api/traditional/finding/index';
+import ShoppingCalls from '../api/traditional/shopping/index';
+import TradingCalls from '../api/traditional/trading/index';
+import {Options} from '../api/traditional/XMLRequest';
 
 export type XMLApiCall = (fields?: Fields, options?: Options) => Promise<any>;
 
@@ -22,7 +22,6 @@ export type Finding = {
 export type ClientAlerts = {
     [key in typeof ClientAlertsCalls[number]]: (fields?: object, options?: Options) => Promise<any>;
 };
-
 
 type Endpoint = {
     production: string,

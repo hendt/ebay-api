@@ -7,7 +7,7 @@ import {Fields} from './fields';
 import FindingCalls from './finding';
 import ShoppingCalls from './shopping';
 import TradingCalls from './trading';
-import {ClientAlerts, Finding, Shopping, Trading, TraditionalApi} from './types';
+import {ClientAlerts, Finding, Shopping, Trading, TraditionalApi} from '../../types/traditonalTypes';
 import XMLRequest, {defaultOptions, Options} from './XMLRequest';
 
 /**

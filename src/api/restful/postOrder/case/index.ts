@@ -1,5 +1,5 @@
 import Api from '../../';
-import {AppealRequest, BuyerCloseCaseRequest, CaseSearchParams, ReturnAddressRequest, Text} from '../../types';
+import {AppealRequest, BuyerCloseCaseRequest, CaseSearchParams, ReturnAddressRequest, Text} from '../../../../types/restfulTypes';
 
 /**
  * Post-Order Case Management API

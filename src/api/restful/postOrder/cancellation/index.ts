@@ -1,5 +1,5 @@
 import Api from '../../';
-import {CancellationSearchParams, ConfirmRefundRequest, CreateCancelRequest, RejectCancelRequest} from '../../types';
+import {CancellationSearchParams, ConfirmRefundRequest, CreateCancelRequest, RejectCancelRequest} from '../../../../types/restfulTypes';
 
 /**
  * Post-Order Cancellation API

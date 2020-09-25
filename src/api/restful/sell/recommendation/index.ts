@@ -1,5 +1,5 @@
 import Api from '../../';
-import {FindListingRecommendationRequest} from '../../types';
+import {FindListingRecommendationRequest} from '../../../../types/restfulTypes';
 
 /**
  * The <b>Recommendation API</b> returns information that sellers can use to optimize the configuration of their

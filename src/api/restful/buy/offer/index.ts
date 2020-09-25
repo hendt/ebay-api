@@ -1,5 +1,5 @@
 import Api from '../../';
-import {PlaceProxyBidRequest} from '../../types';
+import {PlaceProxyBidRequest} from '../../../../types/restfulTypes';
 
 /**
  * The Api Offer API enables Partners to place proxy bids for a buyer and retrieve the auctions where the buyer is

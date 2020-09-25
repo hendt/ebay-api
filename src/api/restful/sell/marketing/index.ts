@@ -10,7 +10,7 @@ import {
     ItemPromotion,
     UpdateBidPercentageRequest,
     UpdateCampaignIdentificationRequest
-} from '../../types';
+} from '../../../../types/restfulTypes';
 
 /**
  * <p>The <i>Marketing API </i> offers two platforms that sellers can use to promote and advertise their products:

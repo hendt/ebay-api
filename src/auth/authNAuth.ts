@@ -1,6 +1,6 @@
 import debug from 'debug';
 import XMLRequest from '../api/traditional/XMLRequest';
-import {AuthToken, eBayConfig} from '../types';
+import {AuthToken, eBayConfig} from '../types/apiTypes';
 import {createRequest, ILimitedRequest} from '../utils/request';
 
 const log = debug('ebay:authNAuth');

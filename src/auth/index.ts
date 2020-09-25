@@ -1,4 +1,4 @@
-import {eBayConfig} from '../types';
+import {eBayConfig} from '../types/apiTypes';
 import {createRequest, ILimitedRequest} from '../utils/request';
 import AuthNAuth from './authNAuth';
 import OAuth2 from './оAuth2';

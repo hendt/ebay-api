@@ -1,5 +1,5 @@
 import Api from '../../';
-import {CatalogSearchParams} from '../../types';
+import {CatalogSearchParams} from '../../../../types/restfulTypes';
 
 /**
  * Use the Catalog API to search the eBay catalog for products on which to base a seller's item listing;

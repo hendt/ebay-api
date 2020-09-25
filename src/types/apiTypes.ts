@@ -1,4 +1,4 @@
-import {MarketplaceId} from './enums';
+import {MarketplaceId} from '../enums';
 
 export type Scope = string[];
 

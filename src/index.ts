@@ -4,13 +4,13 @@ import {Commerce} from './api/restful/commerce';
 import {Developer} from './api/restful/developer';
 import {PostOrder} from './api/restful/postOrder';
 import {Sell} from './api/restful/sell';
-import {ClientAlerts, Finding, Shopping, Trading} from './api/traditional/types';
+import {ClientAlerts, Finding, Shopping, Trading} from './types/traditonalTypes';
 import Auth from './auth';
 import AuthNAuth from './auth/authNAuth';
 import OAuth2 from './auth/оAuth2';
 import {MarketplaceId, SiteId} from './enums';
 import {EnvError} from './errors';
-import {AppConfig} from './types';
+import {AppConfig} from './types/apiTypes';
 import {createRequest, ILimitedRequest} from './utils/request';
 
 const defaultConfig = {

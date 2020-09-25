@@ -9,7 +9,7 @@ import {
     OfferKeysWithId,
     PublishByInventoryItemGroupRequest,
     WithdrawByInventoryItemGroupRequest
-} from '../../types';
+} from '../../../../types/restfulTypes';
 
 /**
  * The Inventory API is used to create and manage inventory, and then to publish and manage this inventory on an eBay

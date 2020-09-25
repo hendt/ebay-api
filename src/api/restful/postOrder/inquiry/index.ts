@@ -9,7 +9,7 @@ import {
     SellerProvideRefundInfoRequest,
     SendMessageRequest,
     ShipmentInfoRequest
-} from '../../types';
+} from '../../../../types/restfulTypes';
 
 /**
  * Post-Order Inquiry API

@@ -1,5 +1,5 @@
 import Api from '../../';
-import {Program} from '../../types';
+import {Program} from '../../../../types/restfulTypes';
 
 /**
  * The <b>Account API</b> gives sellers the ability to configure their eBay seller accounts,

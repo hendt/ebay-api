@@ -4,7 +4,7 @@ import 'mocha';
 import sinon from 'sinon';
 import Traditional from '../../../src/api/traditional/index';
 import Auth from '../../../src/auth/index';
-import {eBayConfig} from '../../../src/types';
+import {eBayConfig} from '../../../src/types/apiTypes';
 import {ILimitedRequest} from '../../../src/utils/request';
 
 describe('Traditional', () => {
