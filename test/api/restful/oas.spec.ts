@@ -47,51 +47,47 @@ describe('Open API Tests', () => {
                 });
 
                 Object.keys(Oas.paths).forEach((path: any) => {
-                    const method = Oas.paths[path].get ? 'get' : 'post';
-                    const endpoint = Oas.paths[path];
-                    const call = endpoint[method];
-                    const queryParams = path.match(/(?<={).+?(?=})/ig);
-                    const paramsInPath = queryParams ? queryParams : [];
-                    const paramsInHeader = call.parameters ? call.parameters.filter((p: any) => p.in === 'header') : [];
-                    const args = paramsInPath.map((paramName: any) => '{' + paramName + '}')
-                        .concat(paramsInHeader.map((p: any) => p.name));
+                    Object.keys(Oas.paths[path]).forEach(method => {
+                        const endpoint = Oas.paths[path];
+                        const call = endpoint[method];
+                        if (!call.operationId || call.deprecated) {
+                            return;
+                        }
+                        const queryParams = path.match(/(?<={).+?(?=})/ig);
+                        const paramsInPath = queryParams ? queryParams : [];
+                        const paramsInHeader = call.parameters ? call.parameters.filter((p: any) => p.in === 'header') : [];
+                        const args = paramsInPath.map((paramName: any) => '{' + paramName + '}')
+                            .concat(paramsInHeader.map((p: any) => p.name));
 
-                    const req = {
-                        get: sinon.stub().returns(Promise.resolve()),
-                        post: sinon.stub().returns(Promise.resolve()),
-                        postForm: sinon.stub().returns(Promise.resolve())
-                    };
+                        const req: any = {
+                            get: sinon.stub().returns(Promise.resolve()),
+                            put: sinon.stub().returns(Promise.resolve()),
+                            delete: sinon.stub().returns(Promise.resolve()),
+                            post: sinon.stub().returns(Promise.resolve()),
+                            postForm: sinon.stub().returns(Promise.resolve())
+                        };
 
-                    const restApi = new Api(auth, req);
+                        const restApi = new Api(auth, req);
 
-                    it('"' + name + ':' + Api.name + '" should implement this method', () => {
-                        expect(restApi[call.operationId]).to
-                            .be.a('function', 'AssertionError: expected to have "'
-                            + call.operationId + '" implemented.');
-                    });
-
-                    it('"' + name + ':' + Api.name + ':' + call.operationId + '" call correct method', () => {
-                        return restApi[call.operationId](...args).then(() => {
-                            if (method === 'get') {
-                                // tslint:disable-next-line:no-unused-expression
-                                expect(req.get.calledOnce).to.be.true;
-                            } else if (method === 'post') {
-                                // tslint:disable-next-line:no-unused-expression
-                                expect(req.post.calledOnce).to.be.true;
-                            }
+                        it(`"${name}:${Api.name}" should implement this method (${path}). `, () => {
+                            expect(restApi[call.operationId]).to
+                                .be.a('function', 'AssertionError: expected to have "'
+                                + call.operationId + '" implemented.');
                         });
-                    });
 
-                    it('"' + name + ':' + Api.name + ':' + call.operationId + '" calls correct url', () => {
-                        return restApi[call.operationId](...args).then(() => {
-                            if (method === 'get') {
-                                expect(decodeURI(req.get.args[0][0]))
-                                    .to.equal(decodeURI(encodeURI(restApi.baseUrl + path)));
-                            } else if (method === 'post') {
-                                expect(decodeURI(req.post.args[0][0]))
-                                    .to.equal(decodeURI(encodeURI(restApi.baseUrl + path)));
-                            }
+                        it(`"${name}:${Api.name}:${call.operationId}" call correct method (${path}).`, () => {
+                            return restApi[call.operationId](...args).then(() => {
+                                expect(req[method].calledOnce).to.be.true;
+                            });
                         });
+
+                        it(`"${name}:${Api.name}:${call.operationId}" calls correct url (${path}).`, () => {
+                            return restApi[call.operationId](...args).then(() => {
+                                expect(decodeURI(req[method].args[0][0]))
+                                    .to.equal(decodeURI(encodeURI(restApi.baseUrl + path)));
+                            });
+                        });
+
                     });
                 });
             });

@@ -903,3 +903,117 @@ export type DecideReturnRequest = {
     RMANumber?: string;
     rMAProvided?: boolean;
 };
+
+export type CategoryType = {
+    default: boolean
+    name: string
+}
+
+export type TimeDuration = {
+    unit: string
+    value: number
+}
+
+export type Region = {
+    regionName: string
+    regionType: string
+}
+
+export type RegionSet = {
+    regionExcluded: Region[]
+    regionIncluded: Region[]
+}
+
+export type ShippingService = {
+    additionalShippingCost: Amount
+    buyerResponsibleForPickup: boolean
+    buyerResponsibleForShipping: boolean
+    cashOnDeliveryFee: Amount
+    freeShipping: boolean
+    shippingCarrierCode: string
+    shippingCost: Amount
+    shippingServiceCode: string
+    shipToLocations: RegionSet
+    sortOrder: number
+    surcharge: Amount
+}
+
+export type ShippingOption = {
+    costType: string
+    insuranceFee: Amount
+    insuranceOffered: boolean
+    optionType: string
+    packageHandlingCost: Amount
+    rateTableId: string
+    shippingServices: ShippingService
+}
+
+export type FulfillmentPolicyRequest = {
+    categoryTypes: CategoryType[]
+    description?: string
+    freightShipping: boolean
+    handlingTime: TimeDuration
+    localPickup: boolean
+    marketplaceId?: string
+    name: string
+    pickupDropOff: boolean
+    shippingOptions: ShippingOption
+    shipToLocations: RegionSet
+}
+
+export type RecipientAccountReference = {
+    referenceId: string
+    referenceType: string
+}
+
+export type PaymentMethod = {
+    brands?: string[]
+    paymentMethodType: string
+    recipientAccountReference?: RecipientAccountReference
+}
+
+export type Deposit = {
+    amount: Amount
+    dueIn: TimeDuration
+    paymentMethods: PaymentMethod[]
+}
+
+export type PaymentPolicyRequest = {
+    categoryTypes: CategoryType[]
+    deposit: Deposit
+    description: string
+    fullPaymentDueIn: TimeDuration
+    immediatePay: boolean
+    marketplaceId?: string
+    name: string
+    paymentInstructions: string
+    paymentMethods: PaymentMethod
+}
+
+export type InternationalReturnOverrideType = {
+    returnMethod?: string
+    returnPeriod?: TimeDuration
+    returnsAccepted?: boolean
+    returnShippingCostPayer?: string
+}
+
+export type ReturnPolicyRequest = {
+    categoryTypes: CategoryType[]
+    description?: string
+    extendedHolidayReturnsOffered: boolean
+    internationalOverride: InternationalReturnOverrideType
+    marketplaceId: string
+    name: string
+    refundMethod: string
+    restockingFeePercentage: string
+    returnInstructions: string
+    returnMethod: string
+    returnPeriod: TimeDuration
+    returnsAccepted: boolean
+    returnShippingCostPayer: string
+}
+
+export type SalesTaxBase = {
+    salesTaxPercentage: string
+    shippingAndHandlingTaxed: boolean
+}

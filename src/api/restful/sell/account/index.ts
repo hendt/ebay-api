@@ -1,5 +1,10 @@
 import Api from '../../';
-import {Program} from '../../../../types/restfulTypes';
+import {
+    FulfillmentPolicyRequest,
+    PaymentPolicyRequest,
+    Program,
+    ReturnPolicyRequest, SalesTaxBase
+} from '../../../../types/restfulTypes';
 
 /**
  * The <b>Account API</b> gives sellers the ability to configure their eBay seller accounts,
@@ -23,6 +28,37 @@ export default class Account extends Api {
                 marketplace_id: marketplaceId
             }
         });
+    }
+
+    /**
+     * This method creates a new fulfillment policy where the policy encapsulates seller's terms for fulfilling item
+     * purchases.
+     *
+     * @param body Request to create a seller account fulfillment policy.
+     */
+    public createFulfillmentPolicy(body: FulfillmentPolicyRequest) {
+        return this.post(`/fulfillment_policy/`, body);
+    }
+
+    /**
+     * This method updates an existing fulfillment policy.
+     *
+     * @param fulfillmentPolicyId This path parameter specifies the ID of the fulfillment policy you want to update.
+     * @param body Request to create a seller account fulfillment policy.
+     */
+    public updateFulfillmentPolicy(fulfillmentPolicyId: string, body: FulfillmentPolicyRequest) {
+        const id = encodeURIComponent(fulfillmentPolicyId);
+        return this.put(`/fulfillment_policy/${id}`, body);
+    }
+
+    /**
+     * This method deletes a fulfillment policy.
+     *
+     * @param fulfillmentPolicyId This path parameter specifies the ID of the fulfillment policy to delete.
+     */
+    public deleteFulfillmentPolicy(fulfillmentPolicyId: string) {
+        const id = encodeURIComponent(fulfillmentPolicyId);
+        return this.delete(`/fulfillment_policy/${id}`);
     }
 
     /**
@@ -73,6 +109,36 @@ export default class Account extends Api {
     public getPaymentPolicy(paymentPolicyId: string) {
         const id = encodeURIComponent(paymentPolicyId);
         return this.get(`/payment_policy/${id}`);
+    }
+
+    /**
+     * This method creates a new payment policy where the policy encapsulates seller's terms for purchase payments.
+     *
+     * @param body Payment policy request
+     */
+    public createPaymentPolicy(body: PaymentPolicyRequest) {
+        return this.post(`/payment_policy/`, body);
+    }
+
+    /**
+     * This method updates an existing payment policy.
+     *
+     * @param paymentPolicyId This path parameter specifies the ID of the payment policy you want to update.
+     * @param body Payment policy request
+     */
+    public updatePaymentPolicy(paymentPolicyId: string, body: PaymentPolicyRequest) {
+        const id = encodeURIComponent(paymentPolicyId);
+        return this.put(`/payment_policy/${id}`, body);
+    }
+
+    /**
+     * This method updates an existing payment policy.
+     *
+     * @param paymentPolicyId This path parameter specifies the ID of the payment policy you want to delete.
+     */
+    public deletePaymentPolicy(paymentPolicyId: string) {
+        const id = encodeURIComponent(paymentPolicyId);
+        return this.delete(`/payment_policy/${id}`);
     }
 
     /**
@@ -176,6 +242,36 @@ export default class Account extends Api {
     }
 
     /**
+     * This method creates a new return policy where the policy encapsulates seller's terms for returning items.
+     *
+     * @param body Return policy request
+     */
+    public createReturnPolicy(body: ReturnPolicyRequest) {
+        return this.post(`/return_policy/`, body);
+    }
+
+    /**
+     * This method creates a new return policy where the policy encapsulates seller's terms for returning items.
+     *
+     *  @param returnPolicyId This path parameter specifies the ID of the return policy you want to update.
+     * @param body Return policy request
+     */
+    public updateReturnPolicy(returnPolicyId: string, body: ReturnPolicyRequest) {
+        const id = encodeURIComponent(returnPolicyId);
+        return this.put(`/return_policy/${id}`, body);
+    }
+
+    /**
+     * This method deletes a return policy.
+     *
+     * @param returnPolicyId This path parameter specifies the ID of the return policy you want to delete.
+     */
+    public deleteReturnPolicy(returnPolicyId: string) {
+        const id = encodeURIComponent(returnPolicyId);
+        return this.delete(`/return_policy/${id}`);
+    }
+
+    /**
      * This method retrieves the complete details of a single return policy.
      *
      * @param marketplaceId This query parameter specifies the ID of the eBay marketplace of the policy you want to
@@ -203,6 +299,36 @@ export default class Account extends Api {
         const cc = encodeURIComponent(countryCode);
         const jId = encodeURIComponent(jurisdictionId);
         return this.get(`/sales_tax/${cc}/${jId}`);
+    }
+
+
+    /**
+     * This method creates or updates a sales tax table entry for a jurisdiction.
+     *
+     * @param countryCode This path parameter specifies the two-letter ISO 3166-1 Alpha-2 code for the country for
+     *     which you want to create tax table entry.
+     * @param jurisdictionId This path parameter specifies the ID of the sales-tax jurisdiction for the table entry you
+     *     want to create.
+     * @param body A container that describes the how the sales tax is calculated.
+     */
+    public createOrReplaceSalesTax(countryCode: string, jurisdictionId: string, body: SalesTaxBase) {
+        const cc = encodeURIComponent(countryCode);
+        const jId = encodeURIComponent(jurisdictionId);
+        return this.put(`/sales_tax/${cc}/${jId}`, body);
+    }
+
+    /**
+     * This call deletes a tax table entry for a jurisdiction.
+     *
+     * @param countryCode This path parameter specifies the two-letter ISO 3166-1 Alpha-2 code for the country for
+     *     which you want to create tax table entry.
+     * @param jurisdictionId This path parameter specifies the ID of the sales-tax jurisdiction for the table entry you
+     *     want to delete.
+     */
+    public deleteSalesTax(countryCode: string, jurisdictionId: string) {
+        const cc = encodeURIComponent(countryCode);
+        const jId = encodeURIComponent(jurisdictionId);
+        return this.delete(`/sales_tax/${cc}/${jId}`);
     }
 
     /**
