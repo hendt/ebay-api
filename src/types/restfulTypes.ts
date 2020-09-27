@@ -293,7 +293,7 @@ export type GeoCoordinates = {
 
 export type LocationDetails = {
     address: Address
-    geoCoordinates: GeoCoordinates
+    geoCoordinates?: GeoCoordinates
 }
 
 export type InventoryLocationFull = InventoryLocation & {
