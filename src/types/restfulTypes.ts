@@ -277,13 +277,13 @@ export type SpecialHours = {
 };
 
 export type InventoryLocation = {
-    locationAdditionalInformation: string,
-    locationInstructions: string
-    locationWebUrl: string,
-    name: string,
-    operatingHours: OperatingHours,
-    phone: string,
-    specialHours: SpecialHours
+    locationAdditionalInformation?: string,
+    locationInstructions?: string
+    locationWebUrl?: string,
+    name?: string,
+    operatingHours?: OperatingHours,
+    phone?: string,
+    specialHours?: SpecialHours
 };
 
 export type GeoCoordinates = {
