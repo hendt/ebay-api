@@ -206,7 +206,7 @@ export default class OAuth2 {
         this._userAccessToken = userAccessToken;
     }
 
-    public async refreshAuthToken(): Promise<void> {
+    public async refreshAuthToken(): Promise<Token> {
         if (!this._userAccessToken) {
             log('Tried to refresh auth token before it was set.');
             throw new Error('Failed to refresh the token. Token is not set.');
@@ -233,13 +233,15 @@ export default class OAuth2 {
             this.setCredentials(refreshedToken);
 
             this.emitter.emit('refreshAuthToken', refreshedToken);
+
+            return refreshedToken;
         } catch (ex) {
             log('Failed to refresh the token', ex);
             throw ex;
         }
     }
 
-    public async refreshToken() {
+    public async refreshToken(): Promise<Token> {
         if (this._userAccessToken) {
             return this.refreshAuthToken();
         } else if (this._clientToken) {
