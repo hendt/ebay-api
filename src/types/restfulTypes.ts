@@ -999,19 +999,19 @@ export type InternationalReturnOverrideType = {
 }
 
 export type ReturnPolicyRequest = {
-    categoryTypes: CategoryType[]
+    categoryTypes?: CategoryType[]
     description?: string
-    extendedHolidayReturnsOffered: boolean
-    internationalOverride: InternationalReturnOverrideType
-    marketplaceId: string
+    extendedHolidayReturnsOffered?: boolean
+    internationalOverride?: InternationalReturnOverrideType
+    marketplaceId?: string
     name: string
-    refundMethod: string
-    restockingFeePercentage: string
-    returnInstructions: string
-    returnMethod: string
-    returnPeriod: TimeDuration
+    refundMethod?: string
+    restockingFeePercentage?: string
+    returnInstructions?: string
+    returnMethod?: string
+    returnPeriod?: TimeDuration
     returnsAccepted: boolean
-    returnShippingCostPayer: string
+    returnShippingCostPayer?: string
 }
 
 export type SalesTaxBase = {
