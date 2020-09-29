@@ -112,6 +112,9 @@ export default class AuthNAuth {
     }
 
     public getRequestConfig(callname: string) {
+        if (!this.eBayConfig.siteId) {
+            throw new Error('siteId is required for Auth\'n\'Auth.');
+        }
         return {
             xmlns: 'urn:ebay:apis:eBLBaseComponents',
             endpoint: AuthNAuth.API_ENDPOINT[this.eBayConfig.sandbox ? 'sandbox' : 'production'],

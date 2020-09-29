@@ -36,7 +36,7 @@ This API implements both Traditional \(xml\) and the RESTful eBay API. It suppor
 
 ## Installation
 
-```javascript
+```bash
 npm install @hendt/ebay-api // yarn add @hendt/ebay-api
 ```
 
@@ -87,14 +87,14 @@ import eBayApi from '@hendt/ebay-api';
 
 const eBay = new eBayApi({
   appId: '-- or Client ID --',
-  certId: '-- or Client Secret',
+  certId: '-- or Client Secret --',
   sandbox: false,
-  siteId: eBayApi.SiteId.EBAY_US, // see https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html
   
-  // optinal parameters, should be omitted if not used
+  // optional parameters, should be omitted if not used
+  siteId: eBayApi.SiteId.EBAY_US, // required for traditional APIs, see https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html
   devId: 'devId', // required for traditional trading API
-  ruName: '-- eBay Redirect URL name --', // Required for authorization code grant
-  authToken: '--  Auth\'n Auth for traditional API (used by trading) --', // can be set to use traditional API without code grant
+  ruName: '-- eBay Redirect URL name --', // required for authorization code grant
+  authToken: '--  Auth\'n\'Auth for traditional API (used by trading) --', // can be set to use traditional API without code grant
 });
 ```
 
