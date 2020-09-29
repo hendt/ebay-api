@@ -969,26 +969,26 @@ export type RecipientAccountReference = {
 
 export type PaymentMethod = {
     brands?: string[]
-    paymentMethodType: string
+    paymentMethodType?: string
     recipientAccountReference?: RecipientAccountReference
 }
 
 export type Deposit = {
-    amount: Amount
-    dueIn: TimeDuration
+    amount?: Amount
+    dueIn?: TimeDuration
     paymentMethods: PaymentMethod[]
 }
 
 export type PaymentPolicyRequest = {
     categoryTypes: CategoryType[]
-    deposit: Deposit
-    description: string
-    fullPaymentDueIn: TimeDuration
-    immediatePay: boolean
+    deposit?: Deposit
+    description?: string
+    fullPaymentDueIn?: TimeDuration
+    immediatePay?: boolean
     marketplaceId?: string
     name: string
-    paymentInstructions: string
-    paymentMethods: PaymentMethod
+    paymentInstructions?: string
+    paymentMethods?: PaymentMethod
 }
 
 export type InternationalReturnOverrideType = {
