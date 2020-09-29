@@ -84,7 +84,7 @@ export type Amount = {
     convertedFromCurrency?: string,
     convertedFromValue?: number,
     value: string,
-    currency: string
+    currency?: string
 };
 
 export type FeedParams = {
@@ -277,13 +277,13 @@ export type SpecialHours = {
 };
 
 export type InventoryLocation = {
-    locationAdditionalInformation: string,
-    locationInstructions: string
-    locationWebUrl: string,
-    name: string,
-    operatingHours: OperatingHours,
-    phone: string,
-    specialHours: SpecialHours
+    locationAdditionalInformation?: string,
+    locationInstructions?: string
+    locationWebUrl?: string,
+    name?: string,
+    operatingHours?: OperatingHours,
+    phone?: string,
+    specialHours?: SpecialHours
 };
 
 export type GeoCoordinates = {
@@ -299,7 +299,7 @@ export type LocationDetails = {
 export type InventoryLocationFull = InventoryLocation & {
     location: LocationDetails
     locationTypes?: string[]
-    merchantLocationStatus: string
+    merchantLocationStatus?: string
 }
 
 export type ShipToLocationAvailability = {
@@ -905,7 +905,7 @@ export type DecideReturnRequest = {
 };
 
 export type CategoryType = {
-    default: boolean
+    default?: boolean
     name: string
 }
 
@@ -920,45 +920,46 @@ export type Region = {
 }
 
 export type RegionSet = {
-    regionExcluded: Region[]
-    regionIncluded: Region[]
+    regionExcluded?: Region[]
+    regionIncluded?: Region[]
 }
 
 export type ShippingService = {
-    additionalShippingCost: Amount
-    buyerResponsibleForPickup: boolean
-    buyerResponsibleForShipping: boolean
-    cashOnDeliveryFee: Amount
-    freeShipping: boolean
-    shippingCarrierCode: string
-    shippingCost: Amount
-    shippingServiceCode: string
-    shipToLocations: RegionSet
-    sortOrder: number
-    surcharge: Amount
+    additionalShippingCost?: Amount
+    buyerResponsibleForPickup?: boolean
+    buyerResponsibleForShipping?: boolean
+    cashOnDeliveryFee?: Amount
+    freeShipping?: boolean
+    shippingCarrierCode?: string
+    shippingCost?: Amount
+    shippingServiceCode?: string
+    shipToLocations?: RegionSet
+    sortOrder?: number
+    surcharge?: Amount
 }
 
 export type ShippingOption = {
     costType: string
-    insuranceFee: Amount
-    insuranceOffered: boolean
+    insuranceFee?: Amount
+    insuranceOffered?: boolean
     optionType: string
-    packageHandlingCost: Amount
-    rateTableId: string
+    packageHandlingCost?: Amount
+    rateTableId?: string
     shippingServices: ShippingService
 }
 
 export type FulfillmentPolicyRequest = {
     categoryTypes: CategoryType[]
     description?: string
-    freightShipping: boolean
+    freightShipping?: boolean
+    globalShipping?: boolean
     handlingTime: TimeDuration
-    localPickup: boolean
+    localPickup?: boolean
     marketplaceId?: string
     name: string
-    pickupDropOff: boolean
-    shippingOptions: ShippingOption
-    shipToLocations: RegionSet
+    pickupDropOff?: boolean
+    shippingOptions?: ShippingOption
+    shipToLocations?: RegionSet
 }
 
 export type RecipientAccountReference = {
