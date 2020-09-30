@@ -26,6 +26,9 @@ export default class Traditional {
         if (!this.auth.eBayConfig.devId) {
             throw new Error('devId is required for trading API.');
         }
+        if (!this.auth.eBayConfig.siteId) {
+            throw new Error('siteId is required for trading API.');
+        }
         return this.createTraditionalXMLApi<Trading>({
             endpoint: {
                 production: 'https://api.ebay.com/ws/api.dll',
@@ -46,6 +49,9 @@ export default class Traditional {
     }
 
     public createShoppingApi(): Shopping {
+        if (!this.auth.eBayConfig.siteId) {
+            throw new Error('siteId is required for shopping API.');
+        }
         return this.createTraditionalXMLApi<Shopping>({
             endpoint: {
                 production: 'http://open.api.ebay.com/shopping',
@@ -79,6 +85,9 @@ export default class Traditional {
     }
 
     public createClientAlertsApi(): ClientAlerts {
+        if (!this.auth.eBayConfig.siteId) {
+            throw new Error('siteId is required for client alerts API.');
+        }
         const api = {
             endpoint: {
                 production: 'https://clientalerts.ebay.com/ws/ecasvc/ClientAlerts',

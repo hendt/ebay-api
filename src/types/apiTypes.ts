@@ -15,7 +15,7 @@ export type Keyset = {
 
 export type eBayConfig = Keyset & {
     sandbox: boolean,
-    siteId: number,
+    siteId?: number,
     ruName?: string,
 
     scope?: Scope,
