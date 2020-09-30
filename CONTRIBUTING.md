@@ -9,6 +9,7 @@ Thanks for being willing to contribute!
 3. `$ npm run test` to test all scenario's
 4. Create a branch for your PR
 5. Try to include test cases for your code
+6. Follow [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) for commit messages
 
 ## Commit and Push
 
@@ -16,5 +17,5 @@ Once you completed making the change, Please make sure to run the tests before y
 `npm run test` which will test your code.
 
 **Working on your first Pull Request?** 
-<a href='https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github' target='_blank'>How to Contribute to an Open Source Project on GitHub</a>.
+[How to Contribute to an Open Source Project on GitHub](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github).
 Thanks to @kentcdodds for this amazing tutorial.

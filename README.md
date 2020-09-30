@@ -50,7 +50,7 @@ A Proxy server is required to use the API in the Browser.
 
 For testing purpose you can use: `https://ebay.hendt.workers.dev/`. You can also setup your own Proxy server. We have added a example for cloudfront workers: [https://github.com/hendt/ebay-api/blob/master/proxy/worker.js](https://github.com/hendt/ebay-api/blob/master/proxy/worker.js)
 
-```markup
+```html
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@hendt/ebay-api@latest/lib/ebay-api.min.js"></script>
 <script>
   const eBay = new eBayApi({
@@ -180,7 +180,7 @@ The token will be automatically refreshed if, when you make a call, eBay returns
 that indicates that the token has expired.
 
 You can use the Event Emitter to get the token when it is refreshed
-(use `'refreshAuthToken'` for the auth token or `'refreshClientToken'` for the client token):
+(use `'eBay.auth.oAuth2.refreshAuthToken()'` for the auth token or `'eBay.auth.oAuth2.refreshClientToken()'` for the client token):
 ```javascript
 eBay.auth.oAuth2.on('refreshAuthToken', (token) => {
     console.log(token)
@@ -225,14 +225,15 @@ eBay.finding.findItemsIneBayStores({
 });
 ```
 
-### Finding - findItemsByKeywords
+### Finding - findItemsAdvanced (findItemsByKeywords)
 
 ```javascript
-eBay.finding.findItemsByKeywords({
-    itemFilter: {
+eBay.finding.findItemsAdvanced({
+    itemFilter: [{
         name: 'Seller',
         value: 'hendt_de'
-    }
+    }],
+    keywords: 'katze'
 }).then(result => {
     console.log(result);
 });
