@@ -192,8 +192,23 @@ Alternatively, you can refresh it yourself:
 let token = await eBay.auth.oAuth2.refreshToken();
 ```
 
-## Examples
+## Additional Headers
+Sometimes you want to add additional headers to the request like GLOBAL-ID (X-EBAY-SOA-GLOBAL-ID).
+You can use the interceptor to manipulate the request:
+```js
+  const eBay = new eBayApi({
+    // ...
+    interceptors: {
+      request: (request) => {
+        // Add Header
+        request.headers['X-EBAY-SOA-GLOBAL-ID'] = 'EBAY-DE';
+        return request;
+      }
+    }
+  });
+```
 
+## Examples
 ### Buy - getItem
 
 ```javascript
