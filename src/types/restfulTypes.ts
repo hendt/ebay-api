@@ -988,7 +988,7 @@ export type PaymentPolicyRequest = {
     marketplaceId?: string
     name: string
     paymentInstructions?: string
-    paymentMethods?: PaymentMethod
+    paymentMethods?: PaymentMethod[]
 }
 
 export type InternationalReturnOverrideType = {
