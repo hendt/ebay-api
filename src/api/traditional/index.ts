@@ -26,7 +26,7 @@ export default class Traditional {
         if (!this.auth.eBayConfig.devId) {
             throw new Error('devId is required for trading API.');
         }
-        if (!this.auth.eBayConfig.siteId) {
+        if (typeof this.auth.eBayConfig.siteId !== 'number') {
             throw new Error('siteId is required for trading API.');
         }
         return this.createTraditionalXMLApi<Trading>({
@@ -49,7 +49,7 @@ export default class Traditional {
     }
 
     public createShoppingApi(): Shopping {
-        if (!this.auth.eBayConfig.siteId) {
+        if (typeof this.auth.eBayConfig.siteId !== 'number') {
             throw new Error('siteId is required for shopping API.');
         }
         return this.createTraditionalXMLApi<Shopping>({
@@ -85,7 +85,7 @@ export default class Traditional {
     }
 
     public createClientAlertsApi(): ClientAlerts {
-        if (!this.auth.eBayConfig.siteId) {
+        if (typeof this.auth.eBayConfig.siteId !== 'number') {
             throw new Error('siteId is required for client alerts API.');
         }
         const api = {
