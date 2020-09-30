@@ -175,6 +175,23 @@ eBay.auth.oAuth2.setScope([
 ]);
 ```
 
+### How to refresh the token
+The token will be automatically refreshed if, when you make a call, eBay returns an error message
+that indicates that the token has expired.
+
+You can use the Event Emitter to get the token when it is refreshed
+(use `'refreshAuthToken'` for the auth token or `'refreshClientToken'` for the client token):
+```javascript
+eBay.auth.oAuth2.on('refreshAuthToken', (token) => {
+    console.log(token)
+});
+```
+
+Alternatively, you can refresh it yourself:
+```javascript
+let token = await eBay.auth.oAuth2.refreshToken();
+```
+
 ## Examples
 
 ### Buy - getItem
