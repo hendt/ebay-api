@@ -1,4 +1,20 @@
 # eBay API Changelog
+## [1.4.0](https://github.com/hendt/ebay-api/compare/v1.3.0...v1.4.0) (2020-10-02)
+
+
+### Features
+
+* Return refreshed token from refreshAuthToken ([b7075c3](https://github.com/hendt/ebay-api/commit/b7075c3698da56a0e6442bbe906ddbf5ace430b8))
+
+
+### Bug Fixes
+
+* fix siteId check ([3c8c1cb](https://github.com/hendt/ebay-api/commit/3c8c1cbf40805f8a344d039a3cfe3c3ae97bb5ec))
+* fix type of PaymentPolicyRequest.paymentMethods ([e8a97a7](https://github.com/hendt/ebay-api/commit/e8a97a7001ec6142518e570243fc3be39898a627))
+* Mark non-required types in PaymentPolicyRequest and children as optional ([efaad9d](https://github.com/hendt/ebay-api/commit/efaad9d45adf0deab1bf3dbfa4ae812a6273346c))
+* Mark non-required types in ReturnPolicyRequest as optional ([2323344](https://github.com/hendt/ebay-api/commit/2323344d4ddfe197701aac6d3a46e0c235f0e415))
+* remove requirement for siteId in eBayConfig; instead, throw errors when it is needed but not provided ([2df33f8](https://github.com/hendt/ebay-api/commit/2df33f8553ad6f01366201931b13d692ea2a16d8))
+
 ## [1.3.0](https://github.com/hendt/ebay-api/compare/v1.2.1...v1.3.0) (2020-09-25)
 
 
