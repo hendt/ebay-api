@@ -324,13 +324,13 @@ export type BulkPriceQuantity = {
 
 export type PickupAtLocationAvailability = {
     availabilityType: string,
-    fulfillmentTime: string,
+    fulfillmentTime: TimeDuration,
     merchantLocationKey: string,
     quantity: number
 };
 
 export type Availability = {
-    pickupAtLocationAvailability: PickupAtLocationAvailability,
+    pickupAtLocationAvailability?: PickupAtLocationAvailability,
     shipToLocationAvailability: ShipToLocationAvailability
 };
 
@@ -347,33 +347,28 @@ export type Weight = {
 };
 
 export type PackageWeightAndSize = {
-    dimensions: Dimension,
-    packageType: string,
+    dimensions?: Dimension,
+    packageType?: string,
     weight: Weight
 };
 
 type Product = {
-    aspects: any, // TODO
-    brand: string,
-    description: string,
+    aspects?: any, // TODO
+    brand?: string,
+    description?: string,
     imageUrls: string[],
-    mpn: string,
-    subtitle: string,
+    mpn?: string,
+    subtitle?: string,
     title: string,
-    isbn: string[],
-    upc: string[],
-    ean: string[],
-    epid: string
+    isbn?: string[],
+    upc?: string[],
+    ean?: string[],
+    epid?: string
 };
 
-export type InventoryItemWithSkuLocale = {
-    availability: Availability,
-    condition: string,
-    conditionDescription: string,
-    packageWeightAndSize: PackageWeightAndSize,
-    product: Product,
+export type InventoryItemWithSkuLocale = SellInventoryItem & {
     sku: string,
-    locale: string
+    locale?: string
 };
 
 export type BulkInventoryItem = {
@@ -399,46 +394,62 @@ export type OfferKeysWithId = {
 };
 
 export type ShippingCostOverride = {
-    surcharge: Amount,
-    additionalShippingCost: Amount,
+    surcharge?: Amount,
+    additionalShippingCost?: Amount,
     priority: number,
-    shippingCost: Amount,
+    shippingCost?: Amount,
     shippingServiceType: string
 };
 
+export type BestOffer = {
+    autoAcceptPrice?: Amount
+    autoDeclinePrice?: Amount
+    bestOfferEnabled?: boolean
+}
+
 export type ListingPolicies = {
+    bestOfferTerms?: BestOffer
     paymentPolicyId: string,
     returnPolicyId: string,
-    shippingCostOverrides: ShippingCostOverride,
+    shippingCostOverrides?: ShippingCostOverride[],
     fulfillmentPolicyId: string,
     ebayPlusIfEligible: boolean
 };
 
 export type PricingSummary = {
-    minimumAdvertisedPrice: Amount,
-    pricingVisibility: string,
-    originallySoldForRetailPriceOn: string,
-    originalRetailPrice: Amount,
+    minimumAdvertisedPrice?: Amount,
+    pricingVisibility?: string,
+    originallySoldForRetailPriceOn?: string,
+    originalRetailPrice?: Amount,
     price: Amount
 };
 
 export type Tax = {
     applyTax: boolean,
-    thirdPartyTaxCategory: string,
-    vatPercentage: number
+    thirdPartyTaxCategory?: string,
+    vatPercentage?: number
 };
 
+export type Charity = {
+    charityId: string,
+    donationPercentage: string
+}
+
 export type EbayOfferDetailsWithKeys = {
-    availableQuantity: number,
-    categoryId: string,
+    availableQuantity?: number,
+    categoryId?: string,
+    charity?: Charity,
+    includeCatalogProductDetails?: boolean
     listingDescription: string,
+    listingDuration?: string,
     listingPolicies: ListingPolicies,
     merchantLocationKey: string,
     pricingSummary: PricingSummary,
-    quantityLimitPerBuyer: number,
-    tax: Tax,
+    quantityLimitPerBuyer?: number,
+    secondaryCategoryId?: string,
+    tax?: Tax,
     storeCategoryNames: string[],
-    lotSize: number,
+    lotSize?: number,
     sku: string,
     marketplaceId: string,
     format: string
@@ -969,26 +980,26 @@ export type RecipientAccountReference = {
 
 export type PaymentMethod = {
     brands?: string[]
-    paymentMethodType: string
+    paymentMethodType?: string
     recipientAccountReference?: RecipientAccountReference
 }
 
 export type Deposit = {
-    amount: Amount
-    dueIn: TimeDuration
+    amount?: Amount
+    dueIn?: TimeDuration
     paymentMethods: PaymentMethod[]
 }
 
 export type PaymentPolicyRequest = {
     categoryTypes: CategoryType[]
-    deposit: Deposit
-    description: string
-    fullPaymentDueIn: TimeDuration
-    immediatePay: boolean
+    deposit?: Deposit
+    description?: string
+    fullPaymentDueIn?: TimeDuration
+    immediatePay?: boolean
     marketplaceId?: string
     name: string
-    paymentInstructions: string
-    paymentMethods: PaymentMethod
+    paymentInstructions?: string
+    paymentMethods?: PaymentMethod[]
 }
 
 export type InternationalReturnOverrideType = {
@@ -999,19 +1010,19 @@ export type InternationalReturnOverrideType = {
 }
 
 export type ReturnPolicyRequest = {
-    categoryTypes: CategoryType[]
+    categoryTypes?: CategoryType[]
     description?: string
-    extendedHolidayReturnsOffered: boolean
-    internationalOverride: InternationalReturnOverrideType
-    marketplaceId: string
+    extendedHolidayReturnsOffered?: boolean
+    internationalOverride?: InternationalReturnOverrideType
+    marketplaceId?: string
     name: string
-    refundMethod: string
-    restockingFeePercentage: string
-    returnInstructions: string
-    returnMethod: string
-    returnPeriod: TimeDuration
+    refundMethod?: string
+    restockingFeePercentage?: string
+    returnInstructions?: string
+    returnMethod?: string
+    returnPeriod?: TimeDuration
     returnsAccepted: boolean
-    returnShippingCostPayer: string
+    returnShippingCostPayer?: string
 }
 
 export type SalesTaxBase = {
@@ -1034,8 +1045,8 @@ export type ShippingFulfillmentDetails = {
 export type SellInventoryItem = {
     availability: Availability
     condition: string
-    conditionDescription: string
-    packageWeightAndSize: PackageWeightAndSize
+    conditionDescription?: string
+    packageWeightAndSize?: PackageWeightAndSize
     product: Product
 }
 
