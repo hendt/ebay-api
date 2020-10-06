@@ -359,7 +359,7 @@ export type PackageWeightAndSize = {
     weight: Weight
 };
 
-type Product = {
+export type Product = {
     aspects?: any, // TODO
     brand?: string,
     description?: string,
