@@ -302,7 +302,14 @@ export type InventoryLocationFull = InventoryLocation & {
     merchantLocationStatus?: string
 }
 
+export type AvailabilityDistribution = {
+    fulfillmentTime?: TimeDuration
+    merchantLocationKey: string
+    quantity: number
+}
+
 export type ShipToLocationAvailability = {
+    availabilityDistributions?: AvailabilityDistribution[]
     quantity: number
 };
 
