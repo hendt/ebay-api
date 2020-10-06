@@ -963,7 +963,7 @@ export type ShippingOption = {
     optionType: string
     packageHandlingCost?: Amount
     rateTableId?: string
-    shippingServices: ShippingService
+    shippingServices: ShippingService[]
 }
 
 export type FulfillmentPolicyRequest = {
@@ -976,7 +976,7 @@ export type FulfillmentPolicyRequest = {
     marketplaceId?: string
     name: string
     pickupDropOff?: boolean
-    shippingOptions?: ShippingOption
+    shippingOptions?: ShippingOption[]
     shipToLocations?: RegionSet
 }
 
