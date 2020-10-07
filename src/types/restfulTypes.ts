@@ -420,7 +420,7 @@ export type ListingPolicies = {
     returnPolicyId: string,
     shippingCostOverrides?: ShippingCostOverride[],
     fulfillmentPolicyId: string,
-    ebayPlusIfEligible: boolean
+    ebayPlusIfEligible?: boolean
 };
 
 export type PricingSummary = {
