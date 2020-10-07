@@ -302,7 +302,14 @@ export type InventoryLocationFull = InventoryLocation & {
     merchantLocationStatus?: string
 }
 
+export type AvailabilityDistribution = {
+    fulfillmentTime?: TimeDuration
+    merchantLocationKey: string
+    quantity: number
+}
+
 export type ShipToLocationAvailability = {
+    availabilityDistributions?: AvailabilityDistribution[]
     quantity: number
 };
 
@@ -352,7 +359,7 @@ export type PackageWeightAndSize = {
     weight: Weight
 };
 
-type Product = {
+export type Product = {
     aspects?: any, // TODO
     brand?: string,
     description?: string,
@@ -413,7 +420,7 @@ export type ListingPolicies = {
     returnPolicyId: string,
     shippingCostOverrides?: ShippingCostOverride[],
     fulfillmentPolicyId: string,
-    ebayPlusIfEligible: boolean
+    ebayPlusIfEligible?: boolean
 };
 
 export type PricingSummary = {
@@ -956,7 +963,7 @@ export type ShippingOption = {
     optionType: string
     packageHandlingCost?: Amount
     rateTableId?: string
-    shippingServices: ShippingService
+    shippingServices: ShippingService[]
 }
 
 export type FulfillmentPolicyRequest = {
@@ -969,7 +976,7 @@ export type FulfillmentPolicyRequest = {
     marketplaceId?: string
     name: string
     pickupDropOff?: boolean
-    shippingOptions?: ShippingOption
+    shippingOptions?: ShippingOption[]
     shipToLocations?: RegionSet
 }
 
