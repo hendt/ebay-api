@@ -1061,19 +1061,25 @@ export type ProductFamilyProperties = {
     make: string
     model: string
     year: string
-    trim: string
-    engine: string
+    trim?: string
+    engine?: string
 }
 
 export type ProductIdentifier = {
-    epid: string
-    gtin: string
-    ktype: string
+    epid?: string
+    gtin?: string
+    ktype?: string
+}
+
+export type NameValueList = {
+    name: string
+    value: string
 }
 
 export type CompatibleProduct = {
-    productFamilyProperties: ProductFamilyProperties
-    productIdentifier: ProductIdentifier
+    compatibilityProperties?: NameValueList[]
+    productFamilyProperties?: ProductFamilyProperties
+    productIdentifier?: ProductIdentifier
     notes?: string
 }
 
