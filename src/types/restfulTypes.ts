@@ -447,7 +447,7 @@ export type EbayOfferDetailsWithKeys = {
     categoryId?: string,
     charity?: Charity,
     includeCatalogProductDetails?: boolean
-    listingDescription: string,
+    listingDescription?: string,
     listingDuration?: string,
     listingPolicies: ListingPolicies,
     merchantLocationKey: string,
@@ -455,7 +455,7 @@ export type EbayOfferDetailsWithKeys = {
     quantityLimitPerBuyer?: number,
     secondaryCategoryId?: string,
     tax?: Tax,
-    storeCategoryNames: string[],
+    storeCategoryNames?: string[],
     lotSize?: number,
     sku: string,
     marketplaceId: string,
