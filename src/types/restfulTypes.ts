@@ -973,7 +973,7 @@ export type FulfillmentPolicyRequest = {
     globalShipping?: boolean
     handlingTime: TimeDuration
     localPickup?: boolean
-    marketplaceId?: string
+    marketplaceId: string
     name: string
     pickupDropOff?: boolean
     shippingOptions?: ShippingOption[]
@@ -1003,7 +1003,7 @@ export type PaymentPolicyRequest = {
     description?: string
     fullPaymentDueIn?: TimeDuration
     immediatePay?: boolean
-    marketplaceId?: string
+    marketplaceId: string
     name: string
     paymentInstructions?: string
     paymentMethods?: PaymentMethod[]
@@ -1021,7 +1021,7 @@ export type ReturnPolicyRequest = {
     description?: string
     extendedHolidayReturnsOffered?: boolean
     internationalOverride?: InternationalReturnOverrideType
-    marketplaceId?: string
+    marketplaceId: string
     name: string
     refundMethod?: string
     restockingFeePercentage?: string
