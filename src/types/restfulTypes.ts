@@ -447,7 +447,7 @@ export type EbayOfferDetailsWithKeys = {
     categoryId?: string,
     charity?: Charity,
     includeCatalogProductDetails?: boolean
-    listingDescription: string,
+    listingDescription?: string,
     listingDuration?: string,
     listingPolicies: ListingPolicies,
     merchantLocationKey: string,
@@ -455,7 +455,7 @@ export type EbayOfferDetailsWithKeys = {
     quantityLimitPerBuyer?: number,
     secondaryCategoryId?: string,
     tax?: Tax,
-    storeCategoryNames: string[],
+    storeCategoryNames?: string[],
     lotSize?: number,
     sku: string,
     marketplaceId: string,
@@ -973,7 +973,7 @@ export type FulfillmentPolicyRequest = {
     globalShipping?: boolean
     handlingTime: TimeDuration
     localPickup?: boolean
-    marketplaceId?: string
+    marketplaceId: string
     name: string
     pickupDropOff?: boolean
     shippingOptions?: ShippingOption[]
@@ -1003,7 +1003,7 @@ export type PaymentPolicyRequest = {
     description?: string
     fullPaymentDueIn?: TimeDuration
     immediatePay?: boolean
-    marketplaceId?: string
+    marketplaceId: string
     name: string
     paymentInstructions?: string
     paymentMethods?: PaymentMethod[]
@@ -1021,7 +1021,7 @@ export type ReturnPolicyRequest = {
     description?: string
     extendedHolidayReturnsOffered?: boolean
     internationalOverride?: InternationalReturnOverrideType
-    marketplaceId?: string
+    marketplaceId: string
     name: string
     refundMethod?: string
     restockingFeePercentage?: string
@@ -1061,19 +1061,25 @@ export type ProductFamilyProperties = {
     make: string
     model: string
     year: string
-    trim: string
-    engine: string
+    trim?: string
+    engine?: string
 }
 
 export type ProductIdentifier = {
-    epid: string
-    gtin: string
-    ktype: string
+    epid?: string
+    gtin?: string
+    ktype?: string
+}
+
+export type NameValueList = {
+    name: string
+    value: string
 }
 
 export type CompatibleProduct = {
-    productFamilyProperties: ProductFamilyProperties
-    productIdentifier: ProductIdentifier
+    compatibilityProperties?: NameValueList[]
+    productFamilyProperties?: ProductFamilyProperties
+    productIdentifier?: ProductIdentifier
     notes?: string
 }
 
