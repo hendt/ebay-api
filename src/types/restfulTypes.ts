@@ -450,7 +450,7 @@ export type EbayOfferDetailsWithKeys = {
     listingDescription?: string,
     listingDuration?: string,
     listingPolicies: ListingPolicies,
-    merchantLocationKey: string,
+    merchantLocationKey?: string,
     pricingSummary: PricingSummary,
     quantityLimitPerBuyer?: number,
     secondaryCategoryId?: string,
