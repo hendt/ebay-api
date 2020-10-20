@@ -442,7 +442,7 @@ export type Charity = {
     donationPercentage: string
 }
 
-export type EbayOfferDetailsWithKeys = {
+export type EbayOfferDetailsWithId = {
     availableQuantity?: number,
     categoryId?: string,
     charity?: Charity,
@@ -456,11 +456,14 @@ export type EbayOfferDetailsWithKeys = {
     secondaryCategoryId?: string,
     tax?: Tax,
     storeCategoryNames?: string[],
-    lotSize?: number,
+    lotSize?: number
+};
+
+export type EbayOfferDetailsWithKeys = EbayOfferDetailsWithId & {
     sku: string,
     marketplaceId: string,
     format: string
-};
+}
 
 export type BulkEbayOfferDetailsWithKeys = {
     requests: EbayOfferDetailsWithKeys[]

@@ -6,6 +6,7 @@ import {
     BulkOffer,
     BulkPriceQuantity,
     Compatibility,
+    EbayOfferDetailsWithId,
     EbayOfferDetailsWithKeys,
     InventoryItemGroup,
     InventoryLocation,
@@ -269,7 +270,7 @@ export default class Inventory extends Api {
      * @param offerId The unique identifier of the offer that is being updated.
      * @param body Details of the offer for the channel
      */
-    public updateOffer(offerId: string, body: EbayOfferDetailsWithKeys) {
+    public updateOffer(offerId: string, body: EbayOfferDetailsWithId) {
         offerId = encodeURIComponent(offerId);
         return this.put(`/offer/${offerId}`, body);
     }
