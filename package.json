@@ -40,7 +40,7 @@
     "build": "tsc && rollup -c",
     "prepare": "npm run build",
     "tslint": "tslint -c tslint.json 'src/**/*.ts'",
-    "test": "mocha -r ts-node/register test/**/*.spec.ts --reporter=dot",
+    "test": "mocha -r ts-node/register 'test/**/*.spec.ts' --reporter=dot",
     "prerelease": "npm run test && npm run build",
     "release": "standard-version"
   },
