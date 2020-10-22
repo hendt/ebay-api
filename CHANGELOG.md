@@ -1,4 +1,13 @@
 # eBay API Changelog
+### [1.4.1](https://github.com/hendt/ebay-api/compare/v1.4.0...v1.4.1) (2020-10-22)
+
+
+### Bug Fixes
+
+* Create type EbayOfferDetailsWithId and use that for updateOffer ([0445e05](https://github.com/hendt/ebay-api/commit/0445e056b80ae4ab022f72fba2532311bb880f62))
+* Merge pull request [#19](https://github.com/hendt/ebay-api/issues/19) from olliechick/fix-types ([a999b12](https://github.com/hendt/ebay-api/commit/a999b121037eeb9b6455a17091ef8ab09b488d9d))
+* wrap glob pattern in single quotes ([ac2eb5f](https://github.com/hendt/ebay-api/commit/ac2eb5fc99c4cb11251fd46b952863c772851e38))
+
 ## [1.4.0](https://github.com/hendt/ebay-api/compare/v1.3.0...v1.4.0) (2020-10-02)
 
 
