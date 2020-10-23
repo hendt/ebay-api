@@ -937,7 +937,7 @@ export type TimeDuration = {
 
 export type Region = {
     regionName: string
-    regionType: string
+    regionType?: string
 }
 
 export type RegionSet = {
