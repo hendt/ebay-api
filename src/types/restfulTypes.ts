@@ -1088,7 +1088,6 @@ export type CompatibleProduct = {
 
 export type Compatibility = {
     compatibleProducts: CompatibleProduct[]
-    sku: string
 }
 
 export type Specification = {
