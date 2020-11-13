@@ -8,8 +8,8 @@ This API implements both Traditional \(xml\) and the RESTful eBay API. It suppor
 
 ## Changelog
 
-- `v1.4.1` is the latest release.
-- See [here](https://github.com/hendt/ebay-api/blob/master/CHANGELOG.md) for the full changelog.
+* `v1.4.1` is the latest release.
+* See [here](https://github.com/hendt/ebay-api/blob/master/CHANGELOG.md) for the full changelog.
 
 ## Implementation status
 
@@ -17,7 +17,7 @@ This API implements both Traditional \(xml\) and the RESTful eBay API. It suppor
 
 | API | Implemented |
 | :--- | :--- |
-| **Sell APIs** |  ✔ |
+| **Sell APIs** | ✔ |
 | **Buy APIs** | Marketplace Insights API is missing |
 | **Commerce APIs** | ✔ |
 | **Developer APIs** | ✔ |
@@ -50,7 +50,7 @@ A Proxy server is required to use the API in the Browser.
 
 For testing purpose you can use: `https://ebay.hendt.workers.dev/`. You can also setup your own Proxy server. We have added a example for cloudfront workers: [https://github.com/hendt/ebay-api/blob/master/proxy/worker.js](https://github.com/hendt/ebay-api/blob/master/proxy/worker.js)
 
-```html
+```markup
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@hendt/ebay-api@latest/lib/ebay-api.min.js"></script>
 <script>
   const eBay = new eBayApi({
@@ -89,7 +89,7 @@ const eBay = new eBayApi({
   appId: '-- or Client ID --',
   certId: '-- or Client Secret --',
   sandbox: false,
-  
+
   // optional parameters, should be omitted if not used
   siteId: eBayApi.SiteId.EBAY_US, // required for traditional APIs, see https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html
   devId: 'devId', // required for traditional trading API
@@ -122,7 +122,7 @@ The first parameter in eBayApi:
 
 ## OAuth2: Exchanging the authorization code for a User access token
 
-[Docs](https://developer.ebay.com/api-docs/static/oauth-auth-code-grant-request.html)
+[eBay Docs](https://developer.ebay.com/api-docs/static/oauth-auth-code-grant-request.html)
 
 ```javascript
 // 1. Create new eBayApi instance and set the scope.
@@ -176,11 +176,11 @@ eBay.auth.oAuth2.setScope([
 ```
 
 ### How to refresh the token
-The token will be automatically refreshed if, when you make a call, eBay returns an error message
-that indicates that the token has expired.
 
-You can use the Event Emitter to get the token when it is refreshed
-(use `'eBay.auth.oAuth2.refreshAuthToken()'` for the auth token or `'eBay.auth.oAuth2.refreshClientToken()'` for the client token):
+The token will be automatically refreshed if, when you make a call, eBay returns an error message that indicates that the token has expired.
+
+You can use the Event Emitter to get the token when it is refreshed \(use `'eBay.auth.oAuth2.refreshAuthToken()'` for the auth token or `'eBay.auth.oAuth2.refreshClientToken()'` for the client token\):
+
 ```javascript
 eBay.auth.oAuth2.on('refreshAuthToken', (token) => {
     console.log(token)
@@ -188,14 +188,16 @@ eBay.auth.oAuth2.on('refreshAuthToken', (token) => {
 ```
 
 Alternatively, you can refresh it yourself:
+
 ```javascript
 let token = await eBay.auth.oAuth2.refreshToken();
 ```
 
 ## Additional Headers
-Sometimes you want to add additional headers to the request like GLOBAL-ID (X-EBAY-SOA-GLOBAL-ID).
-You can use the interceptor to manipulate the request:
-```js
+
+Sometimes you want to add additional headers to the request like GLOBAL-ID \(X-EBAY-SOA-GLOBAL-ID\). You can use the interceptor to manipulate the request:
+
+```javascript
   const eBay = new eBayApi({
     // ...
     interceptors: {
@@ -209,6 +211,22 @@ You can use the interceptor to manipulate the request:
 ```
 
 ## Examples
+
+### Trading - AddFixedPriceItem \(CDATA\)
+
+You can submit your description using CDATA if you want to use HTML or XML. 
+
+```javascript
+eBay.trading.AddFixedPriceItem({
+  Item: {
+    Title: 'title',
+    Description: {
+      __cdata: '<div>test</div>'
+    }
+  }
+})
+```
+
 ### Buy - getItem
 
 ```javascript
@@ -240,7 +258,7 @@ eBay.finding.findItemsIneBayStores({
 });
 ```
 
-### Finding - findItemsAdvanced (findItemsByKeywords)
+### Finding - findItemsAdvanced \(findItemsByKeywords\)
 
 ```javascript
 eBay.finding.findItemsAdvanced({
@@ -280,8 +298,8 @@ Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
 
 ## Similar projects
 
-[ebay-promised](https://github.com/ondreian/ebay-promised)   
-[ebay-client](https://github.com/CoinPoet/ebay-client)   
+[ebay-promised](https://github.com/ondreian/ebay-promised)  
+[ebay-client](https://github.com/CoinPoet/ebay-client)  
 [ebay-node-api](https://github.com/pajaydev/ebay-node-api)
 
 ## 📝 License
