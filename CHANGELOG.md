@@ -1,4 +1,12 @@
 # eBay API Changelog
+### [1.4.2](https://github.com/hendt/ebay-api/compare/v1.4.1...v1.4.2) (2021-01-07)
+
+
+### Bug Fixes
+
+* Make Region.regionType optional ([9486ec6](https://github.com/hendt/ebay-api/commit/9486ec6c50b24c74ce33bd281314bbc9476c99a0))
+* Remove sku from Compatibility ([506d988](https://github.com/hendt/ebay-api/commit/506d98875c5355d4f6e33f01ce6e04c5fec99260))
+
 ### [1.4.1](https://github.com/hendt/ebay-api/compare/v1.4.0...v1.4.1) (2020-10-22)
 
 
