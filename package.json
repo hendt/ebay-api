@@ -7,7 +7,7 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.js",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "axios-rate-limit": "^1.1.2",
     "debug": "^2.1.1",
     "fast-xml-parser": "^3.13.0",
