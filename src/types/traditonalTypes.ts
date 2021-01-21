@@ -8,29 +8,29 @@ import {Options} from '../api/traditional/XMLRequest';
 export type XMLApiCall = (fields?: Fields, options?: Options) => Promise<any>;
 
 export type Trading = {
-    [key in typeof TradingCalls[number]]: XMLApiCall;
+  [key in typeof TradingCalls[number]]: XMLApiCall;
 };
 
 export type Shopping = {
-    [key in typeof ShoppingCalls[number]]: XMLApiCall;
+  [key in typeof ShoppingCalls[number]]: XMLApiCall;
 };
 
 export type Finding = {
-    [key in typeof FindingCalls[number]]: XMLApiCall;
+  [key in typeof FindingCalls[number]]: XMLApiCall;
 };
 
 export type ClientAlerts = {
-    [key in typeof ClientAlertsCalls[number]]: (fields?: object, options?: Options) => Promise<any>;
+  [key in typeof ClientAlertsCalls[number]]: (fields?: object, options?: Options) => Promise<any>;
 };
 
 type Endpoint = {
-    production: string,
-    sandbox: string
+  production: string,
+  sandbox: string
 };
 
 export type TraditionalApi = {
-    endpoint: Endpoint,
-    xmlns: string,
-    calls: typeof TradingCalls | typeof ShoppingCalls | typeof FindingCalls | typeof ClientAlertsCalls,
-    headers: (callname: string, accessToken?: string) => object
+  endpoint: Endpoint,
+  xmlns: string,
+  calls: typeof TradingCalls | typeof ShoppingCalls | typeof FindingCalls | typeof ClientAlertsCalls,
+  headers: (callname: string, accessToken?: string) => object
 };

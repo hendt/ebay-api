@@ -1,5 +1,5 @@
 import Api from '../../';
-import {FilePurposeEnum, GetReturnFieldGroupEnum} from '../../../../enums/enums';
+import {FilePurposeEnum, GetReturnFieldGroupEnum} from '../../../../enums';
 import {
     CheckEligibilityRequest,
     CloseReturnRequest,
