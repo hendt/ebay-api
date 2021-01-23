@@ -23,7 +23,12 @@ const defaultXmlOptions = {
 const parser = new j2xParser(defaultXmlOptions);
 
 const defaultParseOptions = {
-    textNodeName: 'value'
+    attributeNamePrefix: '',
+    textNodeName: 'val',
+    ignoreAttributes: false,
+    parseAttributeValue: true,
+    parseNodeValue: true,
+    ignoreNameSpace: true
 };
 
 export type Options = {
@@ -159,7 +164,7 @@ export default class XMLRequest {
 
             // Unwrap
             if (json[this.responseWrapper]) {
-                json = Parser.flatten(json[this.responseWrapper]);
+                json = json[this.responseWrapper]
             }
 
             this.handleEBayJsonError(json);

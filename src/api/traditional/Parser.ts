@@ -1,5 +1,4 @@
 import parser from 'fast-xml-parser';
-import {dateTimeNodes, numericNodes} from './nodes';
 
 const EXTRANEOUS = [
     '@',
@@ -24,62 +23,6 @@ export default class Parser {
      */
     public static toJSON(xml: string, parseOptions: object) {
         return parser.parse(xml, parseOptions);
-    }
-
-    /**
-     * Casts text representations to Javascript representations
-     *
-     * @param      {String}       value   The value
-     * @param      {String}       key   The key
-     * @return     {Date|Number}          The cast value
-     */
-    public static cast(value: any, key: any) {
-        if (value === 'true') {
-            return true;
-        }
-
-        if (value === 'false') {
-            return false;
-        }
-
-        if (typeof key === 'string') {
-            if (dateTimeNodes[key.toLowerCase()]) {
-                return new Date(value);
-            }
-
-            if (!isNaN(value) && numericNodes[key.toLowerCase()]) {
-                return Number(value);
-            }
-        }
-
-        return value;
-    }
-
-    /**
-     * recursively flattens `value` keys in the XML -> JSON conversion
-     * we can do this because we don't need to worry about XML attributes from eBay
-     *
-     * @param      {Object}  o       the object output from the XML parser
-     * @param      {Object}  key     the key
-     * @return     {Object}          the flattened output
-     */
-    public static flatten(o: any, key?: any): any {
-        if (o && o.value) {
-            return Parser.cast(o.value, key);
-        }
-
-        if (Array.isArray(o)) {
-            return o.map(Parser.flatten);
-        }
-
-        if (typeof o !== 'object') {
-            return Parser.cast(o, key);
-        }
-
-        return Object.keys(o).reduce((deflated: any, fKey) => {
-            deflated[fKey] = Parser.flatten(o[fKey], fKey);
-            return deflated;
-        }, {});
     }
 
     /**
