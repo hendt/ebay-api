@@ -17,7 +17,7 @@ const EXTRANEOUS = [
 const HEADING = '<?xml version="1.0" encoding="utf-8"?>';
 const log = debug('ebay:xml:request');
 
-const defaultXmlOptions = {
+const defaultJSON2XMLOptions = {
   attributeNamePrefix: '@_',
   textNodeName: '#value',
   ignoreAttributes: false,
@@ -28,7 +28,7 @@ const defaultXmlOptions = {
   supressEmptyNode: false
 };
 
-const defaultParseOptions = {
+const defaultXML2JSONParseOptions = {
   attributeNamePrefix: '',
   textNodeName: 'value',
   ignoreAttributes: false,
@@ -58,7 +58,7 @@ export type Config = {
 export const defaultOptions: Required<Options> = {
   raw: false,
   cleanup: true,
-  parseOptions: defaultParseOptions,
+  parseOptions: defaultXML2JSONParseOptions,
   useIaf: true
 };
 
@@ -71,7 +71,7 @@ export default class XMLRequest {
   private readonly config: Config;
   private readonly req: any;
 
-  public static j2x = new j2xParser(defaultXmlOptions);
+  public static j2x = new j2xParser(defaultJSON2XMLOptions);
 
   private readonly defaultHeaders = {
     'Content-Type': 'text/xml'
@@ -230,7 +230,7 @@ export default class XMLRequest {
     log('eBayResponseError', error);
 
     if (error.response && error.response.data) {
-      const json = XMLRequest.toJSON(error.response.data, defaultParseOptions);
+      const json = XMLRequest.toJSON(error.response.data, defaultXML2JSONParseOptions);
       this.handleEBayJsonError(json);
     } else {
       throw error;
