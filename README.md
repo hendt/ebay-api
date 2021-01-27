@@ -50,7 +50,7 @@ A Proxy server is required to use the API in the Browser.
 
 For testing purpose you can use: `https://ebay.hendt.workers.dev/`. You can also setup your own Proxy server. We have added a example for cloudfront workers: [https://github.com/hendt/ebay-api/blob/master/proxy/worker.js](https://github.com/hendt/ebay-api/blob/master/proxy/worker.js)
 
-```markup
+```html
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@hendt/ebay-api@latest/lib/ebay-api.min.js"></script>
 <script>
   const eBay = new eBayApi({
@@ -210,6 +210,18 @@ Sometimes you want to add additional headers to the request like GLOBAL-ID \(X-E
   });
 ```
 
+## Traditional XML response
+
+The second parameter in the traditional API has the following options:
+```ts
+export type Options = {
+  raw?: boolean, // return raw XML
+  cleanup?: boolean, // remove extraneous tags like  '@', 'Ack', 
+  parseOptions?: object, // https://github.com/NaturalIntelligence/fast-xml-parser
+  useIaf?: boolean // use IAF in header instead of Bearer
+};
+```
+
 ## Examples
 
 ### Trading - AddFixedPriceItem \(CDATA\)
@@ -295,6 +307,7 @@ Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
 ## Supported By
 
 [hendt.de](https://hendt.de)
+[rootle.de](https://rootle.de)
 
 ## Similar projects
 

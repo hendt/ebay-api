@@ -105,4 +105,27 @@ describe('XMLRequestTest', () => {
       }).to.deep.equal(result);
     });
   });
+
+  it('Handles tag names that ends with Array', () => {
+    const response = `<?xml version="1.0" encoding="utf-8"?>
+<CALLResponse xmlns="urn:ebay:apis:eBLBaseComponents">
+   <ActiveList>
+        <ItemArray>
+            <Item>item</Item>
+        </ItemArray>
+   </ActiveList>
+</CALLResponse>`;
+
+    req.post = sinon.stub().returns(Promise.resolve(response));
+    const request = new XMLRequest('CALL', {}, config, req);
+    return request.fetch().then(result => {
+      expect({
+        ActiveList: {
+          ItemArray: [{
+            Item: 'item'
+          }]
+        }
+      }).to.deep.equal(result);
+    });
+  });
 });

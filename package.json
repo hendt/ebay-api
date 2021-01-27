@@ -10,7 +10,7 @@
     "axios": "^0.21.1",
     "axios-rate-limit": "^1.1.2",
     "debug": "^2.1.1",
-    "fast-xml-parser": "^3.17.6",
+    "fast-xml-parser": "git@github.com:dantio/fast-xml-parser.git#arrayMode",
     "nanoevents": "^2.0.0",
     "qs": "^6.8.0"
   },

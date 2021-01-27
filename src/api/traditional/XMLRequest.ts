@@ -28,13 +28,14 @@ const defaultJSON2XMLOptions = {
   supressEmptyNode: false
 };
 
-const defaultXML2JSONParseOptions = {
+export const defaultXML2JSONParseOptions = {
   attributeNamePrefix: '',
   textNodeName: 'value',
   ignoreAttributes: false,
   parseAttributeValue: true,
   parseNodeValue: true,
-  ignoreNameSpace: true
+  ignoreNameSpace: true,
+  arrayMode: /Array$/
 };
 
 export type Options = {
