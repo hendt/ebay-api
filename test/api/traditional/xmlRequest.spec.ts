@@ -111,7 +111,9 @@ describe('XMLRequestTest', () => {
 <CALLResponse xmlns="urn:ebay:apis:eBLBaseComponents">
    <ActiveList>
         <ItemArray>
-            <Item>item</Item>
+            <Item id="2">
+              <price currency="EUR">2.0</price>
+            </Item>
         </ItemArray>
    </ActiveList>
 </CALLResponse>`;
@@ -121,9 +123,15 @@ describe('XMLRequestTest', () => {
     return request.fetch().then(result => {
       expect({
         ActiveList: {
-          ItemArray: [{
-            Item: 'item'
-          }]
+          ItemArray: {
+            Item: [{
+              id: 2,
+              price: {
+                currency: 'EUR',
+                value: 2.0
+              }
+            }]
+          }
         }
       }).to.deep.equal(result);
     });

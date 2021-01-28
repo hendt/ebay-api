@@ -37,7 +37,7 @@ export const defaultXML2JSONParseOptions = {
   ignoreNameSpace: true,
   parseTrueNumberOnly: true,
   arrayMode: (_: string, parentTageName: string) => {
-    return /Array$|List$/.test(parentTageName)
+    return /Array$/.test(parentTageName)
   }
 };
 
