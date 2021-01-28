@@ -36,7 +36,9 @@ export const defaultXML2JSONParseOptions = {
   parseNodeValue: true,
   ignoreNameSpace: true,
   parseTrueNumberOnly: true,
-  arrayMode: /Array$/
+  arrayMode: (_: string, parentTageName: string) => {
+    return /Array$|List$/.test(parentTageName)
+  }
 };
 
 export type Options = {
