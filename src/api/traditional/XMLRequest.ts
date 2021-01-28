@@ -35,6 +35,7 @@ export const defaultXML2JSONParseOptions = {
   parseAttributeValue: true,
   parseNodeValue: true,
   ignoreNameSpace: true,
+  parseTrueNumberOnly: true,
   arrayMode: /Array$/
 };
 
