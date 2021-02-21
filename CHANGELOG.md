@@ -1,4 +1,12 @@
 # eBay API Changelog
+### [1.5.1](https://github.com/hendt/ebay-api/compare/v1.5.0...v1.5.1) (2021-02-21)
+
+
+### Bug Fixes
+
+* udpate comment and return type to more accuratly decribe what is returned from eBay ([6ea2458](https://github.com/hendt/ebay-api/commit/6ea2458457a4f63109275687af235656da5fd73a))
+* update call to include correct response type ([763df8a](https://github.com/hendt/ebay-api/commit/763df8a01f7783135d607218d390557909d1177c))
+
 ## [1.5.0](https://github.com/hendt/ebay-api/compare/v1.4.2...v1.5.0) (2021-02-21)
 
 
