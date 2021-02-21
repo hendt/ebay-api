@@ -41,15 +41,16 @@ export const defaultXML2JSONParseOptions = {
   }
 };
 
+type Headers = {
+  [key: string]: string | number | undefined;
+};
+
 export type Options = {
   raw?: boolean,
   cleanup?: boolean,
   parseOptions?: object,
-  useIaf?: boolean
-};
-
-type Headers = {
-  [key: string]: string | number | undefined;
+  useIaf?: boolean,
+  headers?: Headers
 };
 
 export type Config = {
@@ -63,7 +64,8 @@ export const defaultOptions: Required<Options> = {
   raw: false,
   cleanup: true,
   parseOptions: defaultXML2JSONParseOptions,
-  useIaf: true
+  useIaf: true,
+  headers: {}
 };
 
 /**
@@ -180,7 +182,8 @@ export default class XMLRequest {
     try {
       const headers = {
         ...this.defaultHeaders,
-        ...this.config.headers
+        ...this.config.headers,
+        ...options.headers
       };
 
       log('Make XML request: ' + this.config.endpoint, headers);

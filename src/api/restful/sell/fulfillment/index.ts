@@ -41,13 +41,13 @@ export default class Fulfillment extends Api {
      */
     public getOrders({
                          filter, limit, offset, orderIds
-                     }: { filter?: string, limit?: number, offset?: number, orderIds?: string[] } = {}) {
+                     }: { filter?: string, limit?: number, offset?: number, orderIds?: string | string[]} = {}) {
         return this.get(`/order`, {
             params: {
                 filter,
                 limit,
                 offset,
-                orderIds
+                orderIds: Array.isArray(orderIds) ? orderIds.join() : orderIds
             }
         });
     }
