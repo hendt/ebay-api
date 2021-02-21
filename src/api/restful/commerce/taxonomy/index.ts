@@ -131,6 +131,8 @@ export default class Taxonomy extends Api {
      */
     public fetchItemAspects(categoryTreeId: string) {
         const cId = encodeURIComponent(categoryTreeId);
-        return this.get(`/category_tree/${cId}/fetch_item_aspects`);
+        return this.get(`/category_tree/${cId}/fetch_item_aspects`, {
+            responseType: 'arraybuffer'
+        });
     }
 }
