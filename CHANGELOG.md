@@ -1,4 +1,17 @@
 # eBay API Changelog
+## [1.5.0](https://github.com/hendt/ebay-api/compare/v1.4.2...v1.5.0) (2021-02-21)
+
+
+### Features
+
+* add fetchItemAspects method ([457cb42](https://github.com/hendt/ebay-api/commit/457cb4223bb4bd7603cd1ff1c22ed08495a6511f))
+* updated taxonomy url to GA version per eBay release notes ([1c44ad1](https://github.com/hendt/ebay-api/commit/1c44ad15a4959323285f6914db313ebaec0e1ed1))
+
+
+### Bug Fixes
+
+* updated testing oas3 file per eBay docs ([b758222](https://github.com/hendt/ebay-api/commit/b758222eb966461fded0cb72e845f6c041368adb))
+
 ### [1.4.2](https://github.com/hendt/ebay-api/compare/v1.4.1...v1.4.2) (2021-01-07)
 
 
