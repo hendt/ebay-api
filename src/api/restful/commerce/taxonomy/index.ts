@@ -127,10 +127,14 @@ export default class Taxonomy extends Api {
     /**
      * This call returns a complete list of aspects for all of the leaf categories that belong to an eBay marketplace.
      *
-     *  @param categoryTreeId
+     * @param categoryTreeId
+     *
+     * @return A JSON GZIP compressed file buffer
      */
-    public fetchItemAspects(categoryTreeId: string) {
+    public fetchItemAspects(categoryTreeId: string): Promise<Buffer> {
         const cId = encodeURIComponent(categoryTreeId);
-        return this.get(`/category_tree/${cId}/fetch_item_aspects`);
+        return this.get(`/category_tree/${cId}/fetch_item_aspects`, {
+            responseType: 'arraybuffer'
+        });
     }
 }
