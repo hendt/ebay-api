@@ -6,7 +6,7 @@ import Api from '../../';
  */
 export default class Taxonomy extends Api {
     get basePath(): string {
-        return '/commerce/taxonomy/v1_beta';
+        return '/commerce/taxonomy/v1';
     }
 
     /**
@@ -110,7 +110,11 @@ export default class Taxonomy extends Api {
      * @param compatibilityProperty One compatible vehicle property applicable to the specified eBay marketplace and
      *     eBay category is specified in this required filter.
      */
-    public getCompatibilityPropertyValues(categoryTreeId: string, categoryId: string, compatibilityProperty: string) {
+    public getCompatibilityPropertyValues(
+        categoryTreeId: string,
+        categoryId: string,
+        compatibilityProperty: string
+    ) {
         const cId = encodeURIComponent(categoryTreeId);
         return this.get(`/category_tree/${cId}/get_compatibility_property_values`, {
             params: {
@@ -118,5 +122,15 @@ export default class Taxonomy extends Api {
                 compatibility_property: compatibilityProperty
             }
         });
+    }
+
+    /**
+     * This call returns a complete list of aspects for all of the leaf categories that belong to an eBay marketplace.
+     *
+     *  @param categoryTreeId
+     */
+    public fetchItemAspects(categoryTreeId: string) {
+        const cId = encodeURIComponent(categoryTreeId);
+        return this.get(`/category_tree/${cId}/fetch_item_aspects`);
     }
 }
