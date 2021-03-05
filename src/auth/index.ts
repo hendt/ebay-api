@@ -1,5 +1,5 @@
 import {eBayConfig} from '../types/apiTypes';
-import {createRequest, ILimitedRequest} from '../utils/request';
+import {createRequest, IEBayApiRequest} from '../request';
 import AuthNAuth from './authNAuth';
 import OAuth2 from './оAuth2';
 
@@ -8,7 +8,7 @@ import OAuth2 from './оAuth2';
  */
 export default class Auth {
     public readonly eBayConfig: eBayConfig;
-    public readonly req: ILimitedRequest;
+    public readonly req: IEBayApiRequest;
 
     public readonly authNAuth: AuthNAuth;
     public readonly oAuth2: OAuth2;

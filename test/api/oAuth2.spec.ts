@@ -3,11 +3,11 @@ import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
 import OAuth2 from '../../src/auth/оAuth2';
-import {ILimitedRequest} from '../../src/utils/request';
+import {IEBayApiRequest} from '../../src/request';
 
 describe('oAuth2', () => {
     const appConfig = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 0, devId: 'devId'};
-    const request: ILimitedRequest = {
+    const request: IEBayApiRequest = {
         get: sinon.stub(),
         delete: sinon.stub(),
         put: sinon.stub(),

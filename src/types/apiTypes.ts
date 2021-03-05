@@ -1,11 +1,7 @@
+import {AxiosRequestConfig} from 'axios';
 import {MarketplaceId} from '../enums';
 
 export type Scope = string[];
-
-export type Interceptors = {
-  request?: (value: any) => any;
-  response?: (value: any) => any;
-};
 
 export type Keyset = {
   appId: string, // (Client ID)
@@ -29,8 +25,7 @@ export type eBayConfig = Keyset & {
 };
 
 export type RequestConfig = {
-  interceptors?: Interceptors,
-  maxRequests?: number
+  axiosConfig?: AxiosRequestConfig
 };
 
 /**

@@ -5,13 +5,13 @@ import {Developer} from './api/restful/developer';
 import {PostOrder} from './api/restful/postOrder';
 import {Sell} from './api/restful/sell';
 import {MarketplaceId, SiteId} from './enums';
-import {ClientAlerts, Finding, Shopping, Trading} from './types/traditonalTypes';
+import {ClientAlerts, Finding, Shopping, Trading} from './types';
 import Auth from './auth';
 import AuthNAuth from './auth/authNAuth';
 import OAuth2 from './auth/оAuth2';
 import {EnvError} from './errors';
-import {AppConfig} from './types/apiTypes';
-import {createRequest, ILimitedRequest} from './utils/request';
+import {AppConfig} from './types';
+import {createRequest, IEBayApiRequest} from './request';
 
 const defaultConfig = {
   sandbox: false,
@@ -65,7 +65,7 @@ class eBayApi {
   public readonly oAuth2: OAuth2;
 
   public readonly appConfig: AppConfig;
-  public readonly req: ILimitedRequest;
+  public readonly req: IEBayApiRequest;
 
   private readonly factory: Factory;
 
@@ -84,11 +84,11 @@ class eBayApi {
 
   /**
    * @param {AppConfig} config the app config
-   * @param {ILimitedRequest} req the request
+   * @param {IEBayApiRequest} req the request
    */
-  constructor(config: AppConfig, req?: ILimitedRequest) {
+  constructor(config: AppConfig, req?: IEBayApiRequest) {
     this.appConfig = {...defaultConfig, ...config};
-    this.req = req || createRequest(this.appConfig);
+    this.req = req || createRequest(this.appConfig.axiosConfig);
 
     this.auth = new Auth(
       this.appConfig,

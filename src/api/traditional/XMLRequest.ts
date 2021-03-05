@@ -2,7 +2,7 @@ import debug from 'debug';
 import xmlParser, {j2xParser} from 'fast-xml-parser';
 
 import {EbayApiError, EBayIAFTokenExpired, EBayTokenRequired, NoCallError} from '../../errors';
-import {createRequest, ILimitedRequest} from '../../utils/request';
+import {createRequest, IEBayApiRequest} from '../../request';
 import {Fields} from './fields';
 
 const EXTRANEOUS = [
@@ -92,7 +92,7 @@ export default class XMLRequest {
    * @param      {Object} req the request
    * @param      {Config}  config
    */
-  constructor(callname: string, fields: Fields, config: Config, req: ILimitedRequest = createRequest()) {
+  constructor(callname: string, fields: Fields, config: Config, req: IEBayApiRequest = createRequest()) {
     if (!callname) {
       throw new NoCallError();
     }

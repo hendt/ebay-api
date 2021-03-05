@@ -2,8 +2,8 @@ import {expect} from 'chai';
 import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
-import Auth from '../../../src/auth/index';
-import {ILimitedRequest} from '../../../src/utils/request';
+import Auth from '../../../src/auth';
+import {IEBayApiRequest} from '../../../src/request';
 
 import buyTests from './buy';
 import commerceTests from './commerce';
@@ -18,7 +18,7 @@ const allTests = {
 };
 
 const appConfig = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 77};
-const request: ILimitedRequest = {
+const request: IEBayApiRequest = {
     get: sinon.stub(),
     delete: sinon.stub(),
     put: sinon.stub(),

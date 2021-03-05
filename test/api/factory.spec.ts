@@ -5,11 +5,11 @@ import sinon from 'sinon';
 import Factory from '../../src/api/factory';
 import Auth from '../../src/auth/index';
 import {eBayConfig} from '../../src/types/apiTypes';
-import {ILimitedRequest} from '../../src/utils/request';
+import {IEBayApiRequest} from '../../src/request';
 
 describe('FactoryTest', () => {
     let config: eBayConfig;
-    const request: ILimitedRequest = {
+    const request: IEBayApiRequest = {
         get: sinon.stub(),
         delete: sinon.stub(),
         put: sinon.stub(),
