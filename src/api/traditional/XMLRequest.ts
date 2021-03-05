@@ -157,6 +157,7 @@ export default class XMLRequest {
    * @return     {String}           The XML string of the Request
    */
   public toXML(fields: Fields) {
+    log('JSON2XML:parseOptions', defaultJSON2XMLOptions);
     return HEADING + XMLRequest.j2x.parse({
       [this.callname + 'Request']: {
         '@_xmlns': this.config.xmlns,
@@ -175,10 +176,16 @@ export default class XMLRequest {
    *
    */
   public async fetch(options: Options = defaultOptions) {
-    const requiredOptions = {...defaultOptions, ...options};
+    options = {...defaultOptions, ...options};
 
     const xml = this.toXML(this.fields);
     log('XML', xml);
+
+    const parseOptions = {
+      ...defaultXML2JSONParseOptions,
+      ...options.parseOptions
+    }
+
     try {
       const headers = {
         ...this.defaultHeaders,
@@ -198,7 +205,8 @@ export default class XMLRequest {
         return data;
       }
 
-      let json = XMLRequest.toJSON(data, requiredOptions.parseOptions);
+      log('XML2Json:parseOption', parseOptions);
+      let json = XMLRequest.toJSON(data, parseOptions);
 
       log('Response in JSON', json);
 
@@ -216,7 +224,7 @@ export default class XMLRequest {
 
       return json;
     } catch (error) {
-      this.handleEBayResponseError(error);
+      this.handleEBayResponseError(error, parseOptions);
     }
   }
 
@@ -233,11 +241,11 @@ export default class XMLRequest {
     }
   }
 
-  private handleEBayResponseError(error: any) {
+  private handleEBayResponseError(error: any, parseOptions: object) {
     log('eBayResponseError', error);
 
     if (error.response && error.response.data) {
-      const json = XMLRequest.toJSON(error.response.data, defaultXML2JSONParseOptions);
+      const json = XMLRequest.toJSON(error.response.data, parseOptions);
       this.handleEBayJsonError(json);
     } else {
       throw error;
