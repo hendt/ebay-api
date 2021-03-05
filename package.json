@@ -9,7 +9,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "debug": "^2.1.1",
-    "fast-xml-parser": "git@github.com:dantio/fast-xml-parser.git#arrayMode",
+    "fast-xml-parser": "^3.18.0",
     "nanoevents": "^2.0.0",
     "qs": "^6.8.0"
   },

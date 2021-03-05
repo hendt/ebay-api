@@ -4,6 +4,7 @@ import 'mocha';
 import sinon from 'sinon';
 
 import XMLRequest, {Config} from '../../../src/api/traditional/XMLRequest';
+import {IEBayApiRequest} from "../../../src/request";
 
 describe('XMLRequestTest', () => {
 
@@ -17,12 +18,13 @@ describe('XMLRequestTest', () => {
   };
 
   const apiResponse = '<CALL>response</CALL>';
-  const req = {
+  const req: IEBayApiRequest<any> = {
     get: sinon.stub().returns(Promise.resolve()),
     delete: sinon.stub().returns(Promise.resolve()),
     put: sinon.stub().returns(Promise.resolve()),
     post: sinon.stub().returns(Promise.resolve(apiResponse)),
-    postForm: sinon.stub().returns(Promise.resolve())
+    postForm: sinon.stub().returns(Promise.resolve()),
+    instance: sinon.stub()
   };
 
   afterEach(() => {
@@ -39,6 +41,7 @@ describe('XMLRequestTest', () => {
   it('Calls correct endpoint', () => {
     const request = new XMLRequest('CALL', {Param: 'Param'}, config, req);
     return request.fetch({raw: true}).then(() => {
+      // @ts-ignore
       expect(req.post.args[0][0]).to.equal('endpoint');
     });
   });
@@ -46,6 +49,7 @@ describe('XMLRequestTest', () => {
   it('Adds eBayAuthToken', () => {
     const request = new XMLRequest('CALL', {Param: 'Param'}, config, req);
     return request.fetch({raw: true}).then(() => {
+      // @ts-ignore
       expect(req.post.args[0][1]).to.equal([
         '<?xml version="1.0" encoding="utf-8"?>',
         '<CALLRequest xmlns="xmlns">',

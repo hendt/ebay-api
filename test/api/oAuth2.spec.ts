@@ -7,14 +7,15 @@ import {IEBayApiRequest} from '../../src/request';
 
 describe('oAuth2', () => {
     const appConfig = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 0, devId: 'devId'};
-    const request: IEBayApiRequest = {
+    const request: IEBayApiRequest<any> = {
         get: sinon.stub(),
         delete: sinon.stub(),
         put: sinon.stub(),
         post: sinon.stub(),
         postForm: sinon.stub().returns(Promise.resolve({
             access_token: 'new_access_token'
-        }))
+        })),
+        instance: sinon.stub()
     };
 
     it('emits an refresh event', () => {

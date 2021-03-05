@@ -18,12 +18,13 @@ const allTests = {
 };
 
 const appConfig = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 77};
-const request: IEBayApiRequest = {
+const request: IEBayApiRequest<any> = {
     get: sinon.stub(),
     delete: sinon.stub(),
     put: sinon.stub(),
     post: sinon.stub(),
-    postForm: sinon.stub()
+    postForm: sinon.stub(),
+    instance: sinon.stub()
 };
 
 const auth = new Auth(appConfig, request);

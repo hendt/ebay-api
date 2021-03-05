@@ -9,12 +9,13 @@ import {IEBayApiRequest} from '../../src/request';
 
 describe('FactoryTest', () => {
     let config: eBayConfig;
-    const request: IEBayApiRequest = {
+    const request: IEBayApiRequest<any> = {
         get: sinon.stub(),
         delete: sinon.stub(),
         put: sinon.stub(),
         post: sinon.stub(),
-        postForm: sinon.stub()
+        postForm: sinon.stub(),
+        instance: sinon.stub()
     };
 
     beforeEach(() => {
