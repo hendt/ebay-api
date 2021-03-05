@@ -210,6 +210,31 @@ Sometimes you want to add additional headers to the request like GLOBAL-ID \(X-E
   });
 ```
 
+### Handle JSON GZIP response e.g fetchItemAspects
+You need a decompress library installed like `zlib`.
+
+`npm install zlib`
+
+```js
+const zlib = require('zlib');
+
+(async (ebayApiInstance, categoryTreeId) => {
+  try {
+    const data = await ebayApiInstance.commerce.taxonomy.fetchItemAspects(categoryTreeId);
+
+    return new Promise((resolve) => {
+      zlib.gunzip(data, (err, output) => {
+        if (err) throw err;
+
+        resolve(output.toString());
+      });
+    });
+  } catch (err) {
+    console.log(err.response);
+    return Promise.reject(err);
+  };)();
+```
+
 ## Traditional XML response
 
 The second parameter in the traditional API has the following options:
