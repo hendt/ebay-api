@@ -1,5 +1,5 @@
 import Api from '../../';
-import {FilePurposeEnum, GetReturnFieldGroupEnum} from '../../../../enums';
+import {FilePurpose, GetReturnFieldGroupEnum} from '../../../../enums';
 import {
     CheckEligibilityRequest,
     CloseReturnRequest,
@@ -344,7 +344,7 @@ export default class Return extends Api {
      *     about the condition of the item, or intended to provide more information about shipment tracking or about
      *     the shipping label.
      */
-    public submitReturnFile(returnId: string, filePurpose?: FilePurposeEnum) {
+    public submitReturnFile(returnId: string, filePurpose?: FilePurpose) {
         const id = encodeURIComponent(returnId);
         return this.post(`/${id}/file/submit`, {
             filePurpose

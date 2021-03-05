@@ -4,7 +4,7 @@ import {Commerce} from './api/restful/commerce';
 import {Developer} from './api/restful/developer';
 import {PostOrder} from './api/restful/postOrder';
 import {Sell} from './api/restful/sell';
-import {MarketplaceId, SiteId} from "./enums";
+import {MarketplaceId, SiteId} from './enums';
 import {ClientAlerts, Finding, Shopping, Trading} from './types/traditonalTypes';
 import Auth from './auth';
 import AuthNAuth from './auth/authNAuth';

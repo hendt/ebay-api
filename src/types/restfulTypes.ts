@@ -1,17 +1,19 @@
 import {
     CaseSearchFieldGroup,
     CaseStatusFilter,
-    DecisionEnum,
-    EscalateReasonEnum,
-    FilePurposeEnum,
+    CategoryType as CategoryTypeEnum,
+    Decision,
+    EscalateReason,
+    FilePurpose,
     InquirySearchFieldGroup,
-    InquiryStatusFilter, RefundFeeTypeEnum,
-    RequestTypeEnum,
-    ReturnCountFilterEnum,
-    ReturnReasonEnum,
-    ReturnStateEnum,
-    ReturnTypeEnum,
-    ShippingCarrierEnum,
+    InquiryStatusFilter,
+    RefundFeeType,
+    RequestType,
+    ReturnCountFilter,
+    ReturnReason,
+    ReturnState,
+    ReturnType,
+    ShippingCarrier,
     UserRoleFilter
 } from '../enums';
 
@@ -246,7 +248,7 @@ export type Comments = {
 
 export type PostOrderItemizedRefundDetailType = {
     refundAmount: Amount,
-    refundFeeType: RefundFeeTypeEnum,
+    refundFeeType: RefundFeeType,
     restockingFeePercentage?: string,
 }
 
@@ -795,23 +797,23 @@ export type SendMessageRequest = {
     message: Text
 };
 export type UpdateTrackingRequest = {
-    newCarrierEnum?: ShippingCarrierEnum;
+    newCarrierEnum?: ShippingCarrier;
     newCarrierName?: string;
     newTrackingNumber?: string;
-    usedCarrierEnum?: ShippingCarrierEnum;
+    usedCarrierEnum?: ShippingCarrier;
     usedCarrierName?: string;
     usedTrackingNumber?: string;
 };
 
 export type ReturnRequestType = {
-    carrier?: ShippingCarrierEnum;
+    carrier?: ShippingCarrier;
     comments?: Text;
     itemId: string;
-    reason?: ReturnReasonEnum;
-    requestType: RequestTypeEnum;
+    reason?: ReturnReason;
+    requestType: RequestType;
     returnQuantity?: number;
     transactionId: string;
-    type?: ReturnTypeEnum
+    type?: ReturnType
 };
 
 export type SetReturnCreationSessionRequest = {
@@ -824,7 +826,7 @@ export type CreateReturnRequest = {
 };
 
 export type ProvideLabelRequest = {
-    carrierEnum?: ShippingCarrierEnum,
+    carrierEnum?: ShippingCarrier,
     carrierName?: string,
     comments?: Text,
     fileId?: string,
@@ -851,12 +853,12 @@ export type CheckEligibilityRequest = {
 
 export type EscalateRequest = {
     comments: Text;
-    reason: EscalateReasonEnum
+    reason: EscalateReason
 };
 
 export type GetEstimateRequest = {
     itemId: string,
-    reason?: ReturnReasonEnum,
+    reason?: ReturnReason,
     returnQuantity?: number;
     transactionId: string;
 };
@@ -882,7 +884,7 @@ export type MarkRefundSentRequest = {
 };
 
 export type MarkAsShippedRequest = {
-    carrierEnum?: ShippingCarrierEnum;
+    carrierEnum?: ShippingCarrier;
     carrierName?: string;
     carrierUsed?: string;
     comments?: Text;
@@ -893,7 +895,7 @@ export type MarkAsShippedRequest = {
 export type UploadFileRequest = {
     data: any,
     fileName?: string;
-    filePurpose: FilePurposeEnum
+    filePurpose: FilePurpose
 };
 
 export type VoidLabelRequest = {
@@ -911,14 +913,14 @@ export type SearchReturnParams = {
     return_id?: string;
     return_state?: Token;
     role?: Token;
-    sort?: ReturnCountFilterEnum;
-    states?: ReturnStateEnum;
+    sort?: ReturnCountFilter;
+    states?: ReturnState;
     transaction_id?: string
 };
 
 export type DecideReturnRequest = {
     comments?: Text;
-    decision: DecisionEnum;
+    decision: Decision;
     keepOriginalItem?: boolean;
     partialRefundAmount?: Amount;
     RMANumber?: string;
@@ -927,7 +929,7 @@ export type DecideReturnRequest = {
 
 export type CategoryType = {
     default?: boolean
-    name: string
+    name: CategoryTypeEnum
 }
 
 export type TimeDuration = {

@@ -1,8 +1,8 @@
-import ClientAlertsCalls from '../api/traditional/clientAlerts/index';
+import ClientAlertsCalls from '../api/traditional/clientAlerts';
 import {Fields} from '../api/traditional/fields';
-import FindingCalls from '../api/traditional/finding/index';
-import ShoppingCalls from '../api/traditional/shopping/index';
-import TradingCalls from '../api/traditional/trading/index';
+import FindingCalls from '../api/traditional/finding';
+import ShoppingCalls from '../api/traditional/shopping';
+import TradingCalls from '../api/traditional/trading';
 import {Options} from '../api/traditional/XMLRequest';
 
 export type XMLApiCall = (fields?: Fields, options?: Options) => Promise<any>;
