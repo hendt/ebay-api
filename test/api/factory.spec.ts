@@ -4,7 +4,7 @@ import 'mocha';
 import sinon from 'sinon';
 import Factory from '../../src/api/factory';
 import Auth from '../../src/auth/index';
-import {eBayConfig} from '../../src/types/apiTypes';
+import {eBayConfig} from '../../src/types';
 import {IEBayApiRequest} from '../../src/request';
 
 describe('FactoryTest', () => {
