@@ -6,7 +6,7 @@ import Api from '../../';
  * https://api.ebay.com/oauth/api_scope/sell.finances
  *
  */
-export default class Finance extends Api {
+export default class Finances extends Api {
   get basePath(): string {
     return '/sell/finances/v1';
   }

@@ -31,7 +31,7 @@ import {
   Account,
   Analytics as SellAnalytics,
   Compliance,
-  Finance,
+  Finances,
   Fulfillment,
   Inventory,
   Marketing as SellMarketing,
@@ -106,7 +106,7 @@ export default class Factory {
       marketing: this.createRestfulApi(SellMarketing),
       metadata: this.createRestfulApi(Metadata),
       recommendation: this.createRestfulApi(Recommendation),
-      finance: this.createRestfulApi(Finance),
+      finances: this.createRestfulApi(Finances),
     };
   }
 
