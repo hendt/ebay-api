@@ -11,6 +11,10 @@ export default class Finance extends Api {
     return '/sell/finances/v1';
   }
 
+  get baseHostSubDomain(): string {
+    return 'apiz';
+  }
+
   /**
    * Use this call to retrieve the details of a specific seller payout.
    *
@@ -18,7 +22,7 @@ export default class Finance extends Api {
    */
   public getPayout(payoutId: string) {
     payoutId = encodeURIComponent(payoutId);
-    return this.getz(`/payout/${payoutId}`);
+    return this.get(`/payout/${payoutId}`);
   }
 
   /**
@@ -40,7 +44,7 @@ export default class Finance extends Api {
     limit?: number;
     offset?: number;
   } = {}) {
-    return this.getz(`/payout`, {
+    return this.get(`/payout`, {
       params: {
         filter,
         limit,
@@ -60,7 +64,7 @@ export default class Finance extends Api {
   }: {
     filter?: string;
   } = {}) {
-    return this.getz(`/payout_summary`, { params: { filter } });
+    return this.get(`/payout_summary`, { params: { filter } });
   }
 
   /**
@@ -80,7 +84,7 @@ export default class Finance extends Api {
     limit?: number;
     offset?: number;
   } = {}) {
-    return this.getz(`/transaction`, {
+    return this.get(`/transaction`, {
       params: {
         filter,
         limit,
@@ -100,7 +104,7 @@ export default class Finance extends Api {
   }: {
     filter?: string;
   } = {}) {
-    return this.getz(`/transaction_summary`, {
+    return this.get(`/transaction_summary`, {
       params: {
         filter,
       },
@@ -118,9 +122,9 @@ export default class Finance extends Api {
   }
 
   /**
-   *  Retrieve all pending funds that have not yet been distibuted through a seller payout.
+   *  Retrieve all pending funds that have not yet been distributed through a seller payout.
    */
   public getSellerFundsSummary() {
-    return this.getz(`/seller_funds_summary`);
+    return this.get(`/seller_funds_summary`);
   }
 }

@@ -9,7 +9,7 @@ import {
     UpdatePaymentInformation,
     UpdateQuantity,
     UpdateShippingOption
-} from '../../../../types/restfulTypes';
+} from '../../../../types';
 
 /**
  * The Order API provides interfaces that lets shoppers pay for items (for both eBay guest and eBay member buyers).

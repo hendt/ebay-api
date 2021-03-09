@@ -4,6 +4,10 @@ import Api from '../../';
  * Retrieves the authenticated user's account profile information.
  */
 export default class Identity extends Api {
+    get baseHostSubDomain(): string {
+        return 'apiz';
+    }
+
     get basePath(): string {
         return '/commerce/identity/v1';
     }

@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import {expect} from 'chai';
 import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
@@ -17,14 +17,14 @@ const allTests = {
   Sell: sellTests,
 };
 
-const appConfig = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 77};
+const appConfig = {appId: 'appId', certId: 'certId', sandbox: false, siteId: 77};
 const request: IEBayApiRequest<any> = {
-    get: sinon.stub(),
-    delete: sinon.stub(),
-    put: sinon.stub(),
-    post: sinon.stub(),
-    postForm: sinon.stub(),
-    instance: sinon.stub()
+  get: sinon.stub(),
+  delete: sinon.stub(),
+  put: sinon.stub(),
+  post: sinon.stub(),
+  postForm: sinon.stub(),
+  instance: sinon.stub()
 };
 
 const auth = new Auth(appConfig, request);
@@ -41,13 +41,19 @@ describe('Open API Tests', () => {
       tests.forEach((Oas, Api) => {
         const api = new Api(auth);
 
-        it('"' + name + ':' + Api.name + '" should return correct path', () => {
-          if (Oas.servers) {
+        if (Oas.servers) {
+          it('"' + name + ':' + Api.name + '" should return url', () => {
+            expect(api.baseUrl).to.oneOf(
+              Oas.servers.map((server:any) => server.url.replace('{basePath}', server.variables.basePath.default)),
+            );
+          });
+
+          it('"' + name + ':' + Api.name + '" should return correct path', () => {
             expect(api.basePath).to.equal(
               Oas.servers[0].variables.basePath.default
             );
-          }
-        });
+          });
+        }
 
         Object.keys(Oas.paths).forEach((path: any) => {
           Object.keys(Oas.paths[path]).forEach(method => {
@@ -79,8 +85,8 @@ describe('Open API Tests', () => {
               expect(restApi[call.operationId]).to.be.a(
                 'function',
                 'AssertionError: expected to have "' +
-                  call.operationId +
-                  '" implemented.'
+                call.operationId +
+                '" implemented.'
               );
             });
 
@@ -93,10 +99,7 @@ describe('Open API Tests', () => {
 
             it(`"${name}:${Api.name}:${call.operationId}" calls correct url (${path}).`, () => {
               return restApi[call.operationId](...args).then(() => {
-                expect(decodeURI(req[method].args[0][0])).to.oneOf([
-                  decodeURI(encodeURI(restApi.baseUrl() + path)),
-                  decodeURI(encodeURI(restApi.baseUrl(true) + path)),
-                ]);
+                expect(decodeURI(req[method].args[0][0])).to.equal(decodeURI(encodeURI(restApi.baseUrl + path)));
               });
             });
           });
