@@ -193,19 +193,33 @@ let token = await eBay.auth.oAuth2.refreshToken();
 
 ## Additional Headers
 
-Sometimes you want to add additional headers to the request like GLOBAL-ID \(X-EBAY-SOA-GLOBAL-ID\). You can use the interceptor to manipulate the request:
+Sometimes you want to add additional headers to the request like GLOBAL-ID \(X-EBAY-SOA-GLOBAL-ID\). 
+You can use the interceptor to manipulate the request:
 
 ```javascript
-  const eBay = new eBayApi({
-    // ...
-    interceptors: {
-      request: (request) => {
-        // Add Header
-        request.headers['X-EBAY-SOA-GLOBAL-ID'] = 'EBAY-DE';
-        return request;
-      }
+  const eBay = new eBayApi();
+  
+  eBay.req.instance.interceptors.use((request) => {
+    // Add Header
+    request.headers['X-EBAY-SOA-GLOBAL-ID'] = 'EBAY-DE';
+    return request;
+  })
+```
+
+In a traditional API you cann pass headers directly in the method call:
+```javascript
+eBay.trading.AddFixedPriceItem({
+  Item: {
+    Title: 'title',
+    Description: {
+      __cdata: '<div>test</div>'
     }
-  });
+  }
+}, {
+  headers: {
+    'MY-HEADER': 'VALUE'
+  }
+})
 ```
 
 ### Handle JSON GZIP response e.g fetchItemAspects
@@ -242,6 +256,7 @@ export type Options = {
   cleanup?: boolean, // remove extraneous tags like  '@', 'Ack', 
   parseOptions?: object, // https://github.com/NaturalIntelligence/fast-xml-parser
   useIaf?: boolean // use IAF in header instead of Bearer
+  headers?: Headers // additional Headers (key, value)
 };
 ```
 
