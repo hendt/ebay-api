@@ -1,4 +1,4 @@
-const regex = /- `(v\d\.\d\.\d)` is the latest release\./
+const regex = /`(v\d+\.\d+\.\d+)` is the latest release\./
 
 module.exports.readVersion = function(contents) {
   return contents.match(regex)[1]
