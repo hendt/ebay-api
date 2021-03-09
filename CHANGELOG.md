@@ -1,4 +1,32 @@
 # eBay API Changelog
+## [2.0.0](https://github.com/hendt/ebay-api/compare/v1.5.1...v2.0.0) (2021-03-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* refactoring
+* parse attributes on eBay xml response
+
+### Features
+
+* apply default parse options to xml request ([dd95255](https://github.com/hendt/ebay-api/commit/dd952555d636b227ab24a8f31a66aebca1e7a36c))
+* enable arrayMode in XML response ([bc91c79](https://github.com/hendt/ebay-api/commit/bc91c79371bbaa78023a401322d27d11c71d01d6))
+* parseTrueNumberOnly in xml ([c5cb5ed](https://github.com/hendt/ebay-api/commit/c5cb5ed4cfd05d9f4516273cf4680494543cb951))
+* remove AxiosRateLimited and Expose Axios instance ([fe37918](https://github.com/hendt/ebay-api/commit/fe379185f36514b1d8c38d29d5bc89b1084c6ddd))
+* support additional header in XML request ([bd52f33](https://github.com/hendt/ebay-api/commit/bd52f338c9c5c1aaa211d7fc12fd30ba204844c8))
+
+
+### Bug Fixes
+
+* change back to git dependency ([d4017be](https://github.com/hendt/ebay-api/commit/d4017bef336f4f23d91cd0abf2552b3ecb217c38))
+* change to https for travis ([2c59820](https://github.com/hendt/ebay-api/commit/2c59820b15063d165df230baef1997f6eea79ec5))
+* improve arrayMode ([4099dfb](https://github.com/hendt/ebay-api/commit/4099dfb47fa240493bebd0a29e8786ee26b33051))
+* parse attributes on eBay xml response ([6970ae6](https://github.com/hendt/ebay-api/commit/6970ae6099099fed534f4b92327308a67375ef5d))
+* remove List from arrayMode ([691c194](https://github.com/hendt/ebay-api/commit/691c19465f4df27040b1041f14ed97101068a81c))
+
+
+* refactoring ([bcb3a5e](https://github.com/hendt/ebay-api/commit/bcb3a5e46b89f5fc50020297d4b41d7f2d57f4b3))
+
 ### [1.5.1](https://github.com/hendt/ebay-api/compare/v1.5.0...v1.5.1) (2021-02-21)
 
 
