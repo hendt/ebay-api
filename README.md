@@ -9,7 +9,7 @@ This API implements both Traditional \(xml\) and the RESTful eBay API. It suppor
 
 ## Changelog
 
-* `v2.1.0` is the latest release.
+* `v2.1.1` is the latest release.
 * See [here](https://github.com/hendt/ebay-api/blob/master/CHANGELOG.md) for the full changelog.
 
 ## Implementation status

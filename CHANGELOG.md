@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [2.1.1](https://github.com/hendt/ebay-api/compare/v2.1.0...v2.1.1) (2021-03-09)
+
+
+### Bug Fixes
+
+* minor fix for update readme script ([eaad8f9](https://github.com/hendt/ebay-api/commit/eaad8f99608faaefda6ae233cf4bbc3318d13f7f))
+
 ## [2.1.0](https://github.com/hendt/ebay-api/compare/v2.0.0...v2.1.0) (2021-03-09)
 
 
