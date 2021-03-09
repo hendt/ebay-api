@@ -1,4 +1,16 @@
 # eBay API Changelog
+## [2.1.0](https://github.com/hendt/ebay-api/compare/v2.0.0...v2.1.0) (2021-03-09)
+
+
+### Features
+
+* finance api added ([25f0f94](https://github.com/hendt/ebay-api/commit/25f0f9463d1f844ed140277ebddb2720afe71e6b))
+
+
+### Bug Fixes
+
+* update readme script ([cbfea68](https://github.com/hendt/ebay-api/commit/cbfea681a6f9a6ed269f124f5191b2eaee8aceac))
+
 ## [2.0.0](https://github.com/hendt/ebay-api/compare/v1.5.1...v2.0.0) (2021-03-09)
 
 
