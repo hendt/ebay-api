@@ -4,7 +4,7 @@ import 'mocha';
 import sinon from 'sinon';
 
 import XMLRequest, {Config} from '../../../src/api/traditional/XMLRequest';
-import {IEBayApiRequest} from "../../../src/request";
+import {IEBayApiRequest} from '../../../src/request';
 
 describe('XMLRequestTest', () => {
 

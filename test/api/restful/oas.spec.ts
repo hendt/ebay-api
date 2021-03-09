@@ -1,14 +1,14 @@
-import { expect } from "chai";
-import "mocha";
+import { expect } from 'chai';
+import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
 import Auth from '../../../src/auth';
 import {IEBayApiRequest} from '../../../src/request';
 
-import buyTests from "./buy";
-import commerceTests from "./commerce";
-import developerTests from "./developer";
-import sellTests from "./sell";
+import buyTests from './buy';
+import commerceTests from './commerce';
+import developerTests from './developer';
+import sellTests from './sell';
 
 const allTests = {
   Buy: buyTests,
@@ -29,19 +29,19 @@ const request: IEBayApiRequest<any> = {
 
 const auth = new Auth(appConfig, request);
 auth.oAuth2.setClientToken({
-  access_token: "token",
+  access_token: 'token',
   expires_in: 1,
-  token_type: "test",
+  token_type: 'test',
 });
 
-describe("Open API Tests", () => {
+describe('Open API Tests', () => {
   Object.entries(allTests).forEach(([name, tests]) => {
-    describe("API > restful > " + name, () => {
+    describe('API > restful > ' + name, () => {
       // tslint:disable-next-line:variable-name
       tests.forEach((Oas, Api) => {
         const api = new Api(auth);
 
-        it('"' + name + ":" + Api.name + '" should return correct path', () => {
+        it('"' + name + ':' + Api.name + '" should return correct path', () => {
           if (Oas.servers) {
             expect(api.basePath).to.equal(
               Oas.servers[0].variables.basePath.default
@@ -50,7 +50,7 @@ describe("Open API Tests", () => {
         });
 
         Object.keys(Oas.paths).forEach((path: any) => {
-          Object.keys(Oas.paths[path]).forEach((method) => {
+          Object.keys(Oas.paths[path]).forEach(method => {
             const endpoint = Oas.paths[path];
             const call = endpoint[method];
             if (!call.operationId || call.deprecated) {
@@ -59,10 +59,10 @@ describe("Open API Tests", () => {
             const queryParams = path.match(/(?<={).+?(?=})/gi);
             const paramsInPath = queryParams ? queryParams : [];
             const paramsInHeader = call.parameters
-              ? call.parameters.filter((p: any) => p.in === "header")
+              ? call.parameters.filter((p: any) => p.in === 'header')
               : [];
             const args = paramsInPath
-              .map((paramName: any) => "{" + paramName + "}")
+              .map((paramName: any) => '{' + paramName + '}')
               .concat(paramsInHeader.map((p: any) => p.name));
 
             const req: any = {
@@ -77,7 +77,7 @@ describe("Open API Tests", () => {
 
             it(`"${name}:${Api.name}" should implement this method (${path}). `, () => {
               expect(restApi[call.operationId]).to.be.a(
-                "function",
+                'function',
                 'AssertionError: expected to have "' +
                   call.operationId +
                   '" implemented.'
@@ -86,6 +86,7 @@ describe("Open API Tests", () => {
 
             it(`"${name}:${Api.name}:${call.operationId}" call correct method (${path}).`, () => {
               return restApi[call.operationId](...args).then(() => {
+                // tslint:disable-next-line:no-unused-expression
                 expect(req[method].calledOnce).to.be.true;
               });
             });
