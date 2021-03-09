@@ -1,7 +1,7 @@
 import debug from 'debug';
 import XMLRequest from '../api/traditional/XMLRequest';
 import {AuthToken, eBayConfig} from '../types/apiTypes';
-import {createRequest, ILimitedRequest} from '../utils/request';
+import {createRequest, IEBayApiRequest} from '../request';
 
 const log = debug('ebay:authNAuth');
 
@@ -27,13 +27,13 @@ export default class AuthNAuth {
     }
 
     public readonly eBayConfig: eBayConfig;
-    public readonly req: ILimitedRequest;
+    public readonly req: IEBayApiRequest;
 
     private authToken?: AuthToken;
 
     constructor(
         config: eBayConfig,
-        req: ILimitedRequest = createRequest()
+        req: IEBayApiRequest = createRequest()
     ) {
         this.eBayConfig = config;
         this.req = req;

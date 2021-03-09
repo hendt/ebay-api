@@ -54,6 +54,7 @@
   </style>
 </head>
 <body>
+<!-- script type="text/javascript" src="./lib/ebay-api.min.js"></script -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@hendt/ebay-api@latest/lib/ebay-api.min.js"></script>
 <link rel="stylesheet"
       href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/default.min.css">
@@ -105,23 +106,24 @@
 <script type="text/javascript">
   const form = document.forms[0]
   const code = document.getElementById('code')
-  function createApi () {
-    code.innerText = 'loading...'
-    return new eBayApi({
-        appId: form.appId.value,
-        certId: form.certId.value,
-        devId: form.devId.value,
 
-        sandbox: form.sandbox.checked,
-        siteId: form.siteId.value,
+  function createApi() {
+    code.innerText = 'Loading...'
+    const eBay = new eBayApi({
+      appId: form.appId.value,
+      certId: form.certId.value,
+      devId: form.devId.value,
 
-        interceptors: {
-          request: (request) => {
-            request.url = 'https://ebay.hendt.workers.dev/' + request.url;
-            return request;
-          }
-        }
+      sandbox: form.sandbox.checked,
+      siteId: form.siteId.value,
     });
+
+    eBay.req.instance.interceptors.request.use((request) => {
+      request.url = 'https://ebay.hendt.workers.dev/' + request.url;
+      return request;
+    })
+
+    return eBay
   }
 
   function handleError(e) {code.innerText = e.message}

@@ -1,13 +1,13 @@
 import debug from "debug";
 import Auth from "../../auth/index";
 import {
-  EBayAccessDenied,
-  EBayInvalidScope,
-  EBayNotFound,
-  EBayUnauthorizedAfterRefresh,
-  getEBayError,
-} from "../../errors";
-import { createRequest, ILimitedRequest } from "../../utils/request";
+    EBayAccessDenied,
+    EBayInvalidScope,
+    EBayNotFound,
+    EBayUnauthorizedAfterRefresh,
+    getEBayError
+} from '../../errors';
+import {createRequest, IEBayApiRequest} from '../../request';
 
 const log = debug("ebay:restful:api");
 

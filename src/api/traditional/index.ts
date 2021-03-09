@@ -1,7 +1,7 @@
 import {stringify} from 'qs';
 import Auth from '../../auth';
 import {EBayIAFTokenExpired} from '../../errors';
-import {createRequest, ILimitedRequest} from '../../utils/request';
+import {createRequest, IEBayApiRequest} from '../../request';
 import ClientAlertsCalls from './clientAlerts';
 import {Fields} from './fields';
 import FindingCalls from './finding';
@@ -15,9 +15,9 @@ import XMLRequest, {defaultOptions, Options} from './XMLRequest';
  */
 export default class Traditional {
     public readonly auth: Auth;
-    public readonly req: ILimitedRequest;
+    public readonly req: IEBayApiRequest;
 
-    constructor(auth: Auth, req: ILimitedRequest = createRequest()) {
+    constructor(auth: Auth, req: IEBayApiRequest = createRequest()) {
         this.auth = auth;
         this.req = req;
     }

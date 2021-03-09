@@ -1,9 +1,9 @@
 import { expect } from "chai";
 import "mocha";
 // @ts-ignore
-import sinon from "sinon";
-import Auth from "../../../src/auth/index";
-import { ILimitedRequest } from "../../../src/utils/request";
+import sinon from 'sinon';
+import Auth from '../../../src/auth';
+import {IEBayApiRequest} from '../../../src/request';
 
 import buyTests from "./buy";
 import commerceTests from "./commerce";
@@ -23,12 +23,13 @@ const appConfig = {
   sandbox: true,
   siteId: 77,
 };
-const request: ILimitedRequest = {
+const request: IEBayApiRequest<any> = {
   get: sinon.stub(),
   delete: sinon.stub(),
   put: sinon.stub(),
   post: sinon.stub(),
   postForm: sinon.stub(),
+  instance: sinon.stub()
 };
 
 const auth = new Auth(appConfig, request);

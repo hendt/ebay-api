@@ -1,6 +1,10 @@
-import Auth from "../auth";
-import { createRequest, ILimitedRequest } from "../utils/request";
-import Api from "./restful/";
+import Auth from '../auth';
+import {createRequest, IEBayApiRequest} from '../request';
+import Api from './restful/';
+import {Browse, Buy, Feed, Marketing as BuyMarketing, Offer, Order} from './restful/buy';
+import {Catalog, Commerce, Identity, Taxonomy, Translation} from './restful/commerce';
+import {Analytics as DeveloperAnalytics, Developer} from './restful/developer';
+import {Cancellation, Case, Inquiry, PostOrder, Return} from './restful/postOrder';
 import {
   Browse,
   Buy,

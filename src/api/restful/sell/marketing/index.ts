@@ -13,7 +13,7 @@ import {
     ItemPromotion,
     UpdateBidPercentageRequest,
     UpdateCampaignIdentificationRequest
-} from '../../../../types/restfulTypes';
+} from '../../../../types';
 
 /**
  * <p>The <i>Marketing API </i> offers two platforms that sellers can use to promote and advertise their products:
@@ -291,7 +291,7 @@ export default class Marketing extends Api {
     }
 
     /**
-     *This method deletes the campaign specified by the campaign_id query parameter.
+     * This method deletes the campaign specified by the campaign_id query parameter.
      *
      * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
      *     a seller's campaign IDs by calling getCampaigns.

@@ -1,16 +1,15 @@
 {
   "name": "@hendt/ebay-api",
   "author": "Daniil Tomilow",
-  "version": "1.5.1",
+  "version": "2.0.0",
   "description": "eBay TypeScript/JavaScript API for Node and Browser",
   "browser": "./lib/ebay-api.min.js",
   "main": "./lib/index.js",
   "types": "./lib/index.d.js",
   "dependencies": {
     "axios": "^0.21.1",
-    "axios-rate-limit": "^1.1.2",
     "debug": "^2.1.1",
-    "fast-xml-parser": "^3.13.0",
+    "fast-xml-parser": "^3.18.0",
     "nanoevents": "^2.0.0",
     "qs": "^6.8.0"
   },
@@ -41,7 +40,7 @@
     "prepare": "npm run build",
     "tslint": "tslint -c tslint.json 'src/**/*.ts'",
     "test": "mocha -r ts-node/register 'test/**/*.spec.ts' --reporter=dot",
-    "prerelease": "npm run test && npm run build",
+    "prerelease": "npm run tslint && npm run test && npm run build",
     "release": "standard-version"
   },
   "repository": {
