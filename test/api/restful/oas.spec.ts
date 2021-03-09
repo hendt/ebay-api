@@ -93,8 +93,8 @@ describe("Open API Tests", () => {
             it(`"${name}:${Api.name}:${call.operationId}" calls correct url (${path}).`, () => {
               return restApi[call.operationId](...args).then(() => {
                 expect(decodeURI(req[method].args[0][0])).to.oneOf([
-                  decodeURI(encodeURI(restApi.baseUrl + path)),
-                  decodeURI(encodeURI(restApi.baseUrlz + path)),
+                  decodeURI(encodeURI(restApi.baseUrl() + path)),
+                  decodeURI(encodeURI(restApi.baseUrl(true) + path)),
                 ]);
               });
             });

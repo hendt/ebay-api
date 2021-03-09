@@ -64,19 +64,9 @@ export default abstract class Api {
 
   abstract get basePath(): string;
 
-  get serverUrl() {
+  serverUrl(useZApi = false) {
     return (
-      'https://api.' +
-      (this.auth.eBayConfig.sandbox ? 'sandbox.' : '') +
-      'ebay.com'
-    );
-  }
-
-  get serverUrlz() {
-    return (
-      'https://apiz.' +
-      (this.auth.eBayConfig.sandbox ? 'sandbox.' : '') +
-      'ebay.com'
+      useZApi ? 'https://apiz.' : `https://api.${this.auth.eBayConfig.sandbox ? 'sandbox.' : ''}ebay.com`
     );
   }
 
@@ -84,12 +74,8 @@ export default abstract class Api {
     return '';
   }
 
-  get baseUrl() {
-    return this.serverUrl + this.apiVersionPath + this.basePath;
-  }
-
-  get baseUrlz() {
-    return this.serverUrlz + this.apiVersionPath + this.basePath;
+  baseUrl(useZApi = false) {
+    return this.serverUrl(useZApi) + this.apiVersionPath + this.basePath;
   }
 
   public async get(url: string, config: any = {}) {
@@ -97,7 +83,7 @@ export default abstract class Api {
   }
 
   public async getz(url: string, config: any = {}) {
-    return this.doRequestz('get', url, config);
+    return this.doRequest('get', url, config, true /* use ZAPI */);
   }
 
   public async delete(url: string, config: any = {}) {
@@ -116,39 +102,18 @@ export default abstract class Api {
     method: keyof IEBayApiRequest,
     url: string,
     config: any,
-    data?: any
+    data?: any,
+    useZApi = false
   ): Promise<any> {
     try {
-      const args = await this.getArgs(method, url, config, data);
+      const args = await this.getArgs(method, url, config, data, useZApi);
       // @ts-ignore
       return await this.req[method](...args);
     } catch (ex) {
       await this.handleEBayError(ex);
 
       // Token refreshed -> try again
-      const args = await this.getArgs(method, url, config, data);
-      // @ts-ignore
-      return this.req[method](...args).catch((ex: any) =>
-        this.handleEBayError(ex, true)
-      );
-    }
-  }
-
-  private async doRequestz(
-    method: keyof IEBayApiRequest,
-    url: string,
-    config: any,
-    data?: any
-  ): Promise<any> {
-    try {
-      const args = await this.getArgsz(method, url, config, data);
-      // @ts-ignore
-      return await this.req[method](...args);
-    } catch (ex) {
-      await this.handleEBayError(ex);
-
-      // Token refreshed -> try again
-      const args = await this.getArgsz(method, url, config, data);
+      const args = await this.getArgs(method, url, config, data, useZApi);
       // @ts-ignore
       return this.req[method](...args).catch((ex: any) =>
         this.handleEBayError(ex, true)
@@ -160,26 +125,11 @@ export default abstract class Api {
     method: string,
     url: string,
     config: any,
-    data: any
+    data: any,
+    useZApi: boolean
   ): Promise<any> {
     const enrichedConfig = await this.enrichConfig(config);
-    const args = [this.baseUrl + url];
-    if (['get', 'delete'].includes(method)) {
-      args.push(enrichedConfig);
-    } else {
-      args.push(data, enrichedConfig);
-    }
-    return args;
-  }
-
-  private async getArgsz(
-    method: string,
-    url: string,
-    config: any,
-    data: any
-  ): Promise<any> {
-    const enrichedConfig = await this.enrichConfig(config);
-    const args = [this.baseUrlz + url];
+    const args = [this.baseUrl(useZApi) + url];
     if (['get', 'delete'].includes(method)) {
       args.push(enrichedConfig);
     } else {

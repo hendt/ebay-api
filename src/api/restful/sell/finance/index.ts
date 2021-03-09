@@ -70,7 +70,6 @@ export default class Finance extends Api {
    * @param limit The number of transaction to return per page of the result set.
    * @param offset Specifies the number of payouts to skip in the result set before returning the first transaction in the
    *     paginated response.
-
    */
   public getTransactions({
     filter,
@@ -95,9 +94,6 @@ export default class Finance extends Api {
    * @param filter One or more comma-separated criteria for narrowing down the collection of transaction returned by this
    *     call.
    * @param limit The number of transaction to return per page of the result set.
-   * @param offset Specifies the number of payouts to skip in the result set before returning the first transaction in the
-   *     paginated response.
-
    */
   public getTransactionSummary({
     filter,
