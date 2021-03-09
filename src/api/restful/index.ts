@@ -7,13 +7,13 @@ import {
     EBayUnauthorizedAfterRefresh,
     getEBayError
 } from '../../errors';
-import {createRequest, ILimitedRequest} from '../../utils/request';
+import {createRequest, IEBayApiRequest} from '../../request';
 
 const log = debug('ebay:restful:api');
 
 export default abstract class Api {
     public readonly auth: Auth;
-    public readonly req: ILimitedRequest;
+    public readonly req: IEBayApiRequest;
 
     constructor(auth: Auth, req = createRequest()) {
         this.auth = auth;
@@ -90,7 +90,7 @@ export default abstract class Api {
         return this.doRequest('put', url, config, data);
     }
 
-    private async doRequest(method: keyof ILimitedRequest, url: string, config: any, data?: any): Promise<any> {
+    private async doRequest(method: keyof IEBayApiRequest, url: string, config: any, data?: any): Promise<any> {
         try {
             const args = await this.getArgs(method, url, config, data);
             // @ts-ignore

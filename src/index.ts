@@ -4,142 +4,142 @@ import {Commerce} from './api/restful/commerce';
 import {Developer} from './api/restful/developer';
 import {PostOrder} from './api/restful/postOrder';
 import {Sell} from './api/restful/sell';
-import {ClientAlerts, Finding, Shopping, Trading} from './types/traditonalTypes';
+import {MarketplaceId, SiteId} from './enums';
+import {ClientAlerts, Finding, Shopping, Trading} from './types';
 import Auth from './auth';
 import AuthNAuth from './auth/authNAuth';
 import OAuth2 from './auth/оAuth2';
-import {MarketplaceId, SiteId} from './enums';
 import {EnvError} from './errors';
-import {AppConfig} from './types/apiTypes';
-import {createRequest, ILimitedRequest} from './utils/request';
+import {AppConfig} from './types';
+import {createRequest, IEBayApiRequest} from './request';
 
 const defaultConfig = {
-    sandbox: false,
-    siteId: SiteId.EBAY_DE,
-    marketplaceId: MarketplaceId.EBAY_DE
+  sandbox: false,
+  siteId: SiteId.EBAY_DE,
+  marketplaceId: MarketplaceId.EBAY_DE
 };
 
 // tslint:disable-next-line:class-name
 class eBayApi {
 
-    public static SiteId = SiteId;
-    public static MarketplaceId = MarketplaceId;
+  public static SiteId = SiteId;
+  public static MarketplaceId = MarketplaceId;
 
-    /**
-     * Loads settings from `process.env`
-     *
-     * @return {eBayApi} a new eBayApi instance
-     * @param {request} req request
-     * @throws {EnvError}
-     */
-    public static fromEnv(req = createRequest()) {
-        if (!process.env.EBAY_APP_ID) {
-            throw new EnvError('EBAY_APP_ID');
-        }
-        if (!process.env.EBAY_CERT_ID) {
-            throw new EnvError('EBAY_CERT_ID');
-        }
-        if (!process.env.EBAY_DEV_ID) {
-            throw new EnvError('EBAY_DEV_ID');
-        }
-
-        return new eBayApi({
-                appId: process.env.EBAY_APP_ID,
-                certId: process.env.EBAY_CERT_ID,
-                devId: process.env.EBAY_DEV_ID,
-                authToken: process.env.EBAY_AUTH_TOKEN,
-                siteId: process.env.EBAY_SITE_ID ? parseInt(process.env.EBAY_SITE_ID, 10) : SiteId.EBAY_DE,
-                marketplaceId: process.env.EBAY_MARKETPLACE_ID && process.env.EBAY_MARKETPLACE_ID in MarketplaceId ?
-                    MarketplaceId[process.env.EBAY_MARKETPLACE_ID as keyof typeof MarketplaceId] as MarketplaceId :
-                    MarketplaceId.EBAY_DE,
-                ruName: process.env.EBAY_RU_NAME,
-                sandbox: (process.env.EBAY_SANDBOX === 'true')
-            },
-            req);
+  /**
+   * Loads settings from `process.env`
+   *
+   * @return {eBayApi} a new eBayApi instance
+   * @param {request} req request
+   * @throws {EnvError}
+   */
+  public static fromEnv(req = createRequest()) {
+    if (!process.env.EBAY_APP_ID) {
+      throw new EnvError('EBAY_APP_ID');
+    }
+    if (!process.env.EBAY_CERT_ID) {
+      throw new EnvError('EBAY_CERT_ID');
+    }
+    if (!process.env.EBAY_DEV_ID) {
+      throw new EnvError('EBAY_DEV_ID');
     }
 
-    public readonly auth: Auth;
+    return new eBayApi({
+        appId: process.env.EBAY_APP_ID,
+        certId: process.env.EBAY_CERT_ID,
+        devId: process.env.EBAY_DEV_ID,
+        authToken: process.env.EBAY_AUTH_TOKEN,
+        siteId: process.env.EBAY_SITE_ID ? parseInt(process.env.EBAY_SITE_ID, 10) : SiteId.EBAY_DE,
+        marketplaceId: process.env.EBAY_MARKETPLACE_ID && process.env.EBAY_MARKETPLACE_ID in MarketplaceId ?
+          MarketplaceId[process.env.EBAY_MARKETPLACE_ID as keyof typeof MarketplaceId] as MarketplaceId :
+          MarketplaceId.EBAY_DE,
+        ruName: process.env.EBAY_RU_NAME,
+        sandbox: (process.env.EBAY_SANDBOX === 'true')
+      },
+      req);
+  }
 
-    // Shortcuts to auth
-    public readonly authNAuth: AuthNAuth;
-    public readonly oAuth2: OAuth2;
+  public readonly auth: Auth;
 
-    public readonly appConfig: AppConfig;
-    public readonly req: ILimitedRequest;
+  // Shortcuts to auth
+  public readonly authNAuth: AuthNAuth;
+  public readonly oAuth2: OAuth2;
 
-    private readonly factory: Factory;
+  public readonly appConfig: AppConfig;
+  public readonly req: IEBayApiRequest;
 
-    // RESTful API
-    private _buy?: Buy;
-    private _commerce?: Commerce;
-    private _developer?: Developer;
-    private _postOrder?: PostOrder;
-    private _sell?: Sell;
+  private readonly factory: Factory;
 
-    // Traditional API
-    private _trading?: Trading;
-    private _finding?: Finding;
-    private _shopping?: Shopping;
-    private _clientAlerts?: ClientAlerts;
+  // RESTful API
+  private _buy?: Buy;
+  private _commerce?: Commerce;
+  private _developer?: Developer;
+  private _postOrder?: PostOrder;
+  private _sell?: Sell;
 
-    /**
-     * @param {AppConfig} config the app config
-     * @param {ILimitedRequest} req the request
-     */
-    constructor(config: AppConfig, req?: ILimitedRequest) {
-        this.appConfig = {...defaultConfig, ...config};
-        this.req = req || createRequest(this.appConfig);
+  // Traditional API
+  private _trading?: Trading;
+  private _finding?: Finding;
+  private _shopping?: Shopping;
+  private _clientAlerts?: ClientAlerts;
 
-        this.auth = new Auth(
-            this.appConfig,
-            this.req
-        );
+  /**
+   * @param {AppConfig} config the app config
+   * @param {IEBayApiRequest} req the request
+   */
+  constructor(config: AppConfig, req?: IEBayApiRequest) {
+    this.appConfig = {...defaultConfig, ...config};
+    this.req = req || createRequest(this.appConfig.axiosConfig);
 
-        this.authNAuth = this.auth.authNAuth;
-        this.oAuth2 = this.auth.oAuth2;
+    this.auth = new Auth(
+      this.appConfig,
+      this.req
+    );
 
-        this.factory = new Factory(
-            this.auth,
-            this.req
-        );
-    }
+    this.authNAuth = this.auth.authNAuth;
+    this.oAuth2 = this.auth.oAuth2;
 
-    get buy(): Buy {
-        return this._buy || (this._buy = this.factory.createBuyApi());
-    }
+    this.factory = new Factory(
+      this.auth,
+      this.req
+    );
+  }
 
-    get commerce(): Commerce {
-        return this._commerce || (this._commerce = this.factory.createCommerceApi());
-    }
+  get buy(): Buy {
+    return this._buy || (this._buy = this.factory.createBuyApi());
+  }
 
-    get developer(): Developer {
-        return this._developer || (this._developer = this.factory.createDeveloperApi());
-    }
+  get commerce(): Commerce {
+    return this._commerce || (this._commerce = this.factory.createCommerceApi());
+  }
 
-    get postOrder(): PostOrder {
-        return this._postOrder || (this._postOrder = this.factory.createPostOrderApi());
-    }
+  get developer(): Developer {
+    return this._developer || (this._developer = this.factory.createDeveloperApi());
+  }
 
-    get sell(): Sell {
-        return this._sell || (this._sell = this.factory.createSellApi());
-    }
+  get postOrder(): PostOrder {
+    return this._postOrder || (this._postOrder = this.factory.createPostOrderApi());
+  }
 
-    // Traditional
-    get trading(): Trading {
-        return this._trading || (this._trading = this.factory.createTradingApi());
-    }
+  get sell(): Sell {
+    return this._sell || (this._sell = this.factory.createSellApi());
+  }
 
-    get finding(): Finding {
-        return this._finding || (this._finding = this.factory.createFindingApi());
-    }
+  // Traditional
+  get trading(): Trading {
+    return this._trading || (this._trading = this.factory.createTradingApi());
+  }
 
-    get shopping(): Shopping {
-        return this._shopping || (this._shopping = this.factory.createShoppingApi());
-    }
+  get finding(): Finding {
+    return this._finding || (this._finding = this.factory.createFindingApi());
+  }
 
-    get clientAlerts(): ClientAlerts {
-        return this._clientAlerts || (this._clientAlerts = this.factory.createClientAlertsApi());
-    }
+  get shopping(): Shopping {
+    return this._shopping || (this._shopping = this.factory.createShoppingApi());
+  }
+
+  get clientAlerts(): ClientAlerts {
+    return this._clientAlerts || (this._clientAlerts = this.factory.createClientAlertsApi());
+  }
 }
 
 export = eBayApi

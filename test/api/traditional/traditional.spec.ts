@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import Traditional from '../../../src/api/traditional/index';
 import Auth from '../../../src/auth/index';
 import {eBayConfig} from '../../../src/types/apiTypes';
-import {ILimitedRequest} from '../../../src/utils/request';
+import {IEBayApiRequest} from '../../../src/request';
 
 describe('Traditional', () => {
     const config: eBayConfig = {
@@ -17,12 +17,13 @@ describe('Traditional', () => {
         devId: 'devId'
     };
 
-    const request: ILimitedRequest = {
+    const request: IEBayApiRequest<any> = {
         get: sinon.stub(),
         delete: sinon.stub(),
         put: sinon.stub(),
         post: sinon.stub(),
-        postForm: sinon.stub()
+        postForm: sinon.stub(),
+        instance: sinon.stub()
     };
 
     let auth: Auth;
@@ -38,12 +39,13 @@ describe('Traditional', () => {
 
     it('use "eBayAuthToken" if useIaf is set to false', () => {
         const post = sinon.stub().returns(Promise.resolve('<GetAccount></GetAccount>'));
-        const req: ILimitedRequest = {
+        const req: IEBayApiRequest<any> = {
             get: sinon.stub(),
             delete: sinon.stub(),
             put: sinon.stub(),
             post,
-            postForm: sinon.stub()
+            postForm: sinon.stub(),
+            instance: sinon.stub()
         };
         const traditional = new Traditional(auth, req);
         const trading = traditional.createTradingApi();
@@ -60,12 +62,13 @@ describe('Traditional', () => {
 
     it('use IAF token if "accessToken" is available', () => {
         const post = sinon.stub().returns(Promise.resolve('<GetAccountResponse></GetAccountResponse>'));
-        const req: ILimitedRequest = {
+        const req: IEBayApiRequest<any> = {
             get: sinon.stub(),
             delete: sinon.stub(),
             put: sinon.stub(),
             post,
-            postForm: sinon.stub()
+            postForm: sinon.stub(),
+            instance: sinon.stub()
         };
         auth.oAuth2.setCredentials({
             access_token: 'accessToken',
@@ -89,12 +92,13 @@ describe('Traditional', () => {
 
     it('throws EBayIAFTokenExpired of error code is 21917053', () => {
         const post = sinon.stub().returns(Promise.resolve('<GetAccountResponse><Errors><ErrorCode>21917053</ErrorCode></Errors></GetAccountResponse>'));
-        const req: ILimitedRequest = {
+        const req: IEBayApiRequest<any> = {
             get: sinon.stub(),
             delete: sinon.stub(),
             put: sinon.stub(),
             post,
-            postForm: sinon.stub()
+            postForm: sinon.stub(),
+            instance: sinon.stub()
         };
         auth.oAuth2.setCredentials({
             access_token: 'accessToken',

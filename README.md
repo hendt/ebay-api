@@ -50,7 +50,7 @@ A Proxy server is required to use the API in the Browser.
 
 For testing purpose you can use: `https://ebay.hendt.workers.dev/`. You can also setup your own Proxy server. We have added a example for cloudfront workers: [https://github.com/hendt/ebay-api/blob/master/proxy/worker.js](https://github.com/hendt/ebay-api/blob/master/proxy/worker.js)
 
-```markup
+```html
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@hendt/ebay-api@latest/lib/ebay-api.min.js"></script>
 <script>
   const eBay = new eBayApi({
@@ -60,14 +60,13 @@ For testing purpose you can use: `https://ebay.hendt.workers.dev/`. You can also
 
     sandbox: true,
     siteId: 77,
+  });
 
-    interceptors: {
-      request: (request) => {
-        // Add Proxy
-        request.url = 'https://ebay.hendt.workers.dev/' + request.url;
-        return request;
-      }
-    }
+  // eBay.req.instance is AxiosInstance per default
+  eBay.req.instance.interceptors.request.use((request) => {
+      // Add Proxy
+      request.url = 'https://ebay.hendt.workers.dev/' + request.url;
+      return request;
   });
 
   eBay.buy.browse.getItem('v1|254188828753|0').then(item => {
@@ -115,8 +114,6 @@ The first parameter in eBayApi:
 | endUserCtx | Optional – Conditionally recommended. REST HTTP Header. X-EBAY\_C\_ENDUSERCTX provides various types of information associated with the request. |
 | contentLanguage | Conditionally required. REST HTTP Header. Content-Language indicates the locale preferred by the client for the response. |
 | acceptLanguage | Optional. REST HTTP Header. Accept-Language indicates the natural language the client prefers for the response. This specifies the language the client wants to use when the field values provided in the request body are displayed to consumers. |
-| interceptors | Optional. Intercept request with [Axios interceptors](https://github.com/axios/axios#interceptors). See example in 'Browser' usage above. |
-| maxRequests | Max request per day. Default to '5000'. |
 
 **\***: Required
 
@@ -235,6 +232,18 @@ const zlib = require('zlib');
   };)();
 ```
 
+## Traditional XML response
+
+The second parameter in the traditional API has the following options:
+```ts
+export type Options = {
+  raw?: boolean, // return raw XML
+  cleanup?: boolean, // remove extraneous tags like  '@', 'Ack', 
+  parseOptions?: object, // https://github.com/NaturalIntelligence/fast-xml-parser
+  useIaf?: boolean // use IAF in header instead of Bearer
+};
+```
+
 ## Examples
 
 ### Trading - AddFixedPriceItem \(CDATA\)
@@ -320,6 +329,7 @@ Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
 ## Supported By
 
 [hendt.de](https://hendt.de)
+[rootle.de](https://rootle.de)
 
 ## Similar projects
 

@@ -1,7 +1,7 @@
 import debug from 'debug';
 import NanoEvents from 'nanoevents';
 import {eBayConfig, Scope} from '../types/apiTypes';
-import {createRequest, ILimitedRequest} from '../utils/request';
+import {createRequest, IEBayApiRequest} from '../request';
 
 const log = debug('ebay:oauth');
 
@@ -48,7 +48,7 @@ export default class OAuth2 {
     }
 
     public readonly eBayConfig: eBayConfig;
-    public readonly req: ILimitedRequest;
+    public readonly req: IEBayApiRequest;
 
     private scope: Scope;
     private _clientToken?: Token;
@@ -59,7 +59,7 @@ export default class OAuth2 {
 
     constructor(
         config: eBayConfig,
-        req: ILimitedRequest = createRequest()
+        req: IEBayApiRequest = createRequest()
     ) {
         this.eBayConfig = config;
         this.endpoint = this.eBayConfig.sandbox ? 'sandbox' : 'production';

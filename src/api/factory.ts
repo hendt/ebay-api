@@ -1,5 +1,5 @@
 import Auth from '../auth';
-import {createRequest, ILimitedRequest} from '../utils/request';
+import {createRequest, IEBayApiRequest} from '../request';
 import Api from './restful/';
 import {Browse, Buy, Feed, Marketing as BuyMarketing, Offer, Order} from './restful/buy';
 import {Catalog, Commerce, Identity, Taxonomy, Translation} from './restful/commerce';
@@ -24,14 +24,14 @@ import {ClientAlerts, Finding, Shopping, Trading} from '../types/traditonalTypes
  */
 export default class Factory {
     public readonly auth: Auth;
-    public readonly req: ILimitedRequest;
+    public readonly req: IEBayApiRequest;
 
     private _traditional?: Traditional;
     private _restful: any = {}
 
     constructor(
         auth: Auth,
-        req: ILimitedRequest = createRequest()
+        req: IEBayApiRequest = createRequest()
     ) {
         this.auth = auth;
         this.req = req;
