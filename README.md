@@ -5,6 +5,7 @@ This API implements both Traditional \(xml\) and the RESTful eBay API. It suppor
 * [Browser API Examples](https://hendt.github.io/ebay-api/)
 * [eBay API Explorer](https://developer.ebay.com/my/api_test_tool)
 * [eBay API Docs](https://developer.ebay.com/docs)
+* [Browser example](https://hendt.github.io/ebay-api/)
 
 ## Changelog
 
@@ -17,11 +18,11 @@ This API implements both Traditional \(xml\) and the RESTful eBay API. It suppor
 
 | API | Implemented |
 | :--- | :--- |
-| **Sell APIs** | ✔ |
-| **Buy APIs** | Marketplace Insights API is missing |
-| **Commerce APIs** | ✔ |
-| **Developer APIs** | ✔ |
+| **Buy API** | ✔ (Marketplace Insights API is missing) |
+| **Commerce API** | ✔ |
+| **Developer API** | ✔ |
 | **Post Order API** | ✔ |
+| **Sell API** | ✔ |
 
 ### Traditional API
 
