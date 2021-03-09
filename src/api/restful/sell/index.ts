@@ -1,6 +1,7 @@
 import Account from './account';
 import Analytics from './analytics';
 import Compliance from './compliance';
+import Finance from './finance';
 import Fulfillment from './fulfillment';
 import Inventory from './inventory';
 import Marketing from './marketing';
@@ -15,7 +16,8 @@ export type Sell = {
     inventory: Inventory,
     marketing: Marketing,
     metadata: Metadata,
-    recommendation: Recommendation
+    recommendation: Recommendation,
+    finance: Finance
 };
 
 export {
@@ -26,5 +28,6 @@ export {
     Inventory,
     Marketing,
     Metadata,
-    Recommendation
+    Recommendation,
+    Finance
 };
