@@ -1,15 +1,15 @@
-import debug from "debug";
-import Auth from "../../auth/index";
+import debug from 'debug';
+import Auth from '../../auth/index';
 import {
   EBayAccessDenied,
   EBayInvalidScope,
   EBayNotFound,
   EBayUnauthorizedAfterRefresh,
   getEBayError,
-} from "../../errors";
-import { createRequest, IEBayApiRequest } from "../../request";
+} from '../../errors';
+import { createRequest, IEBayApiRequest } from '../../request';
 
-const log = debug("ebay:restful:api");
+const log = debug('ebay:restful:api');
 
 export default abstract class Api {
   public readonly auth: Auth;
@@ -29,9 +29,9 @@ export default abstract class Api {
 
   public async enrichConfig(config: any) {
     const headers: any = {
-      "Content-Type": "application/json",
-      "Cache-Control": "no-cache",
-      "Accept-Encoding": "application/gzip",
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+      'Accept-Encoding': 'application/gzip',
     };
 
     headers.Authorization = await this.auth.getHeaderAuthorization(
@@ -39,16 +39,16 @@ export default abstract class Api {
     );
 
     const additionalHeaders: any = {
-      marketplaceId: "X-EBAY-C-MARKETPLACE-ID",
-      endUserCtx: "X-EBAY-C-ENDUSERCTX",
-      acceptLanguage: "Accept-Language",
-      contentLanguage: "Content-Language",
+      marketplaceId: 'X-EBAY-C-MARKETPLACE-ID',
+      endUserCtx: 'X-EBAY-C-ENDUSERCTX',
+      acceptLanguage: 'Accept-Language',
+      contentLanguage: 'Content-Language',
     };
 
-    Object.keys(additionalHeaders).forEach((key) => {
+    Object.keys(additionalHeaders).forEach(key => {
       // @ts-ignore
       const value = this.auth.eBayConfig[key];
-      if (typeof value !== "undefined") {
+      if (typeof value !== 'undefined') {
         headers[additionalHeaders[key]] = value;
       }
     });
@@ -66,22 +66,22 @@ export default abstract class Api {
 
   get serverUrl() {
     return (
-      "https://api." +
-      (this.auth.eBayConfig.sandbox ? "sandbox." : "") +
-      "ebay.com"
+      'https://api.' +
+      (this.auth.eBayConfig.sandbox ? 'sandbox.' : '') +
+      'ebay.com'
     );
   }
 
   get serverUrlz() {
     return (
-      "https://apiz." +
-      (this.auth.eBayConfig.sandbox ? "sandbox." : "") +
-      "ebay.com"
+      'https://apiz.' +
+      (this.auth.eBayConfig.sandbox ? 'sandbox.' : '') +
+      'ebay.com'
     );
   }
 
   get apiVersionPath() {
-    return "";
+    return '';
   }
 
   get baseUrl() {
@@ -93,23 +93,23 @@ export default abstract class Api {
   }
 
   public async get(url: string, config: any = {}) {
-    return this.doRequest("get", url, config);
+    return this.doRequest('get', url, config);
   }
 
   public async getz(url: string, config: any = {}) {
-    return this.doRequestz("get", url, config);
+    return this.doRequestz('get', url, config);
   }
 
   public async delete(url: string, config: any = {}) {
-    return this.doRequest("delete", url, config);
+    return this.doRequest('delete', url, config);
   }
 
   public async post(url: string, data?: any, config: any = {}) {
-    return this.doRequest("post", url, config, data);
+    return this.doRequest('post', url, config, data);
   }
 
   public async put(url: string, data?: any, config: any = {}) {
-    return this.doRequest("put", url, config, data);
+    return this.doRequest('put', url, config, data);
   }
 
   private async doRequest(
@@ -164,7 +164,7 @@ export default abstract class Api {
   ): Promise<any> {
     const enrichedConfig = await this.enrichConfig(config);
     const args = [this.baseUrl + url];
-    if (["get", "delete"].includes(method)) {
+    if (['get', 'delete'].includes(method)) {
       args.push(enrichedConfig);
     } else {
       args.push(data, enrichedConfig);
@@ -180,7 +180,7 @@ export default abstract class Api {
   ): Promise<any> {
     const enrichedConfig = await this.enrichConfig(config);
     const args = [this.baseUrlz + url];
-    if (["get", "delete"].includes(method)) {
+    if (['get', 'delete'].includes(method)) {
       args.push(enrichedConfig);
     } else {
       args.push(data, enrichedConfig);
@@ -195,19 +195,19 @@ export default abstract class Api {
     const error = getEBayError(ex);
 
     if (!error) {
-      log("handleEBayError", ex);
+      log('handleEBayError', ex);
       throw ex;
     }
 
-    if (error.domain === "ACCESS") {
+    if (error.domain === 'ACCESS') {
       throw new EBayAccessDenied(ex);
-    } else if (error.message === "Invalid access token") {
+    } else if (error.message === 'Invalid access token') {
       if (!refreshedToken) {
         // TODO extract this
-        log("Token expired. Refresh the token.");
+        log('Token expired. Refresh the token.');
         return this.auth.oAuth2.refreshToken().catch((e: Error) => {
           const responseError = getEBayError(e);
-          if (responseError && responseError.message === "invalid_scope") {
+          if (responseError && responseError.message === 'invalid_scope') {
             throw new EBayInvalidScope(e);
           }
 

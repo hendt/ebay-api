@@ -1,4 +1,4 @@
-import Api from "../../";
+import Api from '../../';
 
 /**
  * The Finances API is used by sellers in eBay's managed payments program to retrieve seller payout information.
@@ -8,7 +8,7 @@ import Api from "../../";
  */
 export default class Finance extends Api {
   get basePath(): string {
-    return "/sell/finances/v1";
+    return '/sell/finances/v1';
   }
 
   /**
@@ -91,7 +91,7 @@ export default class Finance extends Api {
   }
 
   /**
-   * Retrieve total counts and values of the seller's order sales, seller credits, buyer refunds, and payment holds. 
+   * Retrieve total counts and values of the seller's order sales, seller credits, buyer refunds, and payment holds.
    * @param filter One or more comma-separated criteria for narrowing down the collection of transaction returned by this
    *     call.
    * @param limit The number of transaction to return per page of the result set.

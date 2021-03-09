@@ -1,6 +1,6 @@
-import Auth from "../auth";
-import { createRequest, IEBayApiRequest } from "../request";
-import Api from "./restful/";
+import Auth from '../auth';
+import { createRequest, IEBayApiRequest } from '../request';
+import Api from './restful/';
 import {
   Browse,
   Buy,
@@ -8,25 +8,25 @@ import {
   Marketing as BuyMarketing,
   Offer,
   Order,
-} from "./restful/buy";
+} from './restful/buy';
 import {
   Catalog,
   Commerce,
   Identity,
   Taxonomy,
   Translation,
-} from "./restful/commerce";
+} from './restful/commerce';
 import {
   Analytics as DeveloperAnalytics,
   Developer,
-} from "./restful/developer";
+} from './restful/developer';
 import {
   Cancellation,
   Case,
   Inquiry,
   PostOrder,
   Return,
-} from "./restful/postOrder";
+} from './restful/postOrder';
 import {
   Account,
   Analytics as SellAnalytics,
@@ -38,14 +38,14 @@ import {
   Metadata,
   Recommendation,
   Sell,
-} from "./restful/sell";
-import Traditional from "./traditional";
+} from './restful/sell';
+import Traditional from './traditional';
 import {
   ClientAlerts,
   Finding,
   Shopping,
   Trading,
-} from "../types/traditonalTypes";
+} from '../types/traditonalTypes';
 
 /**
  * Factory class to create RESTFul API or Traditional API.

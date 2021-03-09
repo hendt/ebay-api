@@ -1,4 +1,4 @@
-import Api from "../../";
+import Api from '../../';
 import {
   BulkEbayOfferDetailsWithKeys,
   BulkInventoryItem,
@@ -15,7 +15,7 @@ import {
   PublishByInventoryItemGroupRequest,
   SellInventoryItem,
   WithdrawByInventoryItemGroupRequest,
-} from "../../../../types/restfulTypes";
+} from '../../../../types/restfulTypes';
 
 /**
  * The Inventory API is used to create and manage inventory, and then to publish and manage this inventory on an eBay
@@ -23,7 +23,7 @@ import {
  */
 export default class Inventory extends Api {
   get basePath(): string {
-    return "/sell/inventory/v1";
+    return '/sell/inventory/v1';
   }
 
   /**

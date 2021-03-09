@@ -1,8 +1,8 @@
-import Api from "../../";
+import Api from '../../';
 import {
   IssueRefundRequest,
   ShippingFulfillmentDetails,
-} from "../../../../types/restfulTypes";
+} from '../../../../types/restfulTypes';
 
 /**
  * Use the Fulfillment API to complete the process of packaging, addressing, handling, and shipping each order on
@@ -14,11 +14,11 @@ import {
  */
 export default class Fulfillment extends Api {
   get basePath(): string {
-    return "";
+    return '';
   }
 
   get apiVersionPath() {
-    return "/sell/fulfillment/v1";
+    return '/sell/fulfillment/v1';
   }
 
   /**
