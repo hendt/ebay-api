@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [2.2.1](https://github.com/hendt/ebay-api/compare/v2.2.0...v2.2.1) (2021-03-11)
+
+
+### Bug Fixes
+
+* remove lib before build ([8cc6cbb](https://github.com/hendt/ebay-api/commit/8cc6cbbb225c8b66ae80cb787c1a0d5d779e315d))
+
 ## [2.2.0](https://github.com/hendt/ebay-api/compare/v2.1.1...v2.2.0) (2021-03-11)
 
 
