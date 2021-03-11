@@ -4,7 +4,8 @@ import {
     PaymentPolicyRequest,
     Program,
     ReturnPolicyRequest, SalesTaxBase
-} from '../../../../types/restfulTypes';
+} from '../../../../types';
+import {PaymentsProgramType} from '../../../../enums';
 
 /**
  * The <b>Account API</b> gives sellers the ability to configure their eBay seller accounts,
@@ -163,7 +164,7 @@ export default class Account extends Api {
      * @param paymentsProgramType This path parameter specifies the payments program whose status is returned by the
      *     call.
      */
-    public getPaymentsProgram(marketplaceId: string, paymentsProgramType: string) {
+    public getPaymentsProgram(marketplaceId: string, paymentsProgramType: PaymentsProgramType) {
         const mId = encodeURIComponent(marketplaceId);
         const pId = encodeURIComponent(paymentsProgramType);
         return this.get(`/payments_program/${mId}/${pId}`);

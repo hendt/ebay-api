@@ -2,11 +2,15 @@ import {
     CaseSearchFieldGroup,
     CaseStatusFilter,
     CategoryType as CategoryTypeEnum,
+    Condition,
+    CurrencyCode,
     Decision,
     EscalateReason,
     FilePurpose,
+    FormatType,
     InquirySearchFieldGroup,
     InquiryStatusFilter,
+    PaymentMethodType,
     RefundFeeType,
     RequestType,
     ReturnCountFilter,
@@ -14,6 +18,10 @@ import {
     ReturnState,
     ReturnType,
     ShippingCarrier,
+    ShippingCostType,
+    ShippingOptionType,
+    StoreType,
+    TimeDurationUnit,
     UserRoleFilter
 } from '../enums';
 
@@ -83,10 +91,10 @@ export type UpdateCartItemInput = {
 };
 
 export type Amount = {
-    convertedFromCurrency?: string,
+    convertedFromCurrency?: CurrencyCode,
     convertedFromValue?: number,
-    value: string,
-    currency?: string
+    currency?: CurrencyCode,
+    value: string
 };
 
 export type FeedParams = {
@@ -300,7 +308,7 @@ export type LocationDetails = {
 
 export type InventoryLocationFull = InventoryLocation & {
     location: LocationDetails
-    locationTypes?: string[]
+    locationTypes?: StoreType[]
     merchantLocationStatus?: string
 }
 
@@ -464,7 +472,7 @@ export type EbayOfferDetailsWithId = {
 export type EbayOfferDetailsWithKeys = EbayOfferDetailsWithId & {
     sku: string,
     marketplaceId: string,
-    format: string
+    format: FormatType
 }
 
 export type BulkEbayOfferDetailsWithKeys = {
@@ -933,7 +941,7 @@ export type CategoryType = {
 }
 
 export type TimeDuration = {
-    unit: string
+    unit: TimeDurationUnit
     value: number
 }
 
@@ -962,10 +970,10 @@ export type ShippingService = {
 }
 
 export type ShippingOption = {
-    costType: string
+    costType: ShippingCostType
     insuranceFee?: Amount
     insuranceOffered?: boolean
-    optionType: string
+    optionType: ShippingOptionType
     packageHandlingCost?: Amount
     rateTableId?: string
     shippingServices: ShippingService[]
@@ -992,7 +1000,7 @@ export type RecipientAccountReference = {
 
 export type PaymentMethod = {
     brands?: string[]
-    paymentMethodType?: string
+    paymentMethodType?: PaymentMethodType
     recipientAccountReference?: RecipientAccountReference
 }
 
@@ -1056,7 +1064,7 @@ export type ShippingFulfillmentDetails = {
 
 export type SellInventoryItem = {
     availability: Availability
-    condition: string
+    condition: Condition
     conditionDescription?: string
     packageWeightAndSize?: PackageWeightAndSize
     product: Product
