@@ -1,4 +1,16 @@
 # eBay API Changelog
+## [2.2.0](https://github.com/hendt/ebay-api/compare/v2.1.1...v2.2.0) (2021-03-11)
+
+
+### Features
+
+* add some missing enums ([6d923d1](https://github.com/hendt/ebay-api/commit/6d923d17c06d08275fc03d8f68c2458263adebd0))
+
+
+### Bug Fixes
+
+* add package-lock.json to bumbFiles ([b82a901](https://github.com/hendt/ebay-api/commit/b82a90170566a2dac42e2f33bea3a2d7179e1afd))
+
 ### [2.1.1](https://github.com/hendt/ebay-api/compare/v2.1.0...v2.1.1) (2021-03-09)
 
 
