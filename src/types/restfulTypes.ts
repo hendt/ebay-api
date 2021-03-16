@@ -10,6 +10,7 @@ import {
     FormatType,
     InquirySearchFieldGroup,
     InquiryStatusFilter,
+    Locale,
     PaymentMethodType,
     RefundFeeType,
     RequestType,
@@ -385,7 +386,7 @@ export type Product = {
 
 export type InventoryItemWithSkuLocale = SellInventoryItem & {
     sku: string,
-    locale?: string
+    locale?: Locale
 };
 
 export type BulkInventoryItem = {
