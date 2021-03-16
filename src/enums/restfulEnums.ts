@@ -578,6 +578,29 @@ export enum Locale {
   en_MY = 'en_MY'
 }
 
+export enum ContentLanguage {
+  de_AT = 'de-AT',
+  de_CH = 'de-CH',
+  de_DE = 'de-DE',
+  en_AU = 'en-AU',
+  en_CA = 'en-CA',
+  en_GB = 'en-GB',
+  en_IE = 'en-IE',
+  en_PH = 'en-PH',
+  en_US = 'en-US',
+  es_ES = 'es-ES',
+  fr_BE = 'fr-BE',
+  fr_CA = 'fr-CA',
+  fr_FR = 'fr-FR',
+  it_IT = 'it-IT',
+  nl_BE = 'nl-BE',
+  nl_NL = 'nl-NL',
+  pl_PL = 'pl-PL',
+  th_TH = 'th-TH',
+  zh_HK = 'zh-HK',
+  zh_TW = 'zh-TW',
+}
+
 export enum FormatType {
   AUCTION = 'AUCTION',
   FIXED_PRICE = 'FIXED_PRICE'
