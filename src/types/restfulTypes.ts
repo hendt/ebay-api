@@ -12,6 +12,7 @@ import {
     InquiryStatusFilter,
     Locale,
     PaymentMethodType,
+    RecipientAccountReferenceType,
     RefundFeeType,
     RequestType,
     ReturnCountFilter,
@@ -996,7 +997,7 @@ export type FulfillmentPolicyRequest = {
 
 export type RecipientAccountReference = {
     referenceId: string
-    referenceType: string
+    referenceType: RecipientAccountReferenceType
 }
 
 export type PaymentMethod = {
