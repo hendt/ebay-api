@@ -18,7 +18,7 @@ This API implements both Traditional \(xml\) and the RESTful eBay API. It suppor
 
 | API | Implemented |
 | :--- | :--- |
-| **Buy API** | ✔ (Marketplace Insights API is missing) |
+| **Buy API** | ✔ \(Marketplace Insights API is missing\) |
 | **Commerce API** | ✔ |
 | **Developer API** | ✔ |
 | **Post Order API** | ✔ |
@@ -51,7 +51,7 @@ A Proxy server is required to use the API in the Browser.
 
 For testing purpose you can use: `https://ebay.hendt.workers.dev/`. You can also setup your own Proxy server. We have added a example for cloudfront workers: [https://github.com/hendt/ebay-api/blob/master/proxy/worker.js](https://github.com/hendt/ebay-api/blob/master/proxy/worker.js)
 
-```html
+```markup
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@hendt/ebay-api@latest/lib/ebay-api.min.js"></script>
 <script>
   const eBay = new eBayApi({
@@ -193,13 +193,12 @@ let token = await eBay.auth.oAuth2.refreshToken();
 
 ## Additional Headers
 
-Sometimes you want to add additional headers to the request like GLOBAL-ID \(X-EBAY-SOA-GLOBAL-ID\). 
-You can use the interceptor to manipulate the request:
+Sometimes you want to add additional headers to the request like GLOBAL-ID \(X-EBAY-SOA-GLOBAL-ID\). You can use the interceptor to manipulate the request:
 
 ```javascript
   const eBay = new eBayApi();
-  
-  eBay.req.instance.interceptors.use((request) => {
+
+  eBay.req.instance.interceptors.request.use((request) => {
     // Add Header
     request.headers['X-EBAY-SOA-GLOBAL-ID'] = 'EBAY-DE';
     return request;
@@ -207,6 +206,7 @@ You can use the interceptor to manipulate the request:
 ```
 
 In a traditional API you cann pass headers directly in the method call:
+
 ```javascript
 eBay.trading.AddFixedPriceItem({
   Item: {
@@ -223,11 +223,12 @@ eBay.trading.AddFixedPriceItem({
 ```
 
 ### Handle JSON GZIP response e.g fetchItemAspects
+
 You need a decompress library installed like `zlib`.
 
 `npm install zlib`
 
-```js
+```javascript
 const zlib = require('zlib');
 
 (async (ebayApiInstance, categoryTreeId) => {
@@ -250,7 +251,8 @@ const zlib = require('zlib');
 ## Traditional XML response
 
 The second parameter in the traditional API has the following options:
-```ts
+
+```typescript
 export type Options = {
   raw?: boolean, // return raw XML
   cleanup?: boolean, // remove extraneous tags like  '@', 'Ack', 
@@ -264,7 +266,7 @@ export type Options = {
 
 ### Trading - AddFixedPriceItem \(CDATA\)
 
-You can submit your description using CDATA if you want to use HTML or XML. 
+You can submit your description using CDATA if you want to use HTML or XML.
 
 ```javascript
 eBay.trading.AddFixedPriceItem({
@@ -344,7 +346,7 @@ Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
 
 ## Supported By
 
-[hendt.de](https://hendt.de)
+[hendt.de](https://hendt.de)  
 [rootle.de](https://rootle.de)
 
 ## Similar projects
