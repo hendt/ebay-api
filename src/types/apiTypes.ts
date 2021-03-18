@@ -1,5 +1,5 @@
 import {AxiosRequestConfig} from 'axios';
-import {MarketplaceId} from '../enums';
+import {ContentLanguage, MarketplaceId} from '../enums';
 
 export type Scope = string[];
 
@@ -20,7 +20,7 @@ export type eBayConfig = Keyset & {
   // Rest Config
   marketplaceId?: MarketplaceId,
   endUserCtx?: string,
-  contentLanguage?: string
+  contentLanguage?: ContentLanguage
   acceptLanguage?: string
 };
 

@@ -10,7 +10,9 @@ import {
     FormatType,
     InquirySearchFieldGroup,
     InquiryStatusFilter,
+    Locale,
     PaymentMethodType,
+    RecipientAccountReferenceType,
     RefundFeeType,
     RequestType,
     ReturnCountFilter,
@@ -385,7 +387,7 @@ export type Product = {
 
 export type InventoryItemWithSkuLocale = SellInventoryItem & {
     sku: string,
-    locale?: string
+    locale?: Locale
 };
 
 export type BulkInventoryItem = {
@@ -995,7 +997,7 @@ export type FulfillmentPolicyRequest = {
 
 export type RecipientAccountReference = {
     referenceId: string
-    referenceType: string
+    referenceType: RecipientAccountReferenceType
 }
 
 export type PaymentMethod = {
