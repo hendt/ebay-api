@@ -28,7 +28,7 @@ const request: IEBayApiRequest<any> = {
 };
 
 const auth = new Auth(appConfig, request);
-auth.oAuth2.setClientToken({
+auth.OAuth2.setClientToken({
   access_token: 'token',
   expires_in: 1,
   token_type: 'test',
@@ -38,17 +38,17 @@ describe('Open API Tests', () => {
   Object.entries(allTests).forEach(([name, tests]) => {
     describe('API > restful > ' + name, () => {
       // tslint:disable-next-line:variable-name
-      tests.forEach((Oas, Api) => {
-        const api = new Api(auth);
+      tests.forEach((Oas, RestfulApi) => {
+        const api = new RestfulApi(appConfig, auth, request);
 
         if (Oas.servers) {
-          it('"' + name + ':' + Api.name + '" should return url', () => {
+          it('"' + name + ':' + RestfulApi.name + '" should return url', () => {
             expect(api.baseUrl).to.oneOf(
               Oas.servers.map((server:any) => server.url.replace('{basePath}', server.variables.basePath.default)),
             );
           });
 
-          it('"' + name + ':' + Api.name + '" should return correct path', () => {
+          it('"' + name + ':' + RestfulApi.name + '" should return correct path', () => {
             expect(api.basePath).to.equal(
               Oas.servers[0].variables.basePath.default
             );
@@ -79,9 +79,9 @@ describe('Open API Tests', () => {
               postForm: sinon.stub().returns(Promise.resolve()),
             };
 
-            const restApi = new Api(auth, req);
+            const restApi = new RestfulApi(appConfig, auth, req);
 
-            it(`"${name}:${Api.name}" should implement this method (${path}). `, () => {
+            it(`"${name}:${RestfulApi.name}" should implement this method (${path}). `, () => {
               expect(restApi[call.operationId]).to.be.a(
                 'function',
                 'AssertionError: expected to have "' +
@@ -90,14 +90,14 @@ describe('Open API Tests', () => {
               );
             });
 
-            it(`"${name}:${Api.name}:${call.operationId}" call correct method (${path}).`, () => {
+            it(`"${name}:${RestfulApi.name}:${call.operationId}" call correct method (${path}).`, () => {
               return restApi[call.operationId](...args).then(() => {
                 // tslint:disable-next-line:no-unused-expression
                 expect(req[method].calledOnce).to.be.true;
               });
             });
 
-            it(`"${name}:${Api.name}:${call.operationId}" calls correct url (${path}).`, () => {
+            it(`"${name}:${RestfulApi.name}:${call.operationId}" calls correct url (${path}).`, () => {
               return restApi[call.operationId](...args).then(() => {
                 expect(decodeURI(req[method].args[0][0])).to.equal(decodeURI(encodeURI(restApi.baseUrl + path)));
               });

@@ -9,15 +9,18 @@ import {
   getEBayResponseError,
 } from '../../errors';
 import {createRequest, IEBayApiRequest} from '../../request';
+import {AppConfig} from '../../types';
 
 const log = debug('ebay:restful:api');
 
 export default abstract class Api {
   public readonly auth: Auth;
+  public readonly config: AppConfig;
   public readonly req: IEBayApiRequest;
 
-  constructor(auth: Auth, req = createRequest()) {
+  constructor(config: AppConfig, auth: Auth,  req = createRequest()) {
     this.auth = auth;
+    this.config = config;
     this.req = req;
   }
 
@@ -162,7 +165,7 @@ export default abstract class Api {
       if (!refreshedToken) {
         // TODO extract this
         log('Token expired. Refresh the token.');
-        return this.auth.oAuth2.refreshToken().catch((e: Error) => {
+        return this.auth.OAuth2.refreshToken().catch((e: Error) => {
           const responseError = getEBayResponseError(e);
           if (responseError?.message === 'invalid_scope') {
             throw new EBayInvalidScope(e);

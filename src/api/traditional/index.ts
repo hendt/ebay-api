@@ -148,13 +148,13 @@ export default class Traditional {
         } catch (e) {
             // Try to refresh the token.
             if (e.name === EBayIAFTokenExpired.name) {
-                return this.auth.oAuth2.refreshAuthToken().then(() => {
+                return this.auth.OAuth2.refreshAuthToken().then(() => {
                     const newConfig = this.getConfig(options, api, callname);
                     const newRequest = new XMLRequest(callname, fields, newConfig, this.req);
 
                     return newRequest.fetch(options);
-                }).catch(ex => {
-                    throw ex;
+                }).catch(error => {
+                    throw error;
                 });
             }
 
@@ -164,7 +164,7 @@ export default class Traditional {
 
     private getConfig(options: Options, api: TraditionalApi, callname: string) {
         const eBayAuthToken = this.auth.authNAuth.eBayAuthToken;
-        const accessToken = this.auth.oAuth2.accessToken;
+        const accessToken = this.auth.OAuth2.accessToken;
         const useIafToken = (!eBayAuthToken || accessToken && options.useIaf);
 
         return {

@@ -70,7 +70,7 @@ describe('Traditional', () => {
             postForm: sinon.stub(),
             instance: sinon.stub()
         };
-        auth.oAuth2.setCredentials({
+        auth.OAuth2.setCredentials({
             access_token: 'accessToken',
             refresh_token_expires_in: 0,
             refresh_token: 'refresh_token',
@@ -100,7 +100,7 @@ describe('Traditional', () => {
             postForm: sinon.stub(),
             instance: sinon.stub()
         };
-        auth.oAuth2.setCredentials({
+        auth.OAuth2.setCredentials({
             access_token: 'accessToken',
             refresh_token_expires_in: 0,
             refresh_token: 'refresh_token',

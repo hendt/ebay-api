@@ -1,22 +1,21 @@
-import Factory from './api/factory';
+import ApiFactory from './api/apiFactory';
 import {Buy} from './api/restful/buy';
 import {Commerce} from './api/restful/commerce';
 import {Developer} from './api/restful/developer';
 import {PostOrder} from './api/restful/postOrder';
 import {Sell} from './api/restful/sell';
-import {MarketplaceId, SiteId} from './enums';
-import {ClientAlerts, Finding, Shopping, Trading} from './types';
-import Auth from './auth';
 import AuthNAuth from './auth/authNAuth';
 import OAuth2 from './auth/оAuth2';
+import {MarketplaceId, SiteId} from './enums';
 import {EnvError} from './errors';
-import {AppConfig} from './types';
 import {createRequest, IEBayApiRequest} from './request';
+import {AppConfig, ClientAlerts, Finding, Shopping, Trading} from './types';
 
 const defaultConfig = {
   sandbox: false,
   siteId: SiteId.EBAY_DE,
-  marketplaceId: MarketplaceId.EBAY_DE
+  marketplaceId: MarketplaceId.EBAY_DE,
+  autoRefreshToken: true
 };
 
 // tslint:disable-next-line:class-name
@@ -58,16 +57,16 @@ class eBayApi {
       req);
   }
 
-  public readonly auth: Auth;
-
   // Shortcuts to auth
   public readonly authNAuth: AuthNAuth;
   public readonly oAuth2: OAuth2;
+  // tslint:disable-next-line:variable-name
+  public readonly OAuth2: OAuth2;
 
   public readonly appConfig: AppConfig;
   public readonly req: IEBayApiRequest;
 
-  private readonly factory: Factory;
+  private readonly factory: ApiFactory;
 
   // RESTful API
   private _buy?: Buy;
@@ -90,18 +89,14 @@ class eBayApi {
     this.appConfig = {...defaultConfig, ...config};
     this.req = req || createRequest(this.appConfig.axiosConfig);
 
-    this.auth = new Auth(
+    this.factory = new ApiFactory(
       this.appConfig,
       this.req
     );
 
-    this.authNAuth = this.auth.authNAuth;
-    this.oAuth2 = this.auth.oAuth2;
-
-    this.factory = new Factory(
-      this.auth,
-      this.req
-    );
+    this.authNAuth = this.factory.auth.authNAuth;
+    this.OAuth2 = this.factory.auth.OAuth2;
+    this.oAuth2 = this.OAuth2;
   }
 
   get buy(): Buy {

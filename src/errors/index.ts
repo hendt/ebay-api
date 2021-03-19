@@ -5,21 +5,27 @@
  * @ignore
  */
 abstract class EBayError extends Error {
-    public meta: any = null;
+  public meta: any = null;
 
-    /**
-     * returns a JSON representation of the Error
-     *
-     * @return     {Object}  json representation of the Error
-     */
-    public toJSON() {
-        return {
-            message: this.message,
-            stack: this.stack,
-            type: this.constructor.name,
-            meta: this.meta || null
-        };
-    }
+  protected constructor(message: string) {
+    super(message);
+    Object.setPrototypeOf(this, new.target.prototype);
+    this.name = this.constructor.name;
+  }
+
+  /**
+   * returns a JSON representation of the Error
+   *
+   * @return     {Object}  json representation of the Error
+   */
+  public toJSON() {
+    return {
+      message: this.message,
+      stack: this.stack,
+      type: this.constructor.name,
+      meta: this.meta || null
+    };
+  }
 }
 
 /**
@@ -27,97 +33,80 @@ abstract class EBayError extends Error {
  */
 
 export class NoCallError extends EBayError {
-    constructor(msg = 'No eBay API call defined, please invoke one.') {
-        super(msg);
-    }
+  constructor(msg = 'No eBay API call defined, please invoke one.') {
+    super(msg);
+  }
 }
 
 /**
  * thrown when attempting to load environment variables that don't exist
  */
 export class EnvError extends EBayError {
-    constructor(key: any) {
-        super(`Could not find ${key} in process.env.`);
-    }
+  constructor(key: any) {
+    super(`Could not find ${key} in process.env.`);
+  }
 }
 
 /**
  * Thrown when an Error occurs on eBay's side.
  */
 export class EbayApiError extends EBayError {
-    public readonly name: string;
+  constructor(err: any) {
+    const message = EbayApiError.extractMessage(err);
+    super(message);
 
-    constructor(err: any, name?: string) {
-        let message = '';
-        const resError = getEBayResponseError(err);
-        if (resError) {
-            message = resError.message + ': ' + resError.error_description;
-        } else if (err.errorMessage) {
-            message = err.errorMessage.error.message;
-        } else if (err.Errors) {
-            message = err.Errors.LongMessage || err.Errors.ShortMessage;
-        } else {
-            message = err.LongMessage || err.ShortMessage;
-        }
+    this.meta = err;
+  }
 
-        super(message);
-        this.meta = err;
-        this.name = name || this.constructor.name;
+  private static extractMessage(err: any) {
+    const resError = getEBayResponseError(err);
+    if (resError) {
+      return resError.message + ': ' + resError.error_description;
+    } else if (err.errorMessage) {
+      return err.errorMessage.error.message;
+    } else if (err.Errors) {
+      return err.Errors.LongMessage || err.Errors.ShortMessage;
+    } else {
+      return err.LongMessage || err.ShortMessage;
     }
+  }
 }
 
-export class EBayAccessDenied extends EBayError {
-    constructor(err: any) {
-        super('Access denied');
-        this.meta = err.response?.data;
-    }
+export class EBayAccessDenied extends EbayApiError {
 }
 
-export class EBayInvalidGrant extends EBayError {
-    constructor(err: any) {
-        super(err.response.data.error_description);
-        this.meta = err.response.data;
-        this.name = 'EBayInvalidGrant';
-    }
+export class EBayInvalidGrant extends EbayApiError {
 }
 
-export class EBayNotFound extends EBayError {
-    public static readonly code = 11001;
-
-    constructor(err: any) {
-        super(err.message);
-        this.meta = err.response.data;
-    }
+export class EBayNotFound extends EbayApiError {
+  public static readonly code = 11001;
 }
 
-export class EBayUnauthorizedAfterRefresh extends EBayError {
-    constructor(err: any) {
-        super('Unauthorized after refreshing token.');
-        this.meta = err.response.data;
-    }
+export class EBayUnauthorizedAfterRefresh extends EbayApiError {
 }
 
 export class EBayIAFTokenExpired extends EbayApiError {
-    public static readonly code = 21917053;
+  public static readonly code = 21917053;
 }
 
 export class EBayTokenRequired extends EbayApiError {
-    public static readonly code = 930;
+  public static readonly code = 930;
 }
 
-export class EBayInvalidScope extends EbayApiError {}
+export class EBayInvalidScope extends EbayApiError {
+}
 
 export const getEBayResponseError = (e: any) => {
-    if (e.response?.data?.error) {
-        return {
-            message: e.response.data.error,
-            description: e.response.data.error_description
-        }
+  if (e.response?.data?.error) {
+    return {
+      message: e.response.data.error,
+      description: e.response.data.error_description
     }
+  }
 
-    if (e.response?.data?.errors) {
-        return e.response?.data?.errors[0] ?? null;
-    }
+  if (e.response?.data?.errors) {
+    return e.response?.data?.errors[0] ?? null;
+  }
 
-    return null;
+  return null;
 };

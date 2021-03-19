@@ -1,5 +1,6 @@
 import Auth from '../auth';
-import { createRequest, IEBayApiRequest } from '../request';
+import {createRequest, IEBayApiRequest} from '../request';
+import {AppConfig} from '../types';
 import Api from './restful/';
 import {
   Browse,
@@ -45,20 +46,22 @@ import {
   Finding,
   Shopping,
   Trading,
-} from '../types/traditonalTypes';
+} from '../types';
 
 /**
  * Factory class to create RESTFul API or Traditional API.
  */
-export default class Factory {
+export default class ApiFactory {
+  public readonly config: AppConfig;
   public readonly auth: Auth;
   public readonly req: IEBayApiRequest;
 
   private _traditional?: Traditional;
   private _restful: any = {};
 
-  constructor(auth: Auth, req: IEBayApiRequest = createRequest()) {
-    this.auth = auth;
+  constructor(config: AppConfig, req: IEBayApiRequest = createRequest()) {
+    this.config = config;
+    this.auth = new Auth(config, req);
     this.req = req;
   }
 
@@ -135,10 +138,10 @@ export default class Factory {
   }
 
   // tslint:disable-next-line:variable-name
-  private createRestfulApi<T extends Api>(ApiClass: new (auth: Auth) => T): T {
-    const name = ApiClass.name;
+  private createRestfulApi<T extends Api>(RestfulApi: new (config: AppConfig, auth: Auth, req: IEBayApiRequest) => T): T {
+    const name = RestfulApi.name;
     return (
-      this._restful[name] || (this._restful[name] = new ApiClass(this.auth))
+      this._restful[name] || (this._restful[name] = new RestfulApi(this.config, this.auth, this.req))
     );
   }
 }

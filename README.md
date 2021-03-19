@@ -127,13 +127,13 @@ The first parameter in eBayApi:
 const eBay = eBayApi.fromEnv();
 // Attention: appId, certId, ruName is required.
 
-eBay.auth.oAuth2.setScope([
-    'https://api.ebay.com/oauth/api_scope',
-    'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
-    'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
+eBay.OAuth2.setScope([
+  'https://api.ebay.com/oauth/api_scope',
+  'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
+  'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
 ]);
 
-const url = eBay.auth.oAuth2.generateAuthUrl();
+const url = eBay.OAuth2.generateAuthUrl();
 // 2. Open Url and Grant Access
 console.log('Open URL', url);
 
@@ -143,8 +143,8 @@ const code = 'code'; // from www.your-website?code=XXXX
 // 4. Get the token
 (async () => {
   // Use async/await
-  const token = await eBay.auth.oAuth2.getToken(code);
-  eBay.auth.oAuth2.setCredentials(token);
+  const token = await eBay.OAuth2.getToken(code);
+  eBay.OAuth2.setCredentials(token);
 
   // Or Promise
   eBay.sell.fulfillment.getOrder('12-12345-12345').then(order => {
@@ -166,10 +166,10 @@ const eBay = new eBayApi({
 });
 
 // Or:
-eBay.auth.oAuth2.setScope([
-    'https://api.ebay.com/oauth/api_scope',
-    'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
-    'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
+eBay.OAuth2.setScope([
+  'https://api.ebay.com/oauth/api_scope',
+  'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
+  'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
 ]);
 ```
 
@@ -177,18 +177,18 @@ eBay.auth.oAuth2.setScope([
 
 The token will be automatically refreshed if, when you make a call, eBay returns an error message that indicates that the token has expired.
 
-You can use the Event Emitter to get the token when it is refreshed \(use `'eBay.auth.oAuth2.refreshAuthToken()'` for the auth token or `'eBay.auth.oAuth2.refreshClientToken()'` for the client token\):
+You can use the Event Emitter to get the token when it is refreshed \(use `'eBay.OAuth2.refreshAuthToken()'` for the auth token or `'eBay.OAuth2.refreshClientToken()'` for the client token\):
 
 ```javascript
-eBay.auth.oAuth2.on('refreshAuthToken', (token) => {
-    console.log(token)
+eBay.OAuth2.on('refreshAuthToken', (token) => {
+  console.log(token)
 });
 ```
 
 Alternatively, you can refresh it yourself:
 
 ```javascript
-let token = await eBay.auth.oAuth2.refreshToken();
+let token = await eBay.OAuth2.refreshToken();
 ```
 
 ## Additional Headers

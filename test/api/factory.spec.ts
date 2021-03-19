@@ -2,8 +2,7 @@ import {expect} from 'chai';
 import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
-import Factory from '../../src/api/factory';
-import Auth from '../../src/auth/index';
+import ApiFactory from '../../src/api/apiFactory';
 import {eBayConfig} from '../../src/types';
 import {IEBayApiRequest} from '../../src/request';
 
@@ -24,8 +23,7 @@ describe('FactoryTest', () => {
 
     it('Throws an error if devId is not defined', () => {
         delete config.devId;
-        const auth: Auth = new Auth(config, request);
-        const factory = new Factory(auth, request);
+        const factory = new ApiFactory(config, request);
         expect(factory.createTradingApi.bind(factory)).to.throw(/devId/);
     });
 });

@@ -4,7 +4,7 @@ import eBayApi from '../../../src';
 const eBay = eBayApi.fromEnv();
 
 // Check OAuth Scope if this really works for you: https://developer.ebay.com/my/keys
-eBay.auth.oAuth2.setScope([
+eBay.OAuth2.setScope([
   'https://api.ebay.com/oauth/api_scope',
   'https://api.ebay.com/oauth/api_scope/buy.marketing'
 ]);
