@@ -5,7 +5,6 @@
  * @ignore
  */
 abstract class EBayError extends Error {
-
     public meta: any = null;
 
     /**
@@ -24,22 +23,11 @@ abstract class EBayError extends Error {
 }
 
 /**
- * thrown when Request.prototype.run() is called without an oAuth2
- *
- * @class      No_Auth_Token (name)
- */
-export class NoAuthTokenError extends EBayError {
-    constructor(msg = 'no oAuth2 present.  Please invoke `Ebay.prototype.oAuth2(<Token>)`.') {
-        super(msg);
-    }
-}
-
-/**
  * thrown when Request.prototype.run() is called without having defined an eBay API call
  */
 
 export class NoCallError extends EBayError {
-    constructor(msg = 'no eBay API call defined, please invoke one.') {
+    constructor(msg = 'No eBay API call defined, please invoke one.') {
         super(msg);
     }
 }
@@ -49,7 +37,7 @@ export class NoCallError extends EBayError {
  */
 export class EnvError extends EBayError {
     constructor(key: any) {
-        super(`could not find ${key} in process.env`);
+        super(`Could not find ${key} in process.env.`);
     }
 }
 
@@ -57,36 +45,48 @@ export class EnvError extends EBayError {
  * Thrown when an Error occurs on eBay's side.
  */
 export class EbayApiError extends EBayError {
-    constructor(err: any, name = 'EbayApiError') {
+    public readonly name: string;
+
+    constructor(err: any, name?: string) {
         let message = '';
-        const resError = getEBayError(err);
+        const resError = getEBayResponseError(err);
         if (resError) {
-            message = resError.message;
+            message = resError.message + ': ' + resError.error_description;
         } else if (err.errorMessage) {
             message = err.errorMessage.error.message;
+        } else if (err.Errors) {
+            message = err.Errors.LongMessage || err.Errors.ShortMessage;
         } else {
             message = err.LongMessage || err.ShortMessage;
         }
 
         super(message);
         this.meta = err;
-        this.name = name;
+        this.name = name || this.constructor.name;
     }
 }
 
 export class EBayAccessDenied extends EBayError {
     constructor(err: any) {
         super('Access denied');
+        this.meta = err.response?.data;
+    }
+}
+
+export class EBayInvalidGrant extends EBayError {
+    constructor(err: any) {
+        super(err.response.data.error_description);
         this.meta = err.response.data;
-        this.name = 'EBayAccessDenied';
+        this.name = 'EBayInvalidGrant';
     }
 }
 
 export class EBayNotFound extends EBayError {
+    public static readonly code = 11001;
+
     constructor(err: any) {
         super(err.message);
         this.meta = err.response.data;
-        this.name = 'EBayEBayNotFound';
     }
 }
 
@@ -94,44 +94,29 @@ export class EBayUnauthorizedAfterRefresh extends EBayError {
     constructor(err: any) {
         super('Unauthorized after refreshing token.');
         this.meta = err.response.data;
-        this.name = 'EBayUnauthorized';
     }
 }
 
 export class EBayIAFTokenExpired extends EbayApiError {
-    public static code = 21917053;
-
-    constructor(err: any) {
-        super(err, 'EBayIAFTokenExpired');
-    }
+    public static readonly code = 21917053;
 }
 
 export class EBayTokenRequired extends EbayApiError {
-    public static code = 930;
-
-    constructor(err: any) {
-        super(err, 'EBayTokenRequired');
-    }
+    public static readonly code = 930;
 }
 
-export class EBayInvalidScope extends EBayError {
-    constructor(err: any) {
-        super(err.response.data.error_description);
-        this.meta = err.response.data;
-        this.name = 'EBayInvalidScope';
-    }
-}
+export class EBayInvalidScope extends EbayApiError {}
 
-export const getEBayError = (e: any) => {
-    if (e.response && e.response.data) {
-        const data = e.response.data;
-        if (data.error) {
-            return {
-                message: data.error,
-                description: data.error_description
-            };
+export const getEBayResponseError = (e: any) => {
+    if (e.response?.data?.error) {
+        return {
+            message: e.response.data.error,
+            description: e.response.data.error_description
         }
-        return data.errors && data.errors[0] ? data.errors[0] : null;
+    }
+
+    if (e.response?.data?.errors) {
+        return e.response?.data?.errors[0] ?? null;
     }
 
     return null;

@@ -2,12 +2,13 @@ import debug from 'debug';
 import Auth from '../../auth/index';
 import {
   EBayAccessDenied,
+  EBayInvalidGrant,
   EBayInvalidScope,
   EBayNotFound,
   EBayUnauthorizedAfterRefresh,
-  getEBayError,
+  getEBayResponseError,
 } from '../../errors';
-import { createRequest, IEBayApiRequest } from '../../request';
+import {createRequest, IEBayApiRequest} from '../../request';
 
 const log = debug('ebay:restful:api');
 
@@ -142,7 +143,7 @@ export default abstract class Api {
     ex: any,
     refreshedToken?: boolean
   ): Promise<any> {
-    const error = getEBayError(ex);
+    const error = getEBayResponseError(ex);
 
     if (!error) {
       log('handleEBayError', ex);
@@ -151,13 +152,19 @@ export default abstract class Api {
 
     if (error.domain === 'ACCESS') {
       throw new EBayAccessDenied(ex);
-    } else if (error.message === 'Invalid access token') {
+    } else if (error.message === 'invalid_grant') {
+      throw new EBayInvalidGrant(ex);
+    } else if (error.errorId === EBayNotFound.code) {
+      throw new EBayNotFound(ex);
+    }
+
+    if (error.message === 'Invalid access token') {
       if (!refreshedToken) {
         // TODO extract this
         log('Token expired. Refresh the token.');
         return this.auth.oAuth2.refreshToken().catch((e: Error) => {
-          const responseError = getEBayError(e);
-          if (responseError && responseError.message === 'invalid_scope') {
+          const responseError = getEBayResponseError(e);
+          if (responseError?.message === 'invalid_scope') {
             throw new EBayInvalidScope(e);
           }
 
@@ -166,8 +173,6 @@ export default abstract class Api {
       }
 
       throw new EBayUnauthorizedAfterRefresh(ex);
-    } else if (error.errorId === 11001) {
-      throw new EBayNotFound(ex);
     }
 
     throw ex;

@@ -5,15 +5,6 @@ import {EbayApiError, EBayIAFTokenExpired, EBayTokenRequired, NoCallError} from 
 import {createRequest, IEBayApiRequest} from '../../request';
 import {Fields} from './fields';
 
-const EXTRANEOUS = [
-  '@',
-  'Ack',
-  'ack',
-  'Version',
-  'Build',
-  'xmlns'
-];
-
 const HEADING = '<?xml version="1.0" encoding="utf-8"?>';
 const log = debug('ebay:xml:request');
 
@@ -47,7 +38,6 @@ type Headers = {
 
 export type Options = {
   raw?: boolean,
-  cleanup?: boolean,
   parseOptions?: object,
   useIaf?: boolean,
   headers?: Headers
@@ -62,7 +52,6 @@ export type Config = {
 
 export const defaultOptions: Required<Options> = {
   raw: false,
-  cleanup: true,
   parseOptions: defaultXML2JSONParseOptions,
   useIaf: true,
   headers: {}
@@ -104,20 +93,9 @@ export default class XMLRequest {
   }
 
   /**
-   * Delete extraneous fields from json.
-   *
-   * @param json
-   */
-  public static clean(json: any) {
-    EXTRANEOUS.forEach((key: string) => {
-      delete json[key]
-    })
-  }
-
-  /**
    * converts an XML response to JSON
    *
-   * @param      {xml}     xml     The xml
+   * @param      {string}     xml     The xml
    * @param      {object}     parseOptions     The parse options
    * @return     {JSON}         resolves to a JSON representation of the HTML
    */
@@ -217,19 +195,21 @@ export default class XMLRequest {
 
       this.handleEBayJsonError(json);
 
-      // cleans the Ebay response
-      if (options.cleanup) {
-        XMLRequest.clean(json);
-      }
-
       return json;
     } catch (error) {
-      this.handleEBayResponseError(error, parseOptions);
+      log('eBayResponseError', error);
+
+      if (error.response?.data) {
+        const json = XMLRequest.toJSON(error.response.data, parseOptions);
+        this.handleEBayJsonError(json);
+      }
+
+      throw error;
     }
   }
 
   private handleEBayJsonError(json: any) {
-    if (json.Ack === 'Error' || json.Ack === 'Failure' || json.Errors) {
+    if (json.Errors?.ErrorCode) {
       switch (json.Errors.ErrorCode) {
         case EBayIAFTokenExpired.code:
           throw new EBayIAFTokenExpired(json);
@@ -238,17 +218,8 @@ export default class XMLRequest {
       }
 
       throw new EbayApiError(json.Errors);
-    }
-  }
-
-  private handleEBayResponseError(error: any, parseOptions: object) {
-    log('eBayResponseError', error);
-
-    if (error.response && error.response.data) {
-      const json = XMLRequest.toJSON(error.response.data, parseOptions);
-      this.handleEBayJsonError(json);
-    } else {
-      throw error;
+    } else if (json.errorMessage) {
+      throw new EbayApiError(json);
     }
   }
 }

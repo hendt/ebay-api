@@ -7,7 +7,7 @@ import {Fields} from './fields';
 import FindingCalls from './finding';
 import ShoppingCalls from './shopping';
 import TradingCalls from './trading';
-import {ClientAlerts, Finding, Shopping, Trading, TraditionalApi} from '../../types/traditonalTypes';
+import {ClientAlerts, Finding, Shopping, Trading, TraditionalApi} from '../../types';
 import XMLRequest, {defaultOptions, Options} from './XMLRequest';
 
 /**
@@ -110,7 +110,7 @@ export default class Traditional {
         };
 
         const service: any = {};
-        Object.keys(ClientAlertsCalls).forEach((callname: string) => {
+        Object.keys(api.calls).forEach((callname: string) => {
             service[callname] = async (fields: Fields) => {
                 return this.req.get(endpoint, {
                     paramsSerializer,
@@ -179,7 +179,7 @@ export default class Traditional {
 
     private createTraditionalXMLApi<T>(api: TraditionalApi): T {
         const service: any = {};
-        Object.keys(api.calls).map((callname: string) => {
+        Object.keys(api.calls).forEach((callname: string) => {
             service[callname] = this.createXMLRequest(callname, api);
         });
 

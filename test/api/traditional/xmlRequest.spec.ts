@@ -60,22 +60,6 @@ describe('XMLRequestTest', () => {
     });
   });
 
-  it('Removes Extraneous nodes', () => {
-    const response = `<?xml version="1.0" encoding="utf-8"?>
-<CALLResponse xmlns="urn:ebay:apis:eBLBaseComponents">
-  <Ack>Ack</Timestamp>
-  <ack>ack</Ack>
-  <Version>Version</Version>
-  <Build>Build</Build>
-</CALLResponse>`;
-
-    req.post = sinon.stub().returns(Promise.resolve(response));
-    const request = new XMLRequest('CALL', {}, config, req);
-    return request.fetch().then(result => {
-      expect(result).to.deep.equal({});
-    });
-  });
-
   it('Unwraps Response', () => {
     const response = `<?xml version="1.0" encoding="utf-8"?>
 <CALLResponse xmlns="urn:ebay:apis:eBLBaseComponents">

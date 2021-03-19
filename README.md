@@ -255,7 +255,6 @@ The second parameter in the traditional API has the following options:
 ```typescript
 export type Options = {
   raw?: boolean, // return raw XML
-  cleanup?: boolean, // remove extraneous tags like  '@', 'Ack', 
   parseOptions?: object, // https://github.com/NaturalIntelligence/fast-xml-parser
   useIaf?: boolean // use IAF in header instead of Bearer
   headers?: Headers // additional Headers (key, value)
