@@ -1,8 +1,9 @@
-import EBay from '../../../src';
+// tslint:disable:no-console
+import eBayApi from '../../../src';
 
-const ebay = EBay.fromEnv();
+const eBay = eBayApi.fromEnv();
 
-ebay.sell.fulfillment.getOrder('<order-id>').then(order => {
+eBay.sell.fulfillment.getOrder('<order-id>').then(order => {
     console.log('order', JSON.stringify(order, null, 2));
 }).catch(e => {
     console.log('error', {error: e.message});

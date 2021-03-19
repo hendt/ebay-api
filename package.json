@@ -39,7 +39,7 @@
   "scripts": {
     "build": "rimraf lib && tsc && rollup -c",
     "prepare": "npm run build",
-    "tslint": "tslint -c tslint.json '{src,test}/**/*.ts'",
+    "tslint": "tslint -c tslint.json '{src,test,examples}/**/*.ts'",
     "test": "mocha -r ts-node/register 'test/**/*.spec.ts' --reporter=dot",
     "prerelease": "npm run tslint && npm run test && npm run build",
     "release": "standard-version"

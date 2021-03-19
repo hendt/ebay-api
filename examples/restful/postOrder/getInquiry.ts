@@ -1,13 +1,13 @@
 // tslint:disable:no-console
-import EBay from '../../../src';
+import eBayApi from '../../../src';
 
-const ebay = EBay.fromEnv();
+const eBay = eBayApi.fromEnv();
 
 (async () => {
-    try {
-        const summary = await ebay.postOrder.inquiry.getInquiry('5222222222');
-        console.log(JSON.stringify(summary, null, 2));
-    } catch (e) {
-        console.error(e);
-    }
+  try {
+    const summary = await eBay.postOrder.inquiry.getInquiry('5222222222');
+    console.log(JSON.stringify(summary, null, 2));
+  } catch (e) {
+    console.error(e);
+  }
 })();
