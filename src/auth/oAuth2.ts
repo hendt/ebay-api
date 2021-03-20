@@ -1,7 +1,7 @@
 import debug from 'debug';
-import NanoEvents from 'nanoevents';
-import {eBayConfig, Scope} from '../types';
-import {createRequest, IEBayApiRequest} from '../request';
+import AbstractApi from '../api/abstractApi';
+import {IEBayApiRequest} from '../request';
+import {AppConfig, Scope} from '../types';
 
 const log = debug('ebay:oauth');
 
@@ -16,7 +16,7 @@ export type UserAccessToken = Token & {
   refresh_token_expires_in: number
 };
 
-export default class OAuth2 {
+export default class OAuth2 extends AbstractApi {
   // If all the calls in our application require just an Application access token we can use this endpoint
   public static readonly IDENTITY_ENDPOINT: any = {
     production: 'https://api.ebay.com/identity/v1/oauth2/token',
@@ -47,30 +47,16 @@ export default class OAuth2 {
     ].join('');
   }
 
-  public readonly eBayConfig: eBayConfig;
-  public readonly req: IEBayApiRequest;
-
   private scope: Scope;
   private _clientToken?: Token;
   private _userAccessToken?: UserAccessToken;
 
   private readonly endpoint: string;
-  private readonly emitter: NanoEvents<any>;
 
-  constructor(
-    config: eBayConfig,
-    req: IEBayApiRequest = createRequest()
-  ) {
-    this.eBayConfig = config;
-    this.endpoint = this.eBayConfig.sandbox ? 'sandbox' : 'production';
-    this.scope = this.eBayConfig.scope || OAuth2.defaultScopes;
-    this.req = req;
-
-    this.emitter = new NanoEvents();
-  }
-
-  public on(name: string, callBack: (arg: any) => any) {
-    return this.emitter.on(name, callBack);
+  constructor(config: AppConfig, req?: IEBayApiRequest) {
+    super(config, req);
+    this.endpoint = this.config.sandbox ? 'sandbox' : 'production';
+    this.scope = this.config.scope || OAuth2.defaultScopes;
   }
 
   /**
@@ -117,10 +103,10 @@ export default class OAuth2 {
 
   // Client Credential Grant
   public async refreshClientToken(): Promise<Token> {
-    if (!this.eBayConfig.appId) {
+    if (!this.config.appId) {
       throw new Error('Missing App ID (Client Id)');
     }
-    if (!this.eBayConfig.certId) {
+    if (!this.config.certId) {
       throw new Error('Missing Cert Id (Client Secret)');
     }
 
@@ -132,15 +118,15 @@ export default class OAuth2 {
         grant_type: 'client_credentials'
       }, {
         auth: {
-          username: this.eBayConfig.appId,
-          password: this.eBayConfig.certId
+          username: this.config.appId,
+          password: this.config.certId
         }
       });
 
       log('Stored a new Client Token:', token);
 
       this.setClientToken(token);
-      this.emitter.emit('refreshClientToken', token);
+      this.emit('refreshClientToken', token);
 
       return token;
     } catch (error) {
@@ -157,13 +143,13 @@ export default class OAuth2 {
    * @param state state parameter returned in the redirect URL
    */
   public generateAuthUrl(ruName?: string, scope: string[] = this.scope, state = ''): string {
-    ruName = ruName || this.eBayConfig.ruName;
+    ruName = ruName || this.config.ruName;
 
     if (!ruName) {
       throw new Error('RuName is required.');
     }
 
-    return OAuth2.generateAuthUrl(this.eBayConfig.sandbox, this.eBayConfig.appId, ruName, scope, state);
+    return OAuth2.generateAuthUrl(this.config.sandbox, this.config.appId, ruName, scope, state);
   }
 
   /**
@@ -172,7 +158,7 @@ export default class OAuth2 {
    * @param code the code
    * @param ruName the redirectUri
    */
-  public async getToken(code: string, ruName = this.eBayConfig.ruName) {
+  public async getToken(code: string, ruName = this.config.ruName) {
     try {
       const token = await this.req.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
         grant_type: 'authorization_code',
@@ -180,8 +166,8 @@ export default class OAuth2 {
         redirect_uri: ruName
       }, {
         auth: {
-          username: this.eBayConfig.appId,
-          password: this.eBayConfig.certId
+          username: this.config.appId,
+          password: this.config.certId
         }
       });
 
@@ -219,8 +205,8 @@ export default class OAuth2 {
         scope: this.scope.join(' ')
       }, {
         auth: {
-          username: this.eBayConfig.appId,
-          password: this.eBayConfig.certId
+          username: this.config.appId,
+          password: this.config.certId
         }
       });
       log('Successfully refreshed token', token);
@@ -232,7 +218,7 @@ export default class OAuth2 {
 
       this.setCredentials(refreshedToken);
 
-      this.emitter.emit('refreshAuthToken', refreshedToken);
+      this.emit('refreshAuthToken', refreshedToken);
 
       return refreshedToken;
     } catch (ex) {

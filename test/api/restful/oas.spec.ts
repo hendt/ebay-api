@@ -39,12 +39,12 @@ describe('Open API Tests', () => {
     describe('API > restful > ' + name, () => {
       // tslint:disable-next-line:variable-name
       tests.forEach((Oas, RestfulApi) => {
-        const api = new RestfulApi(appConfig, auth, request);
+        const api = new RestfulApi(appConfig, request, auth);
 
         if (Oas.servers) {
           it('"' + name + ':' + RestfulApi.name + '" should return url', () => {
             expect(api.baseUrl).to.oneOf(
-              Oas.servers.map((server:any) => server.url.replace('{basePath}', server.variables.basePath.default)),
+              Oas.servers.map((server: any) => server.url.replace('{basePath}', server.variables.basePath.default)),
             );
           });
 

@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import OAuth2 from '../../src/auth/oAuth2';
 import {IEBayApiRequest} from '../../src/request';
 
-describe('oAuth2', () => {
+describe('OAuth2', () => {
   const appConfig = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 0, devId: 'devId'};
   const request: IEBayApiRequest<any> = {
     get: sinon.stub(),
@@ -38,5 +38,4 @@ describe('oAuth2', () => {
       expect(refreshAuthToken.args[0][0].access_token).to.equal('new_access_token');
     });
   });
-
 });

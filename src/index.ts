@@ -1,3 +1,4 @@
+import Api from './api';
 import ApiFactory from './api/apiFactory';
 import {Buy} from './api/restful/buy';
 import {Commerce} from './api/restful/commerce';
@@ -5,10 +6,10 @@ import {Developer} from './api/restful/developer';
 import {PostOrder} from './api/restful/postOrder';
 import {Sell} from './api/restful/sell';
 import AuthNAuth from './auth/authNAuth';
-import OAuth2 from './auth/оAuth2';
+import OAuth2 from './auth/oAuth2';
 import {MarketplaceId, SiteId} from './enums';
-import {EnvError} from './errors';
-import {createRequest, IEBayApiRequest} from './request';
+import {ApiEnvError} from './errors';
+import {IEBayApiRequest} from './request';
 import {AppConfig, ClientAlerts, Finding, Shopping, Trading} from './types';
 
 const defaultConfig = {
@@ -19,8 +20,7 @@ const defaultConfig = {
 };
 
 // tslint:disable-next-line:class-name
-class eBayApi {
-
+class eBayApi extends Api {
   public static SiteId = SiteId;
   public static MarketplaceId = MarketplaceId;
 
@@ -29,17 +29,17 @@ class eBayApi {
    *
    * @return {eBayApi} a new eBayApi instance
    * @param {request} req request
-   * @throws {EnvError}
+   * @throws {ApiEnvError}
    */
-  public static fromEnv(req = createRequest()) {
+  public static fromEnv(req?: IEBayApiRequest) {
     if (!process.env.EBAY_APP_ID) {
-      throw new EnvError('EBAY_APP_ID');
+      throw new ApiEnvError('EBAY_APP_ID');
     }
     if (!process.env.EBAY_CERT_ID) {
-      throw new EnvError('EBAY_CERT_ID');
+      throw new ApiEnvError('EBAY_CERT_ID');
     }
     if (!process.env.EBAY_DEV_ID) {
-      throw new EnvError('EBAY_DEV_ID');
+      throw new ApiEnvError('EBAY_DEV_ID');
     }
 
     return new eBayApi({
@@ -63,9 +63,6 @@ class eBayApi {
   // tslint:disable-next-line:variable-name
   public readonly OAuth2: OAuth2;
 
-  public readonly appConfig: AppConfig;
-  public readonly req: IEBayApiRequest;
-
   private readonly factory: ApiFactory;
 
   // RESTful API
@@ -86,16 +83,13 @@ class eBayApi {
    * @param {IEBayApiRequest} req the request
    */
   constructor(config: AppConfig, req?: IEBayApiRequest) {
-    this.appConfig = {...defaultConfig, ...config};
-    this.req = req || createRequest(this.appConfig.axiosConfig);
+    super({...defaultConfig, ...config}, req)
 
-    this.factory = new ApiFactory(
-      this.appConfig,
-      this.req
-    );
+    this.factory = new ApiFactory(this.config, this.req);
 
-    this.authNAuth = this.factory.auth.authNAuth;
-    this.OAuth2 = this.factory.auth.OAuth2;
+    // Shortcuts
+    this.authNAuth = this.auth.authNAuth;
+    this.OAuth2 = this.auth.OAuth2;
     this.oAuth2 = this.OAuth2;
   }
 

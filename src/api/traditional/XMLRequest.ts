@@ -1,8 +1,8 @@
 import debug from 'debug';
 import xmlParser, {j2xParser} from 'fast-xml-parser';
 
-import {EbayApiError, EBayIAFTokenExpired, EBayTokenRequired, NoCallError} from '../../errors';
-import {createRequest, IEBayApiRequest} from '../../request';
+import {eBayHandleEBayJsonResponse, EbayNoCallError} from '../../errors';
+import {IEBayApiRequest} from '../../request';
 import {Fields} from './fields';
 
 const HEADING = '<?xml version="1.0" encoding="utf-8"?>';
@@ -16,7 +16,7 @@ const defaultJSON2XMLOptions = {
   cdataPositionChar: '\\c',
   format: false,
   indentBy: '  ',
-  supressEmptyNode: false
+  suppressEmptyNode: false
 };
 
 export const defaultXML2JSONParseOptions = {
@@ -43,7 +43,7 @@ export type Options = {
   headers?: Headers
 };
 
-export type Config = {
+export type XMLReqConfig = {
   headers: Headers,
   endpoint: string,
   xmlns: string,
@@ -61,9 +61,10 @@ export const defaultOptions: Required<Options> = {
  * XML request for making eBay API call.
  */
 export default class XMLRequest {
-  private readonly callname: string;
+  private readonly callName: string;
   private readonly fields: Fields;
-  private readonly config: Config;
+  private readonly config: XMLReqConfig;
+  private readonly options: Options;
   private readonly req: any;
 
   public static j2x = new j2xParser(defaultJSON2XMLOptions);
@@ -76,31 +77,22 @@ export default class XMLRequest {
    * Creates the new Request object
    *
    * @private
-   * @param      {string}  callname the callname
+   * @param      {string}  callName the callname
    * @param      {Object}  fields the fields
    * @param      {Object} req the request
-   * @param      {Config}  config
+   * @param      {XMLReqConfig}  config
+   * @param      {Options}  options
    */
-  constructor(callname: string, fields: Fields, config: Config, req: IEBayApiRequest = createRequest()) {
-    if (!callname) {
-      throw new NoCallError();
+  constructor(callName: string, fields: Fields, config: XMLReqConfig, options: Options, req: IEBayApiRequest) {
+    if (!callName) {
+      throw new EbayNoCallError();
     }
 
-    this.callname = callname;
+    this.options = {...defaultOptions, ...options}
+    this.callName = callName;
     this.fields = fields || {};
     this.config = config;
     this.req = req;
-  }
-
-  /**
-   * converts an XML response to JSON
-   *
-   * @param      {string}     xml     The xml
-   * @param      {object}     parseOptions     The parse options
-   * @return     {JSON}         resolves to a JSON representation of the HTML
-   */
-  public static toJSON(xml: string, parseOptions: object) {
-    return xmlParser.parse(xml, parseOptions);
   }
 
   /**
@@ -110,7 +102,7 @@ export default class XMLRequest {
    * @return     {String}  { description_of_the_return_value }
    */
   private get responseWrapper() {
-    return `${this.callname}Response`;
+    return `${this.callName}Response`;
   }
 
   /**
@@ -127,6 +119,32 @@ export default class XMLRequest {
     } : {};
   }
 
+  get headers() {
+    return {
+      ...this.defaultHeaders,
+      ...this.config.headers,
+      ...this.options.headers
+    }
+  }
+
+  get parseOptions() {
+    return {
+      ...defaultXML2JSONParseOptions,
+      ...this.options.parseOptions
+    }
+  }
+
+  /**
+   * converts an XML response to JSON
+   *
+   * @param      {string}     xml     The xml
+   * @param      {object}     parseOptions     The parse options
+   * @return     {JSON}         resolves to a JSON representation of the HTML
+   */
+  public static toJSON(xml: string, parseOptions: object) {
+    return xmlParser.parse(xml, parseOptions);
+  }
+
   /**
    * returns the XML document for the request
    *
@@ -137,7 +155,7 @@ export default class XMLRequest {
   public toXML(fields: Fields) {
     log('JSON2XML:parseOptions', defaultJSON2XMLOptions);
     return HEADING + XMLRequest.j2x.parse({
-      [this.callname + 'Request']: {
+      [this.callName + 'Request']: {
         '@_xmlns': this.config.xmlns,
         ...this.credentials,
         ...fields
@@ -146,80 +164,52 @@ export default class XMLRequest {
   }
 
   /**
-   * runs the HTTP Post to eBay
+   * Call the xml api endpoint.
    *
    * @private
-   * @param      {Options}   options  The options
    * @return     {Promise}           resolves to the response
    *
    */
-  public async fetch(options: Options = defaultOptions) {
-    options = {...defaultOptions, ...options};
-
+  public async request() {
     const xml = this.toXML(this.fields);
-    log('XML', xml);
-
-    const parseOptions = {
-      ...defaultXML2JSONParseOptions,
-      ...options.parseOptions
-    }
+    log('XML:xml', xml);
 
     try {
-      const headers = {
-        ...this.defaultHeaders,
-        ...this.config.headers,
-        ...options.headers
-      };
-
-      log('Make XML request: ' + this.config.endpoint, headers);
+      const headers = this.headers;
+      log('XML:request: ' + this.config.endpoint, headers);
       const data = await this.req.post(this.config.endpoint, xml, {
         headers
       });
 
-      log('Response', data);
+      log('XML:response', data);
 
       // resolve to raw XML
-      if (options.raw) {
+      if (this.options.raw) {
         return data;
       }
 
-      log('XML2Json:parseOption', parseOptions);
-      let json = XMLRequest.toJSON(data, parseOptions);
+      log('XML:parseOption', this.parseOptions);
+      let json = XMLRequest.toJSON(data, this.parseOptions);
 
-      log('Response in JSON', json);
+      log('XML:JSON', json);
 
       // Unwrap
       if (json[this.responseWrapper]) {
         json = json[this.responseWrapper]
       }
 
-      this.handleEBayJsonError(json);
+      eBayHandleEBayJsonResponse(json);
 
       return json;
     } catch (error) {
-      log('eBayResponseError', error);
+      log('XML:error', error);
 
       if (error.response?.data) {
-        const json = XMLRequest.toJSON(error.response.data, parseOptions);
-        this.handleEBayJsonError(json);
+        const data = XMLRequest.toJSON(error.response.data, this.parseOptions);
+        eBayHandleEBayJsonResponse(data);
       }
 
       throw error;
-    }
-  }
-
-  private handleEBayJsonError(json: any) {
-    if (json.Errors?.ErrorCode) {
-      switch (json.Errors.ErrorCode) {
-        case EBayIAFTokenExpired.code:
-          throw new EBayIAFTokenExpired(json);
-        case EBayTokenRequired.code:
-          throw new EBayTokenRequired(json);
-      }
-
-      throw new EbayApiError(json.Errors);
-    } else if (json.errorMessage) {
-      throw new EbayApiError(json);
     }
   }
 }

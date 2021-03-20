@@ -1,11 +1,12 @@
 import debug from 'debug';
 import XMLRequest from '../api/traditional/XMLRequest';
-import {AuthToken, eBayConfig} from '../types/apiTypes';
-import {createRequest, IEBayApiRequest} from '../request';
+import AbstractApi from '../api/abstractApi';
+import {IEBayApiRequest} from '../request';
+import {AppConfig, AuthToken} from '../types';
 
 const log = debug('ebay:authNAuth');
 
-export default class AuthNAuth {
+export default class AuthNAuth extends AbstractApi {
   public static readonly SIGNIN_ENDPOINT = {
     sandbox: 'https://signin.sandbox.ebay.com/ws/eBayISAPI.dll',
     production: 'https://signin.ebay.com/ws/eBayISAPI.dll'
@@ -26,22 +27,13 @@ export default class AuthNAuth {
     ].join('');
   }
 
-  public readonly eBayConfig: eBayConfig;
-  public readonly req: IEBayApiRequest;
-
   private authToken?: AuthToken;
 
-  constructor(
-    config: eBayConfig,
-    req: IEBayApiRequest = createRequest()
-  ) {
-    this.eBayConfig = config;
-    this.req = req;
+  constructor(config: AppConfig, req?: IEBayApiRequest) {
+    super(config, req)
 
-    if (this.eBayConfig.authToken) {
-      this.authToken = {
-        eBayAuthToken: this.eBayConfig.authToken
-      };
+    if (this.config.authToken) {
+      this.setAuthToken(this.config.authToken)
     }
   }
 
@@ -51,42 +43,43 @@ export default class AuthNAuth {
    * @param ruName RuName
    */
   public async getSessionIdAndAuthUrl(ruName?: string) {
-    if (!this.eBayConfig.devId) {
+    if (!this.config.devId) {
       throw new Error('DevId is required.');
     }
 
-    ruName = ruName || this.eBayConfig.ruName;
+    ruName = ruName || this.config.ruName;
     if (!ruName) {
       throw new Error('RuName is required.');
     }
 
     const config = this.getRequestConfig('GetSessionID');
 
-    const request = new XMLRequest('GetSessionID', {
+    const xmlApi = new XMLRequest('GetSessionID', {
         RuName: ruName
-      }, config,
+      }, config, {useIaf: false},
       this.req);
 
-    const response = await request.fetch({useIaf: false});
+    const response = await xmlApi.request();
 
     log('GetSessionID response', response);
 
     return {
       sessionId: response.SessionID,
-      url: AuthNAuth.generateAuthUrl(this.eBayConfig.sandbox, ruName, response.SessionID)
+      url: AuthNAuth.generateAuthUrl(this.config.sandbox, ruName, response.SessionID)
     };
   }
 
   public async fetchAuthToken(sessionId: string) {
-    if (!this.eBayConfig.devId) {
+    if (!this.config.devId) {
       throw new Error('DevId is required.');
     }
-    const request = new XMLRequest('FetchToken', {
+
+    const xmlApi = new XMLRequest('FetchToken', {
         SessionID: sessionId
-      }, this.getRequestConfig('FetchToken'),
+      }, this.getRequestConfig('FetchToken'), {useIaf: false},
       this.req);
 
-    return request.fetch({useIaf: false});
+    return await xmlApi.request();
   }
 
   public setAuthToken(authToken: AuthToken | string) {
@@ -111,19 +104,19 @@ export default class AuthNAuth {
     return null;
   }
 
-  public getRequestConfig(callname: string) {
-    if (!this.eBayConfig.siteId) {
-      throw new Error('siteId is required for Auth\'n\'Auth.');
+  public getRequestConfig(callName: string) {
+    if (!this.config.siteId) {
+      throw new Error('"siteId" is required for Auth\'n\'Auth.');
     }
     return {
       xmlns: 'urn:ebay:apis:eBLBaseComponents',
-      endpoint: AuthNAuth.API_ENDPOINT[this.eBayConfig.sandbox ? 'sandbox' : 'production'],
+      endpoint: AuthNAuth.API_ENDPOINT[this.config.sandbox ? 'sandbox' : 'production'],
       headers: {
-        'X-EBAY-API-CALL-NAME': callname,
-        'X-EBAY-API-CERT-NAME': this.eBayConfig.certId,
-        'X-EBAY-API-APP-NAME': this.eBayConfig.appId,
-        'X-EBAY-API-DEV-NAME': this.eBayConfig.devId,
-        'X-EBAY-API-SITEID': this.eBayConfig.siteId,
+        'X-EBAY-API-CALL-NAME': callName,
+        'X-EBAY-API-CERT-NAME': this.config.certId,
+        'X-EBAY-API-APP-NAME': this.config.appId,
+        'X-EBAY-API-DEV-NAME': this.config.devId,
+        'X-EBAY-API-SITEID': this.config.siteId,
         'X-EBAY-API-COMPATIBILITY-LEVEL': 967
       }
     };

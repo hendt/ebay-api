@@ -1,33 +1,12 @@
 import Auth from '../auth';
-import {createRequest, IEBayApiRequest} from '../request';
-import {AppConfig} from '../types';
-import Api from './restful/';
-import {
-  Browse,
-  Buy,
-  Feed,
-  Marketing as BuyMarketing,
-  Offer,
-  Order,
-} from './restful/buy';
-import {
-  Catalog,
-  Commerce,
-  Identity,
-  Taxonomy,
-  Translation,
-} from './restful/commerce';
-import {
-  Analytics as DeveloperAnalytics,
-  Developer,
-} from './restful/developer';
-import {
-  Cancellation,
-  Case,
-  Inquiry,
-  PostOrder,
-  Return,
-} from './restful/postOrder';
+import {IEBayApiRequest} from '../request';
+import {AppConfig, ClientAlerts, Finding, Shopping, Trading} from '../types';
+import Api from './';
+import RestfulApi from './restful/';
+import {Browse, Buy, Feed, Marketing as BuyMarketing, Offer, Order,} from './restful/buy';
+import {Catalog, Commerce, Identity, Taxonomy, Translation,} from './restful/commerce';
+import {Analytics as DeveloperAnalytics, Developer,} from './restful/developer';
+import {Cancellation, Case, Inquiry, PostOrder, Return,} from './restful/postOrder';
 import {
   Account,
   Analytics as SellAnalytics,
@@ -41,29 +20,13 @@ import {
   Sell,
 } from './restful/sell';
 import Traditional from './traditional';
-import {
-  ClientAlerts,
-  Finding,
-  Shopping,
-  Trading,
-} from '../types';
 
 /**
  * Factory class to create RESTFul API or Traditional API.
  */
-export default class ApiFactory {
-  public readonly config: AppConfig;
-  public readonly auth: Auth;
-  public readonly req: IEBayApiRequest;
-
+export default class ApiFactory extends Api {
   private _traditional?: Traditional;
   private _restful: any = {};
-
-  constructor(config: AppConfig, req: IEBayApiRequest = createRequest()) {
-    this.config = config;
-    this.auth = new Auth(config, req);
-    this.req = req;
-  }
 
   public createBuyApi(): Buy {
     return {
@@ -118,7 +81,7 @@ export default class ApiFactory {
       return this._traditional;
     }
 
-    return (this._traditional = new Traditional(this.auth, this.req));
+    return (this._traditional = new Traditional(this.config, this.req));
   }
 
   public createTradingApi(): Trading {
@@ -138,10 +101,10 @@ export default class ApiFactory {
   }
 
   // tslint:disable-next-line:variable-name
-  private createRestfulApi<T extends Api>(RestfulApi: new (config: AppConfig, auth: Auth, req: IEBayApiRequest) => T): T {
-    const name = RestfulApi.name;
+  private createRestfulApi<T extends RestfulApi>(RestfulApiClass: new (config: AppConfig, req: IEBayApiRequest, auth: Auth) => T): T {
+    const name = RestfulApiClass.name;
     return (
-      this._restful[name] || (this._restful[name] = new RestfulApi(this.config, this.auth, this.req))
+      this._restful[name] || (this._restful[name] = new RestfulApiClass(this.config, this.req, this.auth))
     );
   }
 }
