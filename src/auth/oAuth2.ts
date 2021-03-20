@@ -1,5 +1,5 @@
 import debug from 'debug';
-import AbstractApi from '../api/abstractApi';
+import Base from '../api/base';
 import {IEBayApiRequest} from '../request';
 import {AppConfig, Scope} from '../types';
 
@@ -16,7 +16,7 @@ export type UserAccessToken = Token & {
   refresh_token_expires_in: number
 };
 
-export default class OAuth2 extends AbstractApi {
+export default class OAuth2 extends Base {
   // If all the calls in our application require just an Application access token we can use this endpoint
   public static readonly IDENTITY_ENDPOINT: any = {
     production: 'https://api.ebay.com/identity/v1/oauth2/token',

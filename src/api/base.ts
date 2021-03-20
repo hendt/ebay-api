@@ -2,7 +2,10 @@ import NanoEvents from 'nanoevents';
 import {AxiosRequest, IEBayApiRequest} from '../request';
 import {AppConfig} from '../types';
 
-export default abstract class AbstractApi {
+/**
+ * Abstract superclass.
+ */
+export default abstract class Base {
   public readonly config: AppConfig;
   public readonly req: IEBayApiRequest;
 

@@ -40,10 +40,10 @@ export type Options = {
   raw?: boolean,
   parseOptions?: object,
   useIaf?: boolean,
-  headers?: Headers
+  headers?: Headers,
 };
 
-export type XMLReqConfig = {
+export type XMLReqConfig = Options & {
   headers: Headers,
   endpoint: string,
   xmlns: string,
@@ -64,7 +64,6 @@ export default class XMLRequest {
   private readonly callName: string;
   private readonly fields: Fields;
   private readonly config: XMLReqConfig;
-  private readonly options: Options;
   private readonly req: any;
 
   public static j2x = new j2xParser(defaultJSON2XMLOptions);
@@ -81,17 +80,15 @@ export default class XMLRequest {
    * @param      {Object}  fields the fields
    * @param      {Object} req the request
    * @param      {XMLReqConfig}  config
-   * @param      {Options}  options
    */
-  constructor(callName: string, fields: Fields, config: XMLReqConfig, options: Options, req: IEBayApiRequest) {
+  constructor(callName: string, fields: Fields, config: XMLReqConfig, req: IEBayApiRequest) {
     if (!callName) {
       throw new EbayNoCallError();
     }
 
-    this.options = {...defaultOptions, ...options}
     this.callName = callName;
     this.fields = fields || {};
-    this.config = config;
+    this.config = {...defaultOptions, ...config};
     this.req = req;
   }
 
@@ -123,14 +120,13 @@ export default class XMLRequest {
     return {
       ...this.defaultHeaders,
       ...this.config.headers,
-      ...this.options.headers
     }
   }
 
   get parseOptions() {
     return {
       ...defaultXML2JSONParseOptions,
-      ...this.options.parseOptions
+      ...this.config.parseOptions
     }
   }
 
@@ -171,12 +167,13 @@ export default class XMLRequest {
    *
    */
   public async request() {
+    log('XML:config', this.config);
     const xml = this.toXML(this.fields);
     log('XML:xml', xml);
 
     try {
       const headers = this.headers;
-      log('XML:request: ' + this.config.endpoint, headers);
+      log('XML:request:' + this.config.endpoint, headers);
       const data = await this.req.post(this.config.endpoint, xml, {
         headers
       });
@@ -184,7 +181,7 @@ export default class XMLRequest {
       log('XML:response', data);
 
       // resolve to raw XML
-      if (this.options.raw) {
+      if (this.config.raw) {
         return data;
       }
 

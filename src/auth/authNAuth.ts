@@ -1,12 +1,12 @@
 import debug from 'debug';
 import XMLRequest from '../api/traditional/XMLRequest';
-import AbstractApi from '../api/abstractApi';
+import Base from '../api/base';
 import {IEBayApiRequest} from '../request';
 import {AppConfig, AuthToken} from '../types';
 
 const log = debug('ebay:authNAuth');
 
-export default class AuthNAuth extends AbstractApi {
+export default class AuthNAuth extends Base {
   public static readonly SIGNIN_ENDPOINT = {
     sandbox: 'https://signin.sandbox.ebay.com/ws/eBayISAPI.dll',
     production: 'https://signin.ebay.com/ws/eBayISAPI.dll'
@@ -52,12 +52,11 @@ export default class AuthNAuth extends AbstractApi {
       throw new Error('RuName is required.');
     }
 
-    const config = this.getRequestConfig('GetSessionID');
+    const reqConfig = this.getRequestConfig('GetSessionID');
 
     const xmlApi = new XMLRequest('GetSessionID', {
-        RuName: ruName
-      }, config, {useIaf: false},
-      this.req);
+      RuName: ruName
+    }, reqConfig, this.req);
 
     const response = await xmlApi.request();
 
@@ -75,9 +74,8 @@ export default class AuthNAuth extends AbstractApi {
     }
 
     const xmlApi = new XMLRequest('FetchToken', {
-        SessionID: sessionId
-      }, this.getRequestConfig('FetchToken'), {useIaf: false},
-      this.req);
+      SessionID: sessionId
+    }, this.getRequestConfig('FetchToken'), this.req);
 
     return await xmlApi.request();
   }
@@ -108,7 +106,9 @@ export default class AuthNAuth extends AbstractApi {
     if (!this.config.siteId) {
       throw new Error('"siteId" is required for Auth\'n\'Auth.');
     }
+
     return {
+      useIaf: false,
       xmlns: 'urn:ebay:apis:eBLBaseComponents',
       endpoint: AuthNAuth.API_ENDPOINT[this.config.sandbox ? 'sandbox' : 'production'],
       headers: {

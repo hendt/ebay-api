@@ -146,8 +146,8 @@ export default class Traditional extends Api {
   }
 
   private async request(options: Options, api: TraditionalApi, callName: string, fields: Fields, refreshToken = false) {
-    const config = this.getConfig(api, callName, options.useIaf);
-    const xmlRequest = new XMLRequest(callName, fields, config, options, this.req);
+    const config = this.getConfig(api, callName, options);
+    const xmlRequest = new XMLRequest(callName, fields, config, this.req);
     try {
       if (refreshToken) {
         await this.auth.OAuth2.refreshAuthToken();
@@ -159,16 +159,18 @@ export default class Traditional extends Api {
     }
   }
 
-  private getConfig(api: TraditionalApi, callName: string, useIaf?: boolean) {
+  private getConfig(api: TraditionalApi, callName: string, options: Options) {
     const eBayAuthToken = this.auth.authNAuth.eBayAuthToken;
     const accessToken = this.auth.OAuth2.accessToken;
-    const useIafToken = (!eBayAuthToken || accessToken && useIaf);
+    const useIafToken = (!eBayAuthToken || accessToken && options.useIaf);
 
     return {
+      ...options,
       xmlns: api.xmlns,
       endpoint: api.endpoint[this.config.sandbox ? 'sandbox' : 'production'],
       headers: {
-        ...api.headers(callName, accessToken && useIafToken ? accessToken : undefined)
+        ...api.headers(callName, accessToken && useIafToken ? accessToken : undefined),
+        ...options.headers
       },
       ...(eBayAuthToken && !useIafToken && {
         eBayAuthToken

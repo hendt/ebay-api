@@ -14,7 +14,8 @@ describe('XMLRequestTest', () => {
     },
     endpoint: 'endpoint',
     xmlns: 'xmlns',
-    eBayAuthToken: 'eBayAuthToken'
+    eBayAuthToken: 'eBayAuthToken',
+    raw: true
   };
 
   const apiResponse = '<CALL>response</CALL>';
@@ -33,14 +34,14 @@ describe('XMLRequestTest', () => {
 
   it('Return Raw Response XML', () => {
     const request = new XMLRequest('CALL', {}, config, req);
-    return request.request({raw: true}).then(result => {
+    return request.request().then(result => {
       expect(result).to.equal(apiResponse);
     });
   });
 
   it('Calls correct endpoint', () => {
     const request = new XMLRequest('CALL', {Param: 'Param'}, config, req);
-    return request.request({raw: true}).then(() => {
+    return request.request().then(() => {
       // @ts-ignore
       expect(req.post.args[0][0]).to.equal('endpoint');
     });
@@ -48,7 +49,7 @@ describe('XMLRequestTest', () => {
 
   it('Adds eBayAuthToken', () => {
     const request = new XMLRequest('CALL', {Param: 'Param'}, config, req);
-    return request.request({raw: true}).then(() => {
+    return request.request().then(() => {
       // @ts-ignore
       expect(req.post.args[0][1]).to.equal([
         '<?xml version="1.0" encoding="utf-8"?>',
@@ -67,7 +68,7 @@ describe('XMLRequestTest', () => {
 </CALLResponse>`;
 
     req.post = sinon.stub().returns(Promise.resolve(response));
-    const request = new XMLRequest('CALL', {}, config, req);
+    const request = new XMLRequest('CALL', {}, {...config, raw: false}, req);
     return request.request().then(result => {
       expect({
         Item: 'Item'
@@ -82,7 +83,7 @@ describe('XMLRequestTest', () => {
 </CALLResponse>`;
 
     req.post = sinon.stub().returns(Promise.resolve(response));
-    const request = new XMLRequest('CALL', {}, config, req);
+    const request = new XMLRequest('CALL', {}, {...config, raw: false}, req);
     return request.request().then(result => {
       expect({
         Price: {
@@ -107,7 +108,7 @@ describe('XMLRequestTest', () => {
 </CALLResponse>`;
 
     req.post = sinon.stub().returns(Promise.resolve(response));
-    const request = new XMLRequest('CALL', {}, config, req);
+    const request = new XMLRequest('CALL', {}, {...config, raw: false}, req);
     return request.request().then(result => {
       expect({
         ActiveList: {

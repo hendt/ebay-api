@@ -1,17 +1,20 @@
 import Auth from '../auth';
-import {AxiosRequest, IEBayApiRequest} from '../request';
+import {IEBayApiRequest} from '../request';
 import {AppConfig} from '../types';
-import AbstractApi from './abstractApi';
+import Base from './base';
 
-export default abstract class Api extends AbstractApi {
+/**
+ * Superclass with Auth container.
+ */
+export default abstract class Api extends Base {
   public readonly auth: Auth;
 
   constructor(
     config: AppConfig,
-    req: IEBayApiRequest = new AxiosRequest(config.axiosConfig),
-    auth = new Auth(config, req)
+    req: IEBayApiRequest,
+    auth?: Auth
   ) {
     super(config, req);
-    this.auth = auth;
+    this.auth = auth || new Auth(this.config, this.req);
   }
 }

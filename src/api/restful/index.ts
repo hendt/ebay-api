@@ -25,13 +25,13 @@ export default abstract class Restful extends Api {
   }
 
   public async getReqConfig() {
-    const authorization = await this.auth.getHeaderAuthorization(
+    const authHeader = await this.auth.getHeaderAuthorization(
       this.useIaf()
     );
 
     const headers: any = {
       ...defaultHeaders,
-      Authorization: authorization
+      ...authHeader
     }
 
     // TODO

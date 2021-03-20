@@ -79,7 +79,7 @@ describe('Open API Tests', () => {
               postForm: sinon.stub().returns(Promise.resolve()),
             };
 
-            const restApi = new RestfulApi(appConfig, auth, req);
+            const restApi = new RestfulApi(appConfig, req, auth);
 
             it(`"${name}:${RestfulApi.name}" should implement this method (${path}). `, () => {
               expect(restApi[call.operationId]).to.be.a(
