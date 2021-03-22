@@ -18,12 +18,12 @@ export type UserAccessToken = Token & {
 
 export default class OAuth2 extends Base {
   // If all the calls in our application require just an Application access token we can use this endpoint
-  public static readonly IDENTITY_ENDPOINT: any = {
+  public static readonly IDENTITY_ENDPOINT: Record<string, string> = {
     production: 'https://api.ebay.com/identity/v1/oauth2/token',
     sandbox: 'https://api.sandbox.ebay.com/identity/v1/oauth2/token'
   };
 
-  public static readonly AUTHORIZE_ENDPOINT: any = {
+  public static readonly AUTHORIZE_ENDPOINT: Record<string, string> = {
     production: 'https://auth.ebay.com/oauth2/authorize',
     sandbox: 'https://auth.sandbox.ebay.com/oauth2/authorize'
   };
@@ -38,7 +38,7 @@ export default class OAuth2 extends Base {
     state = ''
   ): string {
     return [
-      OAuth2.AUTHORIZE_ENDPOINT[sandbox ? 'sandbox' : 'production'],
+      sandbox ? OAuth2.AUTHORIZE_ENDPOINT.sandbox : OAuth2.AUTHORIZE_ENDPOINT.production,
       '?client_id=', encodeURIComponent(appId),
       '&redirect_uri=', encodeURIComponent(ruName),
       '&response_type=code',
@@ -171,10 +171,10 @@ export default class OAuth2 extends Base {
         }
       });
 
-      log('Successfully obtained a new User Access Token:', token);
+      log('Successfully obtained a new User Access Token', token);
       return token;
     } catch (ex) {
-      log('Failed to get the token:', ex);
+      log('Failed to get the token', ex);
       throw ex;
     }
   }
