@@ -6,7 +6,7 @@ import {AppealRequest, BuyerCloseCaseRequest, CaseSearchParams, ReturnAddressReq
  */
 export default class Case extends Restful {
   get basePath(): string {
-    return '/post-order/v2/casemanagement';
+    return '/post-order/v2';
   }
 
   public useIaf() {
@@ -21,7 +21,7 @@ export default class Case extends Restful {
    */
   public appealCaseDecision(caseId: string, payload?: AppealRequest) {
     const id = encodeURIComponent(caseId);
-    return this.post(`/${id}/appeal`, payload);
+    return this.post(`/casemanagement/${id}/appeal`, payload);
   }
 
   /**
@@ -32,7 +32,7 @@ export default class Case extends Restful {
    */
   public closeCase(caseId: string, payload: BuyerCloseCaseRequest) {
     const id = encodeURIComponent(caseId);
-    return this.post(`/${id}/close`, payload);
+    return this.post(`/casemanagement/${id}/close`, payload);
   }
 
   /**
@@ -42,7 +42,7 @@ export default class Case extends Restful {
    */
   public getCase(caseId: string) {
     const id = encodeURIComponent(caseId);
-    return this.get(`/${id}`);
+    return this.get(`/casemanagement/${id}`);
   }
 
   /**
@@ -53,7 +53,7 @@ export default class Case extends Restful {
    */
   public issueCaseRefund(caseId: string, payload?: Text) {
     const id = encodeURIComponent(caseId);
-    return this.post(`/${id}/issue_refund`, payload);
+    return this.post(`/casemanagement/${id}/issue_refund`, payload);
   }
 
   /**
@@ -68,7 +68,7 @@ export default class Case extends Restful {
   public provideReturnShipmentInfo(caseId: string, {shippingCarrierName, trackingNumber}:
     { shippingCarrierName: string, trackingNumber: string }) {
     const id = encodeURIComponent(caseId);
-    return this.post(`/${id}/provide_shipment_info`, {
+    return this.post(`/casemanagement/${id}/provide_shipment_info`, {
       shippingCarrierName,
       trackingNumber
     });
@@ -82,7 +82,7 @@ export default class Case extends Restful {
    */
   public providesReturnAddress(cancelId: string, payload?: ReturnAddressRequest) {
     const id = encodeURIComponent(cancelId);
-    return this.post(`/${id}/provide_return_address`, payload);
+    return this.post(`/casemanagement/${id}/provide_return_address`, payload);
   }
 
   /**
@@ -91,7 +91,7 @@ export default class Case extends Restful {
    * @param params the SearchParams
    */
   public search(params: CaseSearchParams) {
-    return this.get(`/search`, {
+    return this.get(`/casemanagement/search`, {
       params: {
         params
       }

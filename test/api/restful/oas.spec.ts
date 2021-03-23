@@ -9,12 +9,14 @@ import buyTests from './buy';
 import commerceTests from './commerce';
 import developerTests from './developer';
 import sellTests from './sell';
+import postOrderTests from './postOrder';
 
 const allTests = {
   Buy: buyTests,
   Commerce: commerceTests,
   Developer: developerTests,
   Sell: sellTests,
+  PostOrder: postOrderTests
 };
 
 const appConfig = {appId: 'appId', certId: 'certId', sandbox: false, siteId: 77};
@@ -67,9 +69,16 @@ describe('Open API Tests', () => {
             const paramsInHeader = call.parameters
               ? call.parameters.filter((p: any) => p.in === 'header')
               : [];
+            const paramsInBody = (call.parameters
+              ? call.parameters.filter((p: any) => p.in === 'body')
+              : []).reduce((result: any, p: any) => {
+              result[p.name] = p.name
+              return result
+            }, {});
             const args = paramsInPath
               .map((paramName: any) => '{' + paramName + '}')
-              .concat(paramsInHeader.map((p: any) => p.name));
+              .concat(paramsInHeader.map((p: any) => p.name))
+              .concat(paramsInBody);
 
             const req: any = {
               get: sinon.stub().returns(Promise.resolve()),

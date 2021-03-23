@@ -16,7 +16,7 @@ import {
  */
 export default class Inquiry extends Restful {
   get basePath(): string {
-    return '/post-order/v2/inquiry';
+    return '/post-order/v2';
   }
 
   public useIaf() {
@@ -29,7 +29,7 @@ export default class Inquiry extends Restful {
    * @param payload the CheckInquiryEligibilityRequest
    */
   public checkInquiryEligibility(payload: CheckInquiryEligibilityRequest) {
-    return this.post(`/check_eligibility`, payload);
+    return this.post(`/inquiry/check_eligibility`, payload);
   }
 
   /**
@@ -43,7 +43,7 @@ export default class Inquiry extends Restful {
     if (payload && payload.closeReason) {
       payload.closeReason = payload.closeReason.trim();
     }
-    return this.post(`/${id}/close`, payload);
+    return this.post(`/inquiry/${id}/close`, payload);
   }
 
   /**
@@ -53,7 +53,7 @@ export default class Inquiry extends Restful {
    */
   public confirmInquiryRefund(inquiryId: string) {
     const id = encodeURIComponent(inquiryId);
-    return this.post(`/${id}/confirm_refund`);
+    return this.post(`/inquiry/${id}/confirm_refund`);
   }
 
   /**
@@ -65,7 +65,7 @@ export default class Inquiry extends Restful {
     if (payload.desiredOutcome) {
       payload.desiredOutcome = payload.desiredOutcome.trim();
     }
-    return this.post(``, payload);
+    return this.post(`/inquiry`, payload);
   }
 
   /**
@@ -77,7 +77,7 @@ export default class Inquiry extends Restful {
   public escalateInquiry(inquiryId: string, payload: EscalateInquiryRequest) {
     const id = encodeURIComponent(inquiryId);
     payload.escalateInquiryReason = payload.escalateInquiryReason.trim();
-    return this.post(`/${id}/escalate`, payload);
+    return this.post(`/inquiry/${id}/escalate`, payload);
   }
 
   /**
@@ -87,7 +87,7 @@ export default class Inquiry extends Restful {
    */
   public getInquiry(inquiryId: string) {
     const id = encodeURIComponent(inquiryId);
-    return this.get(`/${id}`);
+    return this.get(`/inquiry/${id}`);
   }
 
   /**
@@ -98,7 +98,7 @@ export default class Inquiry extends Restful {
    */
   public issueInquiryRefund(inquiryId: string, payload?: InquiryVoluntaryRefundRequest) {
     const id = encodeURIComponent(inquiryId);
-    return this.post(`/${id}/issue_refund`, payload);
+    return this.post(`/inquiry/${id}/issue_refund`, payload);
   }
 
   /**
@@ -109,7 +109,7 @@ export default class Inquiry extends Restful {
    */
   public provideInquiryRefundInfo(inquiryId: string, payload: SellerProvideRefundInfoRequest) {
     const id = encodeURIComponent(inquiryId);
-    return this.post(`/${id}/provide_refund_info`, payload);
+    return this.post(`/inquiry/${id}/provide_refund_info`, payload);
   }
 
   /**
@@ -120,7 +120,7 @@ export default class Inquiry extends Restful {
    */
   public provideInquiryShipmentInfo(inquiryId: string, payload?: ShipmentInfoRequest) {
     const id = encodeURIComponent(inquiryId);
-    return this.post(`/${id}/provide_shipment_info`, payload);
+    return this.post(`/inquiry/${id}/provide_shipment_info`, payload);
   }
 
   /**
@@ -129,7 +129,7 @@ export default class Inquiry extends Restful {
    * @param params the  InquirySearchParams
    */
   public search(params?: InquirySearchParams) {
-    return this.get(`/search`, {
+    return this.get(`/inquiry/search`, {
       params
     });
   }
@@ -142,6 +142,6 @@ export default class Inquiry extends Restful {
    */
   public sendInquiryMessage(inquiryId: string, payload: SendMessageRequest) {
     const id = encodeURIComponent(inquiryId);
-    return this.post(`/${id}/send_message`, payload);
+    return this.post(`/inquiry/${id}/send_message`, payload);
   }
 }

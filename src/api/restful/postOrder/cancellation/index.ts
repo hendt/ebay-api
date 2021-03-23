@@ -11,7 +11,7 @@ import {
  */
 export default class Cancellation extends Restful {
   get basePath(): string {
-    return '/post-order/v2/cancellation';
+    return '/post-order/v2';
   }
 
   public useIaf() {
@@ -25,7 +25,7 @@ export default class Cancellation extends Restful {
    */
   public approveCancellationRequest(cancelId: string) {
     const id = encodeURIComponent(cancelId);
-    return this.post(`/${id}/approve`);
+    return this.post(`/cancellation/${id}/approve`);
   }
 
   /**
@@ -34,7 +34,7 @@ export default class Cancellation extends Restful {
    * @param legacyOrderId The unique ID of the order being canceled or the order being considered for cancellation.
    */
   public checkCancellationEligibility(legacyOrderId: string) {
-    return this.post(`/check_eligibility`, {
+    return this.post(`/cancellation/check_eligibility`, {
       legacyOrderId
     });
   }
@@ -47,7 +47,7 @@ export default class Cancellation extends Restful {
    */
   public confirmRefundReceived(cancelId: string, payload?: ConfirmRefundRequest) {
     const id = encodeURIComponent(cancelId);
-    return this.post(`/${id}/confirm`, payload);
+    return this.post(`/cancellation/${id}/confirm`, payload);
   }
 
   /**
@@ -56,7 +56,7 @@ export default class Cancellation extends Restful {
    * @param payload the CreateCancelRequest
    */
   public createCancellation(payload: CreateCancelRequest) {
-    return this.post(`/cancellation/`, payload);
+    return this.post(`/cancellation`, payload);
   }
 
   /**
@@ -69,7 +69,7 @@ export default class Cancellation extends Restful {
    */
   public getCancellation(cancelId: string, fieldGroups?: string) {
     const id = encodeURIComponent(cancelId);
-    return this.get(`/${id}`, {
+    return this.get(`/cancellation/${id}`, {
       params: {
         fieldgroups: fieldGroups
       }
@@ -84,7 +84,7 @@ export default class Cancellation extends Restful {
    */
   public rejectCancellationRequest(cancelId: string, payload?: RejectCancelRequest) {
     const id = encodeURIComponent(cancelId);
-    return this.post(`/${id}/reject`, payload);
+    return this.post(`/cancellation/${id}/reject`, payload);
   }
 
   /**
@@ -93,7 +93,7 @@ export default class Cancellation extends Restful {
    * @param params the SearchParams
    */
   public search(params: CancellationSearchParams) {
-    return this.get(`/search`, {
+    return this.get(`/cancellation/search`, {
       params: {
         params
       }

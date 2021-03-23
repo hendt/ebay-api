@@ -26,7 +26,7 @@ import {
  */
 export default class Return extends Restful {
   get basePath(): string {
-    return '/post-order/v2/return';
+    return '/post-order/v2';
   }
 
   public useIaf() {
@@ -41,7 +41,7 @@ export default class Return extends Restful {
    */
   public addShippingLabelInfo(returnId: string, payload: ProvideLabelRequest) {
     const id = encodeURIComponent(returnId);
-    return this.post(`/${id}/add_shipping_label`, payload);
+    return this.post(`/return/${id}/add_shipping_label`, payload);
   }
 
   /**
@@ -55,7 +55,7 @@ export default class Return extends Restful {
     if (payload && payload.buyerCloseReason) {
       payload.buyerCloseReason = payload.buyerCloseReason.trim();
     }
-    return this.post(`/${id}/cancel`, payload);
+    return this.post(`/return/${id}/cancel`, payload);
   }
 
   /**
@@ -64,7 +64,7 @@ export default class Return extends Restful {
    * @param payload the CheckEligibilityRequest
    */
   public checkReturnEligibility(payload: CheckEligibilityRequest) {
-    return this.post(`/check_eligibility`, payload);
+    return this.post(`/return/check_eligibility`, payload);
   }
 
   /**
@@ -74,7 +74,7 @@ export default class Return extends Restful {
    */
   public checkShippingLabelEligibility(returnId: string) {
     const id = encodeURIComponent(returnId);
-    return this.get(`/${id}/check_label_print_eligibility`);
+    return this.get(`/return/${id}/check_label_print_eligibility`);
   }
 
   /**
@@ -83,7 +83,7 @@ export default class Return extends Restful {
    * @param payload the SetReturnCreationSessionRequest
    */
   public createReturnDraft(payload: SetReturnCreationSessionRequest) {
-    return this.post(`/draft`, payload);
+    return this.post(`/return/draft`, payload);
   }
 
   /**
@@ -93,7 +93,7 @@ export default class Return extends Restful {
    * @param fieldGroups can be used in the call URI to control the detail level that is returned in response.
    */
   public createReturnRequest(payload: CreateReturnRequest, fieldGroups?: GetReturnFieldGroupEnum) {
-    return this.post(``, payload, {
+    return this.post(`/return`, payload, {
       params: {
         fieldgroups: fieldGroups
       }
@@ -107,7 +107,7 @@ export default class Return extends Restful {
    */
   public createReturnShippingLabel(returnId: string) {
     const id = encodeURIComponent(returnId);
-    return this.post(`/${id}/initiate_shipping_label`);
+    return this.post(`/return/${id}/initiate_shipping_label`);
   }
 
   /**
@@ -117,10 +117,10 @@ export default class Return extends Restful {
    * @param fileId The unique eBay-assigned ID of the draft file.
    */
   public deleteReturnDraftFile(draftId: string, fileId: string) {
-    const dId = encodeURIComponent(draftId);
-    const fId = encodeURIComponent(fileId);
+    draftId = encodeURIComponent(draftId);
+    fileId = encodeURIComponent(fileId);
 
-    return this.delete(`/draft/${dId}/file/${fId}`);
+    return this.delete(`/return/draft/${draftId}/file/${fileId}`);
   }
 
   /**
@@ -131,7 +131,7 @@ export default class Return extends Restful {
    */
   public escalateReturn(returnId: string, payload?: EscalateRequest) {
     const id = encodeURIComponent(returnId);
-    return this.post(`/${id}/escalate`, payload);
+    return this.post(`/return/${id}/escalate`, payload);
   }
 
   /**
@@ -141,8 +141,8 @@ export default class Return extends Restful {
    * @param fieldGroups can be used in the call URI to control the detail level that is returned in response.
    */
   public getReturn(returnId: string, fieldGroups?: GetReturnFieldGroupEnum) {
-    const id = encodeURIComponent(returnId);
-    return this.get(`/${id}`, {
+    returnId = encodeURIComponent(returnId);
+    return this.get(`/return/${returnId}`, {
       params: {
         fieldgroups: fieldGroups
       }
@@ -156,7 +156,7 @@ export default class Return extends Restful {
    */
   public getReturnDraft(returnId: string) {
     const id = encodeURIComponent(returnId);
-    return this.get(`/draft/${id}`);
+    return this.get(`/return/draft/${id}`);
   }
 
   /**
@@ -166,7 +166,7 @@ export default class Return extends Restful {
    */
   public getReturnDraftFiles(returnId: string) {
     const id = encodeURIComponent(returnId);
-    return this.get(`/draft/${id}/files`);
+    return this.get(`/return/draft/${id}/files`);
   }
 
   /**
@@ -175,7 +175,7 @@ export default class Return extends Restful {
    * @param payload the GetEstimateRequest
    */
   public getReturnEstimate(payload: GetEstimateRequest) {
-    return this.post(`/estimate`, payload);
+    return this.post(`/return/estimate`, payload);
   }
 
   /**
@@ -185,14 +185,14 @@ export default class Return extends Restful {
    */
   public getReturnFiles(returnId: string) {
     const id = encodeURIComponent(returnId);
-    return this.get(`/${id}/files`);
+    return this.get(`/return/${id}/files`);
   }
 
   /**
    * Retrieve seller's return preferences.
    */
   public getReturnPreferences() {
-    return this.get(`/preference`);
+    return this.get(`/return/preference`);
   }
 
   /**
@@ -201,8 +201,8 @@ export default class Return extends Restful {
    * @param returnId The unique eBay-assigned ID of the return.
    */
   public getReturnShippingLabel(returnId: string) {
-    const id = encodeURIComponent(returnId);
-    return this.get(`/${id}/get_shipping_label`);
+    returnId = encodeURIComponent(returnId);
+    return this.get(`/return/${returnId}/get_shipping_label`);
   }
 
   /**
@@ -213,8 +213,8 @@ export default class Return extends Restful {
    * @param trackingNumber The tracking number of the package.
    */
   public getShipmentTrackingInfo(returnId: string, carrierUsed: string, trackingNumber: string) {
-    const id = encodeURIComponent(returnId);
-    return this.get(`/${id}/tracking`, {
+    returnId = encodeURIComponent(returnId);
+    return this.get(`/return/${returnId}/tracking`, {
       params: {
         carrier_used: carrierUsed,
         tracking_number: trackingNumber
@@ -229,8 +229,8 @@ export default class Return extends Restful {
    * @param payload The IssueRefundRequest.
    */
   public issueReturnRefund(returnId: string, payload: PostOrderIssueRefundRequest) {
-    const id = encodeURIComponent(returnId);
-    return this.post(`/${id}/issue_refund`, payload);
+    returnId = encodeURIComponent(returnId);
+    return this.post(`/return/${returnId}/issue_refund`, payload);
   }
 
   /**
@@ -240,8 +240,8 @@ export default class Return extends Restful {
    * @param payload the MarkAsReceivedRequest
    */
   public markReturnReceived(returnId: string, payload?: MarkAsReceivedRequest) {
-    const id = encodeURIComponent(returnId);
-    return this.post(`/${id}/mark_as_received`, payload);
+    returnId = encodeURIComponent(returnId);
+    return this.post(`/return/${returnId}/mark_as_received`, payload);
   }
 
   /**
@@ -250,8 +250,8 @@ export default class Return extends Restful {
    * @param returnId The unique eBay-assigned ID of the return.
    */
   public markReturnRefundReceived(returnId: string) {
-    const id = encodeURIComponent(returnId);
-    return this.post(`/${id}/mark_refund_received`);
+    returnId = encodeURIComponent(returnId);
+    return this.post(`/return/${returnId}/mark_refund_received`);
   }
 
   /**
@@ -261,8 +261,8 @@ export default class Return extends Restful {
    * @param payload the MarkRefundSentRequest
    */
   public markReturnRefundSent(returnId: string, payload: MarkRefundSentRequest) {
-    const id = encodeURIComponent(returnId);
-    return this.post(`/${id}/mark_refund_sent`, payload);
+    returnId = encodeURIComponent(returnId);
+    return this.post(`/return/${returnId}/mark_refund_sent`, payload);
   }
 
   /**
@@ -272,8 +272,8 @@ export default class Return extends Restful {
    * @param payload the MarkAsShippedRequest
    */
   public markReturnShipped(returnId: string, payload?: MarkAsShippedRequest) {
-    const id = encodeURIComponent(returnId);
-    return this.post(`/${id}/mark_as_shipped`, payload);
+    returnId = encodeURIComponent(returnId);
+    return this.post(`/return/${returnId}/mark_as_shipped`, payload);
   }
 
   /**
@@ -283,8 +283,8 @@ export default class Return extends Restful {
    * @param payload the DecideReturnRequest
    */
   public processReturnRequest(returnId: string, payload: DecideReturnRequest) {
-    const id = encodeURIComponent(returnId);
-    return this.post(`/${id}/decide`, payload);
+    returnId = encodeURIComponent(returnId);
+    return this.post(`/return/${returnId}/decide`, payload);
   }
 
   /**
@@ -293,7 +293,7 @@ export default class Return extends Restful {
    * @param params the SearchReturnParams
    */
   public search(params: SearchReturnParams) {
-    return this.post(`/search`, {
+    return this.get(`/return/search`, {
       params
     });
   }
@@ -305,8 +305,8 @@ export default class Return extends Restful {
    * @param payload the SendMessageRequest
    */
   public sendReturnMessage(returnId: string, payload?: SendMessageRequest) {
-    const id = encodeURIComponent(returnId);
-    return this.post(`/${id}/send_message`, payload);
+    returnId = encodeURIComponent(returnId);
+    return this.post(`/return/${returnId}/send_message`, payload);
   }
 
   /**
@@ -316,8 +316,8 @@ export default class Return extends Restful {
    * @param toEmailAddress The recipient's email address is specified in this field.
    */
   public sendReturnShippingLabel(returnId: string, toEmailAddress?: string) {
-    const id = encodeURIComponent(returnId);
-    return this.post(`/${id}/send_shipping_label`, {}, {
+    returnId = encodeURIComponent(returnId);
+    return this.post(`/return/${returnId}/send_shipping_label`, {}, {
       params: {
         to_email_address: toEmailAddress
       }
@@ -331,7 +331,7 @@ export default class Return extends Restful {
    *     a Return Merchandise Authorization (RMA) when returning an item.
    */
   public setReturnPreferences(rmaRequired: boolean) {
-    return this.post(`/preference`, {
+    return this.post(`/return/preference`, {
       rmaRequired
     });
   }
@@ -345,8 +345,8 @@ export default class Return extends Restful {
    *     the shipping label.
    */
   public submitReturnFile(returnId: string, filePurpose?: FilePurpose) {
-    const id = encodeURIComponent(returnId);
-    return this.post(`/${id}/file/submit`, {
+    returnId = encodeURIComponent(returnId);
+    return this.post(`/return/${returnId}/file/submit`, {
       filePurpose
     });
   }
@@ -358,8 +358,8 @@ export default class Return extends Restful {
    * @param returnRequest the ReturnRequestType
    */
   public updateReturnDraft(draftId: string, returnRequest: ReturnRequestType) {
-    const id = encodeURIComponent(draftId);
-    return this.put(`/draft/${id}`, {
+    draftId = encodeURIComponent(draftId);
+    return this.put(`/return/draft/${draftId}`, {
       returnRequest
     });
   }
@@ -371,8 +371,8 @@ export default class Return extends Restful {
    * @param payload the UpdateTrackingRequest
    */
   public updateShipmentTrackingInfo(returnId: string, payload: UpdateTrackingRequest) {
-    const id = encodeURIComponent(returnId);
-    return this.put(`/${id}/update_tracking`, payload);
+    returnId = encodeURIComponent(returnId);
+    return this.put(`/return/${returnId}/update_tracking`, payload);
   }
 
   /**
@@ -382,8 +382,8 @@ export default class Return extends Restful {
    * @param payload the UploadFileRequest
    */
   public uploadReturnDraftFile(draftId: string, payload: UploadFileRequest) {
-    const id = encodeURIComponent(draftId);
-    return this.post(`/${id}/draft/file/upload`, payload);
+    draftId = encodeURIComponent(draftId);
+    return this.post(`/return/draft/${draftId}/file/upload`, payload);
   }
 
   /**
@@ -393,8 +393,8 @@ export default class Return extends Restful {
    * @param payload the UploadFileRequest
    */
   public uploadReturnFile(returnId: string, payload: UploadFileRequest) {
-    const id = encodeURIComponent(returnId);
-    return this.post(`/${id}/file/upload`, payload);
+    returnId = encodeURIComponent(returnId);
+    return this.post(`/return/${returnId}/file/upload`, payload);
   }
 
   /**
@@ -404,7 +404,7 @@ export default class Return extends Restful {
    * @param payload the VoidLabelRequest
    */
   public voidShippingLabel(returnId: string, payload: VoidLabelRequest) {
-    const id = encodeURIComponent(returnId);
-    return this.post(`/${id}/void_shipping_label`, payload);
+    returnId = encodeURIComponent(returnId);
+    return this.post(`/return/${returnId}/void_shipping_label`, payload);
   }
 }
