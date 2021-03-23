@@ -3,7 +3,7 @@ import Base from '../api/base';
 import {IEBayApiRequest} from '../request';
 import {AppConfig, Scope} from '../types';
 
-const log = debug('ebay:oauth');
+const log = debug('ebay:oauth2');
 
 export type Token = {
   access_token: string,
@@ -51,12 +51,13 @@ export default class OAuth2 extends Base {
   private _clientToken?: Token;
   private _userAccessToken?: UserAccessToken;
 
-  private readonly endpoint: string;
-
   constructor(config: AppConfig, req?: IEBayApiRequest) {
     super(config, req);
-    this.endpoint = this.config.sandbox ? 'sandbox' : 'production';
     this.scope = this.config.scope || OAuth2.defaultScopes;
+  }
+
+  get identityEndpoint() {
+    return this.config.sandbox ? OAuth2.IDENTITY_ENDPOINT.sandbox : OAuth2.IDENTITY_ENDPOINT.production
   }
 
   /**
@@ -113,7 +114,7 @@ export default class OAuth2 extends Base {
     log('Obtain a new Client Token with scope: ', this.scope.join(','));
 
     try {
-      const token = await this.req.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
+      const token = await this.req.postForm(this.identityEndpoint, {
         scope: this.scope.join(' '),
         grant_type: 'client_credentials'
       }, {
@@ -160,7 +161,7 @@ export default class OAuth2 extends Base {
    */
   public async getToken(code: string, ruName = this.config.ruName) {
     try {
-      const token = await this.req.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
+      const token = await this.req.postForm(this.identityEndpoint, {
         grant_type: 'authorization_code',
         code,
         redirect_uri: ruName
@@ -177,6 +178,17 @@ export default class OAuth2 extends Base {
       log('Failed to get the token', ex);
       throw ex;
     }
+  }
+
+  /**
+   * Gets and sets the access token for the given code.
+   *
+   * @param code the code
+   */
+  public async obtainToken(code: string) {
+    const token = await this.getToken(code);
+    log('Set Token', token);
+    this.setCredentials(token)
   }
 
   public getCredentials(): UserAccessToken | null {
@@ -199,7 +211,7 @@ export default class OAuth2 extends Base {
     }
 
     try {
-      const token = await this.req.postForm(OAuth2.IDENTITY_ENDPOINT[this.endpoint], {
+      const token = await this.req.postForm(this.identityEndpoint, {
         grant_type: 'refresh_token',
         refresh_token: this._userAccessToken.refresh_token,
         scope: this.scope.join(' ')

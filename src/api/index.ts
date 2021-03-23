@@ -11,7 +11,7 @@ export default abstract class Api extends Base {
 
   constructor(
     config: AppConfig,
-    req: IEBayApiRequest,
+    req?: IEBayApiRequest,
     auth?: Auth
   ) {
     super(config, req);

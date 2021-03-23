@@ -124,7 +124,7 @@ export default abstract class Restful extends Api {
         ...reqConfig,
         headers: {
           ...reqConfig.headers,
-          ...config.headers,
+          ...(config.headers || {}),
         }
       }
       const args = ['get', 'delete'].includes(method) ? [enrichedConfig] : [data, enrichedConfig]

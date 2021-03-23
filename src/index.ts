@@ -85,7 +85,7 @@ class eBayApi extends Api {
   constructor(config: AppConfig, req?: IEBayApiRequest) {
     super({...defaultConfig, ...config}, req)
 
-    this.factory = new ApiFactory(this.config, this.req);
+    this.factory = new ApiFactory(this.config, this.req, this.auth);
 
     // Shortcuts
     this.authNAuth = this.auth.authNAuth;

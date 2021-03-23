@@ -138,12 +138,12 @@ export const mapEBayError = (ex: any) => {
     }
   }
 
-  if (ex.request) {
-    error.meta.request = {
-      url: ex.response.config.url,
-      method: ex.request.config.method,
-      headers: ex.request.config.headers,
-      params: ex.request.config.params
+  if (ex.request && ex.config) {
+    error.meta.req = {
+      url: ex.config.url,
+      method: ex.config.method,
+      headers: ex.config.headers,
+      params: ex.config.params
     }
   }
 

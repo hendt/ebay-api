@@ -19,7 +19,7 @@ export default class AuthNAuth extends Base {
 
   public static generateAuthUrl(sandbox: boolean, ruName: string, sessionId: string, prompt = false) {
     return [
-      AuthNAuth.SIGNIN_ENDPOINT[sandbox ? 'sandbox' : 'production'],
+      sandbox ? AuthNAuth.SIGNIN_ENDPOINT.sandbox : AuthNAuth.SIGNIN_ENDPOINT.production,
       '?SignIn',
       '&RuName=', encodeURIComponent(ruName),
       '&SessID=', encodeURIComponent(sessionId),
@@ -37,6 +37,10 @@ export default class AuthNAuth extends Base {
     }
   }
 
+  get apiEndpoint() {
+    return this.config.sandbox ? AuthNAuth.API_ENDPOINT.sandbox : AuthNAuth.API_ENDPOINT.production
+  }
+
   /**
    * Generates URL for consent page landing.
    *
@@ -52,11 +56,9 @@ export default class AuthNAuth extends Base {
       throw new Error('RuName is required.');
     }
 
-    const reqConfig = this.getRequestConfig('GetSessionID');
-
     const xmlApi = new XMLRequest('GetSessionID', {
       RuName: ruName
-    }, reqConfig, this.req);
+    }, this.getRequestConfig('GetSessionID'), this.req);
 
     const response = await xmlApi.request();
 
@@ -77,7 +79,20 @@ export default class AuthNAuth extends Base {
       SessionID: sessionId
     }, this.getRequestConfig('FetchToken'), this.req);
 
-    return await xmlApi.request();
+    try {
+      return await xmlApi.request();
+    } catch (error) {
+      log('Fetch auth token failed', error);
+      throw error
+    }
+  }
+
+  public async obtainAuthToken(sessionId: string) {
+    const token = await this.fetchAuthToken(sessionId);
+    log('Set auth token', token)
+    this.setAuthToken(token);
+
+    return token;
   }
 
   public setAuthToken(authToken: AuthToken | string) {
@@ -103,14 +118,14 @@ export default class AuthNAuth extends Base {
   }
 
   public getRequestConfig(callName: string) {
-    if (!this.config.siteId) {
+    if (typeof this.config.siteId !== 'number') {
       throw new Error('"siteId" is required for Auth\'n\'Auth.');
     }
 
     return {
       useIaf: false,
       xmlns: 'urn:ebay:apis:eBLBaseComponents',
-      endpoint: AuthNAuth.API_ENDPOINT[this.config.sandbox ? 'sandbox' : 'production'],
+      endpoint: this.apiEndpoint,
       headers: {
         'X-EBAY-API-CALL-NAME': callName,
         'X-EBAY-API-CERT-NAME': this.config.certId,

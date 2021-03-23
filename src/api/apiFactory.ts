@@ -81,7 +81,7 @@ export default class ApiFactory extends Api {
       return this._traditional;
     }
 
-    return (this._traditional = new Traditional(this.config, this.req));
+    return (this._traditional = new Traditional(this.config, this.req, this.auth));
   }
 
   public createTradingApi(): Trading {

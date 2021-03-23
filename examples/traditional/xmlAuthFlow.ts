@@ -1,28 +1,30 @@
 // tslint:disable:no-console
 // @ts-ignore
 import readline from 'readline';
-import EBay from '../../src';
+import eBayApi from '../../src';
 
-const ebay = EBay.fromEnv();
+const eBay = eBayApi.fromEnv();
 // DOCS: https://developer.ebay.com/devzone/xml/docs/howto/tokens/gettingtokens.html
 
 const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
+  input: process.stdin,
+  output: process.stdout
 });
 
-ebay.auth.authNAuth.getSessionIdAndAuthUrl().then(({url, sessionId}) => {
-    console.log('Authorize this app by visiting this url: ', url);
+eBay.authNAuth.getSessionIdAndAuthUrl().then(({url, sessionId}) => {
+  console.log('Authorize this app by visiting this url: ', url);
 
-    rl.question('Press Enter after grant access', async () => {
-        const token = await ebay.auth.authNAuth.fetchAuthToken(sessionId);
-        ebay.auth.authNAuth.setAuthToken(token);
+  rl.question('Press Enter after grant access', async () => {
+    await eBay.authNAuth.obtainAuthToken(sessionId);
 
-        console.log('TOKEN', token);
+    try {
+      const time = await eBay.trading.GeteBayOfficialTime();
+      console.log(time);
+    } catch (e) {
+      console.error(e)
+    } finally {
+      rl.close();
+    }
 
-        const time = await ebay.trading.GeteBayOfficialTime();
-        console.log(time);
-
-        rl.close();
-    });
+  });
 });
