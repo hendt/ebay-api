@@ -1,11 +1,14 @@
 # eBay TypeScript/JavaScript API for Browser and Node
 
-This API implements both Traditional \(xml\) and the RESTful eBay API. It supports client credentials grant and authorization code grant \(traditional, OAuth2 and IAF\).
+This eBay API implements both Traditional \(xml\) and the RESTful eBay API.
+It supports client credentials grant and authorization code grant \(traditional, OAuth2 and IAF\).
 
-* [Browser API Examples](https://hendt.github.io/ebay-api/)
+* [API Browser Examples](https://hendt.github.io/ebay-api/)
+* [API Documentation](https://hendt.gitbook.io/ebay-api/)
+
+## eBay Docs
 * [eBay API Explorer](https://developer.ebay.com/my/api_test_tool)
 * [eBay API Docs](https://developer.ebay.com/docs)
-* [Browser example](https://hendt.github.io/ebay-api/)
 
 ## Changelog
 
@@ -71,9 +74,9 @@ For testing purpose you can use: `https://ebay.hendt.workers.dev/`. You can also
   });
 
   eBay.buy.browse.getItem('v1|254188828753|0').then(item => {
-      document.getElementById('response').value = JSON.stringify(item, null, 2)
+      console.log(JSON.stringify(item, null, 2));
   }).catch(e => {
-      document.getElementById('response').value = e.message
+      console.error(e);
   });
 </script>
 ```
@@ -100,23 +103,22 @@ const eBay = new eBayApi({
 
 ## 🔧 eBayApi Config
 
-The first parameter in eBayApi:
+The first (required) parameter in eBayApi takes an object with following properties:
 
-| Name | Description |
-| :--- | :--- |
-| appId\* | App ID \(Client ID\) from  [Application Keys](https://developer.ebay.com/my/keys). |
-| certId\* | Required. Cert ID \(Client Secret\) from  [Application Keys](https://developer.ebay.com/my/keys). |
-| devId | Conditionally required. The Dev Id from [Application Keys](https://developer.ebay.com/my/keys). |
-| sandbox | Optional. Default to 'false'. If true, the [Sandbox Environment](https://developer.ebay.com/tools/sandbox) will be used. |
-| scope | Conditionally required. Default to '[https://api.ebay.com/oauth/api\_scope](https://api.ebay.com/oauth/api_scope)'. |
-| ruName | Conditionally required. The redirect\_url value. [More info](https://developer.ebay.com/api-docs/static/oauth-redirect-uri.html). |
-| authToken | Optional. The Auth'N'Auth token. The traditional authentication and authorization technology used by the eBay APIs. |
-| marketplaceId | Conditionally required. REST HTTP Header. X-EBAY-C-MARKETPLACE-ID identifies the user's business context and is specified using a marketplace ID value. |
-| endUserCtx | Optional – Conditionally recommended. REST HTTP Header. X-EBAY\_C\_ENDUSERCTX provides various types of information associated with the request. |
-| contentLanguage | Conditionally required. REST HTTP Header. Content-Language indicates the locale preferred by the client for the response. |
-| acceptLanguage | Optional. REST HTTP Header. Accept-Language indicates the natural language the client prefers for the response. This specifies the language the client wants to use when the field values provided in the request body are displayed to consumers. |
-
-**\***: Required
+| Name | Occurrence | Default | Description |
+| :--- | :--- | :--- | :--- |
+| appId | Required | | App ID \(Client ID\) from  [Application Keys](https://developer.ebay.com/my/keys). |
+| certId | Required | | Cert ID \(Client Secret\) from  [Application Keys](https://developer.ebay.com/my/keys). |
+| devId | Conditional | | The Dev Id from [Application Keys](https://developer.ebay.com/my/keys). |
+| sandbox | Optional | `false` | If true, the [Sandbox Environment](https://developer.ebay.com/tools/sandbox) will be used. |
+| scope | Conditional | `['https://api.ebay.com/oauth/api_scope']` | The scopes assigned to your application allow access to different API resources and functionality. |
+| ruName | Conditional | | The redirect\_url value. [More info](https://developer.ebay.com/api-docs/static/oauth-redirect-uri.html). |
+| authToken | Optional | | The Auth'N'Auth token. The traditional authentication and authorization technology used by the eBay APIs. |
+| autoRefreshToken | Optional | `true` |. Try to auto refresh the token |
+| marketplaceId | Conditional | | REST HTTP Header. X-EBAY-C-MARKETPLACE-ID identifies the user's business context and is specified using a marketplace ID value. |
+| endUserCtx | Optional | | Conditionally recommended. REST HTTP Header. X-EBAY\_C\_ENDUSERCTX provides various types of information associated with the request. |
+| contentLanguage | Conditional | | REST HTTP Header. Content-Language indicates the locale preferred by the client for the response. |
+| acceptLanguage | Optional | | REST HTTP Header. Accept-Language indicates the natural language the client prefers for the response. This specifies the language the client wants to use when the field values provided in the request body are displayed to consumers. |
 
 ## OAuth2: Exchanging the authorization code for a User access token
 
