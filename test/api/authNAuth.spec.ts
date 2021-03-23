@@ -84,7 +84,7 @@ describe('AuthNAuth', () => {
    <SessionID>SessionID</SessionID>
 </GetSessionIDResponse>`)
       const auth = new AuthNAuth(config, {...req, post});
-      const response = await auth.fetchAuthToken('SessionID')
+      await auth.fetchAuthToken('SessionID')
     })
 
     it('sets and gets the token correctly', async () => {
