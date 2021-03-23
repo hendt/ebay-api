@@ -103,7 +103,7 @@ describe('OAuth2', () => {
     it('return token correctly', async () => {
       const oAuth2 = new OAuth2(config, req);
 
-      const token = await oAuth2.getToken('code', 'ruNameX');
+      await oAuth2.getToken('code', 'ruNameX');
       expect(req.postForm.args[0][1].redirect_uri).to.equal('ruNameX');
     });
 
