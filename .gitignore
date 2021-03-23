@@ -6,3 +6,4 @@ lib
 .idea
 ebay-api.iml
 .nyc_output
+coverage

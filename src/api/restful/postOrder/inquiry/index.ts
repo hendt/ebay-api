@@ -39,11 +39,11 @@ export default class Inquiry extends Restful {
    * @param payload the BuyerCloseInquiryRequest
    */
   public closeInquiry(inquiryId: string, payload?: BuyerCloseInquiryRequest) {
-    const id = encodeURIComponent(inquiryId);
-    if (payload && payload.closeReason) {
+    inquiryId = encodeURIComponent(inquiryId);
+    if (typeof payload?.closeReason === 'string') {
       payload.closeReason = payload.closeReason.trim();
     }
-    return this.post(`/inquiry/${id}/close`, payload);
+    return this.post(`/inquiry/${inquiryId}/close`, payload);
   }
 
   /**
@@ -52,8 +52,8 @@ export default class Inquiry extends Restful {
    * @param inquiryId The unique identifier of a case.
    */
   public confirmInquiryRefund(inquiryId: string) {
-    const id = encodeURIComponent(inquiryId);
-    return this.post(`/inquiry/${id}/confirm_refund`);
+    inquiryId = encodeURIComponent(inquiryId);
+    return this.post(`/inquiry/${inquiryId}/confirm_refund`);
   }
 
   /**
@@ -62,7 +62,7 @@ export default class Inquiry extends Restful {
    * @param payload the CreateInquiryRequest
    */
   public createInquiry(payload: CreateInquiryRequest) {
-    if (payload.desiredOutcome) {
+    if (typeof payload.desiredOutcome === 'string') {
       payload.desiredOutcome = payload.desiredOutcome.trim();
     }
     return this.post(`/inquiry`, payload);
@@ -75,9 +75,9 @@ export default class Inquiry extends Restful {
    * @param payload the EscalateInquiryRequest
    */
   public escalateInquiry(inquiryId: string, payload: EscalateInquiryRequest) {
-    const id = encodeURIComponent(inquiryId);
+    inquiryId = encodeURIComponent(inquiryId);
     payload.escalateInquiryReason = payload.escalateInquiryReason.trim();
-    return this.post(`/inquiry/${id}/escalate`, payload);
+    return this.post(`/inquiry/${inquiryId}/escalate`, payload);
   }
 
   /**
@@ -86,8 +86,8 @@ export default class Inquiry extends Restful {
    * @param inquiryId the unique ID of the inquiry for which details and history are to be retrieved.
    */
   public getInquiry(inquiryId: string) {
-    const id = encodeURIComponent(inquiryId);
-    return this.get(`/inquiry/${id}`);
+    inquiryId = encodeURIComponent(inquiryId);
+    return this.get(`/inquiry/${inquiryId}`);
   }
 
   /**
@@ -97,8 +97,8 @@ export default class Inquiry extends Restful {
    * @param payload   the InquiryVoluntaryRefundRequest
    */
   public issueInquiryRefund(inquiryId: string, payload?: InquiryVoluntaryRefundRequest) {
-    const id = encodeURIComponent(inquiryId);
-    return this.post(`/inquiry/${id}/issue_refund`, payload);
+    inquiryId = encodeURIComponent(inquiryId);
+    return this.post(`/inquiry/${inquiryId}/issue_refund`, payload);
   }
 
   /**
@@ -108,8 +108,8 @@ export default class Inquiry extends Restful {
    * @param payload   the InquiryVoluntaryRefundRequest
    */
   public provideInquiryRefundInfo(inquiryId: string, payload: SellerProvideRefundInfoRequest) {
-    const id = encodeURIComponent(inquiryId);
-    return this.post(`/inquiry/${id}/provide_refund_info`, payload);
+    inquiryId = encodeURIComponent(inquiryId);
+    return this.post(`/inquiry/${inquiryId}/provide_refund_info`, payload);
   }
 
   /**
@@ -119,8 +119,8 @@ export default class Inquiry extends Restful {
    * @param payload the  ShipmentInfoRequest
    */
   public provideInquiryShipmentInfo(inquiryId: string, payload?: ShipmentInfoRequest) {
-    const id = encodeURIComponent(inquiryId);
-    return this.post(`/inquiry/${id}/provide_shipment_info`, payload);
+    inquiryId = encodeURIComponent(inquiryId);
+    return this.post(`/inquiry/${inquiryId}/provide_shipment_info`, payload);
   }
 
   /**
@@ -141,7 +141,7 @@ export default class Inquiry extends Restful {
    * @param payload the SendMessageRequest
    */
   public sendInquiryMessage(inquiryId: string, payload: SendMessageRequest) {
-    const id = encodeURIComponent(inquiryId);
-    return this.post(`/inquiry/${id}/send_message`, payload);
+    inquiryId = encodeURIComponent(inquiryId);
+    return this.post(`/inquiry/${inquiryId}/send_message`, payload);
   }
 }

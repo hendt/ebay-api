@@ -11,7 +11,8 @@
     "prepare": "npm run build",
     "tslint": "tslint -c tslint.json '{src,test,examples}/**/*.ts'",
     "test": "mocha -r ts-node/register 'test/**/*.spec.ts' --reporter=dot",
-    "report": "nyc mocha -r ts-node/register 'test/**/*.spec.ts'",
+    "report": "nyc npm run test",
+    "report:summary": "nyc --reporter=lcov --reporter=text-summary npm run test",
     "prerelease": "npm run tslint && npm run test && npm run build",
     "release": "standard-version"
   },
