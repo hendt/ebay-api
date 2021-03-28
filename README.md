@@ -120,6 +120,9 @@ The first (required) parameter in eBayApi takes an object with following propert
 | contentLanguage | Conditional | | REST HTTP Header. Content-Language indicates the locale preferred by the client for the response. |
 | acceptLanguage | Optional | | REST HTTP Header. Accept-Language indicates the natural language the client prefers for the response. This specifies the language the client wants to use when the field values provided in the request body are displayed to consumers. |
 
+## Debug
+To see debug logs use `DEBUG=ebay:*` environment variable.
+
 ## OAuth2: Exchanging the authorization code for a User access token
 
 [eBay Docs](https://developer.ebay.com/api-docs/static/oauth-auth-code-grant-request.html)
@@ -175,40 +178,55 @@ eBay.OAuth2.setScope([
 ]);
 ```
 
+### Use apix.ebay.com or apiz.ebay.com (beta) endpoints
+For some APIs, eBay use a `apix`/`apiz` subdomain. To change the subdomain you can use `.apix`/`.apiz` before the api call like:
+```javascript
+  eBay.buy.browse.apix.getItem() // now it will use https://apix.ebay.com
+  eBay.buy.browse.apiz.getItem() // now it will use https://apiz.ebay.com
+```
+In any case eBay adds a new subdomain, it's also possible to configure whatever you want:
+```javascript
+  eBay.buy.browse.api({subdomain: 'apiy'}).getItem() // now it will use https://apiy.ebay.com
+```
+
 ### How to refresh the token
+If `autoRefreshToken` is set to true (default value) the token will be automatically refreshed when eBay response with 'invalid access token' error.
 
-The token will be automatically refreshed if, when you make a call, eBay returns an error message that indicates that the token has expired.
-
-You can use the Event Emitter to get the token when it is refreshed \(use `'eBay.OAuth2.refreshAuthToken()'` for the auth token or `'eBay.OAuth2.refreshClientToken()'` for the client token\):
+You can use Event Emitter to get the token when it gets refreshed \(use `'eBay.OAuth2.refreshAuthToken()'` for the auth token or `'eBay.OAuth2.refreshClientToken()'` for the client token\):
 
 ```javascript
 eBay.OAuth2.on('refreshAuthToken', (token) => {
   console.log(token)
 });
+
+eBay.OAuth2.on('refreshClientToken', (token) => {
+  console.log(token)
+});
 ```
 
-Alternatively, you can refresh it yourself:
-
+Alternatively, you can refresh it manually.
+Keep in mind that you need the 'refresh_token' value set.
 ```javascript
 let token = await eBay.OAuth2.refreshToken();
 ```
 
 ## Additional Headers
+Sometimes you want to add additional headers to the request like GLOBAL-ID \(X-EBAY-SOA-GLOBAL-ID\). 
+You have multiple options to do this.
 
-Sometimes you want to add additional headers to the request like GLOBAL-ID \(X-EBAY-SOA-GLOBAL-ID\). You can use the interceptor to manipulate the request:
-
+### Restful API Headers
 ```javascript
   const eBay = new eBayApi();
 
-  eBay.req.instance.interceptors.request.use((request) => {
-    // Add Header
-    request.headers['X-EBAY-SOA-GLOBAL-ID'] = 'EBAY-DE';
-    return request;
+  eBay.buy.browse.api({headers: {
+      'MY-HEADER': 'VALUE'
+  }}).getItem('v1|382282567190|651094235351').then((item) => {
+    console.log(item)
   })
 ```
 
-In a traditional API you cann pass headers directly in the method call:
-
+### Traditional API Headers
+you can pass headers directly in the method call in the second parameter:
 ```javascript
 eBay.trading.AddFixedPriceItem({
   Item: {
@@ -222,6 +240,17 @@ eBay.trading.AddFixedPriceItem({
     'MY-HEADER': 'VALUE'
   }
 })
+```
+
+### Low level: use the interceptor to manipulate the request
+```javascript
+  const eBay = new eBayApi();
+
+  eBay.req.instance.interceptors.request.use((request) => {
+    // Add Header
+    request.headers['X-EBAY-SOA-GLOBAL-ID'] = 'EBAY-DE';
+    return request;
+  })
 ```
 
 ### Handle JSON GZIP response e.g fetchItemAspects

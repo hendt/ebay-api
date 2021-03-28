@@ -241,9 +241,9 @@ export default class OAuth2 extends Base {
 
   public async refreshToken(): Promise<Token> {
     if (this._userAccessToken) {
-      return this.refreshAuthToken();
+      return await this.refreshAuthToken();
     } else if (this._clientToken) {
-      return this.refreshClientToken();
+      return await this.refreshClientToken();
     }
 
     throw new Error('To refresh a Token a client token or user access token must be already set.');

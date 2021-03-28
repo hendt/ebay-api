@@ -29,7 +29,7 @@ export default class Return extends Restful {
     return '/post-order/v2';
   }
 
-  public useIaf() {
+  get useIaf() {
     return true;
   }
 

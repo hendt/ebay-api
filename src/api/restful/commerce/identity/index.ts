@@ -4,12 +4,12 @@ import Restful from '../../';
  * Retrieves the authenticated user's account profile information.
  */
 export default class Identity extends Restful {
-  get baseHostSubDomain(): string {
-    return 'apiz';
-  }
-
   get basePath(): string {
     return '/commerce/identity/v1';
+  }
+
+  get subdomain(): string {
+    return 'apiz';
   }
 
   /**

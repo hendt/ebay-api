@@ -19,7 +19,7 @@ export default class Inquiry extends Restful {
     return '/post-order/v2';
   }
 
-  public useIaf() {
+  get useIaf() {
     return true;
   }
 

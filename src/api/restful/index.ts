@@ -1,8 +1,10 @@
+import Api from '../';
+import Auth from '../../auth';
 import {EBayInvalidAccessToken, handleEBayError} from '../../errors';
 import {IEBayApiRequest} from '../../request';
-import Api from '../';
+import {AppConfig} from '../../types';
 
-const defaultHeaders: Record<string, any> = {
+export const defaultApiHeaders: Record<string, string> = {
   'Content-Type': 'application/json',
   'Cache-Control': 'no-cache',
   'Accept-Encoding': 'application/gzip',
@@ -15,89 +17,163 @@ const additionalHeaders: Record<string, string> = {
   contentLanguage: 'Content-Language',
 };
 
-export default abstract class Restful extends Api {
+export type ApiConfig = {
+  subdomain?: string
+  useIaf?: boolean
+  apiVersion?: string
+  basePath?: string
+  schema?: string
+  sandbox?: boolean
+  tld?: string
+  headers?: Record<string, string>
+}
 
-  /**
-   * Control to use IAF or not.
-   */
-  public useIaf() {
-    return false;
+export type ApiRequest = {
+  method: keyof IEBayApiRequest,
+  url: string,
+  config?: any, // AxiosConfig
+  data?: any,
+}
+
+export default abstract class Restful extends Api {
+  public readonly apiConfig: Required<ApiConfig>;
+
+  constructor(
+    config: AppConfig,
+    req?: IEBayApiRequest,
+    auth?: Auth,
+    apiConfig: ApiConfig = {}
+  ) {
+    super(config, req, auth)
+
+    this.apiConfig = {
+      ...this.getApiConfig(),
+      ...apiConfig
+    }
   }
 
-  public async getReqConfig() {
-    const authHeader = await this.auth.getHeaderAuthorization(
-      this.useIaf()
-    );
-
-    const headers: any = {
-      ...defaultHeaders,
-      ...authHeader
-    }
-
-    // TODO
-    Object.keys(additionalHeaders).forEach(key => {
-      // @ts-ignore
-      const value = this.config[key];
-      if (typeof value !== 'undefined') {
-        headers[additionalHeaders[key]] = value;
-      }
-    });
-
-    return {
-      headers
-    }
+  public static buildServerUrl(schema: string, subdomain: string, sandbox: boolean, tld: string) {
+    return `${schema}${subdomain}.${sandbox ? 'sandbox.' : ''}${tld}`
   }
 
   abstract get basePath(): string;
 
-  get baseHostSubDomain() {
-    return 'api'
+  /**
+   * Enable to supports the use of OAuth tokens for user authorization.
+   */
+  get useIaf() {
+    return false;
   }
 
   get schema() {
     return 'https://'
   }
 
-  get serverUrl() {
-    return `${this.schema}${this.baseHostSubDomain}.${this.config.sandbox ? 'sandbox.' : ''}ebay.com`
+  get subdomain() {
+    return 'api'
   }
 
   get apiVersionPath() {
     return '';
   }
 
-  get baseUrl() {
-    return this.serverUrl + this.apiVersionPath + this.basePath;
+  public getServerUrl({schema, subdomain, apiVersion, basePath, sandbox, tld}: Required<ApiConfig>): string {
+    return Restful.buildServerUrl(schema, subdomain, sandbox, tld) + apiVersion + basePath;
   }
 
-  public async get(url: string, config: any = {}) {
-    return this.doRequest('get', url, config);
+  public getApiConfig(): Required<ApiConfig> {
+    return {
+      subdomain: this.subdomain,
+      useIaf: this.useIaf,
+      apiVersion: this.apiVersionPath,
+      basePath: this.basePath,
+      schema: this.schema,
+      sandbox: this.config.sandbox,
+      tld: 'ebay.com',
+      headers: {}
+    }
   }
 
-  public async delete(url: string, config: any = {}) {
-    return this.doRequest('delete', url, config);
+  public get baseUrl() {
+    return this.getServerUrl(this.apiConfig)
   }
 
-  public async post(url: string, data?: any, config: any = {}) {
-    return this.doRequest('post', url, config, data);
+  /**
+   * Create a new instances of it self with specified api config.
+   * @param apiConfig
+   */
+  public api(apiConfig: ApiConfig): this {
+    // @ts-ignore
+    return new this.constructor(this.config, this.req, this.auth, apiConfig)
   }
 
-  public async put(url: string, data?: any, config: any = {}) {
-    return this.doRequest('put', url, config, data);
+  /**
+   * Use "apix" subdomain
+   */
+  get apix() {
+    return this.api({subdomain: 'apix'})
   }
 
-  private async doRequest(
-    method: keyof IEBayApiRequest,
-    url: string,
-    config: any,
-    data?: any,
-  ): Promise<any> {
+  /**
+   * Use "apiz" subdomain
+   */
+  get apiz() {
+    return this.api({subdomain: 'apiz'})
+  }
+
+  public async get(url: string, config: any = {}, apiConfig?: ApiConfig) {
+    return this.doRequest({method: 'get', url, config}, apiConfig);
+  }
+
+  public async delete(url: string, config: any = {}, apiConfig?: ApiConfig) {
+    return this.doRequest({method: 'delete', url, config}, apiConfig);
+  }
+
+  public async post(url: string, data?: any, config: any = {}, apiConfig?: ApiConfig) {
+    return this.doRequest({method: 'post', url, data, config}, apiConfig);
+  }
+
+  public async put(url: string, data?: any, config: any = {}, apiConfig?: ApiConfig) {
+    return this.doRequest({method: 'put', url, data, config}, apiConfig);
+  }
+
+  get additionalHeaders() {
+    return Object.keys(additionalHeaders)
+      // @ts-ignore
+      .filter(key => typeof this.config[key] !== 'undefined')
+      .reduce((headers: any, key) => {
+        // @ts-ignore
+        headers[additionalHeaders[key]] = this.config[key]
+        return headers
+      }, {})
+  }
+
+  public async enrichRequestConfig(config: any = {}, apiConfig: Required<ApiConfig> = this.apiConfig) {
+    const authHeader = await this.auth.getHeaderAuthorization(apiConfig.useIaf);
+
+    const headers = {
+      ...defaultApiHeaders,
+      ...this.additionalHeaders,
+      ...authHeader,
+      ...apiConfig.headers
+    }
+
+    return {
+      ...config,
+      headers: {
+        ...(config.headers || {}),
+        ...headers
+      }
+    }
+  }
+
+  private async doRequest(payload: ApiRequest, apiConfig?: ApiConfig) {
     try {
-      return await this.request(method, url, config, data);
+      return await this.request(payload, apiConfig);
     } catch (error) {
       if (error.name === EBayInvalidAccessToken.name && this.config.autoRefreshToken) {
         // Try again and refresh token
-        return await this.request(method, url, config, data, true /* refresh token */)
+        return await this.request(payload, apiConfig, true /* refresh token */)
       }
 
       throw error
@@ -105,28 +181,22 @@ export default abstract class Restful extends Api {
   }
 
   private async request(
-    method: keyof IEBayApiRequest,
-    url: string,
-    config: any,
-    data: any,
-    refreshToken = false
+    apiRequest: ApiRequest,
+    apiConfig: ApiConfig = this.apiConfig,
+    refreshToken = false,
   ): Promise<any> {
-    const endpoint = this.baseUrl + url;
+    const {url, method, data, config} = apiRequest;
+
+    const apiCfg: Required<ApiConfig> = {...this.apiConfig, ...apiConfig};
+    const endpoint = this.getServerUrl(apiCfg) + url;
 
     try {
       if (refreshToken) {
         await this.auth.OAuth2.refreshToken()
       }
 
-      const reqConfig = await this.getReqConfig();
-      const enrichedConfig = {
-        ...config,
-        ...reqConfig,
-        headers: {
-          ...reqConfig.headers,
-          ...(config.headers || {}),
-        }
-      }
+      const enrichedConfig = await this.enrichRequestConfig(config, apiCfg);
+
       const args = ['get', 'delete'].includes(method) ? [enrichedConfig] : [data, enrichedConfig]
       // @ts-ignore
       return await this.req[method](endpoint, ...args)

@@ -31,8 +31,8 @@ export default class Order extends Api {
    * @param body The container for the fields used to apply a coupon to a checkout session.
    */
   public applyCoupon(checkoutSessionId: string, body: CouponRequest) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/checkout_session/${sessionId}/apply_coupon`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/checkout_session/${checkoutSessionId}/apply_coupon`, body);
   }
 
   /**
@@ -42,8 +42,8 @@ export default class Order extends Api {
    *     returned by the initiateCheckoutSession method.
    */
   public getCheckoutSession(checkoutSessionId: string) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.get(`/checkout_session/${sessionId}`);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.get(`/checkout_session/${checkoutSessionId}`);
   }
 
   /**
@@ -63,8 +63,8 @@ export default class Order extends Api {
    *     initiateCheckoutSession method.
    */
   public placeOrder(checkoutSessionId: string) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/checkout_session/${sessionId}/place_order`);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/checkout_session/${checkoutSessionId}/place_order`);
   }
 
   /**
@@ -76,8 +76,8 @@ export default class Order extends Api {
    * @param body CouponRequest
    */
   public removeCoupon(checkoutSessionId: string, body?: CouponRequest) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/checkout_session/${sessionId}/remove_coupon`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/checkout_session/${checkoutSessionId}/remove_coupon`, body);
   }
 
   /**
@@ -88,8 +88,8 @@ export default class Order extends Api {
    * @param body UpdatePaymentInformation
    */
   public updatePaymentInfo(checkoutSessionId: string, body?: UpdatePaymentInformation) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/checkout_session/${sessionId}/update_payment_info`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/checkout_session/${checkoutSessionId}/update_payment_info`, body);
   }
 
   /**
@@ -100,8 +100,8 @@ export default class Order extends Api {
    * @param body UpdateQuantity
    */
   public updateQuantity(checkoutSessionId: string, body?: UpdateQuantity) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/checkout_session/${sessionId}/update_quantity`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/checkout_session/${checkoutSessionId}/update_quantity`, body);
   }
 
   /**
@@ -112,8 +112,8 @@ export default class Order extends Api {
    * @param body UpdateQuantity
    */
   public checkoutSessionId(checkoutSessionId: string, body?: UpdateQuantity) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/checkout_session/${sessionId}/update_quantity`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/checkout_session/${checkoutSessionId}/update_quantity`, body);
   }
 
   /**
@@ -124,8 +124,8 @@ export default class Order extends Api {
    * @param body ShippingAddressImpl
    */
   public updateShippingAddress(checkoutSessionId: string, body?: ShippingAddressImpl) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/checkout_session/${sessionId}/update_shipping_address`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/checkout_session/${checkoutSessionId}/update_shipping_address`, body);
   }
 
   /**
@@ -136,8 +136,8 @@ export default class Order extends Api {
    * @param body UpdateShippingOption
    */
   public updateShippingOption(checkoutSessionId: string, body?: UpdateShippingOption) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/checkout_session/${sessionId}/update_shipping_option`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/checkout_session/${checkoutSessionId}/update_shipping_option`, body);
   }
 
   /**
@@ -150,8 +150,8 @@ export default class Order extends Api {
    * @param body CouponRequest
    */
   public applyGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/guest_checkout_session/${sessionId}/apply_coupon`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/guest_checkout_session/${checkoutSessionId}/apply_coupon`, body);
   }
 
   /**
@@ -162,8 +162,8 @@ export default class Order extends Api {
    *     initiateCheckoutSession method.
    */
   public getGuestCheckoutSession(checkoutSessionId: string) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.get(`/guest_checkout_session/${sessionId}`);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.get(`/guest_checkout_session/${checkoutSessionId}`);
   }
 
   /**
@@ -183,8 +183,8 @@ export default class Order extends Api {
    *  @param body InitiatePaymentRequest
    */
   public initiateGuestPayment(checkoutSessionId: string, body?: InitiatePaymentRequest) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/guest_checkout_session/${sessionId}/initiate_payment`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/guest_checkout_session/${checkoutSessionId}/initiate_payment`, body);
   }
 
   /**
@@ -195,8 +195,8 @@ export default class Order extends Api {
    * @param body GuestPlaceOrderRequest
    */
   public placeGuestOrder(checkoutSessionId: string, body?: GuestPlaceOrderRequest) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/guest_checkout_session/${sessionId}/place_order`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/guest_checkout_session/${checkoutSessionId}/place_order`, body);
   }
 
   /**
@@ -208,8 +208,8 @@ export default class Order extends Api {
    * @param body CouponRequest
    */
   public removeGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/guest_checkout_session/${sessionId}/remove_coupon`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/guest_checkout_session/${checkoutSessionId}/remove_coupon`, body);
   }
 
   /**
@@ -220,8 +220,8 @@ export default class Order extends Api {
    * @param body UpdatePaymentInformation
    */
   public updateGuestPaymentInfo(checkoutSessionId: string, body?: UpdatePaymentInformation) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/guest_checkout_session/${sessionId}/update_payment_info`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/guest_checkout_session/${checkoutSessionId}/update_payment_info`, body);
   }
 
   /**
@@ -232,8 +232,8 @@ export default class Order extends Api {
    * @param body UpdateQuantity
    */
   public updateGuestQuantity(checkoutSessionId: string, body?: UpdateQuantity) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/guest_checkout_session/${sessionId}/update_quantity`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/guest_checkout_session/${checkoutSessionId}/update_quantity`, body);
   }
 
   /**
@@ -244,8 +244,8 @@ export default class Order extends Api {
    * @param body ShippingAddressImpl
    */
   public updateGuestShippingAddress(checkoutSessionId: string, body?: ShippingAddressImpl) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/guest_checkout_session/${sessionId}/update_shipping_address`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/guest_checkout_session/${checkoutSessionId}/update_shipping_address`, body);
   }
 
   /**
@@ -256,8 +256,8 @@ export default class Order extends Api {
    * @param body UpdateShippingOption
    */
   public updateGuestShippingOption(checkoutSessionId: string, body?: UpdateShippingOption) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/guest_checkout_session/${sessionId}/update_shipping_option`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/guest_checkout_session/${checkoutSessionId}/update_shipping_option`, body);
   }
 
   /**
@@ -269,8 +269,8 @@ export default class Order extends Api {
    * @param body CouponRequest
    */
   public applyProxyGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/proxy_guest_checkout_session/${sessionId}/apply_coupon`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/apply_coupon`, body);
   }
 
   /**
@@ -280,8 +280,8 @@ export default class Order extends Api {
    *     initiateCheckoutSession method.
    */
   public getProxyGuestCheckoutSession(checkoutSessionId: string) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.get(`/proxy_guest_checkout_session/${sessionId}`);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.get(`/proxy_guest_checkout_session/${checkoutSessionId}`);
   }
 
   /**
@@ -304,8 +304,8 @@ export default class Order extends Api {
    * @param body GuestPlaceOrderRequest
    */
   public placeProxyGuestOrder(checkoutSessionId: string, body?: GuestPlaceOrderRequest) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/proxy_guest_checkout_session/${sessionId}/place_order`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/place_order`, body);
   }
 
   /**
@@ -317,8 +317,8 @@ export default class Order extends Api {
    * @param body CouponRequest
    */
   public removeProxyGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/proxy_guest_checkout_session/${sessionId}/remove_coupon`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/remove_coupon`, body);
   }
 
   /**
@@ -344,8 +344,8 @@ export default class Order extends Api {
     signature: string,
     body?: UpdatePaymentInformation
   ) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/proxy_guest_checkout_session/${sessionId}/update_payment_info`, body, {
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_payment_info`, body, {
       headers: {
         'Authorization': authorization,
         'X-EBAY-C-DATE': date,
@@ -364,8 +364,8 @@ export default class Order extends Api {
    * @param body UpdateQuantity
    */
   public updateProxyGuestQuantity(checkoutSessionId: string, body?: UpdateQuantity) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/proxy_guest_checkout_session/${sessionId}/update_quantity`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_quantity`, body);
   }
 
   /**
@@ -376,8 +376,8 @@ export default class Order extends Api {
    * @param body ShippingAddressImpl
    */
   public updateProxyGuestShippingAddress(checkoutSessionId: string, body?: ShippingAddressImpl) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/proxy_guest_checkout_session/${sessionId}/update_shipping_address`, body);
+    checkoutSessionId = encodeURIComponent(checkoutSessionId);
+    return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_shipping_address`, body);
   }
 
   /**
@@ -388,8 +388,8 @@ export default class Order extends Api {
    * @param body UpdateShippingOption
    */
   public updateProxyGuestShippingOption(checkoutSessionId: string, body?: UpdateShippingOption) {
-    const sessionId = encodeURIComponent(checkoutSessionId);
-    return this.post(`/proxy_guest_checkout_session/${sessionId}/update_shipping_option`, body);
+    checkoutSessionId= encodeURIComponent(checkoutSessionId);
+    return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_shipping_option`, body);
   }
 
   /**
@@ -399,8 +399,8 @@ export default class Order extends Api {
    *     be retrieved.
    */
   public getGuestPurchaseOrder(purchaseOrderId: string) {
-    const id = encodeURIComponent(purchaseOrderId);
-    return this.get(`/guest_purchase_order/${id}`);
+    purchaseOrderId = encodeURIComponent(purchaseOrderId);
+    return this.get(`/guest_purchase_order/${purchaseOrderId}`);
   }
 
   /**
@@ -410,7 +410,7 @@ export default class Order extends Api {
    *     to be retrieved.
    */
   public getPurchaseOrder(purchaseOrderId: string) {
-    const id = encodeURIComponent(purchaseOrderId);
-    return this.get(`/purchase_order/${id}`);
+    purchaseOrderId = encodeURIComponent(purchaseOrderId);
+    return this.get(`/purchase_order/${purchaseOrderId}`);
   }
 }

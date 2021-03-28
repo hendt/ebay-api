@@ -109,6 +109,10 @@ export class EBayInvalidScope extends EbayApiError {
 }
 
 export const mapEBayError = (ex: any) => {
+  if (!ex) {
+    return {}
+  }
+
   let eBayError = {}
 
   if (ex.response?.data?.error) {

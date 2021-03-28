@@ -11,7 +11,7 @@ export default class Finances extends Restful {
     return '/sell/finances/v1';
   }
 
-  get baseHostSubDomain(): string {
+  get subdomain(): string {
     return 'apiz';
   }
 

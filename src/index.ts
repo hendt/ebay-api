@@ -12,7 +12,7 @@ import {ApiEnvError} from './errors';
 import {IEBayApiRequest} from './request';
 import {AppConfig, ClientAlerts, Finding, Shopping, Trading} from './types';
 
-const defaultConfig = {
+const defaultAppConfig = {
   sandbox: false,
   siteId: SiteId.EBAY_DE,
   marketplaceId: MarketplaceId.EBAY_DE,
@@ -83,7 +83,7 @@ class eBayApi extends Api {
    * @param {IEBayApiRequest} req the request
    */
   constructor(config: AppConfig, req?: IEBayApiRequest) {
-    super({...defaultConfig, ...config}, req)
+    super({...defaultAppConfig, ...config}, req)
 
     this.factory = new ApiFactory(this.config, this.req, this.auth);
 

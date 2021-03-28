@@ -9,7 +9,7 @@ export default class Case extends Restful {
     return '/post-order/v2';
   }
 
-  public useIaf() {
+  get useIaf() {
     return true;
   }
 
