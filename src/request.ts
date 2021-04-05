@@ -28,6 +28,9 @@ export class AxiosRequest implements IEBayApiRequest {
                 'Access-Control-Allow-Headers': 'X-Requested-With, Origin, Content-Type, X-Auth-Token',
                 'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE'
             },
+            paramsSerializer: params => {
+                return qs.stringify(params)
+              },
             ...config
         });
     }
