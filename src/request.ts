@@ -32,22 +32,22 @@ export class AxiosRequest implements IEBayApiRequest {
   }
 
   public get<R = any>(url: string, config?: AxiosRequestConfig): Promise<R> {
-    log('get: ' + url);
+    log('get: ' + url, config);
     return this.instance.get(url, config).then(({data}) => data);
   }
 
   public post<R = any>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<R> {
-    log('post: ' + url, payload);
+    log('post: ' + url, {payload, config});
     return this.instance.post(url, payload, config).then(({data}) => data);
   }
 
   public delete<R = any>(url: string, config?: AxiosRequestConfig): Promise<R> {
-    log('delete: ' + url);
+    log('delete: ' + url, config);
     return this.instance.delete(url, config).then(({data}) => data);
   }
 
   public put<R = any>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<R> {
-    log('put: ' + url, payload);
+    log('put: ' + url, {payload, config});
     return this.instance.put(url, payload, config).then(({data}) => data);
   }
 
