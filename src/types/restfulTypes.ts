@@ -1,1157 +1,1166 @@
 import {
-    CaseSearchFieldGroup,
-    CaseStatusFilter,
-    CategoryType as CategoryTypeEnum,
-    Condition,
-    CurrencyCode,
-    Decision,
-    EscalateReason,
-    FilePurpose,
-    FormatType,
-    InquirySearchFieldGroup,
-    InquiryStatusFilter,
-    Locale,
-    PaymentMethodType,
-    RecipientAccountReferenceType,
-    RefundFeeType,
-    RequestType,
-    ReturnCountFilter,
-    ReturnReason,
-    ReturnState,
-    ReturnType,
-    ShippingCarrier,
-    ShippingCostType,
-    ShippingOptionType,
-    StoreType,
-    TimeDurationUnit,
-    UserRoleFilter
+  CaseSearchFieldGroup,
+  CaseStatusFilter,
+  CategoryType as CategoryTypeEnum,
+  Condition,
+  CurrencyCode,
+  Decision,
+  EscalateReason,
+  FilePurpose,
+  FormatType,
+  InquirySearchFieldGroup,
+  InquiryStatusFilter,
+  Locale,
+  PaymentMethodType,
+  RecipientAccountReferenceType,
+  RefundFeeType,
+  RequestType,
+  ReturnCountFilter,
+  ReturnReason,
+  ReturnState,
+  ReturnType,
+  ShippingCarrier,
+  ShippingCostType,
+  ShippingOptionType,
+  StoreType,
+  TimeDurationUnit,
+  UserRoleFilter
 } from '../enums';
 
 export type AttributeNameValue = {
-    name: string,
-    value: string
+  name: string,
+  value: string
 };
 
 export type CompatibilityPayload = {
-    compatibilityProperties: AttributeNameValue[]
+  compatibilityProperties: AttributeNameValue[]
 };
 
 export type CatalogSearchParams = {
-    aspect_filter?: string,
-    category_ids?: string,
-    fieldgroups?: string,
-    gtin?: string,
-    limit?: number,
-    offset?: number,
-    q?: string,
+  aspect_filter?: string,
+  category_ids?: string,
+  fieldgroups?: string,
+  gtin?: string,
+  limit?: number,
+  offset?: number,
+  q?: string,
 };
 
 export type BrowseSearchParams = {
-    aspect_filter?: string,
-    category_ids?: string,
-    charity_ids?: string,
-    compatibility_filter?: string,
-    epid?: string,
-    fieldgroups?: string,
-    filter?: string,
-    gtin?: string,
-    limit?: number,
-    offset?: number,
-    q?: string,
-    sort?: string
+  aspect_filter?: string,
+  category_ids?: string,
+  charity_ids?: string,
+  compatibility_filter?: string,
+  epid?: string,
+  fieldgroups?: string,
+  filter?: string,
+  gtin?: string,
+  limit?: number,
+  offset?: number,
+  q?: string,
+  sort?: string
 };
 
 export type SearchByImageParams = {
-    aspect_filter?: string,
-    category_ids?: string,
-    epid?: string,
-    filter?: string,
-    limit?: number,
-    offset?: number,
-    sort?: string
+  aspect_filter?: string,
+  category_ids?: string,
+  epid?: string,
+  filter?: string,
+  limit?: number,
+  offset?: number,
+  sort?: string
 };
 
 export type LegacyItemParams = {
-    legacy_item_id: string,
-    fieldgroups?: string,
-    legacy_variation_id?: string,
-    legacy_variation_sku?: string
+  legacy_item_id: string,
+  fieldgroups?: string,
+  legacy_variation_id?: string,
+  legacy_variation_sku?: string
 };
 
 export type AddCartItemInput = {
-    itemId: string,
-    quantity: number
+  itemId: string,
+  quantity: number
 };
 
 export type RemoveCartItemInput = {
-    cartItemId: string
+  cartItemId: string
 };
 
 export type UpdateCartItemInput = {
-    cartItemId: string,
-    quantity: number
+  cartItemId: string,
+  quantity: number
 };
 
 export type Amount = {
-    convertedFromCurrency?: CurrencyCode,
-    convertedFromValue?: number,
-    currency?: CurrencyCode,
-    value: string
+  convertedFromCurrency?: CurrencyCode,
+  convertedFromValue?: number,
+  currency?: CurrencyCode,
+  value: string
 };
 
-export type FeedParams = {
-    feed_scope: string,
-    category_id: string,
-    date: string
+export type BuyFeedParams = {
+  feed_scope: string,
+  category_id: string,
+  date: string
 };
 
 export type AlsoBoughtByProductParams = {
-    name?: string,
-    epid?: string,
-    gtin?: string,
-    mpn?: string
+  name?: string,
+  epid?: string,
+  gtin?: string,
+  mpn?: string
 };
 
 export type AlsoViewedByProductParams = {
-    brand?: string,
-    epid?: string,
-    gtin?: string,
-    mpn?: string
+  brand?: string,
+  epid?: string,
+  gtin?: string,
+  mpn?: string
 };
 
 export type MerchandisedProductsParams = {
-    aspect_filter?: false,
-    category_id: string,
-    limit?: number,
-    metric_name: string
+  aspect_filter?: false,
+  category_id: string,
+  limit?: number,
+  metric_name: string
 };
 
 export type UserConsent = {
-    adultOnlyItem: boolean
+  adultOnlyItem: boolean
 };
 
 export type PlaceProxyBidRequest = {
-    maxAmount: Amount,
-    userConsent: UserConsent
+  maxAmount: Amount,
+  userConsent: UserConsent
 };
 
 export type CouponRequest = {
-    redemptionCode: string
+  redemptionCode: string
 };
 
 export type CreditCard = {
-    accountHolderName: string,
-    billingAddress: string
-    brand: string
-    cardNumber: string
-    cvvNumber: string
-    expireMonth: number,
-    expireYear: number
+  accountHolderName: string,
+  billingAddress: string
+  brand: string
+  cardNumber: string
+  cvvNumber: string
+  expireMonth: number,
+  expireYear: number
 };
 
 export type Wallet = {
-    paymentToken: string
+  paymentToken: string
 };
 
 export type LineItemInput = {
-    itemId: string,
-    quantity: number
+  itemId: string,
+  quantity: number
 };
 
 export type ShippingAddress = {
-    addressLine1: string,
-    addressLine2: string,
-    city: string,
-    country: string,
-    county: string,
-    phoneNumber: string,
-    postalCode: string,
-    recipient: string,
-    stateOrProvince: string
+  addressLine1: string,
+  addressLine2: string,
+  city: string,
+  country: string,
+  county: string,
+  phoneNumber: string,
+  postalCode: string,
+  recipient: string,
+  stateOrProvince: string
 };
 
 export type CreateSignInCheckoutSessionRequest = {
-    creditCard: CreditCard,
-    lineItemInputs: LineItemInput,
-    shippingAddress: ShippingAddress
+  creditCard: CreditCard,
+  lineItemInputs: LineItemInput,
+  shippingAddress: ShippingAddress
 };
 
 export type UpdatePaymentInformation = {
-    creditCard: CreditCard,
-    wallet: Wallet
+  creditCard: CreditCard,
+  wallet: Wallet
 };
 
 export type UpdateQuantity = {
-    lineItemId: string,
-    quantity: number
+  lineItemId: string,
+  quantity: number
 };
 
 export type ShippingAddressImpl = {
-    addressLine1: string,
-    addressLine2: string,
-    city: string,
-    country: string,
-    county: string,
-    phoneNumber: string,
-    postalCode: string,
-    recipient: string,
-    stateOrProvince: string
+  addressLine1: string,
+  addressLine2: string,
+  city: string,
+  country: string,
+  county: string,
+  phoneNumber: string,
+  postalCode: string,
+  recipient: string,
+  stateOrProvince: string
 };
 
 export type UpdateShippingOption = {
-    lineItemId: string,
-    shippingOptionId: string
+  lineItemId: string,
+  shippingOptionId: string
 };
 
 export type CheckoutSessionRequest = {
-    contactEmail: string,
-    contactFirstName: string,
-    contactLastName: string,
-    creditCard: string,
-    lineItemInputs: LineItemInput,
-    shippingAddress: ShippingAddress
+  contactEmail: string,
+  contactFirstName: string,
+  contactLastName: string,
+  creditCard: string,
+  lineItemInputs: LineItemInput,
+  shippingAddress: ShippingAddress
 };
 
 export type InitiatePaymentRequest = {
-    paymentMethodBrandType: string,
-    paymentMethodType: string
+  paymentMethodBrandType: string,
+  paymentMethodType: string
 };
 
 export type MarketingTerms = {
-    marketingChannels: string[],
-    marketingTermsAccepted: boolean,
-    marketingTypes: string[]
+  marketingChannels: string[],
+  marketingTermsAccepted: boolean,
+  marketingTypes: string[]
 };
 
 export type GuestPlaceOrderRequest = {
-    marketingTerms: MarketingTerms[]
+  marketingTerms: MarketingTerms[]
 };
 
 export type Program = {
-    programType: string
+  programType: string
 };
 
 export type LegacyReference = {
-    legacyItemId: string,
-    legacyTransactionId: string
+  legacyItemId: string,
+  legacyTransactionId: string
 };
 
 export type RefundItem = {
-    refundAmount: Amount,
-    lineItemId: string,
-    legacyReference: LegacyReference
+  refundAmount: Amount,
+  lineItemId: string,
+  legacyReference: LegacyReference
 };
 
 export type IssueRefundRequest = {
-    reasonForRefund: string,
-    comment: string,
-    refundItems: RefundItem[],
-    orderLevelRefundAmount: Amount
+  reasonForRefund: string,
+  comment: string,
+  refundItems: RefundItem[],
+  orderLevelRefundAmount: Amount
 };
 
 export type Comments = {
-    content: string,
-    language?: string,
-    translatedFromContent?: string,
-    translatedFromLanguage?: string
+  content: string,
+  language?: string,
+  translatedFromContent?: string,
+  translatedFromLanguage?: string
 }
 
 export type PostOrderItemizedRefundDetailType = {
-    refundAmount: Amount,
-    refundFeeType: RefundFeeType,
-    restockingFeePercentage?: string,
+  refundAmount: Amount,
+  refundFeeType: RefundFeeType,
+  restockingFeePercentage?: string,
 }
 
 export type RefundDetail = {
-    itemizedRefundDetail: PostOrderItemizedRefundDetailType[]
-    totalAmount: Amount
+  itemizedRefundDetail: PostOrderItemizedRefundDetailType[]
+  totalAmount: Amount
 }
 
 export type PostOrderIssueRefundRequest = {
-    comments?: Comments,
-    refundDetail: RefundDetail,
-    relistItem?: boolean
+  comments?: Comments,
+  refundDetail: RefundDetail,
+  relistItem?: boolean
 };
 
 export type Interval = {
-    close: string,
-    open: string
+  close: string,
+  open: string
 };
 
 export type OperatingHours = {
-    dayOfWeekEnum: string,
-    intervals: Interval[]
+  dayOfWeekEnum: string,
+  intervals: Interval[]
 };
 
 export type SpecialHours = {
-    date: string,
-    intervals: Interval[]
+  date: string,
+  intervals: Interval[]
 };
 
 export type InventoryLocation = {
-    locationAdditionalInformation?: string,
-    locationInstructions?: string
-    locationWebUrl?: string,
-    name?: string,
-    operatingHours?: OperatingHours,
-    phone?: string,
-    specialHours?: SpecialHours
+  locationAdditionalInformation?: string,
+  locationInstructions?: string
+  locationWebUrl?: string,
+  name?: string,
+  operatingHours?: OperatingHours,
+  phone?: string,
+  specialHours?: SpecialHours
 };
 
 export type GeoCoordinates = {
-    latitude: number
-    longitude: number
+  latitude: number
+  longitude: number
 }
 
 export type LocationDetails = {
-    address: Address
-    geoCoordinates?: GeoCoordinates
+  address: Address
+  geoCoordinates?: GeoCoordinates
 }
 
 export type InventoryLocationFull = InventoryLocation & {
-    location: LocationDetails
-    locationTypes?: StoreType[]
-    merchantLocationStatus?: string
+  location: LocationDetails
+  locationTypes?: StoreType[]
+  merchantLocationStatus?: string
 }
 
 export type AvailabilityDistribution = {
-    fulfillmentTime?: TimeDuration
-    merchantLocationKey: string
-    quantity: number
+  fulfillmentTime?: TimeDuration
+  merchantLocationKey: string
+  quantity: number
 }
 
 export type ShipToLocationAvailability = {
-    availabilityDistributions?: AvailabilityDistribution[]
-    quantity: number
+  availabilityDistributions?: AvailabilityDistribution[]
+  quantity: number
 };
 
 export type OfferPriceQuantity = {
-    offerId: string,
-    availableQuantity: number,
-    price: Amount
+  offerId: string,
+  availableQuantity: number,
+  price: Amount
 };
 
 export type PriceQuantity = {
-    sku: string,
-    shipToLocationAvailability: ShipToLocationAvailability,
-    offers: OfferPriceQuantity[]
+  sku: string,
+  shipToLocationAvailability: ShipToLocationAvailability,
+  offers: OfferPriceQuantity[]
 };
 
 export type BulkPriceQuantity = {
-    requests: PriceQuantity[]
+  requests: PriceQuantity[]
 };
 
 export type PickupAtLocationAvailability = {
-    availabilityType: string,
-    fulfillmentTime: TimeDuration,
-    merchantLocationKey: string,
-    quantity: number
+  availabilityType: string,
+  fulfillmentTime: TimeDuration,
+  merchantLocationKey: string,
+  quantity: number
 };
 
 export type Availability = {
-    pickupAtLocationAvailability?: PickupAtLocationAvailability,
-    shipToLocationAvailability: ShipToLocationAvailability
+  pickupAtLocationAvailability?: PickupAtLocationAvailability,
+  shipToLocationAvailability: ShipToLocationAvailability
 };
 
 export type Dimension = {
-    height: number,
-    length: number,
-    unit: string,
-    width: number
+  height: number,
+  length: number,
+  unit: string,
+  width: number
 };
 
 export type Weight = {
-    unit: string,
-    value: number
+  unit: string,
+  value: number
 };
 
 export type PackageWeightAndSize = {
-    dimensions?: Dimension,
-    packageType?: string,
-    weight: Weight
+  dimensions?: Dimension,
+  packageType?: string,
+  weight: Weight
 };
 
 export type Product = {
-    aspects?: any, // TODO
-    brand?: string,
-    description?: string,
-    imageUrls: string[],
-    mpn?: string,
-    subtitle?: string,
-    title: string,
-    isbn?: string[],
-    upc?: string[],
-    ean?: string[],
-    epid?: string
+  aspects?: any, // TODO
+  brand?: string,
+  description?: string,
+  imageUrls: string[],
+  mpn?: string,
+  subtitle?: string,
+  title: string,
+  isbn?: string[],
+  upc?: string[],
+  ean?: string[],
+  epid?: string
 };
 
 export type InventoryItemWithSkuLocale = SellInventoryItem & {
-    sku: string,
-    locale?: Locale
+  sku: string,
+  locale?: Locale
 };
 
 export type BulkInventoryItem = {
-    requests: InventoryItemWithSkuLocale[]
+  requests: InventoryItemWithSkuLocale[]
 };
 
 export type PublishByInventoryItemGroupRequest = {
-    inventoryItemGroupKey: string,
-    marketplaceId: string
+  inventoryItemGroupKey: string,
+  marketplaceId: string
 };
 
 export type WithdrawByInventoryItemGroupRequest = {
-    inventoryItemGroupKey: string,
-    marketplaceId: string
+  inventoryItemGroupKey: string,
+  marketplaceId: string
 };
 
 export type OfferKeyWithId = {
-    offerId: string
+  offerId: string
 };
 
 export type OfferKeysWithId = {
-    offers: OfferKeyWithId[]
+  offers: OfferKeyWithId[]
 };
 
 export type ShippingCostOverride = {
-    surcharge?: Amount,
-    additionalShippingCost?: Amount,
-    priority: number,
-    shippingCost?: Amount,
-    shippingServiceType: string
+  surcharge?: Amount,
+  additionalShippingCost?: Amount,
+  priority: number,
+  shippingCost?: Amount,
+  shippingServiceType: string
 };
 
 export type BestOffer = {
-    autoAcceptPrice?: Amount
-    autoDeclinePrice?: Amount
-    bestOfferEnabled?: boolean
+  autoAcceptPrice?: Amount
+  autoDeclinePrice?: Amount
+  bestOfferEnabled?: boolean
 }
 
 export type ListingPolicies = {
-    bestOfferTerms?: BestOffer
-    paymentPolicyId: string,
-    returnPolicyId: string,
-    shippingCostOverrides?: ShippingCostOverride[],
-    fulfillmentPolicyId: string,
-    ebayPlusIfEligible?: boolean
+  bestOfferTerms?: BestOffer
+  paymentPolicyId: string,
+  returnPolicyId: string,
+  shippingCostOverrides?: ShippingCostOverride[],
+  fulfillmentPolicyId: string,
+  ebayPlusIfEligible?: boolean
 };
 
 export type PricingSummary = {
-    minimumAdvertisedPrice?: Amount,
-    pricingVisibility?: string,
-    originallySoldForRetailPriceOn?: string,
-    originalRetailPrice?: Amount,
-    price: Amount
+  minimumAdvertisedPrice?: Amount,
+  pricingVisibility?: string,
+  originallySoldForRetailPriceOn?: string,
+  originalRetailPrice?: Amount,
+  price: Amount
 };
 
 export type Tax = {
-    applyTax: boolean,
-    thirdPartyTaxCategory?: string,
-    vatPercentage?: number
+  applyTax: boolean,
+  thirdPartyTaxCategory?: string,
+  vatPercentage?: number
 };
 
 export type Charity = {
-    charityId: string,
-    donationPercentage: string
+  charityId: string,
+  donationPercentage: string
 }
 
 export type EbayOfferDetailsWithId = {
-    availableQuantity?: number,
-    categoryId?: string,
-    charity?: Charity,
-    includeCatalogProductDetails?: boolean
-    listingDescription?: string,
-    listingDuration?: string,
-    listingPolicies: ListingPolicies,
-    merchantLocationKey: string,
-    pricingSummary: PricingSummary,
-    quantityLimitPerBuyer?: number,
-    secondaryCategoryId?: string,
-    tax?: Tax,
-    storeCategoryNames?: string[],
-    lotSize?: number
+  availableQuantity?: number,
+  categoryId?: string,
+  charity?: Charity,
+  includeCatalogProductDetails?: boolean
+  listingDescription?: string,
+  listingDuration?: string,
+  listingPolicies: ListingPolicies,
+  merchantLocationKey: string,
+  pricingSummary: PricingSummary,
+  quantityLimitPerBuyer?: number,
+  secondaryCategoryId?: string,
+  tax?: Tax,
+  storeCategoryNames?: string[],
+  lotSize?: number
 };
 
 export type EbayOfferDetailsWithKeys = EbayOfferDetailsWithId & {
-    sku: string,
-    marketplaceId: string,
-    format: FormatType
+  sku: string,
+  marketplaceId: string,
+  format: FormatType
 }
 
 export type BulkEbayOfferDetailsWithKeys = {
-    requests: EbayOfferDetailsWithKeys[]
+  requests: EbayOfferDetailsWithKeys[]
 };
 
 export type BulkOffer = {
-    requests: OfferKeyWithId[]
+  requests: OfferKeyWithId[]
 };
 
 export type MigrateListing = {
-    listingId: string
+  listingId: string
 };
 
 export type BulkMigrateListing = {
-    requests: MigrateListing[]
+  requests: MigrateListing[]
 };
 
 export type FindListingRecommendationRequest = {
-    listingIds: string[]
+  listingIds: string[]
 };
 
 export type TranslateRequest = {
-    from: string,
-    to: string,
-    translationContext: string,
-    text: string[]
+  from: string,
+  to: string,
+  translationContext: string,
+  text: string[]
 };
 
 export type CreateAdsByInventoryReferenceRequest = {
-    bidPercentage: string,
-    inventoryReferenceId: string,
-    inventoryReferenceType: string
+  bidPercentage: string,
+  inventoryReferenceId: string,
+  inventoryReferenceType: string
 };
 
 export type BulkCreateAdsByInventoryReferenceRequest = {
-    requests: CreateAdsByInventoryReferenceRequest[]
+  requests: CreateAdsByInventoryReferenceRequest[]
 };
 
 export type CreateAdRequest = {
-    bidPercentage: string,
-    listingId: string
+  bidPercentage: string,
+  listingId: string
 };
 
 export type BulkCreateAdRequest = {
-    requests: CreateAdRequest[]
+  requests: CreateAdRequest[]
 };
 
 export type DeleteAdsByInventoryReferenceRequest = {
-    inventoryReferenceId: string,
-    inventoryReferenceType: string
+  inventoryReferenceId: string,
+  inventoryReferenceType: string
 };
 
 export type BulkDeleteAdsByInventoryReferenceRequest = {
-    requests: DeleteAdsByInventoryReferenceRequest[]
+  requests: DeleteAdsByInventoryReferenceRequest[]
 };
 
 export type DeleteAdRequest = {
-    listingId: string
+  listingId: string
 };
 
 export type BulkDeleteAdRequest = {
-    requests: DeleteAdRequest[]
+  requests: DeleteAdRequest[]
 };
 
 export type UpdateBidPercentageRequest = {
-    bidPercentage: string
+  bidPercentage: string
 };
 
 export type FundingStrategy = {
-    bidPercentage: string,
-    fundingModel: string
+  bidPercentage: string,
+  fundingModel: string
 };
 
 export type CloneCampaignRequest = {
-    campaignName: string,
-    endDate: string,
-    fundingStrategy: FundingStrategy,
-    startDate: string
+  campaignName: string,
+  endDate: string,
+  fundingStrategy: FundingStrategy,
+  startDate: string
 };
 
 export type UpdateCampaignIdentificationRequest = {
-    campaignName: string,
-    endDate: string,
-    startDate: string
+  campaignName: string,
+  endDate: string,
+  startDate: string
 };
 
 export type DiscountBenefit = {
-    amountOffItem: Amount,
-    amountOffOrder: Amount,
-    percentageOffItem: string,
-    percentageOffOrder: string
+  amountOffItem: Amount,
+  amountOffOrder: Amount,
+  percentageOffItem: string,
+  percentageOffOrder: string
 };
 
 export type InventoryItem = {
-    inventoryReferenceId: string
+  inventoryReferenceId: string
 };
 
 export type SelectionRule = {
-    brands: string[],
-    categoryIds: string[],
-    categoryScope: string,
-    listingConditionIds: string[],
-    maxPrice: Amount,
-    minPrice: Amount
+  brands: string[],
+  categoryIds: string[],
+  categoryScope: string,
+  listingConditionIds: string[],
+  maxPrice: Amount,
+  minPrice: Amount
 };
 
 export type RuleCriteria = {
-    excludeInventoryItems: InventoryItem[],
-    excludeListingIds: string[],
-    markupInventoryItems: InventoryItem[],
-    markupListingIds: string[],
-    selectionRules: SelectionRule
+  excludeInventoryItems: InventoryItem[],
+  excludeListingIds: string[],
+  markupInventoryItems: InventoryItem[],
+  markupListingIds: string[],
+  selectionRules: SelectionRule
 };
 
 export type InventoryCriterion = {
-    inventoryCriterionType: string,
-    inventoryItems: InventoryItem,
-    listingIds: string[],
-    ruleCriteria: RuleCriteria
+  inventoryCriterionType: string,
+  inventoryItems: InventoryItem,
+  listingIds: string[],
+  ruleCriteria: RuleCriteria
 };
 
 export type SelectedInventoryDiscount = {
-    discountBenefit: DiscountBenefit,
-    discountId: string,
-    inventoryCriterion: InventoryCriterion,
-    ruleOrder: number
+  discountBenefit: DiscountBenefit,
+  discountId: string,
+  inventoryCriterion: InventoryCriterion,
+  ruleOrder: number
 };
 
 export type ItemPriceMarkdown = {
-    applyFreeShipping: boolean,
-    autoSelectFutureInventory: boolean,
-    blockPriceIncreaseInItemRevision: boolean,
-    description: string,
-    endDate: string,
-    marketplaceId: string,
-    name: string,
-    priority: string,
-    promotionImageUrl: string,
-    promotionStatus: string,
-    selectedInventoryDiscounts: SelectedInventoryDiscount,
-    startDate: string
+  applyFreeShipping: boolean,
+  autoSelectFutureInventory: boolean,
+  blockPriceIncreaseInItemRevision: boolean,
+  description: string,
+  endDate: string,
+  marketplaceId: string,
+  name: string,
+  priority: string,
+  promotionImageUrl: string,
+  promotionStatus: string,
+  selectedInventoryDiscounts: SelectedInventoryDiscount,
+  startDate: string
 };
 
 export type DiscountSpecification = {
-    properties: Amount,
-    forEachQuantity: number,
-    minAmount: Amount,
-    minQuantity: number,
-    numberOfDiscountedItems: number
+  properties: Amount,
+  forEachQuantity: number,
+  minAmount: Amount,
+  minQuantity: number,
+  numberOfDiscountedItems: number
 };
 
 export type DiscountRule = {
-    discountBenefit: DiscountBenefit,
-    discountSpecification: DiscountSpecification,
-    ruleOrder: number
+  discountBenefit: DiscountBenefit,
+  discountSpecification: DiscountSpecification,
+  ruleOrder: number
 };
 
 export type ItemPromotion = {
-    applyDiscountToSingleItemOnly: boolean,
-    description: string,
-    discountRules: DiscountRule[],
-    endDate: string,
-    inventoryCriterion: InventoryCriterion,
-    marketplaceId: string,
-    name: string,
-    priority: string,
-    promotionImageUrl: string,
-    promotionStatus: string,
-    promotionType: string,
-    startDate: string
+  applyDiscountToSingleItemOnly: boolean,
+  description: string,
+  discountRules: DiscountRule[],
+  endDate: string,
+  inventoryCriterion: InventoryCriterion,
+  marketplaceId: string,
+  name: string,
+  priority: string,
+  promotionImageUrl: string,
+  promotionStatus: string,
+  promotionType: string,
+  startDate: string
 };
 
 export type DateTime = {
-    value: string
+  value: string
 };
 
 export type LineItem = {
-    itemId: number,
-    quantity: number,
-    transactionId: number
+  itemId: number,
+  quantity: number,
+  transactionId: number
 };
 
 export type CreateCancelRequest = {
-    buyerPaid?: boolean,
-    buyerPaidDate?: DateTime
-    cancelReason?: any, // token
-    legacyOrderId: string,
-    relistLineItem?: LineItem[]
+  buyerPaid?: boolean,
+  buyerPaidDate?: DateTime
+  cancelReason?: any, // token
+  legacyOrderId: string,
+  relistLineItem?: LineItem[]
 };
 
 export type ConfirmRefundRequest = {
-    refundDate?: DateTime,
-    unpaidOrder?: boolean
+  refundDate?: DateTime,
+  unpaidOrder?: boolean
 };
 
 export type RejectCancelRequest = {
-    shipmentDate?: DateTime,
-    trackingNumber?: string
+  shipmentDate?: DateTime,
+  trackingNumber?: string
 };
 
 export type CancelSortField = {
-    ascending: boolean,
-    enumValue: 'CANCEL_ID' | 'CANCEL_REQUEST_DATE',
-    field: '+' | '-'
+  ascending: boolean,
+  enumValue: 'CANCEL_ID' | 'CANCEL_REQUEST_DATE',
+  field: '+' | '-'
 };
 
 export type CancellationSearchParams = {
-    cancel_id?: string;
-    creation_date_range_from?: string;
-    creation_date_range_to?: string;
-    item_id?: string;
-    legacy_order_id?: string;
-    limit?: string;
-    offset?: string;
-    role?: UserRoleFilter; // default SELLER
-    sort?: CancelSortField;
-    transaction_id?: string;
+  cancel_id?: string;
+  creation_date_range_from?: string;
+  creation_date_range_to?: string;
+  item_id?: string;
+  legacy_order_id?: string;
+  limit?: string;
+  offset?: string;
+  role?: UserRoleFilter; // default SELLER
+  sort?: CancelSortField;
+  transaction_id?: string;
 };
 
 export type Text = {
-    content: string,
-    language?: string,
-    translatedFromContent?: string,
-    translatedFromLanguage?: string
+  content: string,
+  language?: string,
+  translatedFromContent?: string,
+  translatedFromLanguage?: string
 };
 
 export type AppealRequest = {
-    comments: Text
+  comments: Text
 };
 
 export type BuyerCloseCaseRequest = {
-    closeReason: boolean,
-    comments?: Text
+  closeReason: boolean,
+  comments?: Text
 };
 
 export type Address = {
-    addressLine1?: string,
-    addressLine2?: string,
-    addressType?: string,
-    city?: string,
-    country?: string,
-    county?: string,
-    isTransliterated?: boolean,
-    nationalRegion?: string,
-    postalCode?: string,
-    script?: string,
-    stateOrProvince?: string,
-    transliteratedFromScript?: string,
-    worldRegion?: string
+  addressLine1?: string,
+  addressLine2?: string,
+  addressType?: string,
+  city?: string,
+  country?: string,
+  county?: string,
+  isTransliterated?: boolean,
+  nationalRegion?: string,
+  postalCode?: string,
+  script?: string,
+  stateOrProvince?: string,
+  transliteratedFromScript?: string,
+  worldRegion?: string
 };
 
 export type ReturnAddressRequest = {
-    firstName?: string;
-    lastName?: string;
-    returnAddress?: Address
-    RMA?: string
+  firstName?: string;
+  lastName?: string;
+  returnAddress?: Address
+  RMA?: string
 };
 
 export type CaseSearchParams = {
-    case_creation_date_range_from: string;
-    case_creation_date_range_to: string;
-    case_status_filter: CaseStatusFilter;
-    fieldgroups: CaseSearchFieldGroup;
-    item_id: string;
-    limit: number;
-    offset: number;
-    order_id: string;
-    return_id: string;
-    sort: string;
-    transaction_id: string;
+  case_creation_date_range_from: string;
+  case_creation_date_range_to: string;
+  case_status_filter: CaseStatusFilter;
+  fieldgroups: CaseSearchFieldGroup;
+  item_id: string;
+  limit: number;
+  offset: number;
+  order_id: string;
+  return_id: string;
+  sort: string;
+  transaction_id: string;
 };
 
 export type CheckInquiryEligibilityRequest = {
-    itemId: string,
-    transactionId: string
+  itemId: string,
+  transactionId: string
 };
 
 export type Token = string;  // A string with normalized whitespace (e.g., dropped leading and trailing spaces).
 
 export type BuyerCloseInquiryRequest = {
-    closeReason?: Token,
-    comments?: Text
+  closeReason?: Token,
+  comments?: Text
 };
 
 export type CreateInquiryRequest = {
-    claimQuantity?: number,
-    comments?: Text;
-    desiredOutcome?: Token,
-    itemId: string,
-    transactionId: string
+  claimQuantity?: number,
+  comments?: Text;
+  desiredOutcome?: Token,
+  itemId: string,
+  transactionId: string
 };
 
 export type EscalateInquiryRequest = {
-    comments?: Text,
-    escalateInquiryReason: Token
+  comments?: Text,
+  escalateInquiryReason: Token
 };
 
 export type InquiryVoluntaryRefundRequest = {
-    comments?: Text
+  comments?: Text
 };
 
 export type SellerProvideRefundInfoRequest = {
-    message: Text
+  message: Text
 };
 
 export type ShipmentInfoRequest = {
-    proofOfShipmentUploaded?: boolean;
-    sellerComments?: Text;
-    shippedWithTracking?: boolean;
-    shippingCarrierName?: string;
-    shippingDate?: DateTime;
-    trackingNumber?: string;
+  proofOfShipmentUploaded?: boolean;
+  sellerComments?: Text;
+  shippedWithTracking?: boolean;
+  shippingCarrierName?: string;
+  shippingDate?: DateTime;
+  trackingNumber?: string;
 };
 
 export type InquirySearchParams = {
-    fieldgroups?: InquirySearchFieldGroup;
-    inquiry_creation_date_range_from?: string;
-    inquiry_creation_date_range_to?: string;
-    inquiry_status?: InquiryStatusFilter;
-    item_id?: string;
-    limit?: number;
-    offset?: number;
-    order_id?: string;
-    sort?: string;
-    transaction_id?: string;
+  fieldgroups?: InquirySearchFieldGroup;
+  inquiry_creation_date_range_from?: string;
+  inquiry_creation_date_range_to?: string;
+  inquiry_status?: InquiryStatusFilter;
+  item_id?: string;
+  limit?: number;
+  offset?: number;
+  order_id?: string;
+  sort?: string;
+  transaction_id?: string;
 };
 
 export type SendMessageRequest = {
-    message: Text
+  message: Text
 };
 export type UpdateTrackingRequest = {
-    newCarrierEnum?: ShippingCarrier;
-    newCarrierName?: string;
-    newTrackingNumber?: string;
-    usedCarrierEnum?: ShippingCarrier;
-    usedCarrierName?: string;
-    usedTrackingNumber?: string;
+  newCarrierEnum?: ShippingCarrier;
+  newCarrierName?: string;
+  newTrackingNumber?: string;
+  usedCarrierEnum?: ShippingCarrier;
+  usedCarrierName?: string;
+  usedTrackingNumber?: string;
 };
 
 export type ReturnRequestType = {
-    carrier?: ShippingCarrier;
-    comments?: Text;
-    itemId: string;
-    reason?: ReturnReason;
-    requestType: RequestType;
-    returnQuantity?: number;
-    transactionId: string;
-    type?: ReturnType
+  carrier?: ShippingCarrier;
+  comments?: Text;
+  itemId: string;
+  reason?: ReturnReason;
+  requestType: RequestType;
+  returnQuantity?: number;
+  transactionId: string;
+  type?: ReturnType
 };
 
 export type SetReturnCreationSessionRequest = {
-    returnRequest: ReturnRequestType
+  returnRequest: ReturnRequestType
 };
 
 export type CreateReturnRequest = {
-    draftId?: string,
-    returnRequest: ReturnRequestType
+  draftId?: string,
+  returnRequest: ReturnRequestType
 };
 
 export type ProvideLabelRequest = {
-    carrierEnum?: ShippingCarrier,
-    carrierName?: string,
-    comments?: Text,
-    fileId?: string,
-    forwardShippingLabelProvided?: boolean,
-    labelAction: Token,
-    labelSentDate?: DateTime,
-    noLabelReason: Token,
-    returnLabelCost?: Amount,
-    trackingNumber?: string
+  carrierEnum?: ShippingCarrier,
+  carrierName?: string,
+  comments?: Text,
+  fileId?: string,
+  forwardShippingLabelProvided?: boolean,
+  labelAction: Token,
+  labelSentDate?: DateTime,
+  noLabelReason: Token,
+  returnLabelCost?: Amount,
+  trackingNumber?: string
 };
 
 export type CloseReturnRequest = {
-    buyerCloseReason?: Token,
-    comments?: Text
+  buyerCloseReason?: Token,
+  comments?: Text
 };
 
 export type CheckEligibilityRequest = {
-    checkTypes: Token[];
-    itemId: string;
-    reason: Token;
-    returnQuantity?: number;
-    transactionId: string;
+  checkTypes: Token[];
+  itemId: string;
+  reason: Token;
+  returnQuantity?: number;
+  transactionId: string;
 };
 
 export type EscalateRequest = {
-    comments: Text;
-    reason: EscalateReason
+  comments: Text;
+  reason: EscalateReason
 };
 
 export type GetEstimateRequest = {
-    itemId: string,
-    reason?: ReturnReason,
-    returnQuantity?: number;
-    transactionId: string;
+  itemId: string,
+  reason?: ReturnReason,
+  returnQuantity?: number;
+  transactionId: string;
 };
 
 export type MarkAsReceivedRequest = {
-    comments?: Text
+  comments?: Text
 };
 
 export type ItemizedRefundDetailType = {
-    refundAmount: Amount;
-    refundFeeType: Token
+  refundAmount: Amount;
+  refundFeeType: Token
 };
 
 export type  RefundDetailType = {
-    itemizedRefundDetail: ItemizedRefundDetailType;
-    totalAmount: Amount
+  itemizedRefundDetail: ItemizedRefundDetailType;
+  totalAmount: Amount
 };
 
 export type MarkRefundSentRequest = {
-    comments?: Text;
-    partialRefundAmount?: Amount;
-    refundDetail: RefundDetailType;
+  comments?: Text;
+  partialRefundAmount?: Amount;
+  refundDetail: RefundDetailType;
 };
 
 export type MarkAsShippedRequest = {
-    carrierEnum?: ShippingCarrier;
-    carrierName?: string;
-    carrierUsed?: string;
-    comments?: Text;
-    shippedDate?: DateTime;
-    trackingNumber: string;
+  carrierEnum?: ShippingCarrier;
+  carrierName?: string;
+  carrierUsed?: string;
+  comments?: Text;
+  shippedDate?: DateTime;
+  trackingNumber: string;
 };
 
 export type UploadFileRequest = {
-    data: any,
-    fileName?: string;
-    filePurpose: FilePurpose
+  data: any,
+  fileName?: string;
+  filePurpose: FilePurpose
 };
 
 export type VoidLabelRequest = {
-    comments?: Text;
-    labelId: string
+  comments?: Text;
+  labelId: string
 };
 
 export type SearchReturnParams = {
-    creation_date_range_from?: string;
-    creation_date_range_to?: string;
-    item_id?: string;
-    limit?: number;
-    offset?: number;
-    order_id?: string;
-    return_id?: string;
-    return_state?: Token;
-    role?: Token;
-    sort?: ReturnCountFilter;
-    states?: ReturnState;
-    transaction_id?: string
+  creation_date_range_from?: string;
+  creation_date_range_to?: string;
+  item_id?: string;
+  limit?: number;
+  offset?: number;
+  order_id?: string;
+  return_id?: string;
+  return_state?: Token;
+  role?: Token;
+  sort?: ReturnCountFilter;
+  states?: ReturnState;
+  transaction_id?: string
 };
 
 export type DecideReturnRequest = {
-    comments?: Text;
-    decision: Decision;
-    keepOriginalItem?: boolean;
-    partialRefundAmount?: Amount;
-    RMANumber?: string;
-    rMAProvided?: boolean;
+  comments?: Text;
+  decision: Decision;
+  keepOriginalItem?: boolean;
+  partialRefundAmount?: Amount;
+  RMANumber?: string;
+  rMAProvided?: boolean;
 };
 
 export type CategoryType = {
-    default?: boolean
-    name: CategoryTypeEnum
+  default?: boolean
+  name: CategoryTypeEnum
 }
 
 export type TimeDuration = {
-    unit: TimeDurationUnit
-    value: number
+  unit: TimeDurationUnit
+  value: number
 }
 
 export type Region = {
-    regionName: string
-    regionType?: string
+  regionName: string
+  regionType?: string
 }
 
 export type RegionSet = {
-    regionExcluded?: Region[]
-    regionIncluded?: Region[]
+  regionExcluded?: Region[]
+  regionIncluded?: Region[]
 }
 
 export type ShippingService = {
-    additionalShippingCost?: Amount
-    buyerResponsibleForPickup?: boolean
-    buyerResponsibleForShipping?: boolean
-    cashOnDeliveryFee?: Amount
-    freeShipping?: boolean
-    shippingCarrierCode?: string
-    shippingCost?: Amount
-    shippingServiceCode?: string
-    shipToLocations?: RegionSet
-    sortOrder?: number
-    surcharge?: Amount
+  additionalShippingCost?: Amount
+  buyerResponsibleForPickup?: boolean
+  buyerResponsibleForShipping?: boolean
+  cashOnDeliveryFee?: Amount
+  freeShipping?: boolean
+  shippingCarrierCode?: string
+  shippingCost?: Amount
+  shippingServiceCode?: string
+  shipToLocations?: RegionSet
+  sortOrder?: number
+  surcharge?: Amount
 }
 
 export type ShippingOption = {
-    costType: ShippingCostType
-    insuranceFee?: Amount
-    insuranceOffered?: boolean
-    optionType: ShippingOptionType
-    packageHandlingCost?: Amount
-    rateTableId?: string
-    shippingServices: ShippingService[]
+  costType: ShippingCostType
+  insuranceFee?: Amount
+  insuranceOffered?: boolean
+  optionType: ShippingOptionType
+  packageHandlingCost?: Amount
+  rateTableId?: string
+  shippingServices: ShippingService[]
 }
 
 export type FulfillmentPolicyRequest = {
-    categoryTypes: CategoryType[]
-    description?: string
-    freightShipping?: boolean
-    globalShipping?: boolean
-    handlingTime: TimeDuration
-    localPickup?: boolean
-    marketplaceId: string
-    name: string
-    pickupDropOff?: boolean
-    shippingOptions?: ShippingOption[]
-    shipToLocations?: RegionSet
+  categoryTypes: CategoryType[]
+  description?: string
+  freightShipping?: boolean
+  globalShipping?: boolean
+  handlingTime: TimeDuration
+  localPickup?: boolean
+  marketplaceId: string
+  name: string
+  pickupDropOff?: boolean
+  shippingOptions?: ShippingOption[]
+  shipToLocations?: RegionSet
 }
 
 export type RecipientAccountReference = {
-    referenceId: string
-    referenceType: RecipientAccountReferenceType
+  referenceId: string
+  referenceType: RecipientAccountReferenceType
 }
 
 export type PaymentMethod = {
-    brands?: string[]
-    paymentMethodType?: PaymentMethodType
-    recipientAccountReference?: RecipientAccountReference
+  brands?: string[]
+  paymentMethodType?: PaymentMethodType
+  recipientAccountReference?: RecipientAccountReference
 }
 
 export type Deposit = {
-    amount?: Amount
-    dueIn?: TimeDuration
-    paymentMethods: PaymentMethod[]
+  amount?: Amount
+  dueIn?: TimeDuration
+  paymentMethods: PaymentMethod[]
 }
 
 export type PaymentPolicyRequest = {
-    categoryTypes: CategoryType[]
-    deposit?: Deposit
-    description?: string
-    fullPaymentDueIn?: TimeDuration
-    immediatePay?: boolean
-    marketplaceId: string
-    name: string
-    paymentInstructions?: string
-    paymentMethods?: PaymentMethod[]
+  categoryTypes: CategoryType[]
+  deposit?: Deposit
+  description?: string
+  fullPaymentDueIn?: TimeDuration
+  immediatePay?: boolean
+  marketplaceId: string
+  name: string
+  paymentInstructions?: string
+  paymentMethods?: PaymentMethod[]
 }
 
 export type InternationalReturnOverrideType = {
-    returnMethod?: string
-    returnPeriod?: TimeDuration
-    returnsAccepted?: boolean
-    returnShippingCostPayer?: string
+  returnMethod?: string
+  returnPeriod?: TimeDuration
+  returnsAccepted?: boolean
+  returnShippingCostPayer?: string
 }
 
 export type ReturnPolicyRequest = {
-    categoryTypes?: CategoryType[]
-    description?: string
-    extendedHolidayReturnsOffered?: boolean
-    internationalOverride?: InternationalReturnOverrideType
-    marketplaceId: string
-    name: string
-    refundMethod?: string
-    restockingFeePercentage?: string
-    returnInstructions?: string
-    returnMethod?: string
-    returnPeriod?: TimeDuration
-    returnsAccepted: boolean
-    returnShippingCostPayer?: string
+  categoryTypes?: CategoryType[]
+  description?: string
+  extendedHolidayReturnsOffered?: boolean
+  internationalOverride?: InternationalReturnOverrideType
+  marketplaceId: string
+  name: string
+  refundMethod?: string
+  restockingFeePercentage?: string
+  returnInstructions?: string
+  returnMethod?: string
+  returnPeriod?: TimeDuration
+  returnsAccepted: boolean
+  returnShippingCostPayer?: string
 }
 
 export type SalesTaxBase = {
-    salesTaxPercentage: string
-    shippingAndHandlingTaxed: boolean
+  salesTaxPercentage: string
+  shippingAndHandlingTaxed: boolean
 }
 
 export type LineItemReference = {
-    lineItemId: string
-    quantity?: number
+  lineItemId: string
+  quantity?: number
 }
 
 export type ShippingFulfillmentDetails = {
-    lineItems: LineItemReference[]
-    shippedDate: string
-    shippingCarrierCode: string
-    trackingNumber: string
+  lineItems: LineItemReference[]
+  shippedDate: string
+  shippingCarrierCode: string
+  trackingNumber: string
 }
 
 export type SellInventoryItem = {
-    availability: Availability
-    condition: Condition
-    conditionDescription?: string
-    packageWeightAndSize?: PackageWeightAndSize
-    product: Product
+  availability: Availability
+  condition: Condition
+  conditionDescription?: string
+  packageWeightAndSize?: PackageWeightAndSize
+  product: Product
 }
 
 export type ProductFamilyProperties = {
-    make: string
-    model: string
-    year: string
-    trim?: string
-    engine?: string
+  make: string
+  model: string
+  year: string
+  trim?: string
+  engine?: string
 }
 
 export type ProductIdentifier = {
-    epid?: string
-    gtin?: string
-    ktype?: string
+  epid?: string
+  gtin?: string
+  ktype?: string
 }
 
 export type NameValueList = {
-    name: string
-    value: string
+  name: string
+  value: string
 }
 
 export type CompatibleProduct = {
-    compatibilityProperties?: NameValueList[]
-    productFamilyProperties?: ProductFamilyProperties
-    productIdentifier?: ProductIdentifier
-    notes?: string
+  compatibilityProperties?: NameValueList[]
+  productFamilyProperties?: ProductFamilyProperties
+  productIdentifier?: ProductIdentifier
+  notes?: string
 }
 
 export type Compatibility = {
-    compatibleProducts: CompatibleProduct[]
+  compatibleProducts: CompatibleProduct[]
 }
 
 export type Specification = {
-    name: string
-    values: string[]
+  name: string
+  values: string[]
 }
 
 export type VariesBy = {
-    aspectsImageVariesBy: string[]
-    specifications: Specification[]
+  aspectsImageVariesBy: string[]
+  specifications: Specification[]
 }
 
 export type InventoryItemGroup = {
-    aspects: any
-    description: string
-    inventoryItemGroupKey: string
-    imageUrls: string[]
-    subtitle?: string
-    title: string
-    variantSKUs: string[]
-    variesBy: VariesBy
+  aspects: any
+  description: string
+  inventoryItemGroupKey: string
+  imageUrls: string[]
+  subtitle?: string
+  title: string
+  variantSKUs: string[]
+  variesBy: VariesBy
 }
 
 export type CampaignCriterion = {
-    autoSelectFutureInventory: boolean
-    criterionType: string
-    selectionRules: SelectionRule[]
+  autoSelectFutureInventory: boolean
+  criterionType: string
+  selectionRules: SelectionRule[]
 }
 
 export type CreateCampaignRequest = {
-    campaignCriterion: CampaignCriterion
-    campaignName: string
-    endDate: string
-    fundingStrategy: FundingStrategy
-    marketplaceId: string
-    startDate: string
+  campaignCriterion: CampaignCriterion
+  campaignName: string
+  endDate: string
+  fundingStrategy: FundingStrategy
+  marketplaceId: string
+  startDate: string
 }
 
 export type InventoryReference = {
-    inventoryReferenceId?: string
-    inventoryReferenceType?: string
+  inventoryReferenceId?: string
+  inventoryReferenceType?: string
 }
 
 export type CreateReportTask = {
-    campaignIds: string[]
-    dateFrom: string
-    dateTo: string
-    dimensions: Dimension[]
-    inventoryReferences?: InventoryReference
-    listingIds: string[]
-    marketplaceId: string
-    metricKeys: string[]
-    reportFormat: string
-    reportType: string
+  campaignIds: string[]
+  dateFrom: string
+  dateTo: string
+  dimensions: Dimension[]
+  inventoryReferences?: InventoryReference
+  listingIds: string[]
+  marketplaceId: string
+  metricKeys: string[]
+  reportFormat: string
+  reportType: string
+}
+
+export type SellFeedParams = {
+  dateRange?: string
+  feedType?: string
+  limit?: string
+  lookBackDays?: string
+  offset?: string
+  scheduleId?: string
 }

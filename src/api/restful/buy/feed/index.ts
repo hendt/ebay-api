@@ -1,5 +1,5 @@
 import Restful from '../../';
-import {FeedParams} from '../../../../types';
+import {BuyFeedParams} from '../../../../types';
 
 /**
  * The Feed API provides the ability to download TSV_GZIP feed files containing eBay items and an hourly snapshot file
@@ -14,12 +14,12 @@ export default class Feed extends Restful {
   /**
    * This method lets you download a TSV_GZIP (tab separated value gzip) Item feed file.
    *
-   * @param {FeedParams} params
+   * @param {BuyFeedParams} params
    * @param marketplaceId The ID of the eBay marketplace where the item is hosted.
    * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
    *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
    */
-  public getItemFeed(params: FeedParams, marketplaceId: string, range: string) {
+  public getItemFeed(params: BuyFeedParams, marketplaceId: string, range: string) {
     return this.get(`/item`, {
       params,
       headers: {
@@ -31,12 +31,12 @@ export default class Feed extends Restful {
 
   /**
    * This method lets you download a TSV_GZIP (tab separated value gzip) Item Group feed file.
-   * @param {FeedParams} params
+   * @param {BuyFeedParams} params
    * @param marketplaceId The ID of the eBay marketplace where the item is hosted.
    * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
    *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
    */
-  public getItemGroupFeed(params: FeedParams, marketplaceId: string, range: string) {
+  public getItemGroupFeed(params: BuyFeedParams, marketplaceId: string, range: string) {
     return this.get(`/item_group`, {
       params,
       headers: {
@@ -49,13 +49,13 @@ export default class Feed extends Restful {
   /**
    * The Hourly Snapshot feed file is generated each hour every day for all categories.
    *
-   * @param {FeedParams} params
+   * @param {BuyFeedParams} params
    * @param {String} snapshotDate
    * @param marketplaceId The ID of the eBay marketplace where the item is hosted.
    * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
    *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
    */
-  public getItemSnapshotFeed(params: FeedParams, snapshotDate: string, marketplaceId: string, range: string) {
+  public getItemSnapshotFeed(params: BuyFeedParams, snapshotDate: string, marketplaceId: string, range: string) {
     return this.get(`/item_snapshot`, {
       params: {
         ...params,
@@ -71,13 +71,13 @@ export default class Feed extends Restful {
   /**
    * The Hourly Snapshot feed file is generated each hour every day for all categories.
    *
-   * @param {FeedParams} params
+   * @param {BuyFeedParams} params
    * @param {String} snapshotDate
    * @param marketplaceId The ID of the eBay marketplace where the item is hosted.
    * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
    *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
    */
-  public getProductFeed(params: FeedParams, snapshotDate: string, marketplaceId: string, range: string) {
+  public getProductFeed(params: BuyFeedParams, snapshotDate: string, marketplaceId: string, range: string) {
     return this.get(`/product`, {
       params: {
         ...params,

@@ -18,6 +18,7 @@ import {
   Metadata,
   Recommendation,
   Sell,
+  Feed as SellFeed
 } from './restful/sell';
 import Traditional from './traditional';
 
@@ -74,6 +75,7 @@ export default class ApiFactory extends Api {
       metadata: this.createRestfulApi(Metadata),
       recommendation: this.createRestfulApi(Recommendation),
       finances: this.createRestfulApi(Finances),
+      feed: this.createRestfulApi(SellFeed),
     };
   }
 

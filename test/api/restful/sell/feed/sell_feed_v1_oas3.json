@@ -1,0 +1,2975 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Feed API",
+    "description": "<p>The <strong>Feed API</strong> lets sellers upload input files, download reports and files including their status, filter reports using URI parameters, and retrieve customer service metrics task details.</p>",
+    "contact": {
+      "name": "eBay Inc,"
+    },
+    "license": {
+      "name": "eBay API License Agreement",
+      "url": "https://go.developer.ebay.com/api-license-agreement"
+    },
+    "version": "v1.2.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.ebay.com{basePath}",
+      "description": "Production",
+      "variables": {
+        "basePath": {
+          "default": "/sell/feed/v1"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/order_task": {
+      "get": {
+        "tags": [
+          "order_task"
+        ],
+        "description": "This method returns the details and status for an array of order tasks based on a specified feed_type or scheduled_id. Specifying both feed_type and scheduled_id results in an error. Since schedules are based on feed types, you can specify a schedule (scheduled_id) that returns the needed feed_type. If specifying the feed_type, limit which order tasks are returned by specifying filters such as the creation date range or period of time using look_back_days. If specifying a scheduled_id, the schedule template (that the scheduled_id is based on) determines which order tasks are returned (see scheduled_id for additional information). Each scheduled_id applies to one feed_type.",
+        "operationId": "getOrderTasks",
+        "parameters": [
+          {
+            "name": "date_range",
+            "in": "query",
+            "description": "The order tasks creation date range. This range is used to filter the results. The filtered results are filtered to include only tasks with a creation date that is equal to this date or is within specified range. Only orders less than 90 days old can be retrieved. Do not use with the look_back_days parameter. Format: UTC For example: Tasks within a range yyyy-MM-ddThh:mm:ss.SSSZ..yyyy-MM-ddThh:mm:ss.SSSZ Tasks created on September 8, 2019 2019-09-08T00:00:00.000Z..2019-09-09T00:00:00.000Z",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed_type",
+            "in": "query",
+            "description": "The feed type associated with the task. The only presently supported value is LMS_ORDER_REPORT. Do not use with the scheduled_id parameter. Since schedules are based on feed types, you can specify a schedule (scheduled_id) that returns the needed feed_type.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of order tasks that can be returned on each page of the paginated response. Use this parameter in conjunction with the offset parameter to control the pagination of the output. Note: This feature employs a zero-based list, where the first item in the list has an offset of 0. For example, if offset is set to 10 and limit is set to 10, the call retrieves order tasks 11 thru 20 from the result set. If this parameter is omitted, the default value is used. Default: 10 Maximum: 500",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "look_back_days",
+            "in": "query",
+            "description": "The number of previous days in which to search for tasks. Do not use with the date_range parameter. If both date_range and look_back_days are omitted, this parameter's default value is used. Default: 7 Range: 1-90 (inclusive)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The number of order tasks to skip in the result set before returning the first order in the paginated response. Combine offset with the limit query parameter to control the items returned in the response. For example, if you supply an offset of 0 and a limit of 10, the first page of the response contains the first 10 items from the complete list of items retrieved by the call. If offset is 10 and limit is 20, the first page of the response contains items 11-30 from the complete result set. If this query parameter is not set, the default value is used and the first page of records is returned. Default: 0",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "schedule_id",
+            "in": "query",
+            "description": "The schedule ID associated with the order task. A schedule periodically generates a report for the feed type specified by the schedule template (see scheduleTemplateId in createSchedule). Do not use with the feed_id parameter.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderTaskCollection"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "160004": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "You must submit either a 'feed_type' or 'schedule_id'."
+                },
+                "160005": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "Both 'feed_type' and 'schedule_id' were provided. Please remove one of them."
+                },
+                "160006": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'feed_type' {feedTypeValue} is invalid."
+                },
+                "160007": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'schedule_id' {scheduleID} is invalid."
+                },
+                "160008": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "Both 'look_back_days' and 'date_range' were provided. Please remove one of them."
+                },
+                "160009": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The format of the 'date_range' is invalid. The format for a date range is yyyy-MM-ddThh:mm:ss.SSSZ..yyyy-MM-ddThh:mm:ss.SSSZ."
+                },
+                "160010": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'date_range' must be less than or equal to 90 days."
+                },
+                "160011": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'look_back_days' value must be greater than zero and less than or equal to 90."
+                },
+                "160012": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'limit' value must be greater than zero and less than or equal to 500."
+                },
+                "160013": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'offset' value cannot be less than zero."
+                },
+                "160029": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'offset' value must be a multiple of the 'limit' value."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "order_task"
+        ],
+        "description": "This method creates an order download task with filter criteria for the order report. When using this method, specify the feedType, schemaVersion, and filterCriteria for the report. The method returns the location response header containing the getOrderTask call URI to retrieve the order task you just created. The URL includes the eBay-assigned task ID, which you can use to reference the order task. To retrieve the status of the task, use the getOrderTask method to retrieve a single task ID or the getOrderTasks method to retrieve multiple order task IDs. Note: The scope depends on the feed type. An error message results when an unsupported scope or feed type is specified. The following list contains this method's authorization scope and its corresponding feed type: https://api.ebay.com/oauth/api_scope/sell.fulfillment: LMS_ORDER_REPORT For details about how this method is used, see General feed types in the Selling Integration Guide. Note: At this time, the createOrderTask method only supports order creation date filters and not modified order date filters. Do not include the modifiedDateRange filter in your request payload.",
+        "operationId": "createOrderTask",
+        "parameters": [
+          {
+            "name": "X-EBAY-C-MARKETPLACE-ID",
+            "in": "header",
+            "description": "The ID of the eBay marketplace where the item is hosted. Note: This value is case sensitive. For example: X-EBAY-C-MARKETPLACE-ID = EBAY_US This identifies the eBay marketplace that applies to this task. See MarketplaceIdEnum.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "description not needed",
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "description not needed",
+                "$ref": "#/components/schemas/CreateOrderTaskRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "160017": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'feedType' is missing or invalid."
+                },
+                "160018": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'schemaVersion' is invalid."
+                },
+                "160019": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'filterCriteria' is invalid. {additionalInfo}"
+                },
+                "160027": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The X-EBAY-C-MARKETPLACE-ID header is missing or invalid."
+                },
+                "160030": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "This resource is not applicable for the feed type {feedTypeValue}. For more information, see the documentation for this API."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                },
+                "160022": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "You are not allowed to access this resource. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "x-response-codes": {
+              "errors": {
+                "160024": {
+                  "domain": "API_FEED",
+                  "category": "BUSINESS",
+                  "description": "You have reached the maximum number of feed tasks that can be queued or processed concurrently. Wait for current tasks to complete before adding tasks. For more information, see the documentation for this API."
+                },
+                "160025": {
+                  "domain": "API_FEED",
+                  "category": "BUSINESS",
+                  "description": "You have exceeded the maximum number of feed tasks that can be created or processed in a given period (hour or day). Wait until the present period ends before adding tasks. For more information, see the documentation for this API."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment"
+            ]
+          }
+        ]
+      }
+    },
+    "/order_task/{task_id}": {
+      "get": {
+        "tags": [
+          "order_task"
+        ],
+        "description": "This method retrieves the task details and status of the specified task. The input is task_id. For details about how this method is used, see Working with Order Feeds in the Selling Integration Guide.",
+        "operationId": "getOrderTask",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "The ID of the task. This ID is generated when the task was created by the createOrderTask method.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderTask"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "160003": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "Task {taskID} does not exist."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment"
+            ]
+          }
+        ]
+      }
+    },
+    "/schedule": {
+      "get": {
+        "tags": [
+          "schedule"
+        ],
+        "description": "This method retrieves an array containing the details and status of all schedules based on the specified feed_type. Use this method to find a schedule if you do not know the schedule_id.",
+        "operationId": "getSchedules",
+        "parameters": [
+          {
+            "name": "feed_type",
+            "in": "query",
+            "description": "The feedType associated with the schedule.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of schedules that can be returned on each page of the paginated response. Use this parameter in conjunction with the offset parameter to control the pagination of the output. Note: This feature employs a zero-based list, where the first item in the list has an offset of 0. For example, if offset is set to 10 and limit is set to 10, the call retrieves schedules 11 thru 20 from the result set. If this parameter is omitted, the default value is used. Default: 10 Maximum: 500",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The number of schedules to skip in the result set before returning the first schedule in the paginated response. Combine offset with the limit query parameter to control the items returned in the response. For example, if you supply an offset of 0 and a limit of 10, the first page of the response contains the first 10 items from the complete list of items retrieved by the call. If offset is 10 and limit is 20, the first page of the response contains items 11-30 from the complete result set. If this query parameter is not set, the default value is used and the first page of records is returned. Default: 0",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserScheduleCollection"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "160012": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'limit' value must be greater than zero and less than or equal to 500."
+                },
+                "160013": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'offset' value cannot be less than zero."
+                },
+                "160017": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'feedType' is missing or invalid."
+                },
+                "160029": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'offset' value must be a multiple of the 'limit' value."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory",
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment",
+              "https://api.ebay.com/oauth/api_scope/sell.marketing",
+              "https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly",
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "schedule"
+        ],
+        "description": "This method creates a schedule, which is a subscription to the specified schedule template. A schedule periodically generates a report for the feedType specified by the template. Specify the same feedType as the feedType of the associated schedule template. When creating the schedule, if available from the template, you can specify a preferred trigger hour, day of the week, or day of the month. These and other fields are conditionally available as specified by the template. Note: Make sure to include all fields required by the schedule template (scheduleTemplateId). Call the getScheduleTemplate method (or the getScheduleTemplates method), to find out which fields are required or optional. If a field is optional and a default value is provided by the template, the default value will be used if omitted from the payload.A successful call returns the location response header containing the getSchedule call URI to retrieve the schedule you just created. The URL includes the eBay-assigned schedule ID, which you can use to reference the schedule task. To retrieve the details of the create schedule task, use the getSchedule method for a single schedule ID or the getSchedules method to retrieve all schedule details for the specified feed_type. The number of schedules for each feedType is limited. Error code 160031 is returned when you have reached this maximum. Note: Except for schedules with a HALF-HOUR frequency, all schedules will ideally run at the start of each hour ('00' minutes). Actual start time may vary time may vary due to load and other factors.",
+        "operationId": "createSchedule",
+        "requestBody": {
+          "description": "In the request payload: feedType and scheduleTemplateId are required; scheduleName is optional; preferredTriggerHour, preferredTriggerDayOfWeek, preferredTriggerDayOfMonth, scheduleStartDate, scheduleEndDate, and schemaVersion are conditional.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "In the request payload: feedType and scheduleTemplateId are required; scheduleName is optional; preferredTriggerHour, preferredTriggerDayOfWeek, preferredTriggerDayOfMonth, scheduleStartDate, scheduleEndDate, and schemaVersion are conditional.",
+                "$ref": "#/components/schemas/CreateUserScheduleRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string",
+                  "description": "The URL of the schedule, which includes the id."
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "160017": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'feedType' is missing or invalid."
+                },
+                "160032": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'scheduleTemplateId' is invalid. Call the getScheduleTemplates method to get the available schedule templates."
+                },
+                "160033": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'feedType' is not associated with the 'scheduleTemplateId'. Please provide a 'feedType' that matches the 'scheduleTemplateId'. Call the getScheduleTemplates method to get the available schedule templates."
+                },
+                "160034": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The '{fieldName}' is invalid, missing, or not allowed."
+                },
+                "160036": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The '{fieldName}' is in the past."
+                },
+                "160037": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'scheduleEndDate' is before 'scheduleStartDate'."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                },
+                "160022": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "You are not allowed to access this resource. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "x-response-codes": {
+              "errors": {
+                "160031": {
+                  "domain": "API_FEED",
+                  "category": "BUSINESS",
+                  "description": "You have reached the maximum number of subscribed schedules for the 'feedType' {feedType}. To subscribe to another schedule, you must delete one."
+                },
+                "160035": {
+                  "domain": "API_FEED",
+                  "category": "BUSINESS",
+                  "description": "Duplicate schedule (a matching schedule already exists). Use the getSchedules method to see the existing schedules."
+                },
+                "160040": {
+                  "domain": "API_FEED",
+                  "category": "BUSINESS",
+                  "description": "The 'scheduleTemplateId' is inactive. You cannot create or modify a schedule with an inactive 'scheduleTemplateId'."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory",
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment",
+              "https://api.ebay.com/oauth/api_scope/sell.marketing",
+              "https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly",
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      }
+    },
+    "/schedule/{schedule_id}": {
+      "get": {
+        "tags": [
+          "schedule"
+        ],
+        "description": "This method retrieves schedule details and status of the specified schedule. Specify the schedule to retrieve using the schedule_id. Use the getSchedules method to find a schedule if you do not know the schedule_id.",
+        "operationId": "getSchedule",
+        "parameters": [
+          {
+            "name": "schedule_id",
+            "in": "path",
+            "description": "The ID of the schedule for which to retrieve the details. This ID is generated when the schedule was created by the createSchedule method.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserScheduleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "160038": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The schedule id {schedule_id} does not exist."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory",
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment",
+              "https://api.ebay.com/oauth/api_scope/sell.marketing",
+              "https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly",
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "schedule"
+        ],
+        "description": "This method updates an existing schedule. Specify the schedule to update using the schedule_id path parameter. If the schedule template has changed after the schedule was created or updated, the input will be validated using the changed template. Note: Make sure to include all fields required by the schedule template (scheduleTemplateId). Call the getScheduleTemplate method (or the getScheduleTemplates method), to find out which fields are required or optional. If you do not know the scheduleTemplateId, call the getSchedule method to find out.",
+        "operationId": "updateSchedule",
+        "parameters": [
+          {
+            "name": "schedule_id",
+            "in": "path",
+            "description": "The ID of the schedule to update. This ID is generated when the schedule was created by the createSchedule method.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "In the request payload: scheduleName is optional; preferredTriggerHour, preferredTriggerDayOfWeek, preferredTriggerDayOfMonth, scheduleStartDate, scheduleEndDate, and schemaVersion are conditional.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "In the request payload: scheduleName is optional; preferredTriggerHour, preferredTriggerDayOfWeek, preferredTriggerDayOfMonth, scheduleStartDate, scheduleEndDate, and schemaVersion are conditional.",
+                "$ref": "#/components/schemas/UpdateUserScheduleRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "160034": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The '{fieldName}' is invalid, missing, or not allowed."
+                },
+                "160036": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The '{fieldName}' is in past."
+                },
+                "160037": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'scheduleEndDate' is before 'scheduleStartDate'."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "160038": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The schedule id {schedule_id} does not exist."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "x-response-codes": {
+              "errors": {
+                "160040": {
+                  "domain": "API_FEED",
+                  "category": "BUSINESS",
+                  "description": "The 'scheduleTemplateId' is inactive. You cannot create or modify a schedule with an inactive 'scheduleTemplateId'."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory",
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment",
+              "https://api.ebay.com/oauth/api_scope/sell.marketing",
+              "https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly",
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "schedule"
+        ],
+        "description": "This method deletes an existing schedule. Specify the schedule to delete using the schedule_id path parameter.",
+        "operationId": "deleteSchedule",
+        "parameters": [
+          {
+            "name": "schedule_id",
+            "in": "path",
+            "description": "The schedule_id of the schedule to delete. This ID was generated when the task was created. If you do not know the schedule_id, use the getSchedules method to return all schedules based on a specified feed_type and find the schedule_id of the schedule to delete.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "160038": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The schedule id {schedule_id} does not exist."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory",
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment",
+              "https://api.ebay.com/oauth/api_scope/sell.marketing",
+              "https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly",
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      }
+    },
+    "/schedule/{schedule_id}/download_result_file": {
+      "get": {
+        "tags": [
+          "schedule"
+        ],
+        "description": "This method downloads the latest result file generated by the schedule. The response of this call is a compressed or uncompressed CSV, XML, or JSON file, with the applicable file extension (for example: csv.gz). Specify the schedule_id path parameter to download its last generated file.",
+        "operationId": "getLatestResultFile",
+        "parameters": [
+          {
+            "name": "schedule_id",
+            "in": "path",
+            "description": "The ID of the schedule for which to retrieve the latest result file. This ID is generated when the schedule was created by the createSchedule method.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "content-disposition": {
+                "schema": {
+                  "type": "string",
+                  "description": "It contains the file metadata like file name."
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "160021": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "No file found for 'schedule_id' {scheduleID}."
+                },
+                "160038": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The schedule id {schedule_id} does not exist."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory",
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment",
+              "https://api.ebay.com/oauth/api_scope/sell.marketing",
+              "https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly",
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      }
+    },
+    "/schedule_template/{schedule_template_id}": {
+      "get": {
+        "tags": [
+          "schedule"
+        ],
+        "description": "This method retrieves the details of the specified template. Specify the template to retrieve using the schedule_template_id path parameter. Use the getScheduleTemplates method to find a schedule template if you do not know the schedule_template_id.",
+        "operationId": "getScheduleTemplate",
+        "parameters": [
+          {
+            "name": "schedule_template_id",
+            "in": "path",
+            "description": "The ID of the template to retrieve. If you do not know the schedule_template_id, refer to the documentation or use the getScheduleTemplates method to find the available schedule templates.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduleTemplateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "160039": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The schedule template id {schedule_template_id} does not exist. Please provide a valid schedule template id as contained in the documentation or by calling the getScheduleTemplates method."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory",
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment",
+              "https://api.ebay.com/oauth/api_scope/sell.marketing",
+              "https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly",
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      }
+    },
+    "/schedule_template": {
+      "get": {
+        "tags": [
+          "schedule"
+        ],
+        "description": "This method retrieves an array containing the details and status of all schedule templates based on the specified feed_type. Use this method to find a schedule template if you do not know the schedule_template_id.",
+        "operationId": "getScheduleTemplates",
+        "parameters": [
+          {
+            "name": "feed_type",
+            "in": "query",
+            "description": "The feed type of the schedule templates to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of schedule templates that can be returned on each page of the paginated response. Use this parameter in conjunction with the offset parameter to control the pagination of the output. Note: This feature employs a zero-based list, where the first item in the list has an offset of 0. For example, if offset is set to 10 and limit is set to 10, the call retrieves schedule templates 11 thru 20 from the result set. If this parameter is omitted, the default value is used. Default: 10 Maximum: 500",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The number of schedule templates to skip in the result set before returning the first template in the paginated response. Combine offset with the limit query parameter to control the items returned in the response. For example, if you supply an offset of 0 and a limit of 10, the first page of the response contains the first 10 items from the complete list of items retrieved by the call. If offset is 10 and limit is 20, the first page of the response contains items 11-30 from the complete result set. If this query parameter is not set, the default value is used and the first page of records is returned. Default: 0",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduleTemplateCollection"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "160012": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'limit' value must be greater than zero and less than or equal to 500."
+                },
+                "160013": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'offset' value cannot be less than zero."
+                },
+                "160017": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'feedType' is missing or invalid."
+                },
+                "160029": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'offset' value must be a multiple of the 'limit' value."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory",
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment",
+              "https://api.ebay.com/oauth/api_scope/sell.marketing",
+              "https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly",
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      }
+    },
+    "/task": {
+      "get": {
+        "tags": [
+          "task"
+        ],
+        "description": "This method returns the details and status for an array of tasks based on a specified feed_type or scheduledId. Specifying both feed_type and scheduledId results in an error. Since schedules are based on feed types, you can specify a schedule (scheduled_id) that returns the needed feed_type. If specifying the feed_type, limit which tasks are returned by specifying filters, such as the creation date range or period of time using look_back_days. Also, by specifying the feed_type, both on-demand and scheduled reports are returned. If specifying a scheduledId, the schedule template (that the schedule ID is based on) determines which tasks are returned (see schedule_id for additional information). Each scheduledId applies to one feed_type.",
+        "operationId": "getTasks",
+        "parameters": [
+          {
+            "name": "date_range",
+            "in": "query",
+            "description": "The tasks creation date range. This range is used to filter the results. The results are filtered to include only tasks with a creation date that is equal to this date or is within specified range. Only tasks that are less than 90 days can be retrieved. Format: UTC For example: Tasks within a range yyyy-MM-ddThh:mm:ss.SSSZ..yyyy-MM-ddThh:mm:ss.SSSZ Tasks created on September 8, 2019 2019-09-08T00:00:00.000Z..2019-09-09T00:00:00.000Z Maximum: 90 days",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed_type",
+            "in": "query",
+            "description": "The feed type associated with the tasks to be returned. The only presently supported value is LMS_ORDER_REPORT. Do not use with the scheduled_id parameter. Since schedules are based on feed types, you can specify a schedule (scheduled_id) that returns the needed feed_type.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of tasks that can be returned on each page of the paginated response. Use this parameter in conjunction with the offset parameter to control the pagination of the output. Note: This feature employs a zero-based list, where the first item in the list has an offset of 0. For example, if offset is set to 10 and limit is set to 10, the call retrieves tasks 11 thru 20 from the result set. If this parameter is omitted, the default value is used. Default: 10 Maximum: 500",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "look_back_days",
+            "in": "query",
+            "description": "The number of previous days in which to search for tasks. Do not use with the date_range parameter. If both date_range and look_back_days are omitted, this parameter's default value is used. Default: 7 Range: 1-90 (inclusive)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The number of tasks to skip in the result set before returning the first task in the paginated response. Combine offset with the limit query parameter to control the items returned in the response. For example, if you supply an offset of 0 and a limit of 10, the first page of the response contains the first 10 items from the complete list of items retrieved by the call. If offset is 10 and limit is 20, the first page of the response contains items 11-30 from the complete result set. If this query parameter is not set, the default value is used and the first page of records is returned. Default: 0",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "schedule_id",
+            "in": "query",
+            "description": "The schedule ID associated with the task. A schedule periodically generates a report for the feed type specified by the schedule template (see scheduleTemplateId in createSchedule). Do not use with the feed_type parameter.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskCollection"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "160004": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "You must submit either a 'feed_type' or 'schedule_id'."
+                },
+                "160005": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "Both 'feed_type' and 'schedule_id' were provided. Please remove one of them."
+                },
+                "160006": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'feed_type' {feedTypeValue} is invalid."
+                },
+                "160007": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'schedule_id' {scheduleID} is invalid."
+                },
+                "160008": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "Both 'look_back_days' and 'date_range' were provided. Please remove one of them."
+                },
+                "160009": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The format of the 'date_range' is invalid. The format for a date range is yyyy-MM-ddThh:mm:ss.SSSZ..yyyy-MM-ddThh:mm:ss.SSSZ."
+                },
+                "160010": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'date_range' must be less than or equal to 90 days."
+                },
+                "160011": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'look_back_days' value must be greater than zero and less than or equal to 90."
+                },
+                "160012": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'limit' value must be greater than zero and less than or equal to 500."
+                },
+                "160013": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'offset' value cannot be less than zero."
+                },
+                "160016": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'date_range' value is not valid. Ensure that the beginning of the range is before the end of the range."
+                },
+                "160029": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'offset' value must be a multiple of the 'limit' value."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory",
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment",
+              "https://api.ebay.com/oauth/api_scope/sell.marketing",
+              "https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly",
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "task"
+        ],
+        "description": "This method creates an upload task or a download task without filter criteria. When using this method, specify the feedType and the feed file schemaVersion. The feed type specified sets the task as a download or an upload task. For details about the upload and download flows, see Working with Order Feeds in the Selling Integration Guide. Note: The scope depends on the feed type. An error message results when an unsupported scope or feed type is specified. The following list contains this method's authorization scopes and their corresponding feed types: https://api.ebay.com/oauth/api_scope/sell.inventory: None* https://api.ebay.com/oauth/api_scope/sell.fulfillment: LMS_ORDER_ACK (specify for upload tasks), LMS_ORDER_REPORT (specify for download tasks) https://api.ebay.com/oauth/api_scope/sell.marketing: None* https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly: None* * Reserved for future release",
+        "operationId": "createTask",
+        "parameters": [
+          {
+            "name": "X-EBAY-C-MARKETPLACE-ID",
+            "in": "header",
+            "description": "The ID of the eBay marketplace where the item is hosted. Note: This value is case sensitive. For example: X-EBAY-C-MARKETPLACE-ID = EBAY_US This identifies the eBay marketplace that applies to this task. See MarketplaceIdEnum.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "description not needed",
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "description not needed",
+                "$ref": "#/components/schemas/CreateTaskRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "160017": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'feedType' is missing or invalid."
+                },
+                "160018": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'schemaVersion' is invalid."
+                },
+                "160027": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The X-EBAY-C-MARKETPLACE-ID header is missing or invalid."
+                },
+                "160030": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "This resource is not applicable for the feed type {feedTypeValue}. For more information, see the documentation for this API."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                },
+                "160022": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "You are not allowed to access this resource. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "x-response-codes": {
+              "errors": {
+                "160024": {
+                  "domain": "API_FEED",
+                  "category": "BUSINESS",
+                  "description": "You have reached the maximum number of feed tasks that can be queued or processed concurrently. Wait for current tasks to complete before adding tasks. For more information, see the documentation for this API."
+                },
+                "160025": {
+                  "domain": "API_FEED",
+                  "category": "BUSINESS",
+                  "description": "You have exceeded the maximum number of feed tasks that can be created or processed in a given period (hour or day). Wait until the present period ends before adding tasks. For more information, see the documentation for this API."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory",
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment",
+              "https://api.ebay.com/oauth/api_scope/sell.marketing",
+              "https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly",
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      }
+    },
+    "/task/{task_id}/download_input_file": {
+      "get": {
+        "tags": [
+          "task"
+        ],
+        "description": "This method downloads the file previously uploaded using uploadFile. Specify the task_id from the uploadFile call. Note: This method only applies to the LMS_ORDER_ACK feed type.",
+        "operationId": "getInputFile",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "The task ID associated with the file to be downloaded.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "content-disposition": {
+                "schema": {
+                  "type": "string",
+                  "description": "Returns metadata for the downloaded file."
+                }
+              }
+            },
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "160003": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "Task {taskID} does not exist."
+                },
+                "160014": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "No file found for task ID {taskID}."
+                },
+                "160015": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'task_id' {taskID} is a download task, which in invalid for an input file. "
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory",
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment",
+              "https://api.ebay.com/oauth/api_scope/sell.marketing",
+              "https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly",
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      }
+    },
+    "/task/{task_id}/download_result_file": {
+      "get": {
+        "tags": [
+          "task"
+        ],
+        "description": "This method retrieves the generated file that is associated with the specified task ID. The response of this call is a compressed or uncompressed CSV, XML, or JSON file, with the applicable file extension (for example: csv.gz). For details about how this method is used, see see Working with Order Feeds in the Selling Integration Guide. Note: The status of the task to retrieve must be in the COMPLETED or COMPLETED_WITH_ERROR state before this method can retrieve the file. You can use the getTask or getTasks method to retrieve the status of the task.",
+        "operationId": "getResultFile",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "The ID of the task associated with the file you want to download. This ID was generated when the task was created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "content-disposition": {
+                "schema": {
+                  "type": "string",
+                  "description": "Returns metadata for the downloaded file."
+                }
+              }
+            },
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "160003": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "Task {taskID} does not exist."
+                },
+                "160014": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "No file found for task ID {taskID}."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory",
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment",
+              "https://api.ebay.com/oauth/api_scope/sell.marketing",
+              "https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly",
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      }
+    },
+    "/task/{task_id}": {
+      "get": {
+        "tags": [
+          "task"
+        ],
+        "description": "This method retrieves the details and status of the specified task. The input is task_id . For details of how this method is used, see Working with Order Feeds in the Selling Integration Guide.",
+        "operationId": "getTask",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "The ID of the task. This ID was generated when the task was created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "160003": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "Task {taskID} does not exist."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory",
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment",
+              "https://api.ebay.com/oauth/api_scope/sell.marketing",
+              "https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly",
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      }
+    },
+    "/task/{task_id}/upload_file": {
+      "post": {
+        "tags": [
+          "task"
+        ],
+        "description": "This method associates the specified file with the specified task ID and uploads the input file. After the file has been uploaded the processing of the file begins. Reports often take time to generate and it's common for this method to return an HTTP status of 202, which indicates the report is being generated. Use the getTask with the task ID or getTasks to determine the status of a report. The status flow is QUEUED &gt; IN_PROCESS &gt; COMPLETED or COMPLETED_WITH_ERROR. When the status is COMPLETED or COMPLETED_WITH_ERROR, this indicates the file has been processed and the order report can be downloaded. If there are errors, they will be indicated in the report file. Note: This method only applies to LMS_ORDER_ACK.For details of how this method is used in the upload flow, see Working with Order Feeds in the Selling Integration Guide.",
+        "operationId": "uploadFile",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "The task_id associated with the file that will be uploaded. This ID was generated when the specified task was created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/FormDataContentDisposition"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "160020": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The format of the file to be uploaded is invalid. {additionalInfo}"
+                },
+                "160023": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "Task {taskID} cannot upload a file."
+                },
+                "160026": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "This task has expired and you cannot use it to upload a file. You must upload a file within a hour of creating the task."
+                },
+                "160028": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The file you tried to upload is too large. Please try using a smaller file. For more information, see the documentation for this API."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "160003": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "Task {taskID} does not exist."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.inventory",
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment",
+              "https://api.ebay.com/oauth/api_scope/sell.marketing",
+              "https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly",
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      }
+    },
+    "/customer_service_metric_task": {
+      "get": {
+        "tags": [
+          "customer_service_metric_task"
+        ],
+        "description": "Use this method to return an array of customer service metric tasks. You can limit the tasks returned by specifying a date range. Note: You can pass in either the look_back_days or date_range, but not both.",
+        "operationId": "getCustomerServiceMetricTasks",
+        "parameters": [
+          {
+            "name": "date_range",
+            "in": "query",
+            "description": "The task creation date range. The results are filtered to include only tasks with a creation date that is equal to the dates specified or is within the specified range. Do not use with the look_back_days parameter. Format: UTC For example, tasks within a range: yyyy-MM-ddThh:mm:ss.SSSZ..yyyy-MM-ddThh:mm:ss.SSSZ Tasks created on March 8, 2020 2020-03-08T00:00.00.000Z..2020-03-09T00:00:00.000Z Maximum: 90 days",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed_type",
+            "in": "query",
+            "description": "The feed type associated with the task. The only presently supported value is CUSTOMER_SERVICE_METRICS_REPORT.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of customer service metric tasks to return per page of the result set. Use this parameter in conjunction with the offset parameter to control the pagination of the output. For example, if offset is set to 10 and limit is set to 10, the call retrieves tasks 11 thru 20 from the result set. If this parameter is omitted, the default value is used. Note:This feature employs a zero-based list, where the first item in the list has an offset of 0. Default: 10 Maximum: 500",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "look_back_days",
+            "in": "query",
+            "description": "The number of previous days in which to search for tasks. Do not use with the date_range parameter. If both date_range and look_back_days are omitted, this parameter's default value is used. Default value: 7 Range: 1-90 (inclusive)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The number of customer service metric tasks to skip in the result set before returning the first task in the paginated response. Combine offset with the limit query parameter to control the items returned in the response. For example, if you supply an offset of 0 and a limit of 10, the first page of the response contains the first 10 items from the complete list of items retrieved by the call. If offset is 10 and limit is 20, the first page of the response contains items 11-30 from the complete result set. Default: 0",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerServiceMetricTaskCollection"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                },
+                "160005": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "Both 'feed_type' and 'schedule_id' were provided. Please remove one of them."
+                },
+                "160006": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'feed_type' {feedTypeValue} is invalid."
+                },
+                "160008": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "Both 'look_back_days' and 'date_range' were provided. Please remove one of them."
+                },
+                "160009": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The format of the 'date_range' is invalid. The format for a date range is yyyy-MM-ddThh:mm:ss.SSSZ..yyyy-MM-ddThh:mm:ss.SSSZ."
+                },
+                "160010": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'date_range' must be less than or equal to 90 days."
+                },
+                "160011": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'look_back_days' value must be greater than zero and less than or equal to 90."
+                },
+                "160012": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'limit' value must be greater than zero and less than or equal to 500."
+                },
+                "160013": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'offset' value cannot be less than zero."
+                },
+                "160029": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'offset' value must be a multiple of the 'limit' value."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "customer_service_metric_task"
+        ],
+        "description": "Use this method to create a customer service metrics download task with filter criteria for the customer service metrics report. When using this method, specify the feedType and filterCriteria including both evaluationMarketplaceId and customerServiceMetricType for the report. The method returns the location response header containing the call URI to use with getCustomerServiceMetricTask to retrieve status and details on the task. Only CURRENT Customer Service Metrics reports can be generated with the Sell Feed API. PROJECTED reports are not supported at this time. See the getCustomerServiceMetric method document in the Analytics API for more information about these two types of reports. Note: Before calling this API, retrieve the summary of the seller's performance and rating for the customer service metric by calling getCustomerServiceMetric (part of the Analytics API). You can then populate the create task request fields with the values from the response. This technique eliminates failed tasks that request a report for a customerServiceMetricType and evaluationMarketplaceId that are without evaluation.",
+        "operationId": "createCustomerServiceMetricTask",
+        "parameters": [
+          {
+            "name": "accept-language",
+            "in": "header",
+            "description": "Use this header to specify the natural language in which the authenticated user desires the response.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Request payload containing version, feedType, and optional filterCriteria.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "Request payload containing version, feedType, and optional filterCriteria.",
+                "$ref": "#/components/schemas/CreateServiceMetricsTaskRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "160017": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'feedType' is missing or invalid."
+                },
+                "160018": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'schemaVersion' is invalid."
+                },
+                "160024": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "You have reached the maximum number of feed tasks that can be queued or processed concurrently. Wait for current tasks to complete before adding tasks. For more information, see the documentation for this API."
+                },
+                "160025": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "You have exceeded the maximum number of feed tasks that can be created or processed in a given period (hour or day). Wait until the present period ends before adding tasks. For more information, see the documentation for this API."
+                },
+                "164500": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'customerServiceMetricType' in 'filterCriteria' is not a valid type. Valid metric types are ITEM_NOT_AS_DESCRIBED or ITEM_NOT_RECEIVED."
+                },
+                "164501": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'evaluationMarketplaceId' in 'filterCriteria' is not a supported marketplace. For a complete list of the supported marketplace IDs, see the documentation."
+                },
+                "164502": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'listingCategories' in 'filterCriteria' or some part of the 'listingCategories' is invalid. {additionalInfo}"
+                },
+                "164503": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'shippingRegions' in 'filterCriteria' or some part of the 'shippingRegions' is invalid. {additionalInfo}"
+                },
+                "164504": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The Accept-Language header is missing or invalid."
+                },
+                "164505": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'filterCriteria' is missing or invalid."
+                },
+                "164506": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'listingCategories' is not applicable to the 'customerServiceMetricType' {customerServiceMetricType} in 'filterCriteria'."
+                },
+                "164507": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The 'shippingRegions' is not applicable to the 'customerServiceMetricType' {customerServiceMetricType} in 'filterCriteria'."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      }
+    },
+    "/customer_service_metric_task/{task_id}": {
+      "get": {
+        "tags": [
+          "customer_service_metric_task"
+        ],
+        "description": "Use this method to retrieve customer service metric task details for the specified task. The input is task_id.",
+        "operationId": "getCustomerServiceMetricTask",
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "Use this path parameter to specify the task ID value for the customer service metric task to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceMetricsTask"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "160002": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "The authentication scope {scope} is incorrect for 'feed_type' {feedType}. Refer to documentation for details about the scopes."
+                },
+                "160003": {
+                  "domain": "API_FEED",
+                  "category": "REQUEST",
+                  "description": "Task {taskID} does not exist."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "160001": {
+                  "domain": "API_FEED",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay Developer Technical Support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateOrderTaskRequest": {
+        "type": "object",
+        "properties": {
+          "feedType": {
+            "type": "string",
+            "description": "The feed type associated with the task. The only presently supported value is LMS_ORDER_REPORT."
+          },
+          "filterCriteria": {
+            "description": "The container for the filter fields. This container is used to set the filter criteria for the order report. A seller can set date range filters and/or can retrieve orders in a specific state.",
+            "$ref": "#/components/schemas/OrderFilterCriteria"
+          },
+          "schemaVersion": {
+            "type": "string",
+            "description": "The schema version of the LMS OrderReport. For the LMS_ORDER_REPORT feed type, see the OrderReport reference page to see the present schema version. The schemaVersion value is the version number shown at the top of the OrderReport page. Restriction: This value must be 1113 or higher. The OrderReport schema version is updated about every two weeks. All version numbers are odd numbers (even numbers are skipped). For example, the next release version after '1113' is '1115'."
+          }
+        },
+        "description": "The type that defines the fields for the createOrderTask request."
+      },
+      "CreateServiceMetricsTaskRequest": {
+        "type": "object",
+        "properties": {
+          "feedType": {
+            "type": "string",
+            "description": "The feedType specified for the task. The report lists the transaction details that contribute to the service metrics evaluation. Supported types include: CUSTOMER_SERVICE_METRICS_REPORT"
+          },
+          "filterCriteria": {
+            "description": "This container is used to customize and set criteria for Customer Service Metric report that will be associated with the task.",
+            "$ref": "#/components/schemas/CustomerServiceMetricsFilterCriteria"
+          },
+          "schemaVersion": {
+            "type": "string",
+            "description": "The version number of the file format. Valid value: 1.0"
+          }
+        },
+        "description": "The type that defines the fields for the Customer Service Metric reports generated with the Feed API."
+      },
+      "CreateTaskRequest": {
+        "type": "object",
+        "properties": {
+          "feedType": {
+            "type": "string",
+            "description": "The feed type associated with the task. The only presently supported value is LMS_ORDER_ACK."
+          },
+          "schemaVersion": {
+            "type": "string",
+            "description": "The schemaVersion version number of the file format. Acceptable value: 1.0"
+          }
+        },
+        "description": "The type that defines the fields for the createTask method."
+      },
+      "CreateUserScheduleRequest": {
+        "type": "object",
+        "properties": {
+          "feedType": {
+            "type": "string",
+            "description": "The name of the feed type for the created schedule. Match the feed_type from the schedule template associated with this schedule."
+          },
+          "preferredTriggerDayOfMonth": {
+            "type": "integer",
+            "description": "The preferred day of the month to trigger the schedule. This field can be used with preferredTriggerHour for monthly schedules. The last day of the month is used for numbers larger than the actual number of days in the month. This field is available as specified by the template (scheduleTemplateId). The template can specify this field as optional or required, and optionally provides a default value. Minimum: 1 Maximum: 31",
+            "format": "int32"
+          },
+          "preferredTriggerDayOfWeek": {
+            "type": "string",
+            "description": "The preferred day of the week to trigger the schedule. This field can be used with preferredTriggerHour for weekly schedules. This field is available as specified by the template (scheduleTemplateId). The template can specify this field as optional or required, and optionally provides a default value. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/feed/types/api:DayOfWeekEnum'>eBay API documentation</a>"
+          },
+          "preferredTriggerHour": {
+            "type": "string",
+            "description": "The preferred two-digit hour of the day to trigger the schedule. This field is available as specified by the template (scheduleTemplateId). The template can specify this field as optional or required, and optionally provides a default value. Format: UTC hhZ For example, the following represents 11:00 am UTC: 11Z"
+          },
+          "scheduleEndDate": {
+            "type": "string",
+            "description": "The timestamp on which the report generation (subscription) ends. After this date, the schedule status becomes INACTIVE. Use this field, if available, to end the schedule in the future. This value must be later than scheduleStartDate (if supplied). This field is available as specified by the template (scheduleTemplateId). The template can specify this field as optional or required, and optionally provides a default value. Format: UTC yyyy-MM-ddTHHZ For example, the following represents UTC October 10, 2021 at 10:00 AM: 2021-10-10T10Z"
+          },
+          "scheduleName": {
+            "type": "string",
+            "description": "The schedule name assigned by the user for the created schedule."
+          },
+          "scheduleStartDate": {
+            "type": "string",
+            "description": "The timestamp to start generating the report. After this timestamp, the schedule status becomes active until either the scheduleEndDate occurs or the scheduleTemplateId becomes inactive. Use this field, if available, to start the schedule in the future but before the scheduleEndDate (if supplied). This field is available as specified by the template (scheduleTemplateId). The template can specify this field as optional or required, and optionally provides a default value. Format: UTC yyyy-MM-ddTHHZ For example, the following represents a schedule start date of UTC October 01, 2020 at 12:00 PM: 2020-01-01T12Z"
+          },
+          "scheduleTemplateId": {
+            "type": "string",
+            "description": "The ID of the template associated with the schedule ID. You can get this ID from the documentation or by calling the getScheduleTemplates method. This method requires a schedule template ID that is ACTIVE."
+          },
+          "schemaVersion": {
+            "type": "string",
+            "description": "The schema version of the schedule feedType. This field is required if the feedType has a schema version. This field is available as specified by the template (scheduleTemplateId). The template can specify this field as optional or required, and optionally provides a default value."
+          }
+        },
+        "description": "The type that defines the fields for the createSchedule method."
+      },
+      "CustomerServiceMetricTaskCollection": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "The URI of the current page of results."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The value of the limit parameter submitted in the request, which is the maximum number of tasks to return per page, from the result set. A result set is the complete set of tasks returned by the method. Note: Even though this parameter is not required to be submitted in the request, the parameter defaults to 10 if omitted. Note: If this is the last or only page of the result set, the page may contain fewer tasks than the limit value. To determine the number of pages in a result set, divide the total value (total number of tasks matching input criteria) by this limit value, and then round up to the next integer. For example, if the total value was 120 (120 total tasks) and the limit value was 50 (show 50 tasks per page), the total number of pages in the result set is three, so the seller would have to make three separate getCustomerServiceMetricTasks calls to view all tasks matching the input criteria.",
+            "format": "int32"
+          },
+          "next": {
+            "type": "string",
+            "description": "The relative path to the call URI for the next page of results. This value is returned if there is an additional page of results to return from the result set."
+          },
+          "offset": {
+            "type": "integer",
+            "description": "The number of results skipped in the result set before returning the first result. This value can be set in the request with the offset query parameter. Note: The items in a paginated result set use a zero-based list where the first item in the list has an offset of 0.",
+            "format": "int32"
+          },
+          "prev": {
+            "type": "string",
+            "description": "The URI for the previous page of results. This parameter is returned if a previous page of results from the result set exists."
+          },
+          "tasks": {
+            "type": "array",
+            "description": "An array of the customer service tasks on this page. The tasks are sorted by creation date. An empty array is returned if the filter criteria excludes all tasks.",
+            "items": {
+              "$ref": "#/components/schemas/ServiceMetricsTask"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "description": "The total number of tasks that match the criteria.",
+            "format": "int32"
+          }
+        }
+      },
+      "CustomerServiceMetricsFilterCriteria": {
+        "type": "object",
+        "properties": {
+          "customerServiceMetricType": {
+            "type": "string",
+            "description": "An enumeration value that specifies the customer service metric that eBay tracks to measure seller performance. See CustomerServiceMetricTypeEnum for values. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/feed/types/api:CustomerServiceMetricTypeEnum'>eBay API documentation</a>"
+          },
+          "evaluationMarketplaceId": {
+            "type": "string",
+            "description": "An enumeration value that specifies the eBay marketplace where the evaluation occurs. See MarketplaceIdEnum for values. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/feed/types/bas:MarketplaceIdEnum'>eBay API documentation</a>"
+          },
+          "listingCategories": {
+            "type": "array",
+            "description": "A list of listing category IDs on which the service metric is measured. A seller can use one or more L1 (top-level) eBay categories to get metrics specific to those L1 categories. The Category IDs for each L1 category are required. Category ID values for L1 categories can be retrieved using the Taxonomy API. Note: Pass this attribute to narrow down your filter results for the ITEM_NOT_AS_DESCRIBED customerServiceMetricType. Supported categories include: primary(L1) category Id",
+            "items": {
+              "type": "string"
+            }
+          },
+          "shippingRegions": {
+            "type": "array",
+            "description": "A list of shipping region enumeration values on which the service metric is measured. This comma delimited array allows the seller to customize the report to focus on domestic or international shipping. Note: Pass this attribute to narrow down your filter results for the ITEM_NOT_RECEIVED customerServiceMetricType. Supported categories include: primary(L1) category IdSee ShippingRegionTypeEnum for values",
+            "items": {
+              "type": "string",
+              "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/feed/types/api:ShippingRegionTypeEnum'>eBay API documentation</a>"
+            }
+          }
+        },
+        "description": "A complex data type that filters data for report creation. See CustomerServiceMetricsFilterCriteria for fields and descriptions."
+      },
+      "DateRange": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "The beginning date in the range. If the parent type is included, both the from and/or the to fields become conditionally required. Format: UTC yyyy-MM-ddThh:mm:ss.SSSZ For example: Tasks within a range yyyy-MM-ddThh:mm:ss.SSSZ..yyyy-MM-ddThh:mm:ss.SSSZ Tasks created on September 8, 2019 2019-09-08T00:00:00.000Z..2019-09-09T00:00:00.000Z"
+          },
+          "to": {
+            "type": "string",
+            "description": "The end date for the date range, which is inclusive. If the parent type is included, both the from and/or the to fields become conditionally required. For example: Tasks within a range yyyy-MM-ddThh:mm:ss.SSSZ..yyyy-MM-ddThh:mm:ss.SSSZ Tasks created on September 8, 2019 2019-09-08T00:00:00.000Z..2019-09-09T00:00:00.000Z"
+          }
+        },
+        "description": "The type the defines the fields for a date range."
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Identifies the type of erro."
+          },
+          "domain": {
+            "type": "string",
+            "description": "Name for the primary system where the error occurred. This is relevant for application errors."
+          },
+          "errorId": {
+            "type": "integer",
+            "description": "A unique number to identify the error.",
+            "format": "int32"
+          },
+          "inputRefIds": {
+            "type": "array",
+            "description": "An array of request elements most closely associated to the error.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "longMessage": {
+            "type": "string",
+            "description": "A more detailed explanation of the error."
+          },
+          "message": {
+            "type": "string",
+            "description": "Information on how to correct the problem, in the end user's terms and language where applicable."
+          },
+          "outputRefIds": {
+            "type": "array",
+            "description": "An array of request elements most closely associated to the error.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "parameters": {
+            "type": "array",
+            "description": "An array of name/value pairs that describe details the error condition. These are useful when multiple errors are returned.",
+            "items": {
+              "$ref": "#/components/schemas/ErrorParameter"
+            }
+          },
+          "subdomain": {
+            "type": "string",
+            "description": "Further helps indicate which subsystem the error is coming from. System subcategories include: Initialization, Serialization, Security, Monitoring, Rate Limiting, etc."
+          }
+        },
+        "description": "This type defines the fields that can be returned in an error."
+      },
+      "ErrorParameter": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The object of the error."
+          },
+          "value": {
+            "type": "string",
+            "description": "The value of the object."
+          }
+        }
+      },
+      "FormDataContentDisposition": {
+        "type": "object",
+        "properties": {
+          "creationDate": {
+            "type": "string",
+            "description": "The file creation date. Format: UTC yyyy-MM-ddThh:mm:ss.SSSZ For example: Created on September 8, 2019 2019-09-08T00:00:00.000Z"
+          },
+          "fileName": {
+            "type": "string",
+            "description": "The name of the file including its extension (for example, xml or csv) to be uploaded."
+          },
+          "modificationDate": {
+            "type": "string",
+            "description": "The file modified date. Format: UTC yyyy-MM-ddThh:mm:ss.SSSZ For example: Created on September 9, 2019 2019-09-09T00:00:00.000Z"
+          },
+          "name": {
+            "type": "string",
+            "description": "A content identifier. The only presently supported name is file."
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "The parameters you want associated with the file."
+          },
+          "readDate": {
+            "type": "string",
+            "description": "The date you read the file. Format: UTC yyyy-MM-ddThh:mm:ss.SSSZ For example: Created on September 10, 2019 2019-09-10T00:00:00.000Z"
+          },
+          "size": {
+            "type": "integer",
+            "description": "The size of the file.",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string",
+            "description": "The file type. The only presently supported type is form-data."
+          }
+        },
+        "description": "The metadata for the file."
+      },
+      "OrderFilterCriteria": {
+        "type": "object",
+        "properties": {
+          "creationDateRange": {
+            "description": "The creation date range of the orders you want returned. Set the date range so it contains less than 10 days (maximum). If you do not specify a DateRange, results from the last 10 days will be returned by default.",
+            "$ref": "#/components/schemas/DateRange"
+          },
+          "modifiedDateRange": {
+            "description": "The modified date range of the orders you want returned. Note: This container is for future use. At this time, the createOrderTask method only supports order creation date filters and not modified order date filters.",
+            "$ref": "#/components/schemas/DateRange"
+          },
+          "orderStatus": {
+            "type": "string",
+            "description": "The order status of the orders returned. If the filter is omitted from createOrderTask call, orders that are in both ACTIVE and COMPLETED states are returned. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/feed/types/api:OrderStatusEnum'>eBay API documentation</a>"
+          }
+        },
+        "description": "The type that defines the fields for the order filters."
+      },
+      "OrderTask": {
+        "type": "object",
+        "properties": {
+          "completionDate": {
+            "type": "string",
+            "description": "The timestamp when the task went into the COMPLETED or COMPLETED_WITH_ERROR state. This state means that eBay has compiled the report for the seller based on the seller&rsquo;s filter criteria, and the seller can run a getResultFile call to download the report."
+          },
+          "creationDate": {
+            "type": "string",
+            "description": "The date the task was created."
+          },
+          "detailHref": {
+            "type": "string",
+            "description": "The path to the call URI used to retrieve the task."
+          },
+          "feedType": {
+            "type": "string",
+            "description": "The feed type associated with the task."
+          },
+          "filterCriteria": {
+            "description": "A container that returns the filter criteria used.",
+            "$ref": "#/components/schemas/OrderFilterCriteria"
+          },
+          "schemaVersion": {
+            "type": "string",
+            "description": "The schema version number associated with the create task."
+          },
+          "status": {
+            "type": "string",
+            "description": "The enumeration value that indicates the state of the task that was submitted in the request. See FeedStatusEnum for information. The values COMPLETED and COMPLETED_WITH_ERROR indicate the Order Report file is ready to download. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/feed/types/api:FeedStatusEnum'>eBay API documentation</a>"
+          },
+          "taskId": {
+            "type": "string",
+            "description": "The ID of the task that was submitted in the request."
+          },
+          "uploadSummary": {
+            "description": "This container provides summary information on an upload feed. It is available for upload feed types (suppressed for download feed types).",
+            "$ref": "#/components/schemas/UploadSummary"
+          }
+        },
+        "description": "The type that defines the fields for the getOrderTask response."
+      },
+      "OrderTaskCollection": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "The path to the call URI that produced the current page of results."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The value of the limit parameter submitted in the request, which is the maximum number of order tasks to return per page, from the result set. A result set is the complete set of tasks returned by the method. Note: Though this parameter is not required to be submitted in the request, the parameter defaults to 10 if omitted. Note: If this is the last or only page of the result set, the page may contain fewer tasks than the limit value. To determine the number of pages in a result set, divide the total value (total number of tasks matching input criteria) by this limit value, and then round up to the next integer. For example, if the total value was 120 (120 total tasks) and the limit value was 50 (show 50 tasks per page), the total number of pages in the result set is three, so the seller would have to make three separate getOrderTasks calls to view all tasks matching the input criteria.",
+            "format": "int32"
+          },
+          "next": {
+            "type": "string",
+            "description": "The path to the call URI for the next page of results. This value is returned if there is an additional page of results to return from the result set."
+          },
+          "offset": {
+            "type": "integer",
+            "description": "The number of results skipped in the result set before listing the first returned result. This value can be set in the request with the offset query parameter. Note: The items in a paginated result set use a zero-based list where the first item in the list has an offset of 0.",
+            "format": "int32"
+          },
+          "prev": {
+            "type": "string",
+            "description": "The path to the call URI for the previous page of results. This is returned if there is a previous page of results from the result set."
+          },
+          "tasks": {
+            "type": "array",
+            "description": "An array of the order tasks on this page. The tasks are sorted by creation date. An empty array is returned if the filter criteria excludes all tasks.",
+            "items": {
+              "$ref": "#/components/schemas/OrderTask"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "description": "The total number of order tasks that match the input criteria.",
+            "format": "int32"
+          }
+        },
+        "description": "The type that defines the fields for a paginated result set of orders. The response consists of 0 or more sequenced pages where each page has 0 or more items."
+      },
+      "ScheduleTemplateCollection": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "The path to the call URI that produced the current page of results."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The value of the limit parameter submitted in the request, which is the maximum number of schedule templates to return per page, from the result set. A result set is the complete set of schedule templates returned by the method. Note: Though this parameter is not required to be submitted in the request, the parameter defaults to 10 if omitted. Note: If this is the last or only page of the result set, the page may contain fewer tasks than the limit value. To determine the number of pages in a result set, divide the total value (total number of tasks matching input criteria) by this limit value, and then round up to the next integer. For example, if the total value was 120 (120 total tasks) and the limit value was 50 (show 50 tasks per page), the total number of pages in the result set is three, so the seller would have to make three separate getScheduleTemplates calls to view all tasks matching the input criteria.",
+            "format": "int32"
+          },
+          "next": {
+            "type": "string",
+            "description": "The path to the call URI for the next page of results. This value is returned if there is an additional page of results to return from the result set."
+          },
+          "offset": {
+            "type": "integer",
+            "description": "The number of results skipped in the result set before listing the first returned result. This value can be set in the request with the offset query parameter. Note: The items in a paginated result set use a zero-based list where the first item in the list has an offset of 0.",
+            "format": "int32"
+          },
+          "prev": {
+            "type": "string",
+            "description": "The path to the call URI for the previous page of results. This is returned if there is a previous page of results from the result set."
+          },
+          "scheduleTemplates": {
+            "type": "array",
+            "description": "An array of the schedule templates on this page. An empty array is returned if the filter criteria excludes all tasks.",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleTemplateResponse"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "description": "The total number of schedule templates that match the input criteria.",
+            "format": "int32"
+          }
+        },
+        "description": "The type that defines the fields for a paginated result set of schedule templates. The response consists of 0 or more sequenced pages where each page has 0 or more items."
+      },
+      "ScheduleTemplateResponse": {
+        "type": "object",
+        "properties": {
+          "feedType": {
+            "type": "string",
+            "description": "The feed type of the schedule template. Note: When calling createSchedule and updateSchedule methods you must match the feed type specified by the schedule template (this feedType)."
+          },
+          "frequency": {
+            "type": "string",
+            "description": "This field specifies how often the schedule is generated. If set to HALF_HOUR or ONE_HOUR, you cannot set a preferredTriggerHour using createSchedule or updateSchedule. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/feed/types/api:FrequencyEnum'>eBay API documentation</a>"
+          },
+          "name": {
+            "type": "string",
+            "description": "The template name provided by the template."
+          },
+          "scheduleTemplateId": {
+            "type": "string",
+            "description": "The ID of the template. Use this ID to create a schedule based on the properties of this schedule template."
+          },
+          "status": {
+            "type": "string",
+            "description": "The present status of the template. You cannot create or modify a schedule using a template with an INACTIVE status. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/feed/types/api:StatusEnum'>eBay API documentation</a>"
+          },
+          "supportedConfigurations": {
+            "type": "array",
+            "description": "An array of the configuration supported by this template.",
+            "items": {
+              "$ref": "#/components/schemas/SupportedConfiguration"
+            }
+          }
+        },
+        "description": "The type that defines the fields for a paginated result set of available schedule templates. The response consists of 0 or more sequenced pages where each page has 0 or more items."
+      },
+      "ServiceMetricsTask": {
+        "type": "object",
+        "properties": {
+          "completionDate": {
+            "type": "string",
+            "description": "The timestamp when the customer service metrics task went into the COMPLETED or COMPLETED_WITH_ERROR state. This field is only returned if the status is one of the two completed values. This state means that eBay has compiled the report for the seller based on the seller&rsquo;s filter criteria, and the seller can run a getResultFile call to download the report."
+          },
+          "creationDate": {
+            "type": "string",
+            "description": "The date the customer service metrics task was created."
+          },
+          "detailHref": {
+            "type": "string",
+            "description": "The relative getCustomerServiceMetricTask call URI path to retrieve the corresponding task."
+          },
+          "feedType": {
+            "type": "string",
+            "description": "The feed type associated with the task."
+          },
+          "filterCriteria": {
+            "description": "This container shows the criteria set for the report.",
+            "$ref": "#/components/schemas/CustomerServiceMetricsFilterCriteria"
+          },
+          "schemaVersion": {
+            "type": "string",
+            "description": "The schema version number of the file format. If omitted, the default value is used. Default value: 1.0"
+          },
+          "status": {
+            "type": "string",
+            "description": "An enumeration value that indicates the state of the task. See FeedStatusEnum for values. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/feed/types/api:FeedStatusEnum'>eBay API documentation</a>"
+          },
+          "taskId": {
+            "type": "string",
+            "description": "The unique eBay-assigned ID of the task."
+          }
+        }
+      },
+      "StreamingOutput": {
+        "type": "object",
+        "description": "File stream"
+      },
+      "SupportedConfiguration": {
+        "type": "object",
+        "properties": {
+          "defaultValue": {
+            "type": "string",
+            "description": "The default value for the property. If a value is omitted from the schedule and a default value is supplied, the default value is used."
+          },
+          "property": {
+            "type": "string",
+            "description": "Properties supported by the template. Properties can include the following: scheduleStartDate: The timestamp that the report generation (subscription) begins. After this timestamp, the schedule status becomes active until either the scheduleEndDate occurs or the scheduleTemplate becomes inactive. Format: UTC yyyy-MM-ddTHHZ scheduleEndDate: The timestamp that the report generation (subscription) ends. After this date, the schedule status becomes INACTIVE. Format: UTC yyyy-MM-ddTHHZ schemaVersion: The schema version of the schedule templates feedType. This field is required if the feedType has a schema version. preferredTriggerDayOfMonth: The preferred day of the month to trigger the schedule. preferredTriggerDayOfWeek: The preferred day of the week to trigger the schedule. preferredTriggerHour: The preferred two-digit hour of the day to trigger the schedule. Format: UTC hhZ"
+          },
+          "usage": {
+            "type": "string",
+            "description": "Whether the specified property is REQUIRED or OPTIONAL. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/feed/types/api:ConfigurationsUsageEnum'>eBay API documentation</a>"
+          }
+        },
+        "description": "An array that defines the configuration supported by this template. This includes specified properties and usage (whether the property is REQUIRED or OPTIONAL), and an optional default value."
+      },
+      "Task": {
+        "type": "object",
+        "properties": {
+          "completionDate": {
+            "type": "string",
+            "description": "The timestamp when the task went into the COMPLETED or COMPLETED_WITH_ERROR state. This state means that eBay has compiled the report for the seller based on the seller&rsquo;s filter criteria, and the seller can run a getResultFile call to download the report."
+          },
+          "creationDate": {
+            "type": "string",
+            "description": "The date the task was created."
+          },
+          "detailHref": {
+            "type": "string",
+            "description": "The path to the call URI used to retrieve the task. This field points to the GetOrderTask URI if the task is for LMS_ORDER_REPORT or will be null if this task is for LMS_ORDER_ACK."
+          },
+          "feedType": {
+            "type": "string",
+            "description": "The feed type associated with the task."
+          },
+          "schemaVersion": {
+            "type": "string",
+            "description": "The schema version number associated with the task."
+          },
+          "status": {
+            "type": "string",
+            "description": "The enumeration value that indicates the state of the task that was submitted in the request. See FeedStatusEnum for information. The values COMPLETED and COMPLETED_WITH_ERROR indicate the Order Report file is ready to download. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/feed/types/api:FeedStatusEnum'>eBay API documentation</a>"
+          },
+          "taskId": {
+            "type": "string",
+            "description": "The ID of the task that was submitted in the request."
+          },
+          "uploadSummary": {
+            "description": "This container provides summary information on an upload feed. It is available for upload feed types (suppressed for download feed types).",
+            "$ref": "#/components/schemas/UploadSummary"
+          }
+        },
+        "description": "The type that defines the fields for the task details."
+      },
+      "TaskCollection": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "The path to the call URI that produced the current page of results."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The value of the limit parameter submitted in the request, which is the maximum number of tasks to return per page, from the result set. A result set is the complete set of tasks returned by the method. Note: Though this parameter is not required to be submitted in the request, the parameter defaults to 10 if omitted. Note: If this is the last or only page of the result set, the page may contain fewer tasks than the limit value. To determine the number of pages in a result set, divide the total value (total number of tasks matching input criteria) by this limit value, and then round up to the next integer. For example, if the total value was 120 (120 total tasks) and the limit value was 50 (show 50 tasks per page), the total number of pages in the result set is three, so the seller would have to make three separate getTasks calls to view all tasks matching the input criteria.",
+            "format": "int32"
+          },
+          "next": {
+            "type": "string",
+            "description": "The path to the call URI for the next page of results. This value is returned if there is an additional page of results to return from the result set."
+          },
+          "offset": {
+            "type": "integer",
+            "description": "The number of results skipped in the result set before listing the first returned result. This value can be set in the request with the offset query parameter. Note: The items in a paginated result set use a zero-based list where the first item in the list has an offset of 0.",
+            "format": "int32"
+          },
+          "prev": {
+            "type": "string",
+            "description": "The path to the call URI for the previous page of results. This is returned if there is a previous page of results from the result set."
+          },
+          "tasks": {
+            "type": "array",
+            "description": "An array of the tasks on this page. The tasks are sorted by creation date. An empty array is returned if the filter criteria excludes all tasks.",
+            "items": {
+              "$ref": "#/components/schemas/Task"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "description": "The total number of tasks that match the input criteria.",
+            "format": "int32"
+          }
+        },
+        "description": "The type that defines the fields for a paginated result set of tasks. The response consists of 0 or more sequenced pages where each page has 0 or more items."
+      },
+      "UpdateUserScheduleRequest": {
+        "type": "object",
+        "properties": {
+          "preferredTriggerDayOfMonth": {
+            "type": "integer",
+            "description": "The preferred day of the month to trigger the schedule. This field can be used with preferredTriggerHour for monthly schedules. The last day of the month is used for numbers larger than the actual number of days in the month. This field is available as specified by the template (scheduleTemplateId). The template can specify this field as optional or required, and optionally provides a default value. Minimum: 1 Maximum: 31",
+            "format": "int32"
+          },
+          "preferredTriggerDayOfWeek": {
+            "type": "string",
+            "description": "The preferred day of the week to trigger the schedule. This field can be used with preferredTriggerHour for weekly schedules. This field is available as specified by the template (scheduleTemplateId). The template can specify this field as optional or required, and optionally provides a default value. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/feed/types/api:DayOfWeekEnum'>eBay API documentation</a>"
+          },
+          "preferredTriggerHour": {
+            "type": "string",
+            "description": "The preferred two-digit hour of the day to trigger the schedule. This field is available as specified by the template (scheduleTemplateId). The template can specify this field as optional or required, and optionally provides a default value. Format: UTC hhZ For example, the following represents 11:00 am UTC: 11Z Minimum: 00Z Maximum: 23Z"
+          },
+          "scheduleEndDate": {
+            "type": "string",
+            "description": "The timestamp on which the schedule (report generation) ends. After this date, the schedule status becomes INACTIVE. Use this field, if available, to end the schedule in the future. This value must be later than scheduleStartDate (if supplied). This field is available as specified by the template (scheduleTemplateId). The template can specify this field as optional or required, and optionally provides a default value. Format: UTC yyyy-MM-ddTHHZ For example, the following represents UTC October 10, 2021 at 10:00 AM: 2021-10-10T10Z"
+          },
+          "scheduleName": {
+            "type": "string",
+            "description": "The schedule name assigned by the user for the created schedule."
+          },
+          "scheduleStartDate": {
+            "type": "string",
+            "description": "The timestamp to start generating the report. After this timestamp, the schedule status becomes active until either the scheduleEndDate occurs or the scheduleTemplateId becomes inactive. Use this field, if available, to start the schedule in the future but before the scheduleEndDate (if supplied). This field is available as specified by the template (scheduleTemplateId). The template can specify this field as optional or required, and optionally provides a default value. Format: UTC yyyy-MM-ddTHHZ For example, the following represents a schedule start date of UTC October 01, 2020 at 12:00 PM: 2020-01-01T12Z"
+          },
+          "schemaVersion": {
+            "type": "string",
+            "description": "The schema version of the feedType for the schedule. This field is required if the feedType has a schema version. This field is available as specified by the template (scheduleTemplateId). The template can specify this field as optional or required, and optionally provides a default value."
+          }
+        },
+        "description": "The type that defines the fields for a schedule update to a schedule generated with the Feed API."
+      },
+      "UploadSummary": {
+        "type": "object",
+        "properties": {
+          "failureCount": {
+            "type": "integer",
+            "description": "The number of records that failed to process during the upload feed.",
+            "format": "int32"
+          },
+          "successCount": {
+            "type": "integer",
+            "description": "The number of records that were successfully processed during the upload feed.",
+            "format": "int32"
+          }
+        },
+        "description": "This container provides summary information on an upload feed. It is available for upload feed types (suppressed for download feed types)."
+      },
+      "UserScheduleCollection": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "The path to the call URI that produced the current page of results."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The value of the limit parameter submitted in the request, which is the maximum number of schedules to return per page, from the result set. A result set is the complete set of schedules returned by the method. Note: Though this parameter is not required to be submitted in the request, the parameter defaults to 10 if omitted. Note: If this is the last or only page of the result set, the page may contain fewer tasks than the limit value. To determine the number of pages in a result set, divide the total value (total number of tasks matching input criteria) by this limit value, and then round up to the next integer. For example, if the total value was 120 (120 total tasks) and the limit value was 50 (show 50 tasks per page), the total number of pages in the result set is three, so the seller would have to make three separate getSchedules calls to view all tasks matching the input criteria.",
+            "format": "int32"
+          },
+          "next": {
+            "type": "string",
+            "description": "The path to the call URI for the next page of results. This value is returned if there is an additional page of results to return from the result set."
+          },
+          "offset": {
+            "type": "integer",
+            "description": "The number of results skipped in the result set before listing the first returned result. This value can be set in the request with the offset query parameter. Note: The items in a paginated result set use a zero-based list where the first item in the list has an offset of 0.",
+            "format": "int32"
+          },
+          "prev": {
+            "type": "string",
+            "description": "The path to the call URI for the previous page of results. This is returned if there is a previous page of results from the result set."
+          },
+          "schedules": {
+            "type": "array",
+            "description": "An array of the schedules on this page. An empty array is returned if the filter criteria excludes all tasks.",
+            "items": {
+              "$ref": "#/components/schemas/UserScheduleResponse"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "description": "The total number of schedules that match the input criteria.",
+            "format": "int32"
+          }
+        },
+        "description": "The type that defines the fields for a paginated result set of user schedules. The response consists of 0 or more sequenced pages where each page has 0 or more items."
+      },
+      "UserScheduleResponse": {
+        "type": "object",
+        "properties": {
+          "scheduleId": {
+            "type": "string",
+            "description": "The ID of the schedule. This ID is generated when the schedule was created by the createSchedule method."
+          },
+          "creationDate": {
+            "type": "string",
+            "description": "The creation date of the schedule in hours based on the 24-hour Coordinated Universal Time (UTC) clock."
+          },
+          "feedType": {
+            "type": "string",
+            "description": "The feedType associated with the schedule."
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "description": "The date the schedule was last modified."
+          },
+          "preferredTriggerDayOfMonth": {
+            "type": "integer",
+            "description": "The preferred day of the month to trigger the schedule. This field can be used with preferredTriggerHour for monthly schedules. The last day of the month is used for numbers larger than the number of days in the month.",
+            "format": "int32"
+          },
+          "preferredTriggerDayOfWeek": {
+            "type": "string",
+            "description": "The preferred day of the week to trigger the schedule. This field can be used with preferredTriggerHour for weekly schedules. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/feed/types/api:DayOfWeekEnum'>eBay API documentation</a>"
+          },
+          "preferredTriggerHour": {
+            "type": "string",
+            "description": "The preferred two-digit hour of the day to trigger the schedule. Format: UTC hhZ For example, the following represents 11:00 am UTC: 11Z"
+          },
+          "scheduleEndDate": {
+            "type": "string",
+            "description": "The timestamp on which the report generation (subscription) ends. After this date, the schedule status becomes INACTIVE."
+          },
+          "scheduleName": {
+            "type": "string",
+            "description": "The schedule name assigned by the user for the created schedule. Users assign this name for their reference."
+          },
+          "scheduleStartDate": {
+            "type": "string",
+            "description": "The timestamp that indicates the start of the report generation."
+          },
+          "scheduleTemplateId": {
+            "type": "string",
+            "description": "The ID of the template used to create this schedule."
+          },
+          "schemaVersion": {
+            "type": "string",
+            "description": "The schema version of the feedType for the schedule."
+          },
+          "status": {
+            "type": "string",
+            "description": "The enumeration value that indicates the state of the schedule. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/feed/types/api:StatusEnum'>eBay API documentation</a>"
+          },
+          "statusReason": {
+            "type": "string",
+            "description": "The reason the schedule is inactive. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/feed/types/api:StatusReasonEnum'>eBay API documentation</a>"
+          }
+        },
+        "description": "The type that defines the fields for a paginated result set of available schedules. The response consists of 0 or more sequenced pages where each page has 0 or more items."
+      }
+    },
+    "securitySchemes": {
+      "api_auth": {
+        "type": "oauth2",
+        "description": "The security definitions for this API. Please check individual operations for applicable scopes.",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.ebay.com/oauth2/authorize",
+            "tokenUrl": "https://api.ebay.com/identity/v1/oauth2/token",
+            "scopes": {
+              "https://api.ebay.com/oauth/api_scope/sell.fulfillment": "View and manage your order fulfillments",
+              "https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly": " This scope would allow signed in user to read catalog data.",
+              "https://api.ebay.com/oauth/api_scope/sell.inventory": "View and manage your inventory and offers",
+              "https://api.ebay.com/oauth/api_scope/sell.marketing": "View and manage your eBay marketing activities, such as ad campaigns and listing promotions",
+              "https://api.ebay.com/oauth/api_scope/sell.analytics.readonly": "View your selling analytics data, such as performance reports"
+            }
+          }
+        }
+      }
+    }
+  }
+}
