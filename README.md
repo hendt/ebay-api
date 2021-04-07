@@ -1,7 +1,7 @@
-# eBay TypeScript/JavaScript API for Browser and Node
+# eBay Node API in TypeScript with Browser support
 
 This eBay API implements both Traditional \(xml\) and the RESTful eBay API.
-It supports client credentials grant and authorization code grant \(traditional, OAuth2 and IAF\).
+It supports `client credentials grant` and `authorization code grant` \(Auth'N'Auth, OAuth2 and IAF\).
 
 * [API Browser Examples](https://hendt.github.io/ebay-api/)
 * [API Documentation](https://hendt.gitbook.io/ebay-api/)
@@ -41,14 +41,13 @@ It supports client credentials grant and authorization code grant \(traditional,
 ## Installation
 
 ```bash
-npm install @hendt/ebay-api // yarn add @hendt/ebay-api
+npm install @hendt/ebay-api # yarn add @hendt/ebay-api
 ```
 
 ## Usage
 
 ### Browser
-
-Check out getItem example: [https://hendt.github.io/ebay-api/](https://hendt.github.io/ebay-api/).
+Check out `getItem()` example: [https://hendt.github.io/ebay-api/](https://hendt.github.io/ebay-api/).
 
 A Proxy server is required to use the API in the Browser.
 
@@ -114,7 +113,7 @@ The first (required) parameter in eBayApi takes an object with following propert
 | scope | Conditional | `['https://api.ebay.com/oauth/api_scope']` | The scopes assigned to your application allow access to different API resources and functionality. |
 | ruName | Conditional | | The redirect\_url value. [More info](https://developer.ebay.com/api-docs/static/oauth-redirect-uri.html). |
 | authToken | Optional | | The Auth'N'Auth token. The traditional authentication and authorization technology used by the eBay APIs. |
-| autoRefreshToken | Optional | `true` |. Try to auto refresh the token |
+| autoRefreshToken | Optional | `true` | Auto refresh the token if it's expired. |
 | marketplaceId | Conditional | | REST HTTP Header. X-EBAY-C-MARKETPLACE-ID identifies the user's business context and is specified using a marketplace ID value. |
 | endUserCtx | Optional | | Conditionally recommended. REST HTTP Header. X-EBAY\_C\_ENDUSERCTX provides various types of information associated with the request. |
 | contentLanguage | Conditional | | REST HTTP Header. Content-Language indicates the locale preferred by the client for the response. |
@@ -179,21 +178,22 @@ eBay.OAuth2.setScope([
 ```
 
 ### Use apix.ebay.com or apiz.ebay.com (beta) endpoints
-For some APIs, eBay use a `apix`/`apiz` subdomain. To change the subdomain you can use `.apix`/`.apiz` before the api call like:
+For some APIs, eBay use a `apix`/`apiz` subdomain. To use these subdomains you can use `.apix`/`.apiz` before the api call like this:
 ```javascript
   eBay.buy.browse.apix.getItem() // now it will use https://apix.ebay.com
   eBay.buy.browse.apiz.getItem() // now it will use https://apiz.ebay.com
 ```
+
 In any case eBay adds a new subdomain, it's also possible to configure whatever you want:
 ```javascript
   eBay.buy.browse.api({subdomain: 'apiy'}).getItem() // now it will use https://apiy.ebay.com
 ```
 
 ### How to refresh the token
-If `autoRefreshToken` is set to true (default value) the token will be automatically refreshed when eBay response with 'invalid access token' error.
+If `autoRefreshToken` is set to true (default value) the token will be automatically refreshed when eBay response with `invalid access token` error.
 
-You can use Event Emitter to get the token when it gets refreshed \(use `'eBay.OAuth2.refreshAuthToken()'` for the auth token or `'eBay.OAuth2.refreshClientToken()'` for the client token\):
 
+Use Event Emitter to get the token when it gets succesfully refreshed.
 ```javascript
 eBay.OAuth2.on('refreshAuthToken', (token) => {
   console.log(token)
@@ -203,15 +203,16 @@ eBay.OAuth2.on('refreshClientToken', (token) => {
   console.log(token)
 });
 ```
-
-Alternatively, you can refresh it manually.
+To manuel refresh the auth token use `eBay.OAuth2.refreshAuthToken()` and for the client token `eBay.OAuth2.refreshClientToken()`.
 Keep in mind that you need the 'refresh_token' value set.
+
 ```javascript
 let token = await eBay.OAuth2.refreshToken();
+// will refresh Auth Token if set, otherwise the client token if set.
 ```
 
 ## Additional Headers
-Sometimes you want to add additional headers to the request like GLOBAL-ID \(X-EBAY-SOA-GLOBAL-ID\). 
+Sometimes you want to add additional headers to the request like a GLOBAL-ID `X-EBAY-SOA-GLOBAL-ID`. 
 You have multiple options to do this.
 
 ### Restful API Headers
@@ -219,14 +220,14 @@ You have multiple options to do this.
   const eBay = new eBayApi();
 
   eBay.buy.browse.api({headers: {
-      'MY-HEADER': 'VALUE'
+      'X-EBAY-SOA-GLOBAL-ID': 'EBAY-DE'
   }}).getItem('v1|382282567190|651094235351').then((item) => {
     console.log(item)
   })
 ```
 
 ### Traditional API Headers
-you can pass headers directly in the method call in the second parameter:
+You can pass headers directly in the method call in the second parameter:
 ```javascript
 eBay.trading.AddFixedPriceItem({
   Item: {
@@ -237,12 +238,12 @@ eBay.trading.AddFixedPriceItem({
   }
 }, {
   headers: {
-    'MY-HEADER': 'VALUE'
+    'X-EBAY-SOA-GLOBAL-ID': 'EBAY-DE'
   }
 })
 ```
 
-### Low level: use the interceptor to manipulate the request
+### Low level: use the Axios interceptor to manipulate the request
 ```javascript
   const eBay = new eBayApi();
 
@@ -254,7 +255,6 @@ eBay.trading.AddFixedPriceItem({
 ```
 
 ### Handle JSON GZIP response e.g fetchItemAspects
-
 You need a decompress library installed like `zlib`.
 
 `npm install zlib`
@@ -279,8 +279,7 @@ const zlib = require('zlib');
   };)();
 ```
 
-## Traditional XML response
-
+## Controlling Traditional XML request and response
 The second parameter in the traditional API has the following options:
 
 ```typescript
