@@ -1,4 +1,28 @@
 # eBay API Changelog
+## [3.0.0](https://github.com/hendt/ebay-api/compare/v2.2.1...v3.0.0) (2021-04-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename oAuth2 to OAuth2
+
+### Features
+
+* add apix/apiz and make restful api configurable ([081dab0](https://github.com/hendt/ebay-api/commit/081dab0d26d5b62205bf555a093f57a923905e84))
+* add ContentLanguage enum ([a0a3d11](https://github.com/hendt/ebay-api/commit/a0a3d1131f5b8508e8ac5a966e247b042970cfd0))
+* improve error handling ([c1fbdbb](https://github.com/hendt/ebay-api/commit/c1fbdbb582e7cf23d2135dd6159338d5aebbe08f))
+* use Locale enum ([edcb921](https://github.com/hendt/ebay-api/commit/edcb9218be8e1e08f5b1b0bd27e687c7bf01b9f4))
+
+
+### Bug Fixes
+
+* eslint error ([2479c23](https://github.com/hendt/ebay-api/commit/2479c2365d0169a8142dc24ce0187c9bd6f3bebf))
+* one more eslint error ([7bcfdbc](https://github.com/hendt/ebay-api/commit/7bcfdbcf15845f13a595c03c19a3dccb3c95487d))
+* use RecipientAccountReferenceType ([42bab48](https://github.com/hendt/ebay-api/commit/42bab48d373a1431c261bb65e39b146c49a46321))
+
+
+* rename oAuth2 to OAuth2 ([755a840](https://github.com/hendt/ebay-api/commit/755a8402da0cb47e511209c81e7da13a130033ba))
+
 ### [2.2.1](https://github.com/hendt/ebay-api/compare/v2.2.0...v2.2.1) (2021-03-11)
 
 
