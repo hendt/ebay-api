@@ -1164,3 +1164,16 @@ export type SellFeedParams = {
   offset?: string
   scheduleId?: string
 }
+
+export type MarketingInsightsSearchParams = {
+  aspectFilter?: string
+  categoryIds?: string
+  epid?: string
+  fieldgroups?: string
+  filter?: string
+  gtin?: string
+  limit?: string
+  offset?: string
+  q?: string
+  sort?: string
+}

@@ -1,0 +1,195 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Notification API",
+    "description": "The eBay  Notification API allows third-party developers and applications to process eBay notifications and verify the integrity of the notification message payload.",
+    "contact": {
+      "name": "eBay Inc,"
+    },
+    "license": {
+      "name": "eBay API License Agreement",
+      "url": "https://go.developer.ebay.com/api-license-agreement"
+    },
+    "version": "v1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.ebay.com{basePath}",
+      "description": "Production",
+      "variables": {
+        "basePath": {
+          "default": "/commerce/notification/v1"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/public_key/{public_key_id}": {
+      "get": {
+        "tags": [
+          "public_key"
+        ],
+        "description": "This method allows users to retrieve a public key using a specified key ID. The public key that is returned in the response payload is used to process and validate eBay notifications. The public key ID, which is a required request parameter for this method, is retrieved from the Base64-encoded X-EBAY-SIGNATURE header that is included in the eBay notification. Note: For more details about how to process eBay push notifications and validate notification message payloads, see the Notification API Overview.",
+        "operationId": "getPublicKey",
+        "parameters": [
+          {
+            "name": "public_key_id",
+            "in": "path",
+            "description": "The unique key ID that is used to retrieve the public key. Note: This is retrieved from the X-EBAY-SIGNATURE header that is included with the push notification.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicKey"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not found",
+            "x-response-codes": {
+              "errors": {
+                "195001": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "The specified public key Id does not exist."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Identifies the type of erro."
+          },
+          "domain": {
+            "type": "string",
+            "description": "Name for the primary system where the error occurred. This is relevant for application errors."
+          },
+          "errorId": {
+            "type": "integer",
+            "description": "A unique number to identify the error.",
+            "format": "int32"
+          },
+          "inputRefIds": {
+            "type": "array",
+            "description": "An array of request elements most closely associated to the error.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "longMessage": {
+            "type": "string",
+            "description": "A more detailed explanation of the error."
+          },
+          "message": {
+            "type": "string",
+            "description": "Information on how to correct the problem, in the end user's terms and language where applicable."
+          },
+          "outputRefIds": {
+            "type": "array",
+            "description": "An array of request elements most closely associated to the error.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "parameters": {
+            "type": "array",
+            "description": "An array of name/value pairs that describe details the error condition. These are useful when multiple errors are returned.",
+            "items": {
+              "$ref": "#/components/schemas/ErrorParameter"
+            }
+          },
+          "subdomain": {
+            "type": "string",
+            "description": "Further helps indicate which subsystem the error is coming from. System subcategories include: Initialization, Serialization, Security, Monitoring, Rate Limiting, etc."
+          }
+        },
+        "description": "This type defines the fields that can be returned in an error."
+      },
+      "ErrorParameter": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The object of the error."
+          },
+          "value": {
+            "type": "string",
+            "description": "The value of the object."
+          }
+        }
+      },
+      "PublicKey": {
+        "type": "object",
+        "properties": {
+          "algorithm": {
+            "type": "string",
+            "description": "The algorithm associated with the public key that is returned, such as Elliptic Curve Digital Signature Algorithm (ECDSA)."
+          },
+          "digest": {
+            "type": "string",
+            "description": "The digest associated with the public key that is returned, such as Secure Hash Algorithm 1 (SHA1)."
+          },
+          "key": {
+            "type": "string",
+            "description": "The public key that is returned for the specified key ID. This value is used to validate the eBay push notification message payload."
+          }
+        },
+        "description": "A type that defines the public key for a unique key ID."
+      }
+    },
+    "securitySchemes": {
+      "api_auth": {
+        "type": "oauth2",
+        "description": "The security definitions for this API. Please check individual operations for applicable scopes.",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://api.ebay.com/identity/v1/oauth2/token",
+            "scopes": {
+              "https://api.ebay.com/oauth/api_scope": "View public data from eBay"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,755 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Marketplace Insights API",
+    "description": "<a href=\"https://developer.ebay.com/api-docs/static/versioning.html#Limited\" target=\"_blank\"> <img src=\"/cms/img/docs/partners-api.svg\" class=\"legend-icon partners-icon\" title=\"Limited Release\"  alt=\"Limited Release\" />(Limited Release)</a> The Marketplace Insights API provides the ability to search for sold items on eBay by keyword, GTIN, category, and product and returns the of sales history of those items.",
+    "contact": {
+      "name": "eBay Inc,"
+    },
+    "license": {
+      "name": "eBay API License Agreement",
+      "url": "https://go.developer.ebay.com/api-license-agreement"
+    },
+    "version": "v1_beta.2.2"
+  },
+  "servers": [
+    {
+      "url": "https://api.ebay.com{basePath}",
+      "description": "Production",
+      "variables": {
+        "basePath": {
+          "default": "/buy/marketplace_insights/v1_beta"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/item_sales/search": {
+      "get": {
+        "tags": [
+          "item_sales"
+        ],
+        "description": "(Limited Release) This method searches for sold eBay items by various URI query parameters and retrieves the sales history of the items for the last 90 days. You can search by keyword, category, eBay product ID (ePID), or GTIN, or a combination of these. This method also supports the following: Filtering by the value of one or multiple fields, such as listing format, item condition, price range, location, and more. For the fields supported by this method, see the filter parameter. Retrieving the refinements (metadata) of an item , such as item aspects (color, brand), condition, category, etc. using the fieldgroups parameter. Filtering by item aspects and other refinements using the aspect_filter parameter. Creating aspects histograms, which enables shoppers to drill down in each refinement narrowing the search results. For details and examples of these capabilities, see Browse API in the Buying Integration Guide. Pagination and sort controls There are pagination controls (limit and offset fields) and sort query parameters that control/sort the data that is returned. By default, the results are sorted by &quot;Best Match&quot;. For more information about Best Match, see the eBay help page Best Match. URLs for this method Production URL: https://api.ebay.com/buy/marketplace_insights/v1_beta/item_sales/ Sandbox URL: https://api.sandbox.ebay.com/buy/marketplace_insights/v1_beta/item_sales/ Request headers You will want to use the X-EBAY-C-ENDUSERCTX request header with this method. If you are an eBay Network Partner you must use affiliateCampaignId=ePNCampaignId,affiliateReferenceId=referenceId in the header in order to be paid for selling eBay items on your site . For details see, Request headers in the Buy APIs Overview. URL Encoding for Parameters Query parameter values need to be URL encoded. For details, see URL encoding query parameter values. Restrictions For a list of supported sites and other restrictions, see API Restrictions.",
+        "operationId": "search",
+        "parameters": [
+          {
+            "name": "aspect_filter",
+            "in": "query",
+            "description": "This field lets you filter by item aspects. The aspect name/value pairs and category, which is required, is used to limit the results to specific aspects of the item. For example, in a clothing category one aspect pair would be Color/Red. The results are returned in the refinement container. For example, the method below uses the category ID for Women's Clothing. This will return only sold items for a woman's red or blue shirt. /buy/marketplace_insights/v1_beta/item_sales/search?q=shirt&amp;category_ids=15724&amp;aspect_filter=categoryId:15724,Color:{Red|Blue} To get a list of the aspects pairs and the category, which is returned in the dominantCategoryId field, set fieldgroups to ASPECT_REFINEMENTS. /buy/marketplace_insights/v1_beta/item_sales/search?q=shirt&amp;category_ids=15724&amp;fieldgroups=ASPECT_REFINEMENTS Format: aspectName:{value1|value2} Required: The category ID is required twice; once as a URI parameter and as part of the aspect_filter parameter. For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/buy/marketplace_insights/types/gct:AspectFilter",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category_ids",
+            "in": "query",
+            "description": "The category ID is required and is used to limit the results. For example, if you search for 'shirt' the result set will be very large. But if you also include the category ID 137084, the results will be limited to 'Men's Athletic Apparel'. For example: /buy/marketplace-insights/v1_beta/item_sales/search?q=shirt&amp;category_ids=137084 The list of eBay category IDs is not published and category IDs are not the same across all the eBay marketplaces. You can use the following techniques to find a category by site: For the US marketplace, use the Category Changes page. Use the Taxonomy API. For details see Get Categories for Buy APIs. Usage: This field can have one category ID or a comma separated list of IDs. You can use category_ids by itself or use it with any combination of the gtin, epid, and q fields, which gives you additional control over the result set. Restrictions: Partners will be given a list of categories they can use. To use a top-level (L1) category, you must also include the q, or gtin, or epid query parameter. Maximum number of categories: 4",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "epid",
+            "in": "query",
+            "description": "The ePID is the eBay product identifier of a product from the eBay product catalog. This field limits the results to only items in the specified ePID. /buy/marketplace-insights/v1_beta/item_sales/search?epid=241986085&amp;category_ids=168058 You can use the product_summary/search method in the Catalog API to search for the ePID of the product. Required: At least 1 category_ids Maximum: 1 epid Optional: Any combination of epid, gtin, or q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fieldgroups",
+            "in": "query",
+            "description": "This field lets you control what is to be returned in the response and accepts a comma separated list of values. The default is MATCHING_ITEMS, which returns the items that match the keyword or category specified. The other values return data that can be used to create histograms. For code examples see, aspect_filter. Valid Values: ASPECT_REFINEMENTS - This returns the aspectDistributions container, which has the dominantCategoryId, matchCount, and refinementHref for the various aspects of the items found. For example, if you searched for 'Mustang', some of the aspect would be Model Year, Exterior Color, Vehicle Mileage, etc. Note: ASPECT_REFINEMENTS are category specific. BUYING_OPTION_REFINEMENTS - This returns the buyingOptionDistributions container, which has the matchCount and refinementHref for AUCTION and FIXED_PRICE (Buy It Now) items. Note: Classified items are not supported. CATEGORY_REFINEMENTS - This returns the categoryDistributions container, which has the categories that the item is in. CONDITION_REFINEMENTS - This returns the conditionDistributions container, such as NEW, USED, etc. Within these groups are multiple states of the condition. For example, New can be New without tag, New in box, New without box, etc. MATCHING_ITEMS - This is meant to be used with one or more of the refinement values above. You use this to return the specified refinements and all the matching items. FULL - This returns all the refinement containers and all the matching items. Code so that your app gracefully handles any future changes to this list. Default: MATCHING_ITEMS",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "This field supports multiple field filters that can be used to limit/customize the result set. The following lists the supported filters. For details and examples for all the filters, see Buy API Field Filters. buyingOptions conditionIds conditions itemLocationCountry lastSoldDate price priceCurrency The following example filters the result set by price. Note: To filter by price, price and priceCurrency must always be used together. /buy/marketplace-insights/v1_beta/item_sales/search?q=iphone&amp;category_ids=15724&amp;filter=price:[50..500],priceCurrency:USD For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/buy/marketplace_insights/types/cos:FilterField",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "gtin",
+            "in": "query",
+            "description": "This field lets you search by the Global Trade Item Number of the item as defined by https://www.gtin.info. This can be a UPC (Universal Product Code), EAN (European Article Number), or an ISBN (International Standard Book Number) value. /buy/marketplace-insights/v1_beta/item_sales/search?gtin=241986085&amp;category_ids=9355 Required: At least 1 category_ids Maximum: 1 gtin Optional: Any combination of epid, gtin, or q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of items, from the result set, returned in a single page. Default: 50 Maximum number of items per page (limit): 200 Maximum number of items in a result set: 10,000",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Specifies the number of items to skip in the result set. This is used with the limit field to control the pagination of the output. If offset is 0 and limit is 10, the method will retrieve items 1-10 from the list of items returned, if offset is 10 and limit is 10, the method will retrieve items 11 thru 20 from the list of items returned. Valid Values: 0-10,000 (inclusive) Default: 0 Maximum number of items returned: 10,000",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "description": "A string consisting of one or more keywords that are used to search for items on eBay. The keywords are handled as follows: If the keywords are separated by a comma, it is treated as an AND. In the following example, the query returns items that have iphone AND ipad. /buy/marketplace-insights/v1_beta/item_sales/search?q=iphone,ipad&amp;category_ids=15724 If the keywords are separated by a space, it is treated as an OR. In the following examples, the query returns items that have iphone OR ipad. /buy/marketplace-insights/v1_beta/item_sales/search?q=iphone&amp;category_ids=15724&nbsp;ipad /buy/marketplace-insights/v1_beta/item_sales/search?q=iphone,&nbsp;ipad&amp;category_ids=15724 Restriction: The * wildcard character is not allowed in this field. Required: At least 1 category_ids Optional: Any combination of epid, gtin, or q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "This field specifies the order and the field name to use to sort the items. To sort in descending order use - before the field name. Currently, you can only sort by price (in ascending or descending order). If no sort parameter is submitted, the result set is sorted by &quot;Best Match&quot;. The following are examples of using the sort query parameter. Sort Result &amp;sort=price Sorts by price in ascending order (lowest price first) &amp;sort=-price Sorts by price in descending order (highest price first) Default: ascending For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/buy/marketplace_insights/types/cos:SortField",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalesHistoryPagedCollection"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "100001": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "The call must have a valid 'q', 'category_ids', 'epid' or 'gtin' query parameter."
+                },
+                "100002": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "The 'offset' value is invalid. Offset cannot be negative and must be an integer."
+                },
+                "100003": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "The 'limit' value should be between 1 and 200 (inclusive)."
+                },
+                "100006": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "The 'sort' value is invalid. For the valid values, refer to the API call documentation."
+                },
+                "100007": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "A valid 'price' filter and a valid 'priceCurrency' filter is required to filter based on price."
+                },
+                "100008": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "The 'epid' value {epid} is invalid. For more information, see the API call reference documentation."
+                },
+                "100009": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "The 'gtin' value {gtin} is invalid. Please input a valid UPC, EAN, or ISBN value."
+                },
+                "100010": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "This keyword search results in a response that is too large to return. Either change the keyword or add additional query parameters and/or filters."
+                },
+                "100011": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "The {filterName} value is invalid. For the valid values, refer to the API call documentation."
+                },
+                "100012": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "The 'fieldgroups' value {fieldgroups} is invalid. The supported fieldgroups are: {supportedFieldgroups}"
+                },
+                "100013": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "The 'aspect_filter' query parameter must include a categoryId. For more information, see the API call reference documentation."
+                },
+                "100014": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "The {aspectFilter} aspect_filter value is invalid. For more information, see the API call reference documentation."
+                },
+                "100017": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "Insufficient permissions to use this API."
+                },
+                "100018": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "This query requires at least one category."
+                },
+                "100019": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "You have exceeded the maximum number of categories. The maximum number is {categorySizeLimit}."
+                },
+                "100020": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "The header 'X-EBAY-C-MARKETPLACE-ID' is required. The valid Marketplaces are: {allowedMarketplaces}."
+                },
+                "100021": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "REQUEST",
+                  "description": "The maximum number of listings that can be retrieved is 10,000, so your offset value must be less than 10,000. If 10,000 or more listings are matching your search criteria, consider narrowing the scope of your search."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "x-response-codes": {
+              "errors": {
+                "100004": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "BUSINESS",
+                  "description": "The category specified is a top-level category. To use this category, you must include a keyword or epid or gtin."
+                },
+                "100005": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "BUSINESS",
+                  "description": "Currently, the {marketplaceId} marketplace is not supported. The supported Marketplaces are: {allowedMarketplaces} ."
+                },
+                "100015": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "BUSINESS",
+                  "description": "The category {categoryId} is not supported."
+                },
+                "100016": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "BUSINESS",
+                  "description": "The 'fieldgroups' value {fieldgroups} is invalid when multiple 'category_ids' are specified. Either change the call to have only one value in 'category_ids' or remove the 'fieldgroups'."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "100000": {
+                  "domain": "API_MARKETPLACE_INSIGHTS",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope/buy.marketplace.insights"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AspectDistribution": {
+        "type": "object",
+        "properties": {
+          "aspectValueDistributions": {
+            "type": "array",
+            "description": "An array of containers for the various values of the aspect and the match count and a HATEOAS reference ( refinementHref) for this aspect.",
+            "items": {
+              "$ref": "#/components/schemas/AspectValueDistribution"
+            }
+          },
+          "localizedAspectName": {
+            "type": "string",
+            "description": "Name of an aspect, such as Brand, Color, etc."
+          }
+        },
+        "description": "The type that define the fields for the aspect information. Aspects are the variations of an item, such as color, size, etc."
+      },
+      "AspectValueDistribution": {
+        "type": "object",
+        "properties": {
+          "localizedAspectValue": {
+            "type": "string",
+            "description": "The value of an aspect. For example, Red is a value for the aspect Color."
+          },
+          "matchCount": {
+            "type": "integer",
+            "description": "The number of items with this aspect.",
+            "format": "int32"
+          },
+          "refinementHref": {
+            "type": "string",
+            "description": "A HATEOAS reference for this aspect."
+          }
+        },
+        "description": "The container that defines the fields for the conditions refinements. This container is returned when fieldgroups is set to ASPECT_REFINEMENTS or FULL in the request."
+      },
+      "BuyingOptionDistribution": {
+        "type": "object",
+        "properties": {
+          "buyingOption": {
+            "type": "string"
+          },
+          "matchCount": {
+            "type": "integer",
+            "description": "The number of items having this buying option.",
+            "format": "int32"
+          },
+          "refinementHref": {
+            "type": "string",
+            "description": "The HATEOAS reference for this buying option."
+          }
+        },
+        "description": "The container that defines the fields for the buying options refinements. This container is returned when fieldgroups is set to BUYING_OPTION_REFINEMENTS or FULL in the request."
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "type": "string",
+            "description": "The unique identifier of the primary item category of the item, as well as the secondary item category if item was listed in two categories."
+          }
+        },
+        "description": "This type is used by the categories container in the response of the search method, and contains the primary item category ID of the item, as well as the secondary item category if the item was listed in two categories."
+      },
+      "CategoryDistribution": {
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "type": "string",
+            "description": "The identifier of the category."
+          },
+          "categoryName": {
+            "type": "string",
+            "description": "The name of the category, such as Baby &amp; Toddler Clothing."
+          },
+          "matchCount": {
+            "type": "integer",
+            "description": "The number of items in this category.",
+            "format": "int32"
+          },
+          "refinementHref": {
+            "type": "string",
+            "description": "The HATEOAS reference of this category."
+          }
+        },
+        "description": "The container that defines the fields for the category refinements. This container is returned when fieldgroups is set to CATEGORY_REFINEMENTS or FULL in the request."
+      },
+      "ConditionDistribution": {
+        "type": "object",
+        "properties": {
+          "condition": {
+            "type": "string",
+            "description": "The text describing the condition of the item, such as New or Used. For a list of condition names, see ConditionEnum. Code so that your app gracefully handles any future changes to this list."
+          },
+          "conditionId": {
+            "type": "string",
+            "description": "The identifier of the condition. For example, 1000 is the identifier for NEW."
+          },
+          "matchCount": {
+            "type": "integer",
+            "description": "The number of items having the condition.",
+            "format": "int32"
+          },
+          "refinementHref": {
+            "type": "string",
+            "description": "The HATEOAS reference of this condition."
+          }
+        },
+        "description": "The container that defines the fields for the conditions refinements. This container is returned when fieldgroups is set to CONDITION_REFINEMENTS or FULL in the request."
+      },
+      "ConvertedAmount": {
+        "type": "object",
+        "properties": {
+          "convertedFromCurrency": {
+            "type": "string",
+            "description": "A three-letter ISO 4217 code that indicates the currency of the amount in the convertedFromValue field. This value represents the pre-conversion currency. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/buy/marketplace_insights/types/ba:CurrencyCodeEnum'>eBay API documentation</a>"
+          },
+          "convertedFromValue": {
+            "type": "string",
+            "description": "The monetary amount before any conversion is performed, in the currency specified by the convertedFromCurrency field. The value field contains the converted amount of this value, in the currency specified by the currency field."
+          },
+          "currency": {
+            "type": "string",
+            "description": "A three-letter ISO 4217 code that indicates the currency of the amount in the value field. This value represents the post-conversion currency of the amount in the value field. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/buy/marketplace_insights/types/ba:CurrencyCodeEnum'>eBay API documentation</a>"
+          },
+          "value": {
+            "type": "string",
+            "description": "The monetary value in the currency specified in the currency field."
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Identifies the type of erro."
+          },
+          "domain": {
+            "type": "string",
+            "description": "Name for the primary system where the error occurred. This is relevant for application errors."
+          },
+          "errorId": {
+            "type": "integer",
+            "description": "A unique number to identify the error.",
+            "format": "int32"
+          },
+          "inputRefIds": {
+            "type": "array",
+            "description": "An array of request elements most closely associated to the error.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "longMessage": {
+            "type": "string",
+            "description": "A more detailed explanation of the error."
+          },
+          "message": {
+            "type": "string",
+            "description": "Information on how to correct the problem, in the end user's terms and language where applicable."
+          },
+          "outputRefIds": {
+            "type": "array",
+            "description": "An array of request elements most closely associated to the error.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "parameters": {
+            "type": "array",
+            "description": "An array of name/value pairs that describe details the error condition. These are useful when multiple errors are returned.",
+            "items": {
+              "$ref": "#/components/schemas/ErrorParameter"
+            }
+          },
+          "subdomain": {
+            "type": "string",
+            "description": "Further helps indicate which subsystem the error is coming from. System subcategories include: Initialization, Serialization, Security, Monitoring, Rate Limiting, etc."
+          }
+        },
+        "description": "This type defines the fields that can be returned in an error."
+      },
+      "ErrorParameter": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The object of the error."
+          },
+          "value": {
+            "type": "string",
+            "description": "The value of the object."
+          }
+        }
+      },
+      "Image": {
+        "type": "object",
+        "properties": {
+          "height": {
+            "type": "integer",
+            "description": "Reserved for future use.",
+            "format": "int32"
+          },
+          "imageUrl": {
+            "type": "string",
+            "description": "The URL of the image."
+          },
+          "width": {
+            "type": "integer",
+            "description": "Reserved for future use.",
+            "format": "int32"
+          }
+        },
+        "description": "Type the defines the details of an image, such as size and image URL. Currently only imageUrl is populated. The height and width were added for future use."
+      },
+      "ItemLocation": {
+        "type": "object",
+        "properties": {
+          "addressLine1": {
+            "type": "string",
+            "description": "The first line of the street address."
+          },
+          "addressLine2": {
+            "type": "string",
+            "description": "The second line of the street address. This field may contain such values as an apartment or suite number."
+          },
+          "city": {
+            "type": "string",
+            "description": "The city in which the item is located."
+          },
+          "country": {
+            "type": "string",
+            "description": "The two-letter ISO 3166 standard code that indicates the country in which the item is located. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/buy/marketplace_insights/types/ba:CountryCodeEnum'>eBay API documentation</a>"
+          },
+          "county": {
+            "type": "string",
+            "description": "The county in which the item is located."
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "The postal code (or zip code in US) where the item is located. Note: Beginning in late January 2020, the displayed postal code will be masked to all users. Different countries will mask postal/zip codes in slightly different ways, but an example would be 951**."
+          },
+          "stateOrProvince": {
+            "type": "string",
+            "description": "The state or province in which the item is located."
+          }
+        },
+        "description": "The type that defines the fields for the locaton of an item, including postal code, county, state/province, street address, city, and country (2-digit ISO code)."
+      },
+      "ItemSales": {
+        "type": "object",
+        "properties": {
+          "additionalImages": {
+            "type": "array",
+            "description": "An array of containers with the URLs for the images that are in addition to the primary image. The primary image is returned in the image.imageUrl field.",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "adultOnly": {
+            "type": "boolean",
+            "description": "This indicates if the item is for adults only. For more information about adult-only items on eBay, see Adult items policy for sellers and Adult-Only items on eBay for buyers."
+          },
+          "bidCount": {
+            "type": "integer",
+            "description": "This integer value indicates the total number of bids that have been placed for an auction item. This field is only returned for auction items.",
+            "format": "int32"
+          },
+          "buyingOptions": {
+            "type": "array",
+            "description": "A comma separated list of the purchase options available for the item, such as FIXED_PRICE, AUCTION. FIXED_PRICE - Returned for fixed-price items (non-auction) AUCTION - Returned for auction items without Buy It Now feature FIXED_PRICE and AUCTION - Returned for auction items enabled with the Buy It Now feature Code so that your app gracefully handles any future changes to this list.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "categories": {
+            "type": "array",
+            "description": "This container returns the primary category ID of the item, as well as the secondary category if the item was listed in two categories.",
+            "items": {
+              "$ref": "#/components/schemas/Category"
+            }
+          },
+          "condition": {
+            "type": "string",
+            "description": "The text describing the condition of the item, such as New or Used. For a list of condition names, see Item Condition IDs and Names. Code so that your app gracefully handles any future changes to this list."
+          },
+          "conditionId": {
+            "type": "string",
+            "description": "The identifier of the condition of the item. For example, 1000 is the identifier for NEW. For a list of condition names and IDs, see Item Condition IDs and Names. Code so that your app gracefully handles any future changes to this list."
+          },
+          "epid": {
+            "type": "string",
+            "description": "An ePID is the eBay product identifier of a product from the eBay product catalog. This indicates the product in which the item belongs."
+          },
+          "image": {
+            "description": "The URL to the primary image of the item.",
+            "$ref": "#/components/schemas/Image"
+          },
+          "itemAffiliateWebUrl": {
+            "type": "string",
+            "description": "The URL to the View Item page of the item, which includes the affiliate tracking ID. This field is only returned if the eBay partner enables affiliate tracking for the item by including the X-EBAY-C-ENDUSERCTX request header in the method."
+          },
+          "itemGroupHref": {
+            "type": "string",
+            "description": "The HATEOAS reference of the parent page of the item group. An item group is an item that has various aspect differences, such as color, size, storage capacity, etc. Note: This field is returned only for item groups."
+          },
+          "itemGroupType": {
+            "type": "string",
+            "description": "Indicates the item group type. An item group is an item that has various aspect differences, such as color, size, storage capacity, etc. Currently, only the SELLER_DEFINED_VARIATIONS group type is supported and indicates that this is an item group created by the seller. Note: This field is returned only for item groups. Code so that your app gracefully handles any future changes to this list."
+          },
+          "itemHref": {
+            "type": "string",
+            "description": "The URI of the item."
+          },
+          "itemId": {
+            "type": "string",
+            "description": "The unique RESTful identifier of the item."
+          },
+          "itemLocation": {
+            "description": "This container returns the postal code and country of the location of the item.",
+            "$ref": "#/components/schemas/ItemLocation"
+          },
+          "itemWebUrl": {
+            "type": "string",
+            "description": "The URL to the View Item page of the item."
+          },
+          "lastSoldDate": {
+            "type": "string",
+            "description": "The date the last item was purchased within the last 90 days. The totalSoldQuantity returns the total number of items that were sold. This field returns the date the last item in that group was sold."
+          },
+          "lastSoldPrice": {
+            "description": "The sold price of the last item purchased within the last 90 days. The totalSoldQuantity returns the total number of items that were sold. This field returns the date the last item in that group was sold..",
+            "$ref": "#/components/schemas/ConvertedAmount"
+          },
+          "seller": {
+            "description": "This container returns basic information about the seller of the item, such as name, feedback score, etc.",
+            "$ref": "#/components/schemas/Seller"
+          },
+          "thumbnailImages": {
+            "type": "array",
+            "description": "An array of thumbnail images for the item.",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "title": {
+            "type": "string",
+            "description": "The seller-created title of the item. Maximum Length: 80 characters"
+          },
+          "totalSoldQuantity": {
+            "type": "integer",
+            "description": "The total number of this item that have been sold.",
+            "format": "int32"
+          }
+        },
+        "description": "This type defines the fields for the sold items sales history information."
+      },
+      "Refinement": {
+        "type": "object",
+        "properties": {
+          "aspectDistributions": {
+            "type": "array",
+            "description": "A array of containers for the all the aspect refinements.",
+            "items": {
+              "$ref": "#/components/schemas/AspectDistribution"
+            }
+          },
+          "buyingOptionDistributions": {
+            "type": "array",
+            "description": "A array of containers for the all the buying option refinements.",
+            "items": {
+              "$ref": "#/components/schemas/BuyingOptionDistribution"
+            }
+          },
+          "categoryDistributions": {
+            "type": "array",
+            "description": "A array of containers for the all the category refinements.",
+            "items": {
+              "$ref": "#/components/schemas/CategoryDistribution"
+            }
+          },
+          "conditionDistributions": {
+            "type": "array",
+            "description": "A array of containers for the all the condition refinements.",
+            "items": {
+              "$ref": "#/components/schemas/ConditionDistribution"
+            }
+          },
+          "dominantCategoryId": {
+            "type": "string",
+            "description": "The identifier of the category that most of the items are part of."
+          }
+        },
+        "description": "This type defines the fields for the various refinements of an item. You can use the information in this container to create histograms, which help shoppers choose exactly what they want."
+      },
+      "SalesHistoryPagedCollection": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "The URI of the current page of results from the result set. The following example returns items 1 thru 5 from the list of items found. https://api.ebay.com/buy/marketplace_insights/v1_beta/item_sales/search?q=shirt&amp;&amp;limit=5&amp;offset=0"
+          },
+          "itemSales": {
+            "type": "array",
+            "description": "The type that defines the fields for a paginated result set of the sold items. The response consists of 0 or more sequenced result sets where each result sets has 0 or more items. Note: For items with multiple quantities that might result in multiple transactions, and items with the SELLER_DEFINED_VARIATIONS group type that might result in multiple transactions, only one deduped transaction is returned in the search results.",
+            "items": {
+              "$ref": "#/components/schemas/ItemSales"
+            }
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The number of items returned on a single page from the result set. This value can be set in the request with the limit query parameter.",
+            "format": "int32"
+          },
+          "next": {
+            "type": "string",
+            "description": "The URI for the following page of results. This value is returned only if there is an additional page of results to display from the result set. Max length: 2048"
+          },
+          "offset": {
+            "type": "integer",
+            "description": "The number of results skipped in the result set before listing the first returned result. This value can be set in the request with the offset query parameter.",
+            "format": "int32"
+          },
+          "prev": {
+            "type": "string",
+            "description": "The URI for the preceding page of results. This value is returned only if there is a previous page of results to display from the result set. Max length: 2048"
+          },
+          "refinement": {
+            "description": "The container for all the search refinements.",
+            "$ref": "#/components/schemas/Refinement"
+          },
+          "total": {
+            "type": "integer",
+            "description": "The total number of items retrieved in the result set. If no items are found, this field is returned with a value of 0.",
+            "format": "int32"
+          }
+        }
+      },
+      "Seller": {
+        "type": "object",
+        "properties": {
+          "feedbackPercentage": {
+            "type": "string",
+            "description": "The percentage of the total positive feedback."
+          },
+          "feedbackScore": {
+            "type": "integer",
+            "description": "The feedback score of the seller. This value is based on the ratings from eBay members that bought items from this seller.",
+            "format": "int32"
+          },
+          "username": {
+            "type": "string",
+            "description": "The username created by the seller for use on eBay."
+          }
+        },
+        "description": "The type that defines the fields for basic information about the seller of the item."
+      }
+    },
+    "securitySchemes": {
+      "api_auth": {
+        "type": "oauth2",
+        "description": "The security definitions for this API. Please check individual operations for applicable scopes.",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://api.ebay.com/identity/v1/oauth2/token",
+            "scopes": {
+              "https://api.ebay.com/oauth/api_scope/buy.marketplace.insights": "View historical sales data to help buyers make informed purchasing decisions"
+            }
+          }
+        }
+      }
+    }
+  }
+}
