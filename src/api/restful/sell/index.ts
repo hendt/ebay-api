@@ -10,6 +10,7 @@ import Recommendation from './recommendation';
 import Feed from './feed';
 import Logistics from './logistics';
 import Negotiation from './negotiation';
+import Listing from './listing';
 
 export type Sell = {
   account: Account
@@ -23,7 +24,8 @@ export type Sell = {
   finances: Finances
   feed: Feed,
   logistics: Logistics,
-  negotiation: Negotiation
+  negotiation: Negotiation,
+  listing: Listing
 };
 
 export {
@@ -38,5 +40,6 @@ export {
   Finances,
   Feed,
   Logistics,
-  Negotiation
+  Negotiation,
+  Listing
 };
