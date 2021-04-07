@@ -4,7 +4,7 @@ import {AppConfig, ClientAlerts, Finding, Shopping, Trading} from '../types';
 import Api from './';
 import RestfulApi from './restful/';
 import {Browse, Buy, Feed, Marketing as BuyMarketing, Offer, Order,} from './restful/buy';
-import {Catalog, Commerce, Identity, Taxonomy, Translation,} from './restful/commerce';
+import {Catalog, Commerce, Identity, Taxonomy, Translation, Charity} from './restful/commerce';
 import {Analytics as DeveloperAnalytics, Developer,} from './restful/developer';
 import {Cancellation, Case, Inquiry, PostOrder, Return,} from './restful/postOrder';
 import {
@@ -44,6 +44,7 @@ export default class ApiFactory extends Api {
       identity: this.createRestfulApi(Identity),
       taxonomy: this.createRestfulApi(Taxonomy),
       translation: this.createRestfulApi(Translation),
+      charity: this.createRestfulApi(Charity),
     };
   }
 
