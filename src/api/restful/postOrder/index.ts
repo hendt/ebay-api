@@ -4,15 +4,15 @@ import Inquiry from './inquiry';
 import Return from './return';
 
 export type PostOrder = {
-    cancellation: Cancellation,
-    case: Case,
-    inquiry: Inquiry,
-    return: Return
+  cancellation: Cancellation,
+  case: Case,
+  inquiry: Inquiry,
+  return: Return
 };
 
 export {
-    Cancellation,
-    Case,
-    Inquiry,
-    Return
+  Cancellation,
+  Case,
+  Inquiry,
+  Return
 };

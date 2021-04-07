@@ -1,0 +1,182 @@
+{
+  "openapi": "-",
+  "info": {
+    "title": "Post Order Inquiry API",
+    "description": "Custom Inquiry API OAS definition."
+  },
+  "servers": [
+    {
+      "url": "https://api.ebay.com{basePath}",
+      "description": "Case management",
+      "variables": {
+        "basePath": {
+          "default": "/post-order/v2"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/inquiry/check_eligibility": {
+      "post": {
+        "description": "Check if a buyer is eligible to open an inquiry on an order",
+        "operationId": "checkInquiryEligibility"
+      }
+    },
+    "/inquiry/{inquiryId}/close": {
+      "post": {
+        "description": "Close an inquiry for the buyer",
+        "operationId": "closeInquiry",
+        "parameters": [
+          {
+            "name": "inquiryId",
+            "in": "path",
+            "description": "The unique ID of the inquiry to be closed.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/inquiry/{inquiryId}/confirm_refund": {
+      "post": {
+        "description": "Buyer confirms the refund from an inquiry was received",
+        "operationId": "confirmInquiryRefund",
+        "parameters": [
+          {
+            "name": "inquiryId",
+            "in": "path",
+            "description": "The unique ID of the inquiry to be closed.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/inquiry": {
+      "post": {
+        "description": "Buyer confirms the refund from an inquiry was received",
+        "operationId": "createInquiry"
+      }
+    },
+    "/inquiry/{inquiryId}/escalate": {
+      "post": {
+        "description": "Escalate an inquiry to an INR case",
+        "operationId": "escalateInquiry",
+        "parameters": [
+          {
+            "name": "inquiryId",
+            "in": "path",
+            "description": "The unique ID of the inquiry to be closed.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "escalateInquiryReason",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/inquiry/{inquiryId}": {
+      "get": {
+        "description": "Retrieve the history and details related to a specific inquiry",
+        "operationId": "getInquiry",
+        "parameters": [
+          {
+            "name": "inquiryId",
+            "in": "path",
+            "description": "The unique ID of the inquiry to be closed.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/inquiry/{inquiryId}/issue_refund": {
+      "post": {
+        "description": "Issue a refund for an inquiry",
+        "operationId": "issueInquiryRefund",
+        "parameters": [
+          {
+            "name": "inquiryId",
+            "in": "path",
+            "description": "The unique ID of the inquiry to be closed.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/inquiry/{inquiryId}/provide_refund_info": {
+      "post": {
+        "description": "Provide refund information about an inquiry to the buyer",
+        "operationId": "provideInquiryRefundInfo",
+        "parameters": [
+          {
+            "name": "inquiryId",
+            "in": "path",
+            "description": "The unique ID of the inquiry to be closed.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/inquiry/{inquiryId}/provide_shipment_info": {
+      "post": {
+        "description": "Provide shipment information for an inquiry",
+        "operationId": "provideInquiryShipmentInfo",
+        "parameters": [
+          {
+            "name": "inquiryId",
+            "in": "path",
+            "description": "The unique ID of the inquiry to be closed.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/inquiry/search": {
+      "get": {
+        "description": "This call is used to search for inquiries using multiple filter types.",
+        "operationId": "search"
+      }
+    },
+    "/inquiry/{inquiryId}/send_message": {
+      "post": {
+        "description": "Contact the buyer or seller about an inquiry",
+        "operationId": "sendInquiryMessage",
+        "parameters": [
+          {
+            "name": "inquiryId",
+            "in": "path",
+            "description": "The unique ID of the inquiry to be closed.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

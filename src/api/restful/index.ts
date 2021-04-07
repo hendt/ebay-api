@@ -1,175 +1,207 @@
-import debug from 'debug';
-import Auth from '../../auth/index';
-import {
-  EBayAccessDenied,
-  EBayInvalidScope,
-  EBayNotFound,
-  EBayUnauthorizedAfterRefresh,
-  getEBayError,
-} from '../../errors';
-import { createRequest, IEBayApiRequest } from '../../request';
+import Api from '../';
+import Auth from '../../auth';
+import {EBayInvalidAccessToken, handleEBayError} from '../../errors';
+import {IEBayApiRequest} from '../../request';
+import {AppConfig} from '../../types';
 
-const log = debug('ebay:restful:api');
+export const defaultApiHeaders: Record<string, string> = {
+  'Content-Type': 'application/json',
+  'Cache-Control': 'no-cache',
+  'Accept-Encoding': 'application/gzip',
+}
 
-export default abstract class Api {
-  public readonly auth: Auth;
-  public readonly req: IEBayApiRequest;
+const additionalHeaders: Record<string, string> = {
+  marketplaceId: 'X-EBAY-C-MARKETPLACE-ID',
+  endUserCtx: 'X-EBAY-C-ENDUSERCTX',
+  acceptLanguage: 'Accept-Language',
+  contentLanguage: 'Content-Language',
+};
 
-  constructor(auth: Auth, req = createRequest()) {
-    this.auth = auth;
-    this.req = req;
+export type ApiConfig = {
+  subdomain?: string
+  useIaf?: boolean
+  apiVersion?: string
+  basePath?: string
+  schema?: string
+  sandbox?: boolean
+  tld?: string
+  headers?: Record<string, string>
+}
+
+export type ApiRequest = {
+  method: keyof IEBayApiRequest,
+  url: string,
+  config?: any, // AxiosConfig
+  data?: any,
+}
+
+export default abstract class Restful extends Api {
+  public readonly apiConfig: Required<ApiConfig>;
+
+  constructor(
+    config: AppConfig,
+    req?: IEBayApiRequest,
+    auth?: Auth,
+    apiConfig: ApiConfig = {}
+  ) {
+    super(config, req, auth)
+
+    this.apiConfig = {
+      ...this.getApiConfig(),
+      ...apiConfig
+    }
   }
 
-  /**
-   * Control to use IAF or not.
-   */
-  public useIaf() {
-    return false;
-  }
-
-  public async enrichConfig(config: any) {
-    const headers: any = {
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache',
-      'Accept-Encoding': 'application/gzip',
-    };
-
-    headers.Authorization = await this.auth.getHeaderAuthorization(
-      this.useIaf()
-    );
-
-    const additionalHeaders: any = {
-      marketplaceId: 'X-EBAY-C-MARKETPLACE-ID',
-      endUserCtx: 'X-EBAY-C-ENDUSERCTX',
-      acceptLanguage: 'Accept-Language',
-      contentLanguage: 'Content-Language',
-    };
-
-    Object.keys(additionalHeaders).forEach(key => {
-      // @ts-ignore
-      const value = this.auth.eBayConfig[key];
-      if (typeof value !== 'undefined') {
-        headers[additionalHeaders[key]] = value;
-      }
-    });
-
-    return {
-      ...config,
-      headers: {
-        ...headers,
-        ...config.headers,
-      },
-    };
+  public static buildServerUrl(schema: string, subdomain: string, sandbox: boolean, tld: string) {
+    return `${schema}${subdomain}.${sandbox ? 'sandbox.' : ''}${tld}`
   }
 
   abstract get basePath(): string;
 
-  get baseHostSubDomain() {
-    return 'api'
+  /**
+   * Enable to supports the use of OAuth tokens for user authorization.
+   */
+  get useIaf() {
+    return false;
   }
 
   get schema() {
     return 'https://'
   }
 
-  get serverUrl() {
-    return `${this.schema}${this.baseHostSubDomain}.${this.auth.eBayConfig.sandbox ? 'sandbox.' : ''}ebay.com`
+  get subdomain() {
+    return 'api'
   }
 
   get apiVersionPath() {
     return '';
   }
 
-  get baseUrl() {
-    return this.serverUrl + this.apiVersionPath + this.basePath;
+  public getServerUrl({schema, subdomain, apiVersion, basePath, sandbox, tld}: Required<ApiConfig>): string {
+    return Restful.buildServerUrl(schema, subdomain, sandbox, tld) + apiVersion + basePath;
   }
 
-  public async get(url: string, config: any = {}) {
-    return this.doRequest('get', url, config);
+  public getApiConfig(): Required<ApiConfig> {
+    return {
+      subdomain: this.subdomain,
+      useIaf: this.useIaf,
+      apiVersion: this.apiVersionPath,
+      basePath: this.basePath,
+      schema: this.schema,
+      sandbox: this.config.sandbox,
+      tld: 'ebay.com',
+      headers: {}
+    }
   }
 
-  public async delete(url: string, config: any = {}) {
-    return this.doRequest('delete', url, config);
+  public get baseUrl() {
+    return this.getServerUrl(this.apiConfig)
   }
 
-  public async post(url: string, data?: any, config: any = {}) {
-    return this.doRequest('post', url, config, data);
+  /**
+   * Create a new instances of it self with specified api config.
+   * @param apiConfig
+   */
+  public api(apiConfig: ApiConfig): this {
+    // @ts-ignore
+    return new this.constructor(this.config, this.req, this.auth, apiConfig)
   }
 
-  public async put(url: string, data?: any, config: any = {}) {
-    return this.doRequest('put', url, config, data);
+  /**
+   * Use "apix" subdomain
+   */
+  get apix() {
+    return this.api({subdomain: 'apix'})
   }
 
-  private async doRequest(
-    method: keyof IEBayApiRequest,
-    url: string,
-    config: any,
-    data?: any,
-  ): Promise<any> {
+  /**
+   * Use "apiz" subdomain
+   */
+  get apiz() {
+    return this.api({subdomain: 'apiz'})
+  }
+
+  public async get(url: string, config: any = {}, apiConfig?: ApiConfig) {
+    return this.doRequest({method: 'get', url, config}, apiConfig);
+  }
+
+  public async delete(url: string, config: any = {}, apiConfig?: ApiConfig) {
+    return this.doRequest({method: 'delete', url, config}, apiConfig);
+  }
+
+  public async post(url: string, data?: any, config: any = {}, apiConfig?: ApiConfig) {
+    return this.doRequest({method: 'post', url, data, config}, apiConfig);
+  }
+
+  public async put(url: string, data?: any, config: any = {}, apiConfig?: ApiConfig) {
+    return this.doRequest({method: 'put', url, data, config}, apiConfig);
+  }
+
+  get additionalHeaders() {
+    return Object.keys(additionalHeaders)
+      // @ts-ignore
+      .filter(key => typeof this.config[key] !== 'undefined')
+      .reduce((headers: any, key) => {
+        // @ts-ignore
+        headers[additionalHeaders[key]] = this.config[key]
+        return headers
+      }, {})
+  }
+
+  public async enrichRequestConfig(config: any = {}, apiConfig: Required<ApiConfig> = this.apiConfig) {
+    const authHeader = await this.auth.getHeaderAuthorization(apiConfig.useIaf);
+
+    const headers = {
+      ...defaultApiHeaders,
+      ...this.additionalHeaders,
+      ...authHeader,
+      ...apiConfig.headers
+    }
+
+    return {
+      ...config,
+      headers: {
+        ...(config.headers || {}),
+        ...headers
+      }
+    }
+  }
+
+  private async doRequest(payload: ApiRequest, apiConfig?: ApiConfig) {
     try {
-      const args = await this.getArgs(method, url, config, data);
-      // @ts-ignore
-      return await this.req[method](...args);
-    } catch (ex) {
-      await this.handleEBayError(ex);
-
-      // Token refreshed -> try again
-      const args = await this.getArgs(method, url, config, data);
-      // @ts-ignore
-      return this.req[method](...args).catch((ex: any) =>
-        this.handleEBayError(ex, true)
-      );
-    }
-  }
-
-  private async getArgs(
-    method: string,
-    url: string,
-    config: any,
-    data: any,
-  ): Promise<any> {
-    const enrichedConfig = await this.enrichConfig(config);
-    const args = [this.baseUrl + url];
-    if (['get', 'delete'].includes(method)) {
-      args.push(enrichedConfig);
-    } else {
-      args.push(data, enrichedConfig);
-    }
-    return args;
-  }
-
-  private async handleEBayError(
-    ex: any,
-    refreshedToken?: boolean
-  ): Promise<any> {
-    const error = getEBayError(ex);
-
-    if (!error) {
-      log('handleEBayError', ex);
-      throw ex;
-    }
-
-    if (error.domain === 'ACCESS') {
-      throw new EBayAccessDenied(ex);
-    } else if (error.message === 'Invalid access token') {
-      if (!refreshedToken) {
-        // TODO extract this
-        log('Token expired. Refresh the token.');
-        return this.auth.oAuth2.refreshToken().catch((e: Error) => {
-          const responseError = getEBayError(e);
-          if (responseError && responseError.message === 'invalid_scope') {
-            throw new EBayInvalidScope(e);
-          }
-
-          throw e;
-        });
+      return await this.request(payload, apiConfig);
+    } catch (error) {
+      if (error.name === EBayInvalidAccessToken.name && this.config.autoRefreshToken) {
+        // Try again and refresh token
+        return await this.request(payload, apiConfig, true /* refresh token */)
       }
 
-      throw new EBayUnauthorizedAfterRefresh(ex);
-    } else if (error.errorId === 11001) {
-      throw new EBayNotFound(ex);
+      throw error
     }
+  }
 
-    throw ex;
+  private async request(
+    apiRequest: ApiRequest,
+    apiConfig: ApiConfig = this.apiConfig,
+    refreshToken = false,
+  ): Promise<any> {
+    const {url, method, data, config} = apiRequest;
+
+    const apiCfg: Required<ApiConfig> = {...this.apiConfig, ...apiConfig};
+    const endpoint = this.getServerUrl(apiCfg) + url;
+
+    try {
+      if (refreshToken) {
+        await this.auth.OAuth2.refreshToken()
+      }
+
+      const enrichedConfig = await this.enrichRequestConfig(config, apiCfg);
+
+      const args = ['get', 'delete'].includes(method) ? [enrichedConfig] : [data, enrichedConfig]
+      // @ts-ignore
+      return await this.req[method](endpoint, ...args)
+    } catch (ex) {
+      handleEBayError(ex)
+    }
   }
 }

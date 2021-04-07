@@ -1,12 +1,12 @@
 // tslint:disable:no-console
-import EBay from '../../../src';
+import eBayApi from '../../../src';
 
-const ebay = EBay.fromEnv();
+const eBay = eBayApi.fromEnv();
 
-ebay.buy.browse.getItem('v1|382282567190|651094235351')
-    .then(item => {
-        console.log(JSON.stringify(item, null, 2));
-    })
-    .catch(e => {
-        console.log(e);
-    });
+eBay.buy.browse.getItem('v1|382282567190|651094235351')
+  .then(item => {
+    console.log(JSON.stringify(item, null, 2));
+  })
+  .catch(e => {
+    console.log(e);
+  });

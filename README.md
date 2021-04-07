@@ -1,11 +1,14 @@
 # eBay TypeScript/JavaScript API for Browser and Node
 
-This API implements both Traditional \(xml\) and the RESTful eBay API. It supports client credentials grant and authorization code grant \(traditional, OAuth2 and IAF\).
+This eBay API implements both Traditional \(xml\) and the RESTful eBay API.
+It supports client credentials grant and authorization code grant \(traditional, OAuth2 and IAF\).
 
-* [Browser API Examples](https://hendt.github.io/ebay-api/)
+* [API Browser Examples](https://hendt.github.io/ebay-api/)
+* [API Documentation](https://hendt.gitbook.io/ebay-api/)
+
+## eBay Docs
 * [eBay API Explorer](https://developer.ebay.com/my/api_test_tool)
 * [eBay API Docs](https://developer.ebay.com/docs)
-* [Browser example](https://hendt.github.io/ebay-api/)
 
 ## Changelog
 
@@ -71,9 +74,9 @@ For testing purpose you can use: `https://ebay.hendt.workers.dev/`. You can also
   });
 
   eBay.buy.browse.getItem('v1|254188828753|0').then(item => {
-      document.getElementById('response').value = JSON.stringify(item, null, 2)
+      console.log(JSON.stringify(item, null, 2));
   }).catch(e => {
-      document.getElementById('response').value = e.message
+      console.error(e);
   });
 </script>
 ```
@@ -100,23 +103,25 @@ const eBay = new eBayApi({
 
 ## 🔧 eBayApi Config
 
-The first parameter in eBayApi:
+The first (required) parameter in eBayApi takes an object with following properties:
 
-| Name | Description |
-| :--- | :--- |
-| appId\* | App ID \(Client ID\) from  [Application Keys](https://developer.ebay.com/my/keys). |
-| certId\* | Required. Cert ID \(Client Secret\) from  [Application Keys](https://developer.ebay.com/my/keys). |
-| devId | Conditionally required. The Dev Id from [Application Keys](https://developer.ebay.com/my/keys). |
-| sandbox | Optional. Default to 'false'. If true, the [Sandbox Environment](https://developer.ebay.com/tools/sandbox) will be used. |
-| scope | Conditionally required. Default to '[https://api.ebay.com/oauth/api\_scope](https://api.ebay.com/oauth/api_scope)'. |
-| ruName | Conditionally required. The redirect\_url value. [More info](https://developer.ebay.com/api-docs/static/oauth-redirect-uri.html). |
-| authToken | Optional. The Auth'N'Auth token. The traditional authentication and authorization technology used by the eBay APIs. |
-| marketplaceId | Conditionally required. REST HTTP Header. X-EBAY-C-MARKETPLACE-ID identifies the user's business context and is specified using a marketplace ID value. |
-| endUserCtx | Optional – Conditionally recommended. REST HTTP Header. X-EBAY\_C\_ENDUSERCTX provides various types of information associated with the request. |
-| contentLanguage | Conditionally required. REST HTTP Header. Content-Language indicates the locale preferred by the client for the response. |
-| acceptLanguage | Optional. REST HTTP Header. Accept-Language indicates the natural language the client prefers for the response. This specifies the language the client wants to use when the field values provided in the request body are displayed to consumers. |
+| Name | Occurrence | Default | Description |
+| :--- | :--- | :--- | :--- |
+| appId | Required | | App ID \(Client ID\) from  [Application Keys](https://developer.ebay.com/my/keys). |
+| certId | Required | | Cert ID \(Client Secret\) from  [Application Keys](https://developer.ebay.com/my/keys). |
+| devId | Conditional | | The Dev Id from [Application Keys](https://developer.ebay.com/my/keys). |
+| sandbox | Optional | `false` | If true, the [Sandbox Environment](https://developer.ebay.com/tools/sandbox) will be used. |
+| scope | Conditional | `['https://api.ebay.com/oauth/api_scope']` | The scopes assigned to your application allow access to different API resources and functionality. |
+| ruName | Conditional | | The redirect\_url value. [More info](https://developer.ebay.com/api-docs/static/oauth-redirect-uri.html). |
+| authToken | Optional | | The Auth'N'Auth token. The traditional authentication and authorization technology used by the eBay APIs. |
+| autoRefreshToken | Optional | `true` |. Try to auto refresh the token |
+| marketplaceId | Conditional | | REST HTTP Header. X-EBAY-C-MARKETPLACE-ID identifies the user's business context and is specified using a marketplace ID value. |
+| endUserCtx | Optional | | Conditionally recommended. REST HTTP Header. X-EBAY\_C\_ENDUSERCTX provides various types of information associated with the request. |
+| contentLanguage | Conditional | | REST HTTP Header. Content-Language indicates the locale preferred by the client for the response. |
+| acceptLanguage | Optional | | REST HTTP Header. Accept-Language indicates the natural language the client prefers for the response. This specifies the language the client wants to use when the field values provided in the request body are displayed to consumers. |
 
-**\***: Required
+## Debug
+To see debug logs use `DEBUG=ebay:*` environment variable.
 
 ## OAuth2: Exchanging the authorization code for a User access token
 
@@ -127,13 +132,13 @@ The first parameter in eBayApi:
 const eBay = eBayApi.fromEnv();
 // Attention: appId, certId, ruName is required.
 
-eBay.auth.oAuth2.setScope([
-    'https://api.ebay.com/oauth/api_scope',
-    'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
-    'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
+eBay.OAuth2.setScope([
+  'https://api.ebay.com/oauth/api_scope',
+  'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
+  'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
 ]);
 
-const url = eBay.auth.oAuth2.generateAuthUrl();
+const url = eBay.OAuth2.generateAuthUrl();
 // 2. Open Url and Grant Access
 console.log('Open URL', url);
 
@@ -143,8 +148,8 @@ const code = 'code'; // from www.your-website?code=XXXX
 // 4. Get the token
 (async () => {
   // Use async/await
-  const token = await eBay.auth.oAuth2.getToken(code);
-  eBay.auth.oAuth2.setCredentials(token);
+  const token = await eBay.OAuth2.getToken(code);
+  eBay.OAuth2.setCredentials(token);
 
   // Or Promise
   eBay.sell.fulfillment.getOrder('12-12345-12345').then(order => {
@@ -166,47 +171,62 @@ const eBay = new eBayApi({
 });
 
 // Or:
-eBay.auth.oAuth2.setScope([
-    'https://api.ebay.com/oauth/api_scope',
-    'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
-    'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
+eBay.OAuth2.setScope([
+  'https://api.ebay.com/oauth/api_scope',
+  'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
+  'https://api.ebay.com/oauth/api_scope/sell.fulfillment'
 ]);
 ```
 
+### Use apix.ebay.com or apiz.ebay.com (beta) endpoints
+For some APIs, eBay use a `apix`/`apiz` subdomain. To change the subdomain you can use `.apix`/`.apiz` before the api call like:
+```javascript
+  eBay.buy.browse.apix.getItem() // now it will use https://apix.ebay.com
+  eBay.buy.browse.apiz.getItem() // now it will use https://apiz.ebay.com
+```
+In any case eBay adds a new subdomain, it's also possible to configure whatever you want:
+```javascript
+  eBay.buy.browse.api({subdomain: 'apiy'}).getItem() // now it will use https://apiy.ebay.com
+```
+
 ### How to refresh the token
+If `autoRefreshToken` is set to true (default value) the token will be automatically refreshed when eBay response with 'invalid access token' error.
 
-The token will be automatically refreshed if, when you make a call, eBay returns an error message that indicates that the token has expired.
-
-You can use the Event Emitter to get the token when it is refreshed \(use `'eBay.auth.oAuth2.refreshAuthToken()'` for the auth token or `'eBay.auth.oAuth2.refreshClientToken()'` for the client token\):
+You can use Event Emitter to get the token when it gets refreshed \(use `'eBay.OAuth2.refreshAuthToken()'` for the auth token or `'eBay.OAuth2.refreshClientToken()'` for the client token\):
 
 ```javascript
-eBay.auth.oAuth2.on('refreshAuthToken', (token) => {
-    console.log(token)
+eBay.OAuth2.on('refreshAuthToken', (token) => {
+  console.log(token)
+});
+
+eBay.OAuth2.on('refreshClientToken', (token) => {
+  console.log(token)
 });
 ```
 
-Alternatively, you can refresh it yourself:
-
+Alternatively, you can refresh it manually.
+Keep in mind that you need the 'refresh_token' value set.
 ```javascript
-let token = await eBay.auth.oAuth2.refreshToken();
+let token = await eBay.OAuth2.refreshToken();
 ```
 
 ## Additional Headers
+Sometimes you want to add additional headers to the request like GLOBAL-ID \(X-EBAY-SOA-GLOBAL-ID\). 
+You have multiple options to do this.
 
-Sometimes you want to add additional headers to the request like GLOBAL-ID \(X-EBAY-SOA-GLOBAL-ID\). You can use the interceptor to manipulate the request:
-
+### Restful API Headers
 ```javascript
   const eBay = new eBayApi();
 
-  eBay.req.instance.interceptors.request.use((request) => {
-    // Add Header
-    request.headers['X-EBAY-SOA-GLOBAL-ID'] = 'EBAY-DE';
-    return request;
+  eBay.buy.browse.api({headers: {
+      'MY-HEADER': 'VALUE'
+  }}).getItem('v1|382282567190|651094235351').then((item) => {
+    console.log(item)
   })
 ```
 
-In a traditional API you cann pass headers directly in the method call:
-
+### Traditional API Headers
+you can pass headers directly in the method call in the second parameter:
 ```javascript
 eBay.trading.AddFixedPriceItem({
   Item: {
@@ -220,6 +240,17 @@ eBay.trading.AddFixedPriceItem({
     'MY-HEADER': 'VALUE'
   }
 })
+```
+
+### Low level: use the interceptor to manipulate the request
+```javascript
+  const eBay = new eBayApi();
+
+  eBay.req.instance.interceptors.request.use((request) => {
+    // Add Header
+    request.headers['X-EBAY-SOA-GLOBAL-ID'] = 'EBAY-DE';
+    return request;
+  })
 ```
 
 ### Handle JSON GZIP response e.g fetchItemAspects
@@ -255,7 +286,6 @@ The second parameter in the traditional API has the following options:
 ```typescript
 export type Options = {
   raw?: boolean, // return raw XML
-  cleanup?: boolean, // remove extraneous tags like  '@', 'Ack', 
   parseOptions?: object, // https://github.com/NaturalIntelligence/fast-xml-parser
   useIaf?: boolean // use IAF in header instead of Bearer
   headers?: Headers // additional Headers (key, value)

@@ -1,4 +1,4 @@
-import Api from '../../';
+import Restful from '../../';
 
 /**
  * The Finances API is used by sellers in eBay's managed payments program to retrieve seller payout information.
@@ -6,12 +6,12 @@ import Api from '../../';
  * https://api.ebay.com/oauth/api_scope/sell.finances
  *
  */
-export default class Finances extends Api {
+export default class Finances extends Restful {
   get basePath(): string {
     return '/sell/finances/v1';
   }
 
-  get baseHostSubDomain(): string {
+  get subdomain(): string {
     return 'apiz';
   }
 
@@ -36,10 +36,10 @@ export default class Finances extends Api {
    *     paginated response.
    */
   public getPayouts({
-    filter,
-    limit,
-    offset,
-  }: {
+                      filter,
+                      limit,
+                      offset,
+                    }: {
     filter?: string;
     limit?: number;
     offset?: number;
@@ -60,11 +60,11 @@ export default class Finances extends Api {
    *     call.
    */
   public getPayoutSummary({
-    filter,
-  }: {
+                            filter,
+                          }: {
     filter?: string;
   } = {}) {
-    return this.get(`/payout_summary`, { params: { filter } });
+    return this.get(`/payout_summary`, {params: {filter}});
   }
 
   /**
@@ -76,10 +76,10 @@ export default class Finances extends Api {
    *     paginated response.
    */
   public getTransactions({
-    filter,
-    limit,
-    offset,
-  }: {
+                           filter,
+                           limit,
+                           offset,
+                         }: {
     filter?: string;
     limit?: number;
     offset?: number;
@@ -100,8 +100,8 @@ export default class Finances extends Api {
    * @param limit The number of transaction to return per page of the result set.
    */
   public getTransactionSummary({
-    filter,
-  }: {
+                                 filter,
+                               }: {
     filter?: string;
   } = {}) {
     return this.get(`/transaction_summary`, {

@@ -1,27 +1,26 @@
-import Factory from './api/factory';
+import Api from './api';
+import ApiFactory from './api/apiFactory';
 import {Buy} from './api/restful/buy';
 import {Commerce} from './api/restful/commerce';
 import {Developer} from './api/restful/developer';
 import {PostOrder} from './api/restful/postOrder';
 import {Sell} from './api/restful/sell';
-import {MarketplaceId, SiteId} from './enums';
-import {ClientAlerts, Finding, Shopping, Trading} from './types';
-import Auth from './auth';
 import AuthNAuth from './auth/authNAuth';
-import OAuth2 from './auth/оAuth2';
-import {EnvError} from './errors';
-import {AppConfig} from './types';
-import {createRequest, IEBayApiRequest} from './request';
+import OAuth2 from './auth/oAuth2';
+import {MarketplaceId, SiteId} from './enums';
+import {ApiEnvError} from './errors';
+import {IEBayApiRequest} from './request';
+import {AppConfig, ClientAlerts, Finding, Shopping, Trading} from './types';
 
-const defaultConfig = {
+const defaultAppConfig = {
   sandbox: false,
   siteId: SiteId.EBAY_DE,
-  marketplaceId: MarketplaceId.EBAY_DE
+  marketplaceId: MarketplaceId.EBAY_DE,
+  autoRefreshToken: true
 };
 
 // tslint:disable-next-line:class-name
-class eBayApi {
-
+class eBayApi extends Api {
   public static SiteId = SiteId;
   public static MarketplaceId = MarketplaceId;
 
@@ -30,17 +29,17 @@ class eBayApi {
    *
    * @return {eBayApi} a new eBayApi instance
    * @param {request} req request
-   * @throws {EnvError}
+   * @throws {ApiEnvError}
    */
-  public static fromEnv(req = createRequest()) {
+  public static fromEnv(req?: IEBayApiRequest) {
     if (!process.env.EBAY_APP_ID) {
-      throw new EnvError('EBAY_APP_ID');
+      throw new ApiEnvError('EBAY_APP_ID');
     }
     if (!process.env.EBAY_CERT_ID) {
-      throw new EnvError('EBAY_CERT_ID');
+      throw new ApiEnvError('EBAY_CERT_ID');
     }
     if (!process.env.EBAY_DEV_ID) {
-      throw new EnvError('EBAY_DEV_ID');
+      throw new ApiEnvError('EBAY_DEV_ID');
     }
 
     return new eBayApi({
@@ -58,16 +57,13 @@ class eBayApi {
       req);
   }
 
-  public readonly auth: Auth;
-
   // Shortcuts to auth
   public readonly authNAuth: AuthNAuth;
   public readonly oAuth2: OAuth2;
+  // tslint:disable-next-line:variable-name
+  public readonly OAuth2: OAuth2;
 
-  public readonly appConfig: AppConfig;
-  public readonly req: IEBayApiRequest;
-
-  private readonly factory: Factory;
+  private readonly factory: ApiFactory;
 
   // RESTful API
   private _buy?: Buy;
@@ -87,21 +83,14 @@ class eBayApi {
    * @param {IEBayApiRequest} req the request
    */
   constructor(config: AppConfig, req?: IEBayApiRequest) {
-    this.appConfig = {...defaultConfig, ...config};
-    this.req = req || createRequest(this.appConfig.axiosConfig);
+    super({...defaultAppConfig, ...config}, req)
 
-    this.auth = new Auth(
-      this.appConfig,
-      this.req
-    );
+    this.factory = new ApiFactory(this.config, this.req, this.auth);
 
+    // Shortcuts
     this.authNAuth = this.auth.authNAuth;
-    this.oAuth2 = this.auth.oAuth2;
-
-    this.factory = new Factory(
-      this.auth,
-      this.req
-    );
+    this.OAuth2 = this.auth.OAuth2;
+    this.oAuth2 = this.OAuth2;
   }
 
   get buy(): Buy {

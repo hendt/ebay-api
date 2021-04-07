@@ -1,8 +1,8 @@
-import Api from '../../';
+import Restful from '../../';
 import {
   IssueRefundRequest,
   ShippingFulfillmentDetails,
-} from '../../../../types/restfulTypes';
+} from '../../../../types';
 
 /**
  * Use the Fulfillment API to complete the process of packaging, addressing, handling, and shipping each order on
@@ -12,7 +12,7 @@ import {
  * https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly
  *
  */
-export default class Fulfillment extends Api {
+export default class Fulfillment extends Restful {
   get basePath(): string {
     return '';
   }
@@ -43,11 +43,11 @@ export default class Fulfillment extends Api {
    * @param orderIds A comma-separated list of the unique identifiers of the orders to retrieve (maximum 50).
    */
   public getOrders({
-    filter,
-    limit,
-    offset,
-    orderIds,
-  }: {
+                     filter,
+                     limit,
+                     offset,
+                     orderIds,
+                   }: {
     filter?: string;
     limit?: number;
     offset?: number; orderIds?: string | string[];

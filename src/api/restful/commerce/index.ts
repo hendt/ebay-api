@@ -4,15 +4,15 @@ import Taxonomy from './taxonomy';
 import Translation from './translation';
 
 export type Commerce = {
-    catalog: Catalog;
-    identity: Identity;
-    taxonomy: Taxonomy;
-    translation: Translation;
+  catalog: Catalog;
+  identity: Identity;
+  taxonomy: Taxonomy;
+  translation: Translation;
 };
 
 export {
-    Catalog,
-    Identity,
-    Taxonomy,
-    Translation
+  Catalog,
+  Identity,
+  Taxonomy,
+  Translation
 };

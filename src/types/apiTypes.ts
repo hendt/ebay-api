@@ -24,14 +24,12 @@ export type eBayConfig = Keyset & {
   acceptLanguage?: string
 };
 
-export type RequestConfig = {
+export type ApiConfig = {
+  autoRefreshToken?: boolean,
   axiosConfig?: AxiosRequestConfig
-};
+}
 
-/**
- * Not eBay Config.
- */
-export type AppConfig = eBayConfig & RequestConfig;
+export type AppConfig = eBayConfig & ApiConfig;
 
 export type AuthToken = {
   eBayAuthToken: string,

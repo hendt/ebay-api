@@ -5,6 +5,7 @@
     ],
     "jsRules": {},
     "rules": {
+        "indent": [true, "spaces", 2],
         "object-literal-sort-keys": false,
         "quotemark": [true, "single"],
         "trailing-comma": [false],

@@ -1,10 +1,10 @@
 // tslint:disable:no-console
-import EBay from '../../../src';
+import eBayApi from '../../../src';
 
-const ebay = EBay.fromEnv();
+const eBay = eBayApi.fromEnv();
 
-ebay.buy.browse.getShoppingCart().then(cart => {
-    console.log(cart);
+eBay.buy.browse.getShoppingCart().then(cart => {
+  console.log(cart);
 }).catch(e => {
-    console.log(e);
+  console.log(e);
 });
