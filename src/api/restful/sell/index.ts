@@ -8,6 +8,7 @@ import Marketing from './marketing';
 import Metadata from './metadata';
 import Recommendation from './recommendation';
 import Feed from './feed';
+import Logistics from './logistics';
 
 export type Sell = {
   account: Account
@@ -19,7 +20,8 @@ export type Sell = {
   metadata: Metadata,
   recommendation: Recommendation,
   finances: Finances
-  feed: Feed
+  feed: Feed,
+  logistics: Logistics
 };
 
 export {
@@ -32,5 +34,6 @@ export {
   Metadata,
   Recommendation,
   Finances,
-  Feed
+  Feed,
+  Logistics
 };

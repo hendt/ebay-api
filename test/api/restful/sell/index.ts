@@ -8,7 +8,8 @@ import {
   Marketing,
   Metadata,
   Recommendation,
-  Feed
+  Feed,
+  Logistics
 } from '../../../../src/api/restful/sell';
 
 import AccountOas from './account/sell_account_v1_oas3.json';
@@ -21,6 +22,7 @@ import MetadataOas from './metadata/sell_metadata_v1_oas3.json';
 import RecommendationOas from './recommendation/sell_recommendation_v1_oas3.json';
 import FinancesOas from './finances/sell_finances_v1_oas3.json';
 import FeedOas from './feed/sell_feed_v1_oas3.json';
+import LogisticsOas from './logistics/sell_logistics_v1_oas3.json';
 
 const tests = new Map<any, any>();
 tests.set(Account, AccountOas);
@@ -33,5 +35,6 @@ tests.set(Metadata, MetadataOas);
 tests.set(Recommendation, RecommendationOas);
 tests.set(Finances, FinancesOas);
 tests.set(Feed, FeedOas);
+tests.set(Logistics, LogisticsOas);
 
 export default tests;

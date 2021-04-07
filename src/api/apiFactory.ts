@@ -20,6 +20,7 @@ import {
   Sell,
   Feed as SellFeed
 } from './restful/sell';
+import Logistics from "./restful/sell/logistics";
 import Traditional from './traditional';
 
 /**
@@ -76,6 +77,7 @@ export default class ApiFactory extends Api {
       recommendation: this.createRestfulApi(Recommendation),
       finances: this.createRestfulApi(Finances),
       feed: this.createRestfulApi(SellFeed),
+      logistics: this.createRestfulApi(Logistics),
     };
   }
 
