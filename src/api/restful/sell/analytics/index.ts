@@ -1,18 +1,5 @@
 import Restful from '../../';
-
-enum Metric {
-  CLICK_THROUGH_RATE,
-  LISTING_IMPRESSION_STORE,
-  LISTING_IMPRESSION_TOTAL,
-  LISTING_VIEWS_SOURCE_DIRECT,
-  LISTING_VIEWS_SOURCE_OFF_EBAY,
-  LISTING_VIEWS_SOURCE_OTHER_EBAY,
-  LISTING_VIEWS_SOURCE_SEARCH_RESULTS_PAGE,
-  LISTING_VIEWS_SOURCE_STORE,
-  LISTING_VIEWS_TOTAL,
-  SALES_CONVERSION_RATE,
-  TRANSACTION
-}
+import {Metric} from '../../../../enums';
 
 /**
  * The Analytics API provides information about a seller's business performance.
@@ -36,9 +23,9 @@ export default class Analytics extends Restful {
    * @param cycle Specifies the cycle of the requested profile.
    */
   public getSellerStandardsProfile(program: string, cycle: string) {
-    const p = encodeURIComponent(program);
-    const c = encodeURIComponent(cycle);
-    return this.get(`/seller_standards_profile/${p}/${c}`);
+    program = encodeURIComponent(program);
+    cycle = encodeURIComponent(cycle);
+    return this.get(`/seller_standards_profile/${program}/${cycle}`);
   }
 
   /**

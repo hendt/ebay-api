@@ -3,7 +3,7 @@ import {IEBayApiRequest} from '../request';
 import {AppConfig, ClientAlerts, Finding, Shopping, Trading} from '../types';
 import Api from './';
 import RestfulApi from './restful/';
-import {Browse, Buy, Feed, Marketing as BuyMarketing, Offer, Order,} from './restful/buy';
+import {Browse, Buy, Feed, Marketing as BuyMarketing, Offer, Order, Deal} from './restful/buy';
 import {Catalog, Commerce, Identity, Taxonomy, Translation, Charity} from './restful/commerce';
 import {Analytics as DeveloperAnalytics, Developer,} from './restful/developer';
 import {Cancellation, Case, Inquiry, PostOrder, Return,} from './restful/postOrder';
@@ -39,6 +39,7 @@ export default class ApiFactory extends Api {
       marketing: this.createRestfulApi(BuyMarketing),
       offer: this.createRestfulApi(Offer),
       order: this.createRestfulApi(Order),
+      deal: this.createRestfulApi(Deal),
     };
   }
 

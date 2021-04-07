@@ -42,8 +42,8 @@ export default class Taxonomy extends Restful {
    * @param categoryId The unique identifier of the category at the top of the subtree being requested.
    */
   public getCategorySubtree(categoryTreeId: string, categoryId: string) {
-    const cId = encodeURIComponent(categoryTreeId);
-    return this.get(`/category_tree/${cId}/get_category_subtree`, {
+    categoryTreeId = encodeURIComponent(categoryTreeId);
+    return this.get(`/category_tree/${categoryTreeId}/get_category_subtree`, {
       params: {
         category_id: categoryId
       }
@@ -75,8 +75,8 @@ export default class Taxonomy extends Restful {
    * @param categoryId The unique identifier of the leaf category for which aspects are being requested.
    */
   public getItemAspectsForCategory(categoryTreeId: string, categoryId: string) {
-    const cId = encodeURIComponent(categoryTreeId);
-    return this.get(`/category_tree/${cId}/get_item_aspects_for_category`, {
+    categoryTreeId = encodeURIComponent(categoryTreeId);
+    return this.get(`/category_tree/${categoryTreeId}/get_item_aspects_for_category`, {
       params: {
         category_id: categoryId
       }
@@ -93,8 +93,8 @@ export default class Taxonomy extends Restful {
    * @param categoryId The unique identifier of an eBay category.
    */
   public getCompatibilityProperties(categoryTreeId: string, categoryId: string) {
-    const cId = encodeURIComponent(categoryTreeId);
-    return this.get(`/category_tree/${cId}/get_compatibility_properties`, {
+    categoryTreeId = encodeURIComponent(categoryTreeId);
+    return this.get(`/category_tree/${categoryTreeId}/get_compatibility_properties`, {
       params: {
         category_id: categoryId
       }
@@ -115,8 +115,8 @@ export default class Taxonomy extends Restful {
     categoryId: string,
     compatibilityProperty: string
   ) {
-    const cId = encodeURIComponent(categoryTreeId);
-    return this.get(`/category_tree/${cId}/get_compatibility_property_values`, {
+    categoryTreeId = encodeURIComponent(categoryTreeId);
+    return this.get(`/category_tree/${categoryTreeId}/get_compatibility_property_values`, {
       params: {
         category_id: categoryId,
         compatibility_property: compatibilityProperty
@@ -132,8 +132,8 @@ export default class Taxonomy extends Restful {
    * @return A JSON GZIP compressed file buffer
    */
   public fetchItemAspects(categoryTreeId: string): Promise<Buffer> {
-    const cId = encodeURIComponent(categoryTreeId);
-    return this.get(`/category_tree/${cId}/fetch_item_aspects`, {
+    categoryTreeId = encodeURIComponent(categoryTreeId);
+    return this.get(`/category_tree/${categoryTreeId}/fetch_item_aspects`, {
       responseType: 'arraybuffer'
     });
   }

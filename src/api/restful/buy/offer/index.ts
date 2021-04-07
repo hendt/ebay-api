@@ -15,7 +15,7 @@ export default class Offer extends Restful {
    * This method retrieves the bidding details that are specific to the buyer of the specified auction.
    *
    * @param itemId
-   * @param marketplaceId
+   * @param marketplaceId A header used to specify the eBay marketplace ID.
    */
   public getBidding(itemId: string, marketplaceId: string) {
     const id = encodeURIComponent(itemId);

@@ -26,7 +26,7 @@ export default class Feed extends Restful {
                          lookBackDays,
                          offset,
                          scheduleId
-                       }: SellFeedParams) {
+                       }: SellFeedParams = {}) {
     return this.get(`/order_task`, {
       params: {
         date_range: dateRange,
@@ -75,7 +75,7 @@ export default class Feed extends Restful {
                         feedType,
                         limit,
                         offset,
-                      }: SellFeedParams) {
+                      }: SellFeedParams = {}) {
     return this.get(`/schedule`, {
       params: {
         feed_type: feedType,
@@ -156,7 +156,7 @@ export default class Feed extends Restful {
                                 feedType,
                                 limit,
                                 offset,
-                              }: SellFeedParams) {
+                              }: SellFeedParams = {}) {
     return this.get(`/schedule_template`, {
       params: {
         feed_type: feedType,
@@ -183,7 +183,7 @@ export default class Feed extends Restful {
                     lookBackDays,
                     offset,
                     scheduleId
-                  }: SellFeedParams) {
+                  }: SellFeedParams = {}) {
     return this.get(`/task`, {
       params: {
         date_range: dateRange,
@@ -271,7 +271,7 @@ export default class Feed extends Restful {
                                          limit,
                                          lookBackDays,
                                          offset,
-                                       }: SellFeedParams) {
+                                       }: SellFeedParams = {}) {
     return this.get(`/customer_service_metric_task`, {
       params: {
         date_range: dateRange,

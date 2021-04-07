@@ -142,10 +142,7 @@ export default class Catalog extends Restful {
         primary_category_id: primaryCategoryId,
         other_applicable_category_ids: otherApplicableCategoryIds
       },
-      headers: {
-
-        'Accept-Language': acceptLanguage
-      }
+      headers
     });
   }
 }

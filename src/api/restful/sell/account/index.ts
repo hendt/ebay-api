@@ -108,8 +108,8 @@ export default class Account extends Restful {
    * @param paymentPolicyId This path parameter specifies the ID of the payment policy you want to retrieve.
    */
   public getPaymentPolicy(paymentPolicyId: string) {
-    const id = encodeURIComponent(paymentPolicyId);
-    return this.get(`/payment_policy/${id}`);
+    paymentPolicyId = encodeURIComponent(paymentPolicyId);
+    return this.get(`/payment_policy/${paymentPolicyId}`);
   }
 
   /**
@@ -128,8 +128,8 @@ export default class Account extends Restful {
    * @param body Payment policy request
    */
   public updatePaymentPolicy(paymentPolicyId: string, body: PaymentPolicyRequest) {
-    const id = encodeURIComponent(paymentPolicyId);
-    return this.put(`/payment_policy/${id}`, body);
+    paymentPolicyId = encodeURIComponent(paymentPolicyId);
+    return this.put(`/payment_policy/${paymentPolicyId}`, body);
   }
 
   /**
@@ -138,8 +138,8 @@ export default class Account extends Restful {
    * @param paymentPolicyId This path parameter specifies the ID of the payment policy you want to delete.
    */
   public deletePaymentPolicy(paymentPolicyId: string) {
-    const id = encodeURIComponent(paymentPolicyId);
-    return this.delete(`/payment_policy/${id}`);
+    paymentPolicyId = encodeURIComponent(paymentPolicyId);
+    return this.delete(`/payment_policy/${paymentPolicyId}`);
   }
 
   /**
@@ -165,9 +165,9 @@ export default class Account extends Restful {
    *     call.
    */
   public getPaymentsProgram(marketplaceId: string, paymentsProgramType: PaymentsProgramType) {
-    const mId = encodeURIComponent(marketplaceId);
-    const pId = encodeURIComponent(paymentsProgramType);
-    return this.get(`/payments_program/${mId}/${pId}`);
+    marketplaceId = encodeURIComponent(marketplaceId);
+    const type = encodeURIComponent(paymentsProgramType);
+    return this.get(`/payments_program/${marketplaceId}/${paymentsProgramType}`);
   }
 
   /**
@@ -238,8 +238,8 @@ export default class Account extends Restful {
    * @param returnPolicyId This path parameter specifies the of the return policy you want to retrieve.
    */
   public getReturnPolicy(returnPolicyId: string) {
-    const id = encodeURIComponent(returnPolicyId);
-    return this.get(`/return_policy/${id}`);
+    returnPolicyId = encodeURIComponent(returnPolicyId);
+    return this.get(`/return_policy/${returnPolicyId}`);
   }
 
   /**
@@ -258,8 +258,8 @@ export default class Account extends Restful {
    * @param body Return policy request
    */
   public updateReturnPolicy(returnPolicyId: string, body: ReturnPolicyRequest) {
-    const id = encodeURIComponent(returnPolicyId);
-    return this.put(`/return_policy/${id}`, body);
+    returnPolicyId = encodeURIComponent(returnPolicyId);
+    return this.put(`/return_policy/${returnPolicyId}`, body);
   }
 
   /**
@@ -268,8 +268,8 @@ export default class Account extends Restful {
    * @param returnPolicyId This path parameter specifies the ID of the return policy you want to delete.
    */
   public deleteReturnPolicy(returnPolicyId: string) {
-    const id = encodeURIComponent(returnPolicyId);
-    return this.delete(`/return_policy/${id}`);
+    returnPolicyId = encodeURIComponent(returnPolicyId);
+    return this.delete(`/return_policy/${returnPolicyId}`);
   }
 
   /**
@@ -297,9 +297,9 @@ export default class Account extends Restful {
    *     you want to retrieve.
    */
   public getSalesTax(countryCode: string, jurisdictionId: string) {
-    const cc = encodeURIComponent(countryCode);
-    const jId = encodeURIComponent(jurisdictionId);
-    return this.get(`/sales_tax/${cc}/${jId}`);
+    countryCode = encodeURIComponent(countryCode);
+    jurisdictionId = encodeURIComponent(jurisdictionId);
+    return this.get(`/sales_tax/${countryCode}/${jurisdictionId}`);
   }
 
 
@@ -313,9 +313,9 @@ export default class Account extends Restful {
    * @param body A container that describes the how the sales tax is calculated.
    */
   public createOrReplaceSalesTax(countryCode: string, jurisdictionId: string, body: SalesTaxBase) {
-    const cc = encodeURIComponent(countryCode);
-    const jId = encodeURIComponent(jurisdictionId);
-    return this.put(`/sales_tax/${cc}/${jId}`, body);
+    countryCode = encodeURIComponent(countryCode);
+    jurisdictionId = encodeURIComponent(jurisdictionId);
+    return this.put(`/sales_tax/${countryCode}/${jurisdictionId}`, body);
   }
 
   /**
@@ -327,9 +327,9 @@ export default class Account extends Restful {
    *     want to delete.
    */
   public deleteSalesTax(countryCode: string, jurisdictionId: string) {
-    const cc = encodeURIComponent(countryCode);
-    const jId = encodeURIComponent(jurisdictionId);
-    return this.delete(`/sales_tax/${cc}/${jId}`);
+    countryCode = encodeURIComponent(countryCode);
+    jurisdictionId = encodeURIComponent(jurisdictionId);
+    return this.delete(`/sales_tax/${countryCode}/${jurisdictionId}`);
   }
 
   /**

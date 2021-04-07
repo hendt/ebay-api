@@ -3,6 +3,7 @@ import Feed from './feed';
 import Marketing from './marketing';
 import Offer from './offer';
 import Order from './order';
+import Deal from './deal';
 
 export type Buy = {
   browse: Browse,
@@ -10,6 +11,7 @@ export type Buy = {
   marketing: Marketing,
   offer: Offer,
   order: Order
+  deal: Deal
 };
 
 export {
@@ -17,5 +19,6 @@ export {
   Feed,
   Marketing,
   Offer,
-  Order
+  Order,
+  Deal
 };

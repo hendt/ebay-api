@@ -21,11 +21,11 @@ It supports `client credentials grant` and `authorization code grant` \(Auth'N'A
 
 | API | Implemented |
 | :--- | :--- |
-| **Buy API** | ✔ \(Marketplace Insights API is missing\) |
+| **Buy API** | ✔ Browse API<br>✔  Deal API<br>✔ Feed API<br>✔ Marketing API<br>✔ Offer API<br>✔ Order API<br>✔ Marketplace Insights API |
 | **Commerce API** | ✔ |
 | **Developer API** | ✔ |
 | **Post Order API** | ✔ |
-| **Sell API** | ✔ |
+| **Sell API** | ✔ Account API <br>✔ Analytics API<br>✔ Compliance API<br>✔ Feed API<br>✔ Finance API<br>✔ Fulfillment API<br>✔ Inventory API<br>✔ Listing API<br>✔ Logistics API<br>✔ Marketing API<br>✔ Metadata API<br>✔ Negotiation API<br>✔ Recommendation API |
 
 ### Traditional API
 

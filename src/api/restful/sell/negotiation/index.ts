@@ -15,7 +15,7 @@ export default class Negotiation extends Restful {
    * @param limit This query parameter specifies the maximum number of items to return from the result set on a page in the paginated response.
    * @param offset This query parameter specifies the number of results to skip in the result set before returning the first result in the paginated response.
    */
-  public findEligibleItems(marketplaceId: string, {limit, offset}: { limit?: string, offset?: string }) {
+  public findEligibleItems(marketplaceId: string, {limit, offset}: { limit?: string, offset?: string } = {}) {
     return this.get(`/find_eligible_items`, {
       params: {
         limit,
