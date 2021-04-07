@@ -167,7 +167,7 @@ export default class Account extends Restful {
   public getPaymentsProgram(marketplaceId: string, paymentsProgramType: PaymentsProgramType) {
     marketplaceId = encodeURIComponent(marketplaceId);
     const type = encodeURIComponent(paymentsProgramType);
-    return this.get(`/payments_program/${marketplaceId}/${paymentsProgramType}`);
+    return this.get(`/payments_program/${marketplaceId}/${type}`);
   }
 
   /**

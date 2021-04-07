@@ -3,25 +3,25 @@ import {IEBayApiRequest} from '../request';
 import {AppConfig, ClientAlerts, Finding, Shopping, Trading} from '../types';
 import Api from './';
 import RestfulApi from './restful/';
-import {Browse, Buy, Feed, Marketing as BuyMarketing, Offer, Order, Deal} from './restful/buy';
-import {Catalog, Commerce, Identity, Taxonomy, Translation, Charity} from './restful/commerce';
+import {Browse, Buy, Deal, Feed, Marketing as BuyMarketing, Offer, Order} from './restful/buy';
+import {Catalog, Charity, Commerce, Identity, Notification, Taxonomy, Translation} from './restful/commerce';
 import {Analytics as DeveloperAnalytics, Developer,} from './restful/developer';
 import {Cancellation, Case, Inquiry, PostOrder, Return,} from './restful/postOrder';
 import {
   Account,
   Analytics as SellAnalytics,
   Compliance,
+  Feed as SellFeed,
   Finances,
   Fulfillment,
   Inventory,
+  Listing,
+  Logistics,
   Marketing as SellMarketing,
   Metadata,
-  Recommendation,
-  Sell,
-  Logistics,
-  Feed as SellFeed,
   Negotiation,
-  Listing
+  Recommendation,
+  Sell
 } from './restful/sell';
 import Traditional from './traditional';
 
@@ -50,6 +50,7 @@ export default class ApiFactory extends Api {
       taxonomy: this.createRestfulApi(Taxonomy),
       translation: this.createRestfulApi(Translation),
       charity: this.createRestfulApi(Charity),
+      notification: this.createRestfulApi(Notification),
     };
   }
 
