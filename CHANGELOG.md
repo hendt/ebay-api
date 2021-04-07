@@ -1,4 +1,18 @@
 # eBay API Changelog
+## [3.1.0](https://github.com/hendt/ebay-api/compare/v3.0.0...v3.1.0) (2021-04-07)
+
+
+### Features
+
+* add charity API ([103e116](https://github.com/hendt/ebay-api/commit/103e116e4e9bf9a275bca17050de7dcf2faa7662))
+* add commerce notification api ([b7d1f3b](https://github.com/hendt/ebay-api/commit/b7d1f3b8deb3df1bfffb9e83f320f2006f6be70f))
+* add deal api ([8bb2479](https://github.com/hendt/ebay-api/commit/8bb24797470b6d0cb1ce9f6d01015c8623e2ebcd))
+* add marketplace insights API ([3788ade](https://github.com/hendt/ebay-api/commit/3788ade9a464f5eb111d49c8e08a40237ae8a6cc))
+* add sell feed api ([4d85a68](https://github.com/hendt/ebay-api/commit/4d85a6899b0f5a673e76ac03d9ce8502541f8904)), closes [#45](https://github.com/hendt/ebay-api/issues/45)
+* add sell listing API ([fef65ac](https://github.com/hendt/ebay-api/commit/fef65acaa12ae6e089818d85c47ab3718c03648a))
+* add sell logistics api ([2a289b8](https://github.com/hendt/ebay-api/commit/2a289b88bc8bec12eb827b4db48482afb42abdb7)), closes [#43](https://github.com/hendt/ebay-api/issues/43)
+* add sell Negotiation api ([0dd0599](https://github.com/hendt/ebay-api/commit/0dd05991b6b2127d9d84809e5f061f8ffc83e270)), closes [#41](https://github.com/hendt/ebay-api/issues/41)
+
 ## [3.0.0](https://github.com/hendt/ebay-api/compare/v2.2.1...v3.0.0) (2021-04-07)
 
 
