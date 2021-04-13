@@ -1,5 +1,5 @@
 # Table of contents
 
-* [eBay Node API in TypeScript with Browser support](README.md)
+* [eBay TypeScript/JavaScript API for Browser and Node](README.md)
 * [eBay API on Github](https://github.com/hendt/ebay-api)
 
