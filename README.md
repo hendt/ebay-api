@@ -15,6 +15,8 @@ It supports `client credentials grant` and `authorization code grant` \(Auth'N'A
 * `v3.1.0` is the latest release.
 * See [here](https://github.com/hendt/ebay-api/blob/master/CHANGELOG.md) for the full changelog.
 
+[![Build Status](https://travis-ci.com/hendt/ebay-api.svg?branch=master)](https://travis-ci.com/hendt/ebay-api)
+
 ## Implementation status
 
 ### RESTful API
