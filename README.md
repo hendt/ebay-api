@@ -1,12 +1,18 @@
+---
+description: >-
+  eBay Node API written in TS that aims to implement all eBay APIs, the
+  traditional and restful.
+---
+
 # eBay Node API in TypeScript with Browser support
 
-This eBay API implements both Traditional \(xml\) and the RESTful eBay API.
-It supports `client credentials grant` and `authorization code grant` \(Auth'N'Auth, OAuth2 and IAF\).
+This eBay API implements both Traditional \(xml\) and the RESTful eBay API. It supports `client credentials grant` and `authorization code grant` \(Auth'N'Auth, OAuth2 and IAF\).
 
 * [API Browser Examples](https://hendt.github.io/ebay-api/)
 * [API Documentation](https://hendt.gitbook.io/ebay-api/)
 
 ## eBay Docs
+
 * [eBay API Explorer](https://developer.ebay.com/my/api_test_tool)
 * [eBay API Docs](https://developer.ebay.com/docs)
 
@@ -21,11 +27,11 @@ It supports `client credentials grant` and `authorization code grant` \(Auth'N'A
 
 | API | Implemented |
 | :--- | :--- |
-| **Buy API** | ✔ Browse API<br>✔  Deal API<br>✔ Feed API<br>✔ Marketing API<br>✔ Offer API<br>✔ Order API<br>✔ Marketplace Insights API |
-| **Commerce API** | ✔ Catalog API<br>✔ Charity API<br>✔ Identity API<br>✔ Notification API<br>✔ Taxonomy API<br>✔ Translation API |
-| **Developer API** | ✔ Analytics API|
-| **Post Order API** | ✔ Cancellation API<br>✔ Case Management API<br>✔ Inquiry API<br>✔ Return API |
-| **Sell API** | ✔ Account API <br>✔ Analytics API<br>✔ Compliance API<br>✔ Feed API<br>✔ Finance API<br>✔ Fulfillment API<br>✔ Inventory API<br>✔ Listing API<br>✔ Logistics API<br>✔ Marketing API<br>✔ Metadata API<br>✔ Negotiation API<br>✔ Recommendation API |
+| **Buy API** | ✔ Browse API ✔  Deal API ✔ Feed API ✔ Marketing API ✔ Offer API ✔ Order API ✔ Marketplace Insights API |
+| **Commerce API** | ✔ Catalog API ✔ Charity API ✔ Identity API ✔ Notification API ✔ Taxonomy API ✔ Translation API |
+| **Developer API** | ✔ Analytics API |
+| **Post Order API** | ✔ Cancellation API ✔ Case Management API ✔ Inquiry API ✔ Return API |
+| **Sell API** | ✔ Account API  ✔ Analytics API ✔ Compliance API ✔ Feed API ✔ Finance API ✔ Fulfillment API ✔ Inventory API ✔ Listing API ✔ Logistics API ✔ Marketing API ✔ Metadata API ✔ Negotiation API ✔ Recommendation API |
 
 ### Traditional API
 
@@ -38,15 +44,26 @@ It supports `client credentials grant` and `authorization code grant` \(Auth'N'A
 | **Client Alerts API** | ✔ |
 | **Feedback API** | ✔ |
 
-## Installation
+## Install
 
+{% tabs %}
+{% tab title="npm" %}
 ```bash
-npm install @hendt/ebay-api # yarn add @hendt/ebay-api
+npm install @hendt/ebay-api -S
 ```
+{% endtab %}
+
+{% tab title="yarn" %}
+```
+ yarn add @hendt/ebay-api
+```
+{% endtab %}
+{% endtabs %}
 
 ## Usage
 
 ### Browser
+
 Check out `getItem()` example: [https://hendt.github.io/ebay-api/](https://hendt.github.io/ebay-api/).
 
 A Proxy server is required to use the API in the Browser.
@@ -102,24 +119,25 @@ const eBay = new eBayApi({
 
 ## 🔧 eBayApi Config
 
-The first (required) parameter in eBayApi takes an object with following properties:
+The first \(required\) parameter in eBayApi takes an object with following properties:
 
 | Name | Occurrence | Default | Description |
 | :--- | :--- | :--- | :--- |
-| appId | Required | | App ID \(Client ID\) from  [Application Keys](https://developer.ebay.com/my/keys). |
-| certId | Required | | Cert ID \(Client Secret\) from  [Application Keys](https://developer.ebay.com/my/keys). |
-| devId | Conditional | | The Dev Id from [Application Keys](https://developer.ebay.com/my/keys). |
+| appId | Required |  | App ID \(Client ID\) from  [Application Keys](https://developer.ebay.com/my/keys). |
+| certId | Required |  | Cert ID \(Client Secret\) from  [Application Keys](https://developer.ebay.com/my/keys). |
+| devId | Conditional |  | The Dev Id from [Application Keys](https://developer.ebay.com/my/keys). |
 | sandbox | Optional | `false` | If true, the [Sandbox Environment](https://developer.ebay.com/tools/sandbox) will be used. |
 | scope | Conditional | `['https://api.ebay.com/oauth/api_scope']` | The scopes assigned to your application allow access to different API resources and functionality. |
-| ruName | Conditional | | The redirect\_url value. [More info](https://developer.ebay.com/api-docs/static/oauth-redirect-uri.html). |
-| authToken | Optional | | The Auth'N'Auth token. The traditional authentication and authorization technology used by the eBay APIs. |
+| ruName | Conditional |  | The redirect\_url value. [More info](https://developer.ebay.com/api-docs/static/oauth-redirect-uri.html). |
+| authToken | Optional |  | The Auth'N'Auth token. The traditional authentication and authorization technology used by the eBay APIs. |
 | autoRefreshToken | Optional | `true` | Auto refresh the token if it's expired. |
-| marketplaceId | Conditional | | REST HTTP Header. X-EBAY-C-MARKETPLACE-ID identifies the user's business context and is specified using a marketplace ID value. |
-| endUserCtx | Optional | | Conditionally recommended. REST HTTP Header. X-EBAY\_C\_ENDUSERCTX provides various types of information associated with the request. |
-| contentLanguage | Conditional | | REST HTTP Header. Content-Language indicates the locale preferred by the client for the response. |
-| acceptLanguage | Optional | | REST HTTP Header. Accept-Language indicates the natural language the client prefers for the response. This specifies the language the client wants to use when the field values provided in the request body are displayed to consumers. |
+| marketplaceId | Conditional |  | REST HTTP Header. X-EBAY-C-MARKETPLACE-ID identifies the user's business context and is specified using a marketplace ID value. |
+| endUserCtx | Optional |  | Conditionally recommended. REST HTTP Header. X-EBAY\_C\_ENDUSERCTX provides various types of information associated with the request. |
+| contentLanguage | Conditional |  | REST HTTP Header. Content-Language indicates the locale preferred by the client for the response. |
+| acceptLanguage | Optional |  | REST HTTP Header. Accept-Language indicates the natural language the client prefers for the response. This specifies the language the client wants to use when the field values provided in the request body are displayed to consumers. |
 
 ## Debug
+
 To see debug logs use `DEBUG=ebay:*` environment variable.
 
 ## OAuth2: Exchanging the authorization code for a User access token
@@ -177,23 +195,27 @@ eBay.OAuth2.setScope([
 ]);
 ```
 
-### Use apix.ebay.com or apiz.ebay.com (beta) endpoints
+### Use apix.ebay.com or apiz.ebay.com \(beta\) endpoints
+
 For some APIs, eBay use a `apix`/`apiz` subdomain. To use these subdomains you can use `.apix`/`.apiz` before the api call like this:
+
 ```javascript
   eBay.buy.browse.apix.getItem() // now it will use https://apix.ebay.com
   eBay.buy.browse.apiz.getItem() // now it will use https://apiz.ebay.com
 ```
 
 In any case eBay adds a new subdomain, it's also possible to configure whatever you want:
+
 ```javascript
   eBay.buy.browse.api({subdomain: 'apiy'}).getItem() // now it will use https://apiy.ebay.com
 ```
 
 ### How to refresh the token
-If `autoRefreshToken` is set to true (default value) the token will be automatically refreshed when eBay response with `invalid access token` error.
 
+If `autoRefreshToken` is set to true \(default value\) the token will be automatically refreshed when eBay response with `invalid access token` error.
 
 Use Event Emitter to get the token when it gets succesfully refreshed.
+
 ```javascript
 eBay.OAuth2.on('refreshAuthToken', (token) => {
   console.log(token)
@@ -203,8 +225,8 @@ eBay.OAuth2.on('refreshClientToken', (token) => {
   console.log(token)
 });
 ```
-To manuel refresh the auth token use `eBay.OAuth2.refreshAuthToken()` and for the client token `eBay.OAuth2.refreshClientToken()`.
-Keep in mind that you need the 'refresh_token' value set.
+
+To manuel refresh the auth token use `eBay.OAuth2.refreshAuthToken()` and for the client token `eBay.OAuth2.refreshClientToken()`. Keep in mind that you need the 'refresh\_token' value set.
 
 ```javascript
 let token = await eBay.OAuth2.refreshToken();
@@ -212,10 +234,11 @@ let token = await eBay.OAuth2.refreshToken();
 ```
 
 ## Additional Headers
-Sometimes you want to add additional headers to the request like a GLOBAL-ID `X-EBAY-SOA-GLOBAL-ID`. 
-You have multiple options to do this.
+
+Sometimes you want to add additional headers to the request like a GLOBAL-ID `X-EBAY-SOA-GLOBAL-ID`. You have multiple options to do this.
 
 ### Restful API Headers
+
 ```javascript
   const eBay = new eBayApi();
 
@@ -227,7 +250,9 @@ You have multiple options to do this.
 ```
 
 ### Traditional API Headers
+
 You can pass headers directly in the method call in the second parameter:
+
 ```javascript
 eBay.trading.AddFixedPriceItem({
   Item: {
@@ -244,6 +269,7 @@ eBay.trading.AddFixedPriceItem({
 ```
 
 ### Low level: use the Axios interceptor to manipulate the request
+
 ```javascript
   const eBay = new eBayApi();
 
@@ -255,6 +281,7 @@ eBay.trading.AddFixedPriceItem({
 ```
 
 ### Handle JSON GZIP response e.g fetchItemAspects
+
 You need a decompress library installed like `zlib`.
 
 `npm install zlib`
@@ -280,6 +307,7 @@ const zlib = require('zlib');
 ```
 
 ## Controlling Traditional XML request and response
+
 The second parameter in the traditional API has the following options:
 
 ```typescript
