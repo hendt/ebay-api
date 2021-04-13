@@ -9,6 +9,7 @@
   "scripts": {
     "build": "rimraf lib && tsc && rollup -c",
     "prepare": "npm run build",
+    "coverage": "codecov",
     "tslint": "tslint -c tslint.json '{src,test,examples}/**/*.ts'",
     "test": "mocha -r ts-node/register 'test/**/*.spec.ts' --reporter=dot",
     "report": "nyc npm run test",
@@ -18,6 +19,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "codecov": "^3.8.1",
     "debug": "^2.1.1",
     "fast-xml-parser": "^3.18.0",
     "nanoevents": "^2.0.0",
