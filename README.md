@@ -1,4 +1,6 @@
 # eBay Node API in TypeScript with Browser support
+[![Build Status](https://travis-ci.com/hendt/ebay-api.svg?branch=master)](https://travis-ci.com/hendt/ebay-api)
+[![codecov](https://codecov.io/gh/hendt/ebay-api/branch/master/graph/badge.svg?token=E67PSWIZFZ)](https://codecov.io/gh/hendt/ebay-api)
 
 This eBay API implements both Traditional \(xml\) and the RESTful eBay API.
 It supports `client credentials grant` and `authorization code grant` \(Auth'N'Auth, OAuth2 and IAF\).
@@ -14,8 +16,6 @@ It supports `client credentials grant` and `authorization code grant` \(Auth'N'A
 
 * `v3.1.0` is the latest release.
 * See [here](https://github.com/hendt/ebay-api/blob/master/CHANGELOG.md) for the full changelog.
-
-[![Build Status](https://travis-ci.com/hendt/ebay-api.svg?branch=master)](https://travis-ci.com/hendt/ebay-api)
 
 ## Implementation status
 
