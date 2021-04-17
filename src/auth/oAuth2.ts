@@ -200,8 +200,18 @@ export default class OAuth2 extends Base {
     return null;
   }
 
-  public setCredentials(userAccessToken: UserAccessToken) {
-    this._userAccessToken = userAccessToken;
+  public setCredentials(userAccessToken: UserAccessToken | string) {
+    if (typeof userAccessToken === 'string') {
+      this._userAccessToken = {
+        refresh_token: '',
+        expires_in: 7200,
+        refresh_token_expires_in: 47304000,
+        token_type: 'User Access Token',
+        access_token: userAccessToken
+      };
+    } else {
+      this._userAccessToken = userAccessToken;
+    }
   }
 
   public async refreshAuthToken(): Promise<Token> {
