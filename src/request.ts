@@ -28,7 +28,13 @@ export class AxiosRequest implements IEBayApiRequest {
   public readonly instance: AxiosInstance;
 
   constructor(config: AxiosRequestConfig = {}) {
-    this.instance = axios.create({headers: defaultGlobalHeaders, ...config});
+    this.instance = axios.create({
+      headers: {
+        ...defaultGlobalHeaders,
+        'User-Agent': 'hendt/ebay-api (axios)',
+      },
+      ...config
+    });
   }
 
   public get<R = any>(url: string, config?: AxiosRequestConfig): Promise<R> {
