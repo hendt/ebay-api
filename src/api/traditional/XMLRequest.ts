@@ -8,6 +8,11 @@ import {Fields} from './fields';
 const HEADING = '<?xml version="1.0" encoding="utf-8"?>';
 const log = debug('ebay:xml:request');
 
+export interface IFormData {
+  append: (name: string, value: string, filename?: string) => void
+  getHeaders?: () => Headers
+}
+
 const defaultJSON2XMLOptions = {
   attributeNamePrefix: '@_',
   textNodeName: '#value',
@@ -41,16 +46,17 @@ export type Options = {
   parseOptions?: object,
   useIaf?: boolean,
   headers?: Headers,
+  formData?: IFormData
 };
 
 export type XMLReqConfig = Options & {
   headers: Headers,
   endpoint: string,
   xmlns: string,
-  eBayAuthToken?: string | null
+  eBayAuthToken?: string | null,
 };
 
-export const defaultOptions: Required<Options> = {
+export const defaultOptions: Required<Omit<Options, 'formData'>> = {
   raw: false,
   parseOptions: defaultXML2JSONParseOptions,
   useIaf: true,
@@ -116,10 +122,21 @@ export default class XMLRequest {
     } : {};
   }
 
-  get headers() {
+  get requestConfig() {
+    let headers;
+    if (this.config.formData) {
+      headers = typeof this.config.formData.getHeaders === 'function' ? this.config.formData.getHeaders() : {
+        'content-type': 'multipart/form-data'
+      }
+    } else {
+      headers = this.defaultHeaders
+    }
+
     return {
-      ...this.defaultHeaders,
-      ...this.config.headers,
+      headers: {
+        ...headers,
+        ...this.config.headers,
+      }
     }
   }
 
@@ -128,6 +145,15 @@ export default class XMLRequest {
       ...defaultXML2JSONParseOptions,
       ...this.config.parseOptions
     }
+  }
+
+  getData(xml: string) {
+    if (this.config.formData) {
+      this.config.formData.append('XML Payload', xml, 'payload.xml');
+      return this.config.formData
+    }
+
+    return xml
   }
 
   /**
@@ -172,21 +198,21 @@ export default class XMLRequest {
     log('XML:xml', xml);
 
     try {
-      const headers = this.headers;
-      log('XML:request:' + this.config.endpoint, headers);
-      const data = await this.req.post(this.config.endpoint, xml, {
-        headers
-      });
+      const data = this.getData(xml);
+      const config = this.requestConfig;
 
-      log('XML:response', data);
+      log('XML:request:' + this.config.endpoint, config);
+      const response = await this.req.post(this.config.endpoint, data, config);
+
+      log('XML:response', response);
 
       // resolve to raw XML
       if (this.config.raw) {
-        return data;
+        return response;
       }
 
       log('XML:parseOption', this.parseOptions);
-      let json = XMLRequest.toJSON(data, this.parseOptions);
+      let json = XMLRequest.toJSON(response, this.parseOptions);
 
       log('XML:JSON', json);
 

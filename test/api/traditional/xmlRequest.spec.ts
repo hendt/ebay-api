@@ -5,6 +5,7 @@ import sinon from 'sinon';
 
 import XMLRequest, {XMLReqConfig} from '../../../src/api/traditional/XMLRequest';
 import {IEBayApiRequest} from '../../../src/request';
+import FormData from 'form-data';
 
 describe('XMLRequestTest', () => {
 
@@ -125,4 +126,25 @@ describe('XMLRequestTest', () => {
       }).to.deep.equal(result);
     });
   });
+
+  describe('request', () => {
+    it('can post multipart', () => {
+      const post = sinon.stub().returns(Promise.resolve(apiResponse));
+      const formData = new FormData();
+      const request = new XMLRequest('CALL', {},
+        {
+          ...config,
+          formData
+        },
+        {...req, post});
+
+      return request.request().then(result => {
+        expect(post.args[0][2].headers).to.eql({
+          'CALL': 'CALL',
+          'content-type': 'multipart/form-data; boundary=' + formData.getBoundary()
+        })
+        expect(result).to.equal(apiResponse);
+      });
+    })
+  })
 });
