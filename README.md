@@ -107,20 +107,35 @@ const eBay = new eBayApi({
 
 The first (required) parameter in eBayApi takes an object with following properties:
 
-| Name | Occurrence | Default | Description |
-| :--- | :--- | :--- | :--- |
-| appId | Required | | App ID \(Client ID\) from  [Application Keys](https://developer.ebay.com/my/keys). |
-| certId | Required | | Cert ID \(Client Secret\) from  [Application Keys](https://developer.ebay.com/my/keys). |
-| devId | Conditional | | The Dev Id from [Application Keys](https://developer.ebay.com/my/keys). |
-| sandbox | Optional | `false` | If true, the [Sandbox Environment](https://developer.ebay.com/tools/sandbox) will be used. |
-| scope | Conditional | `['https://api.ebay.com/oauth/api_scope']` | The scopes assigned to your application allow access to different API resources and functionality. |
-| ruName | Conditional | | The redirect\_url value. [More info](https://developer.ebay.com/api-docs/static/oauth-redirect-uri.html). |
-| authToken | Optional | | The Auth'N'Auth token. The traditional authentication and authorization technology used by the eBay APIs. |
-| autoRefreshToken | Optional | `true` | Auto refresh the token if it's expired. |
-| marketplaceId | Conditional | | REST HTTP Header. X-EBAY-C-MARKETPLACE-ID identifies the user's business context and is specified using a marketplace ID value. |
-| endUserCtx | Optional | | Conditionally recommended. REST HTTP Header. X-EBAY\_C\_ENDUSERCTX provides various types of information associated with the request. |
-| contentLanguage | Conditional | | REST HTTP Header. Content-Language indicates the locale preferred by the client for the response. |
-| acceptLanguage | Optional | | REST HTTP Header. Accept-Language indicates the natural language the client prefers for the response. This specifies the language the client wants to use when the field values provided in the request body are displayed to consumers. |
+| Name | Occurrence  | Description |
+| :--- | :--- | :--- |
+| appId | Required | App ID \(Client ID\) from  [Application Keys](https://developer.ebay.com/my/keys). |
+| certId | Required | Cert ID \(Client Secret\) from  [Application Keys](https://developer.ebay.com/my/keys). |
+| devId | Conditional | The Dev Id from [Application Keys](https://developer.ebay.com/my/keys). |
+| sandbox | Optional<br><pre>Default: `false`</pre> | If true, the [Sandbox Environment](https://developer.ebay.com/tools/sandbox) will be used. |
+| siteId | Required<br><pre>Default: `SiteId.EBAY_DE`</pre><br><i>Traditional</i> | eBay site to which you want to send the request (Trading API, Shopping API). |
+| scope | Conditional<bre><pre>Default: `['https://api.ebay.com/oauth/api_scope']` </pre> | The scopes assigned to your application allow access to different API resources and functionality. |
+| ruName | Conditional | The redirect\_url value. [More info](https://developer.ebay.com/api-docs/static/oauth-redirect-uri.html). |
+| authToken | Optional | The Auth'N'Auth token. The traditional authentication and authorization technology used by the eBay APIs. |
+| autoRefreshToken | Optional<pre>Default: `true`</pre> | Auto refresh the token if it's expired. |
+| [marketplaceId](https://developer.ebay.com/api-docs/static/rest-request-components.html#marketpl) | Conditional<br><pre>Default: `MarketplaceId.EBAY_DE`</pre><br><i>RESTful</i> | REST HTTP Header. X-EBAY-C-MARKETPLACE-ID identifies the user's business context and is specified using a marketplace ID value. Note that this header does not indicate a language preference or consumer location. |
+| [endUserCtx](https://developer.ebay.com/api-docs/static/rest-request-components.html#headers) | Optional<br><i>RESTful</i> | Conditionally recommended. REST HTTP Header. X-EBAY\_C\_ENDUSERCTX provides various types of information associated with the request. |
+| [contentLanguage](https://developer.ebay.com/api-docs/static/rest-request-components.html#headers) | Conditional<br><i>RESTful</i> | REST HTTP Header. Content-Language indicates the locale preferred by the client for the response. |
+| [acceptLanguage](https://developer.ebay.com/api-docs/static/rest-request-components.html#headers) | Optional<br><i>RESTful</i> | REST HTTP Header. Accept-Language indicates the natural language the client prefers for the response. This specifies the language the client wants to use when the field values provided in the request body are displayed to consumers. |
+
+## Load from env
+Use `eBayApi.fromEnv()` to load data from environment variables.
+
+| Name | Value |
+| :--- | :--- |
+| appId | process.env.EBAY_APP_ID |
+| certId: process.env.EBAY_CERT_ID |
+| devId: process.env.EBAY_DEV_ID |
+| authToken | process.env.EBAY_AUTH_TOKEN |
+| siteId |  process.env.EBAY_SITE_ID |
+| marketplaceId | process.env.EBAY_MARKETPLACE_ID |
+| ruName | process.env.EBAY_RU_NAME |
+| sandbox | (process.env.EBAY_SANDBOX === 'true') |
 
 ## Debug
 To see debug logs use `DEBUG=ebay:*` environment variable.

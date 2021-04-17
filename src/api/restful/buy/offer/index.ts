@@ -15,31 +15,20 @@ export default class Offer extends Restful {
    * This method retrieves the bidding details that are specific to the buyer of the specified auction.
    *
    * @param itemId
-   * @param marketplaceId A header used to specify the eBay marketplace ID.
    */
-  public getBidding(itemId: string, marketplaceId: string) {
+  public getBidding(itemId: string) {
     const id = encodeURIComponent(itemId);
-    return this.get(`/bidding/${id}`, {
-      headers: {
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId
-      }
-    });
+    return this.get(`/bidding/${id}`);
   }
 
   /**
    * This method uses a user access token to place a proxy bid for the buyer on a specific auction item.
    *
    * @param itemId
-   * @param marketplaceId
    * @param {PlaceProxyBidRequest} body
    */
-  public placeProxyBid(itemId: string, marketplaceId: string, body?: PlaceProxyBidRequest) {
+  public placeProxyBid(itemId: string,body?: PlaceProxyBidRequest) {
     const id = encodeURIComponent(itemId);
-    return this.post(`/bidding/${id}/place_proxy_bid`,
-      body, {
-        headers: {
-          'X-EBAY-C-MARKETPLACE-ID': marketplaceId
-        }
-      });
+    return this.post(`/bidding/${id}/place_proxy_bid`, body );
   }
 }

@@ -12,14 +12,13 @@ export default class Deal extends Restful {
   /**
    * This method retrieves a paginated set of deal items.
    *
-   * @param marketplaceId A header used to specify the eBay marketplace ID.
    * @param categoryIds The unique identifier of the eBay category for the search.
    * @param commissionable A filter for commissionable deals. Restriction: This filter is currently only supported for the US marketplace.
    * @param deliveryCountry A filter for items that can be shipped to the specified country.
    * @param limit The maximum number of items, from the current result set, returned on a single page.
    * @param offset The number of items that will be skipped in the result set.
    */
-  public getDealItems(marketplaceId: string, {
+  public getDealItems({
     categoryIds,
     commissionable,
     deliveryCountry,
@@ -33,9 +32,6 @@ export default class Deal extends Restful {
         delivery_country: deliveryCountry,
         limit,
         offset
-      },
-      headers: {
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId
       }
     });
   }
@@ -44,32 +40,23 @@ export default class Deal extends Restful {
    * This method retrieves the details for an eBay event.
    *
    * @param eventId The unique identifier for the eBay event.
-   * @param marketplaceId A header used to specify the eBay marketplace ID.
    */
-  public getEvent(eventId: string, marketplaceId: string) {
+  public getEvent(eventId: string) {
     eventId = encodeURIComponent(eventId)
-    return this.get(`/event/${eventId}`, {
-      headers: {
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId
-      }
-    });
+    return this.get(`/event/${eventId}`);
   }
 
   /**
    * This method returns paginated results containing all eBay events for the specified marketplace.
    *
-   * @param marketplaceId A header used to specify the eBay marketplace ID.
    * @param limit The maximum number of items, from the current result set, returned on a single page. Default: 20 Maximum Value: 100
    * @param offset The number of items that will be skipped in the result set.
    */
-  public getEvents(marketplaceId: string, {limit, offset}: { limit?: string, offset?: string, }) {
+  public getEvents({limit, offset}: { limit?: string, offset?: string, }) {
     return this.get(`/event`, {
       params: {
         limit,
         offset
-      },
-      headers: {
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId
       }
     });
   }
@@ -80,11 +67,10 @@ export default class Deal extends Restful {
    * @param eventIds The unique identifiers for the eBay events. Maximum Value: 1
    * @param categoryIds The unique identifier of the eBay category for the search. Maximum Value: 1
    * @param deliveryCountry A filter for items that can be shipped to the specified country.
-   * @param marketplaceId A header used to specify the eBay marketplace ID.
    * @param limit The maximum number of items, from the current result set, returned on a single page. Default: 20 Maximum Value: 100
    * @param offset The number of items that will be skipped in the result set.
    */
-  public getEventItems(eventIds: string, marketplaceId: string, {
+  public getEventItems(eventIds: string, {
     categoryIds,
     deliveryCountry,
     limit,
@@ -97,9 +83,6 @@ export default class Deal extends Restful {
         offset,
         category_ids: categoryIds,
         delivery_country: deliveryCountry
-      },
-      headers: {
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId
       }
     });
   }

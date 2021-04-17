@@ -93,16 +93,11 @@ export default class Browse extends Restful {
   /**
    * This method checks if a product is compatible with the specified item.
    * @param {String} itemId The eBay RESTful identifier of an item (such as a part you want to check).
-   * @param {String} marketplaceId The ID of the eBay marketplace you want to use. Note: This value is case sensitive.
    * @param {Object} body CompatibilityPayload
    */
-  public checkCompatibility(itemId: string, marketplaceId: string, body?: CompatibilityPayload) {
+  public checkCompatibility(itemId: string, body?: CompatibilityPayload) {
     const id = encodeURIComponent(itemId);
-    return this.post(`/item/${id}/check_compatibility`, body, {
-      headers: {
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId
-      }
-    });
+    return this.post(`/item/${id}/check_compatibility`, body);
   }
 
   //

@@ -42,15 +42,10 @@ export default class Feed extends Restful {
   /**
    * This method creates an order download task with filter criteria for the order report.
    *
-   * @param marketplaceId The ID of the eBay marketplace where the item is hosted.
    * @param data The CreateOrderTaskRequest
    */
-  public createOrderTask(marketplaceId: string, data: any) {
-    return this.post(`/order_task`, data, {
-      headers: {
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId
-      }
-    })
+  public createOrderTask(data: any) {
+    return this.post(`/order_task`, data)
   }
 
   /**
@@ -199,15 +194,10 @@ export default class Feed extends Restful {
   /**
    * This method creates an upload task or a download task without filter criteria.
    *
-   * @param marketplaceId The ID of the eBay marketplace where the item is hosted.
    * @param data The CreateTaskRequest.
    */
-  public createTask(marketplaceId: string, data: any) {
-    return this.post(`/task`, data, {
-      headers: {
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId
-      }
-    })
+  public createTask(data: any) {
+    return this.post(`/task`, data)
   }
 
   /**
