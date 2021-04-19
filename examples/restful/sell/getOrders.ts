@@ -9,7 +9,9 @@ eBay.OAuth2.setScope([
   'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly'
 ])
 
-eBay.sell.fulfillment.getOrders().then(order => {
+eBay.sell.fulfillment.getOrders({
+  limit: 5
+}).then(order => {
   console.log('order', JSON.stringify(order, null, 2));
 }).catch(e => {
   console.error(JSON.stringify(e, null, 2));

@@ -1,6 +1,6 @@
 import {stringify} from 'qs';
 import Api from '../';
-import {EBayIAFTokenExpired, handleEBayError} from '../../errors';
+import {EBayIAFTokenExpired, EBayIAFTokenInvalid, handleEBayError} from '../../errors';
 import {ClientAlerts, Finding, Shopping, Trading, TraditionalApi} from '../../types';
 import ClientAlertsCalls from './clientAlerts';
 import {Fields} from './fields';
@@ -130,7 +130,7 @@ export default class Traditional extends Api {
       return await this.request(options, api, callName, fields);
     } catch (error) {
       // Try to refresh the token.
-      if (error.name === EBayIAFTokenExpired.name && this.config.autoRefreshToken) {
+      if (this.config.autoRefreshToken && (error.name === EBayIAFTokenExpired.name || error.name === EBayIAFTokenInvalid.name)) {
         return await this.request(options, api, callName, fields, true);
       }
 

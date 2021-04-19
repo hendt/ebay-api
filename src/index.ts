@@ -10,13 +10,13 @@ import OAuth2 from './auth/oAuth2';
 import {ContentLanguage, Locale, MarketplaceId, SiteId} from './enums';
 import {ApiEnvError} from './errors';
 import {IEBayApiRequest} from './request';
-import {AppConfig, ClientAlerts, Finding, Shopping, Trading} from './types';
+import {AppConfig, ClientAlerts, Finding, Keyset, Shopping, Trading} from './types';
 
-const defaultConfig: Omit<AppConfig, 'appId' | 'certId'> = {
+const defaultConfig: Omit<AppConfig, keyof Keyset> = {
   sandbox: false,
+  autoRefreshToken: true,
   siteId: SiteId.EBAY_US,
   marketplaceId: MarketplaceId.EBAY_US,
-  autoRefreshToken: true,
   acceptLanguage: Locale.en_US,
   contentLanguage: ContentLanguage.en_US
 };
@@ -29,7 +29,7 @@ class eBayApi extends Api {
   public static Locale = Locale;
 
   /**
-   * Loads settings from `process.env`
+   * Loads config from `process.env`
    *
    * @return {eBayApi} a new eBayApi instance
    * @param {request} req request
@@ -54,7 +54,7 @@ class eBayApi extends Api {
         siteId: process.env.EBAY_SITE_ID ? parseInt(process.env.EBAY_SITE_ID, 10) : SiteId.EBAY_US,
         marketplaceId: process.env.EBAY_MARKETPLACE_ID && process.env.EBAY_MARKETPLACE_ID in MarketplaceId ?
           MarketplaceId[process.env.EBAY_MARKETPLACE_ID as keyof typeof MarketplaceId] as MarketplaceId :
-          MarketplaceId.EBAY_DE,
+          MarketplaceId.EBAY_US,
         ruName: process.env.EBAY_RU_NAME,
         sandbox: (process.env.EBAY_SANDBOX === 'true')
       },

@@ -134,7 +134,9 @@ describe('XMLRequestTest', () => {
       const request = new XMLRequest('CALL', {},
         {
           ...config,
-          formData
+          multipart: {
+            formData
+          }
         },
         {...req, post});
 

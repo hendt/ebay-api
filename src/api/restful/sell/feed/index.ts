@@ -1,4 +1,5 @@
 import Restful from '../../';
+import {multipartHeader} from "../../../../request";
 import {SellFeedParams} from '../../../../types';
 
 /**
@@ -239,9 +240,7 @@ export default class Feed extends Restful {
   public uploadFile(taskId: string, data?: any) {
     taskId = encodeURIComponent(taskId)
     return this.post(`/task/${taskId}/upload_file`, data, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
+      headers: multipartHeader,
     });
   }
 

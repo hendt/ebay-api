@@ -4,10 +4,8 @@ import eBayApi from '../../src';
 const eBay = eBayApi.fromEnv();
 
 eBay.trading.GetMyMessages({
-  MessageIDs: {
-    MessageID: [117475106841]
-  },
-  DetailLevel: 'ReturnMessages'
+  Folder: 0,
+  DetailLevel: 'ReturnHeaders'
 }).then(result => {
   console.log(JSON.stringify(result, null, 2));
 }).catch(e => {

@@ -101,6 +101,10 @@ export class EBayIAFTokenExpired extends EbayApiError {
   public static readonly code = 21917053;
 }
 
+export class EBayIAFTokenInvalid extends EbayApiError {
+  public static readonly code = 21916984;
+}
+
 export class EBayTokenRequired extends EbayApiError {
   public static readonly code = 930;
 }
@@ -184,6 +188,8 @@ export const eBayHandleEBayJsonResponse = (data: any) => {
     switch (data.Errors.ErrorCode) {
       case EBayIAFTokenExpired.code:
         throw new EBayIAFTokenExpired(data);
+      case EBayIAFTokenInvalid.code:
+        throw new EBayIAFTokenInvalid(data);
       case EBayTokenRequired.code:
         throw new EBayTokenRequired(data);
     }

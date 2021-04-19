@@ -2,15 +2,14 @@ import debug from 'debug';
 import xmlParser, {j2xParser} from 'fast-xml-parser';
 
 import {eBayHandleEBayJsonResponse, EbayNoCallError} from '../../errors';
-import {IEBayApiRequest} from '../../request';
+import {IEBayApiRequest, multipartHeader} from '../../request';
 import {Fields} from './fields';
 
-const HEADING = '<?xml version="1.0" encoding="utf-8"?>';
 const log = debug('ebay:xml:request');
 
 export interface IFormData {
-  append: (name: string, value: string, filename?: string) => void
-  getHeaders?: () => Headers
+  append: (name: string, value: string | Buffer, filename?: string) => void
+  getHeaders?: () => Headers,
 }
 
 const defaultJSON2XMLOptions = {
@@ -41,12 +40,17 @@ type Headers = {
   [key: string]: string | number | undefined;
 };
 
+export type Multipart = {
+  formData?: IFormData,
+  file?: any
+}
+
 export type Options = {
   raw?: boolean,
   parseOptions?: object,
   useIaf?: boolean,
   headers?: Headers,
-  formData?: IFormData
+  multipart?: Multipart
 };
 
 export type XMLReqConfig = Options & {
@@ -56,11 +60,15 @@ export type XMLReqConfig = Options & {
   eBayAuthToken?: string | null,
 };
 
-export const defaultOptions: Required<Omit<Options, 'formData'>> = {
+export const defaultOptions: Required<Omit<Options, 'multipart'>> = {
   raw: false,
   parseOptions: defaultXML2JSONParseOptions,
   useIaf: true,
   headers: {}
+};
+
+export const defaultHeaders = {
+  'Content-Type': 'text/xml'
 };
 
 /**
@@ -71,12 +79,9 @@ export default class XMLRequest {
   private readonly fields: Fields;
   private readonly config: XMLReqConfig;
   private readonly req: any;
+  private readonly _form: IFormData | null = null;
 
   public static j2x = new j2xParser(defaultJSON2XMLOptions);
-
-  private readonly defaultHeaders = {
-    'Content-Type': 'text/xml'
-  };
 
   /**
    * Creates the new Request object
@@ -96,6 +101,10 @@ export default class XMLRequest {
     this.fields = fields || {};
     this.config = {...defaultOptions, ...config};
     this.req = req;
+
+    if (this.config.multipart?.formData) {
+      this._form = this.config.multipart.formData;
+    }
   }
 
   /**
@@ -122,22 +131,23 @@ export default class XMLRequest {
     } : {};
   }
 
-  get requestConfig() {
-    let headers;
-    if (this.config.formData) {
-      headers = typeof this.config.formData.getHeaders === 'function' ? this.config.formData.getHeaders() : {
-        'content-type': 'multipart/form-data'
-      }
-    } else {
-      headers = this.defaultHeaders
-    }
-
+  public getRequestConfig() {
     return {
       headers: {
-        ...headers,
+        ...this.getHeaders(),
         ...this.config.headers,
       }
     }
+  }
+
+  public getHeaders() {
+    if (this._form) {
+      return {
+        ...(typeof this._form.getHeaders === 'function' ? this._form.getHeaders() : multipartHeader),
+      }
+    }
+
+    return defaultHeaders
   }
 
   get parseOptions() {
@@ -147,10 +157,10 @@ export default class XMLRequest {
     }
   }
 
-  getData(xml: string) {
-    if (this.config.formData) {
-      this.config.formData.append('XML Payload', xml, 'payload.xml');
-      return this.config.formData
+  public getData(xml: string) {
+    if (this._form) {
+      this._form.append('XML Payload', xml, 'payload.xml');
+      return this._form
     }
 
     return xml
@@ -160,10 +170,11 @@ export default class XMLRequest {
    * converts an XML response to JSON
    *
    * @param      {string}     xml     The xml
-   * @param      {object}     parseOptions     The parse options
    * @return     {JSON}         resolves to a JSON representation of the HTML
    */
-  public static toJSON(xml: string, parseOptions: object) {
+  public toJSON(xml: string) {
+    const parseOptions =  this.parseOptions;
+    log('parseOption', parseOptions);
     return xmlParser.parse(xml, parseOptions);
   }
 
@@ -175,7 +186,7 @@ export default class XMLRequest {
    * @return     {String}           The XML string of the Request
    */
   public toXML(fields: Fields) {
-    log('JSON2XML:parseOptions', defaultJSON2XMLOptions);
+    const HEADING = '<?xml version="1.0" encoding="utf-8"?>';
     return HEADING + XMLRequest.j2x.parse({
       [this.callName + 'Request']: {
         '@_xmlns': this.config.xmlns,
@@ -193,46 +204,57 @@ export default class XMLRequest {
    *
    */
   public async request() {
-    log('XML:config', this.config);
     const xml = this.toXML(this.fields);
-    log('XML:xml', xml);
+    log('xml', xml);
 
     try {
       const data = this.getData(xml);
-      const config = this.requestConfig;
 
-      log('XML:request:' + this.config.endpoint, config);
+      this.addFile();
+
+      const config = this.getRequestConfig();
+      log('config', config);
       const response = await this.req.post(this.config.endpoint, data, config);
 
-      log('XML:response', response);
+      log('response', response);
 
       // resolve to raw XML
       if (this.config.raw) {
         return response;
       }
 
-      log('XML:parseOption', this.parseOptions);
-      let json = XMLRequest.toJSON(response, this.parseOptions);
-
-      log('XML:JSON', json);
-
-      // Unwrap
-      if (json[this.responseWrapper]) {
-        json = json[this.responseWrapper]
-      }
+      const json = this.xml2JSON(response);
 
       eBayHandleEBayJsonResponse(json);
 
       return json;
     } catch (error) {
-      log('XML:error', error);
+      log('error', error);
 
       if (error.response?.data) {
-        const data = XMLRequest.toJSON(error.response.data, this.parseOptions);
+        const data = this.toJSON(error.response.data);
         eBayHandleEBayJsonResponse(data);
       }
 
       throw error;
     }
+  }
+
+  private addFile() {
+    if (this.config.multipart?.file && this._form) {
+      this._form.append('dummy', this.config.multipart?.file)
+      log('added file');
+    }
+  }
+
+  public xml2JSON(xml: string) {
+    const json = this.toJSON(xml);
+
+    // Unwrap
+    if (json[this.responseWrapper]) {
+      return json[this.responseWrapper]
+    }
+
+    return json;
   }
 }

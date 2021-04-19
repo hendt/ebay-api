@@ -10,6 +10,10 @@ export const defaultGlobalHeaders = {
   'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE'
 }
 
+export const multipartHeader = {
+  'Content-Type': 'multipart/form-data'
+}
+
 export interface IEBayApiRequest<T = AxiosInstance> {
   readonly instance: T;
 
@@ -31,7 +35,7 @@ export class AxiosRequest implements IEBayApiRequest {
     this.instance = axios.create({
       headers: {
         ...defaultGlobalHeaders,
-        'User-Agent': 'hendt/ebay-api (axios)',
+        'User-Agent': 'hendt-ebay-api/' + process.env.npm_package_version,
       },
       ...config
     });
