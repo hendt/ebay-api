@@ -9,20 +9,23 @@ export type Keyset = {
   devId?: string,
 };
 
-export type eBayConfig = Keyset & {
-  sandbox: boolean,
-  siteId?: number,
-  ruName?: string,
-
-  scope?: Scope,
-  authToken?: string,
-
-  // Rest Config
+export type RestConfig = {
   marketplaceId?: MarketplaceId,
   endUserCtx?: string,
   contentLanguage?: ContentLanguage
   acceptLanguage?: string
-};
+}
+
+export type TraditionalConfig = {
+  siteId?: number
+  authToken?: string
+}
+
+export type eBayConfig = Keyset & {
+  sandbox: boolean,
+  ruName?: string,
+  scope?: Scope,
+} & TraditionalConfig & RestConfig;
 
 export type ApiConfig = {
   autoRefreshToken?: boolean,
@@ -31,8 +34,4 @@ export type ApiConfig = {
 
 export type AppConfig = eBayConfig & ApiConfig;
 
-export type AuthToken = {
-  eBayAuthToken: string,
-  Timestamp?: string,
-  HardExpirationTime?: string
-};
+

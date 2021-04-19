@@ -15,7 +15,7 @@ eBay.authNAuth.getSessionIdAndAuthUrl().then(({url, sessionId}) => {
   console.log('Authorize this app by visiting this url: ', url);
 
   rl.question('Press Enter after grant access', async () => {
-    await eBay.authNAuth.obtainAuthToken(sessionId);
+    await eBay.authNAuth.obtainToken(sessionId);
 
     try {
       const time = await eBay.trading.GeteBayOfficialTime();

@@ -68,7 +68,7 @@ describe('OAuth2', () => {
       const oAuth2 = new OAuth2(config, req);
       oAuth2.setClientToken(cred)
 
-      const token = await oAuth2.getClientAccessToken();
+      const token = await oAuth2.getApplicationAccessToken();
 
       expect(token).to.equal('access_token');
     });
@@ -80,7 +80,7 @@ describe('OAuth2', () => {
       });
 
       try {
-        await oAuth2.getClientAccessToken();
+        await oAuth2.getApplicationAccessToken();
       } catch (e) {
         expect(e.name).to.equal('error');
       }
@@ -89,7 +89,7 @@ describe('OAuth2', () => {
     it('refresh the client access token', async () => {
       const oAuth2 = new OAuth2(config, req);
 
-      const token = await oAuth2.getClientAccessToken();
+      const token = await oAuth2.getApplicationAccessToken();
       expect(token).to.equal('new_access_token');
     });
 
@@ -130,7 +130,7 @@ describe('OAuth2', () => {
     it('Throws error if appId is not defined', async () => {
       try {
         const oAuth2 = new OAuth2({...config, appId: ''}, req);
-        await oAuth2.refreshClientToken()
+        await oAuth2.obtainApplicationAccessToken()
       } catch (e) {
         expect(e.message).to.equal('Missing App ID (Client Id)')
       }
@@ -139,7 +139,7 @@ describe('OAuth2', () => {
     it('Throws error if appId is not defined', async () => {
       try {
         const oAuth2 = new OAuth2({...config, certId: ''}, req);
-        await oAuth2.refreshClientToken()
+        await oAuth2.obtainApplicationAccessToken()
       } catch (e) {
         expect(e.message).to.equal('Missing Cert Id (Client Secret)')
       }
@@ -149,9 +149,9 @@ describe('OAuth2', () => {
       const oAuth2 = new OAuth2(config, req);
 
       try {
-        await oAuth2.refreshAuthToken()
+        await oAuth2.refreshUserAccessToken()
       } catch (e) {
-        expect(e.message).to.equal('Failed to refresh the token. Token is not set.')
+        expect(e.message).to.equal('Failed to refresh the user access token. Token or refresh_token is not set.')
       }
     })
 
@@ -159,7 +159,7 @@ describe('OAuth2', () => {
       const oAuth2 = new OAuth2(config, {...req, postForm: sinon.stub().throws('error')});
       oAuth2.setCredentials(cred);
       try {
-        await oAuth2.refreshAuthToken();
+        await oAuth2.refreshUserAccessToken();
       } catch (e) {
         expect(e.name).to.equal('error');
       }
@@ -170,7 +170,7 @@ describe('OAuth2', () => {
       try {
         await oAuth2.refreshToken();
       } catch (e) {
-        expect(e.message).to.equal('To refresh a Token a client token or user access token must be already set.');
+        expect(e.message).to.equal('To refresh a Token a application access token or user access token must be already set.');
       }
     });
 
@@ -207,8 +207,8 @@ describe('OAuth2', () => {
       const refreshAuthToken = sinon.stub();
       oAuth2.on('refreshAuthToken', refreshAuthToken);
 
-      return oAuth2.refreshAuthToken().then(() => {
-        expect(oAuth2.accessToken).equal('new_access_token');
+      return oAuth2.refreshUserAccessToken().then(() => {
+        expect(oAuth2.getUserAccessToken()).equal('new_access_token');
         // tslint:disable-next-line:no-unused-expression
         expect(refreshAuthToken.called).to.be.true;
         expect(refreshAuthToken.args[0][0].access_token).to.equal('new_access_token');
