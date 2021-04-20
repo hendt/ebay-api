@@ -601,6 +601,48 @@ export enum ContentLanguage {
   zh_TW = 'zh-TW',
 }
 
+export enum Marketplace {
+  EBAY_US = 'EBAY_US',
+  EBAY_MOTORS = 'EBAY_MOTORS',
+  EBAY_CA = 'EBAY_CA',
+  EBAY_GB = 'EBAY_GB',
+  EBAY_AU = 'EBAY_AU',
+  EBAY_AT = 'EBAY_AT',
+  EBAY_FR = 'EBAY_FR',
+  EBAY_DE = 'EBAY_DE',
+  EBAY_IT = 'EBAY_IT',
+  EBAY_NL = 'EBAY_NL',
+  EBAY_ES = 'EBAY_ES',
+  EBAY_CH = 'EBAY_CH',
+  EBAY_TW = 'EBAY_TW',
+  EBAY_CZ = 'EBAY_CZ',
+  EBAY_DK = 'EBAY_DK',
+  EBAY_FI = 'EBAY_FI',
+  EBAY_GR = 'EBAY_GR',
+  EBAY_HK = 'EBAY_HK',
+  EBAY_HU = 'EBAY_HU',
+  EBAY_IN = 'EBAY_IN',
+  EBAY_ID = 'EBAY_ID',
+  EBAY_IE = 'EBAY_IE',
+  EBAY_IL = 'EBAY_IL',
+  EBAY_MY = 'EBAY_MY',
+  EBAY_NZ = 'EBAY_NZ',
+  EBAY_NO = 'EBAY_NO',
+  EBAY_PH = 'EBAY_PH',
+  EBAY_PL = 'EBAY_PL',
+  EBAY_PT = 'EBAY_PT',
+  EBAY_PR = 'EBAY_PR',
+  EBAY_RU = 'EBAY_RU',
+  EBAY_SG = 'EBAY_SG',
+  EBAY_ZA = 'EBAY_ZA',
+  EBAY_SE = 'EBAY_SE',
+  EBAY_TH = 'EBAY_TH',
+  EBAY_VN = 'EBAY_VN',
+  EBAY_CN = 'EBAY_CN',
+  EBAY_PE = 'EBAY_PE',
+  EBAY_JP = 'EBAY_JP'
+}
+
 export enum FormatType {
   AUCTION = 'AUCTION',
   FIXED_PRICE = 'FIXED_PRICE'
