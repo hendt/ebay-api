@@ -11,6 +11,8 @@ import {
   InquirySearchFieldGroup,
   InquiryStatusFilter,
   Locale,
+  Marketplace,
+  MarketplaceId,
   PaymentMethodType,
   RecipientAccountReferenceType,
   RefundFeeType,
@@ -396,12 +398,12 @@ export type BulkInventoryItem = {
 
 export type PublishByInventoryItemGroupRequest = {
   inventoryItemGroupKey: string,
-  marketplaceId: string
+  marketplaceId: Marketplace
 };
 
 export type WithdrawByInventoryItemGroupRequest = {
   inventoryItemGroupKey: string,
-  marketplaceId: string
+  marketplaceId: Marketplace
 };
 
 export type OfferKeyWithId = {
@@ -473,7 +475,7 @@ export type EbayOfferDetailsWithId = {
 
 export type EbayOfferDetailsWithKeys = EbayOfferDetailsWithId & {
   sku: string,
-  marketplaceId: string,
+  marketplaceId: Marketplace,
   format: FormatType
 }
 
@@ -610,7 +612,7 @@ export type ItemPriceMarkdown = {
   blockPriceIncreaseInItemRevision: boolean,
   description: string,
   endDate: string,
-  marketplaceId: string,
+  marketplaceId: MarketplaceId,
   name: string,
   priority: string,
   promotionImageUrl: string,
@@ -639,7 +641,7 @@ export type ItemPromotion = {
   discountRules: DiscountRule[],
   endDate: string,
   inventoryCriterion: InventoryCriterion,
-  marketplaceId: string,
+  marketplaceId: MarketplaceId,
   name: string,
   priority: string,
   promotionImageUrl: string,
@@ -988,7 +990,7 @@ export type FulfillmentPolicyRequest = {
   globalShipping?: boolean
   handlingTime: TimeDuration
   localPickup?: boolean
-  marketplaceId: string
+  marketplaceId: MarketplaceId
   name: string
   pickupDropOff?: boolean
   shippingOptions?: ShippingOption[]
@@ -1018,7 +1020,7 @@ export type PaymentPolicyRequest = {
   description?: string
   fullPaymentDueIn?: TimeDuration
   immediatePay?: boolean
-  marketplaceId: string
+  marketplaceId: MarketplaceId
   name: string
   paymentInstructions?: string
   paymentMethods?: PaymentMethod[]
@@ -1036,7 +1038,7 @@ export type ReturnPolicyRequest = {
   description?: string
   extendedHolidayReturnsOffered?: boolean
   internationalOverride?: InternationalReturnOverrideType
-  marketplaceId: string
+  marketplaceId: MarketplaceId
   name: string
   refundMethod?: string
   restockingFeePercentage?: string
@@ -1134,7 +1136,7 @@ export type CreateCampaignRequest = {
   campaignName: string
   endDate: string
   fundingStrategy: FundingStrategy
-  marketplaceId: string
+  marketplaceId: MarketplaceId
   startDate: string
 }
 
@@ -1150,7 +1152,7 @@ export type CreateReportTask = {
   dimensions: Dimension[]
   inventoryReferences?: InventoryReference
   listingIds: string[]
-  marketplaceId: string
+  marketplaceId: MarketplaceId
   metricKeys: string[]
   reportFormat: string
   reportType: string
