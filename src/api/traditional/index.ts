@@ -146,12 +146,13 @@ export default class Traditional extends Api {
   }
 
   private async request(options: Options, api: TraditionalApi, callName: string, fields: Fields, refreshToken = false) {
-    const config = this.getConfig(api, callName, options);
-    const xmlRequest = new XMLRequest(callName, fields, config, this.req);
     try {
       if (refreshToken) {
         await this.auth.OAuth2.refreshAuthToken();
       }
+
+      const config = this.getConfig(api, callName, options);
+      const xmlRequest = new XMLRequest(callName, fields, config, this.req);
 
       return await xmlRequest.request();
     } catch (e) {
