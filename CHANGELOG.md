@@ -1,4 +1,17 @@
 # eBay API Changelog
+## [3.2.0](https://github.com/hendt/ebay-api/compare/v3.1.0...v3.2.0) (2021-04-25)
+
+
+### Features
+
+* add Marketplace enum and change types of marketplaceId params to use enums ([6b5eb93](https://github.com/hendt/ebay-api/commit/6b5eb93aed778b9830232a01c0ba98a1e391f3aa))
+
+
+### Bug Fixes
+
+* autoRefreshToken in traditional api call ([faadf94](https://github.com/hendt/ebay-api/commit/faadf945ffa3a1f21b5b732692318c6747e0ff91))
+* use travis env for codecov ([6cb528c](https://github.com/hendt/ebay-api/commit/6cb528c82d1934b112c2b7fa702da6be16fa26b8))
+
 ## [3.1.0](https://github.com/hendt/ebay-api/compare/v3.0.0...v3.1.0) (2021-04-07)
 
 
