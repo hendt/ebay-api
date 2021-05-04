@@ -608,6 +608,7 @@ export enum Marketplace {
   EBAY_GB = 'EBAY_GB',
   EBAY_AU = 'EBAY_AU',
   EBAY_AT = 'EBAY_AT',
+  EBAY_BE = 'EBAY_BE',
   EBAY_FR = 'EBAY_FR',
   EBAY_DE = 'EBAY_DE',
   EBAY_IT = 'EBAY_IT',
