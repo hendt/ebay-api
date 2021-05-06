@@ -662,3 +662,21 @@ export enum Metric {
   SALES_CONVERSION_RATE,
   TRANSACTION
 }
+
+export enum ReturnMethod {
+  EXCHANGE = 'EXCHANGE',
+  REPLACEMENT = 'REPLACEMENT'
+}
+
+export enum ReturnShippingCostPayer {
+  BUYER = 'BUYER',
+  SELLER = 'SELLER'
+}
+
+export enum RegionType {
+  COUNTRY = 'COUNTRY',
+  COUNTRY_REGION = 'COUNTRY_REGION',
+  STATE_OR_PROVINCE = 'STATE_OR_PROVINCE',
+  WORLD_REGION = 'WORLD_REGION',
+  WORLDWIDE = 'WORLDWIDE'
+}
