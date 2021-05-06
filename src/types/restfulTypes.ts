@@ -16,9 +16,12 @@ import {
   PaymentMethodType,
   RecipientAccountReferenceType,
   RefundFeeType,
+  RegionType,
   RequestType,
   ReturnCountFilter,
+  ReturnMethod,
   ReturnReason,
+  ReturnShippingCostPayer,
   ReturnState,
   ReturnType,
   ShippingCarrier,
@@ -951,7 +954,7 @@ export type TimeDuration = {
 
 export type Region = {
   regionName: string
-  regionType?: string
+  regionType?: RegionType
 }
 
 export type RegionSet = {
@@ -1027,10 +1030,10 @@ export type PaymentPolicyRequest = {
 }
 
 export type InternationalReturnOverrideType = {
-  returnMethod?: string
+  returnMethod?: ReturnMethod
   returnPeriod?: TimeDuration
   returnsAccepted?: boolean
-  returnShippingCostPayer?: string
+  returnShippingCostPayer?: ReturnShippingCostPayer
 }
 
 export type ReturnPolicyRequest = {
@@ -1040,13 +1043,13 @@ export type ReturnPolicyRequest = {
   internationalOverride?: InternationalReturnOverrideType
   marketplaceId: MarketplaceId
   name: string
-  refundMethod?: string
+  refundMethod?: ReturnMethod
   restockingFeePercentage?: string
   returnInstructions?: string
-  returnMethod?: string
+  returnMethod?: ReturnMethod
   returnPeriod?: TimeDuration
   returnsAccepted: boolean
-  returnShippingCostPayer?: string
+  returnShippingCostPayer?: ReturnShippingCostPayer
 }
 
 export type SalesTaxBase = {
