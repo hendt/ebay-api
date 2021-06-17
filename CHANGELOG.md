@@ -50,7 +50,7 @@
 
 * rename oAuth2 to OAuth2 ([755a840](https://github.com/hendt/ebay-api/commit/755a8402da0cb47e511209c81e7da13a130033ba))
 
-### [2.2.1](https://github.com/hendt/ebay-api/compare/v2.2.0...v2.2.1) (2021-03-11)
+## [2.2.1](https://github.com/hendt/ebay-api/compare/v2.2.0...v2.2.1) (2021-03-11)
 
 
 ### Bug Fixes
@@ -69,7 +69,7 @@
 
 * add package-lock.json to bumbFiles ([b82a901](https://github.com/hendt/ebay-api/commit/b82a90170566a2dac42e2f33bea3a2d7179e1afd))
 
-### [2.1.1](https://github.com/hendt/ebay-api/compare/v2.1.0...v2.1.1) (2021-03-09)
+## [2.1.1](https://github.com/hendt/ebay-api/compare/v2.1.0...v2.1.1) (2021-03-09)
 
 
 ### Bug Fixes
@@ -116,7 +116,7 @@
 
 * refactoring ([bcb3a5e](https://github.com/hendt/ebay-api/commit/bcb3a5e46b89f5fc50020297d4b41d7f2d57f4b3))
 
-### [1.5.1](https://github.com/hendt/ebay-api/compare/v1.5.0...v1.5.1) (2021-02-21)
+## [1.5.1](https://github.com/hendt/ebay-api/compare/v1.5.0...v1.5.1) (2021-02-21)
 
 
 ### Bug Fixes
@@ -137,7 +137,7 @@
 
 * updated testing oas3 file per eBay docs ([b758222](https://github.com/hendt/ebay-api/commit/b758222eb966461fded0cb72e845f6c041368adb))
 
-### [1.4.2](https://github.com/hendt/ebay-api/compare/v1.4.1...v1.4.2) (2021-01-07)
+## [1.4.2](https://github.com/hendt/ebay-api/compare/v1.4.1...v1.4.2) (2021-01-07)
 
 
 ### Bug Fixes
@@ -145,7 +145,7 @@
 * Make Region.regionType optional ([9486ec6](https://github.com/hendt/ebay-api/commit/9486ec6c50b24c74ce33bd281314bbc9476c99a0))
 * Remove sku from Compatibility ([506d988](https://github.com/hendt/ebay-api/commit/506d98875c5355d4f6e33f01ce6e04c5fec99260))
 
-### [1.4.1](https://github.com/hendt/ebay-api/compare/v1.4.0...v1.4.1) (2020-10-22)
+## [1.4.1](https://github.com/hendt/ebay-api/compare/v1.4.0...v1.4.1) (2020-10-22)
 
 
 ### Bug Fixes
@@ -178,7 +178,7 @@
 * **Sell:** add missed api calls ([4749eba](https://github.com/hendt/ebay-api/commit/4749eba505f3c2dfd8543650437ca8902f42779a))
 * **Sell:** add missed API calls ([5aa03c3](https://github.com/hendt/ebay-api/commit/5aa03c3871c26a46545cd9fb29a628ba95789c09))
 
-### [1.2.1](https://github.com/hendt/ebay-api/compare/v1.2.0...v1.2.1) (2020-06-16)
+## [1.2.1](https://github.com/hendt/ebay-api/compare/v1.2.0...v1.2.1) (2020-06-16)
 
 
 ### Bug Fixes
@@ -192,14 +192,14 @@
 
 * add new enum and fix RefundDetail type ([3c15ffc](https://github.com/hendt/ebay-api/commit/3c15ffc0633987bf330d5508d9752c1fa82470bc))
 
-### [1.1.2](https://github.com/hendt/ebay-api/compare/v1.1.1...v1.1.2) (2020-06-01)
+## [1.1.2](https://github.com/hendt/ebay-api/compare/v1.1.1...v1.1.2) (2020-06-01)
 
 
 ### Bug Fixes
 
 * fix wrong class name ([cf93a47](https://github.com/hendt/ebay-api/commit/cf93a476ecf74445e76893287ee2e31e9926faf0))
 
-### [1.1.1](https://github.com/hendt/ebay-api/compare/v1.1.0...v1.1.1) (2020-05-31)
+## [1.1.1](https://github.com/hendt/ebay-api/compare/v1.1.0...v1.1.1) (2020-05-31)
 
 
 ### Bug Fixes
@@ -219,7 +219,7 @@
 
 * post order issue_refund missed payload param ([2e735e6](https://github.com/hendt/ebay-api/commit/2e735e697925492241faf42e66ab2a4afa849fc3))
 
-### [1.0.1](https://github.com/hendt/ebay-api/compare/v1.0.0...v1.0.1) (2020-03-19)
+## [1.0.1](https://github.com/hendt/ebay-api/compare/v1.0.0...v1.0.1) (2020-03-19)
 
 
 ### Bug Fixes
