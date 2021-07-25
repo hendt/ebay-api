@@ -3,7 +3,7 @@ import debug from 'debug';
 
 const log = debug('ebay:error');
 
-const rawError = Symbol('raw-error');
+export const rawError = Symbol('raw-error');
 
 /**
  * Error object for ease of capturing if some service depends on .toJSON() method to log something
@@ -138,7 +138,8 @@ export const mapEBayError = (ex: any) => {
     error.meta.res = {
       status: ex.response.status,
       statusText: ex.response.statusText,
-      headers: ex.response.headers
+      headers: ex.response.headers,
+      data: ex.response.data ?? {}
     }
   }
 
