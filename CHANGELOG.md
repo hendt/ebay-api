@@ -1,4 +1,18 @@
 # eBay API Changelog
+## [3.3.0](https://github.com/hendt/ebay-api/compare/v3.2.0...v3.3.0) (2021-07-25)
+
+
+### Features
+
+* add and use ReturnMethod, ReturnShippingCostPayer, and RegionType enums ([5a63eee](https://github.com/hendt/ebay-api/commit/5a63eee79e45d43d4bd7515a3dfd84390dfdb3fd))
+* add response data to error meta ([021e84f](https://github.com/hendt/ebay-api/commit/021e84f24d4a712417685954b45af7eb8b107c5d))
+
+
+### Bug Fixes
+
+* add EBAY_BE marketplace ([c9330be](https://github.com/hendt/ebay-api/commit/c9330be44b919f98a6cb628148b56ed061fb05bf))
+* make changelog headings consistent ([63dc373](https://github.com/hendt/ebay-api/commit/63dc3733953d44f92b78ec3be3a8f02b44f45fa5))
+
 ## [3.2.0](https://github.com/hendt/ebay-api/compare/v3.1.0...v3.2.0) (2021-04-25)
 
 
