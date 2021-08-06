@@ -1,6 +1,5 @@
 // tslint:disable:no-console
 import eBayApi from '../../src';
-import FormData from 'form-data';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -15,10 +14,7 @@ const eBay = eBayApi.fromEnv();
     const response = await eBay.trading.UploadSiteHostedPictures({
       ExtensionInDays: 1,
     }, {
-      multipart: {
-        formData: new FormData(), // pass FormData instance here
-        file: image
-      }
+      file: image
     });
 
     console.log(response);
