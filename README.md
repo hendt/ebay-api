@@ -96,6 +96,7 @@ const eBay = new eBayApi({
 
   // optional parameters, should be omitted if not used
   siteId: eBayApi.SiteId.EBAY_US, // required for traditional APIs, see https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html
+  marketplaceId: eBayApi.MarketplaceId.EBAY_US,    
   devId: 'devId', // required for traditional trading API
   ruName: '-- eBay Redirect URL name --', // required for authorization code grant
   authToken: '--  Auth\'n\'Auth for traditional API (used by trading) --', // can be set to use traditional API without code grant
