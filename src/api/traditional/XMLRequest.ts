@@ -41,6 +41,7 @@ export type Options = {
   parseOptions?: object,
   useIaf?: boolean,
   headers?: Headers,
+  formData?: IFormData,
   file?: any
 };
 
@@ -55,6 +56,7 @@ export const defaultOptions: Required<Omit<Options, 'file'>> = {
   raw: false,
   parseOptions: defaultXML2JSONParseOptions,
   useIaf: true,
+  formData: new FormData(),
   headers: {}
 };
 
@@ -62,15 +64,22 @@ export const defaultHeaders = {
   'Content-Type': 'text/xml'
 };
 
+export interface IFormData {
+  append: (...arg: any[]) => any,
+  getHeaders?: () => any
+  getBoundary?: () => any
+}
+
 /**
  * XML request for making eBay API call.
  */
 export default class XMLRequest {
+  public readonly form: IFormData;
+
   private readonly callName: string;
   private readonly fields: Fields;
   private readonly config: XMLReqConfig;
   private readonly req: any;
-  private readonly form: FormData = new FormData();
 
   public static j2x = new j2xParser(defaultJSON2XMLOptions);
 
@@ -92,6 +101,7 @@ export default class XMLRequest {
     this.fields = fields || {};
     this.config = {...defaultOptions, ...config};
     this.req = req;
+    this.form = this.config.formData ? this.config.formData : new FormData();
   }
 
   /**
@@ -186,7 +196,7 @@ export default class XMLRequest {
     log('xml', xml);
 
     try {
-      this.form.append('XML Payload', xml, 'payload.xml');
+      this.addXml(xml);
 
       this.addFile();
 
@@ -216,6 +226,10 @@ export default class XMLRequest {
 
       throw error;
     }
+  }
+
+  private addXml(xml: string) {
+    this.form.append('XML Payload', xml, 'payload.xml');
   }
 
   private addFile() {

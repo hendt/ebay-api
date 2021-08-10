@@ -5,7 +5,6 @@ import sinon from 'sinon';
 
 import XMLRequest, {XMLReqConfig} from '../../../src/api/traditional/XMLRequest';
 import {IEBayApiRequest} from '../../../src/request';
-import FormData from 'form-data';
 
 describe('XMLRequestTest', () => {
 
@@ -49,10 +48,13 @@ describe('XMLRequestTest', () => {
   });
 
   it('Adds eBayAuthToken', () => {
-    const request = new XMLRequest('CALL', {Param: 'Param'}, config, req);
+    const formData = {
+      append: sinon.stub()
+    };
+    const request = new XMLRequest('CALL', {Param: 'Param'}, {...config, formData}, req);
     return request.request().then(() => {
       // @ts-ignore
-      expect(req.post.args[0][1]).to.equal([
+      expect(formData.append.args[0][1]).to.equal([
         '<?xml version="1.0" encoding="utf-8"?>',
         '<CALLRequest xmlns="xmlns">',
         '<RequesterCredentials><eBayAuthToken>eBayAuthToken</eBayAuthToken></RequesterCredentials>',
@@ -128,22 +130,21 @@ describe('XMLRequestTest', () => {
   });
 
   describe('request', () => {
-    it('can post multipart', () => {
+    it('can upload file', () => {
       const post = sinon.stub().returns(Promise.resolve(apiResponse));
-      const formData = new FormData();
       const request = new XMLRequest('CALL', {},
         {
           ...config,
-          multipart: {
-            formData
-          }
+          file: 'Fake File'
         },
         {...req, post});
 
       return request.request().then(result => {
+
         expect(post.args[0][2].headers).to.eql({
           'CALL': 'CALL',
-          'content-type': 'multipart/form-data; boundary=' + formData.getBoundary()
+          // @ts-ignore
+          'content-type': 'multipart/form-data; boundary=' + request.form.getBoundary()
         })
         expect(result).to.equal(apiResponse);
       });
