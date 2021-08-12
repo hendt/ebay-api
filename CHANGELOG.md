@@ -1,4 +1,6 @@
 # eBay API Changelog
+### [3.3.1](https://github.com/hendt/ebay-api/compare/v3.3.0...v3.3.1) (2021-08-12)
+
 ## [3.3.0](https://github.com/hendt/ebay-api/compare/v3.2.0...v3.3.0) (2021-07-25)
 
 
