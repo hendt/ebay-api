@@ -256,7 +256,9 @@ export type RefundItem = {
 export type IssueRefundRequest = {
   reasonForRefund: ReasonForRefund,
   comment?: string,
-} & {  refundItems: RefundItem[] } | { orderLevelRefundAmount: SimpleAmount};
+  refundItems?: RefundItem[],
+  orderLevelRefundAmount?: SimpleAmount
+};
 
 export type Comments = {
   content: string,
