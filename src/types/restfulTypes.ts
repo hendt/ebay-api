@@ -14,6 +14,7 @@ import {
   Marketplace,
   MarketplaceId,
   PaymentMethodType,
+  ReasonForRefund,
   RecipientAccountReferenceType,
   RefundFeeType,
   RegionType,
@@ -96,6 +97,11 @@ export type UpdateCartItemInput = {
   cartItemId: string,
   quantity: number
 };
+
+export type SimpleAmount = {
+  currency: string,
+  value: string
+}
 
 export type Amount = {
   convertedFromCurrency?: CurrencyCode,
@@ -248,11 +254,9 @@ export type RefundItem = {
 };
 
 export type IssueRefundRequest = {
-  reasonForRefund: string,
-  comment: string,
-  refundItems: RefundItem[],
-  orderLevelRefundAmount: Amount
-};
+  reasonForRefund: ReasonForRefund,
+  comment?: string,
+} & {  refundItems: RefundItem[] } | { orderLevelRefundAmount: SimpleAmount};
 
 export type Comments = {
   content: string,
