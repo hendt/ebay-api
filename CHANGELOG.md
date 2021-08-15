@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [3.3.2](https://github.com/hendt/ebay-api/compare/v3.3.1...v3.3.2) (2021-08-15)
+
+
+### Bug Fixes
+
+* IssueRefundRequest type ([8a75516](https://github.com/hendt/ebay-api/commit/8a75516a4b83e7c6497890abe7476c3bb9b286c6))
+
 ### [3.3.1](https://github.com/hendt/ebay-api/compare/v3.3.0...v3.3.1) (2021-08-12)
 
 ## [3.3.0](https://github.com/hendt/ebay-api/compare/v3.2.0...v3.3.0) (2021-07-25)
