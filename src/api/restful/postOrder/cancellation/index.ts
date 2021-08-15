@@ -24,8 +24,8 @@ export default class Cancellation extends Restful {
    * @param cancelId The unique eBay-assigned identifier of the cancellation request to be approved.
    */
   public approveCancellationRequest(cancelId: string) {
-    const id = encodeURIComponent(cancelId);
-    return this.post(`/cancellation/${id}/approve`);
+    cancelId = encodeURIComponent(cancelId);
+    return this.post(`/cancellation/${cancelId}/approve`);
   }
 
   /**
@@ -46,8 +46,8 @@ export default class Cancellation extends Restful {
    * @param payload the ConfirmRefundReceivedPayload
    */
   public confirmRefundReceived(cancelId: string, payload?: ConfirmRefundRequest) {
-    const id = encodeURIComponent(cancelId);
-    return this.post(`/cancellation/${id}/confirm`, payload);
+    cancelId = encodeURIComponent(cancelId);
+    return this.post(`/cancellation/${cancelId}/confirm`, payload);
   }
 
   /**
@@ -68,8 +68,8 @@ export default class Cancellation extends Restful {
    *     response.
    */
   public getCancellation(cancelId: string, fieldGroups?: string) {
-    const id = encodeURIComponent(cancelId);
-    return this.get(`/cancellation/${id}`, {
+    cancelId = encodeURIComponent(cancelId);
+    return this.get(`/cancellation/${cancelId}`, {
       params: {
         fieldgroups: fieldGroups
       }
@@ -83,8 +83,8 @@ export default class Cancellation extends Restful {
    * @param payload the RejectCancelRequest
    */
   public rejectCancellationRequest(cancelId: string, payload?: RejectCancelRequest) {
-    const id = encodeURIComponent(cancelId);
-    return this.post(`/cancellation/${id}/reject`, payload);
+    cancelId = encodeURIComponent(cancelId);
+    return this.post(`/cancellation/${cancelId}/reject`, payload);
   }
 
   /**

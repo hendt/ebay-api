@@ -1,4 +1,5 @@
 import {
+  CancelReason,
   CaseSearchFieldGroup,
   CaseStatusFilter,
   CategoryType as CategoryTypeEnum,
@@ -660,6 +661,7 @@ export type ItemPromotion = {
 };
 
 export type DateTime = {
+  formattedValue?: string, // reserver for future use
   value: string
 };
 
@@ -672,7 +674,7 @@ export type LineItem = {
 export type CreateCancelRequest = {
   buyerPaid?: boolean,
   buyerPaidDate?: DateTime
-  cancelReason?: any, // token
+  cancelReason?: CancelReason,
   legacyOrderId: string,
   relistLineItem?: LineItem[]
 };
