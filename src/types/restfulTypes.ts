@@ -1072,7 +1072,7 @@ export type LineItemReference = {
 
 export type ShippingFulfillmentDetails = {
   lineItems: LineItemReference[]
-  shippedDate: string
+  shippedDate?: string
   shippingCarrierCode: string
   trackingNumber: string
 }
