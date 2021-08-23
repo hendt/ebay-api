@@ -171,7 +171,18 @@ export default abstract class Restful extends Api {
     try {
       return await this.request(payload, apiConfig);
     } catch (error) {
+
       if (error.name === EBayInvalidAccessToken.name && this.config.autoRefreshToken) {
+        // Try again and refresh token
+        return await this.request(payload, apiConfig, true /* refresh token */)
+      }
+
+      // Post Order Api 401 Error Handler
+      if(
+        error?.meta?.res?.status === 401 &&
+        error?.meta?.req?.url?.includes(`/post-order`) && 
+        this.config.autoRefreshToken
+      ){
         // Try again and refresh token
         return await this.request(payload, apiConfig, true /* refresh token */)
       }
