@@ -1,4 +1,25 @@
 # eBay API Changelog
+## [4.0.0-RC.0](https://github.com/hendt/ebay-api/compare/v3.3.3...v4.0.0-RC.0) (2021-08-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* set per default to EBAY_US
+
+### Features
+
+* allow string in setCredentials() ([b17e300](https://github.com/hendt/ebay-api/commit/b17e300fd0710a45883890907152a77f5fefefd2))
+* eps (WIP) ([6e7db5f](https://github.com/hendt/ebay-api/commit/6e7db5fa4431a9ce893d1622ccfd5c247153a901))
+* upload picture to eps with working example ([2d6d46c](https://github.com/hendt/ebay-api/commit/2d6d46c8d653fe2488402d0f89c1181b082f8d5a))
+
+
+### Bug Fixes
+
+* eslint ([2e8727a](https://github.com/hendt/ebay-api/commit/2e8727aaa17622ccec187a2c4bd0199deb01e8ab))
+
+
+* set per default to EBAY_US ([33b23de](https://github.com/hendt/ebay-api/commit/33b23de5d6af6dbacd2a5639480fa59c8a2215f9))
+
 ### [3.3.3](https://github.com/hendt/ebay-api/compare/v3.3.2...v3.3.3) (2021-08-26)
 
 
