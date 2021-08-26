@@ -34,8 +34,7 @@ export class AxiosRequest implements IEBayApiRequest {
   constructor(config: AxiosRequestConfig = {}) {
     this.instance = axios.create({
       headers: {
-        ...defaultGlobalHeaders,
-        'User-Agent': 'hendt-ebay-api/' + process.env.npm_package_version,
+        ...defaultGlobalHeaders
       },
       ...config
     });
