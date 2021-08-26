@@ -15,7 +15,8 @@
     "report": "nyc npm run test",
     "report:summary": "nyc --reporter=lcov --reporter=text-summary npm run test",
     "prerelease": "npm run tslint && npm run test && npm run build",
-    "release": "standard-version"
+    "release": "standard-version",
+    "rc": "npm run release -- --prerelease RC && git push --follow-tags origin next"
   },
   "dependencies": {
     "axios": "^0.21.1",
