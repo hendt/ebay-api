@@ -1,6 +1,6 @@
 import Api from '../';
 import Auth from '../../auth';
-import {EBayInvalidAccessToken, handleEBayError} from '../../errors';
+import {EBayError, EBayInvalidAccessToken, handleEBayError} from '../../errors';
 import {IEBayApiRequest} from '../../request';
 import {AppConfig} from '../../types';
 
@@ -171,24 +171,25 @@ export default abstract class Restful extends Api {
     try {
       return await this.request(payload, apiConfig);
     } catch (error) {
-
-      if (error.name === EBayInvalidAccessToken.name && this.config.autoRefreshToken) {
+      if (this.shouldRefreshToken(error)) {
         // Try again and refresh token
-        return await this.request(payload, apiConfig, true /* refresh token */)
+        return await this.request(payload, apiConfig, true /* refresh token */);
       }
 
-      // Post Order Api 401 Error Handler
-      if(
-        error?.meta?.res?.status === 401 &&
-        error?.meta?.req?.url?.includes(`/post-order`) && 
-        this.config.autoRefreshToken
-      ){
-        // Try again and refresh token
-        return await this.request(payload, apiConfig, true /* refresh token */)
-      }
-
-      throw error
+      throw error;
     }
+  }
+
+  private shouldRefreshToken(error: EBayError) {
+    if (!this.config.autoRefreshToken) {
+      return false;
+    }
+
+    if (error.name === EBayInvalidAccessToken.name) {
+      return true;
+    }
+
+    return error?.meta?.res?.status === 401 && this.apiConfig.basePath === '/post-order/v2';
   }
 
   private async request(

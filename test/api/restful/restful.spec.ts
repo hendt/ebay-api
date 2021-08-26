@@ -142,4 +142,30 @@ describe('Restful API', () => {
     expect(result).to.eql({updateThings: 'ok'})
   })
 
+  it('refresh the token on PostOrder call if response is 401', async () => {
+    const post = sinon.stub().onCall(0).rejects({
+      response: {
+        status: 401,
+      }
+    }).onCall(1).resolves({updateThings: 'ok'});
+
+    const api = new TestApi({
+      ...config,
+      autoRefreshToken: true
+    }, {
+      ...req,
+      post,
+      postForm: sinon.stub().resolves(cred),
+    }, undefined, {
+      basePath: '/post-order/v2'
+    });
+
+    api.auth.OAuth2.setCredentials(cred);
+
+    const result = await api.updateThings()
+
+    expect(post.callCount).to.equal(2)
+    expect(result).to.eql({updateThings: 'ok'})
+  })
+
 })
