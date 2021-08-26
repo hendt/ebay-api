@@ -1,5 +1,5 @@
 import Restful from '../../';
-import {multipartHeader} from "../../../../request";
+import {multipartHeader} from '../../../../request';
 import {SellFeedParams} from '../../../../types';
 
 /**
