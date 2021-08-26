@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [3.3.3](https://github.com/hendt/ebay-api/compare/v3.3.2...v3.3.3) (2021-08-26)
+
+
+### Bug Fixes
+
+* **types:** set ShippingFulfillmentDetails.shippedDate as optional ([2894739](https://github.com/hendt/ebay-api/commit/2894739e2deee00b0e75533598b1745ff85bb0b0))
+
 ### [3.3.2](https://github.com/hendt/ebay-api/compare/v3.3.1...v3.3.2) (2021-08-15)
 
 
