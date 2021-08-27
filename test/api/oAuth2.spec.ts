@@ -49,7 +49,7 @@ describe('OAuth2', () => {
       const oAuth2 = new OAuth2(config, req);
       try {
         oAuth2.generateAuthUrl();
-      } catch (e) {
+      } catch (e: any) {
         expect(e.message).to.equal('RuName is required.')
       }
     });
@@ -81,7 +81,7 @@ describe('OAuth2', () => {
 
       try {
         await oAuth2.getApplicationAccessToken();
-      } catch (e) {
+      } catch (e: any) {
         expect(e.name).to.equal('error');
       }
     });
@@ -112,7 +112,7 @@ describe('OAuth2', () => {
 
       try {
         await oAuth2.getToken('code');
-      } catch (e) {
+      } catch (e: any) {
         expect(e.name).to.equal('error');
       }
     });
@@ -131,7 +131,7 @@ describe('OAuth2', () => {
       try {
         const oAuth2 = new OAuth2({...config, appId: ''}, req);
         await oAuth2.obtainApplicationAccessToken()
-      } catch (e) {
+      } catch (e: any) {
         expect(e.message).to.equal('Missing App ID (Client Id)')
       }
     });
@@ -140,7 +140,7 @@ describe('OAuth2', () => {
       try {
         const oAuth2 = new OAuth2({...config, certId: ''}, req);
         await oAuth2.obtainApplicationAccessToken()
-      } catch (e) {
+      } catch (e: any) {
         expect(e.message).to.equal('Missing Cert Id (Client Secret)')
       }
     });
@@ -150,7 +150,7 @@ describe('OAuth2', () => {
 
       try {
         await oAuth2.refreshUserAccessToken()
-      } catch (e) {
+      } catch (e: any) {
         expect(e.message).to.equal('Failed to refresh the user access token. Token or refresh_token is not set.')
       }
     })
@@ -160,7 +160,7 @@ describe('OAuth2', () => {
       oAuth2.setCredentials(cred);
       try {
         await oAuth2.refreshUserAccessToken();
-      } catch (e) {
+      } catch (e: any) {
         expect(e.name).to.equal('error');
       }
     });
@@ -169,7 +169,7 @@ describe('OAuth2', () => {
       const oAuth2 = new OAuth2(config, req);
       try {
         await oAuth2.refreshToken();
-      } catch (e) {
+      } catch (e: any) {
         expect(e.message).to.equal('To refresh a Token a application access token or user access token must be already set.');
       }
     });

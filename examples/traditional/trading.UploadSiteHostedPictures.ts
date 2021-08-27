@@ -2,6 +2,7 @@
 import eBayApi from '../../src';
 import * as fs from 'fs';
 import * as path from 'path';
+import FormData from 'form-data';
 
 const eBay = eBayApi.fromEnv();
 
@@ -14,7 +15,16 @@ const eBay = eBayApi.fromEnv();
     const response = await eBay.trading.UploadSiteHostedPictures({
       ExtensionInDays: 1,
     }, {
-      file: image
+      hook: (xml: string) => {
+        const form = new FormData();
+        // XML should be always first
+        form.append('XML Payload', xml, 'payload.xml');
+        form.append('dummy', image)
+        return {
+          body: form,
+          headers: form.getHeaders()
+        }
+      }
     });
 
     console.log(response);

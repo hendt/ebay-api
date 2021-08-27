@@ -49,13 +49,9 @@ describe('Traditional', () => {
     };
     const traditional = new Traditional(config, req, auth);
 
-    const formData = {
-      append: sinon.stub()
-    };
-
     const trading = traditional.createTradingApi();
-    return trading.GetAccount({}, {raw: true, useIaf: false, formData}).then(data => {
-      expect(formData.append.args[0][1]).to.equal([
+    return trading.GetAccount({}, {raw: true, useIaf: false}).then(data => {
+      expect(post.args[0][1]).to.equal([
         '<?xml version="1.0" encoding="utf-8"?>',
         '<GetAccountRequest xmlns="urn:ebay:apis:eBLBaseComponents">',
         '<RequesterCredentials><eBayAuthToken>eBayAuthToken</eBayAuthToken></RequesterCredentials>',
@@ -82,13 +78,11 @@ describe('Traditional', () => {
       token_type: 'token_type',
       expires_in: 0
     });
-    const formData = {
-      append: sinon.stub()
-    };
+
     const traditional = new Traditional(config, req, auth);
     const trading = traditional.createTradingApi();
-    return trading.GetAccount({}, {raw: true, formData}).then(data => {
-      expect(formData.append.args[0][1]).to.equal([
+    return trading.GetAccount({}, {raw: true}).then(data => {
+      expect(post.args[0][1]).to.equal([
         '<?xml version="1.0" encoding="utf-8"?>',
         '<GetAccountRequest xmlns="urn:ebay:apis:eBLBaseComponents">',
         '</GetAccountRequest>'

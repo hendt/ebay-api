@@ -1,9 +1,8 @@
 import debug from 'debug';
 import xmlParser, {j2xParser} from 'fast-xml-parser';
-import FormData from 'form-data';
 
-import {eBayHandleEBayJsonResponse, EbayNoCallError} from '../../errors';
-import {IEBayApiRequest, multipartHeader} from '../../request';
+import {handleEBayJsonResponse, EbayNoCallError} from '../../errors';
+import {IEBayApiRequest} from '../../request';
 import {Fields} from './fields';
 
 const log = debug('ebay:xml:request');
@@ -28,7 +27,7 @@ export const defaultXML2JSONParseOptions = {
   ignoreNameSpace: true,
   parseTrueNumberOnly: true,
   arrayMode: (_: string, parentTageName: string) => {
-    return /Array$/.test(parentTageName)
+    return /Array$/.test(parentTageName);
   }
 };
 
@@ -36,13 +35,17 @@ type Headers = {
   [key: string]: string | number | undefined;
 };
 
+export type BodyHeaders = {
+  body: any,
+  headers?: Headers
+}
+
 export type Options = {
   raw?: boolean,
   parseOptions?: object,
   useIaf?: boolean,
   headers?: Headers,
-  formData?: IFormData,
-  file?: any
+  hook?: (xml: string) => BodyHeaders
 };
 
 export type XMLReqConfig = Options & {
@@ -52,11 +55,10 @@ export type XMLReqConfig = Options & {
   eBayAuthToken?: string | null,
 };
 
-export const defaultOptions: Required<Omit<Options, 'file'>> = {
+export const defaultOptions: Required<Omit<Options, 'hook'>> = {
   raw: false,
   parseOptions: defaultXML2JSONParseOptions,
   useIaf: true,
-  formData: new FormData(),
   headers: {}
 };
 
@@ -64,18 +66,10 @@ export const defaultHeaders = {
   'Content-Type': 'text/xml'
 };
 
-export interface IFormData {
-  append: (...arg: any[]) => any,
-  getHeaders?: () => any
-  getBoundary?: () => any
-}
-
 /**
  * XML request for making eBay API call.
  */
 export default class XMLRequest {
-  public readonly form: IFormData;
-
   private readonly callName: string;
   private readonly fields: Fields;
   private readonly config: XMLReqConfig;
@@ -101,16 +95,15 @@ export default class XMLRequest {
     this.fields = fields || {};
     this.config = {...defaultOptions, ...config};
     this.req = req;
-    this.form = this.config.formData ? this.config.formData : new FormData();
   }
 
   /**
    * returns the expected name of XML node of a Request
    *
    * @private
-   * @return     {String}  { description_of_the_return_value }
+   * @return     {String}  callnameReponse
    */
-  private get responseWrapper() {
+  private getResponseWrapper() {
     return `${this.callName}Response`;
   }
 
@@ -118,9 +111,9 @@ export default class XMLRequest {
    * returns the XML structure for the SOAP auth
    *
    * @private
-   * @return     {Object}  the SOAP
+   * @return     {Object}  the RequesterCredentials
    */
-  private get credentials() {
+  private getCredentials() {
     return this.config.eBayAuthToken ? {
       RequesterCredentials: {
         eBayAuthToken: this.config.eBayAuthToken
@@ -128,40 +121,28 @@ export default class XMLRequest {
     } : {};
   }
 
-  public getRequestConfig() {
-    return {
-      headers: {
-        ...this.getHeaders(),
-        ...this.config.headers,
-      }
-    }
-  }
-
-  public getHeaders() {
-    if (this.config.file) {
-      return {
-        ...(typeof this.form.getHeaders === 'function' ? this.form.getHeaders() : multipartHeader),
-      }
-    }
-
-    return defaultHeaders
-  }
-
-  get parseOptions() {
+  private getParseOptions() {
     return {
       ...defaultXML2JSONParseOptions,
       ...this.config.parseOptions
-    }
+    };
+  }
+
+  private getHeaders() {
+    return {
+      ...defaultHeaders,
+      ...this.config.headers,
+    };
   }
 
   /**
-   * converts an XML response to JSON
+   * Converts an XML response to JSON
    *
-   * @param      {string}     xml     The xml
+   * @param      {string}     xml     the xml
    * @return     {JSON}         resolves to a JSON representation of the HTML
    */
   public toJSON(xml: string) {
-    const parseOptions =  this.parseOptions;
+    const parseOptions = this.getParseOptions();
     log('parseOption', parseOptions);
     return xmlParser.parse(xml, parseOptions);
   }
@@ -178,7 +159,7 @@ export default class XMLRequest {
     return HEADING + XMLRequest.j2x.parse({
       [this.callName + 'Request']: {
         '@_xmlns': this.config.xmlns,
-        ...this.credentials,
+        ...this.getCredentials(),
         ...fields
       }
     });
@@ -196,13 +177,16 @@ export default class XMLRequest {
     log('xml', xml);
 
     try {
-      this.addXml(xml);
+      const {body, headers = {}} = this.config.hook?.(xml) ?? {body: xml};
 
-      this.addFile();
-
-      const config = this.getRequestConfig();
+      const config = {
+        headers: {
+          ...this.getHeaders(),
+          ...(headers ? headers : {})
+        }
+      };
       log('config', config);
-      const response = await this.req.post(this.config.endpoint, this.form, config);
+      const response = await this.req.post(this.config.endpoint, body, config);
 
       log('response', response);
 
@@ -213,29 +197,18 @@ export default class XMLRequest {
 
       const json = this.xml2JSON(response);
 
-      eBayHandleEBayJsonResponse(json);
+      handleEBayJsonResponse(json);
 
       return json;
-    } catch (error) {
+    } catch (error: any) {
       log('error', error);
 
       if (error.response?.data) {
         const data = this.toJSON(error.response.data);
-        eBayHandleEBayJsonResponse(data);
+        handleEBayJsonResponse(data);
       }
 
       throw error;
-    }
-  }
-
-  private addXml(xml: string) {
-    this.form.append('XML Payload', xml, 'payload.xml');
-  }
-
-  private addFile() {
-    if (this.config.file) {
-      this.form.append('dummy', this.config.file)
-      log('added file');
     }
   }
 
@@ -243,10 +216,6 @@ export default class XMLRequest {
     const json = this.toJSON(xml);
 
     // Unwrap
-    if (json[this.responseWrapper]) {
-      return json[this.responseWrapper]
-    }
-
-    return json;
+    return json[this.getResponseWrapper()] ?? json;
   }
 }

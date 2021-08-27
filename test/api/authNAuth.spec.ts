@@ -30,7 +30,7 @@ describe('AuthNAuth', () => {
       const auth = new AuthNAuth({...config, devId: undefined}, req);
       try {
         await auth.getSessionIdAndAuthUrl()
-      } catch (e) {
+      } catch (e: any) {
         expect(e.message).to.equal('DevId is required.');
       }
     })
@@ -39,7 +39,7 @@ describe('AuthNAuth', () => {
       const auth = new AuthNAuth({...config}, req);
       try {
         await auth.getSessionIdAndAuthUrl()
-      } catch (e) {
+      } catch (e: any) {
         expect(e.message).to.equal('RuName is required.');
       }
     })
@@ -49,7 +49,7 @@ describe('AuthNAuth', () => {
       const auth = new AuthNAuth({...config, siteId: 'xxx', ruName: 'ruName'}, req);
       try {
         await auth.getSessionIdAndAuthUrl()
-      } catch (e) {
+      } catch (e: any) {
         expect(e.message).to.equal('"siteId" is required for Auth\'n\'Auth.');
       }
     })
@@ -73,7 +73,7 @@ describe('AuthNAuth', () => {
       const auth = new AuthNAuth({...config, devId: undefined}, req);
       try {
         await auth.mintToken('SessionID')
-      } catch (e) {
+      } catch (e: any) {
         expect(e.message).to.equal('DevId is required.');
       }
     })

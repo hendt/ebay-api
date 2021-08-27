@@ -128,7 +128,7 @@ export default class Traditional extends Api {
 
     try {
       return await this.request(options, api, callName, fields);
-    } catch (error) {
+    } catch (error: any) {
       // Try to refresh the token.
       if (this.config.autoRefreshToken && (error.name === EBayIAFTokenExpired.name || error.name === EBayIAFTokenInvalid.name)) {
         return await this.request(options, api, callName, fields, true);

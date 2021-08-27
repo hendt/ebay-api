@@ -183,7 +183,7 @@ export const handleEBayError = (ex: any) => {
   throw new EBayError(message, meta);
 }
 
-export const eBayHandleEBayJsonResponse = (data: any) => {
+export const handleEBayJsonResponse = (data: any) => {
   if (data.Errors?.ErrorCode) {
     switch (data.Errors.ErrorCode) {
       case EBayIAFTokenExpired.code:
