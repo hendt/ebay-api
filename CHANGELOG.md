@@ -1,4 +1,13 @@
 # eBay API Changelog
+## [4.0.0-RC.1](https://github.com/hendt/ebay-api/compare/v4.0.0-RC.0...v4.0.0-RC.1) (2021-08-27)
+
+
+### Bug Fixes
+
+* keep function name in minified version ([e4e58cc](https://github.com/hendt/ebay-api/commit/e4e58cc94eaccb37150a1cdc3fe6e7289aacd65b))
+* remove custom User-Agent ([86cde05](https://github.com/hendt/ebay-api/commit/86cde051b180acd1ef947b9cac9d7374af1ce280))
+* revert back to plain xml body since form-data with axios has weird issues ([45870d5](https://github.com/hendt/ebay-api/commit/45870d596ede9ec5a80d17da431a789bf675b447))
+
 ## [4.0.0-RC.0](https://github.com/hendt/ebay-api/compare/v3.3.3...v4.0.0-RC.0) (2021-08-26)
 
 
