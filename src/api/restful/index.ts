@@ -1,6 +1,6 @@
 import Api from '../';
 import Auth from '../../auth';
-import {EBayError, EBayInvalidAccessToken, handleEBayError} from '../../errors';
+import {EBayInvalidAccessToken, handleEBayError} from '../../errors';
 import {IEBayApiRequest} from '../../request';
 import {AppConfig} from '../../types';
 
@@ -180,7 +180,7 @@ export default abstract class Restful extends Api {
     }
   }
 
-  private shouldRefreshToken(error: EBayError) {
+  private shouldRefreshToken(error: any) {
     if (!this.config.autoRefreshToken) {
       return false;
     }

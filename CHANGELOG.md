@@ -1,4 +1,34 @@
 # eBay API Changelog
+## [4.0.0-RC.1](https://github.com/hendt/ebay-api/compare/v4.0.0-RC.0...v4.0.0-RC.1) (2021-08-27)
+
+
+### Bug Fixes
+
+* keep function name in minified version ([e4e58cc](https://github.com/hendt/ebay-api/commit/e4e58cc94eaccb37150a1cdc3fe6e7289aacd65b))
+* remove custom User-Agent ([86cde05](https://github.com/hendt/ebay-api/commit/86cde051b180acd1ef947b9cac9d7374af1ce280))
+* revert back to plain xml body since form-data with axios has weird issues ([45870d5](https://github.com/hendt/ebay-api/commit/45870d596ede9ec5a80d17da431a789bf675b447))
+
+## [4.0.0-RC.0](https://github.com/hendt/ebay-api/compare/v3.3.3...v4.0.0-RC.0) (2021-08-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* set per default to EBAY_US
+
+### Features
+
+* allow string in setCredentials() ([b17e300](https://github.com/hendt/ebay-api/commit/b17e300fd0710a45883890907152a77f5fefefd2))
+* eps (WIP) ([6e7db5f](https://github.com/hendt/ebay-api/commit/6e7db5fa4431a9ce893d1622ccfd5c247153a901))
+* upload picture to eps with working example ([2d6d46c](https://github.com/hendt/ebay-api/commit/2d6d46c8d653fe2488402d0f89c1181b082f8d5a))
+
+
+### Bug Fixes
+
+* eslint ([2e8727a](https://github.com/hendt/ebay-api/commit/2e8727aaa17622ccec187a2c4bd0199deb01e8ab))
+
+
+* set per default to EBAY_US ([33b23de](https://github.com/hendt/ebay-api/commit/33b23de5d6af6dbacd2a5639480fa59c8a2215f9))
+
 ### [3.3.3](https://github.com/hendt/ebay-api/compare/v3.3.2...v3.3.3) (2021-08-26)
 
 

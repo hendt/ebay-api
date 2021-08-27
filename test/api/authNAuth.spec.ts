@@ -30,7 +30,7 @@ describe('AuthNAuth', () => {
       const auth = new AuthNAuth({...config, devId: undefined}, req);
       try {
         await auth.getSessionIdAndAuthUrl()
-      } catch (e) {
+      } catch (e: any) {
         expect(e.message).to.equal('DevId is required.');
       }
     })
@@ -39,7 +39,7 @@ describe('AuthNAuth', () => {
       const auth = new AuthNAuth({...config}, req);
       try {
         await auth.getSessionIdAndAuthUrl()
-      } catch (e) {
+      } catch (e: any) {
         expect(e.message).to.equal('RuName is required.');
       }
     })
@@ -49,7 +49,7 @@ describe('AuthNAuth', () => {
       const auth = new AuthNAuth({...config, siteId: 'xxx', ruName: 'ruName'}, req);
       try {
         await auth.getSessionIdAndAuthUrl()
-      } catch (e) {
+      } catch (e: any) {
         expect(e.message).to.equal('"siteId" is required for Auth\'n\'Auth.');
       }
     })
@@ -72,8 +72,8 @@ describe('AuthNAuth', () => {
     it('Throws error if devId is not defined', async () => {
       const auth = new AuthNAuth({...config, devId: undefined}, req);
       try {
-        await auth.fetchAuthToken('SessionID')
-      } catch (e) {
+        await auth.mintToken('SessionID')
+      } catch (e: any) {
         expect(e.message).to.equal('DevId is required.');
       }
     })
@@ -84,7 +84,7 @@ describe('AuthNAuth', () => {
    <SessionID>SessionID</SessionID>
 </GetSessionIDResponse>`)
       const auth = new AuthNAuth(config, {...req, post});
-      await auth.fetchAuthToken('SessionID')
+      await auth.mintToken('SessionID')
     })
 
     it('sets and gets the token correctly', async () => {

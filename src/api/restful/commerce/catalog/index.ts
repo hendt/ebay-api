@@ -14,26 +14,15 @@ export default class Catalog extends Restful {
    * decommissioned in Q1 of 2020.
    *
    * @param changeRequestId The unique identifier of the change request being requested.
-   * @param marketplaceId Use this header to identify the authenticated user's business context.
-   * @param acceptLanguage Use this header to specify the natural language in which the authenticated user desires
-   *     the response.
    */
-  public getChangeRequest(changeRequestId: string, marketplaceId: string, acceptLanguage: string) {
-    return this.get(`/change_request/${changeRequestId}`, {
-      headers: {
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId,
-        'Accept-Language': acceptLanguage
-      }
-    });
+  public getChangeRequest(changeRequestId: string) {
+    return this.get(`/change_request/${changeRequestId}`);
   }
 
   /**
    * Note: The three catalog change request methods in the Catalog API are deprecated, and are scheduled to be
    * decommissioned in Q1 of 2020.
    *
-   * @param marketplaceId Use this header to identify the authenticated user's business context.
-   * @param acceptLanguage Use this header to specify the natural language in which the authenticated user desires
-   *     the response.
    * @param filter One or more comma-separated criteria for narrowing down the collection of change requests returned
    *     by this call.
    * @param limit The number of change requests to return. This is the result set, a subset of the full collection of
@@ -41,17 +30,12 @@ export default class Catalog extends Restful {
    * @param offset The first change request to return based on its position in the returned collection of change
    *     requests.
    */
-  public getChangeRequests(marketplaceId: string, acceptLanguage: string,
-                           {filter, limit, offset}: { filter?: string, limit?: number, offset?: number } = {}) {
+  public getChangeRequests({filter, limit, offset}: { filter?: string, limit?: number, offset?: number } = {}) {
     return this.get(`/change_request`, {
       params: {
         filter,
         limit,
         offset
-      },
-      headers: {
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId,
-        'Accept-Language': acceptLanguage
       }
     });
   }
@@ -96,21 +80,15 @@ export default class Catalog extends Restful {
    * @param marketplaceId Use this header to specify the eBay marketplace identifier.
    */
   public getProductMetadata(epid: string,
-                            {acceptLanguage, otherApplicableCategoryIds, primaryCategoryId, marketplaceId}: {
-                              acceptLanguage?: string,
+                            {otherApplicableCategoryIds, primaryCategoryId}: {
                               otherApplicableCategoryIds?: string,
                               primaryCategoryId?: string,
-                              marketplaceId?: string
                             } = {}) {
     return this.get(`/get_product_metadata`, {
       params: {
         epid,
         other_applicable_category_ids: otherApplicableCategoryIds,
         primary_category_id: primaryCategoryId
-      },
-      headers: {
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId,
-        'Accept-Language': acceptLanguage
       }
     });
   }
@@ -121,28 +99,14 @@ export default class Catalog extends Restful {
    *
    * @param primaryCategoryId The unique identifier of the primary eBay category for which you will retrieve product
    *     aspects.
-   * @param marketplaceId Use this header to specify the eBay marketplace identifier.
-   * @param acceptLanguage This request header sets the natural language that will be provided in the field values of
-   *     the response payload.
    * @param otherApplicableCategoryIds A string of comma-separated category IDs.
    */
-  public getProductMetadataForCategories(primaryCategoryId: string, marketplaceId: string,
-                                         {acceptLanguage, otherApplicableCategoryIds}:
-                                           { acceptLanguage?: string, otherApplicableCategoryIds?: string } = {}) {
-    const headers: any = {
-      'X-EBAY-C-MARKETPLACE-ID': marketplaceId
-    };
-
-    if (acceptLanguage) {
-      headers['Accept-Language'] = acceptLanguage;
-    }
-
+  public getProductMetadataForCategories(primaryCategoryId: string, otherApplicableCategoryIds?: string) {
     return this.get(`/get_product_metadata_for_categories`, {
       params: {
         primary_category_id: primaryCategoryId,
         other_applicable_category_ids: otherApplicableCategoryIds
-      },
-      headers
+      }
     });
   }
 }

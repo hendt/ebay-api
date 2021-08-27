@@ -10,6 +10,10 @@ export const defaultGlobalHeaders = {
   'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE'
 }
 
+export const multipartHeader = {
+  'Content-Type': 'multipart/form-data'
+}
+
 export interface IEBayApiRequest<T = AxiosInstance> {
   readonly instance: T;
 
@@ -28,7 +32,12 @@ export class AxiosRequest implements IEBayApiRequest {
   public readonly instance: AxiosInstance;
 
   constructor(config: AxiosRequestConfig = {}) {
-    this.instance = axios.create({headers: defaultGlobalHeaders, ...config});
+    this.instance = axios.create({
+      headers: {
+        ...defaultGlobalHeaders
+      },
+      ...config
+    });
   }
 
   public get<R = any>(url: string, config?: AxiosRequestConfig): Promise<R> {

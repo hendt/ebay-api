@@ -7,25 +7,29 @@ import {PostOrder} from './api/restful/postOrder';
 import {Sell} from './api/restful/sell';
 import AuthNAuth from './auth/authNAuth';
 import OAuth2 from './auth/oAuth2';
-import {MarketplaceId, SiteId} from './enums';
+import {ContentLanguage, Locale, MarketplaceId, SiteId} from './enums';
 import {ApiEnvError} from './errors';
 import {IEBayApiRequest} from './request';
-import {AppConfig, ClientAlerts, Finding, Shopping, Trading} from './types';
+import {AppConfig, ClientAlerts, Finding, Keyset, Shopping, Trading} from './types';
 
-const defaultAppConfig = {
+const defaultConfig: Omit<AppConfig, keyof Keyset> = {
   sandbox: false,
-  siteId: SiteId.EBAY_DE,
-  marketplaceId: MarketplaceId.EBAY_DE,
-  autoRefreshToken: true
+  autoRefreshToken: true,
+  siteId: SiteId.EBAY_US,
+  marketplaceId: MarketplaceId.EBAY_US,
+  acceptLanguage: Locale.en_US,
+  contentLanguage: ContentLanguage.en_US
 };
 
 // tslint:disable-next-line:class-name
 class eBayApi extends Api {
   public static SiteId = SiteId;
   public static MarketplaceId = MarketplaceId;
+  public static ContentLanguage = ContentLanguage;
+  public static Locale = Locale;
 
   /**
-   * Loads settings from `process.env`
+   * Loads config from `process.env`
    *
    * @return {eBayApi} a new eBayApi instance
    * @param {request} req request
@@ -47,10 +51,10 @@ class eBayApi extends Api {
         certId: process.env.EBAY_CERT_ID,
         devId: process.env.EBAY_DEV_ID,
         authToken: process.env.EBAY_AUTH_TOKEN,
-        siteId: process.env.EBAY_SITE_ID ? parseInt(process.env.EBAY_SITE_ID, 10) : SiteId.EBAY_DE,
+        siteId: process.env.EBAY_SITE_ID ? parseInt(process.env.EBAY_SITE_ID, 10) : SiteId.EBAY_US,
         marketplaceId: process.env.EBAY_MARKETPLACE_ID && process.env.EBAY_MARKETPLACE_ID in MarketplaceId ?
           MarketplaceId[process.env.EBAY_MARKETPLACE_ID as keyof typeof MarketplaceId] as MarketplaceId :
-          MarketplaceId.EBAY_DE,
+          MarketplaceId.EBAY_US,
         ruName: process.env.EBAY_RU_NAME,
         sandbox: (process.env.EBAY_SANDBOX === 'true')
       },
@@ -83,7 +87,7 @@ class eBayApi extends Api {
    * @param {IEBayApiRequest} req the request
    */
   constructor(config: AppConfig, req?: IEBayApiRequest) {
-    super({...defaultAppConfig, ...config}, req)
+    super({...defaultConfig, ...config}, req)
 
     this.factory = new ApiFactory(this.config, this.req, this.auth);
 

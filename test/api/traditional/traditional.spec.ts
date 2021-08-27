@@ -48,6 +48,7 @@ describe('Traditional', () => {
       instance: sinon.stub()
     };
     const traditional = new Traditional(config, req, auth);
+
     const trading = traditional.createTradingApi();
     return trading.GetAccount({}, {raw: true, useIaf: false}).then(data => {
       expect(post.args[0][1]).to.equal([
@@ -77,6 +78,7 @@ describe('Traditional', () => {
       token_type: 'token_type',
       expires_in: 0
     });
+
     const traditional = new Traditional(config, req, auth);
     const trading = traditional.createTradingApi();
     return trading.GetAccount({}, {raw: true}).then(data => {

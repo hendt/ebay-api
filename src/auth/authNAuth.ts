@@ -1,10 +1,16 @@
 import debug from 'debug';
-import XMLRequest from '../api/traditional/XMLRequest';
 import Base from '../api/base';
+import XMLRequest from '../api/traditional/XMLRequest';
 import {IEBayApiRequest} from '../request';
-import {AppConfig, AuthToken} from '../types';
+import {AppConfig} from '../types';
 
 const log = debug('ebay:authNAuth');
+
+export type AuthToken = {
+  eBayAuthToken: string,
+  Timestamp?: string,
+  HardExpirationTime?: string
+};
 
 export default class AuthNAuth extends Base {
   public static readonly SIGNIN_ENDPOINT = {
@@ -70,7 +76,7 @@ export default class AuthNAuth extends Base {
     };
   }
 
-  public async fetchAuthToken(sessionId: string) {
+  public async mintToken(sessionId: string) {
     if (!this.config.devId) {
       throw new Error('DevId is required.');
     }
@@ -87,9 +93,9 @@ export default class AuthNAuth extends Base {
     }
   }
 
-  public async obtainAuthToken(sessionId: string) {
-    const token = await this.fetchAuthToken(sessionId);
-    log('Set auth token', token)
+  public async obtainToken(sessionId: string) {
+    const token = await this.mintToken(sessionId);
+    log('Obtain auth token', token)
     this.setAuthToken(token);
 
     return token;
@@ -105,16 +111,18 @@ export default class AuthNAuth extends Base {
     }
   }
 
-  public getAuthToken() {
-    return this.authToken;
+  public getAuthToken(): AuthToken | null {
+    if (!this.authToken) {
+      return null
+    }
+
+    return {
+      ...this.authToken
+    };
   }
 
   get eBayAuthToken() {
-    if (this.authToken) {
-      return this.authToken.eBayAuthToken;
-    }
-
-    return null;
+    return this.authToken?.eBayAuthToken ?? null
   }
 
   public getRequestConfig(callName: string) {

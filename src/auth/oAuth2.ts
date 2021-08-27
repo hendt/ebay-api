@@ -1,7 +1,6 @@
 import debug from 'debug';
 import Base from '../api/base';
-import {IEBayApiRequest} from '../request';
-import {AppConfig, Scope} from '../types';
+import {Scope} from '../types';
 
 const log = debug('ebay:oauth2');
 
@@ -11,11 +10,19 @@ export type Token = {
   token_type: string
 };
 
-export type UserAccessToken = Token & {
+export type ClientToken = Token;
+
+export type AuthToken = Token & {
   refresh_token: string,
   refresh_token_expires_in: number
 };
 
+/**
+ * https://developer.ebay.com/api-docs/static/oauth-tokens.html
+ *
+ * Client credentials grant flow mints a new Application access token that you can use to access the resources owned by the application.
+ * Authorization code grant flow mints a new User access token that you can use to access the resources owned by the user.
+ */
 export default class OAuth2 extends Base {
   // If all the calls in our application require just an Application access token we can use this endpoint
   public static readonly IDENTITY_ENDPOINT: Record<string, string> = {
@@ -47,14 +54,9 @@ export default class OAuth2 extends Base {
     ].join('');
   }
 
-  private scope: Scope;
-  private _clientToken?: Token;
-  private _userAccessToken?: UserAccessToken;
-
-  constructor(config: AppConfig, req?: IEBayApiRequest) {
-    super(config, req);
-    this.scope = this.config.scope || OAuth2.defaultScopes;
-  }
+  private scope: Scope = this.config.scope || OAuth2.defaultScopes;
+  private _clientToken?: ClientToken;
+  private _authToken?: AuthToken;
 
   get identityEndpoint() {
     return this.config.sandbox ? OAuth2.IDENTITY_ENDPOINT.sandbox : OAuth2.IDENTITY_ENDPOINT.production
@@ -62,28 +64,24 @@ export default class OAuth2 extends Base {
 
   /**
    * Return the access token.
+   * First return user access token, if not set Application Access Token.
    */
-  public async getAccessToken() {
-    // Fallback to Client Token
-    return this.accessToken || this.getClientAccessToken();
+  public async getAccessToken(): Promise<string> {
+    return this.getUserAccessToken() || this.getApplicationAccessToken();
   }
 
-  get accessToken() {
-    if (this._userAccessToken) {
-      return this._userAccessToken.access_token;
-    }
-
-    return null;
+  public getUserAccessToken(): string | null {
+    return this._authToken?.access_token ?? null
   }
 
-  public async getClientAccessToken(): Promise<string> {
+  public async getApplicationAccessToken(): Promise<string> {
     if (this._clientToken) {
-      log('Return existing client token: ', this._clientToken);
+      log('Return existing application access token: ', this._clientToken);
       return this._clientToken.access_token;
     }
 
     try {
-      const token = await this.refreshClientToken();
+      const token = await this.obtainApplicationAccessToken();
       return token.access_token;
     } catch (error) {
       throw error;
@@ -102,19 +100,20 @@ export default class OAuth2 extends Base {
     return [...this.scope];
   }
 
-  // Client Credential Grant
-  public async refreshClientToken(): Promise<Token> {
+  /**
+   * Client credentials grant flow.
+   */
+  public async mintApplicationAccessToken(): Promise<ClientToken> {
     if (!this.config.appId) {
       throw new Error('Missing App ID (Client Id)');
     }
+
     if (!this.config.certId) {
       throw new Error('Missing Cert Id (Client Secret)');
     }
 
-    log('Obtain a new Client Token with scope: ', this.scope.join(','));
-
     try {
-      const token = await this.req.postForm(this.identityEndpoint, {
+      return await this.req.postForm(this.identityEndpoint, {
         scope: this.scope.join(' '),
         grant_type: 'client_credentials'
       }, {
@@ -123,15 +122,29 @@ export default class OAuth2 extends Base {
           password: this.config.certId
         }
       });
+    } catch (error) {
+      log('Failed to mint application token', error);
+      throw error;
+    }
+  }
 
-      log('Stored a new Client Token:', token);
+  /**
+   * Client credentials grant flow.
+   */
+  public async obtainApplicationAccessToken(): Promise<ClientToken> {
+    log('Obtain a new application access token with scope: ', this.scope.join(','));
+
+    try {
+      const token = await this.mintApplicationAccessToken();
+
+      log('Obtained a new application access token:', token);
 
       this.setClientToken(token);
       this.emit('refreshClientToken', token);
 
       return token;
     } catch (error) {
-      log('Failed to store client token', error);
+      log('Failed to obtain application token', error);
       throw error;
     }
   }
@@ -154,12 +167,14 @@ export default class OAuth2 extends Base {
   }
 
   /**
-   * Gets the access token for the given code.
+   * Authorization code grant flow.
+   *
+   * Mint the user access token for the given code.
    *
    * @param code the code
    * @param ruName the redirectUri
    */
-  public async getToken(code: string, ruName = this.config.ruName) {
+  public async mintUserAccessToken(code: string, ruName = this.config.ruName) {
     try {
       const token = await this.req.postForm(this.identityEndpoint, {
         grant_type: 'authorization_code',
@@ -172,48 +187,39 @@ export default class OAuth2 extends Base {
         }
       });
 
-      log('Successfully obtained a new User Access Token', token);
+      log('User Access Token', token);
       return token;
-    } catch (ex) {
-      log('Failed to get the token', ex);
-      throw ex;
+    } catch (error) {
+      log('Failed to get the token', error);
+      throw error;
     }
   }
 
   /**
-   * Gets and sets the access token for the given code.
+   * Authorization code grant flow.
+   *
+   * Mint the access token for the given code.
    *
    * @param code the code
+   * @param ruName the redirectUri
    */
-  public async obtainToken(code: string) {
-    const token = await this.getToken(code);
-    log('Set Token', token);
-    this.setCredentials(token)
+  public async getToken(code: string, ruName = this.config.ruName) {
+    return await this.mintUserAccessToken(code, ruName);
   }
 
-  public getCredentials(): UserAccessToken | null {
-    if (this._userAccessToken) {
-      return {
-        ...this._userAccessToken
-      };
-    }
-    return null;
-  }
-
-  public setCredentials(userAccessToken: UserAccessToken) {
-    this._userAccessToken = userAccessToken;
-  }
-
-  public async refreshAuthToken(): Promise<Token> {
-    if (!this._userAccessToken) {
-      log('Tried to refresh auth token before it was set.');
-      throw new Error('Failed to refresh the token. Token is not set.');
+  /**
+   * Authorization code grant flow.
+   */
+  public async refreshUserAccessToken(): Promise<AuthToken> {
+    if (!this._authToken || !this._authToken.refresh_token) {
+      log('Tried to refresh user access token before it was set.');
+      throw new Error('Failed to refresh the user access token. Token or refresh_token is not set.');
     }
 
     try {
       const token = await this.req.postForm(this.identityEndpoint, {
         grant_type: 'refresh_token',
-        refresh_token: this._userAccessToken.refresh_token,
+        refresh_token: this._authToken.refresh_token,
         scope: this.scope.join(' ')
       }, {
         auth: {
@@ -221,31 +227,77 @@ export default class OAuth2 extends Base {
           password: this.config.certId
         }
       });
+
       log('Successfully refreshed token', token);
 
       const refreshedToken = {
-        ...this._userAccessToken,
+        ...this._authToken,
         ...token
       };
 
       this.setCredentials(refreshedToken);
-
       this.emit('refreshAuthToken', refreshedToken);
 
       return refreshedToken;
-    } catch (ex) {
-      log('Failed to refresh the token', ex);
-      throw ex;
+    } catch (error) {
+      log('Failed to refresh the token', error);
+      throw error;
     }
   }
 
-  public async refreshToken(): Promise<Token> {
-    if (this._userAccessToken) {
-      return await this.refreshAuthToken();
+  /**
+   * Gets and sets the user access token for the given code.
+   *
+   * Authorization code grant flow.
+   *
+   * @param code the code
+   */
+  public async obtainToken(code: string): Promise<AuthToken> {
+    const token = await this.getToken(code);
+    log('Obtain user access token', token);
+    this.setCredentials(token)
+
+    return token
+  }
+
+  public getCredentials(): AuthToken | ClientToken | null {
+    if (this._authToken) {
+      return {
+        ...this._authToken
+      };
     } else if (this._clientToken) {
-      return await this.refreshClientToken();
+      return {
+        ...this._clientToken
+      }
     }
 
-    throw new Error('To refresh a Token a client token or user access token must be already set.');
+    return null;
+  }
+
+  public setCredentials(authToken: AuthToken | string) {
+    if (typeof authToken === 'string') {
+      this._authToken = {
+        refresh_token: '',
+        expires_in: 7200,
+        refresh_token_expires_in: 47304000,
+        token_type: 'User Access Token',
+        access_token: authToken
+      };
+    } else {
+      this._authToken = authToken;
+    }
+  }
+
+  /**
+   * Refresh the user access token if set or application access token
+   */
+  public async refreshToken(): Promise<Token> {
+    if (this._authToken) {
+      return await this.refreshUserAccessToken();
+    } else if (this._clientToken) {
+      return await this.obtainApplicationAccessToken();
+    }
+
+    throw new Error('Missing credentials. To refresh a token an application access token or user access token must be already set.');
   }
 }

@@ -15,15 +15,13 @@ export default class Feed extends Restful {
    * This method lets you download a TSV_GZIP (tab separated value gzip) Item feed file.
    *
    * @param {BuyFeedParams} params
-   * @param marketplaceId The ID of the eBay marketplace where the item is hosted.
    * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
    *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
    */
-  public getItemFeed(params: BuyFeedParams, marketplaceId: string, range: string) {
+  public getItemFeed(params: BuyFeedParams, range: string) {
     return this.get(`/item`, {
       params,
       headers: {
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId,
         'Range': range
       }
     });
@@ -32,15 +30,13 @@ export default class Feed extends Restful {
   /**
    * This method lets you download a TSV_GZIP (tab separated value gzip) Item Group feed file.
    * @param {BuyFeedParams} params
-   * @param marketplaceId The ID of the eBay marketplace where the item is hosted.
    * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
    *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
    */
-  public getItemGroupFeed(params: BuyFeedParams, marketplaceId: string, range: string) {
+  public getItemGroupFeed(params: BuyFeedParams, range: string) {
     return this.get(`/item_group`, {
       params,
       headers: {
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId,
         'Range': range
       }
     });
@@ -51,18 +47,16 @@ export default class Feed extends Restful {
    *
    * @param {BuyFeedParams} params
    * @param {String} snapshotDate
-   * @param marketplaceId The ID of the eBay marketplace where the item is hosted.
    * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
    *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
    */
-  public getItemSnapshotFeed(params: BuyFeedParams, snapshotDate: string, marketplaceId: string, range: string) {
+  public getItemSnapshotFeed(params: BuyFeedParams, snapshotDate: string, range: string) {
     return this.get(`/item_snapshot`, {
       params: {
         ...params,
         snapshot_date: snapshotDate
       },
       headers: {
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId,
         'Range': range
       }
     });
@@ -73,18 +67,16 @@ export default class Feed extends Restful {
    *
    * @param {BuyFeedParams} params
    * @param {String} snapshotDate
-   * @param marketplaceId The ID of the eBay marketplace where the item is hosted.
    * @param range his header specifies the range in bytes of the chunks of the gzip file being returned.
    *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
    */
-  public getProductFeed(params: BuyFeedParams, snapshotDate: string, marketplaceId: string, range: string) {
+  public getProductFeed(params: BuyFeedParams, snapshotDate: string, range: string) {
     return this.get(`/product`, {
       params: {
         ...params,
         snapshot_date: snapshotDate
       },
       headers: {
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId,
         'Range': range
       }
     });

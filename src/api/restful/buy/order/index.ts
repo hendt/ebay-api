@@ -328,8 +328,6 @@ export default class Order extends Api {
    *     initiateCheckoutSession method.
    * @param authorization The oAuth2 token. Note: The eBay partner must include this header in the request.
    * @param date The UTC timestamp of the request, which is generated and added to the request by the VSP.
-   * @param marketplaceId The eBay marketplace ID. For a list of supported sites, see API Restrictions in the Order
-   *     API overview. Note: The eBay partner must include this header in the request.
    * @param requestNonce A UUID (a 128-bit universal unique ID), which is generated and added to the request by the
    *     VSP.
    * @param signature The HMAC signature, which is generated and added to the request by the VSP.
@@ -339,7 +337,6 @@ export default class Order extends Api {
     checkoutSessionId: string,
     authorization: string,
     date: string,
-    marketplaceId: string,
     requestNonce: string,
     signature: string,
     body?: UpdatePaymentInformation
@@ -349,7 +346,6 @@ export default class Order extends Api {
       headers: {
         'Authorization': authorization,
         'X-EBAY-C-DATE': date,
-        'X-EBAY-C-MARKETPLACE-ID': marketplaceId,
         'X-EBAY-C-REQUEST-NONCE': requestNonce,
         'X-EBAY-C-SIGNATURE': signature
       }

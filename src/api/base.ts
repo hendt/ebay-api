@@ -11,7 +11,7 @@ export default abstract class Base {
 
   private readonly emitter: NanoEvents<any>;
 
-  protected constructor(
+  constructor(
     config: AppConfig,
     req: IEBayApiRequest = new AxiosRequest(config.axiosConfig),
   ) {

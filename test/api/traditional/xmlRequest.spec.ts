@@ -125,4 +125,32 @@ describe('XMLRequestTest', () => {
       }).to.deep.equal(result);
     });
   });
+
+  describe('request', () => {
+    it('call custom body function and headers', () => {
+      const post = sinon.stub().returns(Promise.resolve(apiResponse));
+      const request = new XMLRequest('CALL', {},
+        {
+          ...config,
+          hook: () => ({
+            body: 'custom',
+            headers: {
+              'X_-HEADER': 'header',
+              'Content-Type': 'multipart/form-data',
+            }
+          }),
+        },
+        {...req, post});
+
+      return request.request().then(result => {
+        expect(post.args[0][1]).to.eql('custom')
+        expect(post.args[0][2].headers).to.eql({
+          'CALL': 'CALL',
+          'Content-Type': 'multipart/form-data',
+          'X_-HEADER': 'header',
+        })
+        expect(result).to.equal(apiResponse);
+      });
+    })
+  })
 });

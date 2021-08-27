@@ -1,11 +1,10 @@
 import debug from 'debug';
 import xmlParser, {j2xParser} from 'fast-xml-parser';
 
-import {eBayHandleEBayJsonResponse, EbayNoCallError} from '../../errors';
+import {handleEBayJsonResponse, EbayNoCallError} from '../../errors';
 import {IEBayApiRequest} from '../../request';
 import {Fields} from './fields';
 
-const HEADING = '<?xml version="1.0" encoding="utf-8"?>';
 const log = debug('ebay:xml:request');
 
 const defaultJSON2XMLOptions = {
@@ -28,7 +27,7 @@ export const defaultXML2JSONParseOptions = {
   ignoreNameSpace: true,
   parseTrueNumberOnly: true,
   arrayMode: (_: string, parentTageName: string) => {
-    return /Array$/.test(parentTageName)
+    return /Array$/.test(parentTageName);
   }
 };
 
@@ -36,25 +35,35 @@ type Headers = {
   [key: string]: string | number | undefined;
 };
 
+export type BodyHeaders = {
+  body: any,
+  headers?: Headers
+}
+
 export type Options = {
   raw?: boolean,
   parseOptions?: object,
   useIaf?: boolean,
   headers?: Headers,
+  hook?: (xml: string) => BodyHeaders
 };
 
 export type XMLReqConfig = Options & {
   headers: Headers,
   endpoint: string,
   xmlns: string,
-  eBayAuthToken?: string | null
+  eBayAuthToken?: string | null,
 };
 
-export const defaultOptions: Required<Options> = {
+export const defaultOptions: Required<Omit<Options, 'hook'>> = {
   raw: false,
   parseOptions: defaultXML2JSONParseOptions,
   useIaf: true,
   headers: {}
+};
+
+export const defaultHeaders = {
+  'Content-Type': 'text/xml'
 };
 
 /**
@@ -67,10 +76,6 @@ export default class XMLRequest {
   private readonly req: any;
 
   public static j2x = new j2xParser(defaultJSON2XMLOptions);
-
-  private readonly defaultHeaders = {
-    'Content-Type': 'text/xml'
-  };
 
   /**
    * Creates the new Request object
@@ -96,9 +101,9 @@ export default class XMLRequest {
    * returns the expected name of XML node of a Request
    *
    * @private
-   * @return     {String}  { description_of_the_return_value }
+   * @return     {String}  callnameReponse
    */
-  private get responseWrapper() {
+  private getResponseWrapper() {
     return `${this.callName}Response`;
   }
 
@@ -106,9 +111,9 @@ export default class XMLRequest {
    * returns the XML structure for the SOAP auth
    *
    * @private
-   * @return     {Object}  the SOAP
+   * @return     {Object}  the RequesterCredentials
    */
-  private get credentials() {
+  private getCredentials() {
     return this.config.eBayAuthToken ? {
       RequesterCredentials: {
         eBayAuthToken: this.config.eBayAuthToken
@@ -116,28 +121,29 @@ export default class XMLRequest {
     } : {};
   }
 
-  get headers() {
-    return {
-      ...this.defaultHeaders,
-      ...this.config.headers,
-    }
-  }
-
-  get parseOptions() {
+  private getParseOptions() {
     return {
       ...defaultXML2JSONParseOptions,
       ...this.config.parseOptions
-    }
+    };
+  }
+
+  private getHeaders() {
+    return {
+      ...defaultHeaders,
+      ...this.config.headers,
+    };
   }
 
   /**
-   * converts an XML response to JSON
+   * Converts an XML response to JSON
    *
-   * @param      {string}     xml     The xml
-   * @param      {object}     parseOptions     The parse options
+   * @param      {string}     xml     the xml
    * @return     {JSON}         resolves to a JSON representation of the HTML
    */
-  public static toJSON(xml: string, parseOptions: object) {
+  public toJSON(xml: string) {
+    const parseOptions = this.getParseOptions();
+    log('parseOption', parseOptions);
     return xmlParser.parse(xml, parseOptions);
   }
 
@@ -149,11 +155,11 @@ export default class XMLRequest {
    * @return     {String}           The XML string of the Request
    */
   public toXML(fields: Fields) {
-    log('JSON2XML:parseOptions', defaultJSON2XMLOptions);
+    const HEADING = '<?xml version="1.0" encoding="utf-8"?>';
     return HEADING + XMLRequest.j2x.parse({
       [this.callName + 'Request']: {
         '@_xmlns': this.config.xmlns,
-        ...this.credentials,
+        ...this.getCredentials(),
         ...fields
       }
     });
@@ -167,46 +173,49 @@ export default class XMLRequest {
    *
    */
   public async request() {
-    log('XML:config', this.config);
     const xml = this.toXML(this.fields);
-    log('XML:xml', xml);
+    log('xml', xml);
 
     try {
-      const headers = this.headers;
-      log('XML:request:' + this.config.endpoint, headers);
-      const data = await this.req.post(this.config.endpoint, xml, {
-        headers
-      });
+      const {body, headers = {}} = this.config.hook?.(xml) ?? {body: xml};
 
-      log('XML:response', data);
+      const config = {
+        headers: {
+          ...this.getHeaders(),
+          ...(headers ? headers : {})
+        }
+      };
+      log('config', config);
+      const response = await this.req.post(this.config.endpoint, body, config);
+
+      log('response', response);
 
       // resolve to raw XML
       if (this.config.raw) {
-        return data;
+        return response;
       }
 
-      log('XML:parseOption', this.parseOptions);
-      let json = XMLRequest.toJSON(data, this.parseOptions);
+      const json = this.xml2JSON(response);
 
-      log('XML:JSON', json);
-
-      // Unwrap
-      if (json[this.responseWrapper]) {
-        json = json[this.responseWrapper]
-      }
-
-      eBayHandleEBayJsonResponse(json);
+      handleEBayJsonResponse(json);
 
       return json;
-    } catch (error) {
-      log('XML:error', error);
+    } catch (error: any) {
+      log('error', error);
 
       if (error.response?.data) {
-        const data = XMLRequest.toJSON(error.response.data, this.parseOptions);
-        eBayHandleEBayJsonResponse(data);
+        const data = this.toJSON(error.response.data);
+        handleEBayJsonResponse(data);
       }
 
       throw error;
     }
+  }
+
+  public xml2JSON(xml: string) {
+    const json = this.toJSON(xml);
+
+    // Unwrap
+    return json[this.getResponseWrapper()] ?? json;
   }
 }

@@ -12,6 +12,7 @@ export default {
       format: 'umd',
       name: 'eBayApi',
       exports: "default",
+      sourcemap: true
     }
   ],
   plugins: [
@@ -19,7 +20,9 @@ export default {
       browser: true
     }),
     commonjs(),
-    terser(),
+    terser({
+      keep_fnames: true
+    }),
     strip({
       include: [/^.+\.min\.js$/],
       debugger: true,
