@@ -107,7 +107,7 @@
  src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/languages/json.min.js"></script>
 <main>
 <div id="sidebar">
-<form>
+<form onsubmit="event.preventDefault()">
   <div>
   <fieldset>
     <legend>Credentials</legend>
@@ -122,6 +122,10 @@
   <label>
     <span>Dev ID</span>
     <input name="devId" placeholder="DevId" type="text">
+  </label>
+  <label>
+    <span>Access Token</span>
+    <textarea rows="4" cols="50" name="accessToken" placeholder="accessToken"></textarea>
   </label>
   </fieldset>
   <fieldset>
@@ -143,13 +147,19 @@
   <label>
     <span>Get Item</span>
     <input value="254188828753" name="itemId" type="text">
-    <button type="button" class="submit" onclick="getItem()">Get Item</button>
+    <button type="submit" class="submit" onclick="getItem()">Get Item</button>
   </label>
 
   <label>
     <span>Search</span>
     <input value="" name="query" type="text">
-    <button type="button" class="submit" onclick="search()">Search</button>
+    <button type="submit" class="submit" onclick="search()">Search</button>
+  </label>
+
+  <label>
+    <span>Upload to EPS</span>
+    <input type="file" name="image">
+    <button type="submit" class="submit" onclick="upload()">Upload</button>
   </label>
 </form>
 </div>
@@ -177,7 +187,7 @@
       devId: form.devId.value,
 
       sandbox: form.sandbox.checked,
-      siteId: form.siteId.value,
+      siteId: parseInt(form.siteId.value, 10),
       marketplaceId: form.marketplaceId.value,
       contentLanguage: 'en-US'
     });
@@ -187,23 +197,63 @@
       return request;
     })
 
+    if (form.accessToken.value) {
+      eBay.OAuth2.setCredentials(form.accessToken.value.trim());
+    }
+
     return eBay
   }
 
-  function handleError(e) {code.innerText = e.message}
+  function handleError(e) {
+    console.error(e);
+    code.innerText = e.message
+  }
   function handleResponse(data) {
     code.innerText = JSON.stringify(data, null, 2);  
     hljs.highlightBlock(code);
   }
 
   function getItem() {
-    createApi().buy.browse.getItem('v1|' + form.itemId.value + '|0').then(handleResponse)
-    .catch(handleError);
+    try {
+      createApi().buy.browse.getItem('v1|' + form.itemId.value + '|0').then(handleResponse)
+              .catch(handleError);
+    } catch (e) {
+      handleError(e)
+    }
   }
 
   function search() {
-    createApi().buy.browse.search({q: form.query }).then(handleResponse)
-    .catch(handleError);
+    try {
+      createApi().buy.browse.search({q: form.query}).then(handleResponse)
+              .catch(handleError);
+    } catch (e) {
+      handleError(e)
+    }
+  }
+
+  function upload() {
+    const file = document.forms[0].image.files[0];
+    if (!file) {
+      alert('File is required.');
+      return;
+    }
+    try {
+      createApi().trading.UploadSiteHostedPictures({ExtensionInDays: 1}, {
+        hook: (xml) => {
+          const formData = new FormData();
+          // XML should be always first
+          formData.append('XML Payload', xml);
+          formData.append('image', file);
+          return {
+            body: formData,
+            headers: {'Content-Type': 'multipart/form-data'}
+          }
+        }
+      }).then(handleResponse)
+              .catch(handleError);
+    } catch (e) {
+      handleError(e)
+    }
   }
 </script>
 </body>

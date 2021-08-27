@@ -298,6 +298,6 @@ export default class OAuth2 extends Base {
       return await this.obtainApplicationAccessToken();
     }
 
-    throw new Error('To refresh a Token a application access token or user access token must be already set.');
+    throw new Error('Missing credentials. To refresh a token an application access token or user access token must be already set.');
   }
 }

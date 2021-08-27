@@ -170,7 +170,7 @@ describe('OAuth2', () => {
       try {
         await oAuth2.refreshToken();
       } catch (e: any) {
-        expect(e.message).to.equal('To refresh a Token a application access token or user access token must be already set.');
+        expect(e.message).to.equal('Missing credentials. To refresh a token an application access token or user access token must be already set.');
       }
     });
 
