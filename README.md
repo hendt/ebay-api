@@ -47,8 +47,9 @@ npm install @hendt/ebay-api
 yarn add @hendt/ebay-api
 ```
 
-## Usage
+## 🚀 Usage & Quick start
 
+You have to register an eBay [Developer Account](https://developer.ebay.com/signin?tab=register).
 Checkout API [examples](https://github.com/hendt/ebay-api/tree/master/examples).
 
 ### NodeJS
@@ -59,8 +60,8 @@ import eBayApi from '@hendt/ebay-api';
 // const eBayApi = require('@hendt/ebay-api')
 
 const eBay = new eBayApi({
-  appId: '-- or Client ID --',
-  certId: '-- or Client Secret --',
+  appId: '-- also called Client ID --',
+  certId: '-- also called Client Secret --',
   sandbox: false
 });
 
@@ -73,19 +74,20 @@ console.log(JSON.stringify(item, null, 2));
 import eBayApi from '@hendt/ebay-api';
 
 const eBay = new eBayApi({
-  appId: '-- or Client ID --',
-  certId: '-- or Client Secret --',
+  appId: '-- also called Client ID --',
+  certId: '-- also called Client Secret --',
   sandbox: false,
 
   siteId: eBayApi.SiteId.EBAY_US, // required for traditional APIs, see https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html
   
-  marketplaceId:  eBayApi.MarketplaceId.EBAY_US, // required for RESTful APIs
-  acceptLanguage: eBayApi.Locale.en_US,
-  contentLanguage: eBayApi.ContentLanguage.en_US,
+  marketplaceId:  eBayApi.MarketplaceId.EBAY_US, // defautl. required for RESTful APIs
+  acceptLanguage: eBayApi.Locale.en_US, // defautl
+  contentLanguage: eBayApi.ContentLanguage.en_US, // defautl.
 
   // optional parameters, should be omitted if not used
-  devId: '-- devId --', // required for traditional trading API
+  devId: '-- devId --', // required for traditional Trading API
   ruName: '-- eBay Redirect URL name --', // 'RuName' (eBay Redirect URL name) required for authorization code grant
+  
   authToken: '--  Auth\'n\'Auth for traditional API (used by trading) --', // can be set to use traditional API without code grant
 });
 ```
@@ -154,14 +156,34 @@ Use `eBayApi.fromEnv()` to load data from environment variables.
 | ruName | process.env.EBAY_RU_NAME |
 | sandbox | process.env.EBAY_SANDBOX === 'true' |
 
-## Debug
+## 🐞 Debug
 To see debug logs use `DEBUG=ebay:*` environment variable.
 
-## Access token types
+## 🔑 Access token types
 See the full Documentation [here](https://developer.ebay.com/api-docs/static/oauth-token-types.html).
 
 *Client credentials grant flow* mints a new Application access token.
 *Authorization code grant flow* mints a new User access token.
+
+### User access token (authorization code grant flow)
+👉 Recommended for all API Calls.
+
+> You must employ a User token to call any interface that accesses or modifies data that is owned by the user (such as user information and account data).
+To get a User token, the users of your app must grant your application the permissions it needs to act upon their behalf. This process is called user consent. With the user consent flow, each User token contains the set of scopes for which the user has granted their permission [(eBay Token Types)](https://developer.ebay.com/api-docs/static/oauth-token-types.html).
+
+### Application access token (client credentials grant flow)
+👉 Recommended for API calls that will only request application data (`GET` method, and it's also restricted).
+
+> Application tokens are general-use tokens that give access to interfaces that return application data. For example, many GET requests require only an Application token for authorization.
+[(eBay Token Types)](https://developer.ebay.com/api-docs/static/oauth-token-types.html)
+
+If no other token is set, this token will be obtained *automatically* in the process of calling an RESTful API.
+
+### Auth'N'Auth
+👉 The "old" way. Only works with Traditional API. 
+Checkout the [Auth'N'Auth example](https://github.com/hendt/ebay-api/tree/master/examples/traditional/authNAuth.ts).
+
+You can also generate the token on eBay developer page and use it directly (see Detailed configuration example).
 
 ## OAuth2: Exchanging the authorization code for a User access token
 
@@ -198,7 +220,7 @@ app.get('/success', async function(req, res) {
   try {
     const token = await eBay.OAuth2.getToken(code);
     eBay.OAuth2.setCredentials(token);
-    // optional: store this token to a session
+    // store this token e.g. to a session
     req.session.token = token
 
     // 5. Start using the API
@@ -296,11 +318,11 @@ const token = await eBay.OAuth2.refreshToken();
 // will refresh Auth Token if set, otherwise the client token if set.
 ```
 
-## Additional Headers
+## Additional request headers
 Sometimes you want to add additional headers to the request like a GLOBAL-ID `X-EBAY-SOA-GLOBAL-ID`. 
 You have multiple options to do this.
 
-### Restful API Headers
+### Restful API headers
 ```javascript
   const eBay = new eBayApi();
 
@@ -311,7 +333,7 @@ You have multiple options to do this.
   })
 ```
 
-### Traditional API Headers
+### Traditional API headers
 You can pass headers directly in the method call in the second parameter:
 ```javascript
 eBay.trading.AddFixedPriceItem({
@@ -375,10 +397,11 @@ The second parameter in the traditional API has the following options:
 
 ```typescript
 export type Options = {
-  raw?: boolean, // return raw XML
-  parseOptions?: object, // https://github.com/NaturalIntelligence/fast-xml-parser
+  raw?: boolean // return raw XML
+  parseOptions?: object // https://github.com/NaturalIntelligence/fast-xml-parser
   useIaf?: boolean // use IAF in header instead of Bearer
   headers?: Headers // additional Headers (key, value)
+  hook?: (xml) => BodyHeaders // hook into the request and modify the body and headers
 };
 ```
 
@@ -417,6 +440,21 @@ eBay.postOrder.return.getReturn('5132021997').then(a => {
 }).catch(e => {
     console.log(e)
 });
+```
+
+
+### Finding - findItemsByProduct \(use XML attributes and value\)
+
+```javascript
+eBay.finding.findItemsByProduct({
+  productId: {
+    '@_type': 'ReferenceID',
+    '#value': '53039031'
+  }
+})
+
+// will produce:
+// <productId type="ReferenceID">53039031</productId>
 ```
 
 ### Finding - findItemsIneBayStores
@@ -460,6 +498,19 @@ eBay.trading.GetMyeBaySelling({
 });
 ```
 
+## FAQ
+1. Do I need the [eBay OAuth Client](https://www.npmjs.com/package/ebay-oauth-nodejs-client) dependency?
+
+No. This library has already all authentication implemented and support also auto refreshing token.
+3. What does IAF mean?
+
+IAF stands for IDENTITY ASSERTION FRAMEWORK.
+The traditional API supports IAF. That means you can use the OAuth2 token with the traditional APIs.
+
+3. Is it possible to Upload Pictures directly to EPS?
+
+Yes. Checkout the [Browser](https://hendt.github.io/ebay-api/) example and [Node Example here](https://github.com/hendt/ebay-api/blob/master/examples/traditional/trading.UploadSiteHostedPictures.ts).
+
 ## Contribution
 
 Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
@@ -478,4 +529,3 @@ Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
 ## 📝 License
 
 MIT.
-

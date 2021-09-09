@@ -61,6 +61,25 @@ describe('XMLRequestTest', () => {
     });
   });
 
+  it('Parse @_attribute and #value', () => {
+    const request = new XMLRequest('CALL', {
+      productId: {
+        '@_type': 'ReferenceID',
+        '#value': '53039031'
+      }
+    }, config, req);
+    return request.request().then(() => {
+      // @ts-ignore
+      expect(req.post.args[0][1]).to.equal([
+        '<?xml version="1.0" encoding="utf-8"?>',
+        '<CALLRequest xmlns="xmlns">',
+        '<RequesterCredentials><eBayAuthToken>eBayAuthToken</eBayAuthToken></RequesterCredentials>',
+        '<productId type="ReferenceID">53039031</productId>',
+        '</CALLRequest>'
+      ].join(''));
+    });
+  });
+
   it('Unwraps Response', () => {
     const response = `<?xml version="1.0" encoding="utf-8"?>
 <CALLResponse xmlns="urn:ebay:apis:eBLBaseComponents">
