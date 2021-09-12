@@ -19,7 +19,7 @@
     "rc": "npm run release -- --prerelease RC && git push --follow-tags origin next"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "debug": "^2.1.1",
     "fast-xml-parser": "^3.19.0",
     "nanoevents": "^2.0.0",
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.1.0",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-strip": "^2.0.0",
     "@types/chai": "^4.2.3",
