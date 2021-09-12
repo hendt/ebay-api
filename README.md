@@ -502,7 +502,8 @@ eBay.trading.GetMyeBaySelling({
 1. Do I need the [eBay OAuth Client](https://www.npmjs.com/package/ebay-oauth-nodejs-client) dependency?
 
 No. This library has already all authentication implemented and support also auto refreshing token.
-3. What does IAF mean?
+
+2. What does IAF mean?
 
 IAF stands for IDENTITY ASSERTION FRAMEWORK.
 The traditional API supports IAF. That means you can use the OAuth2 token with the traditional APIs.
