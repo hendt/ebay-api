@@ -251,7 +251,7 @@ export type LegacyReference = {
 export type RefundItem = {
   refundAmount: Amount,
   lineItemId: string,
-  legacyReference: LegacyReference
+  legacyReference?: LegacyReference
 };
 
 export type IssueRefundRequest = {
