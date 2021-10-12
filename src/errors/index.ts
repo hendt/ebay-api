@@ -184,7 +184,7 @@ export const handleEBayError = (ex: any) => {
 }
 
 export const handleEBayJsonResponse = (data: any) => {
-  if (data.Errors?.ErrorCode) {
+  if (data.Ack === 'Failure' && data.Errors?.ErrorCode) {
     switch (data.Errors.ErrorCode) {
       case EBayIAFTokenExpired.code:
         throw new EBayIAFTokenExpired(data);
