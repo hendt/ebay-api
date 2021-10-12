@@ -1,4 +1,12 @@
 # eBay API Changelog
+### [4.0.2](https://github.com/hendt/ebay-api/compare/v4.0.1...v4.0.2) (2021-10-12)
+
+
+### Bug Fixes
+
+* **traditional:** only return api error if Ack is Failure [#93](https://github.com/hendt/ebay-api/issues/93) ([8f30eed](https://github.com/hendt/ebay-api/commit/8f30eed8f9c77d9516f382b4eb67d77ac3b95afc))
+* **types:** make legacyReference in RefundItem optional ([5aa2e9e](https://github.com/hendt/ebay-api/commit/5aa2e9ed8e8315230205833441cf92d1aed2c244))
+
 ### [4.0.1](https://github.com/hendt/ebay-api/compare/v4.0.0...v4.0.1) (2021-09-09)
 
 
