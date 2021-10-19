@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [4.0.3](https://github.com/hendt/ebay-api/compare/v4.0.2...v4.0.3) (2021-10-19)
+
+
+### Bug Fixes
+
+* **shopping:** use iaf token in shopping API ([f24f24d](https://github.com/hendt/ebay-api/commit/f24f24dec9bb349425bb096ef0420d9c50dd7104))
+
 ### [4.0.2](https://github.com/hendt/ebay-api/compare/v4.0.1...v4.0.2) (2021-10-12)
 
 
