@@ -52,12 +52,13 @@ export default class Traditional extends Api {
       },
       xmlns: 'urn:ebay:apis:eBLBaseComponents',
       calls: ShoppingCalls,
-      headers: (callName: string) => ({
+      headers: (callName: string, accessToken?: string) => ({
         'X-EBAY-API-CALL-NAME': callName,
-        'X-EBAY-API-APP-ID': this.config.appId,
+         // 'X-EBAY-API-APP-ID': this.config.appId, deprecated  on June 30, 2021
         'X-EBAY-API-SITE-ID': this.config.siteId,
         'X-EBAY-API-VERSION': 863,
-        'X-EBAY-API-REQUEST-ENCODING': 'xml'
+        'X-EBAY-API-REQUEST-ENCODING': 'xml',
+        ...(accessToken && {'X-EBAY-API-IAF-TOKEN': accessToken})
       })
     });
   }
