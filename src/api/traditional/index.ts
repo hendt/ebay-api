@@ -47,8 +47,8 @@ export default class Traditional extends Api {
     }
     return this.createTraditionalXMLApi<Shopping>({
       endpoint: {
-        production: 'http://open.api.ebay.com/shopping',
-        sandbox: 'http://open.api.sandbox.ebay.com/shopping'
+        production: 'https://open.api.ebay.com/shopping',
+        sandbox: 'https://open.api.sandbox.ebay.com/shopping'
       },
       xmlns: 'urn:ebay:apis:eBLBaseComponents',
       calls: ShoppingCalls,
@@ -69,7 +69,7 @@ export default class Traditional extends Api {
         production: 'https://svcs.ebay.com/services/search/FindingService/v1',
         sandbox: 'https://svcs.sandbox.ebay.com/services/search/FindingService/v1'
       },
-      xmlns: 'http://www.ebay.com/marketplace/search/v1/services',
+      xmlns: 'https://www.ebay.com/marketplace/search/v1/services',
       calls: FindingCalls,
       headers: (callName: string) => ({
         'X-EBAY-SOA-SECURITY-APPNAME': this.config.appId,
