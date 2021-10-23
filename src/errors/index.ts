@@ -12,12 +12,14 @@ export const rawError = Symbol('raw-error');
  */
 export class EBayError extends Error {
   public readonly meta;
+  public readonly description: string;
 
-  constructor(message: string, meta: any = {}) {
+  constructor(message: string, description = '', meta: any = {}) {
     super(message);
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = this.constructor.name;
-    this.meta = meta
+    this.description = description;
+    this.meta = meta;
   }
 
   /**
@@ -28,6 +30,7 @@ export class EBayError extends Error {
   public toJSON() {
     return {
       message: this.message,
+      description: this.description,
       stack: this.stack,
       type: this.constructor.name,
       meta: this.meta || null
@@ -54,33 +57,35 @@ export class ApiEnvError extends EBayError {
   }
 }
 
-const extractMessage = (eBayError: any, err: any) => {
-  if (eBayError.message) {
-    let message = eBayError.message;
-    if (eBayError.error_description) {
-      message += ': ' + eBayError.error_description
-    } else if (eBayError.longMessage) {
-      message += ': ' + eBayError.longMessage
-    } else if (eBayError.description) {
-      message += ': ' + eBayError.description
-    }
-    return message;
-  } else if (err.errorMessage) {
-    return err.errorMessage.error.message;
-  } else if (err.Errors) {
-    return err.Errors.LongMessage || err.Errors.ShortMessage;
-  } else {
-    return err.LongMessage || err.ShortMessage || err.message;
-  }
-};
+export const getErrorMessage = (err: any) =>
+  err.response?.data?.message
+  || err.response?.data?.error?.[0]?.message
+  || err.response?.data?.errors?.[0]?.message
+
+  || err.errorMessage?.error?.message
+  || err.Errors?.ShortMessage
+
+  || err.message
+  || 'eBay API request error';
+
+export const getErrorDescription = (err: any) =>
+  err.response?.data?.error_description
+  || err.response?.data?.error?.[0]?.longMessage
+  || err.response?.data?.errors?.[0]?.longMessage
+
+  || err.longMessage
+  || err.Errors?.LongMessage
+
+  || err.response?.statusText
+  || '';
 
 /**
  * Thrown when an Error occurs on eBay's side.
  */
 export class EbayApiError extends EBayError {
   constructor(err: any) {
-    const {message, meta} = mapEBayError(err);
-    super(message, meta);
+    const {message, description, meta} = mapEBayError(err);
+    super(message, description, meta);
   }
 }
 
@@ -112,90 +117,100 @@ export class EBayTokenRequired extends EbayApiError {
 export class EBayInvalidScope extends EbayApiError {
 }
 
-export const mapEBayError = (ex: any) => {
-  if (!ex) {
-    return {}
+export const mapEBayError = (err: any) => {
+  if (!err) {
+    return {};
   }
 
-  let eBayError = {}
+  let eBayError: any = {};
 
-  if (ex.response?.data?.error) {
-    eBayError = {
-      message: ex.response.data.error,
-      description: ex.response.data.error_description
+  if (err.response?.data) {
+    const data = err.response.data;
+    if (Array.isArray(data.error)) {
+      eBayError = data.error[0] ?? data;
+    } else if (Array.isArray(data.errors)) {
+      eBayError = data.errors[0] ?? data;
+    } else if (typeof data.error === 'string') {
+      eBayError = {
+        message: data.error,
+        description: data.error_description || ''
+      };
+    } else {
+      eBayError = data;
     }
-  } else if (ex.response?.data?.errors) {
-    eBayError = ex.response?.data?.errors[0] ?? {};
-  } else if (ex.Errors) {
-    eBayError = ex
+  } else if (err.Errors) {
+    eBayError = err;
   }
 
   const error: any = {
-    message: extractMessage(eBayError, ex),
+    message: eBayError.message || getErrorMessage(err),
+    description: eBayError.description || getErrorDescription(err),
     meta: {
       ...eBayError,
-      [rawError]: ex
+      [rawError]: err
     }
-  }
+  };
 
-  if (ex.response) {
+  if (err.response) {
     error.meta.res = {
-      status: ex.response.status,
-      statusText: ex.response.statusText,
-      headers: ex.response.headers,
-      data: ex.response.data ?? {}
-    }
+      status: err.response.status,
+      statusText: err.response.statusText,
+      headers: err.response.headers,
+      data: err.response.data ?? {}
+    };
   }
 
-  if (ex.request && ex.config) {
+  if (err.request && err.config) {
     error.meta.req = {
-      url: ex.config.url,
-      method: ex.config.method,
-      headers: ex.config.headers,
-      params: ex.config.params
-    }
+      url: err.config.url,
+      method: err.config.method,
+      headers: err.config.headers,
+      params: err.config.params
+    };
   }
 
-  return error
+  return error;
 };
 
-export const handleEBayError = (ex: any) => {
-  log('handleEBayError', ex);
+export const handleEBayError = (err: any) => {
+  log('handleEBayError', err);
 
-  if (ex instanceof EBayError) {
-    throw ex
+  if (err instanceof EBayError) {
+    throw err;
   }
 
-  const {message, meta} = mapEBayError(ex);
+  const {message, meta, description} = mapEBayError(err);
 
   if (meta.domain === 'ACCESS') {
-    throw new EBayAccessDenied(ex);
+    throw new EBayAccessDenied(err);
   } else if (meta.message === 'invalid_grant') {
-    throw new EBayInvalidGrant(ex);
+    throw new EBayInvalidGrant(err);
   } else if (meta.errorId === EBayNotFound.code) {
-    throw new EBayNotFound(ex);
+    throw new EBayNotFound(err);
   } else if (meta.message === 'invalid_scope') {
-    throw new EBayInvalidScope(ex);
+    throw new EBayInvalidScope(err);
   } else if (meta.message === 'Invalid access token') {
-    throw new EBayInvalidAccessToken(ex);
+    throw new EBayInvalidAccessToken(err);
   }
 
-  throw new EBayError(message, meta);
-}
+  throw new EBayError(message, description, meta);
+};
 
-export const handleEBayJsonResponse = (data: any) => {
-  if (data.Ack === 'Failure' && data.Errors?.ErrorCode) {
-    switch (data.Errors.ErrorCode) {
-      case EBayIAFTokenExpired.code:
-        throw new EBayIAFTokenExpired(data);
-      case EBayIAFTokenInvalid.code:
-        throw new EBayIAFTokenInvalid(data);
-      case EBayTokenRequired.code:
-        throw new EBayTokenRequired(data);
+export const checkEBayResponse = (data: any) => {
+  if (data.Ack === 'Failure') {
+    if (data.Errors?.ErrorCode) {
+      switch (data.Errors.ErrorCode) {
+        case EBayIAFTokenExpired.code:
+          throw new EBayIAFTokenExpired(data);
+        case EBayIAFTokenInvalid.code:
+          throw new EBayIAFTokenInvalid(data);
+        case EBayTokenRequired.code:
+          throw new EBayTokenRequired(data);
+      }
     }
 
-    throw new EbayApiError(data.Errors);
+    throw new EbayApiError(data);
   } else if (data.errorMessage) {
     throw new EbayApiError(data);
   }
-}
+};

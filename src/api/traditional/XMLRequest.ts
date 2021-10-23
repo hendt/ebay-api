@@ -1,7 +1,7 @@
 import debug from 'debug';
 import xmlParser, {j2xParser} from 'fast-xml-parser';
 
-import {handleEBayJsonResponse, EbayNoCallError} from '../../errors';
+import {checkEBayResponse, EbayNoCallError} from '../../errors';
 import {IEBayApiRequest} from '../../request';
 import {Fields} from './fields';
 
@@ -197,15 +197,15 @@ export default class XMLRequest {
 
       const json = this.xml2JSON(response);
 
-      handleEBayJsonResponse(json);
+      checkEBayResponse(json);
 
       return json;
     } catch (error: any) {
       log('error', error);
 
       if (error.response?.data) {
-        const data = this.toJSON(error.response.data);
-        handleEBayJsonResponse(data);
+        const json = this.toJSON(error.response.data);
+        checkEBayResponse(json);
       }
 
       throw error;

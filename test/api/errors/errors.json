@@ -1,0 +1,49 @@
+{
+  "errors": [
+    {
+      "response": {
+        "data": {
+          "error": [
+            {
+              "errorId": 1,
+              "domain": "domain",
+              "severity": "ERROR",
+              "category": "REQUEST",
+              "message": "message",
+              "parameter": [
+                {
+                  "value": "value",
+                  "name": "name"
+                }
+              ],
+              "longMessage": "description",
+              "inputRefIds": [],
+              "httpStatusCode": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Timestamp": "2021-10-23T19:11:42.335Z",
+      "Ack": "Failure",
+      "Errors": {
+        "ShortMessage": "message",
+        "LongMessage": "description",
+        "ErrorCode": 930,
+        "SeverityCode": "Error",
+        "ErrorClassification": "RequestError"
+      },
+      "Version": 1177,
+      "Build": "E1177_CORE_APIMSG_19110890_R1"
+    },
+    {
+      "response": {
+        "data": {
+          "message": "message",
+          "error_description": "description"
+        }
+      }
+    }
+  ]
+}
