@@ -2,45 +2,32 @@ import {
   Account,
   Analytics,
   Compliance,
+  Feed,
   Finances,
   Fulfillment,
   Inventory,
+  Listing,
+  Logistics,
   Marketing,
   Metadata,
-  Recommendation,
-  Feed,
-  Logistics,
   Negotiation,
-  Listing
-} from '../../../../src/api/restful/sell';
-
-import AccountOas from './account/sell_account_v1_oas3.json';
-import AnalyticsOas from './analytics/sell_analytics_v1_oas3.json';
-import ComplianceOas from './compliance/sell_compliance_v1_oas3.json';
-import FulfillmentOas from './fulfillment/sell_fulfillment_v1_oas3.json';
-import InventoryOas from './inventory/sell_inventory_v1_oas3.json';
-import MarketingOas from './marketing/sell_marketing_v1_oas3.json';
-import MetadataOas from './metadata/sell_metadata_v1_oas3.json';
-import RecommendationOas from './recommendation/sell_recommendation_v1_oas3.json';
-import FinancesOas from './finances/sell_finances_v1_oas3.json';
-import FeedOas from './feed/sell_feed_v1_oas3.json';
-import LogisticsOas from './logistics/sell_logistics_v1_oas3.json';
-import NegotiationOas from './negotiation/sell_negotiation_v1_oas3.json';
-import ListingOas from './listing/sell_listing_v1_beta_oas3.json';
+  Recommendation
+} from '../../../../src/api/restful/sell/index.js';
+import {readJSONSync} from '../../jsonfile.js';
 
 const tests = new Map<any, any>();
-tests.set(Account, AccountOas);
-tests.set(Analytics, AnalyticsOas);
-tests.set(Compliance, ComplianceOas);
-tests.set(Fulfillment, FulfillmentOas);
-tests.set(Inventory, InventoryOas);
-tests.set(Marketing, MarketingOas);
-tests.set(Metadata, MetadataOas);
-tests.set(Recommendation, RecommendationOas);
-tests.set(Finances, FinancesOas);
-tests.set(Feed, FeedOas);
-tests.set(Logistics, LogisticsOas);
-tests.set(Negotiation, NegotiationOas);
-tests.set(Listing, ListingOas);
+tests.set(Account, readJSONSync( './account/sell_account_v1_oas3.json', import.meta.url));
+tests.set(Analytics, readJSONSync( './analytics/sell_analytics_v1_oas3.json', import.meta.url));
+tests.set(Compliance, readJSONSync( './compliance/sell_compliance_v1_oas3.json', import.meta.url));
+tests.set(Fulfillment, readJSONSync( './fulfillment/sell_fulfillment_v1_oas3.json', import.meta.url));
+tests.set(Inventory, readJSONSync( './inventory/sell_inventory_v1_oas3.json', import.meta.url));
+tests.set(Marketing, readJSONSync( './marketing/sell_marketing_v1_oas3.json', import.meta.url));
+tests.set(Metadata, readJSONSync( './metadata/sell_metadata_v1_oas3.json', import.meta.url));
+tests.set(Recommendation, readJSONSync( './recommendation/sell_recommendation_v1_oas3.json', import.meta.url));
+tests.set(Finances, readJSONSync( './finances/sell_finances_v1_oas3.json', import.meta.url));
+tests.set(Feed, readJSONSync( './feed/sell_feed_v1_oas3.json', import.meta.url));
+tests.set(Logistics, readJSONSync( './logistics/sell_logistics_v1_oas3.json', import.meta.url));
+tests.set(Negotiation, readJSONSync( './negotiation/sell_negotiation_v1_oas3.json', import.meta.url));
+tests.set(Listing, readJSONSync( './listing/sell_listing_v1_beta_oas3.json', import.meta.url));
 
 export default tests;

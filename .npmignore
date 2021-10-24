@@ -1,3 +1,4 @@
+.idea
 *.log
 *.enc
 src
@@ -14,3 +15,10 @@ proxy
 index.html
 .travis.yml
 rollup.config.js
+.babelrc
+.mocharc.json
+.versionrc.json
+tsconfig.cjs.json
+CHANGELOG.md
+SUMMARY.md
+CONTRIBUTING.md

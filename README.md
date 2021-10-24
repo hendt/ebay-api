@@ -76,6 +76,7 @@ console.log(JSON.stringify(item, null, 2));
 ```
 
 #### Detailed configuration example
+
 ```javascript
 import eBayApi from 'ebay-api';
 
@@ -85,15 +86,15 @@ const eBay = new eBayApi({
   sandbox: false,
 
   siteId: eBayApi.SiteId.EBAY_US, // required for traditional APIs, see https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html
-  
-  marketplaceId:  eBayApi.MarketplaceId.EBAY_US, // defautl. required for RESTful APIs
+
+  marketplaceId: eBayApi.MarketplaceId.EBAY_US, // defautl. required for RESTful APIs
   acceptLanguage: eBayApi.Locale.en_US, // defautl
   contentLanguage: eBayApi.ContentLanguage.en_US, // defautl.
 
   // optional parameters, should be omitted if not used
   devId: '-- devId --', // required for traditional Trading API
   ruName: '-- eBay Redirect URL name --', // 'RuName' (eBay Redirect URL name) required for authorization code grant
-  
+
   authToken: '--  Auth\'n\'Auth for traditional API (used by trading) --', // can be set to use traditional API without code grant
 });
 ```
@@ -106,28 +107,28 @@ For testing purpose you can use `https://ebay.hendt.workers.dev/` url as proxy. 
 
 Or use [https://github.com/Rob--W/cors-anywhere](CORS Anywhere is a NodeJS proxy) (works very well with heroku.com).
 
-
 ```html
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ebay-api@latest/lib/ebay-api.min.js"></script>
 <script>
   const eBay = new eBayApi({
-    appId: 'appId',
-    certId: 'certId',
-    sandbox: false
-  });
+        appId: 'appId',
+        certId: 'certId',
+        sandbox: false
+    });
 
-  // eBay.req.instance is AxiosInstance per default
-  eBay.req.instance.interceptors.request.use((request) => {
-      // Add Proxy
-      request.url = 'https://ebay.hendt.workers.dev/' + request.url;
-      return request;
-  });
+    // eBay.req.instance is AxiosInstance per default
+    eBay.req.instance.interceptors.request.use((request) => {
+        // Add Proxy
+        request.url = 'https://ebay.hendt.workers.dev/' + request.url;
+        return request;
+    });
 
-  eBay.buy.browse.getItem('v1|254188828753|0').then(item => {
-      console.log(JSON.stringify(item, null, 2));
-  }).catch(e => {
-      console.error(e);
-  });
+    eBay.buy.browse.getItem('v1|254188828753|0').then(item => {
+        console.log(JSON.stringify(item, null, 2));
+    }).catch(e => {
+        console.error(e);
+    });
 </script>
 ```
 
@@ -237,7 +238,7 @@ app.get('/success', async function(req, res) {
     // 5. Start using the API
     const orders = await eBay.sell.fulfillment.getOrders()
     res.send(orders);
-  } catch(e) {
+  } catch (e) {
     console.error(e)
     res.sendStatus(400)
   }
@@ -258,17 +259,17 @@ app.get('/orders/:id', async function(req, res) {
   }
 
   eBay.OAuth2.setCredentials(token);
-  
+
   // If token get's refreshed
   eBay.OAuth2.on('refreshAuthToken', (token) => {
     req.session.token = token;
   });
-  
+
   try {
     // 5. Start using the API
     const order = await eBay.sell.fulfillment.getOrder(id);
     res.send(order);
-  } catch(e) {
+  } catch (e) {
     console.error(e)
     res.sendStatus(400)
   }
@@ -342,14 +343,17 @@ You have multiple options to do this.
 
 
 ### RESTful API headers
+
 ```javascript
   const eBay = new eBayApi();
 
-  eBay.buy.browse.api({headers: {
-      'X-EBAY-SOA-GLOBAL-ID': 'EBAY-DE'
-  }}).getItem('v1|382282567190|651094235351').then((item) => {
-    console.log(item)
-  })
+eBay.buy.browse.api({
+  headers: {
+    'X-EBAY-SOA-GLOBAL-ID': 'EBAY-DE'
+  }
+}).getItem('v1|382282567190|651094235351').then((item) => {
+  console.log(item)
+})
 ```
 
 ### Traditional API headers
@@ -370,15 +374,17 @@ eBay.trading.AddFixedPriceItem({
 ```
 
 ### Low level: use the Axios interceptor to manipulate the request
-```javascript
-  import eBayApi from 'ebay-api';
-  const eBay = new eBayApi(/* {  your config here } */);
 
-  eBay.req.instance.interceptors.request.use((request) => {
-    // Add Header
-    request.headers['X-EBAY-SOA-GLOBAL-ID'] = 'EBAY-DE';
-    return request;
-  })
+```javascript
+import eBayApi from 'ebay-api';
+
+const eBay = new eBayApi(/* {  your config here } */);
+
+eBay.req.instance.interceptors.request.use((request) => {
+  // Add Header
+  request.headers['X-EBAY-SOA-GLOBAL-ID'] = 'EBAY-DE';
+  return request;
+})
 ```
 
 ### Handle JSON GZIP response e.g fetchItemAspects
@@ -389,26 +395,26 @@ npm install zlib # or yarn add zlib
 ```
 
 ```javascript
-  import eBayApi from 'ebay-api';
-  import zlib from 'zlib';
+import eBayApi from 'ebay-api';
+import zlib from 'zlib';
 
-  const toString = (data) => new Promise((resolve) => {
-    zlib.gunzip(data, (err, output) => {
-      if (err) throw err;
-      resolve(output.toString());
-    });
+const toString = (data) => new Promise((resolve) => {
+  zlib.gunzip(data, (err, output) => {
+    if (err) throw err;
+    resolve(output.toString());
   });
+});
 
-  const eBay = new eBayApi(/* {  your config here } */);
+const eBay = new eBayApi(/* {  your config here } */);
 
-  try {
-    const data = await eBay.commerce.taxonomy.fetchItemAspects(/* categoryTreeId */);
-    const result = await toString(data);
-    
-    console.log(result)
-  } catch (e) {
-    console.error(e);
-  }
+try {
+  const data = await eBay.commerce.taxonomy.fetchItemAspects(/* categoryTreeId */);
+  const result = await toString(data);
+
+  console.log(result)
+} catch (e) {
+  console.error(e);
+}
 ```
 
 ## Controlling Traditional XML request and response

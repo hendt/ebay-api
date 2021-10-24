@@ -1,7 +1,7 @@
-import Auth from '../auth';
-import {IEBayApiRequest} from '../request';
-import {AppConfig} from '../types';
-import Base from './base';
+import Auth from '../auth/index.js';
+import {IEBayApiRequest} from '../request.js';
+import {AppConfig} from '../types/index.js';
+import Base from './base.js';
 
 /**
  * Superclass with Auth container.

@@ -1,8 +1,8 @@
 // @ts-ignore
 import sinon from 'sinon';
-import Restful, {defaultApiHeaders} from '../../../src/api/restful';
+import Restful, {defaultApiHeaders} from '../../../src/api/restful/index.js';
 import {expect} from 'chai';
-import {MarketplaceId} from '../../../src/enums';
+import {MarketplaceId} from '../../../src/enums/index.js';
 
 class TestApi extends Restful {
   get basePath(): string {

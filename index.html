@@ -1,178 +1,184 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+    <meta charset="utf-8">
 
-  <title>eBay API Browser example</title>
-  <meta name="description" content="eBay Node API in TypeScript with Browser support">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-  <style>
-    label {
-      display: block;
-      margin: 10px 0;
-      display: flex;
-    }
+    <title>eBay API Browser example</title>
+    <meta name="description" content="eBay Node API in TypeScript with Browser support">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <style>
+        label {
+            display: block;
+            margin: 10px 0;
+            display: flex;
+        }
 
-    label > span {
-      display: inline-block;
-      min-width: 130px;
-      flex-shrink: 0;
-    }
+        label > span {
+            display: inline-block;
+            min-width: 130px;
+            flex-shrink: 0;
+        }
 
-    input[type="text"], input[type="number"] {
-      border-radius: 3px;
-      border: 1px solid #ccc;
-      line-height: 2;
-      width: 100%;
-    }
+        input[type="text"], input[type="number"] {
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            line-height: 2;
+            width: 100%;
+        }
 
-    #response {
-      width: 600px;
-      min-height: 300px;
-    }
+        #response {
+            width: 600px;
+            min-height: 300px;
+        }
 
-    .submit {
-      border: none;
-      background: #fff;
-      border-radius: 3px;
-      padding: 5px;
-      flex-shrink: 0;
-      margin: 5px;
-      color: rgb(12, 171, 252);
-      border: 1px solid #E6ECF1;
-      box-shadow: 0 3px 8px 0 rgb(116 129 141 / 10%);
-    }
+        .submit {
+            border: none;
+            background: #fff;
+            border-radius: 3px;
+            padding: 5px;
+            flex-shrink: 0;
+            margin: 5px;
+            color: rgb(12, 171, 252);
+            border: 1px solid #E6ECF1;
+            box-shadow: 0 3px 8px 0 rgb(116 129 141 / 10%);
+        }
 
-    html, body {
-      padding: 0;
-      margin: 0;
-      height: 100%;
-    }
+        html, body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
 
-    body {
-      background: #fff;
-      font-family: 'Poppins', sans-serif;
-    }
+        body {
+            background: #fff;
+            font-family: 'Poppins', sans-serif;
+        }
 
 
-    main {
-      display: flex;
-      height: 100%;
-    }
+        main {
+            display: flex;
+            height: 100%;
+        }
 
-    #sidebar {
-      height: 100vh;
-      background: #F5F7F9;
-      border-right: 1px solid #E6ECF1;
-      padding: 0 5px;
-      flex-shrink: 0;
-    }
+        #sidebar {
+            height: 100vh;
+            background: #F5F7F9;
+            border-right: 1px solid #E6ECF1;
+            padding: 0 5px;
+            flex-shrink: 0;
+        }
 
-    #result {
-      padding: 0 10px;
-      overflow: auto;
-    }
+        #result {
+            padding: 0 10px;
+            overflow: auto;
+        }
 
-    fieldset {
-      border-radius: 4px;
-      border-color: #fff;
-      padding: 5px;
-    }
+        fieldset {
+            border-radius: 4px;
+            border-color: #fff;
+            padding: 5px;
+        }
 
-    @media all and (max-width: 800px) {
-      main {
-        flex-wrap: wrap;
-      }
+        @media all and (max-width: 800px) {
+            main {
+                flex-wrap: wrap;
+            }
 
-      #sidebar {
-        height: auto;
-        width: 100%;
-      }
+            #sidebar {
+                height: auto;
+                width: 100%;
+            }
 
-      label {
-        flex-direction: column;
-      }
-    }
-  </style>
+            label {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
 <!-- script type="text/javascript" src="./lib/ebay-api.min.js"></script -->
+<!--<script type="module">
+  import eBayApi from './dist/ebay-api.min.mjs';
+
+  console.log(eBayApi)
+</script>-->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ebay-api@latest/lib/ebay-api.min.js"></script>
 <link rel="stylesheet"
       href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/default.min.css">
 <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
 <script
- charset="UTF-8"
- src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/languages/json.min.js"></script>
+        charset="UTF-8"
+        src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/languages/json.min.js"></script>
 <main>
-<div id="sidebar">
-<form onsubmit="event.preventDefault()">
-  <div>
-  <fieldset>
-    <legend>Credentials</legend>
-  <label>
-    <span>AppId:<span style="color:red">*</span></span>
-    <input name="appId" placeholder="appId" type="text">
-  </label>
-  <label>
-    <span>Cert ID<span style="color:red">*</span></span>
-    <input name="certId" placeholder="certId" type="text">
-  </label>
-  <label>
-    <span>Dev ID</span>
-    <input name="devId" placeholder="DevId" type="text">
-  </label>
-  <label>
-    <span>Access Token</span>
-    <textarea rows="4" cols="50" name="accessToken" placeholder="accessToken"></textarea>
-  </label>
-  </fieldset>
-  <fieldset>
-     <legend>Config</legend>
-  <label>
-    <span>SiteId</span>
-    <input type="number" value="0" name="siteId">
-  </label>
-  <label>
-    <span>Marketplace Id</span>
-    <input type="text" value="EBAY_US" name="marketplaceId">
-  </label>
-  <label>
-    <span>Sandbox</span>
-    <input type="checkbox" name="sandbox">
-  </label>
-</fieldset>
-</div>
-  <label>
-    <span>Get Item</span>
-    <input value="254188828753" name="itemId" type="text">
-    <button type="submit" class="submit" onclick="getItem()">Get Item</button>
-  </label>
+    <div id="sidebar">
+        <form onsubmit="event.preventDefault()">
+            <div>
+                <fieldset>
+                    <legend>Credentials</legend>
+                    <label>
+                        <span>AppId:<span style="color:red">*</span></span>
+                        <input name="appId" placeholder="appId" type="text">
+                    </label>
+                    <label>
+                        <span>Cert ID<span style="color:red">*</span></span>
+                        <input name="certId" placeholder="certId" type="text">
+                    </label>
+                    <label>
+                        <span>Dev ID</span>
+                        <input name="devId" placeholder="DevId" type="text">
+                    </label>
+                    <label>
+                        <span>Access Token</span>
+                        <textarea rows="4" cols="50" name="accessToken" placeholder="accessToken"></textarea>
+                    </label>
+                </fieldset>
+                <fieldset>
+                    <legend>Config</legend>
+                    <label>
+                        <span>SiteId</span>
+                        <input type="number" value="0" name="siteId">
+                    </label>
+                    <label>
+                        <span>Marketplace Id</span>
+                        <input type="text" value="EBAY_US" name="marketplaceId">
+                    </label>
+                    <label>
+                        <span>Sandbox</span>
+                        <input type="checkbox" name="sandbox">
+                    </label>
+                </fieldset>
+            </div>
+            <label>
+                <span>Get Item</span>
+                <input value="254188828753" name="itemId" type="text">
+                <button type="submit" class="submit" onclick="getItem()">Get Item</button>
+            </label>
 
-  <label>
-    <span>Search</span>
-    <input value="" name="query" type="text">
-    <button type="submit" class="submit" onclick="search()">Search</button>
-  </label>
+            <label>
+                <span>Search</span>
+                <input value="" name="query" type="text">
+                <button type="submit" class="submit" onclick="search()">Search</button>
+            </label>
 
-  <label>
-    <span>Upload to EPS</span>
-    <input type="file" name="image">
-    <button type="submit" class="submit" onclick="upload()">Upload</button>
-  </label>
-</form>
-</div>
-<div id="result">
-  <h1>eBay API Browser - Playground</h1>
-<ul>
-  <li><a href="https://hendt.gitbook.io/ebay-api/" target="_blank">Documentation</a></li>
-  <li><a href="https://github.com/hendt/ebay-api" target="_blank">GitHub</a></li>
-</ul>
-<p>This API use <span style="font-family: monospace;color: #333">https://ebay.hendt.workers.dev/</span> as a Proxy.</p>
-<p>It's only mention for testing, do not abuse it or use in production.</p>
-  <pre><code id="code"></code></pre>
-</div>
+            <label>
+                <span>Upload to EPS</span>
+                <input type="file" name="image">
+                <button type="submit" class="submit" onclick="upload()">Upload</button>
+            </label>
+        </form>
+    </div>
+    <div id="result">
+        <h1>eBay API Browser - Playground</h1>
+        <ul>
+            <li><a href="https://hendt.gitbook.io/ebay-api/" target="_blank">Documentation</a></li>
+            <li><a href="https://github.com/hendt/ebay-api" target="_blank">GitHub</a></li>
+        </ul>
+        <p>This API use <span style="font-family: monospace;color: #333">https://ebay.hendt.workers.dev/</span> as a
+            Proxy.</p>
+        <p>It's only mention for testing, do not abuse it or use in production.</p>
+        <pre><code id="code"></code></pre>
+    </div>
 </main>
 
 <script type="text/javascript">
@@ -208,15 +214,16 @@
     console.error(e);
     code.innerText = e.message
   }
+
   function handleResponse(data) {
-    code.innerText = JSON.stringify(data, null, 2);  
+    code.innerText = JSON.stringify(data, null, 2);
     hljs.highlightBlock(code);
   }
 
   function getItem() {
     try {
       createApi().buy.browse.getItem('v1|' + form.itemId.value + '|0').then(handleResponse)
-              .catch(handleError);
+        .catch(handleError);
     } catch (e) {
       handleError(e)
     }
@@ -225,7 +232,7 @@
   function search() {
     try {
       createApi().buy.browse.search({q: form.query}).then(handleResponse)
-              .catch(handleError);
+        .catch(handleError);
     } catch (e) {
       handleError(e)
     }
@@ -250,7 +257,7 @@
           }
         }
       }).then(handleResponse)
-              .catch(handleError);
+        .catch(handleError);
     } catch (e) {
       handleError(e)
     }

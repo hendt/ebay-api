@@ -1,11 +1,11 @@
-import Restful from '../../';
+import Restful from '../../index.js';
 import {
   FulfillmentPolicyRequest,
   PaymentPolicyRequest,
   Program,
   ReturnPolicyRequest, SalesTaxBase
-} from '../../../../types';
-import {PaymentsProgramType} from '../../../../enums';
+} from '../../../../types/index.js';
+import {PaymentsProgramType} from '../../../../enums/index.js';
 
 /**
  * The <b>Account API</b> gives sellers the ability to configure their eBay seller accounts,

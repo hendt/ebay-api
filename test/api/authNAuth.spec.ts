@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
-import AuthNAuth from '../../src/auth/authNAuth';
+import AuthNAuth from '../../src/auth/authNAuth.js';
 
 describe('AuthNAuth', () => {
   const config = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 0, devId: 'devId'};

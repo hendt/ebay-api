@@ -1,10 +1,10 @@
-import Restful from '../../';
+import Restful from '../../index.js';
 import {
   CreateSubscriptionRequest,
   DestinationRequest, NotificationConfig,
   NotificationParams,
   UpdateSubscriptionRequest
-} from '../../../../types';
+} from '../../../../types/index.js';
 
 /**
  * The eBay  Notification API allows third-party developers and applications to process eBay notifications and verify the integrity of the notification message payload.

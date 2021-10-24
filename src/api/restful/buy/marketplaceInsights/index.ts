@@ -1,5 +1,5 @@
-import Restful from '../../';
-import {MarketingInsightsSearchParams} from '../../../../types';
+import Restful from '../../index.js';
+import {MarketingInsightsSearchParams} from '../../../../types/index.js';
 
 /**
  * (Limited Release) The Marketplace Insights API provides the ability to search for sold items on eBay by keyword,

@@ -1,5 +1,5 @@
-import Restful from '../../';
-import {TranslateRequest} from '../../../../types';
+import Restful from '../../index.js';
+import {TranslateRequest} from '../../../../types/index.js';
 
 /**
  * This API allows 3rd party developers to translate item title, description, search query.

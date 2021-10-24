@@ -3,8 +3,8 @@ import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
 
-import XMLRequest, {XMLReqConfig} from '../../../src/api/traditional/XMLRequest';
-import {IEBayApiRequest} from '../../../src/request';
+import XMLRequest, {XMLReqConfig} from '../../../src/api/traditional/XMLRequest.js';
+import {IEBayApiRequest} from '../../../src/request.js';
 
 function createReq(apiResponse: string): IEBayApiRequest<any> {
   return {

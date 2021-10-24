@@ -1,5 +1,5 @@
-import Restful from '../../';
-import {FilePurpose, GetReturnFieldGroupEnum} from '../../../../enums';
+import Restful from '../../index.js';
+import {FilePurpose, GetReturnFieldGroupEnum} from '../../../../enums/index.js';
 import {
   CheckEligibilityRequest,
   CloseReturnRequest,
@@ -19,7 +19,7 @@ import {
   UpdateTrackingRequest,
   UploadFileRequest,
   VoidLabelRequest
-} from '../../../../types';
+} from '../../../../types/index.js';
 
 /**
  * Post-Order Return API

@@ -1,5 +1,5 @@
-import Restful from '../../';
-import {PlaceProxyBidRequest} from '../../../../types';
+import Restful from '../../index.js';
+import {PlaceProxyBidRequest} from '../../../../types/index.js';
 
 /**
  * The Api Offer API enables Partners to place proxy bids for a buyer and retrieve the auctions where the buyer is

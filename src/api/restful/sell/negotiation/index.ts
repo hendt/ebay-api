@@ -1,4 +1,4 @@
-import Restful from '../../';
+import Restful from '../../index.js';
 
 /**
  * The <b>Negotiations API</b> gives sellers the ability to proactively send discount offers to buyers who have shown an "interest" in their listings.

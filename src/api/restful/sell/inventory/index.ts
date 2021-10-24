@@ -1,4 +1,4 @@
-import Restful from '../../';
+import Restful from '../../index.js';
 import {
   BulkEbayOfferDetailsWithKeys,
   BulkInventoryItem,
@@ -15,7 +15,7 @@ import {
   PublishByInventoryItemGroupRequest,
   SellInventoryItem,
   WithdrawByInventoryItemGroupRequest,
-} from '../../../../types';
+} from '../../../../types/index.js';
 
 /**
  * The Inventory API is used to create and manage inventory, and then to publish and manage this inventory on an eBay

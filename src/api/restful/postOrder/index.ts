@@ -1,7 +1,7 @@
-import Cancellation from './cancellation';
-import Case from './case';
-import Inquiry from './inquiry';
-import Return from './return';
+import Cancellation from './cancellation/index.js';
+import Case from './case/index.js';
+import Inquiry from './inquiry/index.js';
+import Return from './return/index.js';
 
 export type PostOrder = {
   cancellation: Cancellation,

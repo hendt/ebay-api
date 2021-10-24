@@ -1,5 +1,5 @@
-import Analytics from './analytics';
-import KeyManagement from './keyManagement';
+import Analytics from './analytics/index.js';
+import KeyManagement from './keyManagement/index.js';
 
 export type Developer = {
     analytics: Analytics,

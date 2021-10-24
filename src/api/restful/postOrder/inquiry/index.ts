@@ -1,4 +1,4 @@
-import Restful from '../../';
+import Restful from '../../index.js';
 import {
   BuyerCloseInquiryRequest,
   CheckInquiryEligibilityRequest,
@@ -9,7 +9,7 @@ import {
   SellerProvideRefundInfoRequest,
   SendMessageRequest,
   ShipmentInfoRequest
-} from '../../../../types';
+} from '../../../../types/index.js';
 
 /**
  * Post-Order Inquiry API

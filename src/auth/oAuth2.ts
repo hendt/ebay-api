@@ -1,6 +1,8 @@
 import debug from 'debug';
-import Base from '../api/base';
-import {Scope} from '../types';
+import {createNanoEvents, EventCallback} from '../nanoevents.js';
+import Base from '../api/base.js';
+import {IEBayApiRequest} from '../request.js';
+import {AppConfig, Scope} from '../types/index.js';
 
 const log = debug('ebay:oauth2');
 
@@ -37,6 +39,21 @@ export default class OAuth2 extends Base {
 
   public static readonly defaultScopes: Scope = ['https://api.ebay.com/oauth/api_scope'];
 
+  private readonly emitter = createNanoEvents();
+
+  private scope: Scope;
+  private _clientToken?: ClientToken;
+  private _authToken?: AuthToken;
+
+  constructor(config: AppConfig, req: IEBayApiRequest) {
+    super(config, req);
+    this.scope = this.config.scope || OAuth2.defaultScopes;
+  }
+
+  public on(event: string, callback: EventCallback) {
+    return this.emitter.on(event, callback);
+  }
+
   public static generateAuthUrl(
     sandbox: boolean,
     appId: string,
@@ -54,12 +71,8 @@ export default class OAuth2 extends Base {
     ].join('');
   }
 
-  private scope: Scope = this.config.scope || OAuth2.defaultScopes;
-  private _clientToken?: ClientToken;
-  private _authToken?: AuthToken;
-
   get identityEndpoint() {
-    return this.config.sandbox ? OAuth2.IDENTITY_ENDPOINT.sandbox : OAuth2.IDENTITY_ENDPOINT.production
+    return this.config.sandbox ? OAuth2.IDENTITY_ENDPOINT.sandbox : OAuth2.IDENTITY_ENDPOINT.production;
   }
 
   /**
@@ -71,7 +84,7 @@ export default class OAuth2 extends Base {
   }
 
   public getUserAccessToken(): string | null {
-    return this._authToken?.access_token ?? null
+    return this._authToken?.access_token ?? null;
   }
 
   public async getApplicationAccessToken(): Promise<string> {
@@ -142,7 +155,7 @@ export default class OAuth2 extends Base {
       log('Obtained a new application access token:', token);
 
       this.setClientToken(token);
-      this.emit('refreshClientToken', token);
+      this.emitter.emit('refreshClientToken', token);
 
       return token;
     } catch (error) {
@@ -241,7 +254,7 @@ export default class OAuth2 extends Base {
       };
 
       this.setCredentials(refreshedToken);
-      this.emit('refreshAuthToken', refreshedToken);
+      this.emitter.emit('refreshAuthToken', refreshedToken);
 
       return refreshedToken;
     } catch (error) {
@@ -260,9 +273,9 @@ export default class OAuth2 extends Base {
   public async obtainToken(code: string): Promise<AuthToken> {
     const token = await this.getToken(code);
     log('Obtain user access token', token);
-    this.setCredentials(token)
+    this.setCredentials(token);
 
-    return token
+    return token;
   }
 
   public getCredentials(): AuthToken | ClientToken | null {
@@ -273,7 +286,7 @@ export default class OAuth2 extends Base {
     } else if (this._clientToken) {
       return {
         ...this._clientToken
-      }
+      };
     }
 
     return null;

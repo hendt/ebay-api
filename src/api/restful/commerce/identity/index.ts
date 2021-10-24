@@ -1,4 +1,4 @@
-import Restful from '../../';
+import Restful from '../../index.js';
 
 /**
  * Retrieves the authenticated user's account profile information.

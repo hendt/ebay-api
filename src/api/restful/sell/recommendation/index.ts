@@ -1,5 +1,5 @@
-import Restful from '../../';
-import {FindListingRecommendationRequest} from '../../../../types';
+import Restful from '../../index.js';
+import {FindListingRecommendationRequest} from '../../../../types/index.js';
 
 /**
  * The <b>Recommendation API</b> returns information that sellers can use to optimize the configuration of their

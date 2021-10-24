@@ -1,4 +1,4 @@
-import Restful from '../../';
+import Restful from '../../index.js';
 
 /**
  * The Finances API is used by sellers in eBay's managed payments program to retrieve seller payout information.

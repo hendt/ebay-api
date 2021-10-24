@@ -1,10 +1,9 @@
 import debug from 'debug';
-import xmlParser, {j2xParser} from 'fast-xml-parser';
-
-import {checkEBayResponse, EbayNoCallError} from '../../errors';
-import {IEBayApiRequest} from '../../request';
-import {ApiRequestConfig, Headers} from '../../types';
-import {Fields} from './fields';
+import {XMLParser, XMLBuilder} from 'fast-xml-parser';
+import {checkEBayResponse, EbayNoCallError} from '../../errors/index.js';
+import {IEBayApiRequest} from '../../request.js';
+import {ApiRequestConfig, Headers} from '../../types/index.js';
+import {Fields} from './fields.js';
 
 const log = debug('ebay:xml:request');
 
@@ -16,7 +15,8 @@ export const defaultJSON2XMLOptions = {
   cdataPositionChar: '\\c',
   format: false,
   indentBy: '  ',
-  suppressEmptyNode: false
+  suppressEmptyNode: false,
+  cdataPropName: '__cdata'
 };
 
 export const defaultXML2JSONParseOptions = {
@@ -25,10 +25,13 @@ export const defaultXML2JSONParseOptions = {
   ignoreAttributes: false,
   parseAttributeValue: true,
   parseNodeValue: true,
-  ignoreNameSpace: true,
-  parseTrueNumberOnly: true,
-  arrayMode: (_: string, parentTageName: string) => {
-    return /Array$/.test(parentTageName);
+  numberParseOptions: {
+    hex: false,
+    leadingZeros: false
+  },
+  removeNSPrefix: true,
+  isArray: (name: string, jpath: string) => {
+    return /Array$/.test(jpath.slice(0, -name.length - 1));
   }
 };
 
@@ -71,7 +74,7 @@ export default class XMLRequest {
   private readonly config: XMLReqConfig;
   private readonly req: any;
 
-  public static j2x = new j2xParser(defaultJSON2XMLOptions);
+  public static j2x = new XMLBuilder(defaultJSON2XMLOptions);
 
   /**
    * Creates the new Request object
@@ -140,7 +143,7 @@ export default class XMLRequest {
   public toJSON(xml: string) {
     const parseOptions = this.getParseOptions();
     log('parseOption', parseOptions);
-    return xmlParser.parse(xml, parseOptions);
+    return new XMLParser(parseOptions).parse(xml);
   }
 
   /**
@@ -152,7 +155,7 @@ export default class XMLRequest {
    */
   public toXML(fields: Fields) {
     const HEADING = '<?xml version="1.0" encoding="utf-8"?>';
-    return HEADING + XMLRequest.j2x.parse({
+    return HEADING + XMLRequest.j2x.build({
       [this.callName + 'Request']: {
         '@_xmlns': this.config.xmlns,
         ...this.getCredentials(),

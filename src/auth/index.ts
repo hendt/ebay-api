@@ -1,8 +1,8 @@
-import Base from '../api/base';
-import {IEBayApiRequest} from '../request';
-import {AppConfig} from '../types';
-import AuthNAuth from './authNAuth';
-import OAuth2 from './oAuth2';
+import Base from '../api/base.js';
+import {IEBayApiRequest} from '../request.js';
+import {AppConfig} from '../types/index.js';
+import AuthNAuth from './authNAuth.js';
+import OAuth2 from './oAuth2.js';
 
 /**
  * Container with Auth'N'Auth and OAuth2.

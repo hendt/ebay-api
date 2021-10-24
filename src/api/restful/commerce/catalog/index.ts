@@ -1,5 +1,5 @@
-import Restful from '../../';
-import {CatalogSearchParams} from '../../../../types';
+import Restful from '../../index.js';
+import {CatalogSearchParams} from '../../../../types/index.js';
 
 /**
  * Use the Catalog API to search the eBay catalog for products on which to base a seller's item listing;
