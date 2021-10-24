@@ -1,9 +1,9 @@
-import Catalog from './catalog';
-import Charity from './charity';
-import Identity from './identity';
-import Notification from './notification';
-import Taxonomy from './taxonomy';
-import Translation from './translation';
+import Catalog from './catalog/index.js';
+import Charity from './charity/index.js';
+import Identity from './identity/index.js';
+import Notification from './notification/index.js';
+import Taxonomy from './taxonomy/index.js';
+import Translation from './translation/index.js';
 
 export type Commerce = {
   catalog: Catalog;

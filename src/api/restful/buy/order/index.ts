@@ -1,4 +1,4 @@
-import Api from '../../';
+import Api from '../../index.js';
 import {
   CheckoutSessionRequest,
   CouponRequest,
@@ -9,7 +9,7 @@ import {
   UpdatePaymentInformation,
   UpdateQuantity,
   UpdateShippingOption
-} from '../../../../types';
+} from '../../../../types/index.js';
 
 /**
  * The Order API provides interfaces that lets shoppers pay for items (for both eBay guest and eBay member buyers).
@@ -287,7 +287,7 @@ export default class Order extends Api {
   }
 
   /**
-   * This method creates an eBay proxy guest checkout session, which is a payment flow that requires integration
+   * This method creates an eBay proxy guest checkout session, which is a payment flow that requires apps
    * with a VSP (vault service provider), such as Braintree. The VSP handles only the methods within this flow that
    * contain payment information.
    *

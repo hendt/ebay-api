@@ -1,5 +1,5 @@
-import Restful from '../../';
-import {Metric} from '../../../../enums';
+import Restful from '../../index.js';
+import {Metric} from '../../../../enums/index.js';
 
 /**
  * The Analytics API provides information about a seller's business performance.

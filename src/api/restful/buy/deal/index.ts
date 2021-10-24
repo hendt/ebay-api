@@ -1,4 +1,4 @@
-import Restful from '../../';
+import Restful from '../../index.js';
 
 /**
  * This API allows third-party developers to search for and retrieve details about eBay deals and events, as well as the items associated with those deals and events.

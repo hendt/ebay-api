@@ -1,7 +1,7 @@
 // tslint:disable:no-console
 // @ts-ignore
 import readline from 'readline';
-import eBayApi from '../../src';
+import eBayApi from '../../src/eBayApi.js';
 
 const eBay = eBayApi.fromEnv();
 // DOCS: https://developer.ebay.com/devzone/xml/docs/howto/tokens/gettingtokens.html

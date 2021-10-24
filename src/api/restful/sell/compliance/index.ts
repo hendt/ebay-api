@@ -1,5 +1,5 @@
-import Restful from '../../';
-import {SuppressViolationRequest} from '../../../../types';
+import Restful from '../../index.js';
+import {SuppressViolationRequest} from '../../../../types/index.js';
 
 /**
  * Service for providing the compliance violations of seller account/listings

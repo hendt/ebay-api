@@ -1,6 +1,6 @@
 // tslint:disable:no-console
 import readline from 'readline';
-import eBayApi from '../../src';
+import eBayApi from '../../src/eBayApi.js';
 
 const eBay = eBayApi.fromEnv();
 eBay.OAuth2.setScope([

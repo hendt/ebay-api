@@ -2,14 +2,14 @@ import {expect} from 'chai';
 import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
-import Auth from '../../../src/auth';
-import {IEBayApiRequest} from '../../../src/request';
+import Auth from '../../../src/auth/index.js';
+import {IEBayApiRequest} from '../../../src/request.js';
 
-import buyTests from './buy';
-import commerceTests from './commerce';
-import developerTests from './developer';
-import sellTests from './sell';
-import postOrderTests from './postOrder';
+import buyTests from './buy/index.js';
+import commerceTests from './commerce/index.js';
+import developerTests from './developer/index.js';
+import sellTests from './sell/index.js';
+import postOrderTests from './postOrder/index.js';
 
 const allTests = {
   Buy: buyTests,

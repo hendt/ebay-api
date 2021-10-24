@@ -1,4 +1,4 @@
-import Restful from '../../';
+import Restful from '../../index.js';
 
 /**
  * The Metadata API has operations that retrieve configuration details pertaining to the different eBay marketplaces.

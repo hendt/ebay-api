@@ -2,9 +2,9 @@ import {expect} from 'chai';
 import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
-import ApiFactory from '../../src/api/apiFactory';
-import {eBayConfig} from '../../src/types';
-import {IEBayApiRequest} from '../../src/request';
+import ApiFactory from '../../src/api/apiFactory.js';
+import {eBayConfig} from '../../src/types/index.js';
+import {IEBayApiRequest} from '../../src/request.js';
 
 describe('FactoryTest', () => {
   let config: eBayConfig;

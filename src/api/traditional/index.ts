@@ -1,14 +1,14 @@
 import {stringify} from 'qs';
-import Api from '../';
-import {EBayIAFTokenExpired, EBayIAFTokenInvalid, handleEBayError} from '../../errors';
-import {ClientAlerts, Finding, Merchandising, Shopping, Trading, TraditionalApi} from '../../types';
-import ClientAlertsCalls from './clientAlerts';
-import {Fields} from './fields';
-import FindingCalls from './finding';
-import MerchandisingCalls from './merchandising';
-import ShoppingCalls from './shopping';
-import TradingCalls from './trading';
-import XMLRequest, {defaultApiConfig, TraditionalApiConfig} from './XMLRequest';
+import Api from '../index.js';
+import {EBayIAFTokenExpired, EBayIAFTokenInvalid, handleEBayError} from '../../errors/index.js';
+import {ClientAlerts, Finding, Merchandising, Shopping, Trading, TraditionalApi} from '../../types/index.js';
+import ClientAlertsCalls from './clientAlerts/index.js';
+import {Fields} from './fields.js';
+import FindingCalls from './finding/index.js';
+import MerchandisingCalls from './merchandising/index.js';
+import ShoppingCalls from './shopping/index.js';
+import TradingCalls from './trading/index.js';
+import XMLRequest, {defaultApiConfig, TraditionalApiConfig} from './XMLRequest.js';
 
 /**
  * Traditional eBay API.
@@ -108,7 +108,9 @@ export default class Traditional extends Api {
     Object.keys(api.calls).forEach((callName: string) => {
       service[callName] = async (fields: Fields) => {
         return this.req.get(endpoint, {
-          paramsSerializer,
+          paramsSerializer: {
+            serialize: paramsSerializer
+          },
           params: {
             ...params,
             ...fields,

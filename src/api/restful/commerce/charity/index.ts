@@ -1,4 +1,4 @@
-import Restful from '../../';
+import Restful from '../../index.js';
 
 /**
  * The Charity API allows third-party developers to search for and access details on supported charitable organizations.

@@ -1,10 +1,19 @@
-import {ClientAlerts, Finding, Shopping, Trading, Merchandising} from '../types';
-import Api from './';
-import RestfulApi, {IRestful} from './restful/';
-import {Browse, Buy, Deal, Feed, Marketing as BuyMarketing, MarketplaceInsights, Offer, Order} from './restful/buy';
-import {Catalog, Charity, Commerce, Identity, Notification, Taxonomy, Translation} from './restful/commerce';
-import {Analytics as DeveloperAnalytics, Developer, KeyManagement} from './restful/developer';
-import {Cancellation, Case, Inquiry, PostOrder, Return,} from './restful/postOrder';
+import {ClientAlerts, Finding, Shopping, Trading, Merchandising} from '../types/index.js';
+import Api from './index.js';
+import {
+  Browse,
+  Buy,
+  Deal,
+  Feed,
+  Marketing as BuyMarketing,
+  MarketplaceInsights,
+  Offer,
+  Order
+} from './restful/buy/index.js';
+import {Catalog, Charity, Commerce, Identity, Notification, Taxonomy, Translation} from './restful/commerce/index.js';
+import {Analytics as DeveloperAnalytics, Developer, KeyManagement} from './restful/developer/index.js';
+import RestfulApi, {IRestful} from './restful/index.js';
+import {Cancellation, Case, Inquiry, PostOrder, Return,} from './restful/postOrder/index.js';
 import {
   Account,
   Analytics as SellAnalytics,
@@ -20,8 +29,8 @@ import {
   Negotiation,
   Recommendation,
   Sell
-} from './restful/sell';
-import Traditional from './traditional';
+} from './restful/sell/index.js';
+import Traditional from './traditional/index.js';
 
 /**
  * Factory class to create RESTFul API or Traditional API.

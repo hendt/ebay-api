@@ -1,5 +1,5 @@
-import Restful from '../../';
-import {AlsoBoughtByProductParams, AlsoViewedByProductParams, MerchandisedProductsParams} from '../../../../types';
+import Restful from '../../index.js';
+import {AlsoBoughtByProductParams, AlsoViewedByProductParams, MerchandisedProductsParams} from '../../../../types/index.js';
 
 /**
  * The Marketing API retrieves eBay products based on a metric, such as Best Selling, as well as products that were

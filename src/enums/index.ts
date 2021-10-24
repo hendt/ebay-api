@@ -1,2 +1,2 @@
-export * from './apiEnums';
-export * from './restfulEnums';
+export * from './apiEnums.js';
+export * from './restfulEnums.js';

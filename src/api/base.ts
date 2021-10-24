@@ -1,30 +1,10 @@
-import NanoEvents from 'nanoevents';
-import {AxiosRequest, IEBayApiRequest} from '../request';
-import {AppConfig} from '../types';
+import {AxiosRequest, IEBayApiRequest} from '../request.js';
+import {AppConfig} from '../types/index.js';
 
 /**
  * Abstract superclass.
  */
 export default abstract class Base {
-  public readonly config: AppConfig;
-  public readonly req: IEBayApiRequest;
-
-  private readonly emitter: NanoEvents<any>;
-
-  constructor(
-    config: AppConfig,
-    req?: IEBayApiRequest,
-  ) {
-    this.config = config;
-    this.req = req || new AxiosRequest(config.axiosConfig);
-    this.emitter = new NanoEvents();
-  }
-
-  public on(name: string, callBack: (arg: any) => any) {
-    return this.emitter.on(name, callBack);
-  }
-
-  protected emit(name: string, value: any) {
-    return this.emitter.emit(name, value);
+  protected constructor(public readonly config: AppConfig, public readonly req: IEBayApiRequest = new AxiosRequest(config.axiosConfig)) {
   }
 }

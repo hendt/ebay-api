@@ -1,13 +1,10 @@
-import { Cancellation, Case, Inquiry, Return } from '../../../../src/api/restful/postOrder';
-import CancellationOas from './cancellation/cancellation_oas3.json';
-import CaseOas from './case/case_oas3.json';
-import InquiryOas from './inquiry/inquiry_oas3.json';
-import ReturnOas from './return/return_oas3.json';
+import {Cancellation, Case, Inquiry, Return} from '../../../../src/api/restful/postOrder/index.js';
+import {readJSONSync} from '../../jsonfile.js';
 
 const tests = new Map<any, any>();
-tests.set(Cancellation, CancellationOas);
-tests.set(Case, CaseOas);
-tests.set(Inquiry, InquiryOas);
-tests.set(Return, ReturnOas);
+tests.set(Cancellation, readJSONSync( './cancellation/cancellation_oas3.json', import.meta.url));
+tests.set(Case, readJSONSync( './case/case_oas3.json', import.meta.url));
+tests.set(Inquiry, readJSONSync( './inquiry/inquiry_oas3.json', import.meta.url));
+tests.set(Return, readJSONSync(  './return/return_oas3.json', import.meta.url));
 
 export default tests;

@@ -1,5 +1,5 @@
 import {AxiosRequestConfig} from 'axios';
-import {ContentLanguage, MarketplaceId} from '../enums';
+import {ContentLanguage, MarketplaceId} from '../enums/index.js';
 
 export type Scope = string[];
 

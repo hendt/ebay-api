@@ -1,11 +1,11 @@
-import Restful from '../../';
-import {multipartHeader} from '../../../../request';
+import Restful from '../../index.js';
+import {multipartHeader} from '../../../../request.js';
 import {
   AddEvidencePaymentDisputeRequest,
   ContestPaymentDisputeRequest,
   IssueRefundRequest, PaymentParams,
   ShippingFulfillmentDetails, UpdateEvidencePaymentDisputeRequest,
-} from '../../../../types';
+} from '../../../../types/index.js';
 
 /**
  * Use the Fulfillment API to complete the process of packaging, addressing, handling, and shipping each order on
