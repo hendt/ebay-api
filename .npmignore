@@ -1,6 +1,16 @@
 *.log
 *.enc
+src
 tsconfig.json
+tslint.json
 test
 examples
 *.iml
+.nyc_output
+coverage
+scripts
+proxy
+.github
+index.html
+.travis.yml
+rollup.config.js
