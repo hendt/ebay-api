@@ -1,4 +1,13 @@
 # eBay API Changelog
+## [5.0.0](https://github.com/hendt/ebay-api/compare/v4.0.4...v5.0.0) (2021-10-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* target ES2020 and Node >= 14
+
+* target ES2020 and Node >= 14 ([81c1973](https://github.com/hendt/ebay-api/commit/81c197398b1a47a1c39e60a393d7e1a9fc165a99))
+
 ### [4.0.4](https://github.com/hendt/ebay-api/compare/v4.0.3...v4.0.4) (2021-10-28)
 
 
