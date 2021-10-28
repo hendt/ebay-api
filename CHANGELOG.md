@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [4.0.4](https://github.com/hendt/ebay-api/compare/v4.0.3...v4.0.4) (2021-10-28)
+
+
+### Bug Fixes
+
+* **traditional:** use https in shopping API and finding API ([c1fecc0](https://github.com/hendt/ebay-api/commit/c1fecc0817f6c3e1abc14355599cd328648c3e34))
+
 ### [4.0.3](https://github.com/hendt/ebay-api/compare/v4.0.2...v4.0.3) (2021-10-19)
 
 
