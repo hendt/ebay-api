@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [5.0.1](https://github.com/hendt/ebay-api/compare/v5.0.0...v5.0.1) (2021-11-11)
+
+
+### Bug Fixes
+
+* remove restful 'Accept-Encoding' header in browser environment. ([dd9db62](https://github.com/hendt/ebay-api/commit/dd9db62caf162cced67c71415e573df71ba85419))
+
 ## [5.0.0](https://github.com/hendt/ebay-api/compare/v4.0.4...v5.0.0) (2021-10-28)
 
 
