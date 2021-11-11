@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [5.0.2](https://github.com/hendt/ebay-api/compare/v5.0.1...v5.0.2) (2021-11-11)
+
+
+### Bug Fixes
+
+* declare property 'id' for every Restful API since constructor.name is not reliable ([71ce1ad](https://github.com/hendt/ebay-api/commit/71ce1ad81e9479a6faee1b62f20971dbb587a32f))
+
 ### [5.0.1](https://github.com/hendt/ebay-api/compare/v5.0.0...v5.0.1) (2021-11-11)
 
 
