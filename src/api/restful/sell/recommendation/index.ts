@@ -7,6 +7,8 @@ import {FindListingRecommendationRequest} from '../../../../types';
  */
 export default class Recommendation extends Restful {
 
+  static id = 'Recommendation';
+
   get basePath(): string {
     return '/sell/recommendation/v1';
   }

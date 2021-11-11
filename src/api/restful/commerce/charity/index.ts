@@ -4,6 +4,9 @@ import Restful from '../../';
  * The Charity API allows third-party developers to search for and access details on supported charitable organizations.
  */
 export default class Charity extends Restful {
+
+  static id = 'Charity';
+
   get basePath(): string {
     return '/commerce/charity/v1';
   }

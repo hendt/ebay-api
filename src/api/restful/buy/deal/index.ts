@@ -5,6 +5,8 @@ import Restful from '../../';
  */
 export default class Deal extends Restful {
 
+  static id = 'Deal';
+
   get basePath(): string {
     return '/buy/deal/v1';
   }

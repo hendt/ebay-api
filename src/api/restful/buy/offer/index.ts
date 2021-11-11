@@ -7,6 +7,8 @@ import {PlaceProxyBidRequest} from '../../../../types';
  */
 export default class Offer extends Restful {
 
+  static id = 'Offer';
+
   get basePath(): string {
     return '/buy/offer/v1_beta';
   }

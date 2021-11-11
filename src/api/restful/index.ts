@@ -37,7 +37,13 @@ export type ApiRequest = {
   data?: any,
 }
 
+export interface IRestful {
+  new (config: AppConfig, req?: IEBayApiRequest, auth?: Auth, apiConfig?: ApiConfig): Restful;
+  id: string;
+}
+
 export default abstract class Restful extends Api {
+
   public readonly apiConfig: Required<ApiConfig>;
 
   constructor(

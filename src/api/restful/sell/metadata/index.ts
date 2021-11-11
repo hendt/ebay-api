@@ -4,6 +4,9 @@ import Restful from '../../';
  * The Metadata API has operations that retrieve configuration details pertaining to the different eBay marketplaces.
  */
 export default class Metadata extends Restful {
+
+  static id = 'Metadata';
+
   get basePath(): string {
     return '/sell/metadata/v1';
   }

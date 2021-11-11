@@ -5,6 +5,9 @@ import {Metric} from '../../../../enums';
  * The Analytics API provides information about a seller's business performance.
  */
 export default class Analytics extends Restful {
+
+  static id = 'Analytics';
+
   get basePath(): string {
     return '/sell/analytics/v1';
   }

@@ -5,6 +5,9 @@ import {AppealRequest, BuyerCloseCaseRequest, CaseSearchParams, ReturnAddressReq
  * Post-Order Case Management API
  */
 export default class Case extends Restful {
+
+  static id = 'Case';
+
   get basePath(): string {
     return '/post-order/v2';
   }

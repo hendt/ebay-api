@@ -4,6 +4,9 @@ import Restful from '../../';
  * This method retrieves the call limit and utilization data for an application.
  */
 export default class Analytics extends Restful {
+
+  static id = 'Analytics';
+
   get basePath(): string {
     return '/developer/analytics/v1_beta';
   }

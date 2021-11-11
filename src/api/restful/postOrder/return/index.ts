@@ -25,6 +25,9 @@ import {
  * Post-Order Return API
  */
 export default class Return extends Restful {
+
+  static id = 'Return';
+
   get basePath(): string {
     return '/post-order/v2';
   }

@@ -4,6 +4,9 @@ import Restful from '../../';
  * The eBay  Notification API allows third-party developers and applications to process eBay notifications and verify the integrity of the notification message payload.
  */
 export default class Notification extends Restful {
+
+  static id = 'Notification';
+
   get basePath(): string {
     return '/commerce/notification/v1';
   }

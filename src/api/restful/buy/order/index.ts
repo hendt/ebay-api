@@ -17,6 +17,8 @@ import {
  */
 export default class Order extends Api {
 
+  static id = 'Order';
+
   get basePath(): string {
     return '/buy/order/v1';
   }

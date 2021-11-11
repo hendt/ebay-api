@@ -4,6 +4,9 @@ import Restful from '../../';
  * Retrieves the authenticated user's account profile information.
  */
 export default class Identity extends Restful {
+
+  static id = 'Identity';
+
   get basePath(): string {
     return '/commerce/identity/v1';
   }

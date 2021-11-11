@@ -13,6 +13,9 @@ import {
  *
  */
 export default class Fulfillment extends Restful {
+
+  static id = 'Fulfillment';
+
   get basePath(): string {
     return '';
   }

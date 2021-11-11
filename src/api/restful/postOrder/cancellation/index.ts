@@ -10,6 +10,9 @@ import {
  * Post-Order Cancellation API
  */
 export default class Cancellation extends Restful {
+
+  static id = 'Cancellation';
+
   get basePath(): string {
     return '/post-order/v2';
   }

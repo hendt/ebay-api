@@ -22,6 +22,9 @@ import {
  * marketing modules as <b>SPONSORED</b> listings.
  */
 export default class Marketing extends Restful {
+
+  static id = 'Marketing';
+
   get basePath(): string {
     return '/sell/marketing/v1';
   }

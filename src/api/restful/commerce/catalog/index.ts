@@ -5,6 +5,9 @@ import {CatalogSearchParams} from '../../../../types';
  * Use the Catalog API to search the eBay catalog for products on which to base a seller's item listing;
  */
 export default class Catalog extends Restful {
+
+  static id = 'Catalog';
+
   get basePath(): string {
     return '/commerce/catalog/v1_beta';
   }

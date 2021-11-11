@@ -4,6 +4,9 @@ import Restful from '../../';
  * Service for providing the compliance violations of seller account/listings
  */
 export default class Compliance extends Restful {
+
+  static id = 'Compliance';
+
   get basePath(): string {
     return '/sell/compliance/v1';
   }

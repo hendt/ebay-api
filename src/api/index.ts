@@ -17,4 +17,5 @@ export default abstract class Api extends Base {
     super(config, req);
     this.auth = auth || new Auth(this.config, this.req);
   }
+
 }

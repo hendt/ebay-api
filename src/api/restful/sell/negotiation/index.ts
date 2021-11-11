@@ -4,6 +4,9 @@ import Restful from '../../';
  * The <b>Negotiations API</b> gives sellers the ability to proactively send discount offers to buyers who have shown an "interest" in their listings.
  */
 export default class Negotiation extends Restful {
+
+  static id = 'Negotiation';
+
   get basePath(): string {
     return '/sell/negotiation/v1';
   }

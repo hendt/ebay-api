@@ -15,6 +15,9 @@ import {
  * Post-Order Inquiry API
  */
 export default class Inquiry extends Restful {
+
+  static id = 'Inquiry';
+
   get basePath(): string {
     return '/post-order/v2';
   }

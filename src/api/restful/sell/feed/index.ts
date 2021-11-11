@@ -6,6 +6,9 @@ import {SellFeedParams} from '../../../../types';
  * The <strong>Feed API</strong> lets sellers upload input files, download reports and files including their status, filter reports using URI parameters, and retrieve customer service metrics task details.
  */
 export default class Feed extends Restful {
+
+  static id = 'Feed';
+
   get basePath(): string {
     return '/sell/feed/v1';
   }

@@ -4,6 +4,9 @@ import Restful from '../../';
  * Enables a seller adding an ad or item on a Partner's site to automatically create an eBay listing draft using the item details from the Partner's site.
  */
 export default class Listing extends Restful {
+
+  static id = 'Listing';
+
   get basePath(): string {
     return '/sell/listing/v1_beta';
   }

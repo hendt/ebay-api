@@ -16,6 +16,8 @@ import {
  */
 export default class Browse extends Restful {
 
+  static id = 'Browse';
+
   get basePath() {
     return '/buy/browse/v1';
   }

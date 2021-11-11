@@ -13,6 +13,9 @@ import {PaymentsProgramType} from '../../../../enums';
  * opt in and out of eBay seller programs, configure sales tax tables, and get account information.
  */
 export default class Account extends Restful {
+
+  static id = 'Account';
+
   get basePath(): string {
     return '/sell/account/v1';
   }

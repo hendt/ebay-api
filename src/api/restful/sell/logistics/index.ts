@@ -4,6 +4,9 @@ import Restful from '../../';
  * The <b>Logistics API</b> resources offer the following capabilities: <ul><li><b>shipping_quote</b> &ndash; Consolidates into a list a set of live shipping rates, or quotes, from which you can select a rate to ship a package.
  */
 export default class Logistics extends Restful {
+
+  static id = 'Logistics';
+
   get basePath(): string {
     return '/sell/logistics/v1_beta';
   }

@@ -7,6 +7,8 @@ import {AlsoBoughtByProductParams, AlsoViewedByProductParams, MerchandisedProduc
  */
 export default class Marketing extends Restful {
 
+  static id = 'Marketing';
+
   get basePath(): string {
     return '/buy/marketing/v1_beta';
   }

@@ -7,6 +7,8 @@ import {BuyFeedParams} from '../../../../types';
  */
 export default class Feed extends Restful {
 
+  static id = 'Feed';
+
   get basePath() {
     return '/buy/feed/v1_beta';
   }

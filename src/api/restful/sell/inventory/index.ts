@@ -22,6 +22,9 @@ import {
  * marketplace.
  */
 export default class Inventory extends Restful {
+
+  static id = 'Inventory';
+
   get basePath(): string {
     return '/sell/inventory/v1';
   }

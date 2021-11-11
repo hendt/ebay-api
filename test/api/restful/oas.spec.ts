@@ -41,6 +41,10 @@ describe('Open API Tests', () => {
     describe('API > restful > ' + name, () => {
       // tslint:disable-next-line:variable-name
       tests.forEach((Oas, RestfulApi) => {
+        it('should match name with id', () => {
+          expect(RestfulApi.id).to.equal(RestfulApi.name)
+        });
+
         const api = new RestfulApi(appConfig, request, auth);
 
         if (Oas.servers) {

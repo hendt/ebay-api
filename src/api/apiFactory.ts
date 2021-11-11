@@ -1,8 +1,6 @@
-import Auth from '../auth';
-import {IEBayApiRequest} from '../request';
-import {AppConfig, ClientAlerts, Finding, Shopping, Trading} from '../types';
+import {ClientAlerts, Finding, Shopping, Trading} from '../types';
 import Api from './';
-import RestfulApi from './restful/';
+import RestfulApi, {IRestful} from './restful/';
 import {Browse, Buy, Deal, Feed, Marketing as BuyMarketing, MarketplaceInsights, Offer, Order} from './restful/buy';
 import {Catalog, Charity, Commerce, Identity, Notification, Taxonomy, Translation} from './restful/commerce';
 import {Analytics as DeveloperAnalytics, Developer,} from './restful/developer';
@@ -113,10 +111,10 @@ export default class ApiFactory extends Api {
   }
 
   // tslint:disable-next-line:variable-name
-  private createRestfulApi<T extends RestfulApi>(RestfulApiClass: new (config: AppConfig, req: IEBayApiRequest, auth: Auth) => T): T {
-    const name = RestfulApiClass.name;
+  private createRestfulApi<T extends RestfulApi>(RestfulApiClass: IRestful): T {
+    const id = RestfulApiClass.id;
     return (
-      this._restful[name] || (this._restful[name] = new RestfulApiClass(this.config, this.req, this.auth))
+      this._restful[id] || (this._restful[id] = new RestfulApiClass(this.config, this.req, this.auth))
     );
   }
 }

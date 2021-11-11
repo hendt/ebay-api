@@ -5,6 +5,9 @@ import Restful from '../../';
  * for sale, and the most likely categories under which buyers can browse or search for items to purchase.
  */
 export default class Taxonomy extends Restful {
+
+  static id = 'Taxonomy';
+
   get basePath(): string {
     return '/commerce/taxonomy/v1';
   }

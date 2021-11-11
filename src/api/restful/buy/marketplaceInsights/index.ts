@@ -7,6 +7,8 @@ import {MarketingInsightsSearchParams} from '../../../../types';
  */
 export default class MarketplaceInsights extends Restful {
 
+  static id = 'MarketplaceInsights';
+
   get basePath(): string {
     return '/buy/marketplace_insights/v1_beta';
   }
