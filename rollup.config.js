@@ -4,6 +4,7 @@ import strip from '@rollup/plugin-strip';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
+import stripCode from "rollup-plugin-strip-code"
 
 export default {
   input: 'lib/index.js',
@@ -29,7 +30,11 @@ export default {
       include: [/^.+\.min\.js$/],
       debugger: true,
       // functions: ['console.log', 'assert.*', 'debug', 'alert'],
-      sourceMap: true
+      sourceMap: true,
+    }),
+    stripCode({
+      start_comment: 'START.NODE_ONLY',
+      end_comment: 'END.NODE_ONLY'
     })
   ]
 };

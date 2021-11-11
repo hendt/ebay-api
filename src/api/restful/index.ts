@@ -7,7 +7,9 @@ import {AppConfig} from '../../types';
 export const defaultApiHeaders: Record<string, string> = {
   'Content-Type': 'application/json',
   'Cache-Control': 'no-cache',
+  /*START.NODE_ONLY*/
   'Accept-Encoding': 'application/gzip',
+  /*END.NODE_ONLY*/
 }
 
 const additionalHeaders: Record<string, string> = {
