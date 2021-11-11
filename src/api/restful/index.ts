@@ -7,10 +7,11 @@ import {AppConfig} from '../../types';
 export const defaultApiHeaders: Record<string, string> = {
   'Content-Type': 'application/json',
   'Cache-Control': 'no-cache',
-  /*START.NODE_ONLY*/
-  'Accept-Encoding': 'application/gzip',
-  /*END.NODE_ONLY*/
-}
+  // @ts-ignore
+  ...(typeof window === 'undefined' ? {
+    'Accept-Encoding': 'application/gzip'
+  } : {})
+};
 
 const additionalHeaders: Record<string, string> = {
   marketplaceId: 'X-EBAY-C-MARKETPLACE-ID',
@@ -38,7 +39,8 @@ export type ApiRequest = {
 }
 
 export interface IRestful {
-  new (config: AppConfig, req?: IEBayApiRequest, auth?: Auth, apiConfig?: ApiConfig): Restful;
+  new(config: AppConfig, req?: IEBayApiRequest, auth?: Auth, apiConfig?: ApiConfig): Restful;
+
   id: string;
 }
 
@@ -52,16 +54,16 @@ export default abstract class Restful extends Api {
     auth?: Auth,
     apiConfig: ApiConfig = {}
   ) {
-    super(config, req, auth)
+    super(config, req, auth);
 
     this.apiConfig = {
       ...this.getApiConfig(),
       ...apiConfig
-    }
+    };
   }
 
   public static buildServerUrl(schema: string, subdomain: string, sandbox: boolean, tld: string) {
-    return `${schema}${subdomain}.${sandbox ? 'sandbox.' : ''}${tld}`
+    return `${schema}${subdomain}.${sandbox ? 'sandbox.' : ''}${tld}`;
   }
 
   abstract get basePath(): string;
@@ -74,11 +76,11 @@ export default abstract class Restful extends Api {
   }
 
   get schema() {
-    return 'https://'
+    return 'https://';
   }
 
   get subdomain() {
-    return 'api'
+    return 'api';
   }
 
   get apiVersionPath() {
@@ -99,11 +101,11 @@ export default abstract class Restful extends Api {
       sandbox: this.config.sandbox,
       tld: 'ebay.com',
       headers: {}
-    }
+    };
   }
 
   public get baseUrl() {
-    return this.getServerUrl(this.apiConfig)
+    return this.getServerUrl(this.apiConfig);
   }
 
   /**
@@ -112,21 +114,21 @@ export default abstract class Restful extends Api {
    */
   public api(apiConfig: ApiConfig): this {
     // @ts-ignore
-    return new this.constructor(this.config, this.req, this.auth, apiConfig)
+    return new this.constructor(this.config, this.req, this.auth, apiConfig);
   }
 
   /**
    * Use "apix" subdomain
    */
   get apix() {
-    return this.api({subdomain: 'apix'})
+    return this.api({subdomain: 'apix'});
   }
 
   /**
    * Use "apiz" subdomain
    */
   get apiz() {
-    return this.api({subdomain: 'apiz'})
+    return this.api({subdomain: 'apiz'});
   }
 
   public async get(url: string, config: any = {}, apiConfig?: ApiConfig) {
@@ -151,9 +153,9 @@ export default abstract class Restful extends Api {
       .filter(key => typeof this.config[key] !== 'undefined')
       .reduce((headers: any, key) => {
         // @ts-ignore
-        headers[additionalHeaders[key]] = this.config[key]
-        return headers
-      }, {})
+        headers[additionalHeaders[key]] = this.config[key];
+        return headers;
+      }, {});
   }
 
   public async enrichRequestConfig(config: any = {}, apiConfig: Required<ApiConfig> = this.apiConfig) {
@@ -164,7 +166,7 @@ export default abstract class Restful extends Api {
       ...this.additionalHeaders,
       ...authHeader,
       ...apiConfig.headers
-    }
+    };
 
     return {
       ...config,
@@ -172,7 +174,7 @@ export default abstract class Restful extends Api {
         ...(config.headers || {}),
         ...headers
       }
-    }
+    };
   }
 
   private async doRequest(payload: ApiRequest, apiConfig?: ApiConfig) {
@@ -212,16 +214,16 @@ export default abstract class Restful extends Api {
 
     try {
       if (refreshToken) {
-        await this.auth.OAuth2.refreshToken()
+        await this.auth.OAuth2.refreshToken();
       }
 
       const enrichedConfig = await this.enrichRequestConfig(config, apiCfg);
 
-      const args = ['get', 'delete'].includes(method) ? [enrichedConfig] : [data, enrichedConfig]
+      const args = ['get', 'delete'].includes(method) ? [enrichedConfig] : [data, enrichedConfig];
       // @ts-ignore
-      return await this.req[method](endpoint, ...args)
+      return await this.req[method](endpoint, ...args);
     } catch (ex) {
-      handleEBayError(ex)
+      handleEBayError(ex);
     }
   }
 }
