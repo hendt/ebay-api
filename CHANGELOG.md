@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [5.0.3](https://github.com/hendt/ebay-api/compare/v5.0.2...v5.0.3) (2021-11-11)
+
+
+### Bug Fixes
+
+* remove stripCode instead check if window is defined ([65eb840](https://github.com/hendt/ebay-api/commit/65eb84046462c2d3964e52964b34975232560a39))
+
 ### [5.0.2](https://github.com/hendt/ebay-api/compare/v5.0.1...v5.0.2) (2021-11-11)
 
 
