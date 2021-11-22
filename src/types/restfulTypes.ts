@@ -1190,3 +1190,38 @@ export type MarketingInsightsSearchParams = {
   q?: string
   sort?: string
 }
+
+export type NotificationParams = {
+  limit?: string
+  continuationToken?: string
+}
+
+export type SubscriptionPayloadDetail = {
+  format: string
+  schemaVersion: string
+  deliveryProtocol: string
+}
+
+export type CreateSubscriptionRequest = {
+  topicId: string
+  status: string
+  payload: SubscriptionPayloadDetail
+  destinationId: string
+}
+
+export type UpdateSubscriptionRequest = Omit<CreateSubscriptionRequest, 'topicId'>
+
+export type DeliveryConfig = {
+  endpoint: string
+  verificationToken: string
+}
+
+export type DestinationRequest = {
+  name: string
+  status: string
+  deliveryConfig: DeliveryConfig
+}
+
+export type NotificationConfig = {
+  alertEmail: string
+}

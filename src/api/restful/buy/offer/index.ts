@@ -29,7 +29,7 @@ export default class Offer extends Restful {
    * @param itemId
    * @param {PlaceProxyBidRequest} body
    */
-  public placeProxyBid(itemId: string,body?: PlaceProxyBidRequest) {
+  public placeProxyBid(itemId: string, body?: PlaceProxyBidRequest) {
     const id = encodeURIComponent(itemId);
     return this.post(`/bidding/${id}/place_proxy_bid`, body );
   }

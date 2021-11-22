@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Notification API",
-    "description": "The eBay  Notification API allows third-party developers and applications to process eBay notifications and verify the integrity of the notification message payload.",
+    "description": "The eBay Notification API enables management of the entire end-to-end eBay notification experience by allowing users to:<ul><li>Browse for supported notification topics and retrieve topic details</li><li>Create, configure, and manage notification destination endpionts</li><li>Configure, manage, and test notification subscriptions</li><li>Process eBay notifications and verify the integrity of the message payload</li></ul>",
     "contact": {
       "name": "eBay Inc,"
     },
@@ -10,7 +10,7 @@
       "name": "eBay API License Agreement",
       "url": "https://go.developer.ebay.com/api-license-agreement"
     },
-    "version": "v1.0.0"
+    "version": "v1.2.0"
   },
   "servers": [
     {
@@ -29,13 +29,13 @@
         "tags": [
           "public_key"
         ],
-        "description": "This method allows users to retrieve a public key using a specified key ID. The public key that is returned in the response payload is used to process and validate eBay notifications. The public key ID, which is a required request parameter for this method, is retrieved from the Base64-encoded X-EBAY-SIGNATURE header that is included in the eBay notification. Note: For more details about how to process eBay push notifications and validate notification message payloads, see the Notification API Overview.",
+        "description": "This method allows users to retrieve a public key using a specified key ID. The public key that is returned in the response payload is used to process and validate eBay notifications.<br /><br />The public key ID, which is a required request parameter for this method, is retrieved from the Base64-encoded <b>X-EBAY-SIGNATURE</b> header that is included in the eBay notification.<br /><br /><span class=\"tablenote\"><b>Note:</b> For more details about how to process eBay push notifications and validate notification message payloads, see the <a href=\"/api-docs/commerce/notification/overview.html\">Notification API overview</a>.</span>",
         "operationId": "getPublicKey",
         "parameters": [
           {
             "name": "public_key_id",
             "in": "path",
-            "description": "The unique key ID that is used to retrieve the public key. Note: This is retrieved from the X-EBAY-SIGNATURE header that is included with the push notification.",
+            "description": "The unique key ID that is used to retrieve the public key.<br /><br /><span class=\"tablenote\"><b>Note: </b>This is retrieved from the <b>X-EBAY-SIGNATURE</b> header that is included with the push notification.</span>",
             "required": true,
             "schema": {
               "type": "string"
@@ -57,13 +57,1345 @@
             "description": "Bad Request"
           },
           "404": {
-            "description": "Not found",
+            "description": "Not Found",
             "x-response-codes": {
               "errors": {
                 "195001": {
                   "domain": "API_NOTIFICATION",
                   "category": "REQUEST",
-                  "description": "The specified public key Id does not exist."
+                  "description": "The specified key id is invalid."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope"
+            ]
+          }
+        ]
+      }
+    },
+    "/topic/{topic_id}": {
+      "get": {
+        "tags": [
+          "topic"
+        ],
+        "description": "This method allows applications to retrieve details for the specified topic. This information includes supported schema versions, formats, and other metadata for the topic.<br /><br />Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br /><br />A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic).<br /><br />Specify the topic to retrieve using the <b>topic_id</b> URI parameter.<br /><br /><span class=\"tablenote\"><b>Note:</b> Use the <a href=\"/api-docs/commerce/notification/resources/topic/methods/getTopics\">getTopics</a> method to find a topic if you do not know the topic ID.</span>",
+        "operationId": "getTopic",
+        "parameters": [
+          {
+            "name": "topic_id",
+            "in": "path",
+            "description": "The ID of the topic for which to retrieve the details.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topic"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "195002": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing topic id."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope"
+            ]
+          }
+        ]
+      }
+    },
+    "/topic": {
+      "get": {
+        "tags": [
+          "topic"
+        ],
+        "description": "This method returns a paginated collection of all supported topics, along with the details for the topics. This information includes supported schema versions, formats, and other metadata for the topics.<br /><br />Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br /><br />A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic).",
+        "operationId": "getTopics",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of items to return per page from the result set. A result set is the complete set of results returned by the method. Range is from 10-100. <br /><br />If this parameter is omitted, the default value is used.<br/><br/><b> Default:</b> 20<br /><br /><b>Maximum:</b> 100 items per page",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "continuation_token",
+            "in": "query",
+            "description": "The token used to access the next set of results.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TopicSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "195004": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid limit. Supported ranges 10 - 100."
+                },
+                "195005": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid continuation token."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope"
+            ]
+          }
+        ]
+      }
+    },
+    "/subscription": {
+      "get": {
+        "tags": [
+          "subscription"
+        ],
+        "description": "This method allows applications to retrieve a list of all subscriptions. The list returned is a paginated collection of subscription resources.<br /><br />Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.",
+        "operationId": "getSubscriptions",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br/><br/><b>Default:</b> 20<br/><br/><b>Maximum:</b> 100 items per page",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "continuation_token",
+            "in": "query",
+            "description": "The continuation token for the next set of results.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "195004": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid limit. Supported ranges 10 - 100."
+                },
+                "195005": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid continuation token."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope",
+              "https://api.ebay.com/oauth/api_scope/commerce.notification.subscription.readonly",
+              "https://api.ebay.com/oauth/api_scope/commerce.notification.subscription"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "subscription"
+        ],
+        "description": "This method allows applications to create a subscription for a topic and supported schema version. Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.<br/><br/>Each application and topic-schema pairing to a subscription should have a 1:1 cardinality.<br/><br/>You can create the subscription in disabled mode, test it (see the <b>test</b> method), and when everything is ready, you can enable the subscription (see the <b>enableSubscription</b> method).<br /><br /><span class=\"tablenote\"><b>Note:</b> If an application is not authorized to subscribe to a topic, for example, if your authorization does not include the list of scopes required for the topic, an error code of 195011 is returned.</span>",
+        "operationId": "createSubscription",
+        "requestBody": {
+          "description": "The create subscription request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "The create subscription request.",
+                "$ref": "#/components/schemas/CreateSubscriptionRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string",
+                  "description": "The  subscription resource created."
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "195006": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing subscription status."
+                },
+                "195007": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing destination id."
+                },
+                "195008": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing schema version. Please refer to /topic/{topic_id} for supported schema versions."
+                },
+                "195009": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Specified format is not supported for the topic."
+                },
+                "195010": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing protocol"
+                },
+                "195027": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing topic id."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "x-response-codes": {
+              "errors": {
+                "195011": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Not authorized for this topic."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "x-response-codes": {
+              "errors": {
+                "195003": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Please provide configurations required for notifications. Refer to /config"
+                },
+                "195012": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Subscription already exists"
+                },
+                "195015": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "The subscription cannot be enabled since the destination is not enabled."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope",
+              "https://api.ebay.com/oauth/api_scope/commerce.notification.subscription"
+            ]
+          }
+        ]
+      }
+    },
+    "/subscription/{subscription_id}": {
+      "get": {
+        "tags": [
+          "subscription"
+        ],
+        "description": "This method allows applications to retrieve subscription details for the specified subscription.<br /><br />Specify the subscription to retrieve using the <strong>subscription_id</strong>. Use the <strong>getSubscriptions</strong> method to browse all subscriptions if you do not know the <strong>subscription_id</strong>.<br /><br />Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.",
+        "operationId": "getSubscription",
+        "parameters": [
+          {
+            "name": "subscription_id",
+            "in": "path",
+            "description": "The unique identifier for the subscription.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "195013": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": " Invalid subscription Id."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope",
+              "https://api.ebay.com/oauth/api_scope/commerce.notification.subscription.readonly",
+              "https://api.ebay.com/oauth/api_scope/commerce.notification.subscription"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "subscription"
+        ],
+        "description": "This method allows applications to update a subscription. Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.<br /><br /><span class=\"tablenote\"><b>Note:</b> This call returns an error if an application is not authorized to subscribe to a topic.</span><br/><br/>You can pause and restart a subscription. See the <b>disableSubscription</b> and <b>enableSubscription</b> methods.",
+        "operationId": "updateSubscription",
+        "parameters": [
+          {
+            "name": "subscription_id",
+            "in": "path",
+            "description": "The unique identifier for the subscription.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The create subscription request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "The create subscription request.",
+                "$ref": "#/components/schemas/UpdateSubscriptionRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "195006": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing subscription status."
+                },
+                "195007": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing destination id."
+                },
+                "195008": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing schema version. Please refer to /topic/{topic_id} for supported schema versions."
+                },
+                "195009": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Specified format is not supported for the topic."
+                },
+                "195010": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing protocol"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "195013": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": " Invalid subscription Id."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "x-response-codes": {
+              "errors": {
+                "195012": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Subscription already exists"
+                },
+                "195014": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "The subscription cannot be enabled since the topic or payload is no longer supported."
+                },
+                "195015": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "The subscription cannot be enabled since the destination is not enabled."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope",
+              "https://api.ebay.com/oauth/api_scope/commerce.notification.subscription"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "subscription"
+        ],
+        "description": "This method allows applications to delete a subscription. Subscriptions can be deleted regardless of status.",
+        "operationId": "deleteSubscription",
+        "parameters": [
+          {
+            "name": "subscription_id",
+            "in": "path",
+            "description": "The unique identifier for the subscription.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "195013": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": " Invalid subscription Id."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope",
+              "https://api.ebay.com/oauth/api_scope/commerce.notification.subscription"
+            ]
+          }
+        ]
+      }
+    },
+    "/subscription/{subscription_id}/enable": {
+      "post": {
+        "tags": [
+          "subscription"
+        ],
+        "description": "This method allows applications to enable a disabled subscription. To pause (or disable) an enabled subscription, call <strong>disableSubscription</strong>.",
+        "operationId": "enableSubscription",
+        "parameters": [
+          {
+            "name": "subscription_id",
+            "in": "path",
+            "description": "The unique identifier for the subscription.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "195013": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": " Invalid subscription Id."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "x-response-codes": {
+              "errors": {
+                "195014": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "The subscription cannot be enabled since the topic or payload is no longer supported."
+                },
+                "195015": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "The subscription cannot be enabled since the destination is not enabled."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope",
+              "https://api.ebay.com/oauth/api_scope/commerce.notification.subscription"
+            ]
+          }
+        ]
+      }
+    },
+    "/subscription/{subscription_id}/disable": {
+      "post": {
+        "tags": [
+          "subscription"
+        ],
+        "description": "This method disables a subscription, which prevents the subscription from providing notifications. To restart a subscription, call <strong>enableSubscription</strong>.",
+        "operationId": "disableSubscription",
+        "parameters": [
+          {
+            "name": "subscription_id",
+            "in": "path",
+            "description": "The unique identifier for the subscription.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "195013": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": " Invalid subscription Id."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope",
+              "https://api.ebay.com/oauth/api_scope/commerce.notification.subscription"
+            ]
+          }
+        ]
+      }
+    },
+    "/subscription/{subscription_id}/test": {
+      "post": {
+        "tags": [
+          "subscription"
+        ],
+        "description": "This method triggers a mocked test payload that includes a notification ID, publish date, and so on. Use this method to test your subscription end-to-end.<br /><br />You can create the subscription in disabled mode, test it using this method, and when everything is ready, you can enable the subscription (see the <strong>enableSubscription</strong> method).<br /><br /><span class=\"tablenote\"><b>Note:</b> Use the <strong>notificationId</strong> to tell the difference between a test payload and a real payload.</span>",
+        "operationId": "test",
+        "parameters": [
+          {
+            "name": "subscription_id",
+            "in": "path",
+            "description": "The unique identifier for the subscription.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "195013": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": " Invalid subscription Id."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope",
+              "https://api.ebay.com/oauth/api_scope/commerce.notification.subscription"
+            ]
+          }
+        ]
+      }
+    },
+    "/destination": {
+      "get": {
+        "tags": [
+          "destination"
+        ],
+        "description": "This method allows applications to retrieve a paginated collection of destination resources and related details. The details include the destination names, statuses, and configurations, including the endpoints and verification tokens.",
+        "operationId": "getDestinations",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br/><br/><b>Default:</b> 20<br/><br/><b>Maximum:</b> 100 items per page",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "continuation_token",
+            "in": "query",
+            "description": "The continuation token for the next set of results.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DestinationSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "195004": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid limit. Supported ranges 10 - 100."
+                },
+                "195005": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid continuation token."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "destination"
+        ],
+        "description": "This method allows applications to create a destination. A destination is an endpoint that receives HTTP push notifications.<br /><br />A single destination for all topics is valid, as is individual destinations for each topic.<br /><br />To update a destination, use the <strong>updateDestination</strong> call.<br /><br />The destination created will need to be referenced while creating or updating a subscription to a topic.<br/><br/><span class=\"tablenote\"><b>Note:</b> The destination should be created and ready to respond with the expected <b>challengeResponse</b> for the endpoint to be registered successfully. Refer to the <a href=\"/api-docs/commerce/notification/overview.html\">Notification API overview</a> for more information.</span>",
+        "operationId": "createDestination",
+        "requestBody": {
+          "description": "The create destination request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "The create destination request.",
+                "$ref": "#/components/schemas/DestinationRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string",
+                  "description": "The  destination resource created."
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "195016": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid name. Markups or lengths greater than 64 not supported"
+                },
+                "195017": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing endpoint."
+                },
+                "195018": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing destination status. Supported values:[ENABLED,DISABLED]"
+                },
+                "195019": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing verification token for this endpoint."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "x-response-codes": {
+              "errors": {
+                "195003": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Please provide configurations required for notifications. Refer to /config"
+                },
+                "195020": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Challenge verification failed for requested endpoint"
+                },
+                "195021": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Destination exists for this endpoint"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope"
+            ]
+          }
+        ]
+      }
+    },
+    "/destination/{destination_id}": {
+      "get": {
+        "tags": [
+          "destination"
+        ],
+        "description": "This method allows applications to fetch the details for a destination. The details include the destination name, status, and configuration, including the endpoint and verification token.",
+        "operationId": "getDestination",
+        "parameters": [
+          {
+            "name": "destination_id",
+            "in": "path",
+            "description": "The unique identifier for the destination.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Destination"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "195022": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing destination id."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "destination"
+        ],
+        "description": "This method allows applications to update a destination.<br/><br/><span class=\"tablenote\"><b>Note:</b> The destination should be created and ready to respond with the expected <b>challengeResponse</b> for the endpoint to be registered successfully. Refer to the <a href=\"/api-docs/commerce/notification/overview.html\">Notification API overview</a> for more information.</span>",
+        "operationId": "updateDestination",
+        "parameters": [
+          {
+            "name": "destination_id",
+            "in": "path",
+            "description": "The unique identifier for the destination.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The create subscription request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "The create subscription request.",
+                "$ref": "#/components/schemas/DestinationRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "195016": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid name. Markups or lengths greater than 64 not supported"
+                },
+                "195017": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing endpoint."
+                },
+                "195018": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing destination status. Supported values:[ENABLED,DISABLED]"
+                },
+                "195019": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing verification token for this endpoint."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "195022": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing destination id."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "x-response-codes": {
+              "errors": {
+                "195020": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Challenge verification failed for requested endpoint"
+                },
+                "195021": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Destination exists for this endpoint"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "destination"
+        ],
+        "description": "This method provides applications a way to delete a destination.<br /><br />The same destination ID can be used by many destinations.<br /><br />Trying to delete an active destination results in an error. You can disable a subscription, and when the destination is no longer in use, you can delete it.",
+        "operationId": "deleteDestination",
+        "parameters": [
+          {
+            "name": "destination_id",
+            "in": "path",
+            "description": "The unique identifier for the destination.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "195022": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing destination id."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "x-response-codes": {
+              "errors": {
+                "195024": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Destination is in use and cannot be deleted."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope"
+            ]
+          }
+        ]
+      }
+    },
+    "/config": {
+      "get": {
+        "tags": [
+          "config"
+        ],
+        "description": "This method allows applications to retrieve a previously created configuration.",
+        "operationId": "getConfig",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Config"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "x-response-codes": {
+              "errors": {
+                "195026": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "Configuration Not Found."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "195000": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "config"
+        ],
+        "description": "This method allows applications to create a new configuration or update an existing configuration. This app-level configuration allows developers to set up alerts.",
+        "operationId": "updateConfig",
+        "requestBody": {
+          "description": "The configurations for this application.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "The configurations for this application.",
+                "$ref": "#/components/schemas/Config"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "195025": {
+                  "domain": "API_NOTIFICATION",
+                  "category": "REQUEST",
+                  "description": "Invalid or missing email."
                 }
               }
             }
@@ -93,6 +1425,123 @@
   },
   "components": {
     "schemas": {
+      "Config": {
+        "type": "object",
+        "properties": {
+          "alertEmail": {
+            "type": "string",
+            "description": "The alert email address for this application."
+          }
+        },
+        "description": "The type that defines the fields for the <b>alertEmail</b> field."
+      },
+      "CreateSubscriptionRequest": {
+        "type": "object",
+        "properties": {
+          "topicId": {
+            "type": "string",
+            "description": "The unique identifier for the topic associated with this subscription."
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of this subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionStatusEnum'>eBay API documentation</a>"
+          },
+          "payload": {
+            "description": "The payload associated with this subscription.",
+            "$ref": "#/components/schemas/SubscriptionPayloadDetail"
+          },
+          "destinationId": {
+            "type": "string",
+            "description": "The unique identifier for the destination associated with this subscription."
+          }
+        },
+        "description": "This type contains information about a subscription request."
+      },
+      "DeliveryConfig": {
+        "type": "object",
+        "properties": {
+          "endpoint": {
+            "type": "string",
+            "description": "The endpoint for this destination."
+          },
+          "verificationToken": {
+            "type": "string",
+            "description": "The verification token associated with this endpoint."
+          }
+        },
+        "description": "A type that contains information about the delivery configuration."
+      },
+      "Destination": {
+        "type": "object",
+        "properties": {
+          "destinationId": {
+            "type": "string",
+            "description": "The unique identifier for the destination."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name associated with this destination."
+          },
+          "status": {
+            "type": "string",
+            "description": "The status for this destination.<br /><br /><span class=\"tablenote\"><b>Note:</b> The <b>MARKED_DOWN</b> value is set by eBay systems and cannot be used in a create or update call by applications.</span><br /><br /><b>Valid values:</b><ul><li><code>ENABLED</code></li><li><code>DISABLED</code></li><li><code>MARKED_DOWN</code></li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:DestinationStatusEnum'>eBay API documentation</a>"
+          },
+          "deliveryConfig": {
+            "type": "string",
+            "description": "The configuration associated with this destination. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/desination'>eBay API documentation</a>"
+          }
+        },
+        "description": "A type that contains information about the destination."
+      },
+      "DestinationRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name associated with this destination."
+          },
+          "status": {
+            "type": "string",
+            "description": "The status for this destination.<br /><br /><span class=\"tablenote\"><b>Note:</b> The <b>MARKED_DOWN</b> value is set by eBay systems and cannot be used in a create or update call by applications.</span><br /><br /><b>Valid values:</b><ul><li><code>ENABLED</code></li><li><code>DISABLED</code></li><li><code>MARKED_DOWN</code></li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:DestinationStatusEnum'>eBay API documentation</a>"
+          },
+          "deliveryConfig": {
+            "description": "The configuration associated with this destination.",
+            "$ref": "#/components/schemas/DeliveryConfig"
+          }
+        },
+        "description": "A type that contains information about the destination request."
+      },
+      "DestinationSearchResponse": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "description": "The total number of matches for the search criteria.",
+            "format": "int32"
+          },
+          "href": {
+            "type": "string",
+            "description": "The path to the call URI that produced the current page of results."
+          },
+          "next": {
+            "type": "string",
+            "description": "The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The number of records to show in the current response.<br /><br /><b>Default:</b> 20",
+            "format": "int32"
+          },
+          "destinations": {
+            "type": "array",
+            "description": "An array that contains the destination details.",
+            "items": {
+              "$ref": "#/components/schemas/Destination"
+            }
+          }
+        },
+        "description": "A type that contains information about the destination search response."
+      },
       "Error": {
         "type": "object",
         "properties": {
@@ -158,6 +1607,32 @@
           }
         }
       },
+      "PayloadDetail": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "type": "string",
+            "description": "The supported schema version."
+          },
+          "format": {
+            "type": "array",
+            "description": "The supported format. Presently, <code>JSON</code> is the only supported format.",
+            "items": {
+              "type": "string",
+              "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:FormatTypeEnum'>eBay API documentation</a>"
+            }
+          },
+          "deliveryProtocol": {
+            "type": "string",
+            "description": "The supported delivery protocols. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:ProtocolEnum'>eBay API documentation</a>"
+          },
+          "deprecated": {
+            "type": "boolean",
+            "description": "A deprecation indicator."
+          }
+        },
+        "description": "A type that describes the details about a topic's payload."
+      },
       "PublicKey": {
         "type": "object",
         "properties": {
@@ -171,10 +1646,178 @@
           },
           "key": {
             "type": "string",
-            "description": "The public key that is returned for the specified key ID. This value is used to validate the eBay push notification message payload."
+            "description": "The public key that is returned for the specified key ID.<br /><br />This value is used to validate the eBay push notification message payload."
           }
         },
         "description": "A type that defines the public key for a unique key ID."
+      },
+      "Subscription": {
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "string",
+            "description": "The unique identifier for the subscription."
+          },
+          "topicId": {
+            "type": "string",
+            "description": "The unique identifier for the topic associated with this subscription."
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of this subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionStatusEnum'>eBay API documentation</a>"
+          },
+          "creationDate": {
+            "type": "string",
+            "description": "The creation date for this subscription."
+          },
+          "payload": {
+            "description": "The payload associated with this subscription.",
+            "$ref": "#/components/schemas/SubscriptionPayloadDetail"
+          },
+          "destinationId": {
+            "type": "string",
+            "description": "The unique identifier for the destination associated with this subscription."
+          }
+        },
+        "description": "A type that describes the subscription."
+      },
+      "SubscriptionPayloadDetail": {
+        "type": "object",
+        "properties": {
+          "format": {
+            "type": "string",
+            "description": "The supported format. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:FormatTypeEnum'>eBay API documentation</a>"
+          },
+          "schemaVersion": {
+            "type": "string",
+            "description": "The supported schema version."
+          },
+          "deliveryProtocol": {
+            "type": "string",
+            "description": "The supported protocol. For exmaple: <code>HTTPS</code> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:ProtocolEnum'>eBay API documentation</a>"
+          }
+        },
+        "description": "A type that describes the details of the subscription payload."
+      },
+      "SubscriptionSearchResponse": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "description": "The total number of matches for the search criteria.",
+            "format": "int32"
+          },
+          "href": {
+            "type": "string",
+            "description": "The path to the call URI that produced the current page of results."
+          },
+          "next": {
+            "type": "string",
+            "description": "The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br /><br /><span class=\"tablenote\"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span><br /><br /><b>Default:</b> 20",
+            "format": "int32"
+          },
+          "subscriptions": {
+            "type": "array",
+            "description": "The subscriptions that match the search criteria.",
+            "items": {
+              "$ref": "#/components/schemas/Subscription"
+            }
+          }
+        },
+        "description": "A type that describes the details of the subscription search response."
+      },
+      "Topic": {
+        "type": "object",
+        "properties": {
+          "topicId": {
+            "type": "string",
+            "description": "The unique identifier for the topic."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the topic."
+          },
+          "authorizationScopes": {
+            "type": "array",
+            "description": "The authorization scopes required to subscribe to this topic.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of this topic. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:StatusEnum'>eBay API documentation</a>"
+          },
+          "context": {
+            "type": "string",
+            "description": "The business context associated with this topic. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:ContextEnum'>eBay API documentation</a>"
+          },
+          "scope": {
+            "type": "string",
+            "description": "The scope of this topic. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:ScopeEnum'>eBay API documentation</a>"
+          },
+          "supportedPayloads": {
+            "type": "array",
+            "description": "The supported payloads for this topic.",
+            "items": {
+              "$ref": "#/components/schemas/PayloadDetail"
+            }
+          }
+        },
+        "description": "A type that describes the details of the topic."
+      },
+      "TopicSearchResponse": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "description": "The total number of matches for the search criteria.",
+            "format": "int32"
+          },
+          "href": {
+            "type": "string",
+            "description": "The path to the call URI that produced the current page of results."
+          },
+          "next": {
+            "type": "string",
+            "description": "The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br /><br /><span class=\"tablenote\"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span>",
+            "format": "int32"
+          },
+          "topics": {
+            "type": "array",
+            "description": "An array of topics that match the specified criteria.",
+            "items": {
+              "$ref": "#/components/schemas/Topic"
+            }
+          }
+        },
+        "description": "A type that describes the details of the topic search response."
+      },
+      "UpdateSubscriptionRequest": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "The status of this subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionStatusEnum'>eBay API documentation</a>"
+          },
+          "payload": {
+            "description": "The payload associated with this subscription.",
+            "$ref": "#/components/schemas/SubscriptionPayloadDetail"
+          },
+          "destinationId": {
+            "type": "string",
+            "description": "The unique identifier for the destination associated with this subscription."
+          }
+        },
+        "description": "A type that describes the details of the update subscription request."
       }
     },
     "securitySchemes": {
@@ -186,6 +1829,14 @@
             "tokenUrl": "https://api.ebay.com/identity/v1/oauth2/token",
             "scopes": {
               "https://api.ebay.com/oauth/api_scope": "View public data from eBay"
+            }
+          },
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.ebay.com/oauth2/authorize",
+            "tokenUrl": "https://api.ebay.com/identity/v1/oauth2/token",
+            "scopes": {
+              "https://api.ebay.com/oauth/api_scope/commerce.notification.subscription.readonly": "View your event notification subscriptions",
+              "https://api.ebay.com/oauth/api_scope/commerce.notification.subscription": "View and manage your event notification subscriptions"
             }
           }
         }
