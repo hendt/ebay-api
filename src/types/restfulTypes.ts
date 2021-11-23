@@ -1281,3 +1281,8 @@ export type ItemsParams = {
   itemIds: string
   itemGroupIds: string
 }
+
+export type SuppressViolationRequest = {
+  complianceType: string
+  listingId: string
+}

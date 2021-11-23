@@ -1,4 +1,5 @@
 import Restful from '../../';
+import {SuppressViolationRequest} from '../../../../types';
 
 /**
  * Service for providing the compliance violations of seller account/listings
@@ -35,7 +36,7 @@ export default class Compliance extends Restful {
    *     that are returned in the current result set.
    */
   public getListingViolations({complianceType, offset, listingId, limit}:
-    { complianceType?: string, offset?: number, listingId?: string, limit?: number } = {}) {
+                                { complianceType?: string, offset?: number, listingId?: string, limit?: number } = {}) {
     return this.get(`/listing_violation`, {
       params: {
         compliance_type: complianceType,
@@ -44,5 +45,14 @@ export default class Compliance extends Restful {
         limit
       }
     });
+  }
+
+  /**
+   * This call suppresses a listing violation for a specific listing. Only listing violations in the AT_RISK state (returned in the violations.complianceState field of the getListingViolations call) can be suppressed.
+   *
+   * @param body  SuppressViolationRequest
+   */
+  public suppressViolation(body: SuppressViolationRequest) {
+    return this.post(`/suppress_listing_violation`, body);
   }
 }
