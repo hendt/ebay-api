@@ -24,10 +24,10 @@ It supports `client credentials grant` and `authorization code grant` \(Auth'N'A
 | API | Implemented |
 | :--- | :--- |
 | **Buy API** | ✔ Browse API `v1.10.0`<br>✔  Deal API `v1.3.0`<br>✔ Feed API<br>✔ Marketing API<br>✔ Offer API<br>✔ Order API<br>✔ Marketplace Insights API |
-| **Commerce API** | ✔ Catalog API<br>✔ Charity API<br>✔ Identity API<br>✔ Notification API<br>✔ Taxonomy API<br>✔ Translation API |
+| **Commerce API** | ✔ Catalog API<br>✔ Charity API `v1.2.0`<br>✔ Identity API<br>✔ Notification API `v1.2.0`<br>✔ Taxonomy API `v1.0.0`<br>✔ Translation API |
 | **Developer API** | ✔ Analytics API|
 | **Post Order API** | ✔ Cancellation API<br>✔ Case Management API<br>✔ Inquiry API<br>✔ Return API |
-| **Sell API** | ✔ Account API <br>✔ Analytics API<br>✔ Compliance API<br>✔ Feed API<br>✔ Finance API<br>✔ Fulfillment API<br>✔ Inventory API<br>✔ Listing API<br>✔ Logistics API<br>✔ Marketing API<br>✔ Metadata API<br>✔ Negotiation API<br>✔ Recommendation API |
+| **Sell API** | ✔ Account API `v1.6.3`<br>✔ Analytics API<br>✔ Compliance API<br>✔ Feed API<br>✔ Finance API<br>✔ Fulfillment API<br>✔ Inventory API<br>✔ Listing API<br>✔ Logistics API<br>✔ Marketing API<br>✔ Metadata API<br>✔ Negotiation API<br>✔ Recommendation API |
 
 ### Traditional API
 

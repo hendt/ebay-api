@@ -27,7 +27,7 @@ export default class Account extends Restful {
    * @param marketplaceId This query parameter specifies the eBay marketplace of the policies you want to retrieve.
    */
   public getFulfillmentPolicies(marketplaceId: string) {
-    return this.get(`/fulfillment_policy/`, {
+    return this.get(`/fulfillment_policy`, {
       params: {
         marketplace_id: marketplaceId
       }
@@ -41,7 +41,7 @@ export default class Account extends Restful {
    * @param body Request to create a seller account fulfillment policy.
    */
   public createFulfillmentPolicy(body: FulfillmentPolicyRequest) {
-    return this.post(`/fulfillment_policy/`, body);
+    return this.post(`/fulfillment_policy`, body);
   }
 
   /**
@@ -97,7 +97,7 @@ export default class Account extends Restful {
    * @param marketplaceId This query parameter specifies the eBay marketplace of the policy you want to retrieve.
    */
   public getPaymentPolicies(marketplaceId: string) {
-    return this.get(`/payment_policy/`, {
+    return this.get(`/payment_policy`, {
       params: {
         marketplace_id: marketplaceId
       }
@@ -121,7 +121,7 @@ export default class Account extends Restful {
    * @param body Payment policy request
    */
   public createPaymentPolicy(body: PaymentPolicyRequest) {
-    return this.post(`/payment_policy/`, body);
+    return this.post(`/payment_policy`, body);
   }
 
   /**
@@ -174,10 +174,23 @@ export default class Account extends Restful {
   }
 
   /**
+   * This method retrieves a seller's onboarding status of eBay managed payments for a specified marketplace.
+   *
+   * @param marketplaceId This query parameter specifies the eBay marketplace of the policy you want to retrieve.
+   * @param paymentsProgramType This path parameter specifies the payments program whose status is returned by the
+   *     call.
+   */
+  public getPaymentsProgramOnboarding(marketplaceId: string, paymentsProgramType: PaymentsProgramType) {
+    marketplaceId = encodeURIComponent(marketplaceId);
+    const type = encodeURIComponent(paymentsProgramType);
+    return this.get(`/payments_program/${marketplaceId}/${type}/onboarding`);
+  }
+
+  /**
    * This method retrieves the seller's current set of privileges.
    */
   public getPrivileges() {
-    return this.get(`/privilege/`);
+    return this.get(`/privilege`);
   }
 
   /**
@@ -213,7 +226,7 @@ export default class Account extends Restful {
    *     you want shipping-rate table information.
    */
   public getRateTables(countryCode?: string) {
-    return this.get(`/rate_table/`, {
+    return this.get(`/rate_table`, {
       params: {
         country_code: countryCode
       }
@@ -228,7 +241,7 @@ export default class Account extends Restful {
    *     retrieve.
    */
   public getReturnPolicies(marketplaceId: string) {
-    return this.get(`/return_policy/`, {
+    return this.get(`/return_policy`, {
       params: {
         marketplace_id: marketplaceId
       }
@@ -251,7 +264,7 @@ export default class Account extends Restful {
    * @param body Return policy request
    */
   public createReturnPolicy(body: ReturnPolicyRequest) {
-    return this.post(`/return_policy/`, body);
+    return this.post(`/return_policy`, body);
   }
 
   /**
@@ -342,10 +355,17 @@ export default class Account extends Restful {
    *     tax table you want to retrieve.
    */
   public getSalesTaxes(countryCode: string) {
-    return this.get(`/sales_tax/`, {
+    return this.get(`/sales_tax`, {
       params: {
         country_code: countryCode
       }
     });
+  }
+
+  /**
+   * his method is used by sellers onboarded for eBay managed payments, or sellers who are currently going through, or who are eligible for onboarding for eBay managed payments.
+   */
+  public getKYC() {
+    return this.get(`/kyc`, );
   }
 }
