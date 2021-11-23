@@ -1,4 +1,15 @@
 # eBay API Changelog
+## [5.1.0](https://github.com/hendt/ebay-api/compare/v5.0.3...v5.1.0) (2021-11-23)
+
+
+### Features
+
+* update buy browse API ([6ca0334](https://github.com/hendt/ebay-api/commit/6ca0334d314db86896453b004b7c0bf0eadf7d9e))
+* update restful notification api to v1.2.0 ([91e5de3](https://github.com/hendt/ebay-api/commit/91e5de3740641cbd09f89b0cd07969dbfcd87644))
+* update sell analytics, metadata and recommendation API and oas ([214c0b0](https://github.com/hendt/ebay-api/commit/214c0b0df827ad95846f0345501214ed09e8b34b))
+* update sell compliance API ([aed292c](https://github.com/hendt/ebay-api/commit/aed292c77b6b1a7db222a085260bc3c286a824c0))
+* update sell fulfillment API ([274f2f4](https://github.com/hendt/ebay-api/commit/274f2f466c40a6ea050a76aacfe58efe0435e374))
+
 ### [5.0.3](https://github.com/hendt/ebay-api/compare/v5.0.2...v5.0.3) (2021-11-11)
 
 
