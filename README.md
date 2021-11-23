@@ -94,10 +94,12 @@ const eBay = new eBayApi({
 
 ### Browser
 Check out live example: [https://hendt.github.io/ebay-api/](https://hendt.github.io/ebay-api/).
+Because of the eBay CORS problems a Proxy server is required to use the API in the Browser.
 
-A Proxy server is required to use the API in the Browser.
+For testing purpose you can use `https://ebay.hendt.workers.dev/` url as proxy. You can also set up your own Proxy server. We have added a example for cloudfront workers: [https://github.com/hendt/ebay-api/blob/master/proxy/worker.js](https://github.com/hendt/ebay-api/blob/master/proxy/worker.js)
 
-For testing purpose you can use `https://ebay.hendt.workers.dev/`. You can also set up your own Proxy server. We have added a example for cloudfront workers: [https://github.com/hendt/ebay-api/blob/master/proxy/worker.js](https://github.com/hendt/ebay-api/blob/master/proxy/worker.js)
+Or use [https://github.com/Rob--W/cors-anywhere](CORS Anywhere is a NodeJS proxy) (works very well with heroku.com).
+
 
 ```html
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@hendt/ebay-api@latest/lib/ebay-api.min.js"></script>
