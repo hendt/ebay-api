@@ -27,7 +27,7 @@ It supports `client credentials grant` and `authorization code grant` \(Auth'N'A
 | **Commerce API** | ✔ Catalog API<br>✔ Charity API `v1.2.0`<br>✔ Identity API<br>✔ Notification API `v1.2.0`<br>✔ Taxonomy API `v1.0.0`<br>✔ Translation API |
 | **Developer API** | ✔ Analytics API|
 | **Post Order API** | ✔ Cancellation API<br>✔ Case Management API<br>✔ Inquiry API<br>✔ Return API |
-| **Sell API** | ✔ Account API `v1.6.3`<br>✔ Analytics API<br>✔ Compliance API<br>✔ Feed API<br>✔ Finance API<br>✔ Fulfillment API<br>✔ Inventory API `1.14.0`<br>✔ Listing API<br>✔ Logistics API<br>✔ Marketing API<br>✔ Metadata API<br>✔ Negotiation API<br>✔ Recommendation API |
+| **Sell API** | ✔ Account API `v1.6.3`<br>✔ Analytics API<br>✔ Compliance API<br>✔ Feed API<br>✔ Finance API<br>✔ Fulfillment API `v1.19.10`<br>✔ Inventory API `1.14.0`<br>✔ Listing API<br>✔ Logistics API<br>✔ Marketing API<br>✔ Metadata API<br>✔ Negotiation API<br>✔ Recommendation API |
 
 ### Traditional API
 

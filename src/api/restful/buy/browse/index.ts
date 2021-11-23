@@ -57,7 +57,6 @@ export default class Browse extends Restful {
    * @param itemIds A list of item IDs. Item IDs are the eBay RESTful identifier of items.
    * @param itemGroupIds A list of item group IDs.
    */
-  // tslint:disable-next-line:variable-name
   public getItems({itemIds: item_ids, itemGroupIds: item_group_ids}: ItemsParams) {
     return this.get(`/item/`, {
       params: {

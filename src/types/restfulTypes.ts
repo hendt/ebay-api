@@ -261,6 +261,57 @@ export type IssueRefundRequest = {
   orderLevelRefundAmount?: SimpleAmount
 };
 
+export type PaymentParams = {
+  orderId?: string
+  buyerUsername?: string
+  openDateFrom?: string
+  openDateTo?: string
+  paymentDisputeStatus?: string
+  limit?: string
+  offset?: string
+}
+
+export type Phone = {
+  countryCode: string
+  number: number
+}
+
+export type ReturnAddress = {
+  addressLine1: string
+  addressLine2: string
+  city: string
+  country: string
+  county: string
+  fullName: string
+  postalCode: string
+  primaryPhone: Phone
+  stateOrProvince: string
+}
+
+export type ContestPaymentDisputeRequest = {
+  returnAddress: ReturnAddress,
+  revision: number
+}
+
+export type FileEvidence = {
+  fileId: string
+}
+
+export type OrderLineItems = {
+  itemId: string
+  lineItemId: string
+}
+
+export type  AddEvidencePaymentDisputeRequest = {
+  evidenceType: string
+  files: FileEvidence[]
+  lineItems: OrderLineItems[]
+}
+
+export type UpdateEvidencePaymentDisputeRequest = AddEvidencePaymentDisputeRequest & {
+  evidenceId: string
+}
+
 export type Comments = {
   content: string,
   language?: string,

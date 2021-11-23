@@ -1,7 +1,10 @@
 import Restful from '../../';
+import {multipartHeader} from '../../../../request';
 import {
-  IssueRefundRequest,
-  ShippingFulfillmentDetails,
+  AddEvidencePaymentDisputeRequest,
+  ContestPaymentDisputeRequest,
+  IssueRefundRequest, PaymentParams,
+  ShippingFulfillmentDetails, UpdateEvidencePaymentDisputeRequest,
 } from '../../../../types';
 
 /**
@@ -17,10 +20,6 @@ export default class Fulfillment extends Restful {
   static id = 'Fulfillment';
 
   get basePath(): string {
-    return '';
-  }
-
-  get apiVersionPath() {
     return '/sell/fulfillment/v1';
   }
 
@@ -114,5 +113,119 @@ export default class Fulfillment extends Restful {
     orderId = encodeURIComponent(orderId);
     fulfillmentId = encodeURIComponent(fulfillmentId);
     return this.get(`/order/${orderId}/shipping_fulfillment/${fulfillmentId}`);
+  }
+
+  /**
+   * This method retrieves detailed information on a specific payment dispute.
+   *
+   * @param paymentDisputeId This is the unique identifier of the payment dispute.
+   */
+  public getPaymentDispute(paymentDisputeId: string) {
+    return this.get(`/payment_dispute/${paymentDisputeId}`);
+  }
+
+  /**
+   * This call retrieves a specific evidence file for a payment dispute.
+   *
+   * @param paymentDisputeId This is the unique identifier of the payment dispute.
+   */
+  public fetchEvidenceContent(paymentDisputeId: string) {
+    return this.get(`/payment_dispute/${paymentDisputeId}/fetch_evidence_content`);
+  }
+
+  /**
+   * This method retrieve a log of activity for a payment dispute.
+   *
+   * @param paymentDisputeId This is the unique identifier of the payment dispute.
+   */
+  public getActivities(paymentDisputeId: string) {
+    return this.get(`/payment_dispute/${paymentDisputeId}/activity`);
+  }
+
+
+  /**
+   * This method is used retrieve one or more payment disputes filed against the seller.
+   *
+   * @param orderId This filter is used if the seller wishes to retrieve one or more payment disputes filed against a specific order.
+   * @param buyerUsername This filter is used if the seller wishes to retrieve one or more payment disputes opened by a specific seller.
+   * @param openDateFrom The <b>open_date_from</b> and/or <b>open_date_to</b> date filters are used if the seller wishes to retrieve payment disputes opened within a specific date range.
+   * @param paymentDisputeStatus The <b>open_date_from</b> and/or <b>open_date_to</b> date filters are used if the seller wishes to retrieve payment disputes opened within a specific date range.
+   * @param paymentDisputeStatus his filter is used if the seller wishes to only retrieve payment disputes in a specific state.
+   * @param limit The value passed in this query parameter sets the maximum number of payment disputes to return per page of data.
+   * @param offset This field is used to specify the number of records to skip in the result set before returning the first payment dispute in the paginated response.
+   */
+  public getPaymentDisputeSummaries({
+                                      orderId: order_id,
+                                      buyerUsername: buyer_username,
+                                      openDateFrom: open_date_from,
+                                      openDateTo: open_date_to,
+                                      paymentDisputeStatus: payment_dispute_status,
+                                      limit,
+                                      offset
+                                    }: PaymentParams) {
+    return this.get(`/payment_dispute_summary`, {
+      params: {
+        order_id,
+        buyer_username,
+        open_date_from,
+        open_date_to,
+        payment_dispute_status,
+        limit,
+        offset
+      }
+    });
+  }
+
+  /**
+   * This method is used if the seller wishes to contest a payment dispute initiated by the buyer.
+   *
+   * @param paymentDisputeId This is the unique identifier of the payment dispute.
+   * @param body This is the unique identifier of the payment dispute.
+   */
+  public contestPaymentDispute(paymentDisputeId: string, body: ContestPaymentDisputeRequest) {
+    return this.post(`/payment_dispute/${paymentDisputeId}/contest`, body);
+  }
+
+  /**
+   * This method is used if the seller wishes to accept a payment dispute.
+   *
+   *  @param paymentDisputeId This is the unique identifier of the payment dispute.
+   */
+  public acceptPaymentDispute(paymentDisputeId: string) {
+    return this.post(`/payment_dispute/${paymentDisputeId}/accept`);
+  }
+
+  /**
+   * This method is used to upload an evidence file for a contested payment dispute.
+   *
+   * @param paymentDisputeId This is the unique identifier of the payment dispute.
+   * @param data uploads an encrypted, binary image file (using multipart/form-data HTTP request header)
+   */
+  public uploadEvidenceFile(paymentDisputeId: string, data: any) {
+    return this.post(`/payment_dispute/${paymentDisputeId}/upload_evidence_file`, data, {
+      headers: {
+        ...multipartHeader
+      }
+    });
+  }
+
+  /**
+   * This method is used by the seller to add one or more evidence files to address a payment dispute initiated by the buyer.
+   *
+   * @param paymentDisputeId This is the unique identifier of the payment dispute.
+   * @param body AddEvidencePaymentDisputeRequest
+   */
+  public addEvidence(paymentDisputeId: string, body: AddEvidencePaymentDisputeRequest) {
+    return this.post(`/payment_dispute/${paymentDisputeId}/add_evidence`, body);
+  }
+
+  /**
+   * This method is used by the seller to update an existing evidence set for a payment dispute with one or more evidence files.
+   *
+   * @param paymentDisputeId This is the unique identifier of the payment dispute.
+   * @param body AddEvidencePaymentDisputeRequest
+   */
+  public updateEvidence(paymentDisputeId: string, body: UpdateEvidencePaymentDisputeRequest) {
+    return this.post(`/payment_dispute/${paymentDisputeId}/update_evidence`, body);
   }
 }

@@ -43,7 +43,6 @@ export default class Notification extends Restful {
    * @param limit The maximum number of items to return per page from the result set.
    * @param continuationToken The token used to access the next set of results.
    */
-  // tslint:disable-next-line:variable-name
   public getTopics({limit, continuationToken: continuation_token}: NotificationParams) {
     return this.get(`/topic`, {
       params: {
@@ -59,7 +58,6 @@ export default class Notification extends Restful {
    * @param limit The number of items, from the result set, returned in a single page.
    * @param continuation_token The continuation token for the next set of results.
    */
-  // tslint:disable-next-line:variable-name
   public getSubscriptions({limit, continuationToken: continuation_token}: NotificationParams) {
     return this.get(`/subscription`, {
       params: {
@@ -74,7 +72,6 @@ export default class Notification extends Restful {
    *
    * @param body The create subscription request.
    */
-  // tslint:disable-next-line:variable-name
   public createSubscription(body: CreateSubscriptionRequest) {
     return this.post(`/subscription`, body);
   }
@@ -143,7 +140,6 @@ export default class Notification extends Restful {
    * This method allows applications to retrieve a paginated collection of destination resources and related details.
    * @param subscriptionId The unique identifier for the subscription.
    */
-  // tslint:disable-next-line:variable-name
   public getDestinations({limit, continuationToken: continuation_token}: NotificationParams) {
     return this.get(`/destination`, {
       params: {
