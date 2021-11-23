@@ -10,7 +10,7 @@
       "name": "eBay API License Agreement",
       "url": "https://go.developer.ebay.com/api-license-agreement"
     },
-    "version": "v1.3.0"
+    "version": "v1.4.2"
   },
   "servers": [
     {
@@ -24,111 +24,18 @@
     }
   ],
   "paths": {
-    "/country/{countryCode}/sales_tax_jurisdiction": {
-      "get": {
-        "tags": [
-          "country"
-        ],
-        "description": "This method retrieves all the sales tax jurisdictions for the country that you specify in the countryCode path parameter. Countries with valid sales tax jurisdictions are Canada, India, and the US. The response from this call tells you the jurisdictions for which a seller can configure tax tables. Although setting up tax tables is optional, you can use the createOrReplaceSalesTax in the Account API call to configure the tax tables for the jurisdictions you sell to.",
-        "operationId": "getSalesTaxJurisdictions",
-        "parameters": [
-          {
-            "name": "countryCode",
-            "in": "path",
-            "description": "This path parameter specifies the two-letter ISO 3166-1 Alpha-2 country code for the country whose jurisdictions you want to retrieve. eBay provides sales tax jurisdiction information for Canada, India, and the United States.Valid values for this path parameter are CA, IN, and US.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SalesTaxJurisdictions"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "api_auth": [
-              "https://api.ebay.com/oauth/api_scope"
-            ]
-          }
-        ]
-      }
-    },
     "/marketplace/{marketplace_id}/get_automotive_parts_compatibility_policies": {
       "get": {
         "tags": [
           "marketplace"
         ],
-        "description": "This method returns the eBay policies that define how to list automotive-parts-compatibility items in the categories of a specific marketplace. By default, this method returns the entire category tree for the specified marketplace. You can limit the size of the result set by using the filter query parameter to specify only the category IDs you want to review. Tip: This method can return a very large response payload and we strongly recommend you get the results from this call in a GZIP file by including the following HTTP header with your request: &nbsp;&nbsp;Accept-Encoding: application/gzip",
+        "description": "This method returns the eBay policies that define how to list automotive-parts-compatibility items in the categories of a specific marketplace.  <br><br>By default, this method returns the entire category tree for the specified marketplace. You can limit the size of the result set by using the <b>filter</b> query parameter to specify only the category IDs you want to review.  <p class=\"tablenote\"><strong>Tip:</strong> This method can return a very large response payload and we strongly recommend you get the results from this call in a GZIP file by including the following HTTP header with your request:  <br><br><code>&nbsp;&nbsp;Accept-Encoding: application/gzip</code></p>",
         "operationId": "getAutomotivePartsCompatibilityPolicies",
         "parameters": [
           {
             "name": "filter",
             "in": "query",
-            "description": "This query parameter limits the response by returning eBay policy information for only the leaf categories specified by this parameter. Set filter to a list of categoryId values. You can specify up to 50 category IDs by separating each with a pipe character ('|'). If you specify more than 50 categoryId values, eBay returns a warning along with the results for the first 50 IDs. If you specify a category ID that has child nodes, eBay returns policy information for all the leaf categories of that parent node. Example: filter=categoryIds:{100|101|102} Note that you must URL-encode the list of category ID values, which results in the following filter for the above example: &nbsp;&nbsp;filter=categoryIds%3A%7B100%7C101%7C102%7D",
+            "description": "This query parameter limits the response by returning policy information for only the selected sections of the category tree. Supply <b>categoryId</b> values for the sections of the tree you want returned.  <br><br>When you specify a <b>categoryId</b> value, the returned category tree includes the policies for that parent node, plus the policies for any leaf nodes below that parent node.  <br><br>The parameter takes a list of <b>categoryId</b> values and you can specify up to 50 separate category IDs. Separate multiple values with a pipe character ('|'). If you specify more than 50 <code>categoryId</code> values, eBay returns the policies for the first 50 IDs and a warning that not all categories were returned.  <br><br><b>Example:</b> <code>filter=categoryIds:{100|101|102}</code>  <br><br>Note that you must URL-encode the parameter list, which results in the following filter for the above example: <br><br> &nbsp;&nbsp;<code>filter=categoryIds%3A%7B100%7C101%7C102%7D</code>",
             "required": false,
             "schema": {
               "type": "string"
@@ -137,7 +44,7 @@
           {
             "name": "marketplace_id",
             "in": "path",
-            "description": "This path parameter specifies the eBay marketplace for which policy information is retrieved. &gt;Note: Only the following eBay marketplaces support automotive parts compatibility: EBAY_US EBAY_AU EBAY_CA EBAY_DE EBAY_ES EBAY_FR EBAY_GB EBAY_IT",
+            "description": "This path parameter specifies the eBay marketplace for which policy information is retrieved.  <br><br><b>Note:</b> Only the following eBay marketplaces support automotive parts compatibility: <ul> <li>EBAY_US</li> <li>EBAY_AU</li> <li>EBAY_CA</li> <li>EBAY_DE</li> <li>EBAY_ES</li> <li>EBAY_FR</li> <li>EBAY_GB</li> <li>EBAY_IT</li><ul>",
             "required": true,
             "schema": {
               "type": "string"
@@ -153,6 +60,25 @@
                   "$ref": "#/components/schemas/AutomotivePartsCompatibilityPolicyResponse"
                 }
               }
+            },
+            "x-response-codes": {
+              "errors": {
+                "46002": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The filter value is invalid. Sample supported values: filter=categoryIds:{catId1|catId2|catId3}."
+                },
+                "46003": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The specified categoryId was not found for the marketplace."
+                },
+                "46004": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "Only 50 Category IDs specified in the filter are considered."
+                }
+              }
             }
           },
           "204": {
@@ -160,54 +86,27 @@
           },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
+            "x-response-codes": {
+              "errors": {
+                "46001": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The specified marketplace ID was not found."
                 }
               }
             }
           },
           "404": {
-            "description": "Not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Not found"
           },
           "500": {
             "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
+            "x-response-codes": {
+              "errors": {
+                "46000": {
+                  "domain": "API_METADATA",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process.Contact eBay developer support for assistance."
                 }
               }
             }
@@ -227,13 +126,13 @@
         "tags": [
           "marketplace"
         ],
-        "description": "This method returns the eBay policies that define how to specify item conditions in the categories of a specific marketplace. By default, this method returns the entire category tree for the specified marketplace. You can limit the size of the result set by using the filter query parameter to specify only the category IDs you want to review. Tip: This method can return a very large response payload and we strongly recommend you get the results from this call in a GZIP file by including the following HTTP header with your request: &nbsp;&nbsp;Accept-Encoding: application/gzip",
+        "description": "This method returns item condition metadata on one, multiple, or all eBay categories on an eBay marketplace. This metadata consists of the different item conditions (with IDs) that an eBay category supports, and a boolean to indicate if an eBay category requires an item condition. <br><br>The identifier of the eBay marketplace is passed in as a path parameter, and unless one or more eBay category IDs are passed in through the <b>filter</b> query parameter, this method will return metadata on every single category for the specified marketplace. If you only want to view item condition metadata for one eBay category or a select group of eBay categories, you can pass in up to 50 eBay category ID through the <b>filter</b> query parameter. <p class=\"tablenote\"><strong>Important!:</strong> <b>Certified - Refurbished</b>-eligible sellers, and sellers who are eligible to list with the new values (EXCELLENT_REFURBISHED, VERY_GOOD_REFURBISHED, and GOOD_REFURBISHED) in category 9355, must use an OAuth token created with the <a href=\"/api-docs/static/oauth-authorization-code-grant.html\" target=\"_blank\">authorization code grant flow</a> and <b>https://api.ebay.com/oauth/api_scope/sell.inventory</b> scope in order to retrieve the refurbished conditions for the relevant categories. <br/><br/> These restricted item conditions will not be returned if an OAuth token created with the <a href=\"/api-docs/static/oauth-client-credentials-grant.html\" target=\"_blank\">client credentials grant flow</a> and <b>https://api.ebay.com/oauth/api_scope</b> scope is used, or if any seller is not eligible to list with that item condition. <br/><br/> See the <a href=\"/api-docs/static/oauth-scopes.html\" target=\"_blank\">Specifying OAuth scopes</a> topic for more information about specifying scopes.</p> <p class=\"tablenote\"><strong>Tip:</strong> If you retrieve metadata on all eBay categories for a marketplace, the response payload can be quite large. For this reason, we suggest that you consider using the <b>Accept-Encoding</b> request header and set its value to <code>application/gzip</code>. By doing this, the response payload output will be compressed into a GZIP file. </p>",
         "operationId": "getItemConditionPolicies",
         "parameters": [
           {
             "name": "filter",
             "in": "query",
-            "description": "This query parameter limits the response by returning eBay policy information for only the leaf categories specified by this parameter. Set filter to a list of categoryId values. You can specify up to 50 category IDs by separating each with a pipe character ('|'). If you specify more than 50 categoryId values, eBay returns a warning along with the results for the first 50 IDs. If you specify a category ID that has child nodes, eBay returns policy information for all the leaf categories of that parent node. Example: filter=categoryIds:{100|101|102} Note that you must URL-encode the list of category ID values, which results in the following filter for the above example: &nbsp;&nbsp;filter=categoryIds%3A%7B100%7C101%7C102%7D",
+            "description": "This query parameter limits the response by returning policy information for only the selected sections of the category tree. Supply <b>categoryId</b> values for the sections of the tree you want returned.  <br><br>When you specify a <b>categoryId</b> value, the returned category tree includes the policies for that parent node, plus the policies for any leaf nodes below that parent node.  <br><br>The parameter takes a list of <b>categoryId</b> values and you can specify up to 50 separate category IDs. Separate multiple values with a pipe character ('|'). If you specify more than 50 <code>categoryId</code> values, eBay returns the policies for the first 50 IDs and a warning that not all categories were returned.  <br><br><b>Example:</b> <code>filter=categoryIds:{100|101|102}</code>  <br><br>Note that you must URL-encode the parameter list, which results in the following filter for the above example: <br><br> &nbsp;&nbsp;<code>filter=categoryIds%3A%7B100%7C101%7C102%7D</code>",
             "required": false,
             "schema": {
               "type": "string"
@@ -242,7 +141,7 @@
           {
             "name": "marketplace_id",
             "in": "path",
-            "description": "This path parameter specifies the eBay marketplace for which policy information is retrieved. See the following page for a list of valid eBay marketplace IDs: Request components.",
+            "description": "This path parameter specifies the eBay marketplace for which policy information is retrieved. See the following page for a list of valid eBay marketplace IDs: <a href=\"/api-docs/static/rest-request-components.html#marketpl\" target=\"_blank\">Request components</a>.",
             "required": true,
             "schema": {
               "type": "string"
@@ -258,6 +157,25 @@
                   "$ref": "#/components/schemas/ItemConditionPolicyResponse"
                 }
               }
+            },
+            "x-response-codes": {
+              "errors": {
+                "46002": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The filter value is invalid. Sample supported values: filter=categoryIds:{catId1|catId2|catId3}."
+                },
+                "46003": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The specified categoryId was not found for the marketplace."
+                },
+                "46004": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "Only 50 Category IDs specified in the filter are considered."
+                }
+              }
             }
           },
           "204": {
@@ -265,54 +183,27 @@
           },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
+            "x-response-codes": {
+              "errors": {
+                "46001": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The specified marketplace ID was not found."
                 }
               }
             }
           },
           "404": {
-            "description": "Not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Not found"
           },
           "500": {
             "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
+            "x-response-codes": {
+              "errors": {
+                "46000": {
+                  "domain": "API_METADATA",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process.Contact eBay developer support for assistance."
                 }
               }
             }
@@ -321,7 +212,8 @@
         "security": [
           {
             "api_auth": [
-              "https://api.ebay.com/oauth/api_scope"
+              "https://api.ebay.com/oauth/api_scope",
+              "https://api.ebay.com/oauth/api_scope/sell.inventory"
             ]
           }
         ]
@@ -332,13 +224,13 @@
         "tags": [
           "marketplace"
         ],
-        "description": "This method returns the eBay policies that define the allowed listing structures for the categories of a specific marketplace. The listing-structure policies currently pertain to whether or not you can list items with variations. By default, this method returns the entire category tree for the specified marketplace. You can limit the size of the result set by using the filter query parameter to specify only the category IDs you want to review. Tip: This method can return a very large response payload and we strongly recommend you get the results from this call in a GZIP file by including the following HTTP header with your request: &nbsp;&nbsp;Accept-Encoding: application/gzip",
+        "description": "This method returns the eBay policies that define the allowed listing structures for the categories of a specific marketplace. The listing-structure policies currently pertain to whether or not you can list items with variations.  <br><br>By default, this method returns the entire category tree for the specified marketplace. You can limit the size of the result set by using the <b>filter</b> query parameter to specify only the category IDs you want to review.  <p class=\"tablenote\"><strong>Tip:</strong> This method can return a very large response payload and we strongly recommend you get the results from this call in a GZIP file by including the following HTTP header with your request:  <br><br><code>&nbsp;&nbsp;Accept-Encoding: application/gzip</code></p>",
         "operationId": "getListingStructurePolicies",
         "parameters": [
           {
             "name": "filter",
             "in": "query",
-            "description": "This query parameter limits the response by returning eBay policy information for only the leaf categories specified by this parameter. Set filter to a list of categoryId values. You can specify up to 50 category IDs by separating each with a pipe character ('|'). If you specify more than 50 categoryId values, eBay returns a warning along with the results for the first 50 IDs. If you specify a category ID that has child nodes, eBay returns policy information for all the leaf categories of that parent node. Example: filter=categoryIds:{100|101|102} Note that you must URL-encode the list of category ID values, which results in the following filter for the above example: &nbsp;&nbsp;filter=categoryIds%3A%7B100%7C101%7C102%7D",
+            "description": "This query parameter limits the response by returning policy information for only the selected sections of the category tree. Supply <b>categoryId</b> values for the sections of the tree you want returned.  <br><br>When you specify a <b>categoryId</b> value, the returned category tree includes the policies for that parent node, plus the policies for any leaf nodes below that parent node.  <br><br>The parameter takes a list of <b>categoryId</b> values and you can specify up to 50 separate category IDs. Separate multiple values with a pipe character ('|'). If you specify more than 50 <code>categoryId</code> values, eBay returns the policies for the first 50 IDs and a warning that not all categories were returned.  <br><br><b>Example:</b> <code>filter=categoryIds:{100|101|102}</code>  <br><br>Note that you must URL-encode the parameter list, which results in the following filter for the above example: <br><br> &nbsp;&nbsp;<code>filter=categoryIds%3A%7B100%7C101%7C102%7D</code>",
             "required": false,
             "schema": {
               "type": "string"
@@ -347,7 +239,7 @@
           {
             "name": "marketplace_id",
             "in": "path",
-            "description": "This path parameter specifies the eBay marketplace for which policy information is retrieved. See the following page for a list of valid eBay marketplace IDs: Request components.",
+            "description": "This path parameter specifies the eBay marketplace for which policy information is retrieved. See the following page for a list of valid eBay marketplace IDs: <a href=\"/api-docs/static/rest-request-components.html#marketpl\" target=\"_blank\">Request components</a>.",
             "required": true,
             "schema": {
               "type": "string"
@@ -363,6 +255,25 @@
                   "$ref": "#/components/schemas/ListingStructurePolicyResponse"
                 }
               }
+            },
+            "x-response-codes": {
+              "errors": {
+                "46002": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The filter value is invalid. Sample supported values: filter=categoryIds:{catId1|catId2|catId3}."
+                },
+                "46003": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The specified categoryId was not found for the marketplace."
+                },
+                "46004": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "Only 50 Category IDs specified in the filter are considered."
+                }
+              }
             }
           },
           "204": {
@@ -370,54 +281,27 @@
           },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
+            "x-response-codes": {
+              "errors": {
+                "46001": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The specified marketplace ID was not found."
                 }
               }
             }
           },
           "404": {
-            "description": "Not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Not found"
           },
           "500": {
             "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
+            "x-response-codes": {
+              "errors": {
+                "46000": {
+                  "domain": "API_METADATA",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process.Contact eBay developer support for assistance."
                 }
               }
             }
@@ -437,13 +321,13 @@
         "tags": [
           "marketplace"
         ],
-        "description": "This method returns the eBay policies that define the supported negotiated price features (like &quot;best offer&quot;) for the categories of a specific marketplace. By default, this method returns the entire category tree for the specified marketplace. You can limit the size of the result set by using the filter query parameter to specify only the category IDs you want to review. Tip: This method can return a very large response payload and we strongly recommend you get the results from this call in a GZIP file by including the following HTTP header with your request: &nbsp;&nbsp;Accept-Encoding: application/gzip",
+        "description": "This method returns the eBay policies that define the supported negotiated price features (like \"best offer\") for the categories of a specific marketplace.  <br><br>By default, this method returns the entire category tree for the specified marketplace. You can limit the size of the result set by using the <b>filter</b> query parameter to specify only the category IDs you want to review.  <p class=\"tablenote\"><strong>Tip:</strong> This method can return a very large response payload and we strongly recommend you get the results from this call in a GZIP file by including the following HTTP header with your request:  <br><br><code>&nbsp;&nbsp;Accept-Encoding: application/gzip</code></p>",
         "operationId": "getNegotiatedPricePolicies",
         "parameters": [
           {
             "name": "filter",
             "in": "query",
-            "description": "This query parameter limits the response by returning eBay policy information for only the leaf categories specified by this parameter. Set filter to a list of categoryId values. You can specify up to 50 category IDs by separating each with a pipe character ('|'). If you specify more than 50 categoryId values, eBay returns a warning along with the results for the first 50 IDs. If you specify a category ID that has child nodes, eBay returns policy information for all the leaf categories of that parent node. Example: filter=categoryIds:{100|101|102} Note that you must URL-encode the list of category ID values, which results in the following filter for the above example: &nbsp;&nbsp;filter=categoryIds%3A%7B100%7C101%7C102%7D",
+            "description": "This query parameter limits the response by returning policy information for only the selected sections of the category tree. Supply <b>categoryId</b> values for the sections of the tree you want returned.  <br><br>When you specify a <b>categoryId</b> value, the returned category tree includes the policies for that parent node, plus the policies for any leaf nodes below that parent node.  <br><br>The parameter takes a list of <b>categoryId</b> values and you can specify up to 50 separate category IDs. Separate multiple values with a pipe character ('|'). If you specify more than 50 <code>categoryId</code> values, eBay returns the policies for the first 50 IDs and a warning that not all categories were returned.  <br><br><b>Example:</b> <code>filter=categoryIds:{100|101|102}</code>  <br><br>Note that you must URL-encode the parameter list, which results in the following filter for the above example: <br><br> &nbsp;&nbsp;<code>filter=categoryIds%3A%7B100%7C101%7C102%7D</code>",
             "required": false,
             "schema": {
               "type": "string"
@@ -452,7 +336,7 @@
           {
             "name": "marketplace_id",
             "in": "path",
-            "description": "This path parameter specifies the eBay marketplace for which policy information is retrieved. See the following page for a list of valid eBay marketplace IDs: Request components.",
+            "description": "This path parameter specifies the eBay marketplace for which policy information is retrieved. See the following page for a list of valid eBay marketplace IDs: <a href=\"/api-docs/static/rest-request-components.html#marketpl\" target=\"_blank\">Request components</a>.",
             "required": true,
             "schema": {
               "type": "string"
@@ -468,6 +352,25 @@
                   "$ref": "#/components/schemas/NegotiatedPricePolicyResponse"
                 }
               }
+            },
+            "x-response-codes": {
+              "errors": {
+                "46002": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The filter value is invalid. Sample supported values: filter=categoryIds:{catId1|catId2|catId3}."
+                },
+                "46003": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The specified categoryId was not found for the marketplace."
+                },
+                "46004": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "Only 50 Category IDs specified in the filter are considered."
+                }
+              }
             }
           },
           "204": {
@@ -475,54 +378,27 @@
           },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
+            "x-response-codes": {
+              "errors": {
+                "46001": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The specified marketplace ID was not found."
                 }
               }
             }
           },
           "404": {
-            "description": "Not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Not found"
           },
           "500": {
             "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
+            "x-response-codes": {
+              "errors": {
+                "46000": {
+                  "domain": "API_METADATA",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process.Contact eBay developer support for assistance."
                 }
               }
             }
@@ -542,13 +418,13 @@
         "tags": [
           "marketplace"
         ],
-        "description": "This method retrieves a list of leaf categories for a marketplace and identifies the categories that require items to have an eBay product ID value in order to be listed in those categories. An eBay product ID value (known as an &quot;ePID&quot;) is a value that references a specific product in the eBay Catalog. Note: This method supports the eBay Product Based Shopping Experience (PBSE), which is applicable to only the US, UK, AU, and CA (English) marketplaces. Note that you can also use GetCategoryFeatures in the Trading API to retrieve the same information. For more information about using this method with PBSE, see the Product-Based Shopping Experience Playbook. Use the marketplace_id path parameter to specify the marketplace you want to review and use the filter query parameter to limit the categories returned in the response. Tip: This method can return a very large response payload and we strongly recommend you get the results from this call in a GZIP file by including the following HTTP header with your request: &nbsp;&nbsp;Accept-Encoding: application/gzip",
+        "description": "This method retrieves a list of leaf categories for a marketplace and identifies the categories that require items to have an eBay product ID value in order to be listed in those categories. An eBay product ID value (known as an \"ePID\") is a value that references a specific product in the eBay Catalog.  <p class=\"tablenote\"><strong>Important:</strong> eBay catalog product adoption is not currently required for any product categories. If product adoption requirements change, they will be noted here.</p> <p>Use the <b>marketplace_id</b> path parameter to specify the marketplace you want to review and use the <b>filter</b> query parameter to limit the categories returned in the response.</p>  <p class=\"tablenote\"><strong>Tip:</strong> This method can return a very large response payload and we strongly recommend you get the results from this call in a GZIP file by including the following HTTP header with your request:  <br><br><code>&nbsp;&nbsp;Accept-Encoding: application/gzip</code></p>",
         "operationId": "getProductAdoptionPolicies",
         "parameters": [
           {
             "name": "filter",
             "in": "query",
-            "description": "This query parameter limits the response by returning eBay policy information for only the leaf categories specified by this parameter. Set filter to a list of categoryId values. You can specify up to 50 category IDs by separating each with a pipe character ('|'). If you specify more than 50 categoryId values, eBay returns a warning along with the results for the first 50 IDs. If you specify a category ID that has child nodes, eBay returns policy information for all the leaf categories of that parent node. Example: filter=categoryIds:{100|101|102} Note that you must URL-encode the list of category ID values, which results in the following filter for the above example: &nbsp;&nbsp;filter=categoryIds%3A%7B100%7C101%7C102%7D",
+            "description": "This query parameter limits the response by returning policy information for only the selected sections of the category tree. Supply <b>categoryId</b> values for the sections of the tree you want returned.  <br><br>When you specify a <b>categoryId</b> value, the returned category tree includes the policies for that parent node, plus the policies for any leaf nodes below that parent node.  <br><br>The parameter takes a list of <b>categoryId</b> values and you can specify up to 50 separate category IDs. Separate multiple values with a pipe character ('|'). If you specify more than 50 <code>categoryId</code> values, eBay returns the policies for the first 50 IDs and a warning that not all categories were returned.  <br><br><b>Example:</b> <code>filter=categoryIds:{100|101|102}</code>  <br><br>Note that you must URL-encode the parameter list, which results in the following filter for the above example: <br><br> &nbsp;&nbsp;<code>filter=categoryIds%3A%7B100%7C101%7C102%7D</code>",
             "required": false,
             "schema": {
               "type": "string"
@@ -557,7 +433,7 @@
           {
             "name": "marketplace_id",
             "in": "path",
-            "description": "This path parameter specifies the eBay marketplace for which policy information is retrieved. See the following page for a list of valid eBay marketplace IDs: Request components.",
+            "description": "This path parameter specifies the eBay marketplace for which policy information is retrieved. See the following page for a list of valid eBay marketplace IDs: <a href=\"/api-docs/static/rest-request-components.html#marketpl\" target=\"_blank\">Request components</a>.",
             "required": true,
             "schema": {
               "type": "string"
@@ -573,6 +449,19 @@
                   "$ref": "#/components/schemas/ProductAdoptionPolicyResponse"
                 }
               }
+            },
+            "x-response-codes": {
+              "errors": {
+                "46002": {
+                  "description": "The filter value is invalid. Sample supported values: filter=categoryIds:{catId1|catId2|catId3}."
+                },
+                "46003": {
+                  "description": "The specified categoryId was not found for the marketplace."
+                },
+                "46004": {
+                  "description": "Only 50 Category IDs specified in the filter are considered."
+                }
+              }
             }
           },
           "204": {
@@ -580,54 +469,27 @@
           },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
+            "x-response-codes": {
+              "errors": {
+                "46001": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The specified marketplace ID was not found."
                 }
               }
             }
           },
           "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
+            "x-response-codes": {
+              "errors": {
+                "46000": {
+                  "domain": "API_METADATA",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process.Contact eBay developer support for assistance."
                 }
               }
             }
@@ -647,13 +509,13 @@
         "tags": [
           "marketplace"
         ],
-        "description": "This method returns the eBay policies that define whether or not you must include a return policy for the items you list in the categories of a specific marketplace, plus the guidelines for creating domestic and international return policies in the different eBay categories. By default, this method returns the entire category tree for the specified marketplace. You can limit the size of the result set by using the filter query parameter to specify only the category IDs you want to review. Tip: This method can return a very large response payload and we strongly recommend you get the results from this call in a GZIP file by including the following HTTP header with your request: &nbsp;&nbsp;Accept-Encoding: application/gzip",
+        "description": "This method returns the eBay policies that define whether or not you must include a return policy for the items you list in the categories of a specific marketplace, plus the guidelines for creating domestic and international return policies in the different eBay categories.  <br><br>By default, this method returns the entire category tree for the specified marketplace. You can limit the size of the result set by using the <b>filter</b> query parameter to specify only the category IDs you want to review.  <p class=\"tablenote\"><strong>Tip:</strong> This method can return a very large response payload and we strongly recommend you get the results from this call in a GZIP file by including the following HTTP header with your request:  <br><br><code>&nbsp;&nbsp;Accept-Encoding: application/gzip</code></p>",
         "operationId": "getReturnPolicies",
         "parameters": [
           {
             "name": "filter",
             "in": "query",
-            "description": "This query parameter limits the response by returning eBay policy information for only the leaf categories specified by this parameter. Set filter to a list of categoryId values. You can specify up to 50 category IDs by separating each with a pipe character ('|'). If you specify more than 50 categoryId values, eBay returns a warning along with the results for the first 50 IDs. If you specify a category ID that has child nodes, eBay returns policy information for all the leaf categories of that parent node. Example: filter=categoryIds:{100|101|102} Note that you must URL-encode the list of category ID values, which results in the following filter for the above example: &nbsp;&nbsp;filter=categoryIds%3A%7B100%7C101%7C102%7D",
+            "description": "This query parameter limits the response by returning policy information for only the selected sections of the category tree. Supply <b>categoryId</b> values for the sections of the tree you want returned.  <br><br>When you specify a <b>categoryId</b> value, the returned category tree includes the policies for that parent node, plus the policies for any leaf nodes below that parent node.  <br><br>The parameter takes a list of <b>categoryId</b> values and you can specify up to 50 separate category IDs. Separate multiple values with a pipe character ('|'). If you specify more than 50 <code>categoryId</code> values, eBay returns the policies for the first 50 IDs and a warning that not all categories were returned.  <br><br><b>Example:</b> <code>filter=categoryIds:{100|101|102}</code>  <br><br>Note that you must URL-encode the parameter list, which results in the following filter for the above example: <br><br> &nbsp;&nbsp;<code>filter=categoryIds%3A%7B100%7C101%7C102%7D</code>",
             "required": false,
             "schema": {
               "type": "string"
@@ -662,7 +524,7 @@
           {
             "name": "marketplace_id",
             "in": "path",
-            "description": "This path parameter specifies the eBay marketplace for which policy information is retrieved. See the following page for a list of valid eBay marketplace IDs: Request components.",
+            "description": "This path parameter specifies the eBay marketplace for which policy information is retrieved. See the following page for a list of valid eBay marketplace IDs: <a href=\"/api-docs/static/rest-request-components.html#marketpl\" target=\"_blank\">Request components</a>.",
             "required": true,
             "schema": {
               "type": "string"
@@ -678,6 +540,25 @@
                   "$ref": "#/components/schemas/ReturnPolicyResponse"
                 }
               }
+            },
+            "x-response-codes": {
+              "errors": {
+                "46002": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The filter value is invalid. Sample supported values: filter=categoryIds:{catId1|catId2|catId3}."
+                },
+                "46003": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The specified categoryId was not found for the marketplace."
+                },
+                "46004": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "Only 50 Category IDs specified in the filter are considered."
+                }
+              }
             }
           },
           "204": {
@@ -685,54 +566,103 @@
           },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
+            "x-response-codes": {
+              "errors": {
+                "46001": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "The specified marketplace ID was not found."
                 }
               }
             }
           },
           "404": {
-            "description": "Not found",
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "46000": {
+                  "domain": "API_METADATA",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process.Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope"
+            ]
+          }
+        ]
+      }
+    },
+    "/country/{countryCode}/sales_tax_jurisdiction": {
+      "get": {
+        "tags": [
+          "country"
+        ],
+        "description": "This method retrieves all the sales tax jurisdictions for the country that you specify in the <b>countryCode</b> path parameter. Countries with valid sales tax jurisdictions are Canada and the US.  <br><br>The response from this call tells you the jurisdictions for which a seller can configure tax tables. Although setting up tax tables is optional, you can use the <b>createOrReplaceSalesTax</b> in the <b>Account API</b> call to configure the tax tables for the jurisdictions you sell to.",
+        "operationId": "getSalesTaxJurisdictions",
+        "parameters": [
+          {
+            "name": "countryCode",
+            "in": "path",
+            "description": "This path parameter specifies the two-letter <a href=\"https://www.iso.org/iso-3166-country-codes.html\" title=\"https://www.iso.org\" target=\"_blank\">ISO 3166</a> country code for the country whose jurisdictions you want to retrieve. eBay provides sales tax jurisdiction information for Canada and the United States.Valid values for this path parameter are <code>CA</code> and <code>US</code>.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
+                  "$ref": "#/components/schemas/SalesTaxJurisdictions"
                 }
               }
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "45400": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "Invalid input. {additionalInfo}"
+                },
+                "45401": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "Invalid {fieldName}."
+                },
+                "45402": {
+                  "domain": "API_METADATA",
+                  "category": "REQUEST",
+                  "description": "Tax table not supported for {fieldName}."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
           "500": {
             "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Error"
-                      }
-                    }
-                  }
+            "x-response-codes": {
+              "errors": {
+                "45500": {
+                  "domain": "API_METADATA",
+                  "category": "APPLICATION",
+                  "description": "System error."
                 }
               }
             }
@@ -750,110 +680,6 @@
   },
   "components": {
     "schemas": {
-      "SalesTaxJurisdiction": {
-        "type": "object",
-        "properties": {
-          "salesTaxJurisdictionId": {
-            "type": "string",
-            "description": "The unique ID for a sales tax jurisdiction."
-          }
-        },
-        "description": "A unique ID for a sales tax jurisdiction."
-      },
-      "SalesTaxJurisdictions": {
-        "type": "object",
-        "properties": {
-          "salesTaxJurisdictions": {
-            "type": "array",
-            "description": "A list of sales tax jurisdictions.",
-            "items": {
-              "$ref": "#/components/schemas/SalesTaxJurisdiction"
-            }
-          }
-        },
-        "description": "This complex type contains a list of sales tax jurisdictions."
-      },
-      "TimeDuration": {
-        "type": "object",
-        "properties": {
-          "unit": {
-            "type": "string",
-            "description": "A time-measurement unit used to specify a period of time. Time-measurement units can be years, months, days, hours, minutes, and other time units (see TimeDurationUnitEnum for a complete list of possible units). The value setting is applied to the unit value to define a span of time. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/metadata/types/TimeDurationUnitEnum.html'>eBay API documentation</a>"
-          },
-          "value": {
-            "type": "integer",
-            "description": "An amount of time, as measured by the time-measurement units specified in the unit field.",
-            "format": "int32"
-          }
-        },
-        "description": "A complex type that specifies a period of time using a specified time-measurement unit."
-      },
-      "Error": {
-        "type": "object",
-        "properties": {
-          "category": {
-            "type": "string",
-            "description": "The category type for this error or warning. It takes an ErrorCategory object which can have one of three values: Application: Indicates an exception or error occurred in the application code or at runtime. Examples include catching an exception in a service's business logic, system failures, or request errors from a dependency. Business: Used when your service or a dependent service refused to continue processing on the resource because of a business rule violation such as &quot;Seller does not ship item to Antarctica&quot; or &quot;Buyer ineligible to purchase an alcoholic item&quot;. Business errors are not syntactical input errors. Request: Used when there is anything wrong with the request, such as authentication, syntactical errors, rate limiting or missing headers, bad HTTP header values, and so on."
-          },
-          "domain": {
-            "type": "string",
-            "description": "Name of the domain containing the service or application."
-          },
-          "errorId": {
-            "type": "integer",
-            "description": "A positive integer that uniquely identifies the specific error condition that occurred. Your application can use error codes as identifiers in your customized error-handling algorithms.",
-            "format": "int32"
-          },
-          "inputRefIds": {
-            "type": "array",
-            "description": "Identifies specific request elements associated with the error, if any. inputRefId's response is format specific. For JSON, use JSONPath notation.",
-            "items": {
-              "type": "string"
-            }
-          },
-          "longMessage": {
-            "type": "string",
-            "description": "An expanded version of message that should be around 100-200 characters long, but is not required to be such."
-          },
-          "message": {
-            "type": "string",
-            "description": "An end user and app developer friendly device agnostic message. It explains what the error or warning is, and how to fix it (in a general sense). Its value is at most 50 characters long. If applicable, the value is localized in the end user's requested locale."
-          },
-          "outputRefIds": {
-            "type": "array",
-            "description": "Identifies specific response elements associated with the error, if any. Path format is the same as inputRefId.",
-            "items": {
-              "type": "string"
-            }
-          },
-          "parameters": {
-            "type": "array",
-            "description": "This optional complex field type contains a list of one or more context-specific ErrorParameter objects, with each item in the list entry being a parameter (or input field name) that caused an error condition. Each ErrorParameter object consists of two fields, a name and a value.",
-            "items": {
-              "$ref": "#/components/schemas/ErrorParameter"
-            }
-          },
-          "subdomain": {
-            "type": "string",
-            "description": "Name of the domain's subsystem or subdivision. For example, checkout is a subdomain in the buying domain."
-          }
-        },
-        "description": "A container that defines the elements of error and warning messages."
-      },
-      "ErrorParameter": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name of the entity that threw the error."
-          },
-          "value": {
-            "type": "string",
-            "description": "A description of the error."
-          }
-        },
-        "description": "Container for a error parameter."
-      },
       "AutomotivePartsCompatibilityPolicy": {
         "type": "object",
         "properties": {
@@ -863,18 +689,18 @@
           },
           "categoryTreeId": {
             "type": "string",
-            "description": "This is a unique eBay-assigned value that represents the root node of the category tree to which the associated categoryId belongs. This value reflects the category tree related to the marketplace_id passed in the request. A category tree is a hierarchical framework of eBay categories that begins at the root node of the tree and extends to include all the child nodes in the tree. Each child node in the tree is an eBay category and each is represented by a unique categoryId value. Within a category tree, the root node has no parent node and leaf nodes are nodes that have no child nodes."
+            "description": "A value that indicates the root node of the category tree used for the response set. Each marketplace is based on a category tree whose root node is indicated by this unique category ID value. All category policy information returned by this call pertains to the categories included below this root node of the tree.    <br><br>A <i>category tree</i> is a hierarchical framework of eBay categories that begins at the root node of the tree and extends to include all the child nodes in the tree. Each child node in the tree is an eBay category that is represented by a unique <b>categoryId</b> value. Within a category tree, the root node has no parent node and <i>leaf nodes</i> are nodes that have no child nodes."
           },
           "compatibilityBasedOn": {
             "type": "string",
-            "description": "Indicates whether the category supports parts compatibility by either ASSEMBLY or by SPECIFICATION. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/metadata/types/CompatibilityTypeEnum.html'>eBay API documentation</a>"
+            "description": "Indicates whether the category supports parts compatibility by either <code>ASSEMBLY</code> or by <code>SPECIFICATION</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:CompatibilityTypeEnum'>eBay API documentation</a>"
           },
           "compatibleVehicleTypes": {
             "type": "array",
             "description": "Indicates the compatibility classification of the part based on high-level vehicle types.",
             "items": {
               "type": "string",
-              "description": " For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/metadata/types/CompatibleVehicleTypeEnum.html'>eBay API documentation</a>"
+              "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:CompatibleVehicleTypeEnum'>eBay API documentation</a>"
             }
           },
           "maxNumberOfCompatibleVehicles": {
@@ -903,12 +729,78 @@
           }
         }
       },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "The category type for this error or warning. It takes an ErrorCategory object which can have one of three values:<ul><li><code>Application</code>: Indicates an exception or error occurred in the application code or at runtime. Examples include catching an exception in a service's business logic, system failures, or request errors from a dependency.</li><li><code>Business</code>: Used when your service or a dependent service refused to continue processing on the resource because of a business rule violation such as \"Seller does not ship item to Antarctica\" or \"Buyer ineligible to purchase an alcoholic item\". Business errors are not syntactical input errors.</li><li><code>Request</code>: Used when there is anything wrong with the request, such as authentication, syntactical errors, rate limiting or missing headers, bad HTTP header values, and so on.</li></ul>"
+          },
+          "domain": {
+            "type": "string",
+            "description": "Name of the domain containing the service or application."
+          },
+          "errorId": {
+            "type": "integer",
+            "description": "A positive integer that uniquely identifies the specific error condition that occurred. Your application can use error codes as identifiers in your customized error-handling algorithms.",
+            "format": "int32"
+          },
+          "inputRefIds": {
+            "type": "array",
+            "description": "Identifies specific request elements associated with the error, if any. inputRefId's response is format specific. For JSON, use <i>JSONPath</i> notation.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "longMessage": {
+            "type": "string",
+            "description": "An expanded version of message that should be around 100-200 characters long, but is not required to be such."
+          },
+          "message": {
+            "type": "string",
+            "description": "An end user and app developer friendly device agnostic message. It explains what the error or warning is, and how to fix it (in a general sense). Its value is at most 50 characters long. If applicable, the value is localized in the end user's requested locale."
+          },
+          "outputRefIds": {
+            "type": "array",
+            "description": "Identifies specific response elements associated with the error, if any. Path format is the same as <code>inputRefId</code>.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "parameters": {
+            "type": "array",
+            "description": "This optional complex field type contains a list of one or more context-specific <code>ErrorParameter</code> objects, with each item in the list entry being a parameter (or input field name) that caused an error condition. Each <code>ErrorParameter</code> object consists of two fields, a <code>name</code> and a <code>value</code>.",
+            "items": {
+              "$ref": "#/components/schemas/ErrorParameter"
+            }
+          },
+          "subdomain": {
+            "type": "string",
+            "description": "Name of the domain's subsystem or subdivision. For example, checkout is a subdomain in the buying domain."
+          }
+        },
+        "description": "A container that defines the elements of error and warning messages."
+      },
+      "ErrorParameter": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the entity that threw the error."
+          },
+          "value": {
+            "type": "string",
+            "description": "A description of the error."
+          }
+        },
+        "description": "Container for a error parameter."
+      },
       "Exclusion": {
         "type": "object",
         "properties": {
           "brands": {
             "type": "array",
-            "description": "A list of brands that are excluded from requiring a link to the eBay Catalog for the associated categoryId. If productRequired is set to true, items that are of a brand returned in this field are excluded from the need to specify a value for the ePID field in their item description in order to be listed in the associated category.",
+            "description": "A list of brands that are excluded from requiring a link to the eBay Catalog for the associated <b>categoryId</b>.  <br><br>If <b>productRequired</b> is set to <code>true</code>, items that are of a brand returned in this field are excluded from the need to specify a value for the ePID field in their item description in order to be listed in the associated category.",
             "items": {
               "type": "string"
             }
@@ -921,13 +813,18 @@
         "properties": {
           "conditionDescription": {
             "type": "string",
-            "description": "The human-readable label for the condition (e.g., &quot;New&quot;). This value is typically localized for each site. Note that the display name can vary by category. For example, the description for condition ID 1000 could be called &quot;New: with Tags&quot; in one category and &quot;Brand New&quot; in another. For details on condition IDs and descriptions, see Item condition ID and name values."
+            "description": "The human-readable label for the condition (e.g., \"New\"). This value is typically localized for each site.  <br><br>Note that the display name can vary by category. For example, the description for condition ID <code>1000</code> could be called \"New: with Tags\" in one category and \"Brand New\" in another. For details on condition IDs and descriptions, see <a href='/api-docs/sell/static/metadata/condition-id-values.html'>Item condition ID and name values</a>."
           },
           "conditionId": {
             "type": "string",
-            "description": "The ID value of the selected item condition. For information on the supported condition ID values, see Item condition ID and name values."
+            "description": "The ID value of the selected item condition. For information on the supported condition ID values, see <a href='/api-docs/sell/static/metadata/condition-id-values.html'>Item condition ID and name values</a>."
+          },
+          "usage": {
+            "type": "string",
+            "description": "The value returned in this field indicates if there are any usage restrictions or requirements for the corresponding item condition in the corresponding category.<br /><br /><span class=\"tablenote\"><b>Note:</b> Currently, the only supported value is 'RESTRICTED', and this field will only be returned for the following conditions: 2000, 2010, 2020, 2030. Sellers must be pre-approved to use any of these item conditions.</span> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:UsageEnum'>eBay API documentation</a>"
           }
-        }
+        },
+        "description": "<span class=\"tablenote\"><b>Note: </b>In all eBay marketplaces, Condition ID 2000 now maps to an item condition of 'Certified Refurbished', and not 'Manufacturer Refurbished'. To list an item as 'Certified Refurbished', a seller must be pre-qualified by eBay for this feature. Any seller who is not eligible for this feature will be blocked if they try to create a new listing or revise an existing listing with this item condition. Any active listings on any eBay marketplace that had 'Manufacturer Refurbished' as the item condition should have been automatically updated by eBay to the 'Seller Refurbished' item condition (Condition ID 2500). <br><br> Any seller that is interested in eligibility requirements to list with 'Certified Refurbished' should see the <a href=\"https://pages.ebay.com/seller-center/listing-and-marketing/certified-refurbished-program.html\" target=\"_blank\">Certified refurbished program</a> page in Seller Center. </span>"
       },
       "ItemConditionPolicy": {
         "type": "object",
@@ -938,15 +835,15 @@
           },
           "categoryTreeId": {
             "type": "string",
-            "description": "The value returned in this field is a unique eBay-assigned value that represents the root node of the category tree to which the associated categoryId belongs. This value reflects the category tree related to the marketplace_id passed in the request. A category tree is a hierarchical framework of eBay categories that begins at the root node of the tree and extends to include all the child nodes in the tree. Each child node in the tree is an eBay category and each is represented by a unique categoryId value. Within a category tree, the root node has no parent node and leaf nodes are nodes that have no child nodes."
+            "description": "A value that indicates the root node of the category tree used for the response set. Each marketplace is based on a category tree whose root node is indicated by this unique category ID value. All category policy information returned by this call pertains to the categories included below this root node of the tree.    <br><br>A <i>category tree</i> is a hierarchical framework of eBay categories that begins at the root node of the tree and extends to include all the child nodes in the tree. Each child node in the tree is an eBay category that is represented by a unique <b>categoryId</b> value. Within a category tree, the root node has no parent node and <i>leaf nodes</i> are nodes that have no child nodes."
           },
           "itemConditionRequired": {
             "type": "boolean",
-            "description": "This flag denotes whether or not you must list the item condition in a listing for the specified category. If set to true, you must specify an item condition for the associated category."
+            "description": "This flag denotes whether or not you must list the item condition in a listing for the specified category. If set to <code>true</code>, you must specify an item condition for the associated category."
           },
           "itemConditions": {
             "type": "array",
-            "description": "The item-condition values allowed in the category.",
+            "description": "The item-condition values allowed in the category.<br /><br /><span class=\"tablenote\"><b>Note: </b>In all eBay marketplaces, Condition ID 2000 now maps to an item condition of 'Certified Refurbished', and not 'Manufacturer Refurbished'. To list an item as 'Certified Refurbished', a seller must be pre-qualified by eBay for this feature. Any seller who is not eligible for this feature will be blocked if they try to create a new listing or revise an existing listing with this item condition.<br><br> Any seller that is interested in eligibility requirements to list with 'Certified Refurbished' should see the <a href=\"https://pages.ebay.com/seller-center/listing-and-marketing/certified-refurbished-program.html\" target=\"_blank\">Certified refurbished program</a> page in Seller Center. </span><br /><br /><span class=\"tablenote\"><b>Note:</b> For the Cell Phones & Smartphones category (9355), the <code>SELLER_REFURBISHED</code> condition is being deprecated. Sellers trying to list an item in this category (9355) with the condition <code>SELLER_REFURBISHED</code> will be blocked. Starting September 1, 2021, existing listings for this category (9355) with this item condition will be ended by eBay but three new additional refurbished items conditions will be available: <code>EXCELLENT_REFURBISHED</code>, <code>VERY_GOOD_REFURBISHED</code>, and <code>GOOD_REFURBISHED</code>. To be eligible to list with these three item conditions, sellers will have to go through an application process. See <a href=\"https://www.ebay.com/help/selling/listings/creating-managing-listings/item-conditions-category?id=4765#section4\"  target=\"_blank\">Cameras & Photo, Cell Phones & Accessories...</a> for details.</span>",
             "items": {
               "$ref": "#/components/schemas/ItemCondition"
             }
@@ -981,11 +878,11 @@
           },
           "categoryTreeId": {
             "type": "string",
-            "description": "The value returned in this field is a unique eBay-assigned value that represents the root node of the category tree to which the associated categoryId belongs. This value reflects the category tree related to the marketplace_id passed in the request. A category tree is a hierarchical framework of eBay categories that begins at the root node of the tree and extends to include all the child nodes in the tree. Each child node in the tree is an eBay category and each is represented by a unique categoryId value. Within a category tree, the root node has no parent node and leaf nodes are nodes that have no child nodes."
+            "description": "A value that indicates the root node of the category tree used for the response set. Each marketplace is based on a category tree whose root node is indicated by this unique category ID value. All category policy information returned by this call pertains to the categories included below this root node of the tree.    <br><br>A <i>category tree</i> is a hierarchical framework of eBay categories that begins at the root node of the tree and extends to include all the child nodes in the tree. Each child node in the tree is an eBay category that is represented by a unique <b>categoryId</b> value. Within a category tree, the root node has no parent node and <i>leaf nodes</i> are nodes that have no child nodes."
           },
           "variationsSupported": {
             "type": "boolean",
-            "description": "This flag denotes whether or not the associated category supports listings with item variations. If set to true, the category does support item variations."
+            "description": "This flag denotes whether or not the associated category supports listings with item variations. If set to <code>true</code>, the category does support item variations."
           }
         }
       },
@@ -994,7 +891,7 @@
         "properties": {
           "listingStructurePolicies": {
             "type": "array",
-            "description": "A list of category IDs and a flag indicating whether or not each listed category supports item variations.",
+            "description": "Returns a list of category IDs plus a flag indicating whether or not each listed category supports item variations.",
             "items": {
               "$ref": "#/components/schemas/ListingStructurePolicy"
             }
@@ -1013,15 +910,15 @@
         "properties": {
           "bestOfferAutoAcceptEnabled": {
             "type": "boolean",
-            "description": "This flag denotes whether or not the category supports the setting of a price at which best offers are automatically accepted. If set to true, the category does support the setting of an automatic price for best-offers."
+            "description": "This flag denotes whether or not the category supports the setting of a price at which best offers are automatically accepted. If set to <code>true</code>, the category does support the setting of an automatic price for best-offers."
           },
           "bestOfferAutoDeclineEnabled": {
             "type": "boolean",
-            "description": "This flag denotes whether or not the category supports the setting of an auto-decline price for best offers. If set to true, the category does support the setting of an automatic-decline price for best-offers."
+            "description": "This flag denotes whether or not the category supports the setting of an auto-decline price for best offers. If set to <code>true</code>, the category does support the setting of an automatic-decline price for best-offers."
           },
           "bestOfferCounterEnabled": {
             "type": "boolean",
-            "description": "This flag denotes whether or not the category supports the setting for an automatic counter-offer on best offers. If set to true, the category does support the setting of an automatic counter-offer price for best-offers."
+            "description": "This flag denotes whether or not the category supports the setting for an automatic counter-offer on best offers. If set to <code>true</code>, the category does support the setting of an automatic counter-offer price for best-offers."
           },
           "categoryId": {
             "type": "string",
@@ -1029,7 +926,7 @@
           },
           "categoryTreeId": {
             "type": "string",
-            "description": "The value returned in this field is a unique eBay-assigned value that represents the root node of the category tree to which the associated categoryId belongs. This value reflects the category tree related to the marketplace_id passed in the request. A category tree is a hierarchical framework of eBay categories that begins at the root node of the tree and extends to include all the child nodes in the tree. Each child node in the tree is an eBay category and each is represented by a unique categoryId value. Within a category tree, the root node has no parent node and leaf nodes are nodes that have no child nodes."
+            "description": "A value that indicates the root node of the category tree used for the response set. Each marketplace is based on a category tree whose root node is indicated by this unique category ID value. All category policy information returned by this call pertains to the categories included below this root node of the tree.    <br><br>A <i>category tree</i> is a hierarchical framework of eBay categories that begins at the root node of the tree and extends to include all the child nodes in the tree. Each child node in the tree is an eBay category that is represented by a unique <b>categoryId</b> value. Within a category tree, the root node has no parent node and <i>leaf nodes</i> are nodes that have no child nodes."
           }
         }
       },
@@ -1061,7 +958,7 @@
           },
           "categoryTreeId": {
             "type": "string",
-            "description": "The value returned in this field is a unique eBay-assigned value that represents the root node of the category tree to which the associated categoryId belongs. This value reflects the category tree related to the marketplace_id passed in the request. A category tree is a hierarchical framework of eBay categories that begins at the root node of the tree and extends to include all the child nodes in the tree. Each child node in the tree is an eBay category and each is represented by a unique categoryId value. Within a category tree, the root node has no parent node and leaf nodes are nodes that have no child nodes."
+            "description": "A value that indicates the root node of the category tree used for the response set. Each marketplace is based on a category tree whose root node is indicated by this unique category ID value. All category policy information returned by this call pertains to the categories included below this root node of the tree.    <br><br>A <i>category tree</i> is a hierarchical framework of eBay categories that begins at the root node of the tree and extends to include all the child nodes in the tree. Each child node in the tree is an eBay category that is represented by a unique <b>categoryId</b> value. Within a category tree, the root node has no parent node and <i>leaf nodes</i> are nodes that have no child nodes."
           },
           "exclusion": {
             "description": "A list of brands that are excluded from the ePID product-adoption requirements for the related category ID.",
@@ -1069,7 +966,7 @@
           },
           "productRequired": {
             "type": "boolean",
-            "description": "If set to true, items must include an ePID value in their item description before they can be listed in the category identified by the associated categoryId. In contrast, a value of false indicates that items listed in the associated category do not require ePID values. Important! It is possible for a productAdoptionPolicies container to not contain this productRequired field. This occurs if the eBay category is not part of the PBSE Phase 1 or Phase 2 mandate. In these scenarios, please treat the response the same as if this field were present and contained a value of false."
+            "description": "If set to <code>true</code>, items must include an ePID value in their item description before they can be listed in the category identified by the associated <b>categoryId</b>. In contrast, a value of <code>false</code> indicates that items listed in the associated category do not require ePID values.  <br><br><span class=\"tablenote\"><b>Important!</b> It is possible for a <b>productAdoptionPolicies</b> container to not contain this <b>productRequired</b> field. This occurs if the eBay category is not part of the PBSE Phase 1 or Phase 2 mandate. In these scenarios, please treat the response the same as if this field were present and contained a value of <code>false</code>.</span>"
           }
         },
         "description": "This complex type returns a category ID and a flag that indicates whether or not items listed in that category require the declaration of an ePID value, which links the item to the eBay Catalog. The type also lists any items that are excepted from the requirement to included an ePID value."
@@ -1099,11 +996,11 @@
         "properties": {
           "categoryId": {
             "type": "string",
-            "description": "The category ID to which the return policy applies."
+            "description": "The category ID to which the return policies apply."
           },
           "categoryTreeId": {
             "type": "string",
-            "description": "The value returned in this field is a unique eBay-assigned value that represents the root node of the category tree to which the associated categoryId belongs. This value reflects the category tree related to the marketplace_id passed in the request. A category tree is a hierarchical framework of eBay categories that begins at the root node of the tree and extends to include all the child nodes in the tree. Each child node in the tree is an eBay category and each is represented by a unique categoryId value. Within a category tree, the root node has no parent node and leaf nodes are nodes that have no child nodes."
+            "description": "A value that indicates the root node of the category tree used for the response set. Each marketplace is based on a category tree whose root node is indicated by this unique category ID value. All category policy information returned by this call pertains to the categories included below this root node of the tree.    <br><br>A <i>category tree</i> is a hierarchical framework of eBay categories that begins at the root node of the tree and extends to include all the child nodes in the tree. Each child node in the tree is an eBay category that is represented by a unique <b>categoryId</b> value. Within a category tree, the root node has no parent node and <i>leaf nodes</i> are nodes that have no child nodes."
           },
           "domestic": {
             "description": "This complex type defines the category policies related to domestic item returns.",
@@ -1115,7 +1012,7 @@
           },
           "required": {
             "type": "boolean",
-            "description": "If set to true, this flag indicates that you must specify a return policy for items listed in the associated category. Note that not accepting returns (setting returnsAcceptedEnabled to false) is a valid return policy."
+            "description": "If set to <code>true</code>, this flag indicates that you must specify a return policy for items listed in the associated category.  <br><br>Note that not accepting returns (setting <b>returnsAcceptedEnabled</b> to <code>false</code>) is a valid return policy."
           }
         }
       },
@@ -1124,14 +1021,14 @@
         "properties": {
           "policyDescriptionEnabled": {
             "type": "boolean",
-            "description": "If set to true, this flag indicates you can supply a detailed return policy description within your return policy (for example, by populating the returnInstructions field in the Account API's createReturnPolicy). User-supplied return policy details are allowed only in the DE, ES, FR, and IT marketplaces."
+            "description": "If set to <code>true</code>, this flag indicates you can supply a detailed return policy description within your return policy (for example, by populating the <b>returnInstructions</b> field in the Account API's <b>createReturnPolicy</b>). User-supplied return policy details are allowed only in the DE, ES, FR, and IT marketplaces."
           },
           "refundMethods": {
             "type": "array",
             "description": "A list of refund methods allowed for the associated category.",
             "items": {
               "type": "string",
-              "description": " For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/metadata/types/RefundMethodEnum.html'>eBay API documentation</a>"
+              "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:RefundMethodEnum'>eBay API documentation</a>"
             }
           },
           "returnMethods": {
@@ -1139,26 +1036,26 @@
             "description": "A list of return methods allowed for the associated category.",
             "items": {
               "type": "string",
-              "description": " For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/metadata/types/ReturnMethodEnum.html'>eBay API documentation</a>"
+              "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:ReturnMethodEnum'>eBay API documentation</a>"
             }
           },
           "returnPeriods": {
             "type": "array",
-            "description": "A list of return periods allowed for the associated category. Note that different APIs require you to enter the return period in different ways. For example, the Account API uses the complex TimeDuration type, which takes two values (a unit and a value), whereas the Trading API takes a single value (such as Days_30).",
+            "description": "A list of return periods allowed for the associated category.  <br><br>Note that different APIs require you to enter the return period in different ways. For example, the Account API uses the complex <b>TimeDuration</b> type, which takes two values (a <b>unit</b> and a <b>value</b>), whereas the Trading API takes a single value (such as <code>Days_30</code>).",
             "items": {
               "$ref": "#/components/schemas/TimeDuration"
             }
           },
           "returnsAcceptanceEnabled": {
             "type": "boolean",
-            "description": "If set to true, this flag indicates the seller can configure how they handle domestic returns."
+            "description": "If set to <code>true</code>, this flag indicates the seller can configure how they handle domestic returns."
           },
           "returnShippingCostPayers": {
             "type": "array",
-            "description": "A list of allowed values for who pays for the return shipping cost. Note that for SNAD returns, the seller is always responsible for the return shipping cost.",
+            "description": "A list of allowed values for who pays for the return shipping cost.  <br><br>Note that for SNAD returns, the seller is always responsible for the return shipping cost.",
             "items": {
               "type": "string",
-              "description": " For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/metadata/types/ReturnShippingCostPayerEnum.html'>eBay API documentation</a>"
+              "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:ReturnShippingCostPayerEnum'>eBay API documentation</a>"
             }
           }
         },
@@ -1169,7 +1066,7 @@
         "properties": {
           "returnPolicies": {
             "type": "array",
-            "description": "A list of category IDs and a flag indicating whether or not the listings in each category requires a return policy.",
+            "description": "A list of elements, where each contains a category ID and a flag that indicates whether or not listings in that category require a return policy.",
             "items": {
               "$ref": "#/components/schemas/ReturnPolicy"
             }
@@ -1182,6 +1079,44 @@
             }
           }
         }
+      },
+      "SalesTaxJurisdiction": {
+        "type": "object",
+        "properties": {
+          "salesTaxJurisdictionId": {
+            "type": "string",
+            "description": "The unique ID for a sales tax jurisdiction."
+          }
+        },
+        "description": "A unique ID for a sales tax jurisdiction."
+      },
+      "SalesTaxJurisdictions": {
+        "type": "object",
+        "properties": {
+          "salesTaxJurisdictions": {
+            "type": "array",
+            "description": "A list of sales tax jurisdictions.",
+            "items": {
+              "$ref": "#/components/schemas/SalesTaxJurisdiction"
+            }
+          }
+        },
+        "description": "This complex type contains a list of sales tax jurisdictions."
+      },
+      "TimeDuration": {
+        "type": "object",
+        "properties": {
+          "unit": {
+            "type": "string",
+            "description": "A time-measurement unit that specifies a singular period of time.  <br><br>A span of time is defined when you apply the value specified in the <b>value</b> field to the value specified for <b>unit</b>.  <br><br>Time-measurement units can be YEAR, MONTH, DAY, and so on. See <b>TimeDurationUnitEnum</b> for a complete list of possible time-measurement units. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/ba:TimeDurationUnitEnum'>eBay API documentation</a>"
+          },
+          "value": {
+            "type": "integer",
+            "description": "An integer that represents an amount of time, as measured by the time-measurement unit specified in the <b>unit</b> field.",
+            "format": "int32"
+          }
+        },
+        "description": "A complex type that specifies a period of time using a specified time-measurement unit."
       }
     },
     "securitySchemes": {
@@ -1193,6 +1128,13 @@
             "tokenUrl": "https://api.ebay.com/identity/v1/oauth2/token",
             "scopes": {
               "https://api.ebay.com/oauth/api_scope": "View public data from eBay"
+            }
+          },
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.ebay.com/oauth2/authorize",
+            "tokenUrl": "https://api.ebay.com/identity/v1/oauth2/token",
+            "scopes": {
+              "https://api.ebay.com/oauth/api_scope/sell.inventory": "View and manage your inventory and offers"
             }
           }
         }

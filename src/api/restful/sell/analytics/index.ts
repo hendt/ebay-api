@@ -50,4 +50,14 @@ export default class Analytics extends Restful {
       }
     });
   }
+
+  /**
+   * Use this method to retrieve a seller's performance and rating for the customer service metric.
+   *
+   * @param customerServiceMetricType Use this path parameter to specify the type of customer service metrics and benchmark data you want returned for the seller.
+   * @param evaluationType Use this query parameter to specify the Marketplace ID to evaluate for the customer service metrics and benchmark data.
+   */
+  public getCustomerServiceMetric(customerServiceMetricType: string, evaluationType: string) {
+    return this.get(`/customer_service_metric/${customerServiceMetricType}/${evaluationType}`);
+  }
 }

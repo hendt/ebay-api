@@ -49,7 +49,7 @@ export default class Feed extends Restful {
    * @param data The CreateOrderTaskRequest
    */
   public createOrderTask(data: any) {
-    return this.post(`/order_task`, data)
+    return this.post(`/order_task`, data);
   }
 
   /**
@@ -90,7 +90,7 @@ export default class Feed extends Restful {
    * @params data The CreateUserScheduleRequest
    */
   public createSchedule(data: any) {
-    return this.post(`/schedule`, data)
+    return this.post(`/schedule`, data);
   }
 
   /**
@@ -99,7 +99,7 @@ export default class Feed extends Restful {
    * @param scheduleId The ID of the schedule for which to retrieve the details.
    */
   public getSchedule(scheduleId: string) {
-    scheduleId = encodeURIComponent(scheduleId)
+    scheduleId = encodeURIComponent(scheduleId);
     return this.get(`/schedule/${scheduleId}`);
   }
 
@@ -110,7 +110,7 @@ export default class Feed extends Restful {
    * @param data The UpdateUserScheduleRequest.
    */
   public updateSchedule(scheduleId: string, data?: any) {
-    scheduleId = encodeURIComponent(scheduleId)
+    scheduleId = encodeURIComponent(scheduleId);
     return this.put(`/schedule/${scheduleId}`, data);
   }
 
@@ -120,7 +120,7 @@ export default class Feed extends Restful {
    * @param scheduleId The schedule_id of the schedule to delete.
    */
   public deleteSchedule(scheduleId: string) {
-    scheduleId = encodeURIComponent(scheduleId)
+    scheduleId = encodeURIComponent(scheduleId);
     return this.delete(`/schedule/${scheduleId}`);
   }
 
@@ -130,7 +130,7 @@ export default class Feed extends Restful {
    * @param scheduleId The ID of the schedule for which to retrieve the latest result file.
    */
   public getLatestResultFile(scheduleId: string) {
-    scheduleId = encodeURIComponent(scheduleId)
+    scheduleId = encodeURIComponent(scheduleId);
     return this.get(`/schedule/${scheduleId}/download_result_file`);
   }
 
@@ -140,7 +140,7 @@ export default class Feed extends Restful {
    * @param scheduleTemplateId The ID of the template to retrieve.
    */
   public getScheduleTemplate(scheduleTemplateId: string) {
-    scheduleTemplateId = encodeURIComponent(scheduleTemplateId)
+    scheduleTemplateId = encodeURIComponent(scheduleTemplateId);
     return this.get(`/schedule_template/${scheduleTemplateId}`);
   }
 
@@ -201,7 +201,7 @@ export default class Feed extends Restful {
    * @param data The CreateTaskRequest.
    */
   public createTask(data: any) {
-    return this.post(`/task`, data)
+    return this.post(`/task`, data);
   }
 
   /**
@@ -210,7 +210,7 @@ export default class Feed extends Restful {
    * @param taskId The task ID associated with the file to be downloaded.
    */
   public getInputFile(taskId: string) {
-    taskId = encodeURIComponent(taskId)
+    taskId = encodeURIComponent(taskId);
     return this.get(`/task/${taskId}/download_input_file`);
   }
 
@@ -220,7 +220,7 @@ export default class Feed extends Restful {
    * @param taskId The task ID associated with the file to be downloaded.
    */
   public getResultFile(taskId: string) {
-    taskId = encodeURIComponent(taskId)
+    taskId = encodeURIComponent(taskId);
     return this.get(`/task/${taskId}/download_result_file`);
   }
 
@@ -230,7 +230,7 @@ export default class Feed extends Restful {
    * @param taskId The ID of the task.
    */
   public getTask(taskId: string) {
-    taskId = encodeURIComponent(taskId)
+    taskId = encodeURIComponent(taskId);
     return this.get(`/task/${taskId}`);
   }
 
@@ -241,7 +241,7 @@ export default class Feed extends Restful {
    * @param data FormDataContentDisposition.
    */
   public uploadFile(taskId: string, data?: any) {
-    taskId = encodeURIComponent(taskId)
+    taskId = encodeURIComponent(taskId);
     return this.post(`/task/${taskId}/upload_file`, data, {
       headers: multipartHeader,
     });
@@ -295,7 +295,7 @@ export default class Feed extends Restful {
    * @param taskId Use this path parameter to specify the task ID value for the customer service metric task to retrieve.
    */
   public getCustomerServiceMetricTask(taskId: string) {
-    taskId = encodeURIComponent(taskId)
+    taskId = encodeURIComponent(taskId);
     return this.get(`/customer_service_metric_task/${taskId}`);
   }
 }
