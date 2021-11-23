@@ -2,7 +2,7 @@ import Restful from '../../';
 import {
   AddCartItemInput,
   BrowseSearchParams,
-  CompatibilityPayload,
+  CompatibilityPayload, ItemsParams,
   LegacyItemParams,
   RemoveCartItemInput,
   SearchByImageParams,
@@ -48,6 +48,22 @@ export default class Browse extends Restful {
   public searchByImage(params: SearchByImageParams, body = {}) {
     return this.post(`/item_summary/search_by_image`, body, {
       params
+    });
+  }
+
+  /**
+   * This method retrieves the details of specific items that the buyer needs to make a purchasing decision.
+   *
+   * @param itemIds A list of item IDs. Item IDs are the eBay RESTful identifier of items.
+   * @param itemGroupIds A list of item group IDs.
+   */
+  // tslint:disable-next-line:variable-name
+  public getItems({itemIds: item_ids, itemGroupIds: item_group_ids}: ItemsParams) {
+    return this.get(`/item/`, {
+      params: {
+        item_ids,
+        item_group_ids
+      }
     });
   }
 

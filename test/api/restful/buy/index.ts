@@ -1,5 +1,5 @@
 import {Browse, Feed, Marketing, Offer, Order, Deal, MarketplaceInsights} from '../../../../src/api/restful/buy';
-import BrowseOas from './browse/buy_browse_v1_beta_oas3.json';
+import BrowseOas from './browse/buy_browse_v1_oas3.json';
 import FeedOas from './feed/buy_feed_v1_beta_oas3.json';
 import MarketingOas from './marketing/buy_marketing_v1_beta_oas3.json';
 import OfferOas from './offer/buy_offer_v1_beta_oas3.json';

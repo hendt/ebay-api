@@ -23,7 +23,7 @@ It supports `client credentials grant` and `authorization code grant` \(Auth'N'A
 
 | API | Implemented |
 | :--- | :--- |
-| **Buy API** | ✔ Browse API<br>✔  Deal API<br>✔ Feed API<br>✔ Marketing API<br>✔ Offer API<br>✔ Order API<br>✔ Marketplace Insights API |
+| **Buy API** | ✔ Browse API `v1.10.0`<br>✔  Deal API<br>✔ Feed API<br>✔ Marketing API<br>✔ Offer API<br>✔ Order API<br>✔ Marketplace Insights API |
 | **Commerce API** | ✔ Catalog API<br>✔ Charity API<br>✔ Identity API<br>✔ Notification API<br>✔ Taxonomy API<br>✔ Translation API |
 | **Developer API** | ✔ Analytics API|
 | **Post Order API** | ✔ Cancellation API<br>✔ Case Management API<br>✔ Inquiry API<br>✔ Return API |

@@ -1225,3 +1225,8 @@ export type DestinationRequest = {
 export type NotificationConfig = {
   alertEmail: string
 }
+
+export type ItemsParams = {
+  itemIds: string
+  itemGroupIds: string
+}
