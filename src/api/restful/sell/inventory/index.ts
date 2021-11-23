@@ -73,7 +73,7 @@ export default class Inventory extends Restful {
                                  limit,
                                  offset,
                                }: { limit?: number; offset?: number } = {}) {
-    return this.get(`/location/`, {
+    return this.get(`/location`, {
       params: {
         limit,
         offset,
