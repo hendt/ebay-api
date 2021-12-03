@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [5.1.1](https://github.com/hendt/ebay-api/compare/v5.1.0...v5.1.1) (2021-12-03)
+
+
+### Bug Fixes
+
+* use "http" in xmlns for finding API [#14](https://github.com/hendt/ebay-api/issues/14) ([f8ea062](https://github.com/hendt/ebay-api/commit/f8ea0628e22d224c5f13fdb9b9d443394eddcafe))
+
 ## [5.1.0](https://github.com/hendt/ebay-api/compare/v5.0.3...v5.1.0) (2021-11-23)
 
 
