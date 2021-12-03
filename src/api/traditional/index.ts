@@ -69,7 +69,7 @@ export default class Traditional extends Api {
         production: 'https://svcs.ebay.com/services/search/FindingService/v1',
         sandbox: 'https://svcs.sandbox.ebay.com/services/search/FindingService/v1'
       },
-      xmlns: 'https://www.ebay.com/marketplace/search/v1/services',
+      xmlns: 'http://www.ebay.com/marketplace/search/v1/services',
       calls: FindingCalls,
       headers: (callName: string) => ({
         'X-EBAY-SOA-SECURITY-APPNAME': this.config.appId,
