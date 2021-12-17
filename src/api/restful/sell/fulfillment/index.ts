@@ -27,9 +27,14 @@ export default class Fulfillment extends Restful {
    * Use this call to retrieve the contents of an order based on its unique identifier, orderId.
    *
    * @param orderId The unique identifier of the order.
+   * @param fieldGroups The response type associated with the order. The only presently supported value is <code>TAX_BREAKDOWN</code>.
    */
-  public getOrder(orderId: string) {
-    return this.get(`/order/${orderId}`);
+  public getOrder(orderId: string, {fieldGroups}: { fieldGroups?: string[] } = {}) {
+    return this.get(`/order/${orderId}`, {
+      params: {
+        fieldGroups
+      }
+    });
   }
 
   /**
