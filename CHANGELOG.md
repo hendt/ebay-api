@@ -1,4 +1,11 @@
 # eBay API Changelog
+## [5.2.0](https://github.com/hendt/ebay-api/compare/v5.1.1...v5.2.0) (2021-12-17)
+
+
+### Features
+
+* add fieldGroups param in fulfillment.getOrder() ([23562be](https://github.com/hendt/ebay-api/commit/23562bee43d88d7bf737ba2d1da995d7fe5aab88))
+
 ### [5.1.1](https://github.com/hendt/ebay-api/compare/v5.1.0...v5.1.1) (2021-12-03)
 
 
