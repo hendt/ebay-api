@@ -54,10 +54,13 @@ export default class Fulfillment extends Restful {
                      limit,
                      offset,
                      orderIds,
+                     fieldGroups,
                    }: {
-    filter?: string;
-    limit?: number;
-    offset?: number; orderIds?: string | string[];
+    filter?: string,
+    limit?: number,
+    offset?: number,
+    orderIds?: string | string[],
+    fieldGroups?: string[]
   } = {}) {
     return this.get(`/order`, {
       params: {
@@ -65,6 +68,7 @@ export default class Fulfillment extends Restful {
         limit,
         offset,
         orderIds: Array.isArray(orderIds) ? orderIds.join() : orderIds,
+        fieldGroups
       },
     });
   }
