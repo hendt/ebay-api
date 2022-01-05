@@ -1,4 +1,12 @@
 # eBay API Changelog
+### [5.2.1](https://github.com/hendt/ebay-api/compare/v5.2.0...v5.2.1) (2022-01-05)
+
+
+### Bug Fixes
+
+* allow fieldGroups in fulfillment.getOrders call ([6da3fd0](https://github.com/hendt/ebay-api/commit/6da3fd0f8496bac45994914f4f7d9a16fcc18997))
+* commerce.translations oas test ([c80f1af](https://github.com/hendt/ebay-api/commit/c80f1afd59d2f3cd534ff6976f779f7574676da3))
+
 ## [5.2.0](https://github.com/hendt/ebay-api/compare/v5.1.1...v5.2.0) (2021-12-17)
 
 
