@@ -9,7 +9,7 @@ export default class Translation extends Restful {
   static id = 'Translation';
 
   get basePath(): string {
-    return '/commerce/translation/v1';
+    return '/commerce/translation/v1_beta';
   }
 
   /**
