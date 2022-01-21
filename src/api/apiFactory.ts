@@ -1,4 +1,4 @@
-import {ClientAlerts, Finding, Shopping, Trading} from '../types';
+import {ClientAlerts, Finding, Shopping, Trading, Merchandising} from '../types';
 import Api from './';
 import RestfulApi, {IRestful} from './restful/';
 import {Browse, Buy, Deal, Feed, Marketing as BuyMarketing, MarketplaceInsights, Offer, Order} from './restful/buy';
@@ -108,6 +108,10 @@ export default class ApiFactory extends Api {
 
   public createClientAlertsApi(): ClientAlerts {
     return this.traditional.createClientAlertsApi();
+  }
+
+  public createMerchandisingApi(): Merchandising {
+    return this.traditional.createMerchandisingApi();
   }
 
   // tslint:disable-next-line:variable-name

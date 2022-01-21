@@ -10,7 +10,7 @@ import OAuth2 from './auth/oAuth2';
 import {ContentLanguage, Locale, MarketplaceId, SiteId} from './enums';
 import {ApiEnvError} from './errors';
 import {IEBayApiRequest} from './request';
-import {AppConfig, ClientAlerts, Finding, Keyset, Shopping, Trading} from './types';
+import {AppConfig, ClientAlerts, Finding, Keyset, Merchandising, Shopping, Trading} from './types';
 
 const defaultConfig: Omit<AppConfig, keyof Keyset> = {
   sandbox: false,
@@ -81,6 +81,7 @@ class eBayApi extends Api {
   private _finding?: Finding;
   private _shopping?: Shopping;
   private _clientAlerts?: ClientAlerts;
+  private _merchandising?: Merchandising;
 
   /**
    * @param {AppConfig} config the app config
@@ -132,6 +133,10 @@ class eBayApi extends Api {
 
   get clientAlerts(): ClientAlerts {
     return this._clientAlerts || (this._clientAlerts = this.factory.createClientAlertsApi());
+  }
+
+  get merchandising(): Merchandising {
+    return this._merchandising || (this._merchandising = this.factory.createMerchandisingApi());
   }
 }
 

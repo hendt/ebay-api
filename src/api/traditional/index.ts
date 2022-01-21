@@ -1,10 +1,11 @@
 import {stringify} from 'qs';
 import Api from '../';
 import {EBayIAFTokenExpired, EBayIAFTokenInvalid, handleEBayError} from '../../errors';
-import {ClientAlerts, Finding, Shopping, Trading, TraditionalApi} from '../../types';
+import {ClientAlerts, Finding, Merchandising, Shopping, Trading, TraditionalApi} from '../../types';
 import ClientAlertsCalls from './clientAlerts';
 import {Fields} from './fields';
 import FindingCalls from './finding';
+import MerchandisingCalls from './merchandising';
 import ShoppingCalls from './shopping';
 import TradingCalls from './trading';
 import XMLRequest, {defaultOptions, Options} from './XMLRequest';
@@ -118,6 +119,21 @@ export default class Traditional extends Api {
     });
 
     return service;
+  }
+
+  public createMerchandisingApi(): Merchandising {
+    return this.createTraditionalXMLApi<Merchandising>({
+      endpoint: {
+        production: 'https://svcs.ebay.com/MerchandisingService',
+        sandbox: 'https://svcs.sandbox.ebay.com/MerchandisingService'
+      },
+      xmlns: 'http://www.ebay.com/marketplace/services',
+      calls: MerchandisingCalls,
+      headers: (callName: string) => ({
+        'EBAY-SOA-CONSUMER-ID': this.config.appId,
+        'X-EBAY-SOA-OPERATION-NAME': callName
+      })
+    });
   }
 
   public createBusinessPolicyManagementApi() {
