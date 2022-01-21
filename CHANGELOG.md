@@ -1,4 +1,16 @@
 # eBay API Changelog
+## [5.3.0](https://github.com/hendt/ebay-api/compare/v5.2.1...v5.3.0) (2022-01-21)
+
+
+### Features
+
+* add Merchandising API [#103](https://github.com/hendt/ebay-api/issues/103) ([f82f295](https://github.com/hendt/ebay-api/commit/f82f295935ef062cf75be411f6fc526bc3fd4ff0))
+
+
+### Bug Fixes
+
+* correct example file name ([507b298](https://github.com/hendt/ebay-api/commit/507b298e08d27ae4645c8188cfe1a47907eb0fb5))
+
 ### [5.2.1](https://github.com/hendt/ebay-api/compare/v5.2.0...v5.2.1) (2022-01-05)
 
 
