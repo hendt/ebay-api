@@ -14,7 +14,7 @@ It supports `client credentials grant` and `authorization code grant` \(Auth'N'A
 
 ## Changelog
 
-* `v6.0.0` is the latest release.
+* `v6.1.0` is the latest release.
 * See [here](https://github.com/hendt/ebay-api/blob/master/CHANGELOG.md) for the full changelog.
 
 ## Implementation status

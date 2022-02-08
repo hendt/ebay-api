@@ -1,4 +1,11 @@
 # eBay API Changelog
+## [6.1.0](https://github.com/hendt/ebay-api/compare/v6.0.0...v6.1.0) (2022-02-08)
+
+
+### Features
+
+* Update issue templates ([5c4f17f](https://github.com/hendt/ebay-api/commit/5c4f17f43683859c3501888b0dbff2a855df1dd6))
+
 ## [6.0.0](https://github.com/hendt/ebay-api/compare/v5.3.1...v6.0.0) (2022-02-08)
 
 
