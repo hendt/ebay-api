@@ -80,6 +80,27 @@ describe('XMLRequestTest', () => {
     });
   });
 
+  it('Parse CDATA', () => {
+    const request = new XMLRequest('CALL', {
+      Item: {
+        Title: 'title',
+        Description: {
+          __cdata: '<div>test</div>'
+        }
+      }
+    }, config, req);
+    return request.request().then(() => {
+      // @ts-ignore
+      expect(req.post.args[0][1]).to.equal([
+        '<?xml version="1.0" encoding="utf-8"?>',
+        '<CALLRequest xmlns="xmlns">',
+        '<RequesterCredentials><eBayAuthToken>eBayAuthToken</eBayAuthToken></RequesterCredentials>',
+        '<Item><Title>title</Title><Description><![CDATA[<div>test</div>]]></Description></Item>',
+        '</CALLRequest>'
+      ].join(''));
+    });
+  });
+
   it('Unwraps Response', () => {
     const response = `<?xml version="1.0" encoding="utf-8"?>
 <CALLResponse xmlns="urn:ebay:apis:eBLBaseComponents">
