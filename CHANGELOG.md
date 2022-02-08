@@ -1,4 +1,13 @@
 # eBay API Changelog
+## [6.0.0](https://github.com/hendt/ebay-api/compare/v5.3.1...v6.0.0) (2022-02-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename package name from '@hendt/ebay-api' to 'ebay-api'
+
+* rename package name from '@hendt/ebay-api' to 'ebay-api' ([fa61e14](https://github.com/hendt/ebay-api/commit/fa61e149f509dd8b33d07627c0325838c82568a6))
+
 ### [5.3.1](https://github.com/hendt/ebay-api/compare/v5.3.0...v5.3.1) (2022-02-08)
 
 ## [5.3.0](https://github.com/hendt/ebay-api/compare/v5.2.1...v5.3.0) (2022-01-21)
