@@ -43,8 +43,8 @@ It supports `client credentials grant` and `authorization code grant` \(Auth'N'A
 ## Install
 
 ```bash
-npm install @hendt/ebay-api 
-yarn add @hendt/ebay-api
+npm install ebay-api 
+yarn add ebay-api
 ```
 
 ## 🚀 Usage & Quick start
@@ -55,9 +55,9 @@ Checkout API [examples](https://github.com/hendt/ebay-api/tree/master/examples).
 ### NodeJS
 
 ```javascript
-import eBayApi from '@hendt/ebay-api';
+import eBayApi from 'ebay-api';
 // or:
-// const eBayApi = require('@hendt/ebay-api')
+// const eBayApi = require('ebay-api')
 
 const eBay = new eBayApi({
   appId: '-- also called Client ID --',
@@ -71,7 +71,7 @@ console.log(JSON.stringify(item, null, 2));
 
 #### Detailed configuration example
 ```javascript
-import eBayApi from '@hendt/ebay-api';
+import eBayApi from 'ebay-api';
 
 const eBay = new eBayApi({
   appId: '-- also called Client ID --',
@@ -102,7 +102,7 @@ Or use [https://github.com/Rob--W/cors-anywhere](CORS Anywhere is a NodeJS proxy
 
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@hendt/ebay-api@latest/lib/ebay-api.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ebay-api@latest/lib/ebay-api.min.js"></script>
 <script>
   const eBay = new eBayApi({
     appId: 'appId',
@@ -192,7 +192,7 @@ You can also generate the token on eBay developer page and use it directly (see 
 [eBay Docs](https://developer.ebay.com/api-docs/static/oauth-auth-code-grant-request.html)
 
 ```javascript
-import eBayApi from '@hendt/ebay-api';
+import eBayApi from 'ebay-api';
 
 // 1. Create new eBayApi instance and set the scope.
 const eBay = eBayApi.fromEnv();
@@ -215,7 +215,7 @@ After you granted success, eBay will redirect you to your 'Auth accepted URL' an
 This is how it would look like if you use `express`:
 
 ```javascript
-import eBayApi from '@hendt/ebay-api';
+import eBayApi from 'ebay-api';
 
 app.get('/success', async function(req, res) {
   // 3. Get the parameter code that is placed as query parameter in redirected page
@@ -241,7 +241,7 @@ app.get('/success', async function(req, res) {
 If token is already in session:
 
 ```js
-import eBayApi from '@hendt/ebay-api';
+import eBayApi from 'ebay-api';
 
 app.get('/orders/:id', async function(req, res) {
   const id = req.params.id; 
@@ -357,7 +357,7 @@ eBay.trading.AddFixedPriceItem({
 
 ### Low level: use the Axios interceptor to manipulate the request
 ```javascript
-  import eBayApi from '@hendt/ebay-api';
+  import eBayApi from 'ebay-api';
   const eBay = new eBayApi(/* {  your config here } */);
 
   eBay.req.instance.interceptors.request.use((request) => {
@@ -375,7 +375,7 @@ npm install zlib # or yarn add zlib
 ```
 
 ```javascript
-  import eBayApi from '@hendt/ebay-api';
+  import eBayApi from 'ebay-api';
   import zlib from 'zlib';
 
   const toString = (data) => new Promise((resolve) => {

@@ -1,5 +1,5 @@
 {
-  "name": "@hendt/ebay-api",
+  "name": "ebay-api",
   "author": "Daniil Tomilow",
   "version": "5.3.1",
   "description": "eBay TypeScript/JavaScript API for Node and Browser",
