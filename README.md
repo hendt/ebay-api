@@ -49,7 +49,7 @@ yarn add @hendt/ebay-api
 
 ## 🚀 Usage & Quick start
 
-You have to register an eBay [Developer Account](https://developer.ebay.com/signin?tab=register).
+Sign up for an API key here: [Developer Account](https://developer.ebay.com/signin?tab=register).
 Checkout API [examples](https://github.com/hendt/ebay-api/tree/master/examples).
 
 ### NodeJS
@@ -209,6 +209,9 @@ console.log('Open URL', url);
 ```
 
 After you granted success, eBay will redirect you to your 'Auth accepted URL' and add a query parameter `code`
+
+
+### Express example
 This is how it would look like if you use `express`:
 
 ```javascript
@@ -324,7 +327,7 @@ const token = await eBay.OAuth2.refreshToken();
 Sometimes you want to add additional headers to the request like a GLOBAL-ID `X-EBAY-SOA-GLOBAL-ID`. 
 You have multiple options to do this.
 
-### Restful API headers
+### RESTful API headers
 ```javascript
   const eBay = new eBayApi();
 
@@ -403,9 +406,11 @@ export type Options = {
   parseOptions?: object // https://github.com/NaturalIntelligence/fast-xml-parser
   useIaf?: boolean // use IAF in header instead of Bearer
   headers?: Headers // additional Headers (key, value)
-  hook?: (xml) => BodyHeaders // hook into the request and modify the body and headers
+  hook?: (xml) => BodyHeaders // hook into the request to modify the body and headers
 };
 ```
+
+[Fast XML](https://github.com/NaturalIntelligence/fast-xml-parser) is used to parse the XML. You can pass the parse option to `parseOptions` parameter.
 
 ## Examples
 
@@ -420,6 +425,17 @@ eBay.trading.AddFixedPriceItem({
     Description: {
       __cdata: '<div>test</div>'
     }
+  }
+})
+```
+
+### Trading - ReviseFixedPriceItem (Update the price of an item)
+
+```javascript
+eBay.trading.ReviseFixedPriceItem({
+  Item: {
+    ItemID: 'itemId',
+    StartPrice: 'startPrice'
   }
 })
 ```
@@ -443,7 +459,6 @@ eBay.postOrder.return.getReturn('5132021997').then(a => {
     console.log(e)
 });
 ```
-
 
 ### Finding - findItemsByProduct \(use XML attributes and value\)
 
@@ -522,12 +537,6 @@ Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
 
 [hendt.de](https://hendt.de)  
 [rootle.de](https://rootle.de)
-
-## Similar projects
-
-[ebay-promised](https://github.com/ondreian/ebay-promised)  
-[ebay-client](https://github.com/CoinPoet/ebay-client)  
-[ebay-node-api](https://github.com/pajaydev/ebay-node-api)
 
 ## 📝 License
 
