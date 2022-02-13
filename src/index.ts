@@ -23,6 +23,7 @@ const defaultConfig: Omit<AppConfig, keyof Keyset> = {
 
 // tslint:disable-next-line:class-name
 class eBayApi extends Api {
+  public static default = eBayApi;
   public static SiteId = SiteId;
   public static MarketplaceId = MarketplaceId;
   public static ContentLanguage = ContentLanguage;
