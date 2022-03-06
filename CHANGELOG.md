@@ -1,4 +1,16 @@
 # eBay API Changelog
+## [6.2.0](https://github.com/hendt/ebay-api/compare/v6.1.0...v6.2.0) (2022-03-06)
+
+
+### Features
+
+* add "default" export for esm ([d2454d9](https://github.com/hendt/ebay-api/commit/d2454d9a9b896647cc9c5ab5086be7fea82ec7a4))
+
+
+### Bug Fixes
+
+* add types and enums for package dimensions and addresses ([97404b9](https://github.com/hendt/ebay-api/commit/97404b95ab9b57fd993005e8d34002300780c783))
+
 ## [6.1.0](https://github.com/hendt/ebay-api/compare/v6.0.0...v6.1.0) (2022-02-08)
 
 
