@@ -4,6 +4,7 @@ import {
   CaseStatusFilter,
   CategoryType as CategoryTypeEnum,
   Condition,
+  CountryCode,
   CurrencyCode,
   Decision,
   EscalateReason,
@@ -11,9 +12,11 @@ import {
   FormatType,
   InquirySearchFieldGroup,
   InquiryStatusFilter,
+  LengthUnitOfMeasure,
   Locale,
   Marketplace,
   MarketplaceId,
+  PackageType,
   PaymentMethodType,
   ReasonForRefund,
   RecipientAccountReferenceType,
@@ -31,7 +34,8 @@ import {
   ShippingOptionType,
   StoreType,
   TimeDurationUnit,
-  UserRoleFilter
+  UserRoleFilter,
+  WeightUnitOfMeasure
 } from '../enums';
 
 export type AttributeNameValue = {
@@ -153,13 +157,25 @@ export type CouponRequest = {
 
 export type CreditCard = {
   accountHolderName: string,
-  billingAddress: string
+  billingAddress: BillingAddress
   brand: string
   cardNumber: string
   cvvNumber: string
   expireMonth: number,
   expireYear: number
 };
+
+export type BillingAddress = {
+  addressLine1: string,
+  addressLine2: string,
+  city: string,
+  country: CountryCode,
+  county: string,
+  firstName: string,
+  lastName: string,
+  postalCode: string,
+  stateOrProvince: string
+}
 
 export type Wallet = {
   paymentToken: string
@@ -174,7 +190,7 @@ export type ShippingAddress = {
   addressLine1: string,
   addressLine2: string,
   city: string,
-  country: string,
+  country: CountryCode,
   county: string,
   phoneNumber: string,
   postalCode: string,
@@ -202,13 +218,18 @@ export type ShippingAddressImpl = {
   addressLine1: string,
   addressLine2: string,
   city: string,
-  country: string,
+  country: CountryCode,
   county: string,
   phoneNumber: string,
   postalCode: string,
-  recipient: string,
+  recipient: Recipient,
   stateOrProvince: string
 };
+
+export type Recipient = {
+  firstName: string,
+  lastName: string
+}
 
 export type UpdateShippingOption = {
   lineItemId: string,
@@ -419,18 +440,18 @@ export type Availability = {
 export type Dimension = {
   height: number,
   length: number,
-  unit: string,
+  unit: LengthUnitOfMeasure,
   width: number
 };
 
 export type Weight = {
-  unit: string,
+  unit: WeightUnitOfMeasure,
   value: number
 };
 
 export type PackageWeightAndSize = {
   dimensions?: Dimension,
-  packageType?: string,
+  packageType?: PackageType,
   weight: Weight
 };
 
@@ -780,7 +801,7 @@ export type Address = {
   addressLine2?: string,
   addressType?: string,
   city?: string,
-  country?: string,
+  country?: CountryCode,
   county?: string,
   isTransliterated?: boolean,
   nationalRegion?: string,
