@@ -43,9 +43,6 @@ class eBayApi extends Api {
     if (!process.env.EBAY_CERT_ID) {
       throw new ApiEnvError('EBAY_CERT_ID');
     }
-    if (!process.env.EBAY_DEV_ID) {
-      throw new ApiEnvError('EBAY_DEV_ID');
-    }
 
     return new eBayApi({
         appId: process.env.EBAY_APP_ID,
