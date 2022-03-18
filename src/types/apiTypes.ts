@@ -32,6 +32,13 @@ export type ApiConfig = {
   axiosConfig?: AxiosRequestConfig
 }
 
+export type Headers = Record<string, string | number | undefined>;
+
+export type ApiRequestConfig = {
+  headers?: Headers,
+  returnResponse?: boolean
+}
+
 export type AppConfig = eBayConfig & ApiConfig;
 
 

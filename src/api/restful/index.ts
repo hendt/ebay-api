@@ -2,7 +2,7 @@ import Api from '../';
 import Auth from '../../auth';
 import {EBayInvalidAccessToken, handleEBayError} from '../../errors';
 import {IEBayApiRequest} from '../../request';
-import {AppConfig} from '../../types';
+import {ApiRequestConfig, AppConfig} from '../../types';
 
 export const defaultApiHeaders: Record<string, string> = {
   'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ const additionalHeaders: Record<string, string> = {
   contentLanguage: 'Content-Language',
 };
 
-export type ApiConfig = {
+export type RestfulApiConfig = {
   subdomain?: string
   useIaf?: boolean
   apiVersion?: string
@@ -28,8 +28,7 @@ export type ApiConfig = {
   schema?: string
   sandbox?: boolean
   tld?: string
-  headers?: Record<string, string>
-}
+} & ApiRequestConfig;
 
 export type ApiRequest = {
   method: keyof IEBayApiRequest,
@@ -39,20 +38,20 @@ export type ApiRequest = {
 }
 
 export interface IRestful {
-  new(config: AppConfig, req?: IEBayApiRequest, auth?: Auth, apiConfig?: ApiConfig): Restful;
+  new(config: AppConfig, req?: IEBayApiRequest, auth?: Auth, apiConfig?: RestfulApiConfig): Restful;
 
   id: string;
 }
 
 export default abstract class Restful extends Api {
 
-  public readonly apiConfig: Required<ApiConfig>;
+  public readonly apiConfig: Required<RestfulApiConfig>;
 
   constructor(
     config: AppConfig,
     req?: IEBayApiRequest,
     auth?: Auth,
-    apiConfig: ApiConfig = {}
+    apiConfig: RestfulApiConfig = {}
   ) {
     super(config, req, auth);
 
@@ -87,11 +86,11 @@ export default abstract class Restful extends Api {
     return '';
   }
 
-  public getServerUrl({schema, subdomain, apiVersion, basePath, sandbox, tld}: Required<ApiConfig>): string {
+  public getServerUrl({schema, subdomain, apiVersion, basePath, sandbox, tld}: Required<RestfulApiConfig>): string {
     return Restful.buildServerUrl(schema, subdomain, sandbox, tld) + apiVersion + basePath;
   }
 
-  public getApiConfig(): Required<ApiConfig> {
+  public getApiConfig(): Required<RestfulApiConfig> {
     return {
       subdomain: this.subdomain,
       useIaf: this.useIaf,
@@ -100,7 +99,8 @@ export default abstract class Restful extends Api {
       schema: this.schema,
       sandbox: this.config.sandbox,
       tld: 'ebay.com',
-      headers: {}
+      headers: {},
+      returnResponse: false
     };
   }
 
@@ -112,7 +112,7 @@ export default abstract class Restful extends Api {
    * Create a new instances of it self with specified api config.
    * @param apiConfig
    */
-  public api(apiConfig: ApiConfig): this {
+  public api(apiConfig: RestfulApiConfig): this {
     // @ts-ignore
     return new this.constructor(this.config, this.req, this.auth, apiConfig);
   }
@@ -131,19 +131,19 @@ export default abstract class Restful extends Api {
     return this.api({subdomain: 'apiz'});
   }
 
-  public async get(url: string, config: any = {}, apiConfig?: ApiConfig) {
+  public async get(url: string, config: any = {}, apiConfig?: RestfulApiConfig) {
     return this.doRequest({method: 'get', url, config}, apiConfig);
   }
 
-  public async delete(url: string, config: any = {}, apiConfig?: ApiConfig) {
+  public async delete(url: string, config: any = {}, apiConfig?: RestfulApiConfig) {
     return this.doRequest({method: 'delete', url, config}, apiConfig);
   }
 
-  public async post(url: string, data?: any, config: any = {}, apiConfig?: ApiConfig) {
+  public async post(url: string, data?: any, config: any = {}, apiConfig?: RestfulApiConfig) {
     return this.doRequest({method: 'post', url, data, config}, apiConfig);
   }
 
-  public async put(url: string, data?: any, config: any = {}, apiConfig?: ApiConfig) {
+  public async put(url: string, data?: any, config: any = {}, apiConfig?: RestfulApiConfig) {
     return this.doRequest({method: 'put', url, data, config}, apiConfig);
   }
 
@@ -158,7 +158,7 @@ export default abstract class Restful extends Api {
       }, {});
   }
 
-  public async enrichRequestConfig(config: any = {}, apiConfig: Required<ApiConfig> = this.apiConfig) {
+  public async enrichRequestConfig(config: any = {}, apiConfig: Required<RestfulApiConfig> = this.apiConfig) {
     const authHeader = await this.auth.getHeaderAuthorization(apiConfig.useIaf);
 
     const headers = {
@@ -177,7 +177,7 @@ export default abstract class Restful extends Api {
     };
   }
 
-  private async doRequest(payload: ApiRequest, apiConfig?: ApiConfig) {
+  private async doRequest(payload: ApiRequest, apiConfig?: RestfulApiConfig) {
     try {
       return await this.request(payload, apiConfig);
     } catch (error) {
@@ -204,12 +204,12 @@ export default abstract class Restful extends Api {
 
   private async request(
     apiRequest: ApiRequest,
-    apiConfig: ApiConfig = this.apiConfig,
+    apiConfig: RestfulApiConfig = this.apiConfig,
     refreshToken = false,
   ): Promise<any> {
     const {url, method, data, config} = apiRequest;
 
-    const apiCfg: Required<ApiConfig> = {...this.apiConfig, ...apiConfig};
+    const apiCfg: Required<RestfulApiConfig> = {...this.apiConfig, ...apiConfig};
     const endpoint = this.getServerUrl(apiCfg) + url;
 
     try {
@@ -221,7 +221,13 @@ export default abstract class Restful extends Api {
 
       const args = ['get', 'delete'].includes(method) ? [enrichedConfig] : [data, enrichedConfig];
       // @ts-ignore
-      return await this.req[method](endpoint, ...args);
+      const response = await this.req[method](endpoint, ...args);
+
+      if (this.apiConfig.returnResponse) {
+        return response
+      } else {
+        return response.data;
+      }
     } catch (ex) {
       handleEBayError(ex);
     }

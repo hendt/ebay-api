@@ -66,13 +66,13 @@ export default class AuthNAuth extends Base {
       RuName: ruName
     }, this.getRequestConfig('GetSessionID'), this.req);
 
-    const response = await xmlApi.request();
+    const data = await xmlApi.request();
 
-    log('GetSessionID response', response);
+    log('GetSessionID data', data);
 
     return {
-      sessionId: response.SessionID,
-      url: AuthNAuth.generateAuthUrl(this.config.sandbox, ruName, response.SessionID)
+      sessionId: data.SessionID,
+      url: AuthNAuth.generateAuthUrl(this.config.sandbox, ruName, data.SessionID)
     };
   }
 

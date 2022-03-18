@@ -8,7 +8,7 @@ import FindingCalls from './finding';
 import MerchandisingCalls from './merchandising';
 import ShoppingCalls from './shopping';
 import TradingCalls from './trading';
-import XMLRequest, {defaultOptions, Options} from './XMLRequest';
+import XMLRequest, {defaultApiConfig, TraditionalApiConfig} from './XMLRequest';
 
 /**
  * Traditional eBay API.
@@ -140,28 +140,28 @@ export default class Traditional extends Api {
     throw new Error('Important! This API is deprecated and will be decommissioned on January 31, 2022. We recommend that you migrate to the fulfillment_policy, payment_policy, and return_policy resources of the Account API to set up and manage all of your fulfillment, payment, and return business policies.')
   }
 
-  private createXMLRequest = (callName: string, api: TraditionalApi) => async (fields: Fields, opts: Options) => {
-    const options = {...defaultOptions, ...opts};
+  private createXMLRequest = (callName: string, api: TraditionalApi) => async (fields: Fields, opts: TraditionalApiConfig) => {
+    const apiConfig = {...defaultApiConfig, ...opts};
 
     try {
-      return await this.request(options, api, callName, fields);
+      return await this.request(apiConfig, api, callName, fields);
     } catch (error: any) {
       // Try to refresh the token.
       if (this.config.autoRefreshToken && (error.name === EBayIAFTokenExpired.name || error.name === EBayIAFTokenInvalid.name)) {
-        return await this.request(options, api, callName, fields, true);
+        return await this.request(apiConfig, api, callName, fields, true);
       }
 
       throw error;
     }
   }
 
-  private async request(options: Options, api: TraditionalApi, callName: string, fields: Fields, refreshToken = false) {
+  private async request(apiConfig: TraditionalApiConfig, api: TraditionalApi, callName: string, fields: Fields, refreshToken = false) {
     try {
       if (refreshToken) {
         await this.auth.OAuth2.refreshToken();
       }
 
-      const config = this.getConfig(api, callName, options);
+      const config = this.getConfig(api, callName, apiConfig);
       const xmlRequest = new XMLRequest(callName, fields, config, this.req);
 
       return await xmlRequest.request();
@@ -170,18 +170,18 @@ export default class Traditional extends Api {
     }
   }
 
-  private getConfig(api: TraditionalApi, callName: string, options: Options) {
+  private getConfig(api: TraditionalApi, callName: string, apiConfig: TraditionalApiConfig) {
     const eBayAuthToken = this.auth.authNAuth.eBayAuthToken;
     const userAccessToken = this.auth.OAuth2.getUserAccessToken();
-    const useIaf = (!eBayAuthToken || userAccessToken && options.useIaf);
+    const useIaf = (!eBayAuthToken || userAccessToken && apiConfig.useIaf);
 
     return {
-      ...options,
+      ...apiConfig,
       xmlns: api.xmlns,
       endpoint: api.endpoint[this.config.sandbox ? 'sandbox' : 'production'],
       headers: {
         ...api.headers(callName, userAccessToken && useIaf ? userAccessToken : undefined),
-        ...options.headers
+        ...apiConfig.headers
       },
       ...(eBayAuthToken && !useIaf && {
         eBayAuthToken

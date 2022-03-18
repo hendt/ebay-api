@@ -113,7 +113,7 @@ export default class OAuth2 extends Base {
     }
 
     try {
-      return await this.req.postForm(this.identityEndpoint, {
+      const response = await this.req.postForm(this.identityEndpoint, {
         scope: this.scope.join(' '),
         grant_type: 'client_credentials'
       }, {
@@ -122,6 +122,8 @@ export default class OAuth2 extends Base {
           password: this.config.certId
         }
       });
+
+      return response.data;
     } catch (error) {
       log('Failed to mint application token', error);
       throw error;
@@ -176,7 +178,7 @@ export default class OAuth2 extends Base {
    */
   public async mintUserAccessToken(code: string, ruName = this.config.ruName) {
     try {
-      const token = await this.req.postForm(this.identityEndpoint, {
+      const response = await this.req.postForm(this.identityEndpoint, {
         grant_type: 'authorization_code',
         code,
         redirect_uri: ruName
@@ -186,6 +188,8 @@ export default class OAuth2 extends Base {
           password: this.config.certId
         }
       });
+
+      const token = response.data;
 
       log('User Access Token', token);
       return token;
@@ -217,7 +221,7 @@ export default class OAuth2 extends Base {
     }
 
     try {
-      const token = await this.req.postForm(this.identityEndpoint, {
+      const response = await this.req.postForm(this.identityEndpoint, {
         grant_type: 'refresh_token',
         refresh_token: this._authToken.refresh_token,
         scope: this.scope.join(' ')
@@ -228,6 +232,7 @@ export default class OAuth2 extends Base {
         }
       });
 
+      const token = response.data;
       log('Successfully refreshed token', token);
 
       const refreshedToken = {

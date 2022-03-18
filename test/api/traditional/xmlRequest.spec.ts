@@ -6,7 +6,20 @@ import sinon from 'sinon';
 import XMLRequest, {XMLReqConfig} from '../../../src/api/traditional/XMLRequest';
 import {IEBayApiRequest} from '../../../src/request';
 
+function createReq(apiResponse: string): IEBayApiRequest<any> {
+  return {
+    get: sinon.stub().returns(Promise.resolve({})),
+    delete: sinon.stub().returns(Promise.resolve({})),
+    put: sinon.stub().returns(Promise.resolve({})),
+    post: sinon.stub().returns(Promise.resolve({data: apiResponse})),
+    postForm: sinon.stub().returns(Promise.resolve({})),
+    instance: sinon.stub()
+  };
+}
+
 describe('XMLRequestTest', () => {
+
+  const apiResponse = '<CALL>response</CALL>';
 
   const config: XMLReqConfig = {
     headers: {
@@ -18,15 +31,11 @@ describe('XMLRequestTest', () => {
     raw: true
   };
 
-  const apiResponse = '<CALL>response</CALL>';
-  const req: IEBayApiRequest<any> = {
-    get: sinon.stub().returns(Promise.resolve()),
-    delete: sinon.stub().returns(Promise.resolve()),
-    put: sinon.stub().returns(Promise.resolve()),
-    post: sinon.stub().returns(Promise.resolve(apiResponse)),
-    postForm: sinon.stub().returns(Promise.resolve()),
-    instance: sinon.stub()
-  };
+  let req = createReq(apiResponse);
+
+  beforeEach(() => {
+    req = createReq(apiResponse);
+  });
 
   afterEach(() => {
     sinon.reset();
@@ -102,12 +111,12 @@ describe('XMLRequestTest', () => {
   });
 
   it('Unwraps Response', () => {
-    const response = `<?xml version="1.0" encoding="utf-8"?>
+    const xml = `<?xml version="1.0" encoding="utf-8"?>
 <CALLResponse xmlns="urn:ebay:apis:eBLBaseComponents">
   <Item>Item</Item>
 </CALLResponse>`;
 
-    req.post = sinon.stub().returns(Promise.resolve(response));
+    req.post = sinon.stub().returns(Promise.resolve({data: xml}));
     const request = new XMLRequest('CALL', {}, {...config, raw: false}, req);
     return request.request().then(result => {
       expect({
@@ -117,12 +126,12 @@ describe('XMLRequestTest', () => {
   });
 
   it('Parse Attributes', () => {
-    const response = `<?xml version="1.0" encoding="utf-8"?>
+    const xml = `<?xml version="1.0" encoding="utf-8"?>
 <CALLResponse xmlns="urn:ebay:apis:eBLBaseComponents">
   <Price currency="EUR" total="false">2.99</Price>
 </CALLResponse>`;
 
-    req.post = sinon.stub().returns(Promise.resolve(response));
+    req.post = sinon.stub().returns(Promise.resolve({data: xml}));
     const request = new XMLRequest('CALL', {}, {...config, raw: false}, req);
     return request.request().then(result => {
       expect({
@@ -136,7 +145,7 @@ describe('XMLRequestTest', () => {
   });
 
   it('Handles tag names that ends with Array', () => {
-    const response = `<?xml version="1.0" encoding="utf-8"?>
+    const xml = `<?xml version="1.0" encoding="utf-8"?>
 <CALLResponse xmlns="urn:ebay:apis:eBLBaseComponents">
    <ActiveList>
         <ItemArray>
@@ -147,7 +156,7 @@ describe('XMLRequestTest', () => {
    </ActiveList>
 </CALLResponse>`;
 
-    req.post = sinon.stub().returns(Promise.resolve(response));
+    req.post = sinon.stub().returns(Promise.resolve({data: xml}));
     const request = new XMLRequest('CALL', {}, {...config, raw: false}, req);
     return request.request().then(result => {
       expect({
@@ -168,7 +177,7 @@ describe('XMLRequestTest', () => {
 
   describe('request', () => {
     it('call custom body function and headers', () => {
-      const post = sinon.stub().returns(Promise.resolve(apiResponse));
+      const post = sinon.stub().returns(Promise.resolve({data: apiResponse}));
       const request = new XMLRequest('CALL', {},
         {
           ...config,
@@ -183,14 +192,14 @@ describe('XMLRequestTest', () => {
         {...req, post});
 
       return request.request().then(result => {
-        expect(post.args[0][1]).to.eql('custom')
+        expect(post.args[0][1]).to.eql('custom');
         expect(post.args[0][2].headers).to.eql({
           'CALL': 'CALL',
           'Content-Type': 'multipart/form-data',
           'X_-HEADER': 'header',
-        })
+        });
         expect(result).to.equal(apiResponse);
       });
-    })
-  })
+    });
+  });
 });

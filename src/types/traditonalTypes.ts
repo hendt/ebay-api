@@ -4,9 +4,9 @@ import FindingCalls from '../api/traditional/finding';
 import ShoppingCalls from '../api/traditional/shopping';
 import TradingCalls from '../api/traditional/trading';
 import MerchandisingCalls from '../api/traditional/merchandising';
-import {Options} from '../api/traditional/XMLRequest';
+import {TraditionalApiConfig} from '../api/traditional/XMLRequest';
 
-export type XMLApiCall = (fields?: Fields, options?: Options) => Promise<any>;
+export type XMLApiCall = (fields?: Fields, apiConfig?: TraditionalApiConfig) => Promise<any>;
 
 export type Trading = {
   [key in typeof TradingCalls[number]]: XMLApiCall;
@@ -21,11 +21,11 @@ export type Finding = {
 };
 
 export type ClientAlerts = {
-  [key in typeof ClientAlertsCalls[number]]: (fields?: object, options?: Options) => Promise<any>;
+  [key in typeof ClientAlertsCalls[number]]: (fields?: object, options?: TraditionalApiConfig) => Promise<any>;
 };
 
 export type Merchandising = {
-  [key in typeof MerchandisingCalls[number]]: (fields?: object, options?: Options) => Promise<any>;
+  [key in typeof MerchandisingCalls[number]]: (fields?: object, options?: TraditionalApiConfig) => Promise<any>;
 };
 
 type Endpoint = {

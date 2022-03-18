@@ -17,16 +17,18 @@ describe('OAuth2', () => {
 
   beforeEach(() => {
     req = {
-      get: sinon.stub(),
-      delete: sinon.stub(),
-      put: sinon.stub(),
-      post: sinon.stub(),
+      get: sinon.stub(Promise.resolve({})),
+      delete: sinon.stub(Promise.resolve({})),
+      put: sinon.stub(Promise.resolve({})),
+      post: sinon.stub(Promise.resolve({})),
       postForm: sinon.stub().returns(Promise.resolve({
-        access_token: 'new_access_token'
+        data: {
+          access_token: 'new_access_token'
+        }
       })),
       instance: sinon.stub()
-    }
-  })
+    };
+  });
 
   describe('Generate AuthUrl', () => {
     it('generate correct production AuthUrl', () => {
@@ -50,10 +52,10 @@ describe('OAuth2', () => {
       try {
         oAuth2.generateAuthUrl();
       } catch (e: any) {
-        expect(e.message).to.equal('RuName is required.')
+        expect(e.message).to.equal('RuName is required.');
       }
     });
-  })
+  });
 
   describe('Scope', () => {
     it('sets and returns correct scope', () => {
@@ -61,12 +63,12 @@ describe('OAuth2', () => {
       oAuth2.setScope(['scope1']);
       expect(oAuth2.getScope()).to.eql(['scope1']);
     });
-  })
+  });
 
   describe('Obtain Tokens', () => {
     it('returns client access token', async () => {
       const oAuth2 = new OAuth2(config, req);
-      oAuth2.setClientToken(cred)
+      oAuth2.setClientToken(cred);
 
       const token = await oAuth2.getApplicationAccessToken();
 
@@ -121,7 +123,7 @@ describe('OAuth2', () => {
       const oAuth2 = new OAuth2(config, req);
       expect(oAuth2.getCredentials()).to.equal(null);
 
-      oAuth2.setCredentials(cred)
+      oAuth2.setCredentials(cred);
       expect(oAuth2.getCredentials()).to.eql(cred);
     });
   });
@@ -130,18 +132,18 @@ describe('OAuth2', () => {
     it('Throws error if appId is not defined', async () => {
       try {
         const oAuth2 = new OAuth2({...config, appId: ''}, req);
-        await oAuth2.obtainApplicationAccessToken()
+        await oAuth2.obtainApplicationAccessToken();
       } catch (e: any) {
-        expect(e.message).to.equal('Missing App ID (Client Id)')
+        expect(e.message).to.equal('Missing App ID (Client Id)');
       }
     });
 
     it('Throws error if appId is not defined', async () => {
       try {
         const oAuth2 = new OAuth2({...config, certId: ''}, req);
-        await oAuth2.obtainApplicationAccessToken()
+        await oAuth2.obtainApplicationAccessToken();
       } catch (e: any) {
-        expect(e.message).to.equal('Missing Cert Id (Client Secret)')
+        expect(e.message).to.equal('Missing Cert Id (Client Secret)');
       }
     });
 
@@ -149,11 +151,11 @@ describe('OAuth2', () => {
       const oAuth2 = new OAuth2(config, req);
 
       try {
-        await oAuth2.refreshUserAccessToken()
+        await oAuth2.refreshUserAccessToken();
       } catch (e: any) {
-        expect(e.message).to.equal('Failed to refresh the user access token. Token or refresh_token is not set.')
+        expect(e.message).to.equal('Failed to refresh the user access token. Token or refresh_token is not set.');
       }
-    })
+    });
 
     it('throws error on refreshAuthToken if request failed', async () => {
       const oAuth2 = new OAuth2(config, {...req, postForm: sinon.stub().throws('error')});
@@ -214,5 +216,5 @@ describe('OAuth2', () => {
         expect(refreshAuthToken.args[0][0].access_token).to.equal('new_access_token');
       });
     });
-  })
+  });
 });

@@ -20,14 +20,19 @@ const allTests = {
 };
 
 const appConfig = {appId: 'appId', certId: 'certId', sandbox: false, siteId: 77};
-const request: IEBayApiRequest<any> = {
-  get: sinon.stub(),
-  delete: sinon.stub(),
-  put: sinon.stub(),
-  post: sinon.stub(),
-  postForm: sinon.stub(),
-  instance: sinon.stub()
-};
+
+function createReq(): IEBayApiRequest<any> {
+  return {
+    get: sinon.stub().returns(Promise.resolve({data: {}})),
+    delete: sinon.stub().returns(Promise.resolve({data: {}})),
+    put: sinon.stub().returns(Promise.resolve({data: {}})),
+    post: sinon.stub().returns(Promise.resolve({data: {}})),
+    postForm: sinon.stub().returns(Promise.resolve({data: {}})),
+    instance: sinon.stub().returns(Promise.resolve({data: {}})),
+  };
+}
+
+const request = createReq();
 
 const auth = new Auth(appConfig, request);
 auth.OAuth2.setClientToken({
@@ -42,7 +47,7 @@ describe('Open API Tests', () => {
       // tslint:disable-next-line:variable-name
       tests.forEach((Oas, RestfulApi) => {
         it('should match name with id', () => {
-          expect(RestfulApi.id).to.equal(RestfulApi.name)
+          expect(RestfulApi.id).to.equal(RestfulApi.name);
         });
 
         const api = new RestfulApi(appConfig, request, auth);
@@ -76,21 +81,15 @@ describe('Open API Tests', () => {
             const paramsInBody = (call.parameters
               ? call.parameters.filter((p: any) => p.in === 'body')
               : []).reduce((result: any, p: any) => {
-              result[p.name] = p.name
-              return result
+              result[p.name] = p.name;
+              return result;
             }, {});
             const args = paramsInPath
               .map((paramName: any) => '{' + paramName + '}')
               .concat(paramsInHeader.map((p: any) => p.name))
               .concat(paramsInBody);
 
-            const req: any = {
-              get: sinon.stub().returns(Promise.resolve()),
-              put: sinon.stub().returns(Promise.resolve()),
-              delete: sinon.stub().returns(Promise.resolve()),
-              post: sinon.stub().returns(Promise.resolve()),
-              postForm: sinon.stub().returns(Promise.resolve()),
-            };
+            const req: any = createReq();
 
             const restApi = new RestfulApi(appConfig, req, auth);
 

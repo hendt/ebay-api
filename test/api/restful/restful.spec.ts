@@ -43,7 +43,7 @@ describe('Restful API', () => {
       put: sinon.stub(),
       post: sinon.stub(),
       postForm: sinon.stub().returns(Promise.resolve({
-        access_token: 'new_access_token'
+        data: { access_token: 'new_access_token'}
       })),
       instance: sinon.stub()
     }
@@ -108,12 +108,22 @@ describe('Restful API', () => {
     })
   })
 
-  it('returns correct response', async () => {
-    const post = sinon.stub().returns({item: '1'});
-    const api = new TestApi(config, {...req, post});
+  describe('restful response test', () => {
+    it('returns data', async () => {
+      const post = sinon.stub().returns({ data: {item: '1'} });
+      const api = new TestApi(config, {...req, post});
 
-    const response = await api.updateThings()
-    expect(response).to.eql({item: '1'})
+      const response = await api.updateThings()
+      expect(response).to.eql({item: '1'})
+    })
+
+    it('returns response', async () => {
+      const post = sinon.stub().returns({data: {item: '1'}});
+      const api = new TestApi(config, {...req, post}, undefined, {returnResponse: true});
+
+      const response = await api.updateThings();
+      expect(response).to.eql({data: {item: '1'}});
+    });
   })
 
   it('refresh the token if invalid token returned', async () => {
@@ -123,7 +133,7 @@ describe('Restful API', () => {
           error: 'Invalid access token'
         }
       }
-    }).onCall(1).resolves({updateThings: 'ok'});
+    }).onCall(1).resolves({ data: {updateThings: 'ok'} });
 
     const api = new TestApi({
       ...config,
@@ -147,7 +157,7 @@ describe('Restful API', () => {
       response: {
         status: 401,
       }
-    }).onCall(1).resolves({updateThings: 'ok'});
+    }).onCall(1).resolves({ data: {updateThings: 'ok'} });
 
     const api = new TestApi({
       ...config,
@@ -167,5 +177,6 @@ describe('Restful API', () => {
     expect(post.callCount).to.equal(2)
     expect(result).to.eql({updateThings: 'ok'})
   })
+
 
 })

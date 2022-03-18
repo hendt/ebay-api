@@ -38,7 +38,7 @@ describe('Traditional', () => {
   });
 
   it('use "eBayAuthToken" if useIaf is set to false', () => {
-    const post = sinon.stub().returns(Promise.resolve('<GetAccount></GetAccount>'));
+    const post = sinon.stub().returns(Promise.resolve({data: '<GetAccount></GetAccount>'}));
     const req: IEBayApiRequest<any> = {
       get: sinon.stub(),
       delete: sinon.stub(),
@@ -62,7 +62,7 @@ describe('Traditional', () => {
   });
 
   it('use IAF token if "accessToken" is available', () => {
-    const post = sinon.stub().returns(Promise.resolve('<GetAccountResponse></GetAccountResponse>'));
+    const post = sinon.stub().returns(Promise.resolve({data: '<GetAccountResponse></GetAccountResponse>'}));
     const req: IEBayApiRequest<any> = {
       get: sinon.stub(),
       delete: sinon.stub(),
@@ -93,7 +93,7 @@ describe('Traditional', () => {
   });
 
   it('throws EBayIAFTokenExpired of error code is 21917053', () => {
-    const post = sinon.stub().returns(Promise.resolve('<GetAccountResponse><Errors><ErrorCode>21917053</ErrorCode></Errors></GetAccountResponse>'));
+    const post = sinon.stub().returns(Promise.resolve({data: '<GetAccountResponse><Errors><ErrorCode>21917053</ErrorCode></Errors></GetAccountResponse>'}));
     const req: IEBayApiRequest<any> = {
       get: sinon.stub(),
       delete: sinon.stub(),
@@ -113,6 +113,30 @@ describe('Traditional', () => {
     const trading = traditional.createTradingApi();
     return trading.GetAccount({}).catch(error => {
       expect(error.name).to.equal('EBayIAFTokenExpired');
+    });
+  });
+
+  it('returns response', () => {
+    const post = sinon.stub().returns(Promise.resolve({data: 'data'}));
+    const req: IEBayApiRequest<any> = {
+      get: sinon.stub(),
+      delete: sinon.stub(),
+      put: sinon.stub(),
+      post,
+      postForm: sinon.stub(),
+      instance: sinon.stub()
+    };
+    auth.OAuth2.setCredentials({
+      access_token: 'accessToken',
+      refresh_token_expires_in: 0,
+      refresh_token: 'refresh_token',
+      token_type: 'token_type',
+      expires_in: 0
+    });
+    const traditional = new Traditional(config, req, auth);
+    const trading = traditional.createTradingApi();
+    return trading.GetAccount({}, {returnResponse: true}).catch(error => {
+      expect(error.name).to.eql({data: 'data'});
     });
   });
 });

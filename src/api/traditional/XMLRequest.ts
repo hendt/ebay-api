@@ -3,11 +3,12 @@ import xmlParser, {j2xParser} from 'fast-xml-parser';
 
 import {checkEBayResponse, EbayNoCallError} from '../../errors';
 import {IEBayApiRequest} from '../../request';
+import {ApiRequestConfig, Headers} from '../../types';
 import {Fields} from './fields';
 
 const log = debug('ebay:xml:request');
 
-const defaultJSON2XMLOptions = {
+export const defaultJSON2XMLOptions = {
   attributeNamePrefix: '@_',
   textNodeName: '#value',
   ignoreAttributes: false,
@@ -31,35 +32,30 @@ export const defaultXML2JSONParseOptions = {
   }
 };
 
-type Headers = {
-  [key: string]: string | number | undefined;
-};
-
 export type BodyHeaders = {
   body: any,
-  headers?: Headers
+  headers: Headers
 }
 
-export type Options = {
+export type TraditionalApiConfig = {
   raw?: boolean,
   parseOptions?: object,
   useIaf?: boolean,
-  headers?: Headers,
   hook?: (xml: string) => BodyHeaders
-};
+} & ApiRequestConfig;
 
-export type XMLReqConfig = Options & {
-  headers: Headers,
+export type XMLReqConfig = TraditionalApiConfig & {
   endpoint: string,
   xmlns: string,
   eBayAuthToken?: string | null,
 };
 
-export const defaultOptions: Required<Omit<Options, 'hook'>> = {
+export const defaultApiConfig: Required<Omit<TraditionalApiConfig, 'hook'>> = {
   raw: false,
   parseOptions: defaultXML2JSONParseOptions,
   useIaf: true,
-  headers: {}
+  headers: {},
+  returnResponse: false
 };
 
 export const defaultHeaders = {
@@ -93,7 +89,7 @@ export default class XMLRequest {
 
     this.callName = callName;
     this.fields = fields || {};
-    this.config = {...defaultOptions, ...config};
+    this.config = {...defaultApiConfig, ...config};
     this.req = req;
   }
 
@@ -190,12 +186,18 @@ export default class XMLRequest {
 
       log('response', response);
 
-      // resolve to raw XML
-      if (this.config.raw) {
+      if (this.config.returnResponse) {
         return response;
       }
 
-      const json = this.xml2JSON(response);
+      const {data} = response;
+
+      // return raw XML
+      if (this.config.raw) {
+        return data;
+      }
+
+      const json = this.xml2JSON(data);
 
       checkEBayResponse(json);
 

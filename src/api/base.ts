@@ -13,10 +13,10 @@ export default abstract class Base {
 
   constructor(
     config: AppConfig,
-    req: IEBayApiRequest = new AxiosRequest(config.axiosConfig),
+    req?: IEBayApiRequest,
   ) {
     this.config = config;
-    this.req = req;
+    this.req = req || new AxiosRequest(config.axiosConfig);
     this.emitter = new NanoEvents();
   }
 
