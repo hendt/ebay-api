@@ -1,4 +1,20 @@
 # eBay API Changelog
+## [7.0.0](https://github.com/hendt/ebay-api/compare/v6.2.0...v7.0.0) (2022-03-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* add "returnResponse" config for API. If set to true, return the response instead of data.
+
+### Features
+
+* add "returnResponse" config for API. If set to true, return the response instead of data. ([41a8abb](https://github.com/hendt/ebay-api/commit/41a8abb8cba4723df143f840fc7d9d40f6e16577))
+
+
+### Bug Fixes
+
+* fromEnv() make EBAY_DEV_ID optional ([9c90bfa](https://github.com/hendt/ebay-api/commit/9c90bfa9d6a19fe09a397d8c847a6831809d8899))
+
 ## [6.2.0](https://github.com/hendt/ebay-api/compare/v6.1.0...v6.2.0) (2022-03-06)
 
 
