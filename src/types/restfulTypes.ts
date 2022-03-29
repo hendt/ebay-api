@@ -21,6 +21,7 @@ import {
   ReasonForRefund,
   RecipientAccountReferenceType,
   RefundFeeType,
+  RefundMethod,
   RegionType,
   RequestType,
   ReturnCountFilter,
@@ -1123,7 +1124,7 @@ export type ReturnPolicyRequest = {
   internationalOverride?: InternationalReturnOverrideType
   marketplaceId: MarketplaceId
   name: string
-  refundMethod?: ReturnMethod
+  refundMethod?: RefundMethod
   restockingFeePercentage?: string
   returnInstructions?: string
   returnMethod?: ReturnMethod

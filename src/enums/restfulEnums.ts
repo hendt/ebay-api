@@ -915,6 +915,11 @@ export enum Metric {
   TRANSACTION
 }
 
+export enum RefundMethod {
+  MERCHANDISE_CREDIT = 'MERCHANDISE_CREDIT',
+  MONEY_BACK = 'MONEY_BACK'
+}
+
 export enum ReturnMethod {
   EXCHANGE = 'EXCHANGE',
   REPLACEMENT = 'REPLACEMENT'
