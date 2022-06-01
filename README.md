@@ -2,6 +2,12 @@
 [![Build Status](https://travis-ci.com/hendt/ebay-api.svg?branch=master)](https://travis-ci.com/hendt/ebay-api)
 [![codecov](https://codecov.io/gh/hendt/ebay-api/branch/master/graph/badge.svg?token=E67PSWIZFZ)](https://codecov.io/gh/hendt/ebay-api)
 
+[![GitHub](https://img.shields.io/npm/l/ebay-api?style=flat-square)](https://github.com/hendt/ebay-api/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/hendt/ebay-api.svg?style=flat-square)](https://github.com/hendt/ebay-api/releases)
+[![npm version](https://img.shields.io/npm/v/ebay-api.svg?style=flat-square)](https://www.npmjs.com/package/ebay-api)
+[![](https://data.jsdelivr.com/v1/package/npm/ebay-api/badge)](https://www.jsdelivr.com/package/npm/ebay-api)
+[![npm](https://img.shields.io/npm/dt/ebay-api.svg?style=flat-square)](https://www.npmjs.com/package/ebay-api)
+
 This eBay API implements both Traditional \(xml\) and the RESTful eBay API.
 It supports `client credentials grant` and `authorization code grant` \(Auth'N'Auth, OAuth2 and IAF\).
 
