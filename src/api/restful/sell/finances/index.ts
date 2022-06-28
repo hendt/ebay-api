@@ -77,6 +77,7 @@ export default class Finances extends Restful {
    * @param limit The number of transaction to return per page of the result set.
    * @param offset Specifies the number of payouts to skip in the result set before returning the first transaction in the
    *     paginated response.
+   * @param sort Allows sorting by transaction date in descending order with '-transactionDate' (default) and ascending with 'transactionDate'
    */
   public getTransactions({
                            filter,
@@ -86,12 +87,14 @@ export default class Finances extends Restful {
     filter?: string;
     limit?: number;
     offset?: number;
+    sort?: 'transactionDate'|'-transactionDate',
   } = {}) {
     return this.get(`/transaction`, {
       params: {
         filter,
         limit,
         offset,
+        sort,
       },
     });
   }
