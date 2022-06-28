@@ -1,4 +1,12 @@
 # eBay API Changelog
+### [7.0.1](https://github.com/hendt/ebay-api/compare/v7.0.0...v7.0.1) (2022-06-28)
+
+
+### Bug Fixes
+
+* add missed sort parameter ([f4cf095](https://github.com/hendt/ebay-api/commit/f4cf095d9fffb645f01b36c7e024d3def9c8ebca))
+* fix enum used for refundMethod ([99203d2](https://github.com/hendt/ebay-api/commit/99203d278fc98022bbe622fe082ef3be46dae0f9))
+
 ## [7.0.0](https://github.com/hendt/ebay-api/compare/v6.2.0...v7.0.0) (2022-03-18)
 
 
