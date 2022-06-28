@@ -83,11 +83,12 @@ export default class Finances extends Restful {
                            filter,
                            limit,
                            offset,
+                           sort
                          }: {
     filter?: string;
     limit?: number;
     offset?: number;
-    sort?: 'transactionDate'|'-transactionDate',
+    sort?: 'transactionDate' | '-transactionDate',
   } = {}) {
     return this.get(`/transaction`, {
       params: {
