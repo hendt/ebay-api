@@ -37,21 +37,25 @@ export default class Finances extends Restful {
    * @param limit The number of payouts to return per page of the result set.
    * @param offset Specifies the number of payouts to skip in the result set before returning the first payout in the
    *     paginated response.
+   * @param sort Allows sorting by payouts date in descending order with '-payoutDate' (default) and ascending with 'payoutDate'
    */
   public getPayouts({
                       filter,
                       limit,
                       offset,
+                      sort,
                     }: {
     filter?: string;
     limit?: number;
     offset?: number;
+    sort?: 'payoutDate' | '-payoutDate';
   } = {}) {
     return this.get(`/payout`, {
       params: {
         filter,
         limit,
         offset,
+        sort,
       },
     });
   }
