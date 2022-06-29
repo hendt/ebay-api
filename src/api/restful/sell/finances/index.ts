@@ -48,7 +48,7 @@ export default class Finances extends Restful {
     filter?: string;
     limit?: number;
     offset?: number;
-    sort:?: 'payoutDate' | '-payoutDate';
+    sort?: 'payoutDate' | '-payoutDate';
   } = {}) {
     return this.get(`/payout`, {
       params: {
