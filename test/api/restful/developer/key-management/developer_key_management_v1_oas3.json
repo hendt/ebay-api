@@ -1,0 +1,385 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Key Management API",
+    "description": "Due to regulatory requirements applicable to our EU/UK sellers, for certain APIs, developers need to add digital signatures to the respective HTTP call. The Key Management API creates keypairs that are required when creating digital signatures for the following APIs:<ul><li>All methods in the <a href=\"/api-docs/sell/finances/resources/methods \" target=\"_blank \">Finances API</a></li><li><a href=\"/api-docs/sell/fulfillment/resources/order/methods/issueRefund \" target=\"_blank \">issueRefund</a> in the Fulfillment API</li><li><a href=\"/Devzone/XML/docs/Reference/eBay/GetAccount.html \" target=\"_blank \">GetAccount</a> in the Trading API</li><li>The following methods in the Post-Order API:<ul><li><a href=\"/Devzone/post-order/post-order_v2_inquiry-inquiryid_issue_refund__post.html \" target=\"_blank \">Issue Inquiry Refund</a></li><li><a href=\"/Devzone/post-order/post-order_v2_casemanagement-caseid_issue_refund__post.html \" target=\"_blank \">Issue case refund</a></li><li><a href=\"/Devzone/post-order/post-order_v2_return-returnid_issue_refund__post.html \" target=\"_blank \">Issue return refund</a></li><li><a href=\"/Devzone/post-order/post-order_v2_return-returnid_decide__post.html \" target=\"_blank \">Process Return Request</a></li><li><a href=\"/devzone/post-order/post-order_v2_cancellation-cancelid_approve__post.html \" target=\"_blank \">Approve Cancellation Request</a></li><li><a href=\"/devzone/post-order/post-order_v2_cancellation__post.html \" target=\"_blank \">Create Cancellation Request</a></li></ul></li></ul><span class=\"tablenote\"><b>Note:</b> For additional information about keypairs and creating Message Signatures, refer to <a href= \"/develop/guides/digital-signatures-for-apis \" target= \"_blank \">Digital Signatures for APIs</a>.</span>",
+    "contact": {
+      "name": "eBay Inc,"
+    },
+    "license": {
+      "name": "eBay API License Agreement",
+      "url": "https://go.developer.ebay.com/api-license-agreement"
+    },
+    "version": "v1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://apiz.ebay.com{basePath}",
+      "description": "Production",
+      "variables": {
+        "basePath": {
+          "default": "/developer/key_management/v1"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/signing_key": {
+      "get": {
+        "tags": [
+          "signing_key"
+        ],
+        "description": "This method returns the <b>Public Key</b>, <b>Public Key as JWE</b>, and metadata for all keypairs associated with the application key making the call.<br/><br/><span class=\"tablenote\"><b>Note:</b> It is important to note that <code>privateKey</code> values are <b>not</b> returned. In order to further ensure the security of confidential client information, eBay does <b>not</b> store <code>privateKey</code> values in any system. If a developer loses their <code>privateKey</code> they must generate new keypairs set using the <code>createSigningKey</code> method.</span>",
+        "operationId": "getSigningKeys",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuerySigningKeysResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "210005": {
+                  "domain": "API_KEYS",
+                  "category": "REQUEST",
+                  "description": "You must request with a token having valid application client id."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "210000": {
+                  "domain": "API_KEYS",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "signing_key"
+        ],
+        "description": "This method creates keypairs using one of the following ciphers:<ul><li>ED25519 (Edwards Curve)</li><li>RSA</li></ul><span class=\"tablenote\"><b>Note:</b> The recommended signature cipher is <b>ED25519</b> (Edwards Curve) since it uses much shorter keys and therefore decreases the header size. However, for development frameworks that do not support ED25519, RSA is also supported.</span><br/>Following a successful completion, the following keys are returned:<ul><li>Private Key</li><li>Public Key</li><li>Public Key as JWE</li></ul>Once keypairs are created, developers are <b>strongly advised</b> to create and store a local copy of each keypair for future reference. Although the <b>Public Key</b>, <b>Public Key as JWE</b>, and metadata for keypairs may be retrieved by the <code>getSigningKey</code> and <code>getSigningKeys</code> methods, in order to further ensure the security of confidential client information, eBay does not store the <b>Private Key</b> value in any system. If a developer loses their <b>Private Key</b> they must generate new keypairs using the <code>createSigningKey</code> method.<br/><span class=\"tablenote\"><b>Note:</b> For additional information about using keypairs, refer to <a href= \"/develop/guides/digital-signatures-for-apis \" target= \"_blank \">Digital Signatures for APIs</a>.</span>",
+        "operationId": "createSigningKey",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSigningKeyRequest"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SigningKey"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "210001": {
+                  "domain": "API_KEYS",
+                  "category": "REQUEST",
+                  "description": "You must supply a valid signing key cipher. Allowed values are ED25519 and RSA."
+                },
+                "210005": {
+                  "domain": "API_KEYS",
+                  "category": "REQUEST",
+                  "description": "You must request with a token having valid application client id."
+                },
+                "210006": {
+                  "domain": "API_KEYS",
+                  "category": "REQUEST",
+                  "description": "You must request for new signing key with valid request payload."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "210000": {
+                  "domain": "API_KEYS",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope"
+            ]
+          }
+        ]
+      }
+    },
+    "/signing_key/{signing_key_id}": {
+      "get": {
+        "tags": [
+          "signing_key"
+        ],
+        "description": "This method returns the <b>Public Key</b>, <b>Public Key as JWE</b>, and metadata for a specified <code>signingKeyId</code> associated with the application key making the call.<br/><br/><span class=\"tablenote\"><b>Note:</b> It is important to note that the <code>privateKey</code> value is <b>not</b> returned. In order to further ensure the security of confidential client information, eBay does <b>not</b> store the <code>privateKey</code> value in any system. If a developer loses their <code>privateKey</code> they must generate new keypairs using the <code>createSigningKey</code> method.</span>",
+        "operationId": "getSigningKey",
+        "parameters": [
+          {
+            "name": "signing_key_id",
+            "in": "path",
+            "description": "The system-generated eBay ID of the keypairs being requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SigningKey"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "x-response-codes": {
+              "errors": {
+                "210005": {
+                  "domain": "API_KEYS",
+                  "category": "REQUEST",
+                  "description": "You must request with a token having valid application client id."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found",
+            "x-response-codes": {
+              "errors": {
+                "210002": {
+                  "domain": "API_KEYS",
+                  "category": "REQUEST",
+                  "description": "The signing key with id {signingKeyId} was not found."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "x-response-codes": {
+              "errors": {
+                "210000": {
+                  "domain": "API_KEYS",
+                  "category": "APPLICATION",
+                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_auth": [
+              "https://api.ebay.com/oauth/api_scope"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateSigningKeyRequest": {
+        "type": "object",
+        "properties": {
+          "signingKeyCipher": {
+            "type": "string",
+            "description": "The enumerated value for the cipher to be used to create the signing key. Refer to <a href= \"/api-docs/developer/key-management/types/api:SigningKeyCipher\" target= \"_blank\">SigningKeyCiper</a> for the list of supported enum values. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/developer/key_management/types/api:SigningKeyCipher'>eBay API documentation</a>"
+          }
+        },
+        "description": "This request creates a new signing key."
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Identifies the type of erro."
+          },
+          "domain": {
+            "type": "string",
+            "description": "Name for the primary system where the error occurred. This is relevant for application errors."
+          },
+          "errorId": {
+            "type": "integer",
+            "description": "A unique number to identify the error.",
+            "format": "int32"
+          },
+          "inputRefIds": {
+            "type": "array",
+            "description": "An array of request elements most closely associated to the error.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "longMessage": {
+            "type": "string",
+            "description": "A more detailed explanation of the error."
+          },
+          "message": {
+            "type": "string",
+            "description": "Information on how to correct the problem, in the end user's terms and language where applicable."
+          },
+          "outputRefIds": {
+            "type": "array",
+            "description": "An array of request elements most closely associated to the error.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "parameters": {
+            "type": "array",
+            "description": "An array of name/value pairs that describe details the error condition. These are useful when multiple errors are returned.",
+            "items": {
+              "$ref": "#/components/schemas/ErrorParameter"
+            }
+          },
+          "subdomain": {
+            "type": "string",
+            "description": "Further helps indicate which subsystem the error is coming from. System subcategories include: Initialization, Serialization, Security, Monitoring, Rate Limiting, etc."
+          }
+        },
+        "description": "This type defines the fields that can be returned in an error."
+      },
+      "ErrorParameter": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The object of the error."
+          },
+          "value": {
+            "type": "string",
+            "description": "The value of the object."
+          }
+        }
+      },
+      "QuerySigningKeysResponse": {
+        "type": "object",
+        "properties": {
+          "signingKeys": {
+            "type": "array",
+            "description": "An array of metadata information for keypairs owned by a user.",
+            "items": {
+              "$ref": "#/components/schemas/SigningKey"
+            }
+          }
+        },
+        "description": "This container stores metadata information for all keypairs that are owned by a user."
+      },
+      "SigningKey": {
+        "type": "object",
+        "properties": {
+          "creationTime": {
+            "type": "integer",
+            "description": "The UNIX timestamp when the <code>SigningKey</code> was created. This time is represented as the number of seconds from \"1970-01-01T00:00:00Z\", as measured in UTC, until the date and time the <code>SigningKey</code> was created.",
+            "format": "int32"
+          },
+          "expirationTime": {
+            "type": "integer",
+            "description": "The UNIX timestamp when the <code>SigningKey</code> expires. This time is represented as the number of seconds from \"1970-01-01T00:00:00Z\", as measured in UTC, until the date and time the <code>SigningKey</code> expires.<br/><span class=\"tablenote\"><b>Note:</b> All keys have an expiration date of three (3) years after their <code>creationTime</code>.</span>",
+            "format": "int32"
+          },
+          "jwe": {
+            "type": "string",
+            "description": "This is the JSON Web Encrypted (JWE) value for the <code>publicKey</code>."
+          },
+          "privateKey": {
+            "type": "string",
+            "description": "This is the Private Key that has been generated using the specified <code>signingKeyCipher</code>.<br/><span class=\"tablenote\"><b>Note:</b> The <code>privateKey</code> value will <b>only</b> be returned in the response payload of the  <code>createSigningKey</code> method.<br/><br/>It will <i>never</i> be returned by the <code>getSigningKey</code> or <code>getSigningKeys</code> methods.</span>Developers are <b>strongly advised</b> to download their <code>privateKey</code> value as Privacy Enhance Mail (PEM) format and store it locally for future reference. In order to guarantee the security of confidential client information, eBay does not store <code>privateKey</code> values on any system.<br/><span class=\"tablenote\"><b>Note:</b> If a developer loses their <code>privateKey</code> they must generate new keypairs set using the <code>createSigningKey</code> method.</span>"
+          },
+          "publicKey": {
+            "type": "string",
+            "description": "This is the Public Key that has been generated using the specified <code>signingKeyCipher</code>.<br/><br/>As a matter of good practice, developers are <b>strongly advised</b> to download this value and store it locally for safe-keeping and future reference."
+          },
+          "signingKeyCipher": {
+            "type": "string",
+            "description": "Indicates the cipher used to create the keypairs. Refer to <a href= \"/api-docs/developer/key-management/types/api:SigningKeyCipher\" target= \"_blank\">SigningKeyCiper</a> for the list of supported enum values. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/developer/key_management/types/api:SigningKeyCipher'>eBay API documentation</a>"
+          },
+          "signingKeyId": {
+            "type": "string",
+            "description": "The system-generated eBay ID for the keypairs."
+          }
+        },
+        "description": "This container stores metadata for a signing key."
+      }
+    },
+    "securitySchemes": {
+      "api_auth": {
+        "type": "oauth2",
+        "description": "The security definitions for this API. Please check individual operations for applicable scopes.",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://api.ebay.com/identity/v1/oauth2/token",
+            "scopes": {
+              "https://api.ebay.com/oauth/api_scope": "View public data from eBay"
+            }
+          }
+        }
+      }
+    }
+  }
+}
