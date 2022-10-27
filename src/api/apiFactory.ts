@@ -3,7 +3,7 @@ import Api from './';
 import RestfulApi, {IRestful} from './restful/';
 import {Browse, Buy, Deal, Feed, Marketing as BuyMarketing, MarketplaceInsights, Offer, Order} from './restful/buy';
 import {Catalog, Charity, Commerce, Identity, Notification, Taxonomy, Translation} from './restful/commerce';
-import {Analytics as DeveloperAnalytics, Developer,} from './restful/developer';
+import {Analytics as DeveloperAnalytics, Developer, KeyManagement} from './restful/developer';
 import {Cancellation, Case, Inquiry, PostOrder, Return,} from './restful/postOrder';
 import {
   Account,
@@ -56,6 +56,7 @@ export default class ApiFactory extends Api {
   public createDeveloperApi(): Developer {
     return {
       analytics: this.createRestfulApi(DeveloperAnalytics),
+      keyManagement: this.createRestfulApi(KeyManagement),
     };
   }
 
