@@ -95,9 +95,7 @@ export default class Case extends Restful {
    */
   public search(params: CaseSearchParams) {
     return this.get(`/casemanagement/search`, {
-      params: {
-        params
-      }
+      params
     });
   }
 }
