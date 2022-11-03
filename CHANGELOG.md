@@ -1,4 +1,16 @@
 # eBay API Changelog
+## [7.1.0](https://github.com/hendt/ebay-api/compare/v7.0.2...v7.1.0) (2022-11-03)
+
+
+### Features
+
+* added developer key management API ([75ccb60](https://github.com/hendt/ebay-api/commit/75ccb6081fd03e7e06934152e8165186b9c8cc04))
+
+
+### Bug Fixes
+
+* add missed oas3 file ([cce7c9d](https://github.com/hendt/ebay-api/commit/cce7c9d4c8b0b88b1e501bc14929b4987b15b576))
+
 ### [7.0.2](https://github.com/hendt/ebay-api/compare/v7.0.1...v7.0.2) (2022-06-29)
 
 ### [7.0.1](https://github.com/hendt/ebay-api/compare/v7.0.0...v7.0.1) (2022-06-28)
