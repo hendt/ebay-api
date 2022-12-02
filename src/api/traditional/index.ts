@@ -30,7 +30,7 @@ export default class Traditional extends Api {
       },
       calls: TradingCalls,
       xmlns: 'urn:ebay:apis:eBLBaseComponents',
-      headers: (callName: string, accessToken?: string) => ({
+      headers: (callName: string, accessToken?: string | null) => ({
         'X-EBAY-API-CALL-NAME': callName,
         'X-EBAY-API-CERT-NAME': this.config.certId,
         'X-EBAY-API-APP-NAME': this.config.appId,
@@ -53,9 +53,9 @@ export default class Traditional extends Api {
       },
       xmlns: 'urn:ebay:apis:eBLBaseComponents',
       calls: ShoppingCalls,
-      headers: (callName: string, accessToken?: string) => ({
+      headers: (callName: string, accessToken?: string | null) => ({
         'X-EBAY-API-CALL-NAME': callName,
-         // 'X-EBAY-API-APP-ID': this.config.appId, deprecated  on June 30, 2021
+        // 'X-EBAY-API-APP-ID': this.config.appId, deprecated  on June 30, 2021
         'X-EBAY-API-SITE-ID': this.config.siteId,
         'X-EBAY-API-VERSION': 863,
         'X-EBAY-API-REQUEST-ENCODING': 'xml',
@@ -137,7 +137,7 @@ export default class Traditional extends Api {
   }
 
   public createBusinessPolicyManagementApi() {
-    throw new Error('Important! This API is deprecated and will be decommissioned on January 31, 2022. We recommend that you migrate to the fulfillment_policy, payment_policy, and return_policy resources of the Account API to set up and manage all of your fulfillment, payment, and return business policies.')
+    throw new Error('Important! This API is deprecated and will be decommissioned on January 31, 2022. We recommend that you migrate to the fulfillment_policy, payment_policy, and return_policy resources of the Account API to set up and manage all of your fulfillment, payment, and return business policies.');
   }
 
   private createXMLRequest = (callName: string, api: TraditionalApi) => async (fields: Fields, opts: TraditionalApiConfig) => {
@@ -153,7 +153,7 @@ export default class Traditional extends Api {
 
       throw error;
     }
-  }
+  };
 
   private async request(apiConfig: TraditionalApiConfig, api: TraditionalApi, callName: string, fields: Fields, refreshToken = false) {
     try {
@@ -161,31 +161,29 @@ export default class Traditional extends Api {
         await this.auth.OAuth2.refreshToken();
       }
 
-      const config = this.getConfig(api, callName, apiConfig);
+      const config = await this.getConfig(api, callName, apiConfig);
       const xmlRequest = new XMLRequest(callName, fields, config, this.req);
 
       return await xmlRequest.request();
     } catch (e) {
-      handleEBayError(e)
+      handleEBayError(e);
     }
   }
 
-  private getConfig(api: TraditionalApi, callName: string, apiConfig: TraditionalApiConfig) {
+  private async getConfig(api: TraditionalApi, callName: string, apiConfig: TraditionalApiConfig) {
     const eBayAuthToken = this.auth.authNAuth.eBayAuthToken;
-    const userAccessToken = this.auth.OAuth2.getUserAccessToken();
-    const useIaf = (!eBayAuthToken || userAccessToken && apiConfig.useIaf);
+    const accessToken = !eBayAuthToken && apiConfig.useIaf ? (await this.auth.OAuth2.getAccessToken()) : null;
+    const useIaf = !eBayAuthToken && accessToken;
 
     return {
       ...apiConfig,
       xmlns: api.xmlns,
       endpoint: api.endpoint[this.config.sandbox ? 'sandbox' : 'production'],
       headers: {
-        ...api.headers(callName, userAccessToken && useIaf ? userAccessToken : undefined),
+        ...api.headers(callName, useIaf ? accessToken : null),
         ...apiConfig.headers
       },
-      ...(eBayAuthToken && !useIaf && {
-        eBayAuthToken
-      })
+      ...(!useIaf ? { eBayAuthToken } : {})
     };
   }
 

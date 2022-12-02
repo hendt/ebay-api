@@ -61,6 +61,37 @@ describe('Traditional', () => {
     });
   });
 
+  it('use Auth Token event if "accessToken" is available', () => {
+    const post = sinon.stub().returns(Promise.resolve({data: '<GetAccountResponse></GetAccountResponse>'}));
+    const req: IEBayApiRequest<any> = {
+      get: sinon.stub(),
+      delete: sinon.stub(),
+      put: sinon.stub(),
+      post,
+      postForm: sinon.stub(),
+      instance: sinon.stub()
+    };
+    auth.OAuth2.setCredentials({
+      access_token: 'accessToken',
+      refresh_token_expires_in: 0,
+      refresh_token: 'refresh_token',
+      token_type: 'token_type',
+      expires_in: 0
+    });
+
+    const traditional = new Traditional(config, req, auth);
+    const trading = traditional.createTradingApi();
+    return trading.GetAccount({}, {raw: true}).then(data => {
+      expect(post.args[0][1]).to.equal([
+        '<?xml version="1.0" encoding="utf-8"?>',
+        '<GetAccountRequest xmlns="urn:ebay:apis:eBLBaseComponents">',
+        '<RequesterCredentials><eBayAuthToken>eBayAuthToken</eBayAuthToken></RequesterCredentials></GetAccountRequest>',
+      ].join(''));
+      expect(data).to.equal('<GetAccountResponse></GetAccountResponse>');
+      expect(post.args[0][2].headers['X-EBAY-API-IAF-TOKEN']).to.equal(undefined);
+    });
+  });
+
   it('use IAF token if "accessToken" is available', () => {
     const post = sinon.stub().returns(Promise.resolve({data: '<GetAccountResponse></GetAccountResponse>'}));
     const req: IEBayApiRequest<any> = {
@@ -79,6 +110,7 @@ describe('Traditional', () => {
       expires_in: 0
     });
 
+    auth.authNAuth.setAuthToken(null);
     const traditional = new Traditional(config, req, auth);
     const trading = traditional.createTradingApi();
     return trading.GetAccount({}, {raw: true}).then(data => {

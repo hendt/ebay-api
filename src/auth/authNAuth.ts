@@ -33,7 +33,7 @@ export default class AuthNAuth extends Base {
     ].join('');
   }
 
-  private authToken?: AuthToken;
+  private authToken: AuthToken | null = null;
 
   constructor(config: AppConfig, req?: IEBayApiRequest) {
     super(config, req)
@@ -101,7 +101,7 @@ export default class AuthNAuth extends Base {
     return token;
   }
 
-  public setAuthToken(authToken: AuthToken | string) {
+  public setAuthToken(authToken: AuthToken | string | null) {
     if (typeof authToken === 'string') {
       this.authToken = {
         eBayAuthToken: authToken

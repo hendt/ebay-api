@@ -37,5 +37,5 @@ export type TraditionalApi = {
   endpoint: Endpoint,
   xmlns: string,
   calls: typeof TradingCalls | typeof ShoppingCalls | typeof FindingCalls | typeof ClientAlertsCalls | typeof MerchandisingCalls,
-  headers: (callName: string, accessToken?: string) => object
+  headers: (callName: string, accessToken?: string | null) => object
 };

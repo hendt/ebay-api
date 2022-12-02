@@ -18,7 +18,7 @@ export type RestConfig = {
 
 export type TraditionalConfig = {
   siteId?: number
-  authToken?: string
+  authToken?: string | null
 }
 
 export type eBayConfig = Keyset & {
