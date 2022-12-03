@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [7.1.3](https://github.com/hendt/ebay-api/compare/v7.1.2...v7.1.3) (2022-12-03)
+
+
+### Bug Fixes
+
+* get access token before calling traditional API ([a4a3123](https://github.com/hendt/ebay-api/commit/a4a312319ba42d479e98628a7a5b611a3ef8c237))
+
 ### [7.1.2](https://github.com/hendt/ebay-api/compare/v7.1.1...v7.1.2) (2022-11-22)
 
 ### [7.1.1](https://github.com/hendt/ebay-api/compare/v7.1.0...v7.1.1) (2022-11-03)
