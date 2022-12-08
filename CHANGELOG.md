@@ -1,4 +1,20 @@
 # eBay API Changelog
+## [8.0.0-RC.0](https://github.com/hendt/ebay-api/compare/v7.1.3...v8.0.0-RC.0) (2022-12-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* output esm and cjs
+
+### Features
+
+* output esm and cjs ([b37d96e](https://github.com/hendt/ebay-api/commit/b37d96e8120a28be5e5cde4844a683909eaa9081))
+
+
+### Bug Fixes
+
+* standard-version ext ([df6b7e3](https://github.com/hendt/ebay-api/commit/df6b7e3ac600c8409117832762d416b1fe0500a2))
+
 ### [7.1.3](https://github.com/hendt/ebay-api/compare/v7.1.2...v7.1.3) (2022-12-03)
 
 
