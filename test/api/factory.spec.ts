@@ -3,8 +3,8 @@ import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
 import ApiFactory from '../../src/api/apiFactory.js';
-import {eBayConfig} from '../../src/types/index.js';
 import {IEBayApiRequest} from '../../src/request.js';
+import {eBayConfig} from '../../src/types/index.js';
 
 describe('FactoryTest', () => {
   let config: eBayConfig;
@@ -21,9 +21,9 @@ describe('FactoryTest', () => {
     config = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 0, devId: 'devId'};
   });
 
-  it('Throws an error if devId is not defined', () => {
-    delete config.devId;
+  it('Throws an error if siteId is not defined', () => {
+    delete config.siteId;
     const factory = new ApiFactory(config, request);
-    expect(factory.createTradingApi.bind(factory)).to.throw(/devId/);
+    expect(factory.createTradingApi.bind(factory)).to.throw(/siteId/);
   });
 });

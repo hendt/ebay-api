@@ -3,6 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import bundleSize from 'rollup-plugin-bundle-size';
+import virtual from '@rollup/plugin-virtual';
 
 const pkg = require('./package.json');
 
@@ -27,6 +28,9 @@ export default [{
       name: 'eBayApi',
       exports: 'default',
       sourcemap: false,
+      globals: {
+        crypto: 'crypto'
+      }
     },
   ],
   plugins
@@ -40,5 +44,10 @@ export default [{
     },
   ],
   context: 'window',
-  plugins
+  plugins: [
+    virtual({
+      crypto: `export function createHash() { return window.crypto.createHash(...arguments); }; export function sign() { return window.crypto.sign(...arguments); };`,
+    }),
+    ...plugins
+  ]
 }]

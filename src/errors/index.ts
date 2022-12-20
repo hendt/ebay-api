@@ -135,6 +135,10 @@ export const mapEBayError = (err: any) => {
         message: data.error,
         description: data.error_description || ''
       };
+    } else if (typeof data === 'string') {
+      eBayError = {
+        message: data
+      };
     } else {
       eBayError = data;
     }
