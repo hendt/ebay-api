@@ -1,4 +1,6 @@
 # eBay API Changelog
+### [8.0.1](https://github.com/hendt/ebay-api/compare/v8.0.0...v8.0.1) (2022-12-21)
+
 ## [8.0.0](https://github.com/hendt/ebay-api/compare/v8.0.0-RC.0...v8.0.0) (2022-12-21)
 
 ## [8.0.0-RC.0](https://github.com/hendt/ebay-api/compare/v7.1.3...v8.0.0-RC.0) (2022-12-08)
