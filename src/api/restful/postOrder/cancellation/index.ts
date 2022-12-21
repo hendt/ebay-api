@@ -1,10 +1,10 @@
-import Restful from '../../';
+import Restful from '../../index.js';
 import {
   CancellationSearchParams,
   ConfirmRefundRequest,
   CreateCancelRequest,
   RejectCancelRequest
-} from '../../../../types';
+} from '../../../../types/index.js';
 
 /**
  * Post-Order Cancellation API

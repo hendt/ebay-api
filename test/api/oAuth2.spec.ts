@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
-import OAuth2 from '../../src/auth/oAuth2';
+import OAuth2 from '../../src/auth/oAuth2.js';
 
 describe('OAuth2', () => {
   const config = {appId: 'appId', certId: 'certId', sandbox: true, siteId: 0, devId: 'devId'};

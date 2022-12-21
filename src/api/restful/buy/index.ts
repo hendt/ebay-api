@@ -1,10 +1,10 @@
-import Browse from './browse';
-import Feed from './feed';
-import Marketing from './marketing';
-import Offer from './offer';
-import Order from './order';
-import Deal from './deal';
-import MarketplaceInsights from './marketplaceInsights'
+import Browse from './browse/index.js';
+import Feed from './feed/index.js';
+import Marketing from './marketing/index.js';
+import Offer from './offer/index.js';
+import Order from './order/index.js';
+import Deal from './deal/index.js';
+import MarketplaceInsights from './marketplaceInsights/index.js'
 
 export type Buy = {
   browse: Browse,

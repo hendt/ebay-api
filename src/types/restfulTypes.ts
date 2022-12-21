@@ -37,7 +37,7 @@ import {
   TimeDurationUnit,
   UserRoleFilter,
   WeightUnitOfMeasure
-} from '../enums';
+} from '../enums/index.js';
 
 export type AttributeNameValue = {
   name: string,

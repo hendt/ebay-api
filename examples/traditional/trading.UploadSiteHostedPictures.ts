@@ -1,5 +1,5 @@
 // tslint:disable:no-console
-import eBayApi from '../../src';
+import eBayApi from '../../src/eBayApi.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import FormData from 'form-data';

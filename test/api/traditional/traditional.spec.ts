@@ -2,10 +2,10 @@ import {expect} from 'chai';
 import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
-import Traditional from '../../../src/api/traditional/index';
-import Auth from '../../../src/auth/index';
-import {eBayConfig} from '../../../src/types';
-import {IEBayApiRequest} from '../../../src/request';
+import Traditional from '../../../src/api/traditional/index.js';
+import Auth from '../../../src/auth/index.js';
+import {eBayConfig} from '../../../src/types/index.js';
+import {IEBayApiRequest} from '../../../src/request.js';
 
 describe('Traditional', () => {
   const config: eBayConfig = {

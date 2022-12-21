@@ -15,7 +15,7 @@
     },
     {
       "filename": "README.md",
-      "updater": "./scripts/update-readme-release.js"
+      "updater": "./scripts/update-readme-release.cjs"
     }
   ]
 }

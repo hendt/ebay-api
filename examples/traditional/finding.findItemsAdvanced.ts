@@ -1,6 +1,6 @@
 // tslint:disable:no-console
 // @ts-ignore
-import eBayApi from '../../src';
+import eBayApi from '../../src/eBayApi.js';
 
 const eBay = eBayApi.fromEnv();
 

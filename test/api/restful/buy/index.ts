@@ -1,19 +1,21 @@
-import {Browse, Feed, Marketing, Offer, Order, Deal, MarketplaceInsights} from '../../../../src/api/restful/buy';
-import BrowseOas from './browse/buy_browse_v1_oas3.json';
-import FeedOas from './feed/buy_feed_v1_beta_oas3.json';
-import MarketingOas from './marketing/buy_marketing_v1_beta_oas3.json';
-import OfferOas from './offer/buy_offer_v1_beta_oas3.json';
-import OrderOas from './order/buy_order_v1_beta_oas3.json';
-import DealOas from './deal/buy_deal_v1_oas3.json';
-import MarketplaceInsightsOas from './marketplaceInsights/buy_marketplace_insights_v1_beta_oas3.json';
+import {
+  Browse,
+  Deal,
+  Feed,
+  Marketing,
+  MarketplaceInsights,
+  Offer,
+  Order
+} from '../../../../src/api/restful/buy/index.js';
+import {readJSONSync} from '../../jsonfile.js';
 
 const tests = new Map<any, any>();
-tests.set(Browse, BrowseOas);
-tests.set(Feed, FeedOas);
-tests.set(Marketing, MarketingOas);
-tests.set(Offer, OfferOas);
-tests.set(Order, OrderOas);
-tests.set(Deal, DealOas);
-tests.set(MarketplaceInsights, MarketplaceInsightsOas);
+tests.set(Browse, readJSONSync('./browse/buy_browse_v1_oas3.json', import.meta.url));
+tests.set(Feed, readJSONSync('./feed/buy_feed_v1_beta_oas3.json', import.meta.url));
+tests.set(Marketing, readJSONSync('./marketing/buy_marketing_v1_beta_oas3.json', import.meta.url));
+tests.set(Offer, readJSONSync('./offer/buy_offer_v1_beta_oas3.json', import.meta.url));
+tests.set(Order, readJSONSync('./order/buy_order_v1_beta_oas3.json', import.meta.url));
+tests.set(Deal, readJSONSync('./deal/buy_deal_v1_oas3.json', import.meta.url));
+tests.set(MarketplaceInsights, readJSONSync('./marketplaceInsights/buy_marketplace_insights_v1_beta_oas3.json', import.meta.url));
 
 export default tests;

@@ -1,6 +1,6 @@
-import Restful from '../../';
-import {multipartHeader} from '../../../../request';
-import {SellFeedParams} from '../../../../types';
+import Restful from '../../index.js';
+import {multipartHeader} from '../../../../request.js';
+import {SellFeedParams} from '../../../../types/index.js';
 
 /**
  * The <strong>Feed API</strong> lets sellers upload input files, download reports and files including their status, filter reports using URI parameters, and retrieve customer service metrics task details.

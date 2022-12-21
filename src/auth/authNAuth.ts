@@ -1,8 +1,8 @@
 import debug from 'debug';
-import Base from '../api/base';
-import XMLRequest from '../api/traditional/XMLRequest';
-import {IEBayApiRequest} from '../request';
-import {AppConfig} from '../types';
+import Base from '../api/base.js';
+import XMLRequest from '../api/traditional/XMLRequest.js';
+import {IEBayApiRequest} from '../request.js';
+import {AppConfig} from '../types/index.js';
 
 const log = debug('ebay:authNAuth');
 
@@ -13,6 +13,7 @@ export type AuthToken = {
 };
 
 export default class AuthNAuth extends Base {
+
   public static readonly SIGNIN_ENDPOINT = {
     sandbox: 'https://signin.sandbox.ebay.com/ws/eBayISAPI.dll',
     production: 'https://signin.ebay.com/ws/eBayISAPI.dll'
@@ -36,15 +37,15 @@ export default class AuthNAuth extends Base {
   private authToken: AuthToken | null = null;
 
   constructor(config: AppConfig, req?: IEBayApiRequest) {
-    super(config, req)
+    super(config, req);
 
     if (this.config.authToken) {
-      this.setAuthToken(this.config.authToken)
+      this.setAuthToken(this.config.authToken);
     }
   }
 
   get apiEndpoint() {
-    return this.config.sandbox ? AuthNAuth.API_ENDPOINT.sandbox : AuthNAuth.API_ENDPOINT.production
+    return this.config.sandbox ? AuthNAuth.API_ENDPOINT.sandbox : AuthNAuth.API_ENDPOINT.production;
   }
 
   /**
@@ -89,7 +90,7 @@ export default class AuthNAuth extends Base {
       return await xmlApi.request();
     } catch (error) {
       log('Fetch auth token failed', error);
-      throw error
+      throw error;
     }
   }
 
@@ -113,7 +114,7 @@ export default class AuthNAuth extends Base {
 
   public getAuthToken(): AuthToken | null {
     if (!this.authToken) {
-      return null
+      return null;
     }
 
     return {
@@ -122,7 +123,7 @@ export default class AuthNAuth extends Base {
   }
 
   get eBayAuthToken() {
-    return this.authToken?.eBayAuthToken ?? null
+    return this.authToken?.eBayAuthToken ?? null;
   }
 
   public getRequestConfig(callName: string) {

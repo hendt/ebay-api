@@ -1,4 +1,4 @@
-import Restful from '../../';
+import Restful from '../../index.js';
 import {
   BulkCreateAdRequest,
   BulkCreateAdsByInventoryReferenceRequest,
@@ -13,7 +13,7 @@ import {
   ItemPromotion,
   UpdateBidPercentageRequest,
   UpdateCampaignIdentificationRequest
-} from '../../../../types';
+} from '../../../../types/index.js';
 
 /**
  * <p>The <i>Marketing API </i> offers two platforms that sellers can use to promote and advertise their products:

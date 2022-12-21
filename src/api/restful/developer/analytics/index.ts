@@ -1,4 +1,4 @@
-import Restful from '../../';
+import Restful from '../../index.js';
 
 /**
  * This method retrieves the call limit and utilization data for an application.

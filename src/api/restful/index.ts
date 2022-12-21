@@ -1,8 +1,8 @@
-import Api from '../';
-import Auth from '../../auth';
-import {EBayInvalidAccessToken, handleEBayError} from '../../errors';
-import {IEBayApiRequest} from '../../request';
-import {ApiRequestConfig, AppConfig} from '../../types';
+import Api from '../index.js';
+import Auth from '../../auth/index.js';
+import {EBayInvalidAccessToken, handleEBayError} from '../../errors/index.js';
+import {IEBayApiRequest} from '../../request.js';
+import {ApiRequestConfig, AppConfig} from '../../types/index.js';
 
 export const defaultApiHeaders: Record<string, string> = {
   'Content-Type': 'application/json',

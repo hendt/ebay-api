@@ -1,19 +1,20 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": ["ES2020"],
-    "module": "commonjs",
+    "module": "node16",
+    "outDir": "./dist",
+    "lib": ["ES2020", "DOM"],
     "declaration": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "lib",
-    "strict": true,
+    "moduleResolution": "node16",
+    "sourceMap": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
+  "exclude": ["src/index.ts"],
   "include": ["src"]
 }

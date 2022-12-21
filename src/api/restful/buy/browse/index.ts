@@ -1,4 +1,4 @@
-import Restful from '../../';
+import Restful from '../../index.js';
 import {
   AddCartItemInput,
   BrowseSearchParams,
@@ -7,7 +7,7 @@ import {
   RemoveCartItemInput,
   SearchByImageParams,
   UpdateCartItemInput
-} from '../../../../types';
+} from '../../../../types/index.js';
 
 /**
  * The Browse API has the following resources: item_summary: Lets shoppers search for specific items by keyword, GTIN,
