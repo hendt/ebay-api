@@ -1,6 +1,6 @@
-import Restful from '../../index.js';
 import {multipartHeader} from '../../../../request.js';
 import {SellFeedParams} from '../../../../types/index.js';
+import Restful from '../../index.js';
 
 /**
  * The <strong>Feed API</strong> lets sellers upload input files, download reports and files including their status, filter reports using URI parameters, and retrieve customer service metrics task details.
@@ -61,6 +61,39 @@ export default class Feed extends Restful {
     taskId = encodeURIComponent(taskId);
 
     return this.get(`/order_task/${taskId}`);
+  }
+
+  /**
+   * This method searches for multiple tasks of a specific feed type, and includes date filters and pagination.
+   */
+  public getInventoryTasks({feedType, scheduleId, lookBackDays, dateRange, limit, offset}
+                             : { feedType?: string, scheduleId?: string, lookBackDays?: number, dateRange?: string, limit?: number, offset?: number } = {}) {
+    return this.get('/inventory_task', {
+      params: {
+        feed_type: feedType,
+        schedule_id: scheduleId,
+        look_back_days: lookBackDays,
+        date_range: dateRange,
+        limit,
+        offset
+      }
+    });
+  }
+
+  /**
+   * This method creates an inventory-related download task for a specified feed type with optional filter criteria.
+   */
+  public createInventoryTask(data: any) {
+    return this.post('/inventory_task', data);
+  }
+
+  /**
+   * This method retrieves the task details and status of the specified inventory-related task.
+   * @param taskId The ID of the task.
+   */
+  public getInventoryTask(taskId: string) {
+    taskId = encodeURIComponent(taskId);
+    return this.get(`/inventory_task/${taskId}`);
   }
 
   /**
