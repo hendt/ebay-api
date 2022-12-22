@@ -596,6 +596,9 @@ The traditional API supports IAF. That means you can use the OAuth2 token with t
 Yes. Checkout the [Browser](https://hendt.github.io/ebay-api/) example
 and [Node Example here](https://github.com/hendt/ebay-api/blob/master/examples/traditional/trading.UploadSiteHostedPictures.ts).
 
+4. itemAffiliateWebUrl is missing in eBay.buy.browse.search call
+   You have to set `endUserCtx`.
+
 ## Contribution
 
 Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
