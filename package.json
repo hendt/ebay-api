@@ -5,33 +5,70 @@
   "description": "eBay API for Node and Browser",
   "type": "module",
   "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "module": "./dist/eBayApi.js",
   "browser": "./lib/ebay-api.min.js",
   "browser:esm": "./dist/ebay-api.min.mjs",
   "exports": {
     ".": {
-      "require": "./lib/index.js",
-      "import": "./dist/eBayApi.js"
+      "require": {
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.js"
+      },
+      "import": {
+        "types": "./dist/eBayApi.d.ts",
+        "default": "./dist/eBayApi.js"
+      }
     },
     "./*": {
-      "require": "./lib/*",
-      "import": "./dist/*"
+      "require": {
+        "types": "./lib/*",
+        "default": "./lib/*"
+      },
+      "import": {
+        "types": "./dist/*",
+        "default": "./dist/*"
+      }
     },
     "./lib/*": {
-      "require": "./lib/*",
-      "import": "./dist/*"
+      "require": {
+        "types": "./lib/*",
+        "default": "./lib/*"
+      },
+      "import": {
+        "types": "./dist/*",
+        "default": "./dist/*"
+      }
     },
     "./lib/enums": {
-      "require": "./lib/enums/index.js",
-      "import": "./dist/enums/index.js"
+      "require": {
+        "types": "./lib/enums/index.d.ts",
+        "default": "./lib/enums/index.js"
+      },
+      "import": {
+        "types": "./dist/enums/index.d.ts",
+        "default": "./dist/enums/index.js"
+      }
     },
     "./lib/errors": {
-      "require": "./lib/errors/index.js",
-      "import": "./dist/errors/index.js"
+      "require": {
+        "types": "./lib/errors/index.d.ts",
+        "default": "./lib/errors/index.js"
+      },
+      "import": {
+        "types": "./dist/errors/index.d.ts",
+        "default": "./dist/errors/index.js"
+      }
     },
     "./lib/types": {
-      "require": "./lib/types/index.js",
-      "import": "./dist/types/index.js"
+      "require": {
+        "types": "./lib/types/index.d.ts",
+        "default": "./lib/types/index.js"
+      },
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/types/index.js"
+      }
     },
     "./package.json": "./package.json"
   },
