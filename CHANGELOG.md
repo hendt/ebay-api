@@ -1,4 +1,11 @@
 # eBay API Changelog
+## [8.2.0-RC.0](https://github.com/hendt/ebay-api/compare/v8.1.0...v8.2.0-RC.0) (2022-12-27)
+
+
+### Features
+
+* digital signature [#132](https://github.com/hendt/ebay-api/issues/132) ([9aedbb5](https://github.com/hendt/ebay-api/commit/9aedbb50e0f035c2922818674b29fa6be037e3e4))
+
 ## [8.1.0](https://github.com/hendt/ebay-api/compare/v8.0.1...v8.1.0) (2022-12-27)
 
 
