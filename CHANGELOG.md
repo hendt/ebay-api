@@ -1,4 +1,16 @@
 # eBay API Changelog
+## [8.1.0](https://github.com/hendt/ebay-api/compare/v8.0.1...v8.1.0) (2022-12-27)
+
+
+### Features
+
+* update sell.feed API ([a17d9e3](https://github.com/hendt/ebay-api/commit/a17d9e3ced00bafa1ef5446308b2c56012658f53))
+
+
+### Bug Fixes
+
+* reverts types in package.json ([aac52a3](https://github.com/hendt/ebay-api/commit/aac52a386cebd1c66cd6b925d2f6e0a0736f290b))
+
 ### [8.0.1](https://github.com/hendt/ebay-api/compare/v8.0.0...v8.0.1) (2022-12-21)
 
 ## [8.0.0](https://github.com/hendt/ebay-api/compare/v8.0.0-RC.0...v8.0.0) (2022-12-21)
