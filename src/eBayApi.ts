@@ -148,6 +148,10 @@ export default class eBayApi extends Api {
   get clientAlerts(): ClientAlerts {
     return this._clientAlerts || (this._clientAlerts = this.factory.createClientAlertsApi());
   }
+
+  setSignature(signature: Signature) {
+    this.config.signature = signature;
+  }
 }
 
 export {
