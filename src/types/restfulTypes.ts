@@ -1081,6 +1081,15 @@ export type FulfillmentPolicyRequest = {
   shipToLocations?: RegionSet
 }
 
+export type CustomPolicyCreateRequest = {
+  description: string
+  label: string
+  name: string
+  policyType: string
+}
+
+export type CustomPolicyRequest = Omit<CustomPolicyCreateRequest, 'policyType'>
+
 export type RecipientAccountReference = {
   referenceId: string
   referenceType: RecipientAccountReferenceType
