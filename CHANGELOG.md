@@ -1,4 +1,11 @@
 # eBay API Changelog
+## [8.2.0](https://github.com/hendt/ebay-api/compare/v8.1.0...v8.2.0) (2023-01-09)
+
+
+### Features
+
+* update sell.account api to v1.9.0 ([183d0ef](https://github.com/hendt/ebay-api/commit/183d0ef578d5495838032a7b8dbb3f20dd7028ed))
+
 ## [8.1.0](https://github.com/hendt/ebay-api/compare/v8.0.1...v8.1.0) (2022-12-27)
 
 
