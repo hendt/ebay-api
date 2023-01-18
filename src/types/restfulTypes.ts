@@ -608,6 +608,130 @@ export type BulkCreateAdRequest = {
   requests: CreateAdRequest[]
 };
 
+export type AdStatus = 'ACTIVE' | 'PAUSED' | 'ARCHIVED'
+
+export type UpdateAdStatusRequest = {
+  adId: string
+
+  adStatus: AdStatus
+}
+
+export type BulkUpdateAdStatusRequest = {
+  items: UpdateAdStatusRequest[]
+}
+
+export type UpdateAdStatusByListingIdRequest = {
+  adGroupId: string
+
+  adStatus: AdStatus
+
+  listingId: string
+}
+
+export type BulkUpdateAdStatusByListingIdRequest = {
+  items: UpdateAdStatusByListingIdRequest[]
+}
+
+export type CreateAdGroupRequest = {
+  defaultBid: Amount
+
+  name: string
+}
+
+export type AdGroupStatus = 'ACTIVE' | 'PAUSED' | 'ARCHIVED'
+
+export type UpdateAdGroupRequest = {
+  adGroupStatus: AdGroupStatus
+
+  defaultBid: Amount
+
+  name: string
+}
+
+export type KeywordRequest = {
+  keywordText: string
+
+  matchType: string
+}
+
+export type TargetedBidRequest = {
+  keywords: KeywordRequest[]
+}
+
+export type TargetedKeywordRequest = {
+  additionalInfo: string[]
+
+  exclusions: string[]
+
+  listingIds: string[]
+
+  matchType: string
+}
+
+export type DynamicAdRatePreference = {
+  adRateAdjustmentPercent: string
+  adRateCapPercent: string
+}
+
+export type UpdateAdrateStrategyRequest = {
+  adRateStrategy: string
+  bidPercentage: string
+  dynamicAdRatePreferences: DynamicAdRatePreference[]
+}
+
+export type BudgetRequest = {
+  amount: Amount
+}
+
+export type UpdateCampaignBudgetRequest = {
+  daily: BudgetRequest
+}
+
+export type CreateKeywordRequest = {
+  adGroupId: string
+  bid: Amount
+  keywordText: string
+  matchType: string
+}
+
+export type UpdateKeywordRequest = {
+  bid: Amount
+  keywordStatus: string
+}
+
+export type UpdateKeywordByKeywordIdRequest = {
+  bid: Amount
+  keywordId: string
+  keywordStatus: string
+}
+
+export type BulkCreateKeywordRequest = {
+  requests: CreateKeywordRequest[]
+}
+
+export type BulkUpdateKeywordRequest = {
+  requests: UpdateKeywordByKeywordIdRequest[]
+}
+
+export type CreateNegativeKeywordRequest = {
+  adGroupId: string
+  campaignId: string
+  negativeKeywordMatchType: string
+  negativeKeywordText: string
+}
+
+export type BulkCreateNegativeKeywordRequest = {
+  requests: CreateNegativeKeywordRequest[]
+}
+
+export type BulkUpdateNegativeKeywordRequest = {
+  requests: CreateNegativeKeywordRequest[]
+}
+
+export type UpdateNegativeKeywordRequest = {
+  negativeKeywordStatus: string
+}
+
 export type DeleteAdsByInventoryReferenceRequest = {
   inventoryReferenceId: string,
   inventoryReferenceType: string

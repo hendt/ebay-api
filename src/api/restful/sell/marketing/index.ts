@@ -1,19 +1,35 @@
-import Restful from '../../index.js';
 import {
   BulkCreateAdRequest,
   BulkCreateAdsByInventoryReferenceRequest,
+  BulkCreateKeywordRequest,
+  BulkCreateNegativeKeywordRequest,
   BulkDeleteAdRequest,
   BulkDeleteAdsByInventoryReferenceRequest,
+  BulkUpdateAdStatusByListingIdRequest,
+  BulkUpdateAdStatusRequest,
+  BulkUpdateKeywordRequest,
+  BulkUpdateNegativeKeywordRequest,
   CloneCampaignRequest,
+  CreateAdGroupRequest,
   CreateAdRequest,
   CreateAdsByInventoryReferenceRequest,
   CreateCampaignRequest,
+  CreateKeywordRequest,
+  CreateNegativeKeywordRequest,
   CreateReportTask,
   ItemPriceMarkdown,
   ItemPromotion,
+  TargetedBidRequest,
+  TargetedKeywordRequest,
+  UpdateAdGroupRequest,
+  UpdateAdrateStrategyRequest,
   UpdateBidPercentageRequest,
-  UpdateCampaignIdentificationRequest
+  UpdateCampaignBudgetRequest,
+  UpdateCampaignIdentificationRequest,
+  UpdateKeywordRequest,
+  UpdateNegativeKeywordRequest
 } from '../../../../types/index.js';
+import Restful from '../../index.js';
 
 /**
  * <p>The <i>Marketing API </i> offers two platforms that sellers can use to promote and advertise their products:
@@ -103,6 +119,30 @@ export default class Marketing extends Restful {
   public bulkUpdateAdsBidByListingId(campaignId: string, body: BulkCreateAdRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/bulk_update_ads_bid_by_listing_id`, body);
+  }
+
+  /**
+   * This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program.
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+   *     a seller's campaign IDs by calling getCampaigns.
+   * @param body The bulk request to update the ads.
+   */
+  public bulkUpdateAdsStatus(campaignId: string, body: BulkUpdateAdStatusRequest) {
+    campaignId = encodeURIComponent(campaignId);
+    return this.post(`/ad_campaign/${campaignId}/bulk_update_ads_status`, body);
+  }
+
+  /**
+   * This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program.
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+   *     a seller's campaign IDs by calling getCampaigns.
+   * @param body The bulk request to update ads.
+   */
+  public bulkUpdateAdsStatusByListingId(campaignId: string, body: BulkUpdateAdStatusByListingIdRequest) {
+    campaignId = encodeURIComponent(campaignId);
+    return this.post(`/ad_campaign/${campaignId}/bulk_update_ads_status_by_listing_id`, body);
   }
 
   /**
@@ -227,6 +267,92 @@ export default class Marketing extends Restful {
     adId = encodeURIComponent(adId);
     return this.post(`/ad_campaign/${campaignId}/ad/${adId}/update_bid`, body);
   }
+
+  /**
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+   *     a seller's campaign IDs by calling getCampaigns.
+   * @param adGroupStatus A comma-separated list of ad group statuses.
+   * @param limit The number of results, from the current result set, to be returned in a single page.
+   * @param offset The number of results that will be skipped in the result set.
+   */
+  public getAdGroups(campaignId: string, {
+    adGroupStatus,
+    limit,
+    offset
+  }: { adGroupStatus?: string, limit?: number, offset?: number } = {}) {
+    campaignId = encodeURIComponent(campaignId);
+    return this.get(`/ad_campaign/${campaignId}/ad_group`, {
+      params: {
+        ad_group_status: adGroupStatus,
+        limit,
+        offset
+      }
+    });
+  }
+
+  /**
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+   *     a seller's campaign IDs by calling getCampaigns.
+   * @param body This type defines the fields for the <b>createAdGroup</b> request.
+   */
+  public createAdGroup(campaignId: string, body: CreateAdGroupRequest) {
+    campaignId = encodeURIComponent(campaignId);
+    return this.post(`/ad_campaign/${campaignId}/ad_group`, body);
+  }
+
+  /**
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+   *     a seller's campaign IDs by calling getCampaigns.
+   * @param adGroupId The ID of the ad group that shall be retrieved.
+   */
+  public getAdGroup(campaignId: string, adGroupId: string) {
+    adGroupId = encodeURIComponent(adGroupId);
+    campaignId = encodeURIComponent(campaignId);
+    return this.get(`/ad_campaign/${campaignId}/ad_group/${adGroupId}`);
+  }
+
+  /**
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+   *     a seller's campaign IDs by calling getCampaigns.
+   * @param adGroupId The ID of the ad group that shall be retrieved.
+   * @param body This type defines the fields for the <b>UpdateAdGroup</b> request.
+   */
+  public updateAdGroup(campaignId: string, adGroupId: string, body: UpdateAdGroupRequest) {
+    adGroupId = encodeURIComponent(adGroupId);
+    campaignId = encodeURIComponent(campaignId);
+    return this.put(`/ad_campaign/${campaignId}/ad_group/${adGroupId}`, body);
+  }
+
+  /**
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+   *     a seller's campaign IDs by calling getCampaigns.
+   * @param adGroupId The ID of the ad group that shall be retrieved.
+   * @param body The data requested to retrieve the suggested bids.
+   */
+  public suggestBids(campaignId: string, adGroupId: string, body: TargetedBidRequest) {
+    adGroupId = encodeURIComponent(adGroupId);
+    campaignId = encodeURIComponent(campaignId);
+    return this.post(`/ad_campaign/${campaignId}/ad_group/${adGroupId}/suggest_bids`, body);
+  }
+
+  /**
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+   *     a seller's campaign IDs by calling getCampaigns.
+   * @param adGroupId The ID of the ad group that shall be retrieved.
+   * @param body The required data to retrieve suggested keywords.
+   */
+  public suggestKeywords(campaignId: string, adGroupId: string, body: TargetedKeywordRequest) {
+    adGroupId = encodeURIComponent(adGroupId);
+    campaignId = encodeURIComponent(campaignId);
+    return this.post(`/ad_campaign/${campaignId}/ad_group/${adGroupId}/suggest_keywords`, body);
+  }
+
 
   /**
    * This method clones (makes a copy of) the specified campaign.
@@ -377,6 +503,48 @@ export default class Marketing extends Restful {
   }
 
   /**
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.
+   * @param categoryIds Specifies the category ID that is used to limit the results.
+   * @param limit Specifies the maximum number of campaigns to return on a page in the paginated response.
+   * @param offset Specifies the number of campaigns to skip in the result set before returning the first report in the paginated response.
+   */
+  public suggestItems(campaignId: string, {
+    categoryIds,
+    limit,
+    offset
+  }: { categoryIds?: string, limit?: number, offset?: number } = {}) {
+    campaignId = encodeURIComponent(campaignId);
+    return this.get(`/ad_campaign/${campaignId}/suggest_items`, {
+      params: {
+        category_ids: categoryIds,
+        limit,
+        offset
+      }
+    });
+  }
+
+  /**
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.
+   * @param body This type defines the request fields for the ad rate strategy that shall be updated.
+   */
+  public updateAdRateStrategy(campaignId: string, body: UpdateAdrateStrategyRequest) {
+    campaignId = encodeURIComponent(campaignId);
+    return this.post(`/ad_campaign/${campaignId}/update_ad_rate_strategy`, body);
+  }
+
+  /**
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.
+   * @param body This type defines the request fields for the budget details that shall be updated.
+   */
+  public updateCampaignBudget(campaignId: string, body: UpdateCampaignBudgetRequest) {
+    campaignId = encodeURIComponent(campaignId);
+    return this.post(`/ad_campaign/${campaignId}/update_campaign_budget`, body);
+  }
+
+  /**
    * This method replaces the name and the start and end dates of a campaign.
    *
    * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
@@ -386,6 +554,158 @@ export default class Marketing extends Restful {
   public updateCampaignIdentification(campaignId: string, body: UpdateCampaignIdentificationRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/update_campaign_identification`, body);
+  }
+
+  /**
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+   *     a seller's campaign IDs by calling getCampaigns.
+   * @param body A type that defines the fields for the bulk request to create keywords.
+   */
+  public bulkCreateKeyword(campaignId: string, body: BulkCreateKeywordRequest) {
+    campaignId = encodeURIComponent(campaignId);
+    return this.post(`/ad_campaign/${campaignId}/bulk_create_keyword`, body);
+  }
+
+  /**
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+   *     a seller's campaign IDs by calling getCampaigns.
+   * @param body A type that defines the fields for the bulk request to update keywords.
+   */
+  public bulkUpdateKeyword(campaignId: string, body: BulkUpdateKeywordRequest) {
+    campaignId = encodeURIComponent(campaignId);
+    return this.post(`/ad_campaign/${campaignId}/bulk_update_keyword`, body);
+  }
+
+  /**
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+   *     a seller's campaign IDs by calling getCampaigns.
+   * @param adGroupIds A comma-separated list of ad group IDs.
+   * @param keywordStatus A comma-separated list of keyword statuses.
+   * @param limit Specifies the maximum number of results to return on a page in the paginated response.
+   * @param offset Specifies the number of results to skip in the result set before returning the first report in the paginated response.
+   */
+  public getKeywords(campaignId: string, {
+    adGroupIds,
+    keywordStatus,
+    limit,
+    offset
+  }: { adGroupIds?: string, keywordStatus?: string, limit?: number, offset?: number } = {}) {
+    campaignId = encodeURIComponent(campaignId);
+    return this.get(`/ad_campaign/${campaignId}/keyword`, {
+      params: {
+        ad_group_ids: adGroupIds,
+        keyword_status: keywordStatus,
+        limit,
+        offset
+      }
+    });
+  }
+
+  /**
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+   *     a seller's campaign IDs by calling getCampaigns.
+   * @param body A type that defines the fields for the request to create a keyword.
+   */
+  public createKeyword(campaignId: string, body: CreateKeywordRequest) {
+    campaignId = encodeURIComponent(campaignId);
+    return this.post(`/ad_campaign/${campaignId}/keyword`, body);
+  }
+
+
+  /**
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+   *     a seller's campaign IDs by calling getCampaigns.
+   * @param keywordId This path parameter is used to identify the keyword to retrieve.
+   */
+  public getKeyword(campaignId: string, keywordId: string) {
+    campaignId = encodeURIComponent(campaignId);
+    keywordId = encodeURIComponent(keywordId);
+    return this.get(`/ad_campaign/${campaignId}/keyword/${keywordId}`);
+  }
+
+  /**
+   *
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get
+   *     a seller's campaign IDs by calling getCampaigns.
+   * @param keywordId This path parameter is used to identify the keyword to retrieve.
+   * @param body A type that defines the fields for the request to update a keyword.
+   */
+  public updateKeyword(campaignId: string, keywordId: string, body: UpdateKeywordRequest) {
+    campaignId = encodeURIComponent(campaignId);
+    keywordId = encodeURIComponent(keywordId);
+    return this.put(`/ad_campaign/${campaignId}/keyword/${keywordId}`, body);
+  }
+
+  /**
+   *
+   * @param body A type that defines the fields for the bulk request to create negative keywords.
+   */
+  public bulkCreateNegativeKeyword(body: BulkCreateNegativeKeywordRequest) {
+    return this.post(`/bulk_create_negative_keyword`, body);
+  }
+
+  /**
+   *
+   * @param body A type that defines the fields for the bulk request to create negative keywords.
+   */
+  public bulkUpdateNegativeKeyword(body: BulkUpdateNegativeKeywordRequest) {
+    return this.post(`/bulk_update_negative_keyword`, body);
+  }
+
+  /**
+   *
+   * @param adGroupIds A comma-separated list of ad group IDs.
+   * @param campaignIds A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.
+   * @param limit The number of results, from the current result set, to be returned in a single page.
+   * @param negativeKeywordStatus A comma-separated list of negative keyword statuses.
+   * @param offset The number of results that will be skipped in the result set.
+   */
+  public getNegativeKeywords({
+                               adGroupIds,
+                               campaignIds,
+                               limit,
+                               negativeKeywordStatus,
+                               offset
+                             }: { adGroupIds?: string, campaignIds?: string, limit?: number, negativeKeywordStatus?: string, offset?: number } = {}) {
+    return this.get(`/negative_keyword`, {
+      params: {
+        ad_group_ids: adGroupIds,
+        campaign_ids: campaignIds, limit,
+        negative_keyword_status: negativeKeywordStatus, offset
+      }
+    });
+  }
+
+  /**
+   *
+   * @param body A type that defines the fields for the request to create a negative keyword.
+   */
+  public createNegativeKeyword(body: CreateNegativeKeywordRequest) {
+    return this.post(`/negative_keyword`, body);
+  }
+
+  /**
+   *
+   * @param negativeKeywordId The unique identifier for the negative keyword.
+   */
+  public getNegativeKeyword(negativeKeywordId: string) {
+    negativeKeywordId = encodeURIComponent(negativeKeywordId);
+    return this.get(`/negative_keyword/${negativeKeywordId}`);
+  }
+
+  /**
+   *
+   * @param negativeKeywordId The unique identifier for the negative keyword.
+   * @param body A type that defines the fields for the request to update a negative keyword.
+   */
+  public updateNegativeKeyword(negativeKeywordId: string, body: UpdateNegativeKeywordRequest) {
+    negativeKeywordId = encodeURIComponent(negativeKeywordId);
+    return this.put(`/negative_keyword/${negativeKeywordId}`, body);
   }
 
   /**
