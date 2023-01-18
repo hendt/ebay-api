@@ -1,4 +1,11 @@
 # eBay API Changelog
+## [8.3.0](https://github.com/hendt/ebay-api/compare/v8.2.0...v8.3.0) (2023-01-18)
+
+
+### Features
+
+* update restful sell marketing api to v1.14.0 ([d76a6f1](https://github.com/hendt/ebay-api/commit/d76a6f1f151d9d0f81a490681b0e694881d751a8))
+
 ## [8.2.0](https://github.com/hendt/ebay-api/compare/v8.1.0...v8.2.0) (2023-01-09)
 
 
