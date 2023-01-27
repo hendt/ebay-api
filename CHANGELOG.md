@@ -1,4 +1,24 @@
 # eBay API Changelog
+## [8.4.0](https://github.com/hendt/ebay-api/compare/v8.3.0...v8.4.0) (2023-01-27)
+
+
+### Features
+
+* add setSignature method ([de1b466](https://github.com/hendt/ebay-api/commit/de1b4669d37fd5a1c9bae0259a4d5bac18ac7e7f))
+
+
+### Bug Fixes
+
+* remove unused globals crypto ([a3ceaab](https://github.com/hendt/ebay-api/commit/a3ceaab2c9d9cae5cf1fe8deb49fc1ccd0313362))
+* show error message in browser since digital signature is not supported here ([314211b](https://github.com/hendt/ebay-api/commit/314211bdb6f90a6c2cb6efd66845d85096a39d48))
+
+## [8.2.0-RC.0](https://github.com/hendt/ebay-api/compare/v8.1.0...v8.2.0-RC.0) (2022-12-27)
+
+
+### Features
+
+* digital signature [#132](https://github.com/hendt/ebay-api/issues/132) ([9aedbb5](https://github.com/hendt/ebay-api/commit/9aedbb50e0f035c2922818674b29fa6be037e3e4))
+
 ## [8.3.0](https://github.com/hendt/ebay-api/compare/v8.2.0...v8.3.0) (2023-01-18)
 
 
