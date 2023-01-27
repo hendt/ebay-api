@@ -9,7 +9,7 @@
 [![npm](https://img.shields.io/npm/dt/ebay-api.svg?style=flat-square)](https://www.npmjs.com/package/ebay-api)
 
 This eBay API implements both Traditional \(xml\) and the RESTful eBay API.
-It supports `client credentials grant` and `authorization code grant` \(Auth'N'Auth, OAuth2 and IAF\).
+It supports `client credentials grant` and `authorization code grant` \(Auth'N'Auth, OAuth2 and IAF\). Digital Signature is supported too.
 
 * [API Browser Examples](https://hendt.github.io/ebay-api/)
 * [API Documentation](https://hendt.gitbook.io/ebay-api/)
@@ -88,9 +88,9 @@ const eBay = new eBayApi({
 
   siteId: eBayApi.SiteId.EBAY_US, // required for traditional APIs, see https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html
 
-  marketplaceId: eBayApi.MarketplaceId.EBAY_US, // defautl. required for RESTful APIs
-  acceptLanguage: eBayApi.Locale.en_US, // defautl
-  contentLanguage: eBayApi.ContentLanguage.en_US, // defautl.
+  marketplaceId: eBayApi.MarketplaceId.EBAY_US, // default. required for RESTful APIs
+  acceptLanguage: eBayApi.Locale.en_US, // default
+  contentLanguage: eBayApi.ContentLanguage.en_US, // default.
 
   // optional parameters, should be omitted if not used
   devId: '-- devId --', // required for traditional Trading API
@@ -254,6 +254,8 @@ This is how it would look like if you use `express`:
 ```javascript
 import eBayApi from 'ebay-api';
 
+
+// This is your RUName endpoint like https://your-ebay.app/success
 app.get('/success', async function (req, res) {
   // 3. Get the parameter code that is placed as query parameter in redirected page
   const code = req.query.code; // this is provided from eBay
@@ -375,7 +377,7 @@ In any case eBay adds a new subdomain, it's also possible to configure whatever 
   eBay.buy.browse.api({subdomain: 'apiy'}).getItem() // now it will use https://apiy.ebay.com
 ```
 
-### Change RESTful API call config
+### Return raw RESTful API response
 
 ```javascript
   eBay.buy.browse.api({
@@ -403,8 +405,8 @@ eBay.OAuth2.on('refreshClientToken', (token) => {
 });
 ```
 
-To manuel refresh the auth token use `eBay.OAuth2.refreshAuthToken()` and for the client
-token `eBay.OAuth2.refreshClientToken()`.
+To manual refresh the auth token use `eBay.OAuth2.refreshAuthToken()` and for the client
+token use `eBay.OAuth2.refreshClientToken()`.
 Keep in mind that you need the 'refresh_token' value set.
 
 ```javascript
