@@ -95,6 +95,7 @@
     "@rollup/plugin-json": "^5.0.2",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-terser": "^0.2.0",
+    "@rollup/plugin-virtual": "^3.0.1",
     "@types/chai": "^4.3.4",
     "@types/debug": "^4.1.7",
     "@types/mocha": "^10.0.1",

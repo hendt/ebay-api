@@ -1,8 +1,8 @@
-import Api from '../index.js';
 import Auth from '../../auth/index.js';
 import {EBayInvalidAccessToken, handleEBayError} from '../../errors/index.js';
 import {IEBayApiRequest} from '../../request.js';
 import {ApiRequestConfig, AppConfig} from '../../types/index.js';
+import Api from '../index.js';
 
 export const defaultApiHeaders: Record<string, string> = {
   'Content-Type': 'application/json',
@@ -23,6 +23,7 @@ const additionalHeaders: Record<string, string> = {
 export type RestfulApiConfig = {
   subdomain?: string
   useIaf?: boolean
+  sign?: boolean
   apiVersion?: string
   basePath?: string
   schema?: string
@@ -32,7 +33,7 @@ export type RestfulApiConfig = {
 
 export type ApiRequest = {
   method: keyof IEBayApiRequest,
-  url: string,
+  path: string,
   config?: any, // AxiosConfig
   data?: any,
 }
@@ -100,7 +101,8 @@ export default abstract class Restful extends Api {
       sandbox: this.config.sandbox,
       tld: 'ebay.com',
       headers: {},
-      returnResponse: false
+      returnResponse: false,
+      sign: false
     };
   }
 
@@ -131,20 +133,27 @@ export default abstract class Restful extends Api {
     return this.api({subdomain: 'apiz'});
   }
 
-  public async get(url: string, config: any = {}, apiConfig?: RestfulApiConfig) {
-    return this.doRequest({method: 'get', url, config}, apiConfig);
+  /**
+   * Sign request
+   */
+  get sign() {
+    return this.api({sign: true});
   }
 
-  public async delete(url: string, config: any = {}, apiConfig?: RestfulApiConfig) {
-    return this.doRequest({method: 'delete', url, config}, apiConfig);
+  public async get(path: string, config: any = {}, apiConfig?: RestfulApiConfig) {
+    return this.doRequest({method: 'get', path, config}, apiConfig);
   }
 
-  public async post(url: string, data?: any, config: any = {}, apiConfig?: RestfulApiConfig) {
-    return this.doRequest({method: 'post', url, data, config}, apiConfig);
+  public async delete(path: string, config: any = {}, apiConfig?: RestfulApiConfig) {
+    return this.doRequest({method: 'delete', path, config}, apiConfig);
   }
 
-  public async put(url: string, data?: any, config: any = {}, apiConfig?: RestfulApiConfig) {
-    return this.doRequest({method: 'put', url, data, config}, apiConfig);
+  public async post(path: string, data?: any, config: any = {}, apiConfig?: RestfulApiConfig) {
+    return this.doRequest({method: 'post', path, data, config}, apiConfig);
+  }
+
+  public async put(path: string, data?: any, config: any = {}, apiConfig?: RestfulApiConfig) {
+    return this.doRequest({method: 'put', path, data, config}, apiConfig);
   }
 
   get additionalHeaders() {
@@ -158,20 +167,30 @@ export default abstract class Restful extends Api {
       }, {});
   }
 
-  public async enrichRequestConfig(config: any = {}, apiConfig: Required<RestfulApiConfig> = this.apiConfig) {
+  public async enrichRequestConfig(
+    apiRequest: ApiRequest,
+    payload: any = null,
+    apiConfig: Required<RestfulApiConfig> = this.apiConfig) {
     const authHeader = await this.auth.getHeaderAuthorization(apiConfig.useIaf);
+
+    const signatureHeaders = apiConfig.sign ? this.getDigitalSignatureHeaders({
+      method: apiRequest.method.toUpperCase(),
+      authority: Restful.buildServerUrl('', apiConfig.subdomain, apiConfig.sandbox, apiConfig.tld),
+      path: apiConfig.apiVersion + apiConfig.basePath + apiRequest.path
+    }, payload) : {};
 
     const headers = {
       ...defaultApiHeaders,
       ...this.additionalHeaders,
       ...authHeader,
-      ...apiConfig.headers
+      ...apiConfig.headers,
+      ...signatureHeaders
     };
 
     return {
-      ...config,
+      ...apiRequest.config,
       headers: {
-        ...(config.headers || {}),
+        ...(apiRequest.config.headers || {}),
         ...headers
       }
     };
@@ -207,24 +226,24 @@ export default abstract class Restful extends Api {
     apiConfig: RestfulApiConfig = this.apiConfig,
     refreshToken = false,
   ): Promise<any> {
-    const {url, method, data, config} = apiRequest;
+    const {path, method, data} = apiRequest;
 
     const apiCfg: Required<RestfulApiConfig> = {...this.apiConfig, ...apiConfig};
-    const endpoint = this.getServerUrl(apiCfg) + url;
+    const endpoint = this.getServerUrl(apiCfg) + path;
 
     try {
       if (refreshToken) {
         await this.auth.OAuth2.refreshToken();
       }
 
-      const enrichedConfig = await this.enrichRequestConfig(config, apiCfg);
+      const enrichedConfig = await this.enrichRequestConfig(apiRequest, data, apiCfg);
 
       const args = ['get', 'delete'].includes(method) ? [enrichedConfig] : [data, enrichedConfig];
       // @ts-ignore
       const response = await this.req[method](endpoint, ...args);
 
       if (this.apiConfig.returnResponse) {
-        return response
+        return response;
       } else {
         return response.data;
       }

@@ -24,12 +24,13 @@ export default class KeyManagement extends Restful {
   }
 
   /**
-   * his method creates keypairs.
+   * This method creates keypairs.
    */
-  public createSigningKey(data: { signingKeyCipher: string }) {
-    return this.post(`/signing_key`, data);
+  public createSigningKey(signingKeyCipher: 'ED25519' | 'RSA') {
+    return this.post(`/signing_key`, {
+      signingKeyCipher
+    });
   }
-
 
   /**
    * This method returns the <b>Public Key</b>, <b>Public Key as JWE</b>,

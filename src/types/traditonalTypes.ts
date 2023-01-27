@@ -6,7 +6,7 @@ import ShoppingCalls from '../api/traditional/shopping/index.js';
 import TradingCalls from '../api/traditional/trading/index.js';
 import {TraditionalApiConfig} from '../api/traditional/XMLRequest.js';
 
-export type XMLApiCall = (fields?: Fields, apiConfig?: TraditionalApiConfig) => Promise<any>;
+export type XMLApiCall = (fields?: Fields | null, apiConfig?: TraditionalApiConfig) => Promise<any>;
 
 export type Trading = {
   [key in typeof TradingCalls[number]]: XMLApiCall;
@@ -36,6 +36,7 @@ type Endpoint = {
 export type TraditionalApi = {
   endpoint: Endpoint,
   xmlns: string,
+  path: string,
   calls: typeof TradingCalls | typeof ShoppingCalls | typeof FindingCalls | typeof ClientAlertsCalls | typeof MerchandisingCalls,
   headers: (callName: string, accessToken?: string | null) => object
 };

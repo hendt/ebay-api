@@ -306,6 +306,41 @@ app.get('/orders/:id', async function (req, res) {
 });
 ```
 
+## Digital Signature
+Signatures are required when the call is made for EU- or UK-domiciled sellers, and only for the following APIs/methods:
+
+* All methods in the Finances API
+* issueRefund in the Fulfillment API
+* GetAccount in the Trading API
+* The following methods in the Post-Order API:
+  - Issue Inquiry Refund
+  - Issue case refund
+  - Issue return refund
+  - Process Return Request
+  - Create Cancellation Request
+  - Approve Cancellation Request
+
+### How to use Digital Signature
+```js
+// 1. Create singning key and save it appropriatly
+const signingKey = await eBay.developer.keyManagement.createSigningKey('ED25519');
+// 2. Set the signature
+eBay.setSignature(signingKey)
+// or in constructor
+eBay = new eBayApi({
+   appId: '...',
+   certId: '...',
+   signature: {
+      jwe: signingKey.jwe,
+      privateKey: signingKey.privateKey
+   }
+});
+// 3. Use the 'sign' keyword in Restful API
+const summary = await eBay.sell.finances.sign.getSellerFundsSummary();
+// 3. Or the 'sign' parameter in traditional API
+const account = await eBay.trading.GetAccount(null, {sign: true});
+```
+
 ## RESTful API
 
 ### How to set the Scope

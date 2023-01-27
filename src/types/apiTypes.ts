@@ -21,10 +21,19 @@ export type TraditionalConfig = {
   authToken?: string | null
 }
 
+export type Cipher = 'sha256' | 'sha512';
+
+export type Signature = {
+  cipher?: Cipher
+  jwe: string, // The value of the x-ebay-signature-key header is the Public Key as JWE value that has been created by the Key Management API.
+  privateKey: string
+}
+
 export type eBayConfig = Keyset & {
   sandbox: boolean,
   ruName?: string,
   scope?: Scope,
+  signature?: Signature | null
 } & TraditionalConfig & RestConfig;
 
 export type ApiConfig = {

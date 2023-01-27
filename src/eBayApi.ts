@@ -13,7 +13,7 @@ import * as errors from './errors/index.js';
 import {ApiEnvError} from './errors/index.js';
 import {IEBayApiRequest} from './request.js';
 import * as types from './types/index.js';
-import {AppConfig, ClientAlerts, Finding, Keyset, Merchandising, Shopping, Trading} from './types/index.js';
+import {AppConfig, ClientAlerts, Finding, Keyset, Merchandising, Shopping, Signature, Trading} from './types/index.js';
 
 const defaultConfig: Omit<AppConfig, keyof Keyset> = {
   sandbox: false,
@@ -46,6 +46,14 @@ export default class eBayApi extends Api {
       throw new ApiEnvError('EBAY_CERT_ID');
     }
 
+    let signature: Signature | null = null;
+    if (process.env.EBAY_JWE && process.env.EBAY_PRIVATE_KEY) {
+      signature = {
+        jwe: process.env.EBAY_JWE,
+        privateKey: process.env.EBAY_PRIVATE_KEY
+      };
+    }
+
     return new eBayApi({
         appId: process.env.EBAY_APP_ID,
         certId: process.env.EBAY_CERT_ID,
@@ -56,7 +64,8 @@ export default class eBayApi extends Api {
           MarketplaceId[process.env.EBAY_MARKETPLACE_ID as keyof typeof MarketplaceId] as MarketplaceId :
           MarketplaceId.EBAY_US,
         ruName: process.env.EBAY_RU_NAME,
-        sandbox: (process.env.EBAY_SANDBOX === 'true')
+        sandbox: (process.env.EBAY_SANDBOX === 'true'),
+        signature
       },
       req);
   }
@@ -138,6 +147,10 @@ export default class eBayApi extends Api {
 
   get clientAlerts(): ClientAlerts {
     return this._clientAlerts || (this._clientAlerts = this.factory.createClientAlertsApi());
+  }
+
+  setSignature(signature: Signature) {
+    this.config.signature = signature;
   }
 }
 

@@ -3,10 +3,14 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import bundleSize from 'rollup-plugin-bundle-size';
+import virtual from '@rollup/plugin-virtual';
 
 const pkg = require('./package.json');
 
 const plugins = [
+  virtual({
+    crypto: `export function createHash() { throw Error('crypto.createHash is not supported in browser.'); }; export function sign() { throw Error('crypto.sign is not supported in browser.'); };`,
+  }),
   bundleSize(),
   resolve({
     browser: true

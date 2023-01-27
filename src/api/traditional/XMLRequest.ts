@@ -1,5 +1,5 @@
 import debug from 'debug';
-import {XMLParser, XMLBuilder} from 'fast-xml-parser';
+import {XMLBuilder, XMLParser} from 'fast-xml-parser';
 import {checkEBayResponse, EbayNoCallError} from '../../errors/index.js';
 import {IEBayApiRequest} from '../../request.js';
 import {ApiRequestConfig, Headers} from '../../types/index.js';
@@ -44,19 +44,22 @@ export type TraditionalApiConfig = {
   raw?: boolean,
   parseOptions?: object,
   useIaf?: boolean,
+  sign?: boolean,
   hook?: (xml: string) => BodyHeaders
 } & ApiRequestConfig;
 
 export type XMLReqConfig = TraditionalApiConfig & {
-  endpoint: string,
-  xmlns: string,
-  eBayAuthToken?: string | null,
+  endpoint: string
+  xmlns: string
+  eBayAuthToken?: string | null
+  digitalSignatureHeaders?: (payload: any) => Headers
 };
 
 export const defaultApiConfig: Required<Omit<TraditionalApiConfig, 'hook'>> = {
   raw: false,
   parseOptions: defaultXML2JSONParseOptions,
   useIaf: true,
+  sign: false,
   headers: {},
   returnResponse: false
 };
@@ -85,7 +88,7 @@ export default class XMLRequest {
    * @param      {Object} req the request
    * @param      {XMLReqConfig}  config
    */
-  constructor(callName: string, fields: Fields, config: XMLReqConfig, req: IEBayApiRequest) {
+  constructor(callName: string, fields: Fields | null, config: XMLReqConfig, req: IEBayApiRequest) {
     if (!callName) {
       throw new EbayNoCallError();
     }
@@ -181,6 +184,7 @@ export default class XMLRequest {
       const config = {
         headers: {
           ...this.getHeaders(),
+          ...this.config.digitalSignatureHeaders ? this.config.digitalSignatureHeaders(body) : {},
           ...(headers ? headers : {})
         }
       };
