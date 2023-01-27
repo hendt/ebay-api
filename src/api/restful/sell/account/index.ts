@@ -1,11 +1,16 @@
-import Restful from '../../index.js';
+import {PaymentsProgramType} from '../../../../enums/index.js';
 import {
+  CustomPolicyCreateRequest,
+  CustomPolicyRequest,
   FulfillmentPolicyRequest,
+  InventoryLocation,
+  InventoryLocationFull,
   PaymentPolicyRequest,
   Program,
-  ReturnPolicyRequest, SalesTaxBase
+  ReturnPolicyRequest,
+  SalesTaxBase
 } from '../../../../types/index.js';
-import {PaymentsProgramType} from '../../../../enums/index.js';
+import Restful from '../../index.js';
 
 /**
  * The <b>Account API</b> gives sellers the ability to configure their eBay seller accounts,
@@ -18,6 +23,45 @@ export default class Account extends Restful {
 
   get basePath(): string {
     return '/sell/account/v1';
+  }
+
+  /**
+   * This method retrieves the list of custom policies specified by the <b>policy_types</b> query parameter for the selected eBay marketplace.
+   * @param policyTypes This query parameter specifies the type of custom policies to be returned.
+   */
+  public getCustomPolicies(policyTypes: string) {
+    return this.get(`/custom_policy/`, {
+      params: {
+        policy_types: policyTypes
+      }
+    });
+  }
+
+  /**
+   * This method creates a new custom policy in which a seller specifies their terms for complying with local governmental regulations.
+   * @param body Request to create a new Custom Policy.
+   */
+  public createCustomPolicy(body: CustomPolicyCreateRequest) {
+    return this.post(`/custom_policy/`, body);
+  }
+
+  /**
+   * This method retrieves the custom policy specified by the <b>custom_policy_id</b> path parameter for the selected eBay marketplace.
+   * @param customPolicyId This path parameter is the unique custom policy identifier for the policy to be returned.
+   */
+  public getCustomPolicy(customPolicyId: string) {
+    customPolicyId = encodeURIComponent(customPolicyId);
+    return this.get(`/custom_policy/${customPolicyId}`);
+  }
+
+  /**
+   * This method updates an existing custom policy specified by the <b>custom_policy_id</b> path parameter for the selected marketplace.
+   * @param customPolicyId This path parameter is the unique custom policy identifier for the policy to be returned.
+   * @param body Request to update a current custom policy.
+   */
+  public updateCustomPolicy(customPolicyId: string, body: CustomPolicyRequest) {
+    customPolicyId = encodeURIComponent(customPolicyId);
+    return this.put(`/custom_policy/${customPolicyId}`, body);
   }
 
   /**
@@ -41,7 +85,7 @@ export default class Account extends Restful {
    * @param body Request to create a seller account fulfillment policy.
    */
   public createFulfillmentPolicy(body: FulfillmentPolicyRequest) {
-    return this.post(`/fulfillment_policy`, body);
+    return this.post(`/fulfillment_policy/`, body);
   }
 
   /**
@@ -51,8 +95,8 @@ export default class Account extends Restful {
    * @param body Request to create a seller account fulfillment policy.
    */
   public updateFulfillmentPolicy(fulfillmentPolicyId: string, body: FulfillmentPolicyRequest) {
-    const id = encodeURIComponent(fulfillmentPolicyId);
-    return this.put(`/fulfillment_policy/${id}`, body);
+    fulfillmentPolicyId = encodeURIComponent(fulfillmentPolicyId);
+    return this.put(`/fulfillment_policy/${fulfillmentPolicyId}`, body);
   }
 
   /**
@@ -61,8 +105,8 @@ export default class Account extends Restful {
    * @param fulfillmentPolicyId This path parameter specifies the ID of the fulfillment policy to delete.
    */
   public deleteFulfillmentPolicy(fulfillmentPolicyId: string) {
-    const id = encodeURIComponent(fulfillmentPolicyId);
-    return this.delete(`/fulfillment_policy/${id}`);
+    fulfillmentPolicyId= encodeURIComponent(fulfillmentPolicyId);
+    return this.delete(`/fulfillment_policy/${fulfillmentPolicyId}`);
   }
 
   /**
@@ -363,9 +407,116 @@ export default class Account extends Restful {
   }
 
   /**
+   * This method retrieves a list of subscriptions associated with the seller account.
+   * @param limit This field is for future use.
+   * @param continuationToken This field is for future use.
+   */
+  public getSubscription({limit, continuationToken}: {limit?: string, continuationToken?: string} = {}) {
+    return this.get(`/subscription`, {
+      params: {
+        limit,
+        continuation_token: continuationToken
+      }
+    });
+  }
+
+  /**
    * his method is used by sellers onboarded for eBay managed payments, or sellers who are currently going through, or who are eligible for onboarding for eBay managed payments.
    */
   public getKYC() {
     return this.get(`/kyc`, );
   }
+
+  /**
+   * This method allows developers to check the seller eligibility status for eBay advertising programs.
+   * @param programTypes A comma-separated list of eBay advertising programs.
+   */
+  public getAdvertisingEligibility(programTypes?: string) {
+    return this.get(`/advertising_eligibility`, {
+      params: {
+        program_types: programTypes
+      }
+    });
+  }
+
+  /**
+   * This call retrieves all defined details of the inventory location that is specified by the <b>merchantLocationKey</b> path parameter.
+   * @param merchantLocationKey A unique merchant-defined key (ID) for an inventory location.
+   */
+  public getInventoryLocation(merchantLocationKey: string) {
+    merchantLocationKey = encodeURIComponent(merchantLocationKey);
+    return this.get(`/location/${merchantLocationKey}`);
+  }
+
+
+  /**
+   * <p>Use this call to create a new inventory location.
+   * @param merchantLocationKey A unique, merchant-defined key (ID) for an inventory location.
+   * @param body Inventory Location details
+   */
+  public createInventoryLocation(merchantLocationKey: string, body: InventoryLocationFull) {
+    merchantLocationKey = encodeURIComponent(merchantLocationKey);
+    return this.post(`/location/${merchantLocationKey}`, body);
+  }
+
+  /**
+   * <p>This call deletes the inventory location that is specified in the <code>merchantLocationKey</code> path parameter.
+   * @param merchantLocationKey
+   */
+  public deleteInventoryLocation(merchantLocationKey: string) {
+    merchantLocationKey = encodeURIComponent(merchantLocationKey);
+    return this.delete(`/location/${merchantLocationKey}`);
+  }
+
+  /**
+   * <p>This call disables the inventory location that is specified in the <code>merchantLocationKey</code> path parameter.
+   * @param merchantLocationKey A unique merchant-defined key (ID) for an inventory location.
+   */
+  public disableInventoryLocation(merchantLocationKey: string) {
+    merchantLocationKey = encodeURIComponent(merchantLocationKey);
+    return this.post(`/location/${merchantLocationKey}/disable`);
+  }
+
+  /**
+   * <p>This call enables a disabled inventory location that is specified in the <code>merchantLocationKey</code> path parameter.
+   * @param merchantLocationKey A unique merchant-defined key (ID) for an inventory location.
+   */
+  public enableInventoryLocation(merchantLocationKey: string) {
+    merchantLocationKey = encodeURIComponent(merchantLocationKey);
+    return this.post(`/location/${merchantLocationKey}/enable`);
+  }
+
+  /**
+   * This call retrieves all defined details for every inventory location associated with the seller's account.
+   * @param limit The value passed in this query parameter sets the maximum number of records to return per page of data.
+   * @param offset Specifies the number of locations to skip in the result set before returning the first location in the paginated response.
+   */
+  public getInventoryLocations({limit, offset} : { limit?: number, offset?: number} = {}) {
+    return this.get(`/location`, {
+      params: {
+        limit,
+        offset
+      }
+    });
+  }
+
+  /**
+   * <p>Use this call to update non-physical location details for an existing inventory location.
+   * @param merchantLocationKey A unique merchant-defined key (ID) for an inventory location.
+   * @param body The inventory location details to be updated (other than the address and geo co-ordinates).
+   */
+  public updateInventoryLocation(merchantLocationKey: string, body: InventoryLocation) {
+    merchantLocationKey = encodeURIComponent(merchantLocationKey);
+    return this.post(`/location/${merchantLocationKey}/update_location_details`, body);
+  }
+
+  /**
+   * This method retrieves all the sales tax jurisdictions for the country that you specify in the <b>countryCode</b> path parameter.
+   * @param countryCode This path parameter specifies the two-letter <a href="https://www.iso.org/iso-3166-country-codes.html " title="https://www.iso.org " target="_blank">ISO 3166</a> country code for the country whose jurisdictions you want to retrieve. eBay provides sales tax jurisdiction information for Canada and the United States.
+   */
+  public getSalesTaxJurisdictions(countryCode: string) {
+    countryCode = encodeURIComponent(countryCode);
+    return this.get(`/country/${countryCode}/sales_tax_jurisdiction`);
+  }
+
 }

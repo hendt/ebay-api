@@ -1,10 +1,17 @@
 # eBay API Changelog
-## [8.2.0-RC.0](https://github.com/hendt/ebay-api/compare/v8.1.0...v8.2.0-RC.0) (2022-12-27)
+## [8.3.0](https://github.com/hendt/ebay-api/compare/v8.2.0...v8.3.0) (2023-01-18)
 
 
 ### Features
 
-* digital signature [#132](https://github.com/hendt/ebay-api/issues/132) ([9aedbb5](https://github.com/hendt/ebay-api/commit/9aedbb50e0f035c2922818674b29fa6be037e3e4))
+* update restful sell marketing api to v1.14.0 ([d76a6f1](https://github.com/hendt/ebay-api/commit/d76a6f1f151d9d0f81a490681b0e694881d751a8))
+
+## [8.2.0](https://github.com/hendt/ebay-api/compare/v8.1.0...v8.2.0) (2023-01-09)
+
+
+### Features
+
+* update sell.account api to v1.9.0 ([183d0ef](https://github.com/hendt/ebay-api/commit/183d0ef578d5495838032a7b8dbb3f20dd7028ed))
 
 ## [8.1.0](https://github.com/hendt/ebay-api/compare/v8.0.1...v8.1.0) (2022-12-27)
 
