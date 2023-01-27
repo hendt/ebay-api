@@ -8,6 +8,9 @@ import virtual from '@rollup/plugin-virtual';
 const pkg = require('./package.json');
 
 const plugins = [
+  virtual({
+    crypto: `export function createHash() { throw Error('crypto.createHash is not supported in browser.'); }; export function sign() { throw Error('crypto.sign is not supported in browser.'); };`,
+  }),
   bundleSize(),
   resolve({
     browser: true
@@ -44,10 +47,5 @@ export default [{
     },
   ],
   context: 'window',
-  plugins: [
-    virtual({
-      crypto: `export function createHash() { return window.crypto.createHash(...arguments); }; export function sign() { return window.crypto.sign(...arguments); };`,
-    }),
-    ...plugins
-  ]
+  plugins
 }]
