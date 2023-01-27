@@ -31,9 +31,6 @@ export default [{
       name: 'eBayApi',
       exports: 'default',
       sourcemap: false,
-      globals: {
-        crypto: 'crypto'
-      }
     },
   ],
   plugins
