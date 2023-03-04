@@ -311,16 +311,16 @@ app.get('/orders/:id', async function (req, res) {
 ## Digital Signature
 Signatures are required when the call is made for EU- or UK-domiciled sellers, and only for the following APIs/methods:
 
-* All methods in the Finances API
-* issueRefund in the Fulfillment API
-* GetAccount in the Trading API
+* All methods in the Finances API -> (`eBay.finances.XXX.sign.YYY()`)
+* issueRefund in the Fulfillment API -> (`eBay.sell.fulfillment.sign.issueRefund()`)
+* GetAccount in the Trading API -> (`eBay.trading.GetAccount(null, { sign: true }))`)
 * The following methods in the Post-Order API:
-  - Issue Inquiry Refund
-  - Issue case refund
-  - Issue return refund
-  - Process Return Request
-  - Create Cancellation Request
-  - Approve Cancellation Request
+  - Issue Inquiry Refund -> (`eBay.postOrder.inquiry.sign.issueInquiryRefund()`)
+  - Issue case refund -> (`eBay.postOrder.inquiry.sign.issueCaseRefund()`)
+  - Issue return refund -> (`eBay.postOrder.inquiry.sign.issueReturnRefund()`)
+  - Process Return Request -> (`eBay.postOrder.inquiry.sign.processReturnRequest()`)
+  - Create Cancellation Request -> (`eBay.postOrder.inquiry.sign.createCancellation()`)
+  - Approve Cancellation Request -> (`eBay.postOrder.inquiry.sign.approveCancellationRequest()`)
 
 ### How to use Digital Signature
 ```js
