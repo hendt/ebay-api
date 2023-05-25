@@ -182,5 +182,30 @@ describe('Restful API', () => {
     expect(result).to.eql({updateThings: 'ok'});
   });
 
+  it('refresh the token on Inventory call if response is 403', async () => {
+    const post = sinon.stub().onCall(0).rejects({
+      response: {
+        status: 403,
+      }
+    }).onCall(1).resolves({data: {updateThings: 'ok'}});
+
+    const api = new TestApi({
+      ...config,
+      autoRefreshToken: true
+    }, {
+      ...req,
+      post,
+      postForm: sinon.stub().resolves(cred),
+    }, undefined, {
+      basePath: '/sell/inventory/v1'
+    });
+
+    api.auth.OAuth2.setCredentials(cred);
+
+    const result = await api.updateThings();
+
+    expect(post.callCount).to.equal(2);
+    expect(result).to.eql({updateThings: 'ok'});
+  });
 
 });
