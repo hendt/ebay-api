@@ -216,6 +216,8 @@ export default abstract class Restful extends Api {
 
     if (error.name === EBayInvalidAccessToken.name) {
       return true;
+    } else if (error?.meta?.res?.status === 403 && this.apiConfig.basePath === '/sell/inventory/v1') {
+      return true;
     }
 
     return error?.meta?.res?.status === 401 && this.apiConfig.basePath === '/post-order/v2';
