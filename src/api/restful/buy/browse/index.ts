@@ -1,5 +1,4 @@
-import {BrowseSearchParams, ItemsParams, LegacyItemParams, SearchByImageParams} from '../../../../types/index.js';
-import {components} from '../../../../types/restful/specs/buy_browse_v1_oas3.js';
+import {components, operations} from '../../../../types/restful/specs/buy_browse_v1_oas3.js';
 import Restful from '../../index.js';
 
 /**
@@ -25,7 +24,7 @@ export default class Browse extends Restful {
    *
    * @param {BrowseSearchParams} params
    */
-  public search(params: BrowseSearchParams) {
+  public search(params: operations['search']['parameters']['query']) {
     return this.get(`/item_summary/search`, {
       params
     });
@@ -35,10 +34,10 @@ export default class Browse extends Restful {
    * This is an Experimental method. This method searches for eBay items based on a image and retrieves summaries of
    * the items.
    *
-   * @param {BrowseSearchParams} params
+   * @param {params} params
    * @param {Object} body The container for the image information fields.
    */
-  public searchByImage(params: SearchByImageParams, body = {}) {
+  public searchByImage(params: operations['searchByImage']['parameters']['query'], body?: components['schemas']['SearchByImageRequest']) {
     return this.post(`/item_summary/search_by_image`, body, {
       params
     });
@@ -47,15 +46,11 @@ export default class Browse extends Restful {
   /**
    * This method retrieves the details of specific items that the buyer needs to make a purchasing decision.
    *
-   * @param itemIds A list of item IDs. Item IDs are the eBay RESTful identifier of items.
-   * @param itemGroupIds A list of item group IDs.
+   * @param {params} params
    */
-  public getItems({itemIds: item_ids, itemGroupIds: item_group_ids}: ItemsParams) {
+  public getItems(params: operations['getItems']['parameters']['query']) {
     return this.get(`/item/`, {
-      params: {
-        item_ids,
-        item_group_ids
-      }
+      params
     });
   }
 
@@ -81,7 +76,7 @@ export default class Browse extends Restful {
    *
    * @param {LegacyItemParams} params
    */
-  public getItemByLegacyId(params: LegacyItemParams) {
+  public getItemByLegacyId(params: operations['getItemByLegacyId']['parameters']['query']) {
     return this.get(`/item/get_item_by_legacy_id`, {
       params
     });

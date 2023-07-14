@@ -34,21 +34,6 @@ export type BrowseSearchParams = {
   sort?: string
 };
 
-export type SearchByImageParams = {
-  aspect_filter?: string,
-  category_ids?: string,
-  epid?: string,
-  filter?: string,
-  limit?: number,
-  offset?: number,
-  sort?: string
-};
-
-export type ItemsParams = {
-  itemIds: string
-  itemGroupIds: string
-}
-
 export type LegacyItemParams = {
   legacy_item_id: string,
   fieldgroups?: string,
@@ -60,27 +45,6 @@ export type BuyFeedParams = {
   feed_scope: string,
   category_id: string,
   date: string
-};
-
-export type AlsoBoughtByProductParams = {
-  name?: string,
-  epid?: string,
-  gtin?: string,
-  mpn?: string
-};
-
-export type AlsoViewedByProductParams = {
-  brand?: string,
-  epid?: string,
-  gtin?: string,
-  mpn?: string
-};
-
-export type MerchandisedProductsParams = {
-  aspect_filter?: false,
-  category_id: string,
-  limit?: number,
-  metric_name: string
 };
 
 export type MarketingInsightsSearchParams = {
@@ -95,16 +59,6 @@ export type MarketingInsightsSearchParams = {
   q?: string
   sort?: string
 }
-
-export type CatalogSearchParams = {
-  aspect_filter?: string,
-  category_ids?: string,
-  fieldgroups?: string,
-  gtin?: string,
-  limit?: number,
-  offset?: number,
-  q?: string,
-};
 
 export type NotificationParams = {
   limit?: string

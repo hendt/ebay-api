@@ -1,5 +1,5 @@
+import {operations} from '../../../../types/restful/specs/commerce_catalog_v1_beta_oas3.js';
 import Restful from '../../index.js';
-import {CatalogSearchParams} from '../../../../types/index.js';
 
 /**
  * Use the Catalog API to search the eBay catalog for products on which to base a seller's item listing;
@@ -60,11 +60,9 @@ export default class Catalog extends Restful {
    *
    * @param params SearchCatalogParams
    */
-  public search(params?: CatalogSearchParams) {
+  public search(params?: operations['search']['parameters']['query']) {
     return this.get(`/product_summary/search`, {
-      params: {
-        ...(params && params)
-      }
+      params
     });
   }
 

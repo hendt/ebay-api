@@ -1,5 +1,5 @@
+import {operations} from '../../../../types/restful/specs/buy_marketing_v1_beta_oas3.js';
 import Restful from '../../index.js';
-import {AlsoBoughtByProductParams, AlsoViewedByProductParams, MerchandisedProductsParams} from '../../../../types/index.js';
 
 /**
  * The Marketing API retrieves eBay products based on a metric, such as Best Selling, as well as products that were
@@ -22,7 +22,7 @@ export default class Marketing extends Restful {
    * This call returns products that were also bought when shoppers bought the product specified in the request.
    * @param params
    */
-  public getAlsoBoughtByProduct(params: AlsoBoughtByProductParams) {
+  public getAlsoBoughtByProduct(params: operations['getAlsoBoughtByProduct']['parameters']['query']) {
     return this.get(`/merchandised_product/get_also_bought_products`, {
       params
     });
@@ -33,7 +33,7 @@ export default class Marketing extends Restful {
    *
    * @param params
    */
-  public getAlsoViewedByProduct(params: AlsoViewedByProductParams) {
+  public getAlsoViewedByProduct(params: operations['getAlsoViewedByProduct']['parameters']['query']) {
     return this.get(`/merchandised_product/get_also_viewed_products`, {
       params
     });
@@ -44,7 +44,7 @@ export default class Marketing extends Restful {
    *
    * @param params
    */
-  public getMerchandisedProducts(params: MerchandisedProductsParams) {
+  public getMerchandisedProducts(params: operations['getMerchandisedProducts']['parameters']['query']) {
     return this.get(`/merchandised_product`, {
       params
     });
