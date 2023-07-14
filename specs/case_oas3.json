@@ -1,0 +1,180 @@
+{
+  "openapi": "3.0.o",
+  "info": {
+    "version": "0.1",
+    "title": "Post Order Case Management API",
+    "description": "Custom Case Management API OAS definition."
+  },
+  "servers": [
+    {
+      "url": "https://api.ebay.com{basePath}",
+      "description": "Case management",
+      "variables": {
+        "basePath": {
+          "default": "/post-order/v2"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/casemanagement/{caseId}/appeal": {
+      "post": {
+        "description": "Buyer or seller appeals a case decision",
+        "operationId": "appealCaseDecision",
+        "parameters": [
+          {
+            "name": "caseId",
+            "in": "path",
+            "description": "The unique identifier of a case. This URI parameter is required in order to identify the case for which an appeal will be filed against. The case is identified by the caseId that is passed in as part of the call URI.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/casemanagement/{caseId}/close": {
+      "post": {
+        "description": "Buyer closes a case",
+        "operationId": "closeCase",
+        "parameters": [
+          {
+            "name": "caseId",
+            "in": "path",
+            "description": "The unique identifier of a case. This URI parameter is required in order to identify the case for which an appeal will be filed against. The case is identified by the caseId that is passed in as part of the call URI.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/casemanagement/{caseId}": {
+      "get": {
+        "description": "Retrieve the details related to a specific case",
+        "operationId": "getCase",
+        "parameters": [
+          {
+            "name": "caseId",
+            "in": "path",
+            "description": "The unique identifier of a case. This URI parameter is required in order to identify the case for which an appeal will be filed against. The case is identified by the caseId that is passed in as part of the call URI.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/casemanagement/{caseId}/issue_refund": {
+      "post": {
+        "description": "Seller issues a refund for a case",
+        "operationId": "issueCaseRefund",
+        "parameters": [
+          {
+            "name": "caseId",
+            "in": "path",
+            "description": "The unique identifier of a case. This URI parameter is required in order to identify the case for which an appeal will be filed against. The case is identified by the caseId that is passed in as part of the call URI.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/casemanagement/{caseId}/provide_shipment_info": {
+      "post": {
+        "description": "Buyer provides return shipment information",
+        "operationId": "provideReturnShipmentInfo",
+        "parameters": [
+          {
+            "name": "caseId",
+            "in": "path",
+            "description": "The unique identifier of a case. This URI parameter is required in order to identify the case for which an appeal will be filed against. The case is identified by the caseId that is passed in as part of the call URI.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shippingCarrierName",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "trackingNumber",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/casemanagement/{caseId}/provide_return_address": {
+      "post": {
+        "description": "Seller provides a return address to the buyer",
+        "operationId": "providesReturnAddress",
+        "parameters": [
+          {
+            "name": "caseId",
+            "in": "path",
+            "description": "The unique identifier of a case. This URI parameter is required in order to identify the case for which an appeal will be filed against. The case is identified by the caseId that is passed in as part of the call URI.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/casemanagement/search": {
+      "get": {
+        "description": "This call is used to search for cases using multiple filter types.",
+        "operationId": "search",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,13 +1,6 @@
+import {BrowseSearchParams, ItemsParams, LegacyItemParams, SearchByImageParams} from '../../../../types/index.js';
+import {components} from '../../../../types/restful/specs/buy_browse_v1_oas3.js';
 import Restful from '../../index.js';
-import {
-  AddCartItemInput,
-  BrowseSearchParams,
-  CompatibilityPayload, ItemsParams,
-  LegacyItemParams,
-  RemoveCartItemInput,
-  SearchByImageParams,
-  UpdateCartItemInput
-} from '../../../../types/index.js';
 
 /**
  * The Browse API has the following resources: item_summary: Lets shoppers search for specific items by keyword, GTIN,
@@ -112,7 +105,7 @@ export default class Browse extends Restful {
    * @param {String} itemId The eBay RESTful identifier of an item (such as a part you want to check).
    * @param {Object} body CompatibilityPayload
    */
-  public checkCompatibility(itemId: string, body?: CompatibilityPayload) {
+  public checkCompatibility(itemId: string, body?: components['schemas']['CompatibilityPayload']) {
     const id = encodeURIComponent(itemId);
     return this.post(`/item/${id}/check_compatibility`, body);
   }
@@ -127,7 +120,7 @@ export default class Browse extends Restful {
    *
    * @param {Object} item AddCartItemInput
    */
-  public addItem(item: AddCartItemInput) {
+  public addItem(item: components['schemas']['AddCartItemInput']) {
     return this.post(`/shopping_cart/add_item`, item);
   }
 
@@ -144,7 +137,7 @@ export default class Browse extends Restful {
    *
    *  @param {Object} item RemoveCartItemInput
    */
-  public removeItem(item: RemoveCartItemInput) {
+  public removeItem(item: components['schemas']['RemoveCartItemInput']) {
     return this.post(`/shopping_cart/remove_item`, item);
   }
 
@@ -154,7 +147,7 @@ export default class Browse extends Restful {
    *
    * @param {UpdateCartItemInput} item UpdateCartItemInput
    */
-  public updateQuantity(item: UpdateCartItemInput) {
+  public updateQuantity(item: components['schemas']['UpdateCartItemInput']) {
     return this.post(`/shopping_cart/update_quantity`, item);
   }
 }

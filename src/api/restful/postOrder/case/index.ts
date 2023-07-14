@@ -1,5 +1,11 @@
+import {
+  AppealRequest,
+  BuyerCloseCaseRequest,
+  CaseSearchParams,
+  ReturnAddressRequest,
+  Text
+} from '../../../../types/index.js';
 import Restful from '../../index.js';
-import {AppealRequest, BuyerCloseCaseRequest, CaseSearchParams, ReturnAddressRequest, Text} from '../../../../types/index.js';
 
 /**
  * Post-Order Case Management API

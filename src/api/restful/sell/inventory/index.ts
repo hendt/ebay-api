@@ -1,21 +1,5 @@
+import {components} from '../../../../types/restful/specs/sell_inventory_v1_oas3.js';
 import Restful from '../../index.js';
-import {
-  BulkEbayOfferDetailsWithKeys,
-  BulkInventoryItem,
-  BulkMigrateListing,
-  BulkOffer,
-  BulkPriceQuantity,
-  Compatibility,
-  EbayOfferDetailsWithId,
-  EbayOfferDetailsWithKeys,
-  InventoryItemGroup,
-  InventoryLocation,
-  InventoryLocationFull,
-  OfferKeysWithId,
-  PublishByInventoryItemGroupRequest,
-  SellInventoryItem,
-  WithdrawByInventoryItemGroupRequest,
-} from '../../../../types/index.js';
 
 /**
  * The Inventory API is used to create and manage inventory, and then to publish and manage this inventory on an eBay
@@ -89,7 +73,7 @@ export default class Inventory extends Restful {
    */
   public createInventoryLocation(
     merchantLocationKey: string,
-    body: InventoryLocationFull
+    body: components['schemas']['InventoryLocationFull']
   ) {
     const key = encodeURIComponent(merchantLocationKey);
     return this.post(`/location/${key}`, body);
@@ -114,7 +98,7 @@ export default class Inventory extends Restful {
    */
   public updateInventoryLocation(
     merchantLocationKey: string,
-    body?: InventoryLocation
+    body?: components['schemas']['InventoryLocation']
   ) {
     const key = encodeURIComponent(merchantLocationKey);
     return this.post(`/location/${key}/update_location_details`, body);
@@ -138,7 +122,7 @@ export default class Inventory extends Restful {
    *     inventory item, or updating an existing inventory item.
    * @param body Details of the inventory item record.
    */
-  public createOrReplaceInventoryItem(sku: string, body: SellInventoryItem) {
+  public createOrReplaceInventoryItem(sku: string, body: components['schemas']['InventoryItem']) {
     sku = encodeURIComponent(sku);
     return this.put(`/inventory_item/${sku}`, body);
   }
@@ -179,7 +163,7 @@ export default class Inventory extends Restful {
    *
    * @param body BulkPriceQuantity
    */
-  public bulkUpdatePriceQuantity(body: BulkPriceQuantity) {
+  public bulkUpdatePriceQuantity(body: components['schemas']['BulkPriceQuantity']) {
     return this.post(`/bulk_update_price_quantity`, body);
   }
 
@@ -188,7 +172,7 @@ export default class Inventory extends Restful {
    *
    * @param body BulkInventoryItem
    */
-  public bulkCreateOrReplaceInventoryItem(body: BulkInventoryItem) {
+  public bulkCreateOrReplaceInventoryItem(body: components['schemas']['BulkInventoryItem']) {
     return this.post(`/bulk_create_or_replace_inventory_item`, body);
   }
 
@@ -198,7 +182,7 @@ export default class Inventory extends Restful {
    *
    * @param body BulkInventoryItem
    */
-  public bulkGetInventoryItem(body: BulkInventoryItem) {
+  public bulkGetInventoryItem(body: components['schemas']['BulkInventoryItem']) {
     return this.post(`/bulk_get_inventory_item`, body);
   }
 
@@ -219,7 +203,7 @@ export default class Inventory extends Restful {
    * @param sku A SKU (stock keeping unit) is an unique identifier defined by a seller for a product
    * @param body Details of the compatibility
    */
-  public createOrReplaceProductCompatibility(sku: string, body: Compatibility) {
+  public createOrReplaceProductCompatibility(sku: string, body: components['schemas']['Compatibility']) {
     sku = encodeURIComponent(sku);
     return this.put(`/inventory_item/${sku}/product_compatibility`, body);
   }
@@ -284,7 +268,7 @@ export default class Inventory extends Restful {
    *
    * @param body Details of the offer for the channel
    */
-  public createOffer(body: EbayOfferDetailsWithKeys) {
+  public createOffer(body: components['schemas']['EbayOfferDetailsWithKeys']) {
     return this.post(`/offer`, body);
   }
 
@@ -294,7 +278,7 @@ export default class Inventory extends Restful {
    * @param offerId The unique identifier of the offer that is being updated.
    * @param body Details of the offer for the channel
    */
-  public updateOffer(offerId: string, body: EbayOfferDetailsWithId) {
+  public updateOffer(offerId: string, body: components['schemas']['EbayOfferDetailsWithId']) {
     offerId = encodeURIComponent(offerId);
     return this.put(`/offer/${offerId}`, body);
   }
@@ -325,7 +309,7 @@ export default class Inventory extends Restful {
    * @param body PublishByInventoryItemGroupRequest
    */
   public publishOfferByInventoryItemGroup(
-    body: PublishByInventoryItemGroupRequest
+    body: components['schemas']['PublishByInventoryItemGroupRequest']
   ) {
     return this.post(`/offer/publish_by_inventory_item_group/`, body);
   }
@@ -337,7 +321,7 @@ export default class Inventory extends Restful {
    * @param body WithdrawByInventoryItemGroupRequest
    */
   public withdrawOfferByInventoryItemGroup(
-    body: WithdrawByInventoryItemGroupRequest
+    body: components['schemas']['WithdrawByInventoryItemGroupRequest']
   ) {
     return this.post(`/offer/withdraw_by_inventory_item_group`, body);
   }
@@ -347,7 +331,7 @@ export default class Inventory extends Restful {
    *
    * @param body OfferKeysWithId
    */
-  public getListingFees(body: OfferKeysWithId) {
+  public getListingFees(body: components['schemas']['OfferKeysWithId']) {
     return this.post(`/offer/get_listing_fees`, body);
   }
 
@@ -356,7 +340,7 @@ export default class Inventory extends Restful {
    *
    * @param body BulkEbayOfferDetailsWithKeys
    */
-  public bulkCreateOffer(body: BulkEbayOfferDetailsWithKeys) {
+  public bulkCreateOffer(body: components['schemas']['BulkEbayOfferDetailsWithKeys']) {
     return this.post(`/bulk_create_offer`, body);
   }
 
@@ -365,7 +349,7 @@ export default class Inventory extends Restful {
    *
    * @param body BulkOffer
    */
-  public bulkPublishOffer(body: BulkOffer) {
+  public bulkPublishOffer(body: components['schemas']['BulkOffer']) {
     return this.post(`/bulk_publish_offer`, body);
   }
 
@@ -397,7 +381,7 @@ export default class Inventory extends Restful {
    */
   public createOrReplaceInventoryItemGroup(
     inventoryItemGroupKey: string,
-    body: InventoryItemGroup
+    body: components['schemas']['InventoryItemGroup']
   ) {
     inventoryItemGroupKey = encodeURIComponent(inventoryItemGroupKey);
     return this.put(`/inventory_item_group/${inventoryItemGroupKey}`, body);
@@ -417,7 +401,7 @@ export default class Inventory extends Restful {
    *
    * @param body BulkMigrateListing
    */
-  public bulkMigrateListing(body: BulkMigrateListing) {
+  public bulkMigrateListing(body: components['schemas']['BulkMigrateListing']) {
     return this.post(`/bulk_migrate_listing`, body);
   }
 }

@@ -1,5 +1,6 @@
+import {components} from '../../../../types/restful/specs/sell_recommendation_v1_oas3.js';
 import Restful from '../../index.js';
-import {FindListingRecommendationRequest} from '../../../../types/index.js';
+
 
 /**
  * The <b>Recommendation API</b> returns information that sellers can use to optimize the configuration of their
@@ -25,7 +26,7 @@ export default class Recommendation extends Restful {
    * @param body FindListingRecommendationRequest
    */
   public findListingRecommendations({filter, limit, offset}: { filter?: string, limit?: number, offset?: number } = {},
-    body?: FindListingRecommendationRequest
+                                    body?: components['schemas']['FindListingRecommendationRequest']
   ) {
     return this.post(`/find`, {
       data: body,

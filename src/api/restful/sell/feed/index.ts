@@ -67,7 +67,14 @@ export default class Feed extends Restful {
    * This method searches for multiple tasks of a specific feed type, and includes date filters and pagination.
    */
   public getInventoryTasks({feedType, scheduleId, lookBackDays, dateRange, limit, offset}
-                             : { feedType?: string, scheduleId?: string, lookBackDays?: number, dateRange?: string, limit?: number, offset?: number } = {}) {
+                             : {
+    feedType?: string,
+    scheduleId?: string,
+    lookBackDays?: number,
+    dateRange?: string,
+    limit?: number,
+    offset?: number
+  } = {}) {
     return this.get('/inventory_task', {
       params: {
         feed_type: feedType,

@@ -1,10 +1,6 @@
+import {NotificationParams} from '../../../../types/index.js';
+import {components} from '../../../../types/restful/specs/commerce_notification_v1_oas3.js';
 import Restful from '../../index.js';
-import {
-  CreateSubscriptionRequest,
-  DestinationRequest, NotificationConfig,
-  NotificationParams,
-  UpdateSubscriptionRequest
-} from '../../../../types/index.js';
 
 /**
  * The eBay  Notification API allows third-party developers and applications to process eBay notifications and verify the integrity of the notification message payload.
@@ -72,7 +68,7 @@ export default class Notification extends Restful {
    *
    * @param body The create subscription request.
    */
-  public createSubscription(body: CreateSubscriptionRequest) {
+  public createSubscription(body: components['schemas']['CreateSubscriptionRequest']) {
     return this.post(`/subscription`, body);
   }
 
@@ -92,7 +88,7 @@ export default class Notification extends Restful {
    * @param subscriptionId The unique identifier for the subscription.
    * @param body The update subscription request.
    */
-  public updateSubscription(subscriptionId: string, body: UpdateSubscriptionRequest) {
+  public updateSubscription(subscriptionId: string, body: components['schemas']['UpdateSubscriptionRequest']) {
     subscriptionId = encodeURIComponent(subscriptionId);
     return this.put(`/subscription/${subscriptionId}`, body);
   }
@@ -154,7 +150,7 @@ export default class Notification extends Restful {
    *
    * @param body The create destination request.
    */
-  public createDestination(body: DestinationRequest) {
+  public createDestination(body: components['schemas']['DestinationRequest']) {
     return this.post(`/destination`, body);
   }
 
@@ -174,7 +170,7 @@ export default class Notification extends Restful {
    * @param destinationId The unique identifier for the destination.
    * @param body The create subscription request.
    */
-  public updateDestination(destinationId: string, body: DestinationRequest) {
+  public updateDestination(destinationId: string, body: components['schemas']['DestinationRequest']) {
     destinationId = encodeURIComponent(destinationId);
     return this.put(`/destination/${destinationId}`, body);
   }
@@ -201,7 +197,7 @@ export default class Notification extends Restful {
    *
    * @param body The configurations for this application.
    */
-  public updateConfig(body: NotificationConfig) {
+  public updateConfig(body: components['schemas']['Config']) {
     return this.put(`/config`, body);
   }
 }

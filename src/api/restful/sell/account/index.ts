@@ -1,15 +1,6 @@
 import {PaymentsProgramType} from '../../../../enums/index.js';
-import {
-  CustomPolicyCreateRequest,
-  CustomPolicyRequest,
-  FulfillmentPolicyRequest,
-  InventoryLocation,
-  InventoryLocationFull,
-  PaymentPolicyRequest,
-  Program,
-  ReturnPolicyRequest,
-  SalesTaxBase
-} from '../../../../types/index.js';
+import {components} from '../../../../types/restful/specs/sell_account_v1_oas3.js';
+
 import Restful from '../../index.js';
 
 /**
@@ -41,7 +32,7 @@ export default class Account extends Restful {
    * This method creates a new custom policy in which a seller specifies their terms for complying with local governmental regulations.
    * @param body Request to create a new Custom Policy.
    */
-  public createCustomPolicy(body: CustomPolicyCreateRequest) {
+  public createCustomPolicy(body: components['schemas']['CustomPolicyCreateRequest']) {
     return this.post(`/custom_policy/`, body);
   }
 
@@ -59,7 +50,7 @@ export default class Account extends Restful {
    * @param customPolicyId This path parameter is the unique custom policy identifier for the policy to be returned.
    * @param body Request to update a current custom policy.
    */
-  public updateCustomPolicy(customPolicyId: string, body: CustomPolicyRequest) {
+  public updateCustomPolicy(customPolicyId: string, body: components['schemas']['CustomPolicyRequest']) {
     customPolicyId = encodeURIComponent(customPolicyId);
     return this.put(`/custom_policy/${customPolicyId}`, body);
   }
@@ -84,7 +75,7 @@ export default class Account extends Restful {
    *
    * @param body Request to create a seller account fulfillment policy.
    */
-  public createFulfillmentPolicy(body: FulfillmentPolicyRequest) {
+  public createFulfillmentPolicy(body: components['schemas']['FulfillmentPolicyRequest']) {
     return this.post(`/fulfillment_policy/`, body);
   }
 
@@ -94,7 +85,7 @@ export default class Account extends Restful {
    * @param fulfillmentPolicyId This path parameter specifies the ID of the fulfillment policy you want to update.
    * @param body Request to create a seller account fulfillment policy.
    */
-  public updateFulfillmentPolicy(fulfillmentPolicyId: string, body: FulfillmentPolicyRequest) {
+  public updateFulfillmentPolicy(fulfillmentPolicyId: string, body: components['schemas']['FulfillmentPolicyRequest']) {
     fulfillmentPolicyId = encodeURIComponent(fulfillmentPolicyId);
     return this.put(`/fulfillment_policy/${fulfillmentPolicyId}`, body);
   }
@@ -164,7 +155,7 @@ export default class Account extends Restful {
    *
    * @param body Payment policy request
    */
-  public createPaymentPolicy(body: PaymentPolicyRequest) {
+  public createPaymentPolicy(body: components['schemas']['PaymentPolicyRequest']) {
     return this.post(`/payment_policy`, body);
   }
 
@@ -174,7 +165,7 @@ export default class Account extends Restful {
    * @param paymentPolicyId This path parameter specifies the ID of the payment policy you want to update.
    * @param body Payment policy request
    */
-  public updatePaymentPolicy(paymentPolicyId: string, body: PaymentPolicyRequest) {
+  public updatePaymentPolicy(paymentPolicyId: string, body: components['schemas']['PaymentPolicyRequest']) {
     paymentPolicyId = encodeURIComponent(paymentPolicyId);
     return this.put(`/payment_policy/${paymentPolicyId}`, body);
   }
@@ -249,7 +240,7 @@ export default class Account extends Restful {
    *
    * @param body Program being opted-in to.
    */
-  public optInToProgram(body?: Program) {
+  public optInToProgram(body?: components['schemas']['Program']) {
     return this.post(`/program/opt_in`, body);
   }
 
@@ -258,7 +249,7 @@ export default class Account extends Restful {
    *
    * @param body Program being opted-out of.
    */
-  public optOutOfProgram(body?: Program) {
+  public optOutOfProgram(body?: components['schemas']['Program']) {
     return this.post(`/program/opt_out`, body);
   }
 
@@ -307,7 +298,7 @@ export default class Account extends Restful {
    *
    * @param body Return policy request
    */
-  public createReturnPolicy(body: ReturnPolicyRequest) {
+  public createReturnPolicy(body: components['schemas']['ReturnPolicyRequest']) {
     return this.post(`/return_policy`, body);
   }
 
@@ -317,7 +308,7 @@ export default class Account extends Restful {
    *  @param returnPolicyId This path parameter specifies the ID of the return policy you want to update.
    * @param body Return policy request
    */
-  public updateReturnPolicy(returnPolicyId: string, body: ReturnPolicyRequest) {
+  public updateReturnPolicy(returnPolicyId: string, body: components['schemas']['ReturnPolicyRequest']) {
     returnPolicyId = encodeURIComponent(returnPolicyId);
     return this.put(`/return_policy/${returnPolicyId}`, body);
   }
@@ -372,7 +363,7 @@ export default class Account extends Restful {
    *     want to create.
    * @param body A container that describes the how the sales tax is calculated.
    */
-  public createOrReplaceSalesTax(countryCode: string, jurisdictionId: string, body: SalesTaxBase) {
+  public createOrReplaceSalesTax(countryCode: string, jurisdictionId: string, body: components['schemas']['SalesTaxBase']) {
     countryCode = encodeURIComponent(countryCode);
     jurisdictionId = encodeURIComponent(jurisdictionId);
     return this.put(`/sales_tax/${countryCode}/${jurisdictionId}`, body);
@@ -454,7 +445,7 @@ export default class Account extends Restful {
    * @param merchantLocationKey A unique, merchant-defined key (ID) for an inventory location.
    * @param body Inventory Location details
    */
-  public createInventoryLocation(merchantLocationKey: string, body: InventoryLocationFull) {
+  public createInventoryLocation(merchantLocationKey: string, body: components['schemas']['InventoryLocationFull']) {
     merchantLocationKey = encodeURIComponent(merchantLocationKey);
     return this.post(`/location/${merchantLocationKey}`, body);
   }
@@ -505,7 +496,7 @@ export default class Account extends Restful {
    * @param merchantLocationKey A unique merchant-defined key (ID) for an inventory location.
    * @param body The inventory location details to be updated (other than the address and geo co-ordinates).
    */
-  public updateInventoryLocation(merchantLocationKey: string, body: InventoryLocation) {
+  public updateInventoryLocation(merchantLocationKey: string, body: components['schemas']['InventoryLocation']) {
     merchantLocationKey = encodeURIComponent(merchantLocationKey);
     return this.post(`/location/${merchantLocationKey}/update_location_details`, body);
   }

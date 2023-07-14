@@ -1,0 +1,675 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "0.1",
+    "title": "Post Order Return API",
+    "description": "Custom Return API OAS definition."
+  },
+  "servers": [
+    {
+      "url": "https://api.ebay.com{basePath}",
+      "description": "Case management",
+      "variables": {
+        "basePath": {
+          "default": "/post-order/v2"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/return/{returnId}/add_shipping_label": {
+      "post": {
+        "description": "Create or update a shipping label provided by the seller",
+        "operationId": "addShippingLabelInfo",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/cancel": {
+      "post": {
+        "description": "Cancel a return request",
+        "operationId": "cancelReturnRequest",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/check_eligibility": {
+      "post": {
+        "description": "Check to see if an item is eligible for a return",
+        "operationId": "checkReturnEligibility",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/check_label_print_eligibility": {
+      "get": {
+        "description": "Validate the eligibility of an existing shipping label",
+        "operationId": "checkShippingLabelEligibility",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/draft": {
+      "post": {
+        "description": "Create a return draft",
+        "operationId": "createReturnDraft",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return": {
+      "post": {
+        "description": "Request a return for an item",
+        "operationId": "createReturnRequest",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/initiate_shipping_label": {
+      "post": {
+        "description": "Create an eBay shipping label for the buyer",
+        "operationId": "createReturnShippingLabel",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/draft/{draftId}/file/{fileId}": {
+      "delete": {
+        "description": "Delete a file associated with a return draft",
+        "operationId": "deleteReturnDraftFile",
+        "parameters": [
+          {
+            "name": "draftId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return draft. The draftId value is required to identify the return draft containing the file to be deleted.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the draft file. The fileId value is required to identify the the file to be deleted.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/escalate": {
+      "post": {
+        "description": "Escalate an existing return to eBay customer support",
+        "operationId": "escalateReturn",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}": {
+      "get": {
+        "description": "Retrieve the details of a specific return",
+        "operationId": "getReturn",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/draft/{draftId}": {
+      "get": {
+        "description": "Retrieve a return draft",
+        "operationId": "getReturnDraft",
+        "parameters": [
+          {
+            "name": "draftId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return draft. The draftId value is required to identify the return draft containing the file to be deleted.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "description": "Update an existing return draft",
+        "operationId": "updateReturnDraft",
+        "parameters": [
+          {
+            "name": "draftId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return draft. The draftId value is required to identify the return draft containing the file to be deleted.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/draft/{draftId}/files": {
+      "get": {
+        "description": "Retrieve the files associated with a return draft",
+        "operationId": "getReturnDraftFiles",
+        "parameters": [
+          {
+            "name": "draftId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return draft. The draftId value is required to identify the return draft containing the file to be deleted.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/estimate": {
+      "post": {
+        "description": "Buyer-facing call to retrieve the estimated refund amount and return shipping costs associated with returning an item.",
+        "operationId": "getReturnEstimate",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/files": {
+      "get": {
+        "description": "Retrieve the files associated with a return",
+        "operationId": "getReturnFiles",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/preference": {
+      "get": {
+        "description": "Retrieve seller's return preferences",
+        "operationId": "getReturnPreferences",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "description": "Set seller's return preferences",
+        "operationId": "setReturnPreferences",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/get_shipping_label": {
+      "get": {
+        "description": "Retrieve the data for an existing shipping label",
+        "operationId": "getReturnShippingLabel",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/tracking": {
+      "get": {
+        "description": "Retrieve shipment tracking activity for a return",
+        "operationId": "getShipmentTrackingInfo",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/issue_refund": {
+      "post": {
+        "description": "Issue a refund",
+        "operationId": "issueReturnRefund",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/mark_as_received": {
+      "post": {
+        "description": "Mark a returned item as received",
+        "operationId": "markReturnReceived",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/mark_refund_received": {
+      "post": {
+        "description": "Mark a refund as received",
+        "operationId": "markReturnRefundReceived",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/mark_refund_sent": {
+      "post": {
+        "description": "Notify the buyer that a refund has been issued",
+        "operationId": "markReturnRefundSent",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/mark_as_shipped": {
+      "post": {
+        "description": "Mark a return as shipped",
+        "operationId": "markReturnShipped",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/decide": {
+      "post": {
+        "description": "Perform an action on a return, such as APPROVE",
+        "operationId": "processReturnRequest",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/search": {
+      "get": {
+        "description": "Retrieve details on items being returned",
+        "operationId": "search",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/send_message": {
+      "post": {
+        "description": "Send a message to the buyer or seller regarding a return",
+        "operationId": "sendReturnMessage",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/send_shipping_label": {
+      "post": {
+        "description": "Send a shipping label to an email address",
+        "operationId": "sendReturnShippingLabel",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/file/submit": {
+      "post": {
+        "description": "Activate the files associated with a return",
+        "operationId": "submitReturnFile",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/update_tracking": {
+      "put": {
+        "description": "Update shipment tracking information for an item being returned.",
+        "operationId": "updateShipmentTrackingInfo",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/draft/{draftId}/file/upload": {
+      "post": {
+        "description": "Upload the files relating to a return draft",
+        "operationId": "uploadReturnDraftFile",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/file/upload": {
+      "post": {
+        "description": "Upload the files relating to a return",
+        "operationId": "uploadReturnFile",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/return/{returnId}/void_shipping_label": {
+      "post": {
+        "description": "Void a shipping label",
+        "operationId": "voidShippingLabel",
+        "parameters": [
+          {
+            "name": "returnId",
+            "in": "path",
+            "description": "The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}

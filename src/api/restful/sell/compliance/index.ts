@@ -1,5 +1,6 @@
+import {components} from '../../../../types/restful/specs/sell_compliance_v1_oas3.js';
 import Restful from '../../index.js';
-import {SuppressViolationRequest} from '../../../../types/index.js';
+
 
 /**
  * Service for providing the compliance violations of seller account/listings
@@ -52,7 +53,7 @@ export default class Compliance extends Restful {
    *
    * @param body  SuppressViolationRequest
    */
-  public suppressViolation(body: SuppressViolationRequest) {
+  public suppressViolation(body: components['schemas']['SuppressViolationRequest']) {
     return this.post(`/suppress_listing_violation`, body);
   }
 }

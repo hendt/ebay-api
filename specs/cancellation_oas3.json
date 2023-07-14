@@ -1,0 +1,142 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "0.1",
+    "title": "Post Order Cancellation API",
+    "description": "Custom Cancellation API OAS definition."
+  },
+  "servers": [
+    {
+      "url": "https://api.ebay.com{basePath}",
+      "description": "Cancellation",
+      "variables": {
+        "basePath": {
+          "default": "/post-order/v2"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/cancellation/{cancelId}/approve": {
+      "post": {
+        "description": "Seller approves a cancellation request",
+        "operationId": "approveCancellationRequest",
+        "parameters": [
+          {
+            "name": "cancelId",
+            "in": "path",
+            "description": "The unique eBay-assigned identifier of the cancellation request to be approved.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/cancellation/check_eligibility": {
+      "post": {
+        "description": "Check the eligibility of an order cancellation",
+        "operationId": "checkCancellationEligibility",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/cancellation/{cancelId}/confirm": {
+      "post": {
+        "description": "Buyer confirms the refund from a cancellation was received",
+        "operationId": "confirmRefundReceived",
+        "parameters": [
+          {
+            "name": "cancelId",
+            "in": "path",
+            "description": "The unique eBay-assigned identifier of the cancellation request to be approved.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/cancellation": {
+      "post": {
+        "description": "Request or perform an order cancellation",
+        "operationId": "createCancellation",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/cancellation/{cancelId}": {
+      "get": {
+        "description": "Request or perform an order cancellation",
+        "operationId": "getCancellation",
+        "parameters": [
+          {
+            "name": "cancelId",
+            "in": "path",
+            "description": "The unique eBay-assigned identifier of the cancellation request to be approved.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/cancellation/{cancelId}/reject": {
+      "post": {
+        "description": "Seller rejects a cancellation request",
+        "operationId": "rejectCancellationRequest",
+        "parameters": [
+          {
+            "name": "cancelId",
+            "in": "path",
+            "description": "The unique eBay-assigned identifier of the cancellation request to be approved.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/cancellation/search": {
+      "get": {
+        "description": "Search for cancellations",
+        "operationId": "search",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}

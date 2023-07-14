@@ -11,6 +11,7 @@ examples
 coverage
 scripts
 proxy
+specs
 .github
 index.html
 .travis.yml

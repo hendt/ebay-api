@@ -1,5 +1,5 @@
+import {components} from '../../../../types/restful/specs/buy_offer_v1_beta_oas3.js';
 import Restful from '../../index.js';
-import {PlaceProxyBidRequest} from '../../../../types/index.js';
 
 /**
  * The Api Offer API enables Partners to place proxy bids for a buyer and retrieve the auctions where the buyer is
@@ -29,7 +29,7 @@ export default class Offer extends Restful {
    * @param itemId
    * @param {PlaceProxyBidRequest} body
    */
-  public placeProxyBid(itemId: string, body?: PlaceProxyBidRequest) {
+  public placeProxyBid(itemId: string, body?: components['schemas']['PlaceProxyBidRequest']) {
     const id = encodeURIComponent(itemId);
     return this.post(`/bidding/${id}/place_proxy_bid`, body );
   }

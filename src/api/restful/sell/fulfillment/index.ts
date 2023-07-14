@@ -1,11 +1,7 @@
-import Restful from '../../index.js';
 import {multipartHeader} from '../../../../request.js';
-import {
-  AddEvidencePaymentDisputeRequest,
-  ContestPaymentDisputeRequest,
-  IssueRefundRequest, PaymentParams,
-  ShippingFulfillmentDetails, UpdateEvidencePaymentDisputeRequest,
-} from '../../../../types/index.js';
+import {PaymentParams} from '../../../../types/index.js';
+import {components} from '../../../../types/restful/specs/sell_fulfillment_v1_oas3.js';
+import Restful from '../../index.js';
 
 /**
  * Use the Fulfillment API to complete the process of packaging, addressing, handling, and shipping each order on
@@ -81,7 +77,7 @@ export default class Fulfillment extends Restful {
    *     call of Trading API).
    * @param body IssueRefundRequest
    */
-  public issueRefund(orderId: string, body?: IssueRefundRequest) {
+  public issueRefund(orderId: string, body?: components['schemas']['IssueRefundRequest']) {
     orderId = encodeURIComponent(orderId);
     return this.post(`/order/${orderId}/issue_refund`, body);
   }
@@ -105,7 +101,7 @@ export default class Fulfillment extends Restful {
    */
   public createShippingFulfillment(
     orderId: string,
-    body: ShippingFulfillmentDetails
+    body: components['schemas']['ShippingFulfillmentDetails']
   ) {
     orderId = encodeURIComponent(orderId);
     return this.post(`/order/${orderId}/shipping_fulfillment`, body);
@@ -191,7 +187,7 @@ export default class Fulfillment extends Restful {
    * @param paymentDisputeId This is the unique identifier of the payment dispute.
    * @param body This is the unique identifier of the payment dispute.
    */
-  public contestPaymentDispute(paymentDisputeId: string, body: ContestPaymentDisputeRequest) {
+  public contestPaymentDispute(paymentDisputeId: string, body: components['schemas']['ContestPaymentDisputeRequest']) {
     return this.post(`/payment_dispute/${paymentDisputeId}/contest`, body);
   }
 
@@ -224,7 +220,7 @@ export default class Fulfillment extends Restful {
    * @param paymentDisputeId This is the unique identifier of the payment dispute.
    * @param body AddEvidencePaymentDisputeRequest
    */
-  public addEvidence(paymentDisputeId: string, body: AddEvidencePaymentDisputeRequest) {
+  public addEvidence(paymentDisputeId: string, body: components['schemas']['AddEvidencePaymentDisputeRequest']) {
     return this.post(`/payment_dispute/${paymentDisputeId}/add_evidence`, body);
   }
 
@@ -234,7 +230,7 @@ export default class Fulfillment extends Restful {
    * @param paymentDisputeId This is the unique identifier of the payment dispute.
    * @param body AddEvidencePaymentDisputeRequest
    */
-  public updateEvidence(paymentDisputeId: string, body: UpdateEvidencePaymentDisputeRequest) {
+  public updateEvidence(paymentDisputeId: string, body: components['schemas']['UpdateEvidencePaymentDisputeRequest']) {
     return this.post(`/payment_dispute/${paymentDisputeId}/update_evidence`, body);
   }
 }
