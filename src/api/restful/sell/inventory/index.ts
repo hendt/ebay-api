@@ -1,11 +1,11 @@
-import {components} from '../../../../types/restful/specs/sell_inventory_v1_oas3.js';
-import Restful from '../../index.js';
+import {components, operations} from '../../../../types/restful/specs/sell_inventory_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * The Inventory API is used to create and manage inventory, and then to publish and manage this inventory on an eBay
  * marketplace.
  */
-export default class Inventory extends Restful {
+export default class Inventory extends Restful implements OpenApi<operations> {
 
   static id = 'Inventory';
 

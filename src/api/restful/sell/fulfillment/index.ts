@@ -1,7 +1,7 @@
 import {multipartHeader} from '../../../../request.js';
 import {PaymentParams} from '../../../../types/index.js';
-import {components} from '../../../../types/restful/specs/sell_fulfillment_v1_oas3.js';
-import Restful from '../../index.js';
+import {components, operations} from '../../../../types/restful/specs/sell_fulfillment_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * Use the Fulfillment API to complete the process of packaging, addressing, handling, and shipping each order on
@@ -11,7 +11,7 @@ import Restful from '../../index.js';
  * https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly
  *
  */
-export default class Fulfillment extends Restful {
+export default class Fulfillment extends Restful implements OpenApi<operations> {
 
   static id = 'Fulfillment';
 

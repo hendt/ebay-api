@@ -1,10 +1,11 @@
-import Restful from '../../index.js';
+import {operations} from '../../../../types/restful/specs/commerce_taxonomy_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * Use the Taxonomy API to discover the most appropriate eBay categories under which sellers can offer inventory items
  * for sale, and the most likely categories under which buyers can browse or search for items to purchase.
  */
-export default class Taxonomy extends Restful {
+export default class Taxonomy extends Restful implements OpenApi<operations> {
 
   static id = 'Taxonomy';
 

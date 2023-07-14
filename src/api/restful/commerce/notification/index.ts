@@ -1,11 +1,11 @@
 import {NotificationParams} from '../../../../types/index.js';
-import {components} from '../../../../types/restful/specs/commerce_notification_v1_oas3.js';
-import Restful from '../../index.js';
+import {components, operations} from '../../../../types/restful/specs/commerce_notification_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * The eBay  Notification API allows third-party developers and applications to process eBay notifications and verify the integrity of the notification message payload.
  */
-export default class Notification extends Restful {
+export default class Notification extends Restful implements OpenApi<operations> {
 
   static id = 'Notification';
 

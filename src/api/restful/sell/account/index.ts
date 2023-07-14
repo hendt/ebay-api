@@ -1,14 +1,14 @@
 import {PaymentsProgramType} from '../../../../enums/index.js';
-import {components} from '../../../../types/restful/specs/sell_account_v1_oas3.js';
+import {components, operations} from '../../../../types/restful/specs/sell_account_v1_oas3.js';
 
-import Restful from '../../index.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * The <b>Account API</b> gives sellers the ability to configure their eBay seller accounts,
  * including the seller's policies (the Fulfillment Policy, Payment Policy, and Return Policy),
  * opt in and out of eBay seller programs, configure sales tax tables, and get account information.
  */
-export default class Account extends Restful {
+export default class Account extends Restful implements OpenApi<operations> {
 
   static id = 'Account';
 
@@ -96,7 +96,7 @@ export default class Account extends Restful {
    * @param fulfillmentPolicyId This path parameter specifies the ID of the fulfillment policy to delete.
    */
   public deleteFulfillmentPolicy(fulfillmentPolicyId: string) {
-    fulfillmentPolicyId= encodeURIComponent(fulfillmentPolicyId);
+    fulfillmentPolicyId = encodeURIComponent(fulfillmentPolicyId);
     return this.delete(`/fulfillment_policy/${fulfillmentPolicyId}`);
   }
 
@@ -402,7 +402,7 @@ export default class Account extends Restful {
    * @param limit This field is for future use.
    * @param continuationToken This field is for future use.
    */
-  public getSubscription({limit, continuationToken}: {limit?: string, continuationToken?: string} = {}) {
+  public getSubscription({limit, continuationToken}: { limit?: string, continuationToken?: string } = {}) {
     return this.get(`/subscription`, {
       params: {
         limit,
@@ -415,7 +415,7 @@ export default class Account extends Restful {
    * his method is used by sellers onboarded for eBay managed payments, or sellers who are currently going through, or who are eligible for onboarding for eBay managed payments.
    */
   public getKYC() {
-    return this.get(`/kyc`, );
+    return this.get(`/kyc`,);
   }
 
   /**
@@ -482,7 +482,7 @@ export default class Account extends Restful {
    * @param limit The value passed in this query parameter sets the maximum number of records to return per page of data.
    * @param offset Specifies the number of locations to skip in the result set before returning the first location in the paginated response.
    */
-  public getInventoryLocations({limit, offset} : { limit?: number, offset?: number} = {}) {
+  public getInventoryLocations({limit, offset}: { limit?: number, offset?: number } = {}) {
     return this.get(`/location`, {
       params: {
         limit,

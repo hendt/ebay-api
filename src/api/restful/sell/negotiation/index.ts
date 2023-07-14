@@ -1,9 +1,10 @@
-import Restful from '../../index.js';
+import {operations} from '../../../../types/restful/specs/sell_negotiation_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * The <b>Negotiations API</b> gives sellers the ability to proactively send discount offers to buyers who have shown an "interest" in their listings.
  */
-export default class Negotiation extends Restful {
+export default class Negotiation extends Restful implements OpenApi<operations> {
 
   static id = 'Negotiation';
 
@@ -23,7 +24,7 @@ export default class Negotiation extends Restful {
         limit,
         offset
       }
-    })
+    });
   }
 
   /**
@@ -32,6 +33,6 @@ export default class Negotiation extends Restful {
    * @param data The CreateOffersRequest
    */
   public sendOfferToInterestedBuyers(data: any) {
-    return this.post(`/send_offer_to_interested_buyers`, data)
+    return this.post(`/send_offer_to_interested_buyers`, data);
   }
 }

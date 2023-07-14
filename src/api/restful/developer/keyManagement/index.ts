@@ -1,9 +1,10 @@
-import Restful from '../../index.js';
+import {operations} from '../../../../types/restful/specs/developer_key_management_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * This method retrieves the call limit and utilization data for an application.
  */
-export default class KeyManagement extends Restful {
+export default class KeyManagement extends Restful implements OpenApi<operations> {
 
   static id = 'KeyManagement';
 

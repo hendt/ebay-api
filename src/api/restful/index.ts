@@ -44,6 +44,10 @@ export interface IRestful {
   id: string;
 }
 
+export type OpenApi<T> = {
+  [K in keyof T]: any
+}
+
 export default abstract class Restful extends Api {
 
   public readonly apiConfig: Required<RestfulApiConfig>;

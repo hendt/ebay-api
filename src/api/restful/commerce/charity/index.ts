@@ -1,9 +1,10 @@
-import Restful from '../../index.js';
+import {operations} from '../../../../types/restful/specs/commerce_charity_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * The Charity API allows third-party developers to search for and access details on supported charitable organizations.
  */
-export default class Charity extends Restful {
+export default class Charity extends Restful implements OpenApi<operations> {
 
   static id = 'Charity';
 
@@ -17,7 +18,7 @@ export default class Charity extends Restful {
    * @param charityOrgId The unique ID of the charitable organization.
    */
   public getCharityOrg(charityOrgId: string) {
-    charityOrgId = encodeURIComponent(charityOrgId)
+    charityOrgId = encodeURIComponent(charityOrgId);
     return this.get(`/charity_org/${charityOrgId}`);
   }
 
@@ -30,11 +31,11 @@ export default class Charity extends Restful {
    * @param registrationIds A comma-separated list of charitable organization registration IDs.
    */
   public getCharityOrgs({
-    limit,
-    offset,
-    q,
-    registrationIds
-  }: { limit?: string, offset?: string, q?: string, registrationIds?: string }) {
+                          limit,
+                          offset,
+                          q,
+                          registrationIds
+                        }: { limit?: string, offset?: string, q?: string, registrationIds?: string }) {
     return this.get(`/charity_org`, {
       params: {
         limit,

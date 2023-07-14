@@ -1,11 +1,11 @@
-import {components} from '../../../../types/restful/specs/sell_compliance_v1_oas3.js';
-import Restful from '../../index.js';
+import {components, operations} from '../../../../types/restful/specs/sell_compliance_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 
 /**
  * Service for providing the compliance violations of seller account/listings
  */
-export default class Compliance extends Restful {
+export default class Compliance extends Restful implements OpenApi<operations> {
 
   static id = 'Compliance';
 

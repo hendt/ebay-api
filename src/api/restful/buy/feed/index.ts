@@ -1,11 +1,12 @@
-import Restful from '../../index.js';
 import {BuyFeedParams} from '../../../../types/index.js';
+import {operations} from '../../../../types/restful/specs/buy_feed_v1_beta_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * The Feed API provides the ability to download TSV_GZIP feed files containing eBay items and an hourly snapshot file
  * of the items that have changed within an hour for a specific category, date and marketplace.
  */
-export default class Feed extends Restful {
+export default class Feed extends Restful implements OpenApi<operations> {
 
   static id = 'Feed';
 

@@ -1,9 +1,10 @@
-import Restful from '../../index.js';
+import {operations} from '../../../../types/restful/specs/developer_analytics_v1_beta_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * This method retrieves the call limit and utilization data for an application.
  */
-export default class Analytics extends Restful {
+export default class Analytics extends Restful implements OpenApi<operations> {
 
   static id = 'Analytics';
 

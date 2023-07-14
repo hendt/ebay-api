@@ -1,10 +1,11 @@
-import Restful from '../../index.js';
 import {Metric} from '../../../../enums/index.js';
+import {operations} from '../../../../types/restful/specs/sell_analytics_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * The Analytics API provides information about a seller's business performance.
  */
-export default class Analytics extends Restful {
+export default class Analytics extends Restful implements OpenApi<operations> {
 
   static id = 'Analytics';
 

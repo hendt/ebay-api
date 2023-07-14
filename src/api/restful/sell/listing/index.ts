@@ -1,9 +1,10 @@
-import Restful from '../../index.js';
+import {operations} from '../../../../types/restful/specs/sell_listing_v1_beta_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * Enables a seller adding an ad or item on a Partner's site to automatically create an eBay listing draft using the item details from the Partner's site.
  */
-export default class Listing extends Restful {
+export default class Listing extends Restful implements OpenApi<operations> {
 
   static id = 'Listing';
 
@@ -17,7 +18,7 @@ export default class Listing extends Restful {
    * @param data The ItemDraft
    */
   public createItemDraft(data?: any) {
-    return this.post(`/item_draft/`, data)
+    return this.post(`/item_draft/`, data);
   }
 
 }

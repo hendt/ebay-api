@@ -1,11 +1,12 @@
-import Restful from '../../index.js';
 import {MarketingInsightsSearchParams} from '../../../../types/index.js';
+import {operations} from '../../../../types/restful/specs/buy_marketplace_insights_v1_beta_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * (Limited Release) The Marketplace Insights API provides the ability to search for sold items on eBay by keyword,
  * GTIN, category, and product and returns the of sales history of those items.
  */
-export default class MarketplaceInsights extends Restful {
+export default class MarketplaceInsights extends Restful implements OpenApi<operations> {
 
   static id = 'MarketplaceInsights';
 
@@ -31,17 +32,17 @@ export default class MarketplaceInsights extends Restful {
    * @param sort This field specifies the order and the field name to use to sort the items.
    */
   public search({
-    aspectFilter,
-    categoryIds,
-    epid,
-    fieldgroups,
-    filter,
-    gtin,
-    limit,
-    offset,
-    q,
-    sort,
-  }: MarketingInsightsSearchParams) {
+                  aspectFilter,
+                  categoryIds,
+                  epid,
+                  fieldgroups,
+                  filter,
+                  gtin,
+                  limit,
+                  offset,
+                  q,
+                  sort,
+                }: MarketingInsightsSearchParams) {
     return this.get(`/item_sales/search`, {
       params: {
         aspect_filter: aspectFilter,

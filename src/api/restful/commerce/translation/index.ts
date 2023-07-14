@@ -1,10 +1,10 @@
-import {components} from '../../../../types/restful/specs/commerce_translation_v1_beta_oas3.js';
-import Restful from '../../index.js';
+import {components, operations} from '../../../../types/restful/specs/commerce_translation_v1_beta_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * This API allows 3rd party developers to translate item title, description, search query.
  */
-export default class Translation extends Restful {
+export default class Translation extends Restful implements OpenApi<operations> {
 
   static id = 'Translation';
 

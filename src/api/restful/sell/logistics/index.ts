@@ -1,9 +1,10 @@
-import Restful from '../../index.js';
+import {operations} from '../../../../types/restful/specs/sell_logistics_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * The <b>Logistics API</b> resources offer the following capabilities: <ul><li><b>shipping_quote</b> &ndash; Consolidates into a list a set of live shipping rates, or quotes, from which you can select a rate to ship a package.
  */
-export default class Logistics extends Restful {
+export default class Logistics extends Restful implements OpenApi<operations> {
 
   static id = 'Logistics';
 
@@ -17,7 +18,7 @@ export default class Logistics extends Restful {
    * @param data The ShippingQuoteRequest
    */
   public createShippingQuote(data: any) {
-    return this.post(`/shipping_quote`, data)
+    return this.post(`/shipping_quote`, data);
   }
 
   /**
@@ -26,8 +27,8 @@ export default class Logistics extends Restful {
    * @param shippingQuoteId This path parameter specifies the unique eBay-assigned ID of the shipping quote you want to retrieve.
    */
   public getShippingQuote(shippingQuoteId: string) {
-    shippingQuoteId = encodeURIComponent(shippingQuoteId)
-    return this.get(`/shipping_quote/${shippingQuoteId}`)
+    shippingQuoteId = encodeURIComponent(shippingQuoteId);
+    return this.get(`/shipping_quote/${shippingQuoteId}`);
   }
 
   /**
@@ -36,7 +37,7 @@ export default class Logistics extends Restful {
    * @param data The CreateShipmentFromQuoteRequest
    */
   public createFromShippingQuote(data: any) {
-    return this.post(`/shipment/create_from_shipping_quote`, data)
+    return this.post(`/shipment/create_from_shipping_quote`, data);
   }
 
   /**
@@ -45,7 +46,7 @@ export default class Logistics extends Restful {
    * @param shipmentId This path parameter specifies the unique eBay-assigned ID of the shipment you want to retrieve.
    */
   public getShipment(shipmentId: any) {
-    return this.get(`/shipment/${shipmentId}`)
+    return this.get(`/shipment/${shipmentId}`);
   }
 
   /**
@@ -54,7 +55,7 @@ export default class Logistics extends Restful {
    * @param shipmentId This path parameter specifies the unique eBay-assigned ID of the shipment associated with the shipping label you want to download.
    */
   public downloadLabelFile(shipmentId: any) {
-    return this.get(`/shipment/${shipmentId}/download_label_file`)
+    return this.get(`/shipment/${shipmentId}/download_label_file`);
   }
 
   /**
@@ -63,6 +64,6 @@ export default class Logistics extends Restful {
    * @param shipmentId This path parameter specifies the unique eBay-assigned ID of the shipment to be canceled.
    */
   public cancelShipment(shipmentId: any) {
-    return this.post(`/shipment/${shipmentId}/cancel`)
+    return this.post(`/shipment/${shipmentId}/cancel`);
   }
 }

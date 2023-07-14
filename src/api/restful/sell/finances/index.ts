@@ -1,4 +1,5 @@
-import Restful from '../../index.js';
+import {operations} from '../../../../types/restful/specs/sell_finances_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * The Finances API is used by sellers in eBay's managed payments program to retrieve seller payout information.
@@ -6,7 +7,7 @@ import Restful from '../../index.js';
  * https://api.ebay.com/oauth/api_scope/sell.finances
  *
  */
-export default class Finances extends Restful {
+export default class Finances extends Restful implements OpenApi<operations> {
 
   static id = 'Finances';
 

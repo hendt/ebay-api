@@ -1,12 +1,12 @@
-import {components} from '../../../../types/restful/specs/sell_recommendation_v1_oas3.js';
-import Restful from '../../index.js';
+import {components, operations} from '../../../../types/restful/specs/sell_recommendation_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 
 /**
  * The <b>Recommendation API</b> returns information that sellers can use to optimize the configuration of their
  * listings on eBay.
  */
-export default class Recommendation extends Restful {
+export default class Recommendation extends Restful implements OpenApi<operations> {
 
   static id = 'Recommendation';
 

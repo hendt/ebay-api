@@ -1,9 +1,10 @@
-import Restful from '../../index.js';
+import {operations} from '../../../../types/restful/specs/buy_deal_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * This API allows third-party developers to search for and retrieve details about eBay deals and events, as well as the items associated with those deals and events.
  */
-export default class Deal extends Restful {
+export default class Deal extends Restful implements OpenApi<operations> {
 
   static id = 'Deal';
 
@@ -21,12 +22,18 @@ export default class Deal extends Restful {
    * @param offset The number of items that will be skipped in the result set.
    */
   public getDealItems({
-    categoryIds,
-    commissionable,
-    deliveryCountry,
-    limit,
-    offset
-  }: { categoryIds?: string, commissionable?: string, deliveryCountry?: string, limit?: string, offset?: string }) {
+                        categoryIds,
+                        commissionable,
+                        deliveryCountry,
+                        limit,
+                        offset
+                      }: {
+    categoryIds?: string,
+    commissionable?: string,
+    deliveryCountry?: string,
+    limit?: string,
+    offset?: string
+  }) {
     return this.get(`/deal_item`, {
       params: {
         category_ids: categoryIds,
@@ -44,7 +51,7 @@ export default class Deal extends Restful {
    * @param eventId The unique identifier for the eBay event.
    */
   public getEvent(eventId: string) {
-    eventId = encodeURIComponent(eventId)
+    eventId = encodeURIComponent(eventId);
     return this.get(`/event/${eventId}`);
   }
 

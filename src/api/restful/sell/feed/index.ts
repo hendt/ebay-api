@@ -1,11 +1,12 @@
 import {multipartHeader} from '../../../../request.js';
 import {SellFeedParams} from '../../../../types/index.js';
-import Restful from '../../index.js';
+import {operations} from '../../../../types/restful/specs/sell_feed_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * The <strong>Feed API</strong> lets sellers upload input files, download reports and files including their status, filter reports using URI parameters, and retrieve customer service metrics task details.
  */
-export default class Feed extends Restful {
+export default class Feed extends Restful implements OpenApi<operations> {
 
   static id = 'Feed';
 

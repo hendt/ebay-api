@@ -1,11 +1,11 @@
-import {components} from '../../../../types/restful/specs/buy_order_v1_beta_oas3.js';
-import Api from '../../index.js';
+import {components, operations} from '../../../../types/restful/specs/buy_order_v1_beta_oas3.js';
+import Api, {OpenApi} from '../../index.js';
 
 /**
  * The Order API provides interfaces that lets shoppers pay for items (for both eBay guest and eBay member buyers).
  * Client Credentials: https://api.ebay.com/oauth/api_scope/buy.order
  */
-export default class Order extends Api {
+export default class Order extends Api implements OpenApi<operations> {
 
   static id = 'Order';
 

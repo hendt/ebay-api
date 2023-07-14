@@ -1,9 +1,10 @@
-import Restful from '../../index.js';
+import {operations} from '../../../../types/restful/specs/sell_metadata_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * The Metadata API has operations that retrieve configuration details pertaining to the different eBay marketplaces.
  */
-export default class Metadata extends Restful {
+export default class Metadata extends Restful implements OpenApi<operations> {
 
   static id = 'Metadata';
 

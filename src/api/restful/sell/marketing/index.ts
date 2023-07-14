@@ -1,5 +1,5 @@
-import {components} from '../../../../types/restful/specs/sell_marketing_v1_oas3.js';
-import Restful from '../../index.js';
+import {components, operations} from '../../../../types/restful/specs/sell_marketing_v1_oas3.js';
+import Restful, {OpenApi} from '../../index.js';
 
 
 /**
@@ -8,7 +8,7 @@ import Restful from '../../index.js';
  * for the products they want to promote. eBay displays the ads in search results and in other
  * marketing modules as <b>SPONSORED</b> listings.
  */
-export default class Marketing extends Restful {
+export default class Marketing extends Restful implements OpenApi<operations> {
 
   static id = 'Marketing';
 

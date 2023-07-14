@@ -1,10 +1,10 @@
 import {operations} from '../../../../types/restful/specs/commerce_catalog_v1_beta_oas3.js';
-import Restful from '../../index.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * Use the Catalog API to search the eBay catalog for products on which to base a seller's item listing;
  */
-export default class Catalog extends Restful {
+export default class Catalog extends Restful implements OpenApi<Omit<operations, 'createChangeRequest'>> {
 
   static id = 'Catalog';
 

@@ -1,12 +1,12 @@
 import {components, operations} from '../../../../types/restful/specs/buy_browse_v1_oas3.js';
-import Restful from '../../index.js';
+import Restful, {OpenApi} from '../../index.js';
 
 /**
  * The Browse API has the following resources: item_summary: Lets shoppers search for specific items by keyword, GTIN,
  * category, charity, product, or item aspects and refine the results by using filters, such as aspects, compatibility,
  * and fields values.
  */
-export default class Browse extends Restful {
+export default class Browse extends Restful implements OpenApi<operations> {
 
   static id = 'Browse';
 
