@@ -32,7 +32,9 @@
     "no-bitwise": false
   },
   "rulesDirectory": [],
-  "ignorePatterns": [
-    "src/types/restful/specs/**/*.ts"
-  ]
+  "linterOptions": {
+    "exclude": [
+      "src/types/restful/specs/**/*.ts"
+    ]
+  }
 }
