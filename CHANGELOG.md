@@ -1,4 +1,21 @@
 # eBay API Changelog
+## [8.5.0](https://github.com/hendt/ebay-api/compare/v8.4.1...v8.5.0) (2023-08-29)
+
+
+### Features
+
+* export request and param types ([adc6cce](https://github.com/hendt/ebay-api/commit/adc6ccec7240713cdc3f0290b7cac246a97a37fc))
+* generate types with openai-typescript ([62d6178](https://github.com/hendt/ebay-api/commit/62d6178b1d41e4dd39467610377dac7acd941591))
+* implement openai spec operations ([035e8c8](https://github.com/hendt/ebay-api/commit/035e8c86200cc512024c71e7e6eacced9859f765))
+* improve more types ([fb170ae](https://github.com/hendt/ebay-api/commit/fb170ae96ff5e884d30c99da26328f54e6f7cb2b))
+* use openai typedef in query too ([afdd9c6](https://github.com/hendt/ebay-api/commit/afdd9c6d099f61bfe053b75ee5ec2c0f71e3e5d2))
+
+
+### Bug Fixes
+
+* ignore openapi generated folder in tslint.json ([2d3e748](https://github.com/hendt/ebay-api/commit/2d3e748ad0ebe3214fd5b4aa617bae55133d24c4))
+* traditional api types ([ac9cd61](https://github.com/hendt/ebay-api/commit/ac9cd6189faeb760e0d36a5f29827b1b0a8ffef0))
+
 ### [8.4.1](https://github.com/hendt/ebay-api/compare/v8.4.0...v8.4.1) (2023-05-25)
 
 ## [8.4.0](https://github.com/hendt/ebay-api/compare/v8.3.0...v8.4.0) (2023-01-27)
