@@ -213,7 +213,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    * @param paymentsProgramType This path parameter specifies the payments program whose status is returned by the
    *     call.
    */
-  public getPaymentsProgram(marketplaceId: string, paymentsProgramType: PaymentsProgramType | keyof typeof PaymentsProgramType) {
+  public getPaymentsProgram(marketplaceId: string, paymentsProgramType: PaymentsProgramType | `${PaymentsProgramType}`) {
     marketplaceId = encodeURIComponent(marketplaceId);
     const type = encodeURIComponent(paymentsProgramType);
     return this.get(`/payments_program/${marketplaceId}/${type}`);
@@ -226,7 +226,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    * @param paymentsProgramType This path parameter specifies the payments program whose status is returned by the
    *     call.
    */
-  public getPaymentsProgramOnboarding(marketplaceId: string, paymentsProgramType: PaymentsProgramType | keyof typeof PaymentsProgramType) {
+  public getPaymentsProgramOnboarding(marketplaceId: string, paymentsProgramType: PaymentsProgramType | `${PaymentsProgramType}`) {
     marketplaceId = encodeURIComponent(marketplaceId);
     const type = encodeURIComponent(paymentsProgramType);
     return this.get(`/payments_program/${marketplaceId}/${type}/onboarding`);

@@ -95,7 +95,7 @@ export default class Return extends Restful {
    * @param payload the CreateReturnRequest
    * @param fieldGroups can be used in the call URI to control the detail level that is returned in response.
    */
-  public createReturnRequest(payload: CreateReturnRequest, fieldGroups?: GetReturnFieldGroupEnum | keyof typeof GetReturnFieldGroupEnum) {
+  public createReturnRequest(payload: CreateReturnRequest, fieldGroups?: GetReturnFieldGroupEnum | `${GetReturnFieldGroupEnum}`) {
     return this.post(`/return`, payload, {
       params: {
         fieldgroups: fieldGroups
@@ -143,7 +143,7 @@ export default class Return extends Restful {
    * @param returnId The unique eBay-assigned ID of the return request.
    * @param fieldGroups can be used in the call URI to control the detail level that is returned in response.
    */
-  public getReturn(returnId: string, fieldGroups?: GetReturnFieldGroupEnum | keyof typeof GetReturnFieldGroupEnum) {
+  public getReturn(returnId: string, fieldGroups?: GetReturnFieldGroupEnum | `${GetReturnFieldGroupEnum}`) {
     returnId = encodeURIComponent(returnId);
     return this.get(`/return/${returnId}`, {
       params: {

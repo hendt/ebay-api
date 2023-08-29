@@ -116,7 +116,7 @@ export type CancellationSearchParams = {
   legacy_order_id?: string;
   limit?: string;
   offset?: string;
-  role?: UserRoleFilter | keyof typeof UserRoleFilter; // default SELLER
+  role?: UserRoleFilter | `${UserRoleFilter}`; // default SELLER
   sort?: CancelSortField;
   transaction_id?: string;
 };
@@ -140,7 +140,7 @@ export type LineItem = {
 export type CreateCancelRequest = {
   buyerPaid?: boolean,
   buyerPaidDate?: DateTime
-  cancelReason?: CancelReason | keyof typeof CancelReason,
+  cancelReason?: CancelReason | `${CancelReason}`,
   legacyOrderId: string,
   relistLineItem?: LineItem[]
 };
@@ -162,8 +162,8 @@ export type BuyerCloseCaseRequest = {
 export type CaseSearchParams = {
   case_creation_date_range_from: string;
   case_creation_date_range_to: string;
-  case_status_filter: CaseStatusFilter | keyof typeof CaseStatusFilter;
-  fieldgroups: CaseSearchFieldGroup | keyof typeof CaseSearchFieldGroup;
+  case_status_filter: CaseStatusFilter | `${CaseStatusFilter}`;
+  fieldgroups: CaseSearchFieldGroup | `${CaseSearchFieldGroup}`;
   item_id: string;
   limit: number;
   offset: number;
@@ -178,7 +178,7 @@ export type Address = {
   addressLine2?: string,
   addressType?: string,
   city?: string,
-  country?: CountryCode | keyof typeof CountryCode,
+  country?: CountryCode | `${CountryCode}`,
   county?: string,
   isTransliterated?: boolean,
   nationalRegion?: string,
@@ -248,10 +248,10 @@ export type ShipmentInfoRequest = {
 };
 
 export type InquirySearchParams = {
-  fieldgroups?: InquirySearchFieldGroup | keyof typeof InquirySearchFieldGroup;
+  fieldgroups?: InquirySearchFieldGroup | `${InquirySearchFieldGroup}`;
   inquiry_creation_date_range_from?: string;
   inquiry_creation_date_range_to?: string;
-  inquiry_status?: InquiryStatusFilter | keyof typeof InquiryStatusFilter;
+  inquiry_status?: InquiryStatusFilter | `${InquiryStatusFilter}`;
   item_id?: string;
   limit?: number;
   offset?: number;
@@ -278,14 +278,14 @@ export type CloseReturnRequest = {
 };
 
 export type ReturnRequestType = {
-  carrier?: ShippingCarrier | keyof typeof ShippingCarrier;
+  carrier?: ShippingCarrier | `${ShippingCarrier}`;
   comments?: Text;
   itemId: string;
-  reason?: ReturnReason | keyof typeof ReturnReason;
-  requestType: RequestType | keyof typeof RequestType;
+  reason?: ReturnReason | `${ReturnReason}`;
+  requestType: RequestType | `${RequestType}`;
   returnQuantity?: number;
   transactionId: string;
-  type?: ReturnType | keyof typeof ReturnType
+  type?: ReturnType | `${ReturnType}`
 };
 
 export type CreateReturnRequest = {
@@ -294,15 +294,15 @@ export type CreateReturnRequest = {
 };
 
 export type Amount = {
-  convertedFromCurrency?: CurrencyCode,
+  convertedFromCurrency?: CurrencyCode | `${CurrencyCode}`,
   convertedFromValue?: number,
-  currency?: CurrencyCode,
+  currency?: CurrencyCode | `${CurrencyCode}`,
   value: string
 };
 
 export type DecideReturnRequest = {
   comments?: Text;
-  decision: Decision | keyof typeof Decision;
+  decision: Decision | `${Decision}`;
   keepOriginalItem?: boolean;
   partialRefundAmount?: Amount;
   RMANumber?: string;
@@ -311,12 +311,12 @@ export type DecideReturnRequest = {
 
 export type EscalateRequest = {
   comments: Text;
-  reason: EscalateReason | keyof typeof EscalateReason
+  reason: EscalateReason | `${EscalateReason}`
 };
 
 export type GetEstimateRequest = {
   itemId: string,
-  reason?: ReturnReason | keyof typeof ReturnReason,
+  reason?: ReturnReason | `${ReturnReason}`,
   returnQuantity?: number;
   transactionId: string;
 };
@@ -326,7 +326,7 @@ export type MarkAsReceivedRequest = {
 };
 
 export type MarkAsShippedRequest = {
-  carrierEnum?: ShippingCarrier | keyof typeof ShippingCarrier;
+  carrierEnum?: ShippingCarrier | `${ShippingCarrier}`;
   carrierName?: string;
   carrierUsed?: string;
   comments?: Text;
@@ -359,7 +359,7 @@ export type Comments = {
 
 export type PostOrderItemizedRefundDetailType = {
   refundAmount: Amount,
-  refundFeeType: RefundFeeType | keyof typeof RefundFeeType,
+  refundFeeType: RefundFeeType | `${RefundFeeType}`,
   restockingFeePercentage?: string,
 }
 
@@ -375,7 +375,7 @@ export type PostOrderIssueRefundRequest = {
 };
 
 export type ProvideLabelRequest = {
-  carrierEnum?: ShippingCarrier | keyof typeof ShippingCarrier,
+  carrierEnum?: ShippingCarrier | `${ShippingCarrier}`,
   carrierName?: string,
   comments?: Text,
   fileId?: string,
@@ -397,8 +397,8 @@ export type SearchReturnParams = {
   return_id?: string;
   return_state?: Token;
   role?: Token;
-  sort?: ReturnCountFilter | keyof typeof ReturnCountFilter;
-  states?: ReturnState | keyof typeof ReturnState;
+  sort?: ReturnCountFilter | `${ReturnCountFilter}`;
+  states?: ReturnState | `${ReturnState}`;
   transaction_id?: string
 };
 
@@ -407,10 +407,10 @@ export type SetReturnCreationSessionRequest = {
 };
 
 export type UpdateTrackingRequest = {
-  newCarrierEnum?: ShippingCarrier | keyof typeof ShippingCarrier;
+  newCarrierEnum?: ShippingCarrier | `${ShippingCarrier}`;
   newCarrierName?: string;
   newTrackingNumber?: string;
-  usedCarrierEnum?: ShippingCarrier | keyof typeof ShippingCarrier;
+  usedCarrierEnum?: ShippingCarrier | `${ShippingCarrier}`;
   usedCarrierName?: string;
   usedTrackingNumber?: string;
 };
@@ -418,7 +418,7 @@ export type UpdateTrackingRequest = {
 export type UploadFileRequest = {
   data: any,
   fileName?: string;
-  filePurpose: FilePurpose
+  filePurpose: FilePurpose | `${FilePurpose}`
 };
 
 export type VoidLabelRequest = {

@@ -1,5 +1,5 @@
 import {AxiosRequestConfig} from 'axios';
-import {ContentLanguage, MarketplaceId, SiteId} from '../enums/index.js';
+import {ContentLanguage, Locale, MarketplaceId, SiteId} from '../enums/index.js';
 
 export type Scope = string[];
 
@@ -10,10 +10,10 @@ export type Keyset = {
 };
 
 export type RestConfig = {
-  marketplaceId?: MarketplaceId,
+  marketplaceId?: MarketplaceId | `${MarketplaceId}`,
   endUserCtx?: string,
-  contentLanguage?: ContentLanguage
-  acceptLanguage?: string
+  contentLanguage?: ContentLanguage | `${ContentLanguage}`
+  acceptLanguage?: Locale | `${Locale}`
 }
 
 export type TraditionalConfig = {
