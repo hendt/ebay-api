@@ -1,4 +1,15 @@
-import {components, operations} from '../../../../types/restful/specs/buy_browse_v1_oas3.js';
+import {
+  AddCartItemInput,
+  BuyBrowseGetItemsParams,
+  BuyBrowseItemByLegacyIdParams,
+  BuyBrowseSearchByImageParams,
+  BuyBrowseSearchParams,
+  CompatibilityPayload,
+  RemoveCartItemInput,
+  SearchByImageRequest,
+  UpdateCartItemInput
+} from '../../../../types/index.js';
+import {operations} from '../../../../types/restful/specs/buy_browse_v1_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
 
 /**
@@ -24,7 +35,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    *
    * @param {BrowseSearchParams} params
    */
-  public search(params: operations['search']['parameters']['query']) {
+  public search(params: BuyBrowseSearchParams) {
     return this.get(`/item_summary/search`, {
       params
     });
@@ -37,7 +48,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    * @param {params} params
    * @param {Object} body The container for the image information fields.
    */
-  public searchByImage(params: operations['searchByImage']['parameters']['query'], body?: components['schemas']['SearchByImageRequest']) {
+  public searchByImage(params: BuyBrowseSearchByImageParams, body?: SearchByImageRequest) {
     return this.post(`/item_summary/search_by_image`, body, {
       params
     });
@@ -48,7 +59,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    *
    * @param {params} params
    */
-  public getItems(params: operations['getItems']['parameters']['query']) {
+  public getItems(params: BuyBrowseGetItemsParams) {
     return this.get(`/item/`, {
       params
     });
@@ -76,7 +87,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    *
    * @param {LegacyItemParams} params
    */
-  public getItemByLegacyId(params: operations['getItemByLegacyId']['parameters']['query']) {
+  public getItemByLegacyId(params: BuyBrowseItemByLegacyIdParams) {
     return this.get(`/item/get_item_by_legacy_id`, {
       params
     });
@@ -100,7 +111,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    * @param {String} itemId The eBay RESTful identifier of an item (such as a part you want to check).
    * @param {Object} body CompatibilityPayload
    */
-  public checkCompatibility(itemId: string, body?: components['schemas']['CompatibilityPayload']) {
+  public checkCompatibility(itemId: string, body?: CompatibilityPayload) {
     const id = encodeURIComponent(itemId);
     return this.post(`/item/${id}/check_compatibility`, body);
   }
@@ -115,7 +126,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    *
    * @param {Object} item AddCartItemInput
    */
-  public addItem(item: components['schemas']['AddCartItemInput']) {
+  public addItem(item: AddCartItemInput) {
     return this.post(`/shopping_cart/add_item`, item);
   }
 
@@ -132,7 +143,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    *
    *  @param {Object} item RemoveCartItemInput
    */
-  public removeItem(item: components['schemas']['RemoveCartItemInput']) {
+  public removeItem(item: RemoveCartItemInput) {
     return this.post(`/shopping_cart/remove_item`, item);
   }
 
@@ -142,7 +153,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    *
    * @param {UpdateCartItemInput} item UpdateCartItemInput
    */
-  public updateQuantity(item: components['schemas']['UpdateCartItemInput']) {
+  public updateQuantity(item: UpdateCartItemInput) {
     return this.post(`/shopping_cart/update_quantity`, item);
   }
 }

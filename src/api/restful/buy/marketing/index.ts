@@ -1,3 +1,8 @@
+import {
+  BuyMarketingGetAlsoBoughtByProductParams,
+  BuyMarketingGetAlsoViewedByProductParams,
+  BuyMarketingGetMerchandisedProductsParams
+} from '../../../../types/index.js';
 import {operations} from '../../../../types/restful/specs/buy_marketing_v1_beta_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
 
@@ -22,7 +27,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * This call returns products that were also bought when shoppers bought the product specified in the request.
    * @param params
    */
-  public getAlsoBoughtByProduct(params: operations['getAlsoBoughtByProduct']['parameters']['query']) {
+  public getAlsoBoughtByProduct(params: BuyMarketingGetAlsoBoughtByProductParams) {
     return this.get(`/merchandised_product/get_also_bought_products`, {
       params
     });
@@ -33,7 +38,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *
    * @param params
    */
-  public getAlsoViewedByProduct(params: operations['getAlsoViewedByProduct']['parameters']['query']) {
+  public getAlsoViewedByProduct(params: BuyMarketingGetAlsoViewedByProductParams) {
     return this.get(`/merchandised_product/get_also_viewed_products`, {
       params
     });
@@ -44,7 +49,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *
    * @param params
    */
-  public getMerchandisedProducts(params: operations['getMerchandisedProducts']['parameters']['query']) {
+  public getMerchandisedProducts(params: BuyMarketingGetMerchandisedProductsParams) {
     return this.get(`/merchandised_product`, {
       params
     });

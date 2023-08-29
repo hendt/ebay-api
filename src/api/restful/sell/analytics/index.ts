@@ -41,7 +41,7 @@ export default class Analytics extends Restful implements OpenApi<operations> {
    * @param sort Specifies a single metric to be sorted and whether you want to sort in ascending or descending order.
    */
   public getTrafficReport({dimension, filter, metric, sort}:
-                            { dimension?: string, filter?: string, metric?: Metric, sort?: string } = {}) {
+                            { dimension?: string, filter?: string, metric?: Metric | keyof typeof Metric, sort?: string } = {}) {
     return this.get(`/traffic_report`, {
       params: {
         dimension,

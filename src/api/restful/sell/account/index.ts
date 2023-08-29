@@ -1,5 +1,16 @@
 import {PaymentsProgramType} from '../../../../enums/index.js';
-import {components, operations} from '../../../../types/restful/specs/sell_account_v1_oas3.js';
+import {
+  CustomPolicyCreateRequest,
+  CustomPolicyRequest,
+  FulfillmentPolicyRequest,
+  FulfillmentSellAccountProgram,
+  InventoryLocation,
+  InventoryLocationFull,
+  PaymentPolicyRequest,
+  ReturnPolicyRequest,
+  SalesTaxBase
+} from '../../../../types/index.js';
+import {operations} from '../../../../types/restful/specs/sell_account_v1_oas3.js';
 
 import Restful, {OpenApi} from '../../index.js';
 
@@ -32,7 +43,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    * This method creates a new custom policy in which a seller specifies their terms for complying with local governmental regulations.
    * @param body Request to create a new Custom Policy.
    */
-  public createCustomPolicy(body: components['schemas']['CustomPolicyCreateRequest']) {
+  public createCustomPolicy(body: CustomPolicyCreateRequest) {
     return this.post(`/custom_policy/`, body);
   }
 
@@ -50,7 +61,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    * @param customPolicyId This path parameter is the unique custom policy identifier for the policy to be returned.
    * @param body Request to update a current custom policy.
    */
-  public updateCustomPolicy(customPolicyId: string, body: components['schemas']['CustomPolicyRequest']) {
+  public updateCustomPolicy(customPolicyId: string, body: CustomPolicyRequest) {
     customPolicyId = encodeURIComponent(customPolicyId);
     return this.put(`/custom_policy/${customPolicyId}`, body);
   }
@@ -75,7 +86,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    *
    * @param body Request to create a seller account fulfillment policy.
    */
-  public createFulfillmentPolicy(body: components['schemas']['FulfillmentPolicyRequest']) {
+  public createFulfillmentPolicy(body: FulfillmentPolicyRequest) {
     return this.post(`/fulfillment_policy/`, body);
   }
 
@@ -85,7 +96,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    * @param fulfillmentPolicyId This path parameter specifies the ID of the fulfillment policy you want to update.
    * @param body Request to create a seller account fulfillment policy.
    */
-  public updateFulfillmentPolicy(fulfillmentPolicyId: string, body: components['schemas']['FulfillmentPolicyRequest']) {
+  public updateFulfillmentPolicy(fulfillmentPolicyId: string, body: FulfillmentPolicyRequest) {
     fulfillmentPolicyId = encodeURIComponent(fulfillmentPolicyId);
     return this.put(`/fulfillment_policy/${fulfillmentPolicyId}`, body);
   }
@@ -155,7 +166,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    *
    * @param body Payment policy request
    */
-  public createPaymentPolicy(body: components['schemas']['PaymentPolicyRequest']) {
+  public createPaymentPolicy(body: PaymentPolicyRequest) {
     return this.post(`/payment_policy`, body);
   }
 
@@ -165,7 +176,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    * @param paymentPolicyId This path parameter specifies the ID of the payment policy you want to update.
    * @param body Payment policy request
    */
-  public updatePaymentPolicy(paymentPolicyId: string, body: components['schemas']['PaymentPolicyRequest']) {
+  public updatePaymentPolicy(paymentPolicyId: string, body: PaymentPolicyRequest) {
     paymentPolicyId = encodeURIComponent(paymentPolicyId);
     return this.put(`/payment_policy/${paymentPolicyId}`, body);
   }
@@ -202,7 +213,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    * @param paymentsProgramType This path parameter specifies the payments program whose status is returned by the
    *     call.
    */
-  public getPaymentsProgram(marketplaceId: string, paymentsProgramType: PaymentsProgramType) {
+  public getPaymentsProgram(marketplaceId: string, paymentsProgramType: PaymentsProgramType | keyof typeof PaymentsProgramType) {
     marketplaceId = encodeURIComponent(marketplaceId);
     const type = encodeURIComponent(paymentsProgramType);
     return this.get(`/payments_program/${marketplaceId}/${type}`);
@@ -215,7 +226,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    * @param paymentsProgramType This path parameter specifies the payments program whose status is returned by the
    *     call.
    */
-  public getPaymentsProgramOnboarding(marketplaceId: string, paymentsProgramType: PaymentsProgramType) {
+  public getPaymentsProgramOnboarding(marketplaceId: string, paymentsProgramType: PaymentsProgramType | keyof typeof PaymentsProgramType) {
     marketplaceId = encodeURIComponent(marketplaceId);
     const type = encodeURIComponent(paymentsProgramType);
     return this.get(`/payments_program/${marketplaceId}/${type}/onboarding`);
@@ -240,7 +251,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    *
    * @param body Program being opted-in to.
    */
-  public optInToProgram(body?: components['schemas']['Program']) {
+  public optInToProgram(body?: FulfillmentSellAccountProgram) {
     return this.post(`/program/opt_in`, body);
   }
 
@@ -249,7 +260,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    *
    * @param body Program being opted-out of.
    */
-  public optOutOfProgram(body?: components['schemas']['Program']) {
+  public optOutOfProgram(body?: FulfillmentSellAccountProgram) {
     return this.post(`/program/opt_out`, body);
   }
 
@@ -298,7 +309,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    *
    * @param body Return policy request
    */
-  public createReturnPolicy(body: components['schemas']['ReturnPolicyRequest']) {
+  public createReturnPolicy(body: ReturnPolicyRequest) {
     return this.post(`/return_policy`, body);
   }
 
@@ -308,7 +319,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    *  @param returnPolicyId This path parameter specifies the ID of the return policy you want to update.
    * @param body Return policy request
    */
-  public updateReturnPolicy(returnPolicyId: string, body: components['schemas']['ReturnPolicyRequest']) {
+  public updateReturnPolicy(returnPolicyId: string, body: ReturnPolicyRequest) {
     returnPolicyId = encodeURIComponent(returnPolicyId);
     return this.put(`/return_policy/${returnPolicyId}`, body);
   }
@@ -363,7 +374,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    *     want to create.
    * @param body A container that describes the how the sales tax is calculated.
    */
-  public createOrReplaceSalesTax(countryCode: string, jurisdictionId: string, body: components['schemas']['SalesTaxBase']) {
+  public createOrReplaceSalesTax(countryCode: string, jurisdictionId: string, body: SalesTaxBase) {
     countryCode = encodeURIComponent(countryCode);
     jurisdictionId = encodeURIComponent(jurisdictionId);
     return this.put(`/sales_tax/${countryCode}/${jurisdictionId}`, body);
@@ -445,7 +456,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    * @param merchantLocationKey A unique, merchant-defined key (ID) for an inventory location.
    * @param body Inventory Location details
    */
-  public createInventoryLocation(merchantLocationKey: string, body: components['schemas']['InventoryLocationFull']) {
+  public createInventoryLocation(merchantLocationKey: string, body: InventoryLocationFull) {
     merchantLocationKey = encodeURIComponent(merchantLocationKey);
     return this.post(`/location/${merchantLocationKey}`, body);
   }
@@ -496,7 +507,7 @@ export default class Account extends Restful implements OpenApi<operations> {
    * @param merchantLocationKey A unique merchant-defined key (ID) for an inventory location.
    * @param body The inventory location details to be updated (other than the address and geo co-ordinates).
    */
-  public updateInventoryLocation(merchantLocationKey: string, body: components['schemas']['InventoryLocation']) {
+  public updateInventoryLocation(merchantLocationKey: string, body: InventoryLocation) {
     merchantLocationKey = encodeURIComponent(merchantLocationKey);
     return this.post(`/location/${merchantLocationKey}/update_location_details`, body);
   }

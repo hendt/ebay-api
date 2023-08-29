@@ -1,4 +1,16 @@
-import {components, operations} from '../../../../types/restful/specs/buy_order_v1_beta_oas3.js';
+import {
+  CheckoutSessionRequestWithoutPayment,
+  CouponRequest,
+  CreateGuestCheckoutSessionRequest,
+  CreateSignInCheckoutSessionRequest,
+  GuestPlaceOrderRequest,
+  InitiatePaymentRequest,
+  ShippingAddressImpl,
+  UpdatePaymentInformation,
+  UpdateQuantity,
+  UpdateShippingOption
+} from '../../../../types/index.js';
+import {operations} from '../../../../types/restful/specs/buy_order_v1_beta_oas3.js';
 import Api, {OpenApi} from '../../index.js';
 
 /**
@@ -22,7 +34,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     returned by the initiateCheckoutSession method.
    * @param body The container for the fields used to apply a coupon to a checkout session.
    */
-  public applyCoupon(checkoutSessionId: string, body: components['schemas']['CouponRequest']) {
+  public applyCoupon(checkoutSessionId: string, body: CouponRequest) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/checkout_session/${checkoutSessionId}/apply_coupon`, body);
   }
@@ -43,7 +55,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *
    * @param body The container for the fields used by the initiateCheckoutSession method.
    */
-  public initiateCheckoutSession(body?: components['schemas']['CreateSignInCheckoutSessionRequest']) {
+  public initiateCheckoutSession(body?: CreateSignInCheckoutSessionRequest) {
     return this.post(`/checkout_session/initiate`, body);
   }
 
@@ -67,7 +79,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body CouponRequest
    */
-  public removeCoupon(checkoutSessionId: string, body?: components['schemas']['CouponRequest']) {
+  public removeCoupon(checkoutSessionId: string, body?: CouponRequest) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/checkout_session/${checkoutSessionId}/remove_coupon`, body);
   }
@@ -79,7 +91,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body UpdatePaymentInformation
    */
-  public updatePaymentInfo(checkoutSessionId: string, body?: components['schemas']['UpdatePaymentInformation']) {
+  public updatePaymentInfo(checkoutSessionId: string, body?: UpdatePaymentInformation) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/checkout_session/${checkoutSessionId}/update_payment_info`, body);
   }
@@ -91,7 +103,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body UpdateQuantity
    */
-  public updateQuantity(checkoutSessionId: string, body?: components['schemas']['UpdateQuantity']) {
+  public updateQuantity(checkoutSessionId: string, body?: UpdateQuantity) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/checkout_session/${checkoutSessionId}/update_quantity`, body);
   }
@@ -103,7 +115,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body UpdateQuantity
    */
-  public checkoutSessionId(checkoutSessionId: string, body?: components['schemas']['UpdateQuantity']) {
+  public checkoutSessionId(checkoutSessionId: string, body?: UpdateQuantity) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/checkout_session/${checkoutSessionId}/update_quantity`, body);
   }
@@ -115,7 +127,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body ShippingAddressImpl
    */
-  public updateShippingAddress(checkoutSessionId: string, body?: components['schemas']['ShippingAddressImpl']) {
+  public updateShippingAddress(checkoutSessionId: string, body?: ShippingAddressImpl) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/checkout_session/${checkoutSessionId}/update_shipping_address`, body);
   }
@@ -127,7 +139,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body UpdateShippingOption
    */
-  public updateShippingOption(checkoutSessionId: string, body?: components['schemas']['UpdateShippingOption']) {
+  public updateShippingOption(checkoutSessionId: string, body?: UpdateShippingOption) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/checkout_session/${checkoutSessionId}/update_shipping_option`, body);
   }
@@ -141,7 +153,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body CouponRequest
    */
-  public applyGuestCoupon(checkoutSessionId: string, body?: components['schemas']['CouponRequest']) {
+  public applyGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/guest_checkout_session/${checkoutSessionId}/apply_coupon`, body);
   }
@@ -163,7 +175,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *
    * @param body CheckoutSessionRequest
    */
-  public initiateGuestCheckoutSession(body?: components['schemas']['CreateGuestCheckoutSessionRequest']) {
+  public initiateGuestCheckoutSession(body?: CreateGuestCheckoutSessionRequest) {
     return this.post(`/guest_checkout_session/initiate`, body);
   }
 
@@ -174,7 +186,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    *  @param body InitiatePaymentRequest
    */
-  public initiateGuestPayment(checkoutSessionId: string, body?: components['schemas']['InitiatePaymentRequest']) {
+  public initiateGuestPayment(checkoutSessionId: string, body?: InitiatePaymentRequest) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/guest_checkout_session/${checkoutSessionId}/initiate_payment`, body);
   }
@@ -186,7 +198,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body GuestPlaceOrderRequest
    */
-  public placeGuestOrder(checkoutSessionId: string, body?: components['schemas']['GuestPlaceOrderRequest']) {
+  public placeGuestOrder(checkoutSessionId: string, body?: GuestPlaceOrderRequest) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/guest_checkout_session/${checkoutSessionId}/place_order`, body);
   }
@@ -199,7 +211,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body CouponRequest
    */
-  public removeGuestCoupon(checkoutSessionId: string, body?: components['schemas']['CouponRequest']) {
+  public removeGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/guest_checkout_session/${checkoutSessionId}/remove_coupon`, body);
   }
@@ -211,7 +223,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body UpdatePaymentInformation
    */
-  public updateGuestPaymentInfo(checkoutSessionId: string, body?: components['schemas']['UpdatePaymentInformation']) {
+  public updateGuestPaymentInfo(checkoutSessionId: string, body?: UpdatePaymentInformation) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/guest_checkout_session/${checkoutSessionId}/update_payment_info`, body);
   }
@@ -223,7 +235,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body UpdateQuantity
    */
-  public updateGuestQuantity(checkoutSessionId: string, body?: components['schemas']['UpdateQuantity']) {
+  public updateGuestQuantity(checkoutSessionId: string, body?: UpdateQuantity) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/guest_checkout_session/${checkoutSessionId}/update_quantity`, body);
   }
@@ -235,7 +247,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body ShippingAddressImpl
    */
-  public updateGuestShippingAddress(checkoutSessionId: string, body?: components['schemas']['ShippingAddressImpl']) {
+  public updateGuestShippingAddress(checkoutSessionId: string, body?: ShippingAddressImpl) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/guest_checkout_session/${checkoutSessionId}/update_shipping_address`, body);
   }
@@ -247,7 +259,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body UpdateShippingOption
    */
-  public updateGuestShippingOption(checkoutSessionId: string, body?: components['schemas']['UpdateShippingOption']) {
+  public updateGuestShippingOption(checkoutSessionId: string, body?: UpdateShippingOption) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/guest_checkout_session/${checkoutSessionId}/update_shipping_option`, body);
   }
@@ -260,7 +272,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body CouponRequest
    */
-  public applyProxyGuestCoupon(checkoutSessionId: string, body?: components['schemas']['CouponRequest']) {
+  public applyProxyGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/apply_coupon`, body);
   }
@@ -283,7 +295,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *
    * @param body CheckoutSessionRequest
    */
-  public initiateProxyGuestCheckoutSession(body?: components['schemas']['CheckoutSessionRequestWithoutPayment']) {
+  public initiateProxyGuestCheckoutSession(body?: CheckoutSessionRequestWithoutPayment) {
     return this.post(`/proxy_guest_checkout_session/initiate`, body);
   }
 
@@ -295,7 +307,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body GuestPlaceOrderRequest
    */
-  public placeProxyGuestOrder(checkoutSessionId: string, body?: components['schemas']['GuestPlaceOrderRequest']) {
+  public placeProxyGuestOrder(checkoutSessionId: string, body?: GuestPlaceOrderRequest) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/place_order`, body);
   }
@@ -308,7 +320,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body CouponRequest
    */
-  public removeProxyGuestCoupon(checkoutSessionId: string, body?: components['schemas']['CouponRequest']) {
+  public removeProxyGuestCoupon(checkoutSessionId: string, body?: CouponRequest) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/remove_coupon`, body);
   }
@@ -331,7 +343,7 @@ export default class Order extends Api implements OpenApi<operations> {
     date: string,
     requestNonce: string,
     signature: string,
-    body?: components['schemas']['UpdatePaymentInformation']
+    body?: UpdatePaymentInformation
   ) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_payment_info`, body, {
@@ -351,7 +363,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body UpdateQuantity
    */
-  public updateProxyGuestQuantity(checkoutSessionId: string, body?: components['schemas']['UpdateQuantity']) {
+  public updateProxyGuestQuantity(checkoutSessionId: string, body?: UpdateQuantity) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_quantity`, body);
   }
@@ -363,7 +375,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body ShippingAddressImpl
    */
-  public updateProxyGuestShippingAddress(checkoutSessionId: string, body?: components['schemas']['ShippingAddressImpl']) {
+  public updateProxyGuestShippingAddress(checkoutSessionId: string, body?: ShippingAddressImpl) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_shipping_address`, body);
   }
@@ -375,7 +387,7 @@ export default class Order extends Api implements OpenApi<operations> {
    *     initiateCheckoutSession method.
    * @param body UpdateShippingOption
    */
-  public updateProxyGuestShippingOption(checkoutSessionId: string, body?: components['schemas']['UpdateShippingOption']) {
+  public updateProxyGuestShippingOption(checkoutSessionId: string, body?: UpdateShippingOption) {
     checkoutSessionId = encodeURIComponent(checkoutSessionId);
     return this.post(`/proxy_guest_checkout_session/${checkoutSessionId}/update_shipping_option`, body);
   }

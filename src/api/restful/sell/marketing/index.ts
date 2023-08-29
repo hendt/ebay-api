@@ -1,4 +1,35 @@
-import {components, operations} from '../../../../types/restful/specs/sell_marketing_v1_oas3.js';
+import {
+  BulkCreateAdRequest,
+  BulkCreateAdsByInventoryReferenceRequest,
+  BulkCreateKeywordRequest,
+  BulkCreateNegativeKeywordRequest,
+  BulkDeleteAdRequest,
+  BulkDeleteAdsByInventoryReferenceRequest,
+  BulkUpdateAdStatusByListingIdRequest,
+  BulkUpdateAdStatusRequest,
+  BulkUpdateKeywordRequest,
+  BulkUpdateNegativeKeywordRequest,
+  CloneCampaignRequest,
+  CreateAdGroupRequest,
+  CreateAdRequest,
+  CreateAdsByInventoryReferenceRequest,
+  CreateCampaignRequest,
+  CreateKeywordRequest,
+  CreateNegativeKeywordRequest,
+  CreateReportTask,
+  ItemPriceMarkdown,
+  ItemPromotion,
+  TargetedBidRequest,
+  TargetedKeywordRequest,
+  UpdateAdGroupRequest,
+  UpdateAdrateStrategyRequest,
+  UpdateBidPercentageRequest,
+  UpdateCampaignBudgetRequest,
+  UpdateCampaignIdentificationRequest,
+  UpdateKeywordRequest,
+  UpdateNegativeKeywordRequest
+} from '../../../../types/index.js';
+import {operations} from '../../../../types/restful/specs/sell_marketing_v1_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
 
 
@@ -23,7 +54,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created.
    * @param body This type defines the fields for the bulkCreateAdsByInventoryReference request.
    */
-  public bulkCreateAdsByInventoryReference(campaignId: string, body: components['schemas']['BulkCreateAdsByInventoryReferenceRequest']) {
+  public bulkCreateAdsByInventoryReference(campaignId: string, body: BulkCreateAdsByInventoryReferenceRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/bulk_create_ads_by_inventory_reference`, body);
   }
@@ -37,7 +68,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param body The container for the bulk request to create ads for eBay listing IDs. eBay listing IDs are
    *     generated when the listing is created on eBay.
    */
-  public bulkCreateAdsByListingId(campaignId: string, body: components['schemas']['BulkCreateAdRequest']) {
+  public bulkCreateAdsByListingId(campaignId: string, body: BulkCreateAdRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/bulk_create_ads_by_listing_id`, body);
   }
@@ -50,7 +81,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *     a seller's campaign IDs by calling getCampaigns.
    * @param body This type defines the fields for a bulkDeleteAdsByInventoryReference request.
    */
-  public bulkDeleteAdsByInventoryReference(campaignId: string, body: components['schemas']['BulkDeleteAdsByInventoryReferenceRequest']) {
+  public bulkDeleteAdsByInventoryReference(campaignId: string, body: BulkDeleteAdsByInventoryReferenceRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/bulk_delete_ads_by_inventory_reference`, body);
   }
@@ -62,7 +93,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *     a seller's campaign IDs by calling getCampaigns.
    * @param body This type defines the fields for the bulkDeleteAdsByListingId request.
    */
-  public bulkDeleteAdsByListingId(campaignId: string, body: components['schemas']['BulkDeleteAdRequest']) {
+  public bulkDeleteAdsByListingId(campaignId: string, body: BulkDeleteAdRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/bulk_delete_ads_by_listing_id`, body);
   }
@@ -74,7 +105,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created.
    * @param body This type defines the fields for the BulkCreateAdsByInventoryReference request.
    */
-  public bulkUpdateAdsBidByInventoryReference(campaignId: string, body: components['schemas']['BulkCreateAdsByInventoryReferenceRequest']) {
+  public bulkUpdateAdsBidByInventoryReference(campaignId: string, body: BulkCreateAdsByInventoryReferenceRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/bulk_update_ads_bid_by_inventory_reference`, body);
   }
@@ -87,7 +118,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *     a seller's campaign IDs by calling getCampaigns.
    * @param body Container for the bulk request to update ads.
    */
-  public bulkUpdateAdsBidByListingId(campaignId: string, body: components['schemas']['BulkCreateAdRequest']) {
+  public bulkUpdateAdsBidByListingId(campaignId: string, body: BulkCreateAdRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/bulk_update_ads_bid_by_listing_id`, body);
   }
@@ -99,7 +130,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *     a seller's campaign IDs by calling getCampaigns.
    * @param body The bulk request to update the ads.
    */
-  public bulkUpdateAdsStatus(campaignId: string, body: components['schemas']['BulkUpdateAdStatusRequest']) {
+  public bulkUpdateAdsStatus(campaignId: string, body: BulkUpdateAdStatusRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/bulk_update_ads_status`, body);
   }
@@ -111,7 +142,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *     a seller's campaign IDs by calling getCampaigns.
    * @param body The bulk request to update ads.
    */
-  public bulkUpdateAdsStatusByListingId(campaignId: string, body: components['schemas']['BulkUpdateAdStatusByListingIdRequest']) {
+  public bulkUpdateAdsStatusByListingId(campaignId: string, body: BulkUpdateAdStatusByListingIdRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/bulk_update_ads_status_by_listing_id`, body);
   }
@@ -148,7 +179,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *     a seller's campaign IDs by calling getCampaigns.
    * @param body This type defines the fields for the createAd request.
    */
-  public createAdByListingId(campaignId: string, body: components['schemas']['CreateAdRequest']) {
+  public createAdByListingId(campaignId: string, body: CreateAdRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/ad`, body);
   }
@@ -161,7 +192,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *     a seller's campaign IDs by calling getCampaigns.
    * @param body This type defines the fields for the createAdsByInventoryReference request.
    */
-  public createAdsByInventoryReference(campaignId: string, body: components['schemas']['CreateAdsByInventoryReferenceRequest']) {
+  public createAdsByInventoryReference(campaignId: string, body: CreateAdsByInventoryReferenceRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/create_ads_by_inventory_reference`, body);
   }
@@ -233,7 +264,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param adId A unique eBay-assigned ID for an ad that's generated when an ad is created.
    * @param body This type defines the fields for the updateBid request.
    */
-  public updateBid(campaignId: string, adId: string, body: components['schemas']['UpdateBidPercentageRequest']) {
+  public updateBid(campaignId: string, adId: string, body: UpdateBidPercentageRequest) {
     campaignId = encodeURIComponent(campaignId);
     adId = encodeURIComponent(adId);
     return this.post(`/ad_campaign/${campaignId}/ad/${adId}/update_bid`, body);
@@ -268,7 +299,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *     a seller's campaign IDs by calling getCampaigns.
    * @param body This type defines the fields for the <b>createAdGroup</b> request.
    */
-  public createAdGroup(campaignId: string, body: components['schemas']['CreateAdGroupRequest']) {
+  public createAdGroup(campaignId: string, body: CreateAdGroupRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/ad_group`, body);
   }
@@ -292,7 +323,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param adGroupId The ID of the ad group that shall be retrieved.
    * @param body This type defines the fields for the <b>UpdateAdGroup</b> request.
    */
-  public updateAdGroup(campaignId: string, adGroupId: string, body: components['schemas']['UpdateAdGroupRequest']) {
+  public updateAdGroup(campaignId: string, adGroupId: string, body: UpdateAdGroupRequest) {
     adGroupId = encodeURIComponent(adGroupId);
     campaignId = encodeURIComponent(campaignId);
     return this.put(`/ad_campaign/${campaignId}/ad_group/${adGroupId}`, body);
@@ -305,7 +336,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param adGroupId The ID of the ad group that shall be retrieved.
    * @param body The data requested to retrieve the suggested bids.
    */
-  public suggestBids(campaignId: string, adGroupId: string, body: components['schemas']['TargetedBidRequest']) {
+  public suggestBids(campaignId: string, adGroupId: string, body: TargetedBidRequest) {
     adGroupId = encodeURIComponent(adGroupId);
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/ad_group/${adGroupId}/suggest_bids`, body);
@@ -318,7 +349,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param adGroupId The ID of the ad group that shall be retrieved.
    * @param body The required data to retrieve suggested keywords.
    */
-  public suggestKeywords(campaignId: string, adGroupId: string, body: components['schemas']['TargetedKeywordRequest']) {
+  public suggestKeywords(campaignId: string, adGroupId: string, body: TargetedKeywordRequest) {
     adGroupId = encodeURIComponent(adGroupId);
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/ad_group/${adGroupId}/suggest_keywords`, body);
@@ -332,7 +363,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *     a seller's campaign IDs by calling getCampaigns.
    * @param body This type defines the fields for a clone campaign request.
    */
-  public cloneCampaign(campaignId: string, body: components['schemas']['CloneCampaignRequest']) {
+  public cloneCampaign(campaignId: string, body: CloneCampaignRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/clone`, body);
   }
@@ -386,7 +417,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *
    * @param body his type defines the fields for the create campaign request.
    */
-  public createCampaign(body: components['schemas']['CreateCampaignRequest']) {
+  public createCampaign(body: CreateCampaignRequest) {
     return this.post(`/ad_campaign`, body);
   }
 
@@ -500,7 +531,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param campaignId A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.
    * @param body This type defines the request fields for the ad rate strategy that shall be updated.
    */
-  public updateAdRateStrategy(campaignId: string, body: components['schemas']['UpdateAdrateStrategyRequest']) {
+  public updateAdRateStrategy(campaignId: string, body: UpdateAdrateStrategyRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/update_ad_rate_strategy`, body);
   }
@@ -510,7 +541,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param campaignId A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.
    * @param body This type defines the request fields for the budget details that shall be updated.
    */
-  public updateCampaignBudget(campaignId: string, body: components['schemas']['UpdateCampaignBudgetRequest']) {
+  public updateCampaignBudget(campaignId: string, body: UpdateCampaignBudgetRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/update_campaign_budget`, body);
   }
@@ -522,7 +553,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *     a seller's campaign IDs by calling getCampaigns.
    * @param body This type defines the fields to updated the campaign name and start and end dates.
    */
-  public updateCampaignIdentification(campaignId: string, body: components['schemas']['UpdateCampaignIdentificationRequest']) {
+  public updateCampaignIdentification(campaignId: string, body: UpdateCampaignIdentificationRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/update_campaign_identification`, body);
   }
@@ -533,7 +564,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *     a seller's campaign IDs by calling getCampaigns.
    * @param body A type that defines the fields for the bulk request to create keywords.
    */
-  public bulkCreateKeyword(campaignId: string, body: components['schemas']['BulkCreateKeywordRequest']) {
+  public bulkCreateKeyword(campaignId: string, body: BulkCreateKeywordRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/bulk_create_keyword`, body);
   }
@@ -544,7 +575,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *     a seller's campaign IDs by calling getCampaigns.
    * @param body A type that defines the fields for the bulk request to update keywords.
    */
-  public bulkUpdateKeyword(campaignId: string, body: components['schemas']['BulkUpdateKeywordRequest']) {
+  public bulkUpdateKeyword(campaignId: string, body: BulkUpdateKeywordRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/bulk_update_keyword`, body);
   }
@@ -581,7 +612,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *     a seller's campaign IDs by calling getCampaigns.
    * @param body A type that defines the fields for the request to create a keyword.
    */
-  public createKeyword(campaignId: string, body: components['schemas']['CreateKeywordRequest']) {
+  public createKeyword(campaignId: string, body: CreateKeywordRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/keyword`, body);
   }
@@ -606,7 +637,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param keywordId This path parameter is used to identify the keyword to retrieve.
    * @param body A type that defines the fields for the request to update a keyword.
    */
-  public updateKeyword(campaignId: string, keywordId: string, body: components['schemas']['UpdateKeywordRequest']) {
+  public updateKeyword(campaignId: string, keywordId: string, body: UpdateKeywordRequest) {
     campaignId = encodeURIComponent(campaignId);
     keywordId = encodeURIComponent(keywordId);
     return this.put(`/ad_campaign/${campaignId}/keyword/${keywordId}`, body);
@@ -616,7 +647,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *
    * @param body A type that defines the fields for the bulk request to create negative keywords.
    */
-  public bulkCreateNegativeKeyword(body: components['schemas']['BulkCreateNegativeKeywordRequest']) {
+  public bulkCreateNegativeKeyword(body: BulkCreateNegativeKeywordRequest) {
     return this.post(`/bulk_create_negative_keyword`, body);
   }
 
@@ -624,7 +655,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *
    * @param body A type that defines the fields for the bulk request to create negative keywords.
    */
-  public bulkUpdateNegativeKeyword(body: components['schemas']['BulkUpdateNegativeKeywordRequest']) {
+  public bulkUpdateNegativeKeyword(body: BulkUpdateNegativeKeywordRequest) {
     return this.post(`/bulk_update_negative_keyword`, body);
   }
 
@@ -662,7 +693,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *
    * @param body A type that defines the fields for the request to create a negative keyword.
    */
-  public createNegativeKeyword(body: components['schemas']['CreateNegativeKeywordRequest']) {
+  public createNegativeKeyword(body: CreateNegativeKeywordRequest) {
     return this.post(`/negative_keyword`, body);
   }
 
@@ -680,7 +711,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param negativeKeywordId The unique identifier for the negative keyword.
    * @param body A type that defines the fields for the request to update a negative keyword.
    */
-  public updateNegativeKeyword(negativeKeywordId: string, body: components['schemas']['UpdateNegativeKeywordRequest']) {
+  public updateNegativeKeyword(negativeKeywordId: string, body: UpdateNegativeKeywordRequest) {
     negativeKeywordId = encodeURIComponent(negativeKeywordId);
     return this.put(`/negative_keyword/${negativeKeywordId}`, body);
   }
@@ -753,7 +784,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *
    * @param body The container for the fields that define the report task.
    */
-  public createReportTask(body: components['schemas']['CreateReportTask']) {
+  public createReportTask(body: CreateReportTask) {
     return this.post(`/ad_report_task`, body);
   }
 
@@ -774,7 +805,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *
    * @param body This type defines the fields that describe an item price markdown promotion.
    */
-  public createItemPriceMarkdownPromotion(body: components['schemas']['ItemPriceMarkdown']) {
+  public createItemPriceMarkdownPromotion(body: ItemPriceMarkdown) {
     return this.post(`/item_price_markdown`, body);
   }
 
@@ -785,7 +816,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param promotionId The ID of the promotion you want to update.
    * @param body This type defines the fields that describe an item price markdown promotion.
    */
-  public updateItemPriceMarkdownPromotion(promotionId: string, body: components['schemas']['ItemPriceMarkdown']) {
+  public updateItemPriceMarkdownPromotion(promotionId: string, body: ItemPriceMarkdown) {
     promotionId = encodeURIComponent(promotionId);
     return this.put(`/item_price_markdown/${promotionId}`, body);
   }
@@ -817,7 +848,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *
    * @param body This type defines the fields that describe an item promotion.
    */
-  public createItemPromotion(body: components['schemas']['ItemPromotion']) {
+  public createItemPromotion(body: ItemPromotion) {
     return this.post(`/item_promotion`, body);
   }
 
@@ -828,7 +859,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *     value that's generated when the promotion is created.
    * @param body type defines the fields that describe an item promotion.
    */
-  public updateItemPromotion(promotionId: string, body: components['schemas']['ItemPromotion']) {
+  public updateItemPromotion(promotionId: string, body: ItemPromotion) {
     promotionId = encodeURIComponent(promotionId);
     return this.put(`/item_promotion/${promotionId}`, body);
   }

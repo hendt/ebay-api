@@ -1,4 +1,5 @@
-import {components, operations} from '../../../../types/restful/specs/commerce_translation_v1_beta_oas3.js';
+import {TranslateRequest} from '../../../../types/index.js';
+import {operations} from '../../../../types/restful/specs/commerce_translation_v1_beta_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
 
 /**
@@ -17,7 +18,7 @@ export default class Translation extends Restful implements OpenApi<operations> 
    *
    * @param body TranslateRequest
    */
-  public translate(body: components['schemas']['TranslateRequest']) {
+  public translate(body: TranslateRequest) {
     return this.post(`/translate`, body);
   }
 }

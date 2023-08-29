@@ -1,5 +1,11 @@
-import {NotificationParams} from '../../../../types/index.js';
-import {components, operations} from '../../../../types/restful/specs/commerce_notification_v1_oas3.js';
+import {
+  CommerceNotificationConfig,
+  CreateSubscriptionRequest,
+  DestinationRequest,
+  NotificationParams,
+  UpdateSubscriptionRequest
+} from '../../../../types/index.js';
+import {operations} from '../../../../types/restful/specs/commerce_notification_v1_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
 
 /**
@@ -68,7 +74,7 @@ export default class Notification extends Restful implements OpenApi<operations>
    *
    * @param body The create subscription request.
    */
-  public createSubscription(body: components['schemas']['CreateSubscriptionRequest']) {
+  public createSubscription(body: CreateSubscriptionRequest) {
     return this.post(`/subscription`, body);
   }
 
@@ -88,7 +94,7 @@ export default class Notification extends Restful implements OpenApi<operations>
    * @param subscriptionId The unique identifier for the subscription.
    * @param body The update subscription request.
    */
-  public updateSubscription(subscriptionId: string, body: components['schemas']['UpdateSubscriptionRequest']) {
+  public updateSubscription(subscriptionId: string, body: UpdateSubscriptionRequest) {
     subscriptionId = encodeURIComponent(subscriptionId);
     return this.put(`/subscription/${subscriptionId}`, body);
   }
@@ -150,7 +156,7 @@ export default class Notification extends Restful implements OpenApi<operations>
    *
    * @param body The create destination request.
    */
-  public createDestination(body: components['schemas']['DestinationRequest']) {
+  public createDestination(body: DestinationRequest) {
     return this.post(`/destination`, body);
   }
 
@@ -170,7 +176,7 @@ export default class Notification extends Restful implements OpenApi<operations>
    * @param destinationId The unique identifier for the destination.
    * @param body The create subscription request.
    */
-  public updateDestination(destinationId: string, body: components['schemas']['DestinationRequest']) {
+  public updateDestination(destinationId: string, body: DestinationRequest) {
     destinationId = encodeURIComponent(destinationId);
     return this.put(`/destination/${destinationId}`, body);
   }
@@ -197,7 +203,7 @@ export default class Notification extends Restful implements OpenApi<operations>
    *
    * @param body The configurations for this application.
    */
-  public updateConfig(body: components['schemas']['Config']) {
+  public updateConfig(body: CommerceNotificationConfig) {
     return this.put(`/config`, body);
   }
 }

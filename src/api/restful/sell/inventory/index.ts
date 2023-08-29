@@ -1,4 +1,21 @@
-import {components, operations} from '../../../../types/restful/specs/sell_inventory_v1_oas3.js';
+import {
+  BulkEbayOfferDetailsWithKeys,
+  BulkInventoryItem,
+  BulkMigrateListing,
+  BulkOffer,
+  BulkPriceQuantity,
+  Compatibility,
+  EbayOfferDetailsWithId,
+  EbayOfferDetailsWithKeys,
+  InventoryItem,
+  InventoryItemGroup,
+  InventoryLocation,
+  InventoryLocationFull,
+  OfferKeysWithId,
+  PublishByInventoryItemGroupRequest,
+  WithdrawByInventoryItemGroupRequest
+} from '../../../../types/index.js';
+import {operations} from '../../../../types/restful/specs/sell_inventory_v1_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
 
 /**
@@ -73,7 +90,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    */
   public createInventoryLocation(
     merchantLocationKey: string,
-    body: components['schemas']['InventoryLocationFull']
+    body: InventoryLocationFull
   ) {
     const key = encodeURIComponent(merchantLocationKey);
     return this.post(`/location/${key}`, body);
@@ -98,7 +115,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    */
   public updateInventoryLocation(
     merchantLocationKey: string,
-    body?: components['schemas']['InventoryLocation']
+    body?: InventoryLocation
   ) {
     const key = encodeURIComponent(merchantLocationKey);
     return this.post(`/location/${key}/update_location_details`, body);
@@ -122,7 +139,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    *     inventory item, or updating an existing inventory item.
    * @param body Details of the inventory item record.
    */
-  public createOrReplaceInventoryItem(sku: string, body: components['schemas']['InventoryItem']) {
+  public createOrReplaceInventoryItem(sku: string, body: InventoryItem) {
     sku = encodeURIComponent(sku);
     return this.put(`/inventory_item/${sku}`, body);
   }
@@ -163,7 +180,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    *
    * @param body BulkPriceQuantity
    */
-  public bulkUpdatePriceQuantity(body: components['schemas']['BulkPriceQuantity']) {
+  public bulkUpdatePriceQuantity(body: BulkPriceQuantity) {
     return this.post(`/bulk_update_price_quantity`, body);
   }
 
@@ -172,7 +189,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    *
    * @param body BulkInventoryItem
    */
-  public bulkCreateOrReplaceInventoryItem(body: components['schemas']['BulkInventoryItem']) {
+  public bulkCreateOrReplaceInventoryItem(body: BulkInventoryItem) {
     return this.post(`/bulk_create_or_replace_inventory_item`, body);
   }
 
@@ -182,7 +199,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    *
    * @param body BulkInventoryItem
    */
-  public bulkGetInventoryItem(body: components['schemas']['BulkInventoryItem']) {
+  public bulkGetInventoryItem(body: BulkInventoryItem) {
     return this.post(`/bulk_get_inventory_item`, body);
   }
 
@@ -203,7 +220,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    * @param sku A SKU (stock keeping unit) is an unique identifier defined by a seller for a product
    * @param body Details of the compatibility
    */
-  public createOrReplaceProductCompatibility(sku: string, body: components['schemas']['Compatibility']) {
+  public createOrReplaceProductCompatibility(sku: string, body: Compatibility) {
     sku = encodeURIComponent(sku);
     return this.put(`/inventory_item/${sku}/product_compatibility`, body);
   }
@@ -268,7 +285,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    *
    * @param body Details of the offer for the channel
    */
-  public createOffer(body: components['schemas']['EbayOfferDetailsWithKeys']) {
+  public createOffer(body: EbayOfferDetailsWithKeys) {
     return this.post(`/offer`, body);
   }
 
@@ -278,7 +295,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    * @param offerId The unique identifier of the offer that is being updated.
    * @param body Details of the offer for the channel
    */
-  public updateOffer(offerId: string, body: components['schemas']['EbayOfferDetailsWithId']) {
+  public updateOffer(offerId: string, body: EbayOfferDetailsWithId) {
     offerId = encodeURIComponent(offerId);
     return this.put(`/offer/${offerId}`, body);
   }
@@ -309,7 +326,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    * @param body PublishByInventoryItemGroupRequest
    */
   public publishOfferByInventoryItemGroup(
-    body: components['schemas']['PublishByInventoryItemGroupRequest']
+    body: PublishByInventoryItemGroupRequest
   ) {
     return this.post(`/offer/publish_by_inventory_item_group/`, body);
   }
@@ -321,7 +338,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    * @param body WithdrawByInventoryItemGroupRequest
    */
   public withdrawOfferByInventoryItemGroup(
-    body: components['schemas']['WithdrawByInventoryItemGroupRequest']
+    body: WithdrawByInventoryItemGroupRequest
   ) {
     return this.post(`/offer/withdraw_by_inventory_item_group`, body);
   }
@@ -331,7 +348,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    *
    * @param body OfferKeysWithId
    */
-  public getListingFees(body: components['schemas']['OfferKeysWithId']) {
+  public getListingFees(body: OfferKeysWithId) {
     return this.post(`/offer/get_listing_fees`, body);
   }
 
@@ -340,7 +357,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    *
    * @param body BulkEbayOfferDetailsWithKeys
    */
-  public bulkCreateOffer(body: components['schemas']['BulkEbayOfferDetailsWithKeys']) {
+  public bulkCreateOffer(body: BulkEbayOfferDetailsWithKeys) {
     return this.post(`/bulk_create_offer`, body);
   }
 
@@ -349,7 +366,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    *
    * @param body BulkOffer
    */
-  public bulkPublishOffer(body: components['schemas']['BulkOffer']) {
+  public bulkPublishOffer(body: BulkOffer) {
     return this.post(`/bulk_publish_offer`, body);
   }
 
@@ -381,7 +398,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    */
   public createOrReplaceInventoryItemGroup(
     inventoryItemGroupKey: string,
-    body: components['schemas']['InventoryItemGroup']
+    body: InventoryItemGroup
   ) {
     inventoryItemGroupKey = encodeURIComponent(inventoryItemGroupKey);
     return this.put(`/inventory_item_group/${inventoryItemGroupKey}`, body);
@@ -401,7 +418,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    *
    * @param body BulkMigrateListing
    */
-  public bulkMigrateListing(body: components['schemas']['BulkMigrateListing']) {
+  public bulkMigrateListing(body: BulkMigrateListing) {
     return this.post(`/bulk_migrate_listing`, body);
   }
 }

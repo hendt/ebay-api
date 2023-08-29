@@ -1,6 +1,6 @@
-import {components, operations} from '../../../../types/restful/specs/sell_compliance_v1_oas3.js';
+import {SuppressViolationRequest} from '../../../../types/index.js';
+import {operations} from '../../../../types/restful/specs/sell_compliance_v1_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
-
 
 /**
  * Service for providing the compliance violations of seller account/listings
@@ -53,7 +53,7 @@ export default class Compliance extends Restful implements OpenApi<operations> {
    *
    * @param body  SuppressViolationRequest
    */
-  public suppressViolation(body: components['schemas']['SuppressViolationRequest']) {
+  public suppressViolation(body: SuppressViolationRequest) {
     return this.post(`/suppress_listing_violation`, body);
   }
 }

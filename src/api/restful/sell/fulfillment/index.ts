@@ -1,6 +1,13 @@
 import {multipartHeader} from '../../../../request.js';
-import {PaymentParams} from '../../../../types/index.js';
-import {components, operations} from '../../../../types/restful/specs/sell_fulfillment_v1_oas3.js';
+import {
+  AddEvidencePaymentDisputeRequest,
+  ContestPaymentDisputeRequest,
+  IssueRefundRequest,
+  PaymentParams,
+  ShippingFulfillmentDetails,
+  UpdateEvidencePaymentDisputeRequest
+} from '../../../../types/index.js';
+import {operations} from '../../../../types/restful/specs/sell_fulfillment_v1_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
 
 /**
@@ -77,7 +84,7 @@ export default class Fulfillment extends Restful implements OpenApi<operations> 
    *     call of Trading API).
    * @param body IssueRefundRequest
    */
-  public issueRefund(orderId: string, body?: components['schemas']['IssueRefundRequest']) {
+  public issueRefund(orderId: string, body?: IssueRefundRequest) {
     orderId = encodeURIComponent(orderId);
     return this.post(`/order/${orderId}/issue_refund`, body);
   }
@@ -101,7 +108,7 @@ export default class Fulfillment extends Restful implements OpenApi<operations> 
    */
   public createShippingFulfillment(
     orderId: string,
-    body: components['schemas']['ShippingFulfillmentDetails']
+    body: ShippingFulfillmentDetails,
   ) {
     orderId = encodeURIComponent(orderId);
     return this.post(`/order/${orderId}/shipping_fulfillment`, body);
@@ -187,7 +194,7 @@ export default class Fulfillment extends Restful implements OpenApi<operations> 
    * @param paymentDisputeId This is the unique identifier of the payment dispute.
    * @param body This is the unique identifier of the payment dispute.
    */
-  public contestPaymentDispute(paymentDisputeId: string, body: components['schemas']['ContestPaymentDisputeRequest']) {
+  public contestPaymentDispute(paymentDisputeId: string, body: ContestPaymentDisputeRequest) {
     return this.post(`/payment_dispute/${paymentDisputeId}/contest`, body);
   }
 
@@ -220,7 +227,7 @@ export default class Fulfillment extends Restful implements OpenApi<operations> 
    * @param paymentDisputeId This is the unique identifier of the payment dispute.
    * @param body AddEvidencePaymentDisputeRequest
    */
-  public addEvidence(paymentDisputeId: string, body: components['schemas']['AddEvidencePaymentDisputeRequest']) {
+  public addEvidence(paymentDisputeId: string, body: AddEvidencePaymentDisputeRequest) {
     return this.post(`/payment_dispute/${paymentDisputeId}/add_evidence`, body);
   }
 
@@ -230,7 +237,7 @@ export default class Fulfillment extends Restful implements OpenApi<operations> 
    * @param paymentDisputeId This is the unique identifier of the payment dispute.
    * @param body AddEvidencePaymentDisputeRequest
    */
-  public updateEvidence(paymentDisputeId: string, body: components['schemas']['UpdateEvidencePaymentDisputeRequest']) {
+  public updateEvidence(paymentDisputeId: string, body: UpdateEvidencePaymentDisputeRequest) {
     return this.post(`/payment_dispute/${paymentDisputeId}/update_evidence`, body);
   }
 }

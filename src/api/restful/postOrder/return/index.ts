@@ -1,4 +1,3 @@
-import Restful from '../../index.js';
 import {FilePurpose, GetReturnFieldGroupEnum} from '../../../../enums/index.js';
 import {
   CheckEligibilityRequest,
@@ -20,6 +19,7 @@ import {
   UploadFileRequest,
   VoidLabelRequest
 } from '../../../../types/index.js';
+import Restful from '../../index.js';
 
 /**
  * Post-Order Return API
@@ -95,7 +95,7 @@ export default class Return extends Restful {
    * @param payload the CreateReturnRequest
    * @param fieldGroups can be used in the call URI to control the detail level that is returned in response.
    */
-  public createReturnRequest(payload: CreateReturnRequest, fieldGroups?: GetReturnFieldGroupEnum) {
+  public createReturnRequest(payload: CreateReturnRequest, fieldGroups?: GetReturnFieldGroupEnum | keyof typeof GetReturnFieldGroupEnum) {
     return this.post(`/return`, payload, {
       params: {
         fieldgroups: fieldGroups
@@ -143,7 +143,7 @@ export default class Return extends Restful {
    * @param returnId The unique eBay-assigned ID of the return request.
    * @param fieldGroups can be used in the call URI to control the detail level that is returned in response.
    */
-  public getReturn(returnId: string, fieldGroups?: GetReturnFieldGroupEnum) {
+  public getReturn(returnId: string, fieldGroups?: GetReturnFieldGroupEnum | keyof typeof GetReturnFieldGroupEnum) {
     returnId = encodeURIComponent(returnId);
     return this.get(`/return/${returnId}`, {
       params: {
@@ -347,7 +347,7 @@ export default class Return extends Restful {
    *     about the condition of the item, or intended to provide more information about shipment tracking or about
    *     the shipping label.
    */
-  public submitReturnFile(returnId: string, filePurpose?: FilePurpose) {
+  public submitReturnFile(returnId: string, filePurpose?: FilePurpose | keyof typeof FilePurpose) {
     returnId = encodeURIComponent(returnId);
     return this.post(`/return/${returnId}/file/submit`, {
       filePurpose

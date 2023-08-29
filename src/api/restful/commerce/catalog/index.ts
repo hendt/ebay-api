@@ -1,3 +1,4 @@
+import {CommerceCatalogSearchParams} from '../../../../types/index.js';
 import {operations} from '../../../../types/restful/specs/commerce_catalog_v1_beta_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
 
@@ -60,7 +61,7 @@ export default class Catalog extends Restful implements OpenApi<Omit<operations,
    *
    * @param params SearchCatalogParams
    */
-  public search(params?: operations['search']['parameters']['query']) {
+  public search(params?: CommerceCatalogSearchParams) {
     return this.get(`/product_summary/search`, {
       params
     });

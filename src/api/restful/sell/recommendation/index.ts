@@ -1,4 +1,5 @@
-import {components, operations} from '../../../../types/restful/specs/sell_recommendation_v1_oas3.js';
+import {FindListingRecommendationRequest} from '../../../../types/index.js';
+import {operations} from '../../../../types/restful/specs/sell_recommendation_v1_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
 
 
@@ -26,7 +27,7 @@ export default class Recommendation extends Restful implements OpenApi<operation
    * @param body FindListingRecommendationRequest
    */
   public findListingRecommendations({filter, limit, offset}: { filter?: string, limit?: number, offset?: number } = {},
-                                    body?: components['schemas']['FindListingRecommendationRequest']
+                                    body?: FindListingRecommendationRequest
   ) {
     return this.post(`/find`, {
       data: body,

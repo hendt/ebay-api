@@ -1,4 +1,5 @@
-import {components, operations} from '../../../../types/restful/specs/buy_offer_v1_beta_oas3.js';
+import {PlaceProxyBidRequest} from '../../../../types/index.js';
+import {operations} from '../../../../types/restful/specs/buy_offer_v1_beta_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
 
 /**
@@ -29,7 +30,7 @@ export default class Offer extends Restful implements OpenApi<operations> {
    * @param itemId
    * @param {PlaceProxyBidRequest} body
    */
-  public placeProxyBid(itemId: string, body?: components['schemas']['PlaceProxyBidRequest']) {
+  public placeProxyBid(itemId: string, body?: PlaceProxyBidRequest) {
     const id = encodeURIComponent(itemId);
     return this.post(`/bidding/${id}/place_proxy_bid`, body);
   }
