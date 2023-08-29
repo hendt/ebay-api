@@ -1,5 +1,5 @@
 import {AxiosRequestConfig} from 'axios';
-import {ContentLanguage, MarketplaceId} from '../enums/index.js';
+import {ContentLanguage, MarketplaceId, SiteId} from '../enums/index.js';
 
 export type Scope = string[];
 
@@ -17,7 +17,7 @@ export type RestConfig = {
 }
 
 export type TraditionalConfig = {
-  siteId?: number
+  siteId?: SiteId | `${SiteId}`
   authToken?: string | null
 }
 

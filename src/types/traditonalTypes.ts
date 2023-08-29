@@ -9,23 +9,23 @@ import {TraditionalApiConfig} from '../api/traditional/XMLRequest.js';
 export type XMLApiCall = (fields?: Fields | null, apiConfig?: TraditionalApiConfig) => Promise<any>;
 
 export type Trading = {
-  [key in typeof TradingCalls[number]]: XMLApiCall;
+  [key in keyof typeof TradingCalls]: XMLApiCall;
 };
 
 export type Shopping = {
-  [key in typeof ShoppingCalls[number]]: XMLApiCall;
+  [key in keyof typeof ShoppingCalls]: XMLApiCall;
 };
 
 export type Finding = {
-  [key in typeof FindingCalls[number]]: XMLApiCall;
+  [key in keyof typeof FindingCalls]: XMLApiCall;
 };
 
 export type ClientAlerts = {
-  [key in typeof ClientAlertsCalls[number]]: (fields?: object, options?: TraditionalApiConfig) => Promise<any>;
+  [key in keyof typeof ClientAlertsCalls]: (fields?: object, options?: TraditionalApiConfig) => Promise<any>;
 };
 
 export type Merchandising = {
-  [key in typeof MerchandisingCalls[number]]: (fields?: object, options?: TraditionalApiConfig) => Promise<any>;
+  [key in keyof typeof MerchandisingCalls]: (fields?: object, options?: TraditionalApiConfig) => Promise<any>;
 };
 
 type Endpoint = {
