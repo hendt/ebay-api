@@ -207,6 +207,7 @@ export const checkEBayResponse = (data: any) => {
         case EBayIAFTokenExpired.code:
           throw new EBayIAFTokenExpired(data);
         case EBayIAFTokenInvalid.code:
+        case 1.32: // Shopping API: Invalid token. Please specify a valid token as HTTP header.
           throw new EBayIAFTokenInvalid(data);
         case EBayTokenRequired.code:
           throw new EBayTokenRequired(data);
