@@ -90,7 +90,7 @@ const eBay = new eBayApi({
 
   marketplaceId: eBayApi.MarketplaceId.EBAY_US, // default. required for RESTful APIs
   acceptLanguage: eBayApi.Locale.en_US, // default
-  contentLanguage: eBayApi.ContentLanguage.en_US, // default.
+  contentLanguage: eBayApi.Locale.en_US, // default.
 
   // optional parameters, should be omitted if not used
   devId: '-- devId --', // required for traditional Trading API
@@ -166,7 +166,7 @@ The first (required) parameter in eBayApi instance takes an object with followin
 | marketplaceId<br><i>RESTful</i>   | Required<br><pre>Default: `MarketplaceId.EBAY_US`</pre>                              | [Docs](https://developer.ebay.com/api-docs/static/rest-request-components.html#marketpl) REST HTTP Header. X-EBAY-C-MARKETPLACE-ID identifies the user's business context and is specified using a marketplace ID value. Note that this header does not indicate a language preference or consumer location.   |
 | scope<br><i>RESTful</i>           | Conditionally<bre><pre>Default:<br>`['https://api.ebay.com/oauth/api_scope']` </pre> | The scopes assigned to your application allow access to different API resources and functionality.                                                                                                                                                                                                             |
 | endUserCtx<br><i>RESTful</i>      | Conditionally recommended<br><i>RESTful</i>                                          | [Docs](https://developer.ebay.com/api-docs/static/rest-request-components.html#headers) X-EBAY\_C\_ENDUSERCTX provides various types of information associated with the request.                                                                                                                               |
-| contentLanguage<br><i>RESTful</i> | Conditionally required<br><pre>Default: `ContentLanguage.en_US`</pre>                | [Docs](https://developer.ebay.com/api-docs/static/rest-request-components.html#headers)Content-Language indicates the locale preferred by the client for the response.                                                                                                                                         |
+| contentLanguage<br><i>RESTful</i> | Conditionally required<br><pre>Default: `Locale.en_US`</pre>                | [Docs](https://developer.ebay.com/api-docs/static/rest-request-components.html#headers)Content-Language indicates the locale preferred by the client for the response.                                                                                                                                         |
 | acceptLanguage<br><i>RESTful</i>  | Optional<pre>Default: `Locale.en_US`</pre>                                           | [Docs](https://developer.ebay.com/api-docs/static/rest-request-components.html#headers) Accept-Language indicates the natural language the client prefers for the response. This specifies the language the client wants to use when the field values provided in the request body are displayed to consumers. |
 
 ## Load config from environment
