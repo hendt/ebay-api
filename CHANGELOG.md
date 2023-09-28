@@ -1,4 +1,12 @@
 # eBay API Changelog
+### [8.5.1](https://github.com/hendt/ebay-api/compare/v8.5.0...v8.5.1) (2023-09-28)
+
+
+### Bug Fixes
+
+* handle invalid token in Shopping API ([98b0aeb](https://github.com/hendt/ebay-api/commit/98b0aebbad99d29bf37205aba3561810eb2cbd27))
+* Locale that is used for 'accept-language' and 'content-language' was mixed with LocaleEnum that should be used in Inventory API ([dd4b71d](https://github.com/hendt/ebay-api/commit/dd4b71d5c1683a552e7c4ba9f7101fc8905cf96c)), closes [/community.ebay.com/t5/Post-Order-APIs-Return/error-when-posting-to-issue-refund-with-returnid/m-p/34000648#M14](https://github.com/hendt//community.ebay.com/t5/Post-Order-APIs-Return/error-when-posting-to-issue-refund-with-returnid/m-p/34000648/issues/M14)
+
 ## [8.5.0](https://github.com/hendt/ebay-api/compare/v8.4.1...v8.5.0) (2023-08-29)
 
 
