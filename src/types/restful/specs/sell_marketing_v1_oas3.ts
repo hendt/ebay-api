@@ -113,6 +113,10 @@ export interface paths {
     /** @description This method retrieves the details of a single campaign, as specified with the <b>campaign_name</b> query parameter. Note that the campaign name you specify must be an exact, case-sensitive match of the name of the campaign you want to retrieve.</p><p>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to retrieve a list of the seller's campaign names.</p> */
     get: operations["getCampaignByName"];
   };
+  "/ad_campaign/{campaign_id}/launch": {
+    /** @description This method launches a Promoted Listings Advanced campaign created using the <a href="/api-docs/sell/marketing/resources/campaign/methods/setupQuickCampaign">setupQuickCampaign</a> method that is in <code>DRAFT</code> status. This changes the campaign status to <code>RUNNING</code> or <code>SCHEDULED</code>, based on its specified start date. Specify the campaign you wish to launch by supplying its <b>campaign_id</b> as a path parameter in the call URI. <br><br>Use the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method to retrieve the <b>campaign_id</b> and the campaign status for all the seller's campaigns. */
+    post: operations["launchCampaign"];
+  };
   "/ad_campaign/{campaign_id}/pause": {
     /** @description This method pauses an active (RUNNING) campaign.  <p>You can restart the campaign by calling <a href="/api-docs/sell/marketing/resources/campaign/methods/resumeCampaign">resumeCampaign</a>, as long as the campaign's end date is in the future.</p>  <p><b>Note: </b> The listings associated with a paused campaign cannot be added into another campaign.</p>  <p>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to retrieve the <b>campaign_id</b> and the campaign status (<code>RUNNING</code>, <code>PAUSED</code>, <code>ENDED</code>, and so on) for all the seller's campaigns.</p> */
     post: operations["pauseCampaign"];
@@ -120,6 +124,10 @@ export interface paths {
   "/ad_campaign/{campaign_id}/resume": {
     /** @description This method resumes a paused campaign, as long as its end date is in the future. Supply the <b>campaign_id</b> for the campaign you want to restart as a query parameter in the request.  <p>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to retrieve the <b>campaign_id</b> and the campaign status (<code>RUNNING</code>, <code>PAUSED</code>, <code>ENDED</code>, and so on) for all the seller's campaigns.</p> */
     post: operations["resumeCampaign"];
+  };
+  "/ad_campaign/setup_quick_campaign": {
+    /** @description This method allows the seller to expedite the creation of a Promoted Listings Advanced (PLA) campaign.<br><br>Sellers only need to provide basic campaign information, such as the user-defined campaign name, the start date (and optionally the end date) of the campaign, the daily budget amount of the campaign, and the eBay marketplace where the campaign will be hosted. The seller must also identify the items they want to place in the campaign by adding the listing id of each item in the <b>listingIds</b> array of the request. <br><br>Using the provided <b>listingIds</b>, eBay creates ad groups for the campaign and organizes the listings into the appropriate ad group. eBay then adds keywords to each ad group and assigns each keyword a suggested bid. <br><br>Campaigns created using this method will be in <code>DRAFT</code> status upon creation.<br><br>The location response header returned contains the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaign">getCampaign</a> URI to retrieve the newly created campaign that is in draft status. Sellers should make this call to review and approve the campaign before they use the <a href="/api-docs/sell/marketing/resources/campaign/methods/launchCampaign">launchCampaign</a> method to start the campaign.<br><br><span class="tablenote"><b>Note:</b> Promoted Listing Standard (PLS) campaigns are not supported.</span> */
+    post: operations["setupQuickCampaign"];
   };
   "/ad_campaign/{campaign_id}/suggest_items": {
     /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method allows sellers to obtain ideas for listings, which can be targeted for Promoted Listings campaigns. */
@@ -134,7 +142,7 @@ export interface paths {
     post: operations["updateCampaignBudget"];
   };
   "/ad_campaign/{campaign_id}/update_campaign_identification": {
-    /** @description This method can be used to change the name of a campaign, as well as modify the start or end dates. <p>Specify the <b>campaign_id</b> you want to update as a URI parameter, and configure the <b>campaignName</b> and <b>startDate</b> in the request payload.  <p>If you want to change only the end date of the campaign, specify the current campaign name and set <b>startDate</b> to the current date (you cannot use a start date that is in the past), and set the <b>endDate</b> as desired. Note that if you do not set a new end date in this call, any current <b>endDate</b> value will be set to <code>null</code>. To preserve the currently-set end date, you must specify the value again in your request.</p>  <p>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to retrieve a seller's campaign details, including the campaign ID, campaign name, and the start and end dates of the campaign. */
+    /** @description This method can be used to change the name of a campaign, as well as modify the start or end dates. <p>Specify the <b>campaign_id</b> you want to update as a URI parameter, and configure the <b>campaignName</b> and <b>startDate</b> in the request payload.  <p>If you want to change only the end date of the campaign, specify the current campaign name, set <b>endDate</b> as desired, and set <b>startDate</b> to the actual start date of the campaign. This applies if the campaign status is <code>RUNNING</code> or <code>PAUSED</code>. You can retrieve the <b>startDate</b> using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaign#response.startDate">getCampaign</a> method.</p> <p>Note that if you do not set a new end date in this call, any current <b>endDate</b> value will be set to <code>null</code>. To preserve the currently-set end date, you must specify the value again in your request.</p>  <p>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to retrieve a seller's campaign details, including the campaign ID, campaign name, and the start and end dates of the campaign. */
     post: operations["updateCampaignIdentification"];
   };
   "/ad_campaign/{campaign_id}/bulk_create_keyword": {
@@ -178,7 +186,7 @@ export interface paths {
     put: operations["updateNegativeKeyword"];
   };
   "/ad_report/{report_id}": {
-    /** @description This call downloads the report as specified by the <b>report_id</b> path parameter.  <br><br>Call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/createReportTask" title="createReportTask API docs">createReportTask</a> to schedule and generate a Promoted Listings report. All date values are returned in UTC format (<code>yyyy-MM-ddThh:mm:ss.sssZ</code>).<br/><br/><span class="tablenote"><b>Note:</b> The reporting of some data related to sales and ad-fees may require a 72-hour (<b>maximum</b>) adjustment period which is often referred to as the <i>Reconciliation Period</i>. Such adjustment periods should, on average, be minimal. However, at any given time, the <b>payments</b> tab may be used to view those amounts that have actually been charged.</span> */
+    /** @description This call downloads the report as specified by the <b>report_id</b> path parameter.  <br><br>Call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/createReportTask" title="createReportTask API docs">createReportTask</a> to schedule and generate a Promoted Listings report. All date values are returned in UTC format (<code>yyyy-MM-ddThh:mm:ss.sssZ</code>).<br/><br/><span class="tablenote"><b>Note:</b> The reporting of some data related to sales and ad-fees may require a 72-hour (<b>maximum</b>) adjustment period which is often referred to as the <i>Reconciliation Period</i>. Such adjustment periods should, on average, be minimal. However, at any given time, the <b>payments</b> tab may be used to view those amounts that have actually been charged.</span><br/><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>For <b>ad_report</b> and <b>ad_report_task</b> methods, the API call limit is subject to a per user quota. These API calls can <b>only</b> be executed a maximum of 200 times per hour for each seller/user. If the number of calls per hour exceeds this limit, any new calls will be blocked for the next hour.</p></div> */
     get: operations["getReport"];
   };
   "/ad_report_metadata": {
@@ -190,15 +198,15 @@ export interface paths {
     get: operations["getReportMetadataForReportType"];
   };
   "/ad_report_task": {
-    /** @description This method returns information on all the existing report tasks related to a seller. <p>Use the <b>report_task_statuses</b> query parameter to control which reports to return. You can paginate the result set by specifying a <b>limit</b>, which dictates how many report tasks to return on each page of the response. Use the <b>offset</b> parameter to specify how many reports to skip in the result set before returning the first result.</p> */
+    /** @description This method returns information on all the existing report tasks related to a seller. <p>Use the <b>report_task_statuses</b> query parameter to control which reports to return. You can paginate the result set by specifying a <b>limit</b>, which dictates how many report tasks to return on each page of the response. Use the <b>offset</b> parameter to specify how many reports to skip in the result set before returning the first result.</p><br/><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>For <b>ad_report</b> and <b>ad_report_task</b> methods, the API call limit is subject to a per user quota. These API calls can <b>only</b> be executed a maximum of 200 times per hour for each seller/user. If the number of calls per hour exceeds this limit, any new calls will be blocked for the next hour.</p></div> */
     get: operations["getReportTasks"];
-    /** @description <span class="tablenote"><b>Note:</b> Using multiple funding models in one report is deprecated. If multiple funding models are used, a Warning will be returned in a header. This functionality will be decommissioned on April 3, 2023. See <a href="/develop/apis/api-deprecation-status">API Deprecation Status</a> for details.</span><br /><br />This method creates a <i>report task</i>, which generates a Promoted Listings report based on the values specified in the call.<br /><br />The report is generated based on the criteria you specify, including the report type, the report's dimensions and metrics, the report's start and end dates, the listings to include in the report, and more. <i>Metrics </i>are the quantitative measurements in the report while <i>dimensions</i> specify the attributes of the data included in the reports.<br /><br />When creating a report task, you can specify the items you want included in the report. The items you specify, using either <b>listingId</b> or <b>inventoryReference</b> values, must be in a Promoted Listings campaign for them to be included in the report.<br /><br />For details on the required and optional fields for each report type, see <a href="/api-docs/sell/static/marketing/pl-reports.html">Promoted Listings reporting</a>.<br /><br />This call returns the URL to the report task in the <b>Location</b> response header, and the URL includes the report-task ID.<br /><br />Reports often take time to generate and it's common for this call to return an HTTP status of <code>202</code>, which indicates the report is being generated. Call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTasks">getReportTasks</a> (or <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTask">getReportTask</a> with the report-task ID) to determine the status of a Promoted Listings report. When a report is complete, eBay sets its status to <b>SUCCESS</b> and you can download it using the URL returned in the <b>reportHref</b> field of the <b>getReportTask</b> call. Report files are tab-separated value gzip files with a file extension of <code>.tsv.gz</code>.<br/><br/><span class="tablenote"><b>Note:</b> The reporting of some data related to sales and ad-fees may require a 72-hour (<b>maximum</b>) adjustment period which is often referred to as the <i>Reconciliation Period</i>. Such adjustment periods should, on average, be minimal. However, at any given time, the <b>payments</b> tab may be used to view those amounts that have actually been charged.</span><br /><br /><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> This call fails if you don't submit all the required fields for the specified report type. Fields not supported by the specified report type are ignored. Call <a href="/api-docs/sell/marketing/resources/ad_report_metadata/methods/getReportMetadata">getReportMetadata</a> to retrieve a list of the fields you need to configure for each Promoted Listings report type.</span> */
+    /** @description <span class="tablenote"><b>Note:</b> Using multiple funding models in one report is deprecated. If multiple funding models are used, a Warning will be returned in a header. This functionality will be decommissioned on April 3, 2023. See <a href="/develop/apis/api-deprecation-status">API Deprecation Status</a> for details.</span><br /><br />This method creates a <i>report task</i>, which generates a Promoted Listings report based on the values specified in the call.<br /><br />The report is generated based on the criteria you specify, including the report type, the report's dimensions and metrics, the report's start and end dates, the listings to include in the report, and more. <i>Metrics </i>are the quantitative measurements in the report while <i>dimensions</i> specify the attributes of the data included in the reports.<br /><br />When creating a report task, you can specify the items you want included in the report. The items you specify, using either <b>listingId</b> or <b>inventoryReference</b> values, must be in a Promoted Listings campaign for them to be included in the report.<br /><br />For details on the required and optional fields for each report type, see <a href="/api-docs/sell/static/marketing/pl-reports.html">Promoted Listings reporting</a>.<br /><br />This call returns the URL to the report task in the <b>Location</b> response header, and the URL includes the report-task ID.<br /><br />Reports often take time to generate and it's common for this call to return an HTTP status of <code>202</code>, which indicates the report is being generated. Call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTasks">getReportTasks</a> (or <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTask">getReportTask</a> with the report-task ID) to determine the status of a Promoted Listings report. When a report is complete, eBay sets its status to <b>SUCCESS</b> and you can download it using the URL returned in the <b>reportHref</b> field of the <b>getReportTask</b> call. Report files are tab-separated value gzip files with a file extension of <code>.tsv.gz</code>.<br/><br/><span class="tablenote"><b>Note:</b> The reporting of some data related to sales and ad-fees may require a 72-hour (<b>maximum</b>) adjustment period which is often referred to as the <i>Reconciliation Period</i>. Such adjustment periods should, on average, be minimal. However, at any given time, the <b>payments</b> tab may be used to view those amounts that have actually been charged.</span><br /><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> This call fails if you don't submit all the required fields for the specified report type. Fields not supported by the specified report type are ignored. Call <a href="/api-docs/sell/marketing/resources/ad_report_metadata/methods/getReportMetadata">getReportMetadata</a> to retrieve a list of the fields you need to configure for each Promoted Listings report type.</span><br/><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>For <b>ad_report</b> and <b>ad_report_task</b> methods, the API call limit is subject to a per user quota. These API calls can <b>only</b> be executed a maximum of 200 times per hour for each seller/user. If the number of calls per hour exceeds this limit, any new calls will be blocked for the next hour.</p></div><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> The data threshold for a single report is currently 500,000 records; if this threshold is exceeded, the report will fail.</p></div> */
     post: operations["createReportTask"];
   };
   "/ad_report_task/{report_task_id}": {
-    /** @description This call returns the details of a specific Promoted Listings report task, as specified by the <b>report_task_id</b> path parameter. <p>The report task includes the report criteria (such as the report dimensions, metrics, and included listing) and the report-generation rules (such as starting and ending dates for the specified report task).</p>  <p>Report-task IDs are generated by eBay when you call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/createReportTask">createReportTask</a>. Get a complete list of a seller's report-task IDs by calling <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTasks">getReportTasks</a>.</p> */
+    /** @description This call returns the details of a specific Promoted Listings report task, as specified by the <b>report_task_id</b> path parameter. <p>The report task includes the report criteria (such as the report dimensions, metrics, and included listing) and the report-generation rules (such as starting and ending dates for the specified report task).</p>  <p>Report-task IDs are generated by eBay when you call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/createReportTask">createReportTask</a>. Get a complete list of a seller's report-task IDs by calling <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTasks">getReportTasks</a>.</p><br/><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>For <b>ad_report</b> and <b>ad_report_task</b> methods, the API call limit is subject to a per user quota. These API calls can <b>only</b> be executed a maximum of 200 times per hour for each seller/user. If the number of calls per hour exceeds this limit, any new calls will be blocked for the next hour.</p></div> */
     get: operations["getReportTask"];
-    /** @description This call deletes the report task specified by the <b>report_task_id</b> path parameter. This method also deletes any reports generated by the report task.  <p>Report task IDs are generated by eBay when you call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/createReportTask">createReportTask</a>. Get a complete list of a seller's report-task IDs by calling <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTasks">getReportTasks</a>.</p> */
+    /** @description This call deletes the report task specified by the <b>report_task_id</b> path parameter. This method also deletes any reports generated by the report task.  <p>Report task IDs are generated by eBay when you call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/createReportTask">createReportTask</a>. Get a complete list of a seller's report-task IDs by calling <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTasks">getReportTasks</a>.</p><br/><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>For <b>ad_report</b> and <b>ad_report_task</b> methods, the API call limit is subject to a per user quota. These API calls can <b>only</b> be executed a maximum of 200 times per hour for each seller/user. If the number of calls per hour exceeds this limit, any new calls will be blocked for the next hour.</p></div> */
     delete: operations["deleteReportTask"];
   };
   "/item_price_markdown": {
@@ -248,6 +256,32 @@ export interface paths {
   "/promotion_summary_report": {
     /** @description This method generates a report that summarizes the seller's promotions for the specified eBay marketplace. The report returns information on <code>RUNNING</code>, <code>PAUSED</code>, and <code>ENDED</code> promotions (deleted reports are not returned) and summarizes the seller's campaign performance for all promotions on a given site.  <br><br>For information about summary reports, see <a href="/api-docs/sell/static/marketing/pm-summary-report.html">Reading the item promotion Summary report</a>. */
     get: operations["getPromotionSummaryReport"];
+  };
+  "/email_campaign": {
+    /** @description This method retrieves a list of email campaigns from a seller's eBay store.<br><br>Users can filter the results by <a href="/api-docs/sell/marketing/types/api:CampaignTypeEnum">email campaign type</a>, <a href="/api-docs/sell/marketing/types/api:EmailCampaignStatusEnum">email campaign status</a>, and <a href="/api-docs/sell/marketing/types/ba:MarketplaceIdEnum">marketplace ID</a> using the <code>q</code> query parameter. */
+    get: operations["getEmailCampaigns"];
+    /** @description This method creates a new email campaign. An eBay store owner can create six different types of email campaigns: Welcome, New products & collections, Coupon, Sale event + markdown, Order discount, and Volume pricing.<br><br>A successful <b>createEmailCampaign</b> request returns the <b>emailCampaignId</b> assigned to the new email campaign.<br><br>The fields <b>emailCampaignType</b>, <b>audienceCodes</b>, <b>itemSelectMode</b>, <b>subject</b>, and <b>personalizedMessage</b> are required for all email campaign types. <br><br>Specific email campaign types have required values for additional fields. For more information on the email campaign types, see the <a href="/api-docs/sell/static/marketing/store-email-campaigns.html#email-campain-types" target="_blank">Store Email Campaigns</a> section of the Selling Integration Guide. */
+    post: operations["createEmailCampaign"];
+  };
+  "/email_campaign/{email_campaign_id}": {
+    /** @description This method returns the details of a single email campaign specified by the <b>email_campaign_id</b> path parameter.<br><br>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getEmailCampaigns">getEmailCampaigns</a> to retrieve a list of all email campaigns from a seller's eBay store. */
+    get: operations["getEmailCampaign"];
+    /** @description This method lets users update an existing email campaign. Pass the <b>emailCampaignId</b> in the request URL and specify the changes to field values in the request payload.<br><br><span class="tablenote"><b>Note: </b>You can only update the custom fields of an email campaign. Fixed values, such as the <b>emailCampaignType</b>, cannot be changed. For full specifications of fixed values for each email campaign type, see the <a href="/api-docs/sell/marketing/resources/email_campaign/methods/createEmailCampaign">createEmailCampaign</a> method documentation.</span> */
+    put: operations["updateEmailCampaign"];
+    /** @description This method deletes the email campaign specified by the <b>email_campaign_id</b> path parameter.<br><br>Call <a href="/api-docs/sell/marketing/resources/email_campaign/methods/getEmailCampaigns">getEmailCampaigns</a> to retrieve all of the seller's email campaigns. Use the <b>email_campaign_id</b> of the desired email campaign in the response as the path parameter for this request. */
+    delete: operations["deleteEmailCampaign"];
+  };
+  "/email_campaign/audience": {
+    /** @description This method retrieves all available email newsletter audiences for the <a href="/api-docs/sell/marketing/types/api:CampaignTypeEnum">email campaign type</a> specified by the <b>emailCampaignType</b> path parameter.<br><br>Use the optional <b>limit</b> and <b>offset</b> path parameters to paginate the results and to control which records are returned, respectively. */
+    get: operations["getAudiences"];
+  };
+  "/email_campaign/{email_campaign_id}/email_preview": {
+    /** @description This method returns a preview of the email sent by the email campaign indicated by the <b>email_campaign_id</b> path parameter.<br><br>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getEmailCampaigns">getEmailCampaigns</a> to obtain a list of email campaigns. Use the <b>emailCampaignId</b> value of the desired email campaign as the <b>email_campaign_id</b> path parameter value.<br><br>If this call is executed successfully, the response returns a <b>content</b> field that contains the raw HTML code of the email campaign that can then be rendered anywhere.<br><br><span class="tablenote"><b>Note:</b> The eBay listings in the email are sorted according to the email campaign sort criteria. The individual listings can change over time, as well.<br><br>The result of the email preview call can be treated as a snapshot of the email campaign taken at the date and time of the <b>renderDate</b> value found in the results of the call.</span> */
+    get: operations["getEmailPreview"];
+  };
+  "/email_campaign/report": {
+    /** @description This method returns the seller's email campaign performance report for a time period specified by the <b>startDate</b> and <b>endDate</b> path parameters. The maximum date range for a report retrieved by this method is one year. <br><br><span class="tablenote"><b>Note: </b>The <b>startDate</b> and <b>endDate</b> must be given in UTC format, as shown in the following example: <br><code>sell/marketing/v1/email_campaign/report?startDate=2022-11-01T19:09:02.768Z&endDate=2022-12-28T19:09:02.768Z</code></span><br>The email report returns a list of metrics, such as the number of times an email report has been opened and resulted in clicks. */
+    get: operations["getEmailReport"];
   };
 }
 
@@ -486,7 +520,7 @@ export interface components {
     };
     /** @description A container for the budget details of a Promoted Listings campaign that uses the Cost Per Click (CPC) funding model.<br /><br /><span class="tablenote"><b>Note:</b> This container will only be returned for campaigns using the CPC funding model; it does not apply to the Cost Per Sale (CPS) funding model.</span> */
     BudgetRequest: {
-      /** @description The allocated budget amount for a CPC Promoted Listings campaign. */
+      /** @description The allocated budget amount for a CPC Promoted Listings campaign. Both the <b>currency</b> and <b>value</b> must be specified. */
       amount?: components["schemas"]["Amount"];
     };
     /** @description This type defines the fields for the create ads in bulk response. */
@@ -622,6 +656,15 @@ export interface components {
       /** @description The date and time the campaign starts, in UTC format (<code>yyyy-MM-ddThh:mm:ssZ</code>). For display purposes, convert this time into the local time of the seller.  <p>On the date specified, the service derives the keywords for each listing in the campaign, creates an ad for each listing, and associates each new ad with the campaign. The campaign starts after this process is completed. The amount of time it takes the service to start the campaign depends on the number of listings in the campaign. Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaign">getCampaign</a> to check the status of the campaign.</p> */
       startDate?: string;
     };
+    /** @description This is the object for a single email campaign audience. */
+    CampaignAudience: {
+      /** @description This enum value indicates the audience type. For the complete list of audience types and their associated enum values, see <a href="/api-docs/sell/marketing/types/api:AudienceTypeEnum">AudienceTypeEnum</a>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:AudienceTypeEnum'>eBay API documentation</a> */
+      audienceType?: string;
+      /** @description The unique code for an audience. */
+      code?: string;
+      /** @description The display name for an audience. */
+      name?: string;
+    };
     /** @description A type that defines the budget details for a Cost Per Click (CPC) Promoted Listings campaign. */
     CampaignBudget: {
       /** @description The daily budget limit for the Cost Per Click (CPC) Promoted Listings campaign.<br /><br /><i>Required if</i> the campaign's funding model is CPC.<br /><br />This will be a dollar value. All clicks using the keywords defined for the campaign will go towards expending the daily budget. Once the daily budget is exceeded for the campaign, all Promoted Listings under the campaign will be turned off until the next day.<br /><br /><b>Valid Values</b>:<ul><li><code>50.00</code></li><li><code>100.00</code></li></ul> */
@@ -638,8 +681,33 @@ export interface components {
       autoSelectFutureInventory?: boolean;
       /** @description This enum defines the criterion (selection rule) types. Currently, the only criterion type supported is <code>INVENTORY_PARTITION</code>, and you must specify this value if you manage your items with the Inventory API and you want to include items based on their inventory reference IDs.  <br><br>Do not include this field if you manage your listings with Trading API/legacy model. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/pls:CriterionTypeEnum'>eBay API documentation</a> */
       criterionType?: string;
-      /** @description This container shows all of the rules/inclusion filters used to add listings to the campaign. */
+      /** @description This container shows all of the rules/inclusion filters used to add listings to the campaign. For information on using the contained fields, see <a href= "/api-docs/sell/static/marketing/using-the-selectionrules-container.html#Campaign ">Promoted Listing campaigns</a>. */
       selectionRules?: (components["schemas"]["SelectionRule"])[];
+    };
+    /** @description email campaign instance body */
+    CampaignDTO: {
+      /** @description The audiences that the email campaign is being sent to. See <a href="/api-docs/sell/marketing/types/api:AudienceTypeEnum">AudienceTypeEnum</a> for a list of audience types. */
+      audiences?: (components["schemas"]["CampaignAudience"])[];
+      /** @description The date and time that the email campaign was created, given in UTC format. */
+      creationDate?: string;
+      /** @description The unique eBay identifier for the email campaign assigned automatically when the email campaign is created. */
+      emailCampaignId?: string;
+      /** @description The email campaign status. See <a href="/api-docs/sell/marketing/types/api:EmailCampaignStatusEnum">EmailCampaignStatusEnum</a> for information on statuses. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:EmailCampaignStatusEnum'>eBay API documentation</a> */
+      emailCampaignStatus?: string;
+      /** @description The email campaign type. See <a href="/api-docs/sell/marketing/types/api:CampaignTypeEnum">CampaignTypeEnum</a> for definitions of email campaign types. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:CampaignTypeEnum'>eBay API documentation</a> */
+      emailCampaignType?: string;
+      /** @description The eBay marketplace where the email campaign is active. */
+      marketplaceId?: string;
+      /** @description The date and time the email campaign was last modified, given in UTC format. */
+      modificationDate?: string;
+      /** @description The date and time that the email campaign newsletter is scheduled to send, given in UTC format. */
+      scheduleDate?: string;
+      /** @description The schedule type used for sending the email campaign. See <a href="/api-docs/sell/marketing/types/api:ScheduleDateTypeEnum">ScheduleDateTypeEnum</a> for available schedule types. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:ScheduleDateTypeEnum'>eBay API documentation</a> */
+      scheduleDateType?: string;
+      /** @description The date and time that the email campaign was last sent, given in UTC format. */
+      sentDate?: string;
+      /** @description The email campaign subject line.. */
+      subject?: string;
     };
     /** @description This type defines the fields that paginate the campaigns returned by the request. The entire <i>result set</i> consists of 0 or more sequenced <i>response pages</i>, where each page consists of 0 or more items from the complete result set. */
     CampaignPagedCollectionResponse: {
@@ -757,6 +825,41 @@ export interface components {
       /** @description The date and time the campaign starts, in UTC format (<code>yyyy-MM-ddThh:mm:ssZ</code>). For display purposes, convert this time into the local time of the seller.  <p>On the date specified, the service derives the keywords for each listing in the campaign, creates an ad for each listing, and associates each new ad with the campaign. The campaign starts after this process is completed. The amount of time it takes the service to start the campaign depends on the number of listings in the campaign. Call <b>getCampaign</b> to check the status of the campaign.</p> */
       startDate?: string;
     };
+    /** @description create email campaign request payload */
+    CreateEmailCampaignRequest: {
+      /** @description An array of audience codes for the audiences of the email campaign. At least one audience code is required. There is no upper limit to the number of audience codes.<br><br>To retrieve seller audiences, call <a href="/api-docs/sell/marketing/resources/email_campaign/methods/getAudiences" target="_blank">getAudiences</a>. Use the <b>code</b> values in the response to populate <b>audienceCodes</b>. */
+      audienceCodes?: (string)[];
+      /** @description The unique identifier of either an eBay category or a store category.<br><br>This field is used if a seller wants to apply an email campaign to a specific eBay category or store category. The <b>categoryType</b> determines whether the <b>categoryId</b> value is an eBay category or store category.<br><br>To retrieve eBay categories, use the <a href="https://developer.ebay.com/devzone/xml/docs/reference/ebay/GetCategories.html" target="_blank">getCategories</a> or Taxonomy API. To retrieve seller store categories, use the <a href="https://developer.ebay.com/devzone/xml/docs/reference/ebay/GetStore.html" target="_blank">getStore</a> call. Use the <b>categoryId</b> value of the desired category from the results as the value in the request.<br><br><b>itemSelectMode</b> must be set to <code>AUTO</code> in order to use a category ID. */
+      categoryId?: string;
+      /** @description This field must be set when applying an email campaign to a specific eBay category or store category. The enumeration value used indicates which type of category the <b>categoryId</b> belongs to. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:CategoryTypeEnum'>eBay API documentation</a> */
+      categoryType?: string;
+      /** @description The email campaign type. There are six <a href="/api-docs/sell/marketing/types/api:CampaignTypeEnum">email campaigns</a> that a user can create:<ul><li><code>WELCOME</code> - an email sent automatically to new subscribers.</li><li><code>ITEM_SHOWCASE</code> - an email featuring new products & collections that the seller wants to highlight.</li><li><code>COUPON</code> - an email containing a coupon code and up to 4 items that this coupon can be applied to.</li><li><code>ORDER_DISCOUNT</code> - an email containing an order discount and up to 10 items that this discount can be applied to.</li><li><code>SALE_EVENT</code> - an email about a sale event and up to 10 items that the sale can be applied to.</li><li><code>VOLUME_PRICING</code> - an email containing up to 10 items that are eligible for volume pricing.</li></ul><br><br><b>emailCampaignType</b> cannot be updated once the email campaign is created. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:CampaignTypeEnum'>eBay API documentation</a> */
+      emailCampaignType?: string;
+      /** @description An array of unique identifiers for the listings displayed in an email campaign. Used if the seller wishes to select the eBay listings in the email campaign rather than have eBay automatically select them. <br><br>Call <a href="/DevZone/XML/docs/Reference/eBay/GetSellerList.html#GetSellerList">getSellerList</a> to retrieve all seller listings. Each <b>Item</b> result contains an <b>ItemID</b> value. Use this value in <b>itemIds</b> to feature that listing.<br><br>The maximum number of <b>itemIds</b> for the <code>COUPON</code> campaign type is 4, and for every other campaign type is 10<br><br><b>itemSelectMode</b> must be set to <code>MANUAL</code> in order to use this field. */
+      itemIds?: (string)[];
+      /** @description Determines whether listings featured in an email campaign are selected by the seller or by eBay.<br><br>If <b>itemSelectMode</b> is set to <code>AUTO</code>, eBay automatically choses listings based on values set for <b>sort</b>, <b>categoryType</b>, <b>categoryId</b>, and <b>priceRange</b>.<br><br>If <b>itemSelectMode</b> is set to <code>MANUAL</code>, listings are set by the seller by populating the <b>itemIds</b> array.<br><br><span class="tablenote"><b>Note: </b><b>itemSelectMode</b> is always set to <code>AUTO</code> for <code>WELCOME</code> email campaigns.</span> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:ItemSelectModeEnum'>eBay API documentation</a> */
+      itemSelectMode?: string;
+      /** @description The body of the email campaign. Accepts HTML and CSS. The maximum length is 1000 characters. */
+      personalizedMessage?: string;
+      /** @description This container is used if the seller wants to apply the email campaign to listings based on a price range.<br><br>The <b>priceRange</b> container consists of the <b>currency</b>, <b>gte</b>, and <b>lte</b> fields.<br><br> "gte" stands for "greater than or equal to" and "lte" stands for "less than or equal to". Either <b>gte</b>, <b>lte</b>, or both must be used.<br><br><b>currency</b> is a required field if including a price range. One of the three-digit currency codes from <a href="/api-docs/sell/marketing/types/ba:CurrencyCodeEnum" target="_blank">CurrencyCodeEnum</a> must be specified.<br><br><span class="tablenote"><b>Note: </b>Use this object when the <b>itemSelectMode</b> is set to <code>AUTO</code>.</span> */
+      priceRange?: components["schemas"]["PriceRange"];
+      /** @description The unique identifier of the promotion used for an email campaign if the <b>emailCampaignType</b> is set to <code>COUPON</code>, <code>SALE_EVENT</code>, or <code>ORDER_DISCOUNT</code>. <b>promotionSelectModeEnum</b> must set to <code>MANUAL</code> if a promotion is selected.<br><br>Call <a href="/api-docs/sell/marketing/resources/promotion/methods/getPromotions" target="_blank">getPromotions</a> to retrieve a list of the seller's promotions. Use the <b>promotionId</b> from an individual <b>PromotionDetail</b> in the result to populate the request. */
+      promotionId?: string;
+      /** @description The selection mode for the promotion used if the <b>emailCampaignType</b> is set to <code>COUPON</code>, <code>SALE_EVENT</code>, or <code>ORDER_DISCOUNT</code>.<br><br>If <b>promotionSelectModeEnum</b> is set to <code>AUTO</code>, eBay will choose the promotion to include in the email campaign. If set to <code>MANUAL</code>, the seller must specify the promotion in the <b>promotionId</b> field. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:PromotionSelectModeEnum'>eBay API documentation</a> */
+      promotionSelectModeEnum?: string;
+      /** @description The date and time that the email campaign newsletter will be sent, given in UTC format. Example: 2023-05-20T03:13:35Z<br><br>This field should be used if the seller wishes to send the email campaign on a future date. If no <b>scheduleDate</b> is set, the email campaign will send once it is created or updated. */
+      scheduleDate?: string;
+      /** @description The sort rule is used to display the listings featured in the email campaign.<br><br>Sort rules are only used if <b>itemSelectMode</b> is set to <code>AUTO</code>. If <b>itemSelectMode</b> is <code>MANUAL</code>, listings are displayed in the order in which they are listed in the <b>itemIds</b> array. The following sort rules are available:<ul><li><code>ENDING_FIRST</code> displays listings by ending date, from soonest to latest.</li><li><code>LOWEST_PRICED</code> displays listings by price, from lowest to highest.</li><li><code>HIGHEST_PRICED</code> displays listings by price, from highest to lowest.</li><li><code>NEWLY_LISTED</code> displays listings by date listed, with the newest first.</li></ul><br><br>The default sort rule is <code>NEWLY_LISTED</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:ItemSortEnum'>eBay API documentation</a> */
+      sort?: string;
+      /** @description The email campaign subject. The maximum length is 70 characters. */
+      subject?: string;
+    };
+    CreateEmailCampaignResponse: {
+      /** @description The unique eBay-assigned identifier of the email campaign. It is generated automatically when the email campaign is created.<br><br>This value is returned unless there is an error. */
+      emailCampaignId?: string;
+      /** @description The status of the email campaign.<br><br><code>ACTIVE</code> is returned for email campaigns that have been successfully created but not been sent.<br><br><code>SENT</code> is returned for email campaigns that have already been sent.<br><br><code>ERROR</code> is returned when an email has not been successfully created. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:EmailCampaignStatusEnum'>eBay API documentation</a> */
+      emailCampaignStatus?: string;
+    };
     /** @description A type that defines the fields for the <b>CreateKeyword</b> request. */
     CreateKeywordRequest: {
       /** @description This adGroupId is created when an ad group is first created and associated with a campaign. This is the ad group that the corresponding keyword will be added to. This ad group must be a part of the campaign that is specified in the call URI.<br /><br /><span class="tablenote"><b>Note:</b> You can call the  <a href="/api-docs/sell/marketing/resources/adgroup/methods/getAdGroups">getAdGroups</a> method to retrieve the ad group IDs for a seller, and <a href="/api-docs/sell/marketing/resources/keywords/methods/getKeywords">getKeywords</a> to retrieve the keyword IDs for a seller's keywords.</span> */
@@ -783,7 +886,7 @@ export interface components {
     CreateReportTask: {
       /** @description A list of additional records that shall be included in the report, such as non-performing data.<br /><br /><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> Additional records are only applicable to Promoted Listings Advanced (PLA) campaigns that use the Cost Per Click (CPC) funding model.</span><br /><b>Valid Value:</b> <code>NON_PERFORMING_DATA</code> */
       additionalRecords?: (string)[];
-      /** @description A list of campaign IDs to be included in the report task. Call <b>getCampaigns</b> to get a list of the current campaign IDs for a seller.<br /><br />For Promoted Listings Standard (PLS) sellers, this field is required if the <b>reportType</b> is set to <code>CAMPAIGN_PERFORMANCE_REPORT</code> or <code>CAMPAIGN_PERFORMANCE_SUMMARY_REPORT</code>.<br /><br />For Promoted Listings Advanced (PLA) sellers, leave this request field blank to retrieve the details for all campaigns associated with your account, or specify the campaign IDs for which you would like to retrieve the campaign-specific details.<br /><br /><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> There is a maximum data limit that cannot be exceeded when generating reports. If this threshold is exceeded, the report will fail. Refer to <a href="/api-docs/sell/static/marketing/pl-reports.html#creation">Promoted Listings reporting</a> in the Selling Integration Guide for details.</span><br /><br /><b>Maximum:</b><ul><li>25 IDs for PLS</li><li>1,000 IDs for PLA</li></ul> */
+      /** @description A list of campaign IDs to be included in the report task. Call <b>getCampaigns</b> to get a list of the current campaign IDs for a seller.<br /><br />For Promoted Listings Standard (PLS) sellers, this field is required if the <b>reportType</b> is set to <code>CAMPAIGN_PERFORMANCE_REPORT</code> or <code>CAMPAIGN_PERFORMANCE_SUMMARY_REPORT</code>.<br /><br />For Promoted Listings Advanced (PLA) sellers, leave this request field blank to retrieve the details for all campaigns associated with your account, or specify the campaign IDs for which you would like to retrieve the campaign-specific details.<br /><br /><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> There is a maximum data limit that cannot be exceeded when generating reports. If this threshold is exceeded, the report will fail. Refer to <a href="/api-docs/sell/static/marketing/pl-reports.html#creation">Promoted Listings reporting</a> in the Selling Integration Guide for details.</span><br /><br /><b>Maximum:</b> 1,000 IDs (for PLA or PLS)</li></ul> */
       campaignIds?: (string)[];
       /** @description The date defining the start of the timespan covered by the report.<br /><br />Format the timestamp as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html" title="https://www.iso.org" target="_blank">ISO 8601</a> string, which is based on the 24-hour Coordinated Universal Time (UTC) clock with local offset.<br /><br /><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> The date specified cannot be a future date.</span><br /><br /><b>Format:</b> <code>[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z</code><br /><br /><b>Example:</b> <code>2021-03-15T13:00:00-07:00</code> */
       dateFrom?: string;
@@ -847,6 +950,10 @@ export interface components {
        * @description An HTTP status code indicating if the corresponding ad was successfully deleted or not. <code>200 Successful</code> should be returned for successfully deleted ads. <span class="tablenote"><b>Note:</b>A status code is returned for each ad that the seller deletes, or attempts to delete.</span>
        */
       statusCode?: number;
+    };
+    DeleteEmailCampaignResponse: {
+      /** @description The unique eBay-assigned ID for the email campaign that is generated when the email campaign is created. */
+      emailCampaignId?: string;
     };
     /** @description This type defines the annotation and dimension key used by the report. For information on how to set these values, see <a href="/api-docs/sell/static/marketing/pl-reports.html">Promoted Listings reporting</a>. */
     Dimension: {
@@ -960,12 +1067,124 @@ export interface components {
     FundingStrategy: {
       /** @description The ad rate strategy that shall be applied to the campaign. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/pls:AdRateStrategyEnum'>eBay API documentation</a> */
       adRateStrategy?: string;
-      /** @description The user-defined <b>bid percentage</b> (also known as the <i>ad rate</i>) sets the level that eBay increases the visibility in search results for the associated listing. The higher the <b>bidPercentage</b> value, the more eBay promotes the listing.  <br><br>The value specified here is also used to calculate the Promoted Listings fee. This percentage value is multiplied by the final sales price to determine the fee. <br><br>The Promoted Listings fee is determined at the time the transaction completes and the seller is assessed the fee only when an item sells through a Promoted Listings ad campaign. <br><br>The <b>bidPercentage</b> is a single precision value that is guided by the following rules: <ul><li>These values are <b>valid</b>:<br>&nbsp;&nbsp;&nbsp;<code>4.1</code>, &nbsp;&nbsp;&nbsp;<code>5.0</code>, &nbsp;&nbsp;&nbsp;<code>5.5</code>, ...</li>  <li>These values are <b>not valid</b>:<br /> &nbsp;&nbsp;&nbsp;<code>0.01</code>, &nbsp;&nbsp;&nbsp;<code>10.75</code>, &nbsp;&nbsp;&nbsp;<code>99.99</code>,<br /> &nbsp;&nbsp;&nbsp;and so on.</li></ul>This is the default bid percentage for the campaigns using the Cost Per Sale (CPS) funding model, and this value will be overridden by any ads in the campaign that have their own set bid percentages.<br /><br />If a bid percentage is not provided for an ad, eBay uses the default bid percentage of the associated campaign.<br /><br /><span class="tablenote"><b>Note:</b>This field is only relevant for campaigns that use the CPS funding model. It is not used for campaigns that use the Cost Per Click (CPC) funding model.</span><br /><b>Minimum value:</b> 2.0 <br><b>Maximum value:</b> 100.0 */
+      /** @description The user-defined <b>bid percentage</b> (also known as the <i>ad rate</i>) sets the level that eBay increases the visibility in search results for the associated listing. The higher the <b>bidPercentage</b> value, the more eBay promotes the listing.  <br><br>The value specified here is also used to calculate the Promoted Listings fee. This percentage value is multiplied by the final sales price to determine the fee. <br><br>The Promoted Listings fee is determined at the time the transaction completes and the seller is assessed the fee only when an item sells through a Promoted Listings ad campaign. <br><br>The <b>bidPercentage</b> is a single precision value that is guided by the following rules: <ul><li>These values are <b>valid</b>:<br>&nbsp;&nbsp;&nbsp;<code>4.1</code>, &nbsp;&nbsp;&nbsp;<code>5.0</code>, &nbsp;&nbsp;&nbsp;<code>5.5</code>, ...</li>  <li>These values are <b>not valid</b>:<br /> &nbsp;&nbsp;&nbsp;<code>0.01</code>, &nbsp;&nbsp;&nbsp;<code>10.75</code>, &nbsp;&nbsp;&nbsp;<code>99.99</code>,<br /> &nbsp;&nbsp;&nbsp;and so on.</li></ul>This is the default bid percentage for the campaigns using the Cost Per Sale (CPS) funding model, and this value will be overridden by any ads in the campaign that have their own set bid percentages.<br /><br />If a bid percentage is not provided for an ad, eBay uses the default bid percentage of the associated campaign.<br /><br /><span class="tablenote"><b>Note:</b>This field is only relevant for campaigns that use the CPS funding model and a fixed ad rate. It is not used for campaigns that use the Cost Per Click (CPC) funding model and should not be provided when the selected adRateStrategy for the campaign is dynamic.</span><br /><b>Minimum value:</b> 2.0 <br><b>Maximum value:</b> 100.0 */
       bidPercentage?: string;
       /** @description A field that indicates whether a single, user-defined bid percentage (also known as the <i>ad rate</i>) should be used, or whether eBay should automatically adjust listings to maintain the daily suggested bid percentage.<br /><br /><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> Dynamic adjustment is only applicable when the <b>adRateStrategy</b> is set to <code>DYNAMIC</code>.</span><br /><b>Default:</b> <code>FIXED</code> */
       dynamicAdRatePreferences?: (components["schemas"]["DynamicAdRatePreference"])[];
       /** @description Indicates the model that eBay uses to calculate the Promoted Listings fee. <p>For a description of the funding model types, refer to <b>FundingModelTypeEnum</b>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/pls:FundingModelEnum'>eBay API documentation</a> */
       fundingModel?: string;
+    };
+    GetEmailCampaignAudiencesResponse: {
+      /** @description An array of audiences available for the specified email campaign type. If no audiences are available, the result will return an empty array. */
+      audiences?: (components["schemas"]["CampaignAudience"])[];
+      /** @description The URL to the current page of store email campaign audiences. */
+      href?: string;
+      /**
+       * Format: int32 
+       * @description The value of the limit parameter submitted in the request, which is the maximum number of store email campaign audiences to return on a page from the result set.
+       */
+      limit?: number;
+      /** @description The URI for the next page of results. This value is returned if there is an additional page of results to return from the result set. */
+      next?: string;
+      /**
+       * Format: int32 
+       * @description This value indicates the offset used for the current page of store email campaign audiences returned.
+       */
+      offset?: number;
+      /** @description The URI for the previous page of results. This is returned if there is a previous page of results from the result set. */
+      prev?: string;
+      /**
+       * Format: int32 
+       * @description The total number of available audiences returned under the query conditions.
+       */
+      total?: number;
+    };
+    GetEmailCampaignResponse: {
+      /** @description An array of one or more audiences associated with the email campaign. */
+      audiences?: (components["schemas"]["CampaignAudience"])[];
+      /** @description The unique identifier of an eBay category or an eBay store category. This field is returned if a seller has applied the email campaign to a specific category.<br><br>The <b>categoryType</b> value will indicate if the category ID is for an eBay category or an eBay store category. */
+      categoryId?: string;
+      /** @description The enumeration value returned here indicates if the <b>categoryId</b> value is the identifier of an eBay category or an eBay store category.<br><br>This field is returned if a seller has applied the email campaign to a specific category. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:CategoryTypeEnum'>eBay API documentation</a> */
+      categoryType?: string;
+      /** @description The date and time that the email campaign was created, given in UTC format. */
+      creationDate?: string;
+      /** @description The unique identifier of the email campaign. */
+      emailCampaignId?: string;
+      /** @description The email campaign status. See <a href="/api-docs/sell/marketing/types/api:EmailCampaignStatusEnum">EmailCampaignStatusEnum</a> for a list of valid statuses. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:EmailCampaignStatusEnum'>eBay API documentation</a> */
+      emailCampaignStatus?: string;
+      /** @description The email campaign type. See <a href="/api-docs/sell/marketing/types/api:CampaignTypeEnum">CampaignTypeEnum</a> for valid email campaign types. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:CampaignTypeEnum'>eBay API documentation</a> */
+      emailCampaignType?: string;
+      /** @description The listing IDs of the items that were manually added to the email campaign.<br><br>Only listings added manually by the seller are returned. Returns a null array if no listings were added. */
+      itemIds?: (string)[];
+      /** @description The mode used to select the items listed in the email campaign. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:ItemSelectModeEnum'>eBay API documentation</a> */
+      itemSelectMode?: string;
+      /** @description The eBay marketplace where the email campaign is active. See <a href="/api-docs/sell/marketing/types/ba:MarketplaceIdEnum">MarketplaceIdEnum</a> for a list of marketplace IDs. */
+      marketplaceId?: string;
+      /** @description The date and time the email campaign was last modified, given in UTC format. */
+      modificationDate?: string;
+      /** @description The body of the email campaign sent to the audience. */
+      personalizedMessage?: string;
+      /** @description The price range and currency set within the email campaign. This container will only return if a price range was set. */
+      priceRange?: components["schemas"]["PriceRange"];
+      /** @description The ID of the promotion that was assigned to the email campaign. */
+      promotionId?: string;
+      /** @description Indicates whether the listings that the promotion was applied to were selected manually or automatically.<br><br>This field will only return if a promotion was applied. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:PromotionSelectModeEnum'>eBay API documentation</a> */
+      promotionSelectMode?: string;
+      /** @description The date and time that the email campaign newsletter is scheduled to send, given in UTC format. This field is only returned if the seller set the start of the email campaign to a date in the future. */
+      scheduleDate?: string;
+      /** @description The schedule type of the email campaign. See <a href="/api-docs/sell/marketing/types/api:ScheduleDateTypeEnum">ScheduleDateTypeEnum</a>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:ScheduleDateTypeEnum'>eBay API documentation</a> */
+      scheduleDateType?: string;
+      /** @description The date and time that the email campaign was sent, given in UTC format. */
+      sentDate?: string;
+      /** @description The sort rule is used to display the items in the email campaign. If no sort rule was selected, the default will be <code>NEWLY_LISTED</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:ItemSortEnum'>eBay API documentation</a> */
+      sort?: string;
+      /** @description The email campaign subject. */
+      subject?: string;
+    };
+    GetEmailCampaignsResponse: {
+      /** @description A list of email campaigns that match the search criteria. */
+      campaigns?: (components["schemas"]["CampaignDTO"])[];
+      /** @description The URL to the current page of store email campaigns. */
+      href?: string;
+      /**
+       * Format: int32 
+       * @description The value of the limit parameter submitted in the request, which is the maximum number of store email campaigns to return on a page from the result set.
+       */
+      limit?: number;
+      /** @description The URI for the next page of results. This value is returned if there is an additional page of results to return from the result set. */
+      next?: string;
+      /**
+       * Format: int32 
+       * @description This value indicates the offset used for current page of store email campaigns being returned.
+       */
+      offset?: number;
+      /** @description The URI for the previous page of results. This is returned if there is a previous page of results from the result set. */
+      prev?: string;
+      /**
+       * Format: int32 
+       * @description Total number of available results returned under the filter criteria submitted in the request.
+       */
+      total?: number;
+    };
+    GetEmailPreviewResponse: {
+      /** @description The raw HTML code of the email campaign contents. The client side can use this HTML output directly.<br><br>Because the contents of an email campaign are subject to change, these contents are a "snapshot" of the email campaign at a specific time and date, indicated by the <b>renderDate</b> field. */
+      content?: string;
+      /** @description The date and time when a "snapshot" of the email campaign contents contained in the <b>content</b> result was taken. Given in UTC format. */
+      renderDate?: string;
+    };
+    GetEmailReportResponse: {
+      /**
+       * Format: int32 
+       * @description The number of item listing links clicked from the body of campaign emails for the time range specified by the query.
+       */
+      clickCount?: number;
+      /**
+       * Format: int32 
+       * @description The total email opened count for all email campaigns from a seller for the time range specified by the query.
+       */
+      openCount?: number;
+      /** @description A seller's total sale amount for the time range specified by the query. */
+      totalSales?: components["schemas"]["Amount"];
     };
     /** @description This type defines either the selections rules or the list of listing IDs for the promotion. The "listing IDs" are are either the seller's item IDs or the eBay listing IDs. */
     InventoryCriterion: {
@@ -1296,6 +1515,15 @@ export interface components {
        */
       statusCode?: number;
     };
+    /** @description The price range. */
+    PriceRange: {
+      /** @description Specifies the currency of the listings in an email campaign using one of the three-digit codes of the <a href="/api-docs/sell/marketing/types/ba:CurrencyCodeEnum" target="_blank">CurrencyCodeEnum</a> type. */
+      currency?: string;
+      /** @description The listings selected will be greater than or equal to this value. The value entered must be given in number format, such as 20.00.<br><br>Either <code>gte</code>, <code>lte</code>, or both must contain a value if the seller wishes to use a price range. */
+      gte?: number;
+      /** @description The listings selected will be less than or equal to this value. The value entered must be given in number format, such as 100.00.<br><br>Either <code>gte</code>, <code>lte</code>, or both must contain a value if the seller wishes to use a price range. */
+      lte?: number;
+    };
     /** @description This type defines the fields that describe a promotion. This includes all the information about a promotion except for the listings that are a part of the promotion. */
     PromotionDetail: {
       /** @description A unique code that buyers can use during checkout to receive a discount. The code must be unique across eBay. */
@@ -1427,6 +1655,21 @@ export interface components {
       /** @description The value of the proposed bid. */
       value?: string;
     };
+    /** @description This type defines the fields needed to create a quick setup PLA campaign. To create a quick setup campaign, a seller must specify the name, start date, and marketplace of the campaign. The seller must also specify the listing Ids of the items they want associated with the campaign. */
+    QuickSetupRequest: {
+      /** @description The allocated daily budget for a Promoted Listings campaign that uses the Cost Per Click (CPC) funding model. */
+      budget?: components["schemas"]["CampaignBudgetRequest"];
+      /** @description The seller-defined name for the campaign. This value must be unique for the seller.<br><br> You can use any alphanumeric characters in the name, except for the less than (<code><</code>) and greater than (<code>></code>) characters.<br><br><b>Max Length</b>: 80 characters */
+      campaignName?: string;
+      /** @description The date and time the campaign is scheduled to end, in UTC format (<code>yyyy-MM-ddThh:mm:ss.sssZ</code>).<br><br>If this field is omitted, the campaign will have no defined end date, and will not end until the seller ends the campaign using the <a href= "/api-docs/sell/marketing/resources/campaign/methods/endCampaign">endCampaign</a> method, or if they update the campaign to include an end date using the <a href= "/api-docs/sell/marketing/resources/campaign/methods/updateCampaignIdentification">updateCampaignIdentification</a> method. This date must be further in the future than the <b>startDate</b>. */
+      endDate?: string;
+      /** @description This array includes the listing Ids of the items that are to be associated with the PLA campaign. eBay will create ad groups and keywords for these listings and add them to the campaign.<br><br> Each value must be delimited by a comma. A maximum of 1000 listing Ids can be added to a campaign created using the <b>setupQuickCampaign</b> method. */
+      listingIds?: (string)[];
+      /** @description The Id of the marketplace where the campaign is hosted. See the <a href= "/api-docs/sell/marketing/types/ba:MarketplaceIdEnum">MarkeplaceIdEnum</a> type for more details.  For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/ba:MarketplaceIdEnum'>eBay API documentation</a> */
+      marketplaceId?: string;
+      /** @description The date and time the campaign is scheduled to start, in UTC format (<code>yyyy-MM-ddThh:mm:ss.sssZ</code>).<br><br> On the specified date, the service derives the keywords for each listing in the campaign, creates an ad for each listing, and associates each new ad with the campaign. The campaign starts once this process is completed. The amount of time it takes the service to start the campaign depends on the number of listings in the campaign.<br><br><span class="tablenote"><b>Note:</b> If the <b>startDate</b> has passed by the time the seller launches a campaign, the campaign will be updated to <code>RUNNING</code> status. If the seller launches a campaign before the <b>startDate</b>, the campaign will be updated to <code>SCHEDULED</code> status and will change to <code>RUNNING</code> status at the time of the specified <b>startDate</b>.</span> */
+      startDate?: string;
+    };
     /** @description This type defines the fields included in the report. */
     ReportMetadata: {
       /** @description A list containing the metadata for the dimension used in the report. */
@@ -1532,7 +1775,7 @@ export interface components {
       markupInventoryItems?: (components["schemas"]["InventoryItem"])[];
       /** @description A list of listing IDs to remove from a markdown promotion. The listed items are 'marked up' to their standard price after being part of the markdown promotion. */
       markupListingIds?: (string)[];
-      /** @description The container for the rules that select the items to include in a promotion.  <br><br><i>Required if </i> <b>inventoryCriterionType</b> is set to <code>INVENTORY_BY_RULE</code>. */
+      /** @description The container for the rules that select the items to include in a promotion.  <br><br><i>Required if </i> <b>inventoryCriterionType</b> is set to <code>INVENTORY_BY_RULE</code>. <br><br>For information on using the contained fields, see <a href= "/api-docs/sell/static/marketing/using-the-selectionrules-container.html#Promotio ">Item promotions</a>. */
       selectionRules?: (components["schemas"]["SelectionRule"])[];
     };
     /** @description This type defines the fields that describe the discounts applied to a set of inventory items and the order in which the selection rules are applied. */
@@ -1549,19 +1792,19 @@ export interface components {
        */
       ruleOrder?: number;
     };
-    /** @description This type specifies the selection rules used to create a campaign. */
+    /** @description This type defines all rules/inclusion filters used to add listings to campaigns or promotions. Use of the specific fields is different for campaigns or promotions. See <a href= "/api-docs/sell/static/marketing/using-the-selectionrules-container.html ">Using the selectionRules container</a>. */
     SelectionRule: {
-      /** @description An array of product brands used as an inclusion filter. A product's brand is defined in a listing's item specifics. This array will be returned if  one or more product brands were used as a filter. */
+      /** @description An array of product brands. For more details, see <a href="/api-docs/sell/static/marketing/using-the-selectionrules-container.html ">Using the selectionRules container</a>. */
       brands?: (string)[];
-      /** @description A list of category IDs associated with the listings to be included in the campaign. Ads are created for all the seller's items listed in the specified categories, up to a maximum of 50,000 items. The IDs can be either a list of eBay category IDs (from the site where the item is hosted), or a list of category IDs defined and used by the seller's store. <p><b>eBay Marketplace category IDs</b>  <br>To get a list of marketplace category IDs, do one of the following:</p> <ul><li>Get a list of category IDs for a marketplace by adding <code>/sch/allcategories/all-categories</code> to the marketplace URL when browsing the site. <br>For example: <code> http://www.ebay.com.au/sch/allcategories/all-categories</code> </li><li>Navigate to the desired category on the host site and copy the category ID from the URL.</li>  <li>These options are also available for the US marketplace: <ul><li>See <a href="http://pages.ebay.com/sellerinformation/news/categorychanges.html " target="_blank">Category Changes</a> for the latest list of category IDs.</li><li>Retrieve a list of category IDs using the <a href="/api-docs/commerce/taxonomy/resources/methods">Taxonomy API</a>.</li></ul></li></ul><p><b>Seller store category IDs</b> <br>Because store category IDs are uniquely defined and maintained by each seller, this service cannot provide a list of a seller's IDs. However, sellers can retrieve their store category IDs as follows:</p><ol><li>Go to <b>Seller Hub</b> &gt; <b>Marketing</b>.</li> <li>Click <b>Manage store categories</b>. <br>  A list of your store categories displays.</li> <li>Click the <b>All categories</b> link displayed at the bottom of the list. <br>A complete list of your store categories and their associated store category IDs displays.</li></ol> */
+      /** @description This field contains an array of the associated category ID(s).<br><br>For <a href= "/api-docs/sell/static/marketing/using-the-selectionrules-container.html#Promotio ">Item promotions</a>, a single-item array containing the category ID associated with the promotion. Required when used in an Item promotion and either specifying a <b>selectionRules</b> container or when <b>inventoryCriterionType</b> is set to <code>INVENTORY_BY_RULE</code>.<br><br>For <a href= "/api-docs/sell/static/marketing/using-the-selectionrules-container.html#Campaign ">Promoted Listing campaigns</a>, an array of category ID(s) associated with the campaign. <br><br>For information on how to get category IDs, see <a href= "/api-docs/sell/static/marketing/using-the-selectionrules-container.html#eBay ">eBay Marketplace category IDs</a> and <a href= "/api-docs/sell/static/marketing/using-the-selectionrules-container.html#Seller ">Seller store category IDs</a> */
       categoryIds?: (string)[];
-      /** @description The enumeration values returned in this field indicate if the category IDs in the corresponding categoryIds array are identifiers for eBay categories or for a seller's eBay store categories. This field is always returned if one or more category IDs are used as a filter. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/pls:CategoryScopeEnum'>eBay API documentation</a> */
+      /** @description This enumerated value indicates if the category ID for the item is an identifier for eBay categories or for a seller's eBay store categories. <br><br>For <a href= "/api-docs/sell/static/marketing/using-the-selectionrules-container.html#Campaign ">Promoted Listing campaigns</a>, this field includes the type of the category ID for the item(s) to be included in the campaign.<br><br>For <a href= "/api-docs/sell/static/marketing/using-the-selectionrules-container.html#Promotio ">Item promotions</a>, this field identifies the scope for the corresponding array as eBay categories or for a seller's eBay store categories. Required when used in an Item promotion and <b>inventoryCriterionType</b> is set to <code>INVENTORY_BY_RULE</code>.  For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/pls:CategoryScopeEnum'>eBay API documentation</a> */
       categoryScope?: string;
-      /** @description A comma-separated list of unique identifiers for the conditions of listings to be included in the campaign. Up to four IDs can be specified.<br /><br />This array is only returned if one or more item condition values are used as a filter.<br /><br /><span class="tablenote"><strong>Note:</strong> Multiple listing condition IDs are mapped to the four valid values listed below. Refer to <a href="/api-docs/sell/static/marketing/pl-campaign-flow-pls.html#add-by-rule" target="_blank">Promoted Listings Standard campaign flow</a> for more details.</span><br /><br /><strong>Valid Values:</strong><ul><li><code>1000</code> = New</li><li><code>2000</code> = Certified Refurbished</li><li><code>2500</code> = Seller Refurbished</li><li><code>3000</code> = Used</li></ul> */
+      /** @description A comma-separated list of unique identifiers for the conditions of listings to be included<br><br>For <a href= "/api-docs/sell/static/marketing/using-the-selectionrules-container.html#Campaign ">Promoted Listing campaigns</a>, refer to <a href= "/api-docs/sell/static/marketing/pl-campaign-flow-pls.html#add-by-rule ">Add items to the PLS campaign</a>. Up to four IDs can be specified.<br><br>For <a href= "/api-docs/sell/static/marketing/using-the-selectionrules-container.html#Promotio ">Item promotions</a>, refer to <a href= "/api-docs/sell/static/metadata/condition-id-values.html ">Item condition ID and name values</a>. */
       listingConditionIds?: (string)[];
-      /** @description Use this container to set a maximum price threshold. Any listings that have a 'Buy it Now' price above this price will not be considered for or added to this campaign. */
+      /** @description This container sets the maximum price threshold. For more details, see <a href= "/api-docs/sell/marketing/resources/using-the-selectionrules-container.html ">Using the selectionRules container</a>. */
       maxPrice?: components["schemas"]["Amount"];
-      /** @description Use this container to set a minimum price threshold. Any listings that have a 'Buy it Now' price below this price will not be considered for or added to this campaign. */
+      /** @description This container sets the minimum price threshold. For more details, see <a href= "/api-docs/sell/marketing/resources/using-the-selectionrules-container.html ">Using the selectionRules container</a>. */
       minPrice?: components["schemas"]["Amount"];
     };
     /** @description The suggested bid rate for the item. */
@@ -1718,10 +1961,43 @@ export interface components {
     UpdateCampaignIdentificationRequest: {
       /** @description The new seller-defined name for the campaign. This value must be unique for the seller. <p>If you don't want to change the name of the campaign, specify the current campaign name in this field.<p>You can use any alphanumeric characters in the name, except the less than (&lt;) or greater than (&gt;) characters.</p><b>Max length: </b>80 characters. */
       campaignName?: string;
-      /** @description The date and time the campaign ends, in UTC format (<code>yyyy-MM-ddThh:mm:ssZ</code>). If this field is omitted, the campaign will have no defined end date, and will not end until the seller makes a decision to end the campaign with an <a href="/api-docs/sell/marketing/resources/campaign/methods/endCampaign">endCampaign</a> call, or if they update the campaign at a later time with an end date.<p>If you want to change only the end date of the campaign, specify the current campaign name and set <b>startDate</b> to the current date (you cannot use a start date that is in the past), and set the <b>endDate</b> as desired. Note that if you do not set a new end date in this call, any current endDate value will be set to null. To preserve the currently-set end date, you must specify the value again in your request.</p> */
+      /** @description The date and time the campaign ends, in UTC format (<code>yyyy-MM-ddThh:mm:ssZ</code>). If this field is omitted, the campaign will have no defined end date, and will not end until the seller makes a decision to end the campaign with an <a href="/api-docs/sell/marketing/resources/campaign/methods/endCampaign">endCampaign</a> call, or if they update the campaign at a later time with an end date.<p>If you want to change only the end date of the campaign, you must specify the current campaign name, set the <b>endDate</b> as desired, and set the <b>startDate</b> to the actual start date of the campaign. This applies if the campaign status is <code>RUNNING</code> or <code>PAUSED</code>. You can retrieve the <b>startDate</b> using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaign#response.startDate">getCampaign</a> method.</p> <p>Note that if you do not set a new end date in this call, any current endDate value will be set to null. To preserve the currently-set end date, you must specify the value again in your request.</p> */
       endDate?: string;
-      /** @description The new start date for the campaign, in UTC format (<code>yyyy-MM-ddThh:mm:ssZ</code>). <p>If the campaign is currently <code>RUNNING</code> or <code>PAUSED</code>, enter the current date in this field because you cannot submit past or future date for these campaigns.</p>  <p>On the date specified, the service derives the keywords for each listing in the campaign, creates an ad for each listing, and associates each new ad with the campaign. The campaign starts after this process is completed. The amount of time it takes the service to start the campaign depends on the number of listings in the campaign.</p>  <p>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to retrieve the <b>campaign_id</b> and the campaign status (<code>RUNNING</code>, <code>PAUSED</code>, <code>ENDED</code>, and so on) for all the seller's campaigns.</p> */
+      /** @description The new start date for the campaign, in UTC format (<code>yyyy-MM-ddThh:mm:ssZ</code>).<p>If the campaign status is <code>RUNNING</code> or <code>PAUSED</code>, the <b>startDate</b> must be specified and must be the actual start date of the campaign, even if you are only changing the <b>endDate</b>. You can retrieve the campaign's <b>startDate</b> using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaign#response.startDate">getCampaign</a> method.</p><p>On the date specified, the service derives the keywords for each listing in the campaign, creates an ad for each listing, and associates each new ad with the campaign. The campaign starts after this process is completed. The amount of time it takes the service to start the campaign depends on the number of listings in the campaign.</p>  <p>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to retrieve the <b>campaign_id</b> and the campaign status (<code>RUNNING</code>, <code>PAUSED</code>, <code>ENDED</code>, and so on) for all the seller's campaigns.</p> */
       startDate?: string;
+    };
+    /** @description The update email campaign request payload */
+    UpdateCampaignRequest: {
+      /** @description An array of audience codes for the audiences of the email campaign. At least one audience code is required. There is no limit to the number of audience codes that may be entered.<br><br><b>Example: </b> if the current email campaign contains <code>"audienceCodes": "code1", "code2"</code> and the user wishes to add an audience code <code>code3</code>, set the <code>audienceCodes</code> value to <code>"audienceCodes": "code1", "code2", "code3"</code>.<br><br>To retrieve seller audiences, call <a href="/api-docs/sell/marketing/resources/email_campaign/methods/getAudiences" target="_blank">getAudiences</a>. Use the code values in the response to populate audienceCodes. */
+      audienceCodes?: (string)[];
+      /** @description The unique identifier of either an eBay category or a store category.<br><br>This field is used if a seller wants to apply an email campaign to a specific eBay category or store category. The <b>categoryType</b> determines whether the <b>categoryId</b> value is an eBay category or store category.<br><br>To retrieve eBay categories, use the <a href="/devzone/xml/docs/reference/ebay/GetCategories.html" target="_blank">getCategories</a> or Taxonomy API. To retrieve seller store categories, use the <a href="/devzone/xml/docs/reference/ebay/GetStore.html" target="_blank">getStore</a> call. Use the <b>categoryId</b> value of the desired category from the results as the value in the request.<br><br><b>itemSelectMode</b> must be set to <code>AUTO</code> in order to use a category ID. */
+      categoryId?: string;
+      /** @description This field must be set when applying an email campaign to a specific eBay category or store category. The enumeration value used indicates which type of category the <b>categoryId</b> belongs to. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:CategoryTypeEnum'>eBay API documentation</a> */
+      categoryType?: string;
+      /** @description An array of unique identifiers for the listings displayed in an email campaign. Used if the seller wishes to select the eBay listings in the email campaign rather than have eBay automatically select them.<br><br>Call <a href="/DevZone/XML/docs/Reference/eBay/GetSellerList.html#GetSellerList">getSellerList</a> to retrieve all seller listings. Each <b>Item</b> result contains an <b>ItemID</b> value. Use this value in <b>itemIds</b> to feature that listing.<br><br>The maximum number of <b>itemIds</b> for the <code>COUPON</code> campaign type is 4, and for every other campaign type is 10.<br><br><b>itemSelectMode</b> must be set to <code>MANUAL</code> in order to use this field. */
+      itemIds?: (string)[];
+      /** @description Determines whether listings featured in an email campaign are selected by the seller or by eBay.<br><br>If <b>itemSelectMode</b> is set to <code>AUTO</code>, eBay automatically choses listings based on values set for <b>sort</b>, <b>categoryType</b>, <b>categoryId</b>, and <b>priceRange</b>.<br><br>If <b>itemSelectMode</b> is set to <code>MANUAL</code>, listings are set by the seller by populating the <code>itemIds</code> array.<br><br><span class="tablenote"><b>Note: </b><b>itemSelectMode</b> is always set to <code>AUTO</code> for <code>WELCOME</code> email campaigns.</span> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:ItemSelectModeEnum'>eBay API documentation</a> */
+      itemSelectMode?: string;
+      /** @description The body of the email campaign. Accepts HTML and CSS. The maximum length is 1000 characters */
+      personalizedMessage?: string;
+      /** @description This container is used if the seller wants to apply the email campaign to listings based on a price range.<br><br>The <b>priceRange</b> container consists of the <b>currency</b>, <b>gte</b>, and <b>lte</b> fields.<br><br>"gte" stands for "greater than or equal to" and "lte" stands for "less than or equal to". Either <b>gte</b>, <b>lte</b>, or both must be used if the seller wishes to include a price range.<br><br><span class="tablenote"><b>Note: </b>Use this object when the <b>itemSelectMode</b> is set to <code>AUTO</code>.</span> */
+      priceRange?: components["schemas"]["PriceRange"];
+      /** @description The ID of the promotion used for an email campaign if the <b>emailCampaignType</b> is set to <code>COUPON</code>, <code>SALE_EVENT</code>, or <code>ORDER_DISCOUNT</code>, and <b>promotionSelectModeEnum</b> is set to <code>MANUAL</code>.<br><br>To find a promotion, call <a href="/api-docs/sell/marketing/resources/promotion/methods/getPromotions" target="_blank">getPromotions</a> to retrieve a list of the seller's promotions. Use the <b>promotionId</b> from an individual <b>PromotionDetail</b> result for the request. */
+      promotionId?: string;
+      /** @description The selection mode for the promotion used. If set to <code>AUTO</code>, eBay will choose the promotion to include in the email campaign. If set to <code>MANUAL</code>, the seller must specify the promotion in the <b>promotionId</b> field.<br><br>This field is required if the <b>emailCampaignType</b> is set to <code>COUPON</code>, <code>SALE_EVENT</code>, or <code>ORDER_DISCOUNT</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:PromotionSelectModeEnum'>eBay API documentation</a> */
+      promotionSelectModeEnum?: string;
+      /** @description The date and time that the email campaign newsletter will be sent, given in UTC format. Example: 2023-05-20T03:13:35Z<br><br>This field should be used if the seller wishes to send the email campaign on a future date. If no <b>scheduleDate</b> is set, the email campaign will send once it is created or updated. */
+      scheduleDate?: string;
+      /** @description The sort rule is used to display the listings featured in the email campaign.<br><br>Sort rules are only used if <b>itemSelectMode</b> is set to <code>AUTO</code>. If <b>itemSelectMode</b> is <code>MANUAL</code>, listings are displayed in the order in which they are listed in the <b>itemIds</b> array.<br><br>The following sort rules are available:<ul><li><code>ENDING_FIRST</code> displays listings by ending date, from soonest to latest.</li><li><code>LOWEST_PRICED</code> displays listings by price, from lowest to highest.</li><li><code>HIGHEST_PRICED</code> displays listings by price, from highest to lowest.</li><li><code>NEWLY_LISTED</code> displays listings by date listed, with the newest first.</li></ul><br><br>The default sort rule is <code>NEWLY_LISTED</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:ItemSortEnum'>eBay API documentation</a> */
+      sort?: string;
+      /** @description The email campaign subject. The maximum length is 70 characters. */
+      subject?: string;
+    };
+    UpdateEmailCampaignResponse: {
+      /** @description The unique eBay-assigned ID to the email campaign that is generated when the email campaign is created. */
+      emailCampaignId?: string;
+      /** @description The email campaign status. See <a href="/api-docs/sell/marketing/types/api:EmailCampaignStatusEnum">EmailCampaignStatusEnum</a> for a list of email campaign statuses and their descriptions. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/marketing/types/api:EmailCampaignStatusEnum'>eBay API documentation</a> */
+      emailCampaignStatus?: string;
     };
     /** @description A type that contains the fields for the <b>UpdateKeywordByKeywordId</b> request. */
     UpdateKeywordByKeywordIdRequest: {
@@ -1790,6 +2066,10 @@ export interface operations {
   /** @description This method adds multiple listings that are managed with the <a href="/api-docs/sell/inventory/resources/methods" title="Inventory API Reference">Inventory API</a> to an existing Promoted Listings campaign.<br /><br />For Promoted Listings Standard (PLS) campaigns using the Cost Per Sale (CPS) model, bulk ads may be directly created for the listing.<br /><br />For each listing specified in the request, this method:<br /><ul><li>Creates an ad for the listing.</li> <li>Sets the bid percentage (also known as the <i>ad rate</i>) for the ads created.</li> <li>Associates the ads created with the specified campaign.</li></ul><br />To create ads for a listing, specify their <b>inventoryReferenceId</b> and <b>inventoryReferenceType</b>, plus the <b>bidPercentage</b> for the ad in the payload of the request. Specify the campaign to which you want to associate the ads using the <b>campaign_id</b> path parameter.<br /><br /><span class="tablenote"><b>Note:</b> This method only applies to the Cost Per Sale (CPS) funding model; it does not apply to the Cost Per Click (CPC) funding model. See <a href="/api-docs/sell/static/marketing/pl-overview.html#funding-model">Funding Models</a> in the <i>Promoted Listings Playbook</i> for more information.</span><br /><br />Use <a href="/api-docs/sell/marketing/resources/campaign/methods/createCampaign">createCampaign</a> to create a new campaign and use <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to get a list of existing campaigns. */
   bulkCreateAdsByInventoryReference: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created. Get a seller's campaign IDs by calling <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a>. */
         campaign_id: string;
@@ -1823,6 +2103,10 @@ export interface operations {
   /** @description This method adds multiple listings to an existing Promoted Listings campaign using <b>listingId</b> values generated by the <a href="/Devzone/XML/docs/Reference/eBay/index.html" title="Trading API Reference">Trading API</a> or <a href="/api-docs/sell/inventory/resources/methods" title="Inventory API Reference">Inventory API</a>, or using values generated by an ad group ID.<p>For Promoted Listings Standard (PLS) campaigns using the Cost Per Sale (CPS) funding model, bulk ads may be directly created for the listing.</p><p>For each listing ID specified in the request, this method:</p>  <ul><li>Creates an ad for the listing.</li> <li>Sets the bid percentage (also known as the <i>ad rate</i>) for the ad.</li> <li>Associates the ad with the specified campaign.</li></ul><p>To create an ad for a listing, specify its <b>listingId</b>, plus the <b>bidPercentage</b> for the ad in the payload of the request. Specify the campaign to associate the ads with using the <b>campaign_id</b> path parameter. Listing IDs are generated by eBay when a seller creates listings with the Trading API.</p><p>You can specify a maximum of <b>500 listings per call</b> and each campaign can have ads for a maximum of 50,000 items. Be aware when using this call that each variation in a multiple-variation listing creates an individual ad.</p><p>For Promoted Listings Advanced (PLA) campaigns using the Cost Per Click (CPC) funding model, an ad group must be created first. If no ad group has been created for the campaign, ads cannot be created.</p><p>For the ad group specified in the request, this method associates the ad with the specified ad group.</p><p>To create an ad for an ad group, specify the name of the ad group plus the <b>defaultBid</b> for the ad in the payload of the request. Specify the campaign to associate the ads with using the <b>campaign_id</b> path parameter. Ad groups are generated using the <a href="/api-docs/sell/marketing/resources/adgroup/methods/createAdGroup">createAdGroup</a>  method.</p> <p>You can specify one or more ad groups per campaign.</p><p>Use <a href="/api-docs/sell/marketing/resources/campaign/methods/createCampaign">createCampaign</a> to create a new campaign and use <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to get a list of existing campaigns.</p> */
   bulkCreateAdsByListingId: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get a seller's campaign IDs by calling <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a>. */
         campaign_id: string;
@@ -1849,13 +2133,17 @@ export interface operations {
       404: never;
       /** @description Business error */
       409: never;
-      /** @description Internal Server error */
+      /** @description Internal Server Error */
       500: never;
     };
   };
   /** @description This method works with listings created with the <a href="/api-docs/sell/inventory/resources/methods" title="Inventory API Reference">Inventory API</a>.<br /><br />The method deletes a set of ads, as specified by a list of inventory reference IDs, from the specified campaign. <i>Inventory reference IDs</i> are seller-defined IDs that are used with the Inventory API</a>.<br /><br />Pass the <b>campaign_id</b> as a path parameter and populate the payload with a list of <b>inventoryReferenceId</b> and <b>inventoryReferenceType</b> pairs that you want to delete.<br /><br />Get the campaign IDs for a seller by calling <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> and call <a href="/api-docs/sell/marketing/resources/ad/methods/getAds">getAds</a> to get a list of the seller's inventory reference IDs.<br /><br /><span class="tablenote"><b>Note:</b> This method only applies to the Cost Per Sale (CPS) funding model; it does not apply to the Cost Per Click (CPC) funding model. See <a href="/api-docs/sell/static/marketing/pl-overview.html#funding-model">Funding Models</a> in the <i>Promoted Listings Playbook</i> for more information.</span> */
   bulkDeleteAdsByInventoryReference: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get a seller's campaign IDs by calling <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a>. */
         campaign_id: string;
@@ -1889,6 +2177,10 @@ export interface operations {
   /** @description This method works with listing IDs created with either the <a href="/Devzone/XML/docs/Reference/eBay/index.html" title="Trading API Reference">Trading API</a> or the <a href="/api-docs/sell/inventory/resources/methods" title="Inventory API Reference">Inventory API</a>.<br /><br />The method deletes a set of ads, as specified by a list of <b>listingID</b> values from a Promoted Listings campaign. A listing ID value is generated by eBay when a seller creates a listing with either the Trading API and Inventory API.<br /><br />Pass the <b>campaign_id</b> as a path parameter and populate the payload with the set of listing IDs that you want to delete.<br /><br />Get the campaign IDs for a seller by calling <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> and call <a href="/api-docs/sell/marketing/resources/ad/methods/getAds">getAds</a> to get a list of the seller's inventory reference IDs.<br /><br /><span class="tablenote"><b>Note:</b> This method only applies to the Cost Per Sale (CPS) funding model; it does not apply to the Cost Per Click (CPC) funding model. See <a href="/api-docs/sell/static/marketing/pl-overview.html#funding-model">Funding Models</a> in the <i>Promoted Listings Playbook</i> for more information.</span><br /><br />When using the CPC funding model, use the <a href="/api-docs/sell/marketing/resources/ad/methods/bulkUpdateAdsStatusByListingId">bulkUpdateAdsStatusByListingId</a> method to change the status of ads to ARCHIVED. */
   bulkDeleteAdsByListingId: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get a seller's campaign IDs by calling <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a>. */
         campaign_id: string;
@@ -1915,13 +2207,17 @@ export interface operations {
       404: never;
       /** @description Business error */
       409: never;
-      /** @description Internal Server Error */
+      /** @description Internal Server error */
       500: never;
     };
   };
   /** @description This method works with listings created with either the <a href="/Devzone/XML/docs/Reference/eBay/index.html" title="Trading API Reference">Trading API</a> or the <a href="/api-docs/sell/inventory/resources/methods" title="Inventory API Reference">Inventory API</a>.  <p>The method updates the <b>bidPercentage</b> values for a set of ads associated with the specified campaign.</p>  <p>Specify the <b>campaign_id</b> as a path parameter and supply a set of listing IDs with their associated updated <b>bidPercentage</b> values in the request body. An eBay listing ID is generated when a listing is created with the Trading API.</p>  <p>Get the campaign IDs for a seller by calling <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> and call <a href="/api-docs/sell/marketing/resources/ad/methods/getAds">getAds</a> to get a list of the seller's inventory reference IDs.</p><span class="tablenote"><b>Note:</b> This method only applies to the Cost Per Sale (CPS) funding model; it does not apply to the Cost Per Click (CPC) funding model. See <a href="/api-docs/sell/static/marketing/pl-overview.html#funding-model">Funding Models</a> in the <i>Promoted Listings Playbook</i> for more information.</span> */
   bulkUpdateAdsBidByInventoryReference: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get a seller's campaign IDs by calling <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a>. */
         campaign_id: string;
@@ -1946,7 +2242,7 @@ export interface operations {
       400: never;
       /** @description Not Found */
       404: never;
-      /** @description Conflict */
+      /** @description Business error */
       409: never;
       /** @description Internal Server Error */
       500: never;
@@ -1955,6 +2251,10 @@ export interface operations {
   /** @description This method works with listings created with either the <a href="/Devzone/XML/docs/Reference/eBay/index.html" title="Trading API Reference">Trading API</a> or the <a href="/api-docs/sell/inventory/resources/methods" title="Inventory API Reference">Inventory API</a>.  <p>The method updates the <b>bidPercentage</b> values for a set of ads associated with the specified campaign.</p>  <p>Specify the <b>campaign_id</b> as a path parameter and supply a set of listing IDs with their associated updated <b>bidPercentage</b> values in the request body. An eBay listing ID is generated when a listing is created with the Trading API.</p>  <p>Get the campaign IDs for a seller by calling <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> and call <a href="/api-docs/sell/marketing/resources/ad/methods/getAds">getAds</a> to get a list of the seller's inventory reference IDs.</p><span class="tablenote"><b>Note:</b> This method only applies to the Cost Per Sale (CPS) funding model; it does not apply to the Cost Per Click (CPC) funding model. See <a href="/api-docs/sell/static/marketing/pl-overview.html#funding-model">Funding Models</a> in the <i>Promoted Listings Playbook</i> for more information.</span> */
   bulkUpdateAdsBidByListingId: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created. Get a seller's campaign IDs by calling <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a>. */
         campaign_id: string;
@@ -1988,6 +2288,10 @@ export interface operations {
   /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method works with listings created with either the <a href= "/Devzone/XML/docs/Reference/eBay/index.html">Trading API</a> or the <a href="/api-docs/sell/inventory/resources/methods">Inventory API</a>.<br /><br />This method updates the status of ads in bulk.<br /><br />Specify the <b>campaign_id</b> you want to update as a URI parameter, and configure the <b>adGroupStatus</b> in the request payload. */
   bulkUpdateAdsStatus: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.<br /><br /><span class="tablenote"><b>Note:</b> You can retrieve the campaign IDs for a specified seller using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method.</span> */
         campaign_id: string;
@@ -2021,6 +2325,10 @@ export interface operations {
   /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method works with listings created with either the <a href="/Devzone/XML/docs/Reference/eBay/index.html">Trading API</a> or the <a href="/api-docs/sell/inventory/resources/methods">Inventory API</a>.<br /><br />The method updates the status of ads in bulk, based on listing ID values.<br /><br />Specify the <b>campaign_id</b> as a path parameter and supply a set of listing IDs with their updated <b>adStatus</b> values in the request body. An eBay listing ID is generated when a listing is created with the Trading API.<br /><br />Get the campaign IDs for a seller by calling <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> and call <a href="/api-docs/sell/marketing/resources/ad/methods/getAds">getAds</a> to retrieve a list of seller inventory reference IDs. */
   bulkUpdateAdsStatusByListingId: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.<br /><br /><span class="tablenote"><b>Note:</b> You can retrieve the campaign IDs for a specified seller using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method.</span> */
         campaign_id: string;
@@ -2047,7 +2355,7 @@ export interface operations {
       404: never;
       /** @description Business error */
       409: never;
-      /** @description Internal Server error */
+      /** @description Internal Server Error */
       500: never;
     };
   };
@@ -2084,13 +2392,17 @@ export interface operations {
       404: never;
       /** @description Business error */
       409: never;
-      /** @description Internal Server error */
+      /** @description Internal Server Error */
       500: never;
     };
   };
   /** @description This method adds a listing to an existing Promoted Listings campaign using a <b>listingId</b> value generated by the <a href="/Devzone/XML/docs/Reference/eBay/index.html" title="Trading API Reference">Trading API</a> or <a href="/api-docs/sell/inventory/resources/methods" title="Inventory API Reference">Inventory API</a>, or using a value generated by an ad group ID. <p>For Promoted Listings Standard (PLS) campaigns using the Cost Per Sale (CPS) funding model, an ad may be directly created for the listing.</p><p>For the listing ID specified in the request, this method:</p>  <ul><li>Creates an ad for the listing.</li> <li>Sets the bid percentage (also known as the <i>ad rate</i>) for the ad.</li> <li>Associates the ad with the specified campaign.</li></ul>  <p>To create an ad for a listing, specify its <b>listingId</b>, plus the <b>bidPercentage</b> for the ad in the payload of the request. Specify the campaign to associate the ad with using the <b>campaign_id</b> path parameter. Listing IDs are generated by eBay when a seller creates listings with the Trading API.</p><p>For Promoted Listings Advanced (PLA) campaigns using the Cost Per Click (CPC) funding model, an ad group must be created first. If no ad group has been created for the campaign, an ad cannot be created.</p><p>For the ad group specified in the request, this method associates the ad with the specified ad group.</p><p>To create an ad for an ad group, specify the name of the ad group in the payload of the request. Specify the campaign to associate the ads with using the <b>campaign_id</b> path parameter. Ad groups are generated using the <a href="/api-docs/sell/marketing/resources/adgroup/methods/createAdGroup">createAdGroup</a> method.</p> <p>You can specify one or more ad groups per campaign.</p><p>Use <a href="/api-docs/sell/marketing/resources/campaign/methods/createCampaign">createCampaign</a> to create a new campaign and use <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to get a list of existing campaigns.</p><p>This call has no response payload. If the ad is successfully created, a <code>201 Created</code> HTTP status code and the <a href="/api-docs/sell/marketing/resources/ad/methods/getAd">getAd</a> URI of the ad are returned in the location header.</p> */
   createAdByListingId: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.<br /><br /><span class="tablenote"><b>Note:</b> You can retrieve the campaign IDs for a specified seller using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method.</span> */
         campaign_id: string;
@@ -2125,6 +2437,10 @@ export interface operations {
   /** @description This method adds a listing that is managed with the <a href="/api-docs/sell/inventory/resources/methods" title="Inventory API Reference">Inventory API</a> to an existing Promoted Listings campaign.<br /><br />For Promoted Listings Standard (PLS) campaigns using the Cost Per Sale (CPS) funding model, an ad may be directly created for the listing.<br /><br />For each listing specified in the request, this method:<br /><ul><li>Creates an ad for the listing.</li> <li>Sets the bid percentage (also known as the <i>ad rate</i>) for the ads created.</li> <li>Associates the created ad with the specified campaign.</li></ul><br />To create an ad for a listing, specify its <b>inventoryReferenceId</b> and <b>inventoryReferenceType</b>, plus the <b>bidPercentage</b> for the ad in the payload of the request. Specify the campaign to associate the ad with using the <b>campaign_id</b> path parameter.<br /><br /><span class="tablenote"><b>Note:</b> This method only applies to the Cost Per Sale (CPS) funding model; it does not apply to the Cost Per Click (CPC) funding model. See <a href="/api-docs/sell/static/marketing/pl-overview.html#funding-model">Funding Models</a> in the <i>Promoted Listings Playbook</i> for more information.</span><br /><br />Use <a href="/api-docs/sell/marketing/resources/campaign/methods/createCampaign">createCampaign</a> to create a new campaign and use <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to get a list of existing campaigns. */
   createAdsByInventoryReference: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.<br /><br /><span class="tablenote"><b>Note:</b> You can retrieve the campaign IDs for a specified seller using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method.</span> */
         campaign_id: string;
@@ -2147,7 +2463,7 @@ export interface operations {
       400: never;
       /** @description Not Found */
       404: never;
-      /** @description Conflict */
+      /** @description Business error */
       409: never;
       /** @description Internal Server Error */
       500: never;
@@ -2206,6 +2522,10 @@ export interface operations {
   /** @description This method works with listings that are managed with the <a href="/api-docs/sell/inventory/resources/methods" title="Inventory API Reference">Inventory API</a>.  <p>The method deletes ads using a list of seller-defined inventory reference IDs, used with the Inventory API, that are associated with the specified campaign ID.</p> <p>Specify the campaign ID (as a path parameter) and a list of <b>inventoryReferenceId</b> and <b>inventoryReferenceType</b> pairs to be deleted.</p>  <p>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to get a list of the seller's current campaign IDs.</p><span class="tablenote"><b>Note:</b> This method only applies to the Cost Per Sale (CPS) funding model; it does not apply to the Cost Per Click (CPC) funding model. See <a href="/api-docs/sell/static/marketing/pl-overview.html#funding-model">Funding Models</a> in the <i>Promoted Listings Playbook</i> for more information.</span><br /><br />When using the CPC funding model, use the bulkUpdateAdsStatusByInventoryReference method to change the status of ads to ARCHIVED. */
   deleteAdsByInventoryReference: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.<br /><br /><span class="tablenote"><b>Note:</b> You can retrieve the campaign IDs for a specified seller using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method.</span> */
         campaign_id: string;
@@ -2228,7 +2548,7 @@ export interface operations {
       400: never;
       /** @description Not Found */
       404: never;
-      /** @description Business error */
+      /** @description Conflict */
       409: never;
       /** @description Internal Server Error */
       500: never;
@@ -2268,6 +2588,10 @@ export interface operations {
   /** @description This method updates the bid percentage (also known as the "ad rate") for the specified ad in the specified campaign. <p>In the request, supply the <b>campaign_id</b> and <b>ad_id</b> as path parameters, and supply the new <b>bidPercentage</b> value in the payload of the call.</p>  <p>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to retrieve a seller's current campaign IDs and call <a href="/api-docs/sell/marketing/resources/ad/methods/getAds">getAds</a> to get their ad IDs.</p><span class="tablenote"><b>Note:</b> This method only applies to the Cost Per Sale (CPS) funding model; it does not apply to the Cost Per Click (CPC) funding model. See <a href="/api-docs/sell/static/marketing/pl-overview.html#funding-model">Funding Models</a> in the <i>Promoted Listings Playbook</i> for more information.</span> */
   updateBid: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad that's generated when an ad is created. */
         ad_id: string;
@@ -2290,7 +2614,7 @@ export interface operations {
       404: never;
       /** @description Business error */
       409: never;
-      /** @description Internal Server error */
+      /** @description Internal Server Error */
       500: never;
     };
   };
@@ -2330,6 +2654,10 @@ export interface operations {
   /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method adds an ad group to an existing PLA campaign that uses the Cost Per Click (CPC) funding model.<br /><br />To create an ad group for a campaign, specify the <b>defaultBid</b> for the ad group in the payload of the request. Then specify the campaign to which the ad group should be associated using the <b>campaign_id</b> path parameter.<br /><br />Each campaign can have one or more associated ad groups. */
   createAdGroup: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.<br /><br /><span class="tablenote"><b>Note:</b> You can retrieve the campaign IDs for a specified seller using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method.</span> */
         campaign_id: string;
@@ -2355,7 +2683,7 @@ export interface operations {
       400: never;
       /** @description Not Found */
       404: never;
-      /** @description Conflict */
+      /** @description Business error */
       409: never;
       /** @description Internal Server error */
       500: never;
@@ -2384,13 +2712,17 @@ export interface operations {
       404: never;
       /** @description Business error */
       409: never;
-      /** @description Internal Server Error */
+      /** @description Internal Server error */
       500: never;
     };
   };
   /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method updates the ad group associated with a campaign.<br /><br />With this method, you can modify the <b>default bid</b> for the ad group, change the state of the ad group, or change the name of the ad group. Pass the <b>ad_group_id</b> you want to update as a URI parameter, and configure the <b>adGroupStatus</b> and <b>defaultBid</b> in the request payload.<br /><br />Call <a href="/api-docs/sell/marketing/resources/adgroup/methods/getAdGroup">getAdGroup</a> to retrieve the current default bid and status of the ad group that you would like to update. */
   updateAdGroup: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description The ID of the ad group that shall be updated. */
         ad_group_id: string;
@@ -2411,7 +2743,7 @@ export interface operations {
       400: never;
       /** @description Not Found */
       404: never;
-      /** @description Business error */
+      /** @description Conflict */
       409: never;
       /** @description Internal Server error */
       500: never;
@@ -2420,6 +2752,10 @@ export interface operations {
   /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method allows sellers to retrieve the suggested bids for input keywords and match type. */
   suggestBids: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description The ID of the ad group containing the keywords for which the bid suggestions will be provided. */
         ad_group_id: string;
@@ -2446,13 +2782,17 @@ export interface operations {
       404: never;
       /** @description Business error */
       409: never;
-      /** @description Internal Server error */
+      /** @description Internal Server Error */
       500: never;
     };
   };
   /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method allows sellers to retrieve a list of keyword ideas to be targeted for Promoted Listings campaigns. */
   suggestKeywords: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description The ID of the ad group for which the keyword suggestions will be provided. */
         ad_group_id: string;
@@ -2486,6 +2826,10 @@ export interface operations {
   /** @description This method clones (makes a copy of) the specified campaign's <b>campaign criterion</b>. The <b>campaign criterion</b> is a container for the fields that define the criteria for a rule-based campaign.<p>To clone a campaign, supply the <b>campaign_id</b> as a path parameter in your call. There is no request payload.</p>  <p>The ID of the newly-cloned campaign is returned in the <b>Location</b> response header.</p><p>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to retrieve a seller's current campaign IDs.</p>  <p><b>Requirement: </b>In order to clone a campaign, the <b>campaignStatus</b> must be <code>ENDED</code> and the campaign must define a set of selection rules (it must be a rules-based campaign).</p><span class="tablenote"><b>Note:</b> This method only applies to the Cost Per Sale (CPS) funding model; it does not apply to the Cost Per Click (CPC) funding model. See <a href="/api-docs/sell/static/marketing/pl-overview.html#funding-model">Funding Models</a> in the <i>Promoted Listings Playbook</i> for more information.</span> */
   cloneCampaign: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created. This ID is the campaign ID of the campaign being cloned.<br /><br /><span class="tablenote"><b>Note:</b> You can retrieve the campaign IDs for a specified seller using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method.</span> */
         campaign_id: string;
@@ -2513,7 +2857,7 @@ export interface operations {
       404: never;
       /** @description Business error */
       409: never;
-      /** @description Internal Server Error */
+      /** @description Internal Server error */
       500: never;
     };
   };
@@ -2554,6 +2898,12 @@ export interface operations {
   };
   /** @description This method creates a Promoted Listings ad campaign. <p>A Promoted Listings <i>campaign</i> is the structure into which you place the ads or ad group for the listings you want to promote.</p>  <p>Identify the items you want to place into a campaign either by "key" or by "rule" as follows:</p> <ul><li><b>Rules-based campaigns</b> &ndash; A rules-based campaign adds items to the campaign according to the <i>criteria</i> you specify in your call to <b>createCampaign</b>. You can set the <b>autoSelectFutureInventory</b> request field to <code>true</code> so that after your campaign launches, eBay will regularly assess your new, revised, or newly-eligible listings to determine whether any should be added or removed from your campaign according to the rules you set. If there are, eBay will add or remove them automatically on a daily basis.</li> <li><b>Key-based campaigns</b> &ndash; Add items to an existing campaign using either listing ID values or Inventory Reference values: <ul><li>Add <b>listingId</b> values to an existing campaign by calling either <b>createAdByListingID</b> or <b>bulkCreateAdsByListingId</b>.</li>  <li>Add <b>inventoryReference</b> values to an existing campaign by calling either <b>createAdByInventoryReference</b> or <b>bulkCreateAdsByInventoryReference</b>.</li><li>Add an <b>ad group</b> to an existing campaign by calling <b>createAdGroup</b>.</li></ul><p class="tablenote"><b>Note:</b> No matter how you add items to a Promoted Listings campaign, each campaign can contain ads for a maximum of 50,000 items. <br><br>If a rules-based campaign identifies more than 50,000 items, ads are created for only the first 50,000 items identified by the specified criteria, and ads are not created for the remaining items.</p>  <p><b>Creating a campaign</b></p> <p>To create a basic campaign, supply:</p>  <ul><li>The user-defined campaign name</li> <li>The start date (and optionally the end date) of the campaign</li> <li>The eBay marketplace on which the campaign is hosted</li> <li>Details on the campaign funding model</li></ul>  <p>The campaign funding model specifies how the Promoted Listings fee is calculated. Currently, the supported funding models are <code>COST_PER_SALE</code> and <code>COST_PER_CLICK</code>. For complete information on how the fee is calculated and when it applies, see <a href="/api-docs/sell/static/marketing/pl-overview.html#pl-fees">Promoted Listings fees</a>.</p>   <p>If you populate the <b>campaignCriterion</b> object in your <b>createCampaign</b> request, campaign "ads" are created by "rule" for the listings that meet the criteria you specify, and these ads are associated with the newly created campaign.</p>  <p>For details on creating Promoted Listings campaigns and how to select the items to be included in your campaigns, see <a href="/api-docs/sell/static/marketing/pl-create-campaign.html">Promoted Listings campaign creation</a>.</p>  <p>For recommendations on which listings are prime for a Promoted Listings ad campaign and to get guidance on how to set the <b>bidPercentage</b> field, see <a href="/api-docs/sell/static/marketing/pl-reco-api.html">Using the Recommendation API to help configure campaigns</a>.</p>  <p class="tablenote"><b>Tip:</b> See <a href="/api-docs/sell/marketing/static/overview.html#PL-requirements">Promoted Listings requirements and restrictions</a> for the details on the marketplaces that support Promoted Listings via the API. See <a href="/api-docs/sell/static/marketing/pl-restrictions">Promoted Listings restrictions</a> for details about campaign limitations and restrictions.</p> */
   createCampaign: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
     /** @description This type defines the fields for the create campaign request. */
     requestBody: {
       content: {
@@ -2574,7 +2924,7 @@ export interface operations {
       400: never;
       /** @description Business error */
       409: never;
-      /** @description Internal Server error */
+      /** @description Internal Server Error */
       500: never;
     };
   };
@@ -2695,6 +3045,25 @@ export interface operations {
       404: never;
       /** @description Business error */
       409: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method launches a Promoted Listings Advanced campaign created using the <a href="/api-docs/sell/marketing/resources/campaign/methods/setupQuickCampaign">setupQuickCampaign</a> method that is in <code>DRAFT</code> status. This changes the campaign status to <code>RUNNING</code> or <code>SCHEDULED</code>, based on its specified start date. Specify the campaign you wish to launch by supplying its <b>campaign_id</b> as a path parameter in the call URI. <br><br>Use the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method to retrieve the <b>campaign_id</b> and the campaign status for all the seller's campaigns. */
+  launchCampaign: {
+    parameters: {
+      path: {
+        /** @description A unique eBay-assigned ID for an ad campaign.<br><br><span class="tablenote"><b>Note:</b> The campaign ID value used here must be for a PLA campaign in <code>DRAFT</code> status. For PLA campaigns created with the <a href="/api-docs/sell/marketing/resources/campaign/methods/setupQuickCampaign">setupQuickCampaign</a> method, the <b>getCampaign</b> URI for that campaign is returned in the <b>Location</b> response header. That URI will include the <b>campaign_id</b> value, which you will pass in as a path parameter in the <b>launchCampaign</b> method.</span> */
+        campaign_id: string;
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: never;
+      /** @description Bad Request */
+      400: never;
+      /** @description Business error */
+      409: never;
       /** @description Internal Server error */
       500: never;
     };
@@ -2714,9 +3083,9 @@ export interface operations {
       400: never;
       /** @description Not Found */
       404: never;
-      /** @description Business error */
+      /** @description Conflict */
       409: never;
-      /** @description Internal Server error */
+      /** @description Internal Server Error */
       500: never;
     };
   };
@@ -2735,6 +3104,38 @@ export interface operations {
       400: never;
       /** @description Not Found */
       404: never;
+      /** @description Business error */
+      409: never;
+      /** @description Internal Server error */
+      500: never;
+    };
+  };
+  /** @description This method allows the seller to expedite the creation of a Promoted Listings Advanced (PLA) campaign.<br><br>Sellers only need to provide basic campaign information, such as the user-defined campaign name, the start date (and optionally the end date) of the campaign, the daily budget amount of the campaign, and the eBay marketplace where the campaign will be hosted. The seller must also identify the items they want to place in the campaign by adding the listing id of each item in the <b>listingIds</b> array of the request. <br><br>Using the provided <b>listingIds</b>, eBay creates ad groups for the campaign and organizes the listings into the appropriate ad group. eBay then adds keywords to each ad group and assigns each keyword a suggested bid. <br><br>Campaigns created using this method will be in <code>DRAFT</code> status upon creation.<br><br>The location response header returned contains the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaign">getCampaign</a> URI to retrieve the newly created campaign that is in draft status. Sellers should make this call to review and approve the campaign before they use the <a href="/api-docs/sell/marketing/resources/campaign/methods/launchCampaign">launchCampaign</a> method to start the campaign.<br><br><span class="tablenote"><b>Note:</b> Promoted Listing Standard (PLS) campaigns are not supported.</span> */
+  setupQuickCampaign: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
+    /** @description This type defines the fields to create a quick setup Promoted Listings Advanced (PLA) campaign. */
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["QuickSetupRequest"];
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        headers: {
+          Location?: string;
+        };
+        content: {
+          "application/json": Record<string, never>;
+        };
+      };
+      /** @description Bad Request */
+      400: never;
       /** @description Business error */
       409: never;
       /** @description Internal Server error */
@@ -2770,13 +3171,17 @@ export interface operations {
       404: never;
       /** @description Business error */
       409: never;
-      /** @description Internal Server Error */
+      /** @description Internal Server error */
       500: never;
     };
   };
   /** @description This method updates the ad rate strategy for an existing Promoted Listings Standard (PLS) rules-based ad campaign that uses the Cost Per Sale (CPS) funding model.<br /><br />Specify the <b>campaign_id</b> as a path parameter. You can retrieve the campaign IDs for a seller by calling the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method.<br /><br /><span class="tablenote"><b>Note:</b> This method only applies to the CPS funding model; it does not apply to the Cost Per Click (CPC) funding model. See <a href="/api-docs/sell/static/marketing/pl-overview.html#funding-model">Funding Models</a> in the <i>Promoted Listings Playbook</i> for more information.</span> */
   updateAdRateStrategy: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.<br /><br /><span class="tablenote"><b>Note:</b> You can retrieve the campaign IDs for a specified seller using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method.</span> */
         campaign_id: string;
@@ -2804,6 +3209,10 @@ export interface operations {
   /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method updates the daily budget for a PLA campaign that uses the Cost Per Click (CPC) funding model.<br /><br />A click occurs when an eBay user finds and clicks on the seller’s listing (within the search results) after using a keyword that the seller has created for the campaign. For each ad in an ad group in the campaign, each click triggers a cost, which gets subtracted from the campaign’s daily budget. If the cost of the clicks exceeds the daily budget, the Promoted Listings campaign will be paused until the next day.<br /><br />Specify the <b>campaign_id</b> as a path parameter. You can retrieve the campaign IDs for a seller by calling the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method. */
   updateCampaignBudget: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.<br /><br /><span class="tablenote"><b>Note:</b> You can retrieve the campaign IDs for a specified seller using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method.</span> */
         campaign_id: string;
@@ -2828,9 +3237,13 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method can be used to change the name of a campaign, as well as modify the start or end dates. <p>Specify the <b>campaign_id</b> you want to update as a URI parameter, and configure the <b>campaignName</b> and <b>startDate</b> in the request payload.  <p>If you want to change only the end date of the campaign, specify the current campaign name and set <b>startDate</b> to the current date (you cannot use a start date that is in the past), and set the <b>endDate</b> as desired. Note that if you do not set a new end date in this call, any current <b>endDate</b> value will be set to <code>null</code>. To preserve the currently-set end date, you must specify the value again in your request.</p>  <p>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to retrieve a seller's campaign details, including the campaign ID, campaign name, and the start and end dates of the campaign. */
+  /** @description This method can be used to change the name of a campaign, as well as modify the start or end dates. <p>Specify the <b>campaign_id</b> you want to update as a URI parameter, and configure the <b>campaignName</b> and <b>startDate</b> in the request payload.  <p>If you want to change only the end date of the campaign, specify the current campaign name, set <b>endDate</b> as desired, and set <b>startDate</b> to the actual start date of the campaign. This applies if the campaign status is <code>RUNNING</code> or <code>PAUSED</code>. You can retrieve the <b>startDate</b> using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaign#response.startDate">getCampaign</a> method.</p> <p>Note that if you do not set a new end date in this call, any current <b>endDate</b> value will be set to <code>null</code>. To preserve the currently-set end date, you must specify the value again in your request.</p>  <p>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> to retrieve a seller's campaign details, including the campaign ID, campaign name, and the start and end dates of the campaign. */
   updateCampaignIdentification: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.<br /><br /><span class="tablenote"><b>Note:</b> You can retrieve the campaign IDs for a specified seller using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method.</span> */
         campaign_id: string;
@@ -2849,7 +3262,7 @@ export interface operations {
       400: never;
       /** @description Not Found */
       404: never;
-      /** @description Conflict */
+      /** @description Business error */
       409: never;
       /** @description Internal Server error */
       500: never;
@@ -2858,6 +3271,10 @@ export interface operations {
   /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method adds keywords, in bulk, to an existing PLA ad group in a campaign that uses the Cost Per Click (CPC) funding model.<br /><br />This method also sets the CPC rate for each keyword.<br /><br />In the request, supply the <b>campaign_id</b> as a path parameter.<br /><br />Call the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method to retrieve a list of current campaign IDs for a specified seller. */
   bulkCreateKeyword: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.<br /><br /><span class="tablenote"><b>Note:</b> You can retrieve the campaign IDs for a specified seller using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method.</span> */
         campaign_id: string;
@@ -2882,15 +3299,19 @@ export interface operations {
       400: never;
       /** @description Not Found */
       404: never;
-      /** @description Business error */
+      /** @description Conflict */
       409: never;
-      /** @description Internal Server error */
+      /** @description Internal Server Error */
       500: never;
     };
   };
   /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method updates the bids and statuses of keywords, in bulk, for an existing PLA campaign.<br /><br />In the request, supply the <b>campaign_id</b> as a path parameter.<br /><br />Call the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method to retrieve a list of current campaign IDs for a specified seller. */
   bulkUpdateKeyword: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.<br /><br /><span class="tablenote"><b>Note:</b> You can retrieve the campaign IDs for a specified seller using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method.</span> */
         campaign_id: string;
@@ -2959,6 +3380,10 @@ export interface operations {
   /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method creates keywords using a specified campaign ID for an existing PLA campaign.<br /><br />In the request, supply the <b>campaign_id</b> as a path parameter.<br /><br />Call the <a href="/api-docs/sell/marketing/resources/campaign/methods/suggestKeywords">suggestKeywords</a> method to retrieve a list of keyword ideas to be targeted for PLA campaigns, and call the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method to retrieve a list of current campaign IDs for a seller. */
   createKeyword: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.<br /><br /><span class="tablenote"><b>Note:</b> You can retrieve the campaign IDs for a specified seller using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method.</span> */
         campaign_id: string;
@@ -3020,6 +3445,10 @@ export interface operations {
   /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method updates keywords using a campaign ID and keyword ID for an existing PLA campaign.<br /><br />In the request, specify the <b>campaign_id</b> and <b>keyword_id</b> as path parameters.<br /><br />Call the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method to retrieve a list of current campaign IDs for a seller and call the <a href="/api-docs/sell/marketing/resources/keyword/methods/getKeywords">getKeywords</a> method to retrieve their keyword IDs. */
   updateKeyword: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description A unique eBay-assigned ID for an ad campaign that is generated when a campaign is created.<br /><br /><span class="tablenote"><b>Note:</b> You can retrieve the campaign IDs for a specified seller using the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method.</span> */
         campaign_id: string;
@@ -3048,6 +3477,12 @@ export interface operations {
   };
   /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method adds negative keywords, in bulk, to an existing ad group in a PLA campaign that uses the Cost Per Click (CPC) funding model.<br /><br />Specify the <b>campaignId</b> and <b>adGroupId</b> in the request body, along with the <b>negativeKeywordText</b> and <b>negativeKeywordMatchType</b>.<br /><br />Call the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method to retrieve a list of current campaign IDs for a specified seller. */
   bulkCreateNegativeKeyword: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
     /** @description A type that defines the fields for the bulk request to create negative keywords. */
     requestBody: {
       content: {
@@ -3069,12 +3504,18 @@ export interface operations {
       403: never;
       /** @description Business error */
       409: never;
-      /** @description Internal Server error */
+      /** @description Internal Server Error */
       500: never;
     };
   };
   /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method updates the statuses of existing negative keywords, in bulk.<br /><br />Specify the <b>negativeKeywordId</b> and <b>negativeKeywordStatus</b> in the request body. */
   bulkUpdateNegativeKeyword: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
     /** @description A type that defines the fields for the bulk request to update negative keyword statuses. */
     requestBody: {
       content: {
@@ -3094,9 +3535,9 @@ export interface operations {
       400: never;
       /** @description Forbidden */
       403: never;
-      /** @description Business error */
+      /** @description Conflict */
       409: never;
-      /** @description Internal Server error */
+      /** @description Internal Server Error */
       500: never;
     };
   };
@@ -3137,6 +3578,12 @@ export interface operations {
   };
   /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method adds a negative keyword to an existing ad group in a PLA campaign that uses the Cost Per Click (CPC) funding model.<br /><br />Specify the <b>campaignId</b> and <b>adGroupId</b> in the request body, along with the <b>negativeKeywordText</b> and <b>negativeKeywordMatchType</b>.<br /><br />Call the <a href="/api-docs/sell/marketing/resources/campaign/methods/getCampaigns">getCampaigns</a> method to retrieve a list of current campaign IDs for a specified seller. */
   createNegativeKeyword: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
     /** @description A type that defines the fields for the request to create a negative keyword. */
     requestBody: {
       content: {
@@ -3193,6 +3640,10 @@ export interface operations {
   /** @description <span class="tablenote"><b>Note:</b> This method is only available for select partners who have been approved for the eBay Promoted Listings Advanced (PLA) program. For information about how to request access to this program, refer to <a href="/api-docs/sell/static/marketing/pl-verify-eligibility.html#access-requests " target="_blank "> Promoted Listings Advanced Access Requests</a> in the Promoted Listings Playbook. To determine if a seller qualifies for PLA, use the <a href="/api-docs/sell/account/resources/advertising_eligibility/methods/getAdvertisingEligibility " target="_blank ">getAdvertisingEligibility</a> method in Account API.</span><br />This method updates the status of an existing negative keyword.<br /><br />Specify the <b>negative_keyword_id</b> as a path parameter, and specify the <b>negativeKeywordStatus</b> in the request body. */
   updateNegativeKeyword: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description The unique identifier for the negative keyword.<br /><br />This value is returned in the <b>Location</b> response header from the <a href="/api-docs/sell/marketing/resources/negative_keyword/methods/createNegativeKeyword">createNegativeKeyword</a> method. */
         negative_keyword_id: string;
@@ -3215,11 +3666,11 @@ export interface operations {
       404: never;
       /** @description Business error */
       409: never;
-      /** @description Internal Server Error */
+      /** @description Internal Server error */
       500: never;
     };
   };
-  /** @description This call downloads the report as specified by the <b>report_id</b> path parameter.  <br><br>Call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/createReportTask" title="createReportTask API docs">createReportTask</a> to schedule and generate a Promoted Listings report. All date values are returned in UTC format (<code>yyyy-MM-ddThh:mm:ss.sssZ</code>).<br/><br/><span class="tablenote"><b>Note:</b> The reporting of some data related to sales and ad-fees may require a 72-hour (<b>maximum</b>) adjustment period which is often referred to as the <i>Reconciliation Period</i>. Such adjustment periods should, on average, be minimal. However, at any given time, the <b>payments</b> tab may be used to view those amounts that have actually been charged.</span> */
+  /** @description This call downloads the report as specified by the <b>report_id</b> path parameter.  <br><br>Call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/createReportTask" title="createReportTask API docs">createReportTask</a> to schedule and generate a Promoted Listings report. All date values are returned in UTC format (<code>yyyy-MM-ddThh:mm:ss.sssZ</code>).<br/><br/><span class="tablenote"><b>Note:</b> The reporting of some data related to sales and ad-fees may require a 72-hour (<b>maximum</b>) adjustment period which is often referred to as the <i>Reconciliation Period</i>. Such adjustment periods should, on average, be minimal. However, at any given time, the <b>payments</b> tab may be used to view those amounts that have actually been charged.</span><br/><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>For <b>ad_report</b> and <b>ad_report_task</b> methods, the API call limit is subject to a per user quota. These API calls can <b>only</b> be executed a maximum of 200 times per hour for each seller/user. If the number of calls per hour exceeds this limit, any new calls will be blocked for the next hour.</p></div> */
   getReport: {
     parameters: {
       path: {
@@ -3251,7 +3702,7 @@ export interface operations {
           "application/json": components["schemas"]["ReportMetadatas"];
         };
       };
-      /** @description Internal Server Error */
+      /** @description Internal Server error */
       500: never;
     };
   };
@@ -3276,11 +3727,11 @@ export interface operations {
       403: never;
       /** @description Not Found */
       404: never;
-      /** @description Internal Server error */
+      /** @description Internal Server Error */
       500: never;
     };
   };
-  /** @description This method returns information on all the existing report tasks related to a seller. <p>Use the <b>report_task_statuses</b> query parameter to control which reports to return. You can paginate the result set by specifying a <b>limit</b>, which dictates how many report tasks to return on each page of the response. Use the <b>offset</b> parameter to specify how many reports to skip in the result set before returning the first result.</p> */
+  /** @description This method returns information on all the existing report tasks related to a seller. <p>Use the <b>report_task_statuses</b> query parameter to control which reports to return. You can paginate the result set by specifying a <b>limit</b>, which dictates how many report tasks to return on each page of the response. Use the <b>offset</b> parameter to specify how many reports to skip in the result set before returning the first result.</p><br/><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>For <b>ad_report</b> and <b>ad_report_task</b> methods, the API call limit is subject to a per user quota. These API calls can <b>only</b> be executed a maximum of 200 times per hour for each seller/user. If the number of calls per hour exceeds this limit, any new calls will be blocked for the next hour.</p></div> */
   getReportTasks: {
     parameters: {
       query?: {
@@ -3301,12 +3752,18 @@ export interface operations {
       };
       /** @description Bad Request */
       400: never;
-      /** @description Internal Server Error */
+      /** @description Internal Server error */
       500: never;
     };
   };
-  /** @description <span class="tablenote"><b>Note:</b> Using multiple funding models in one report is deprecated. If multiple funding models are used, a Warning will be returned in a header. This functionality will be decommissioned on April 3, 2023. See <a href="/develop/apis/api-deprecation-status">API Deprecation Status</a> for details.</span><br /><br />This method creates a <i>report task</i>, which generates a Promoted Listings report based on the values specified in the call.<br /><br />The report is generated based on the criteria you specify, including the report type, the report's dimensions and metrics, the report's start and end dates, the listings to include in the report, and more. <i>Metrics </i>are the quantitative measurements in the report while <i>dimensions</i> specify the attributes of the data included in the reports.<br /><br />When creating a report task, you can specify the items you want included in the report. The items you specify, using either <b>listingId</b> or <b>inventoryReference</b> values, must be in a Promoted Listings campaign for them to be included in the report.<br /><br />For details on the required and optional fields for each report type, see <a href="/api-docs/sell/static/marketing/pl-reports.html">Promoted Listings reporting</a>.<br /><br />This call returns the URL to the report task in the <b>Location</b> response header, and the URL includes the report-task ID.<br /><br />Reports often take time to generate and it's common for this call to return an HTTP status of <code>202</code>, which indicates the report is being generated. Call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTasks">getReportTasks</a> (or <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTask">getReportTask</a> with the report-task ID) to determine the status of a Promoted Listings report. When a report is complete, eBay sets its status to <b>SUCCESS</b> and you can download it using the URL returned in the <b>reportHref</b> field of the <b>getReportTask</b> call. Report files are tab-separated value gzip files with a file extension of <code>.tsv.gz</code>.<br/><br/><span class="tablenote"><b>Note:</b> The reporting of some data related to sales and ad-fees may require a 72-hour (<b>maximum</b>) adjustment period which is often referred to as the <i>Reconciliation Period</i>. Such adjustment periods should, on average, be minimal. However, at any given time, the <b>payments</b> tab may be used to view those amounts that have actually been charged.</span><br /><br /><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> This call fails if you don't submit all the required fields for the specified report type. Fields not supported by the specified report type are ignored. Call <a href="/api-docs/sell/marketing/resources/ad_report_metadata/methods/getReportMetadata">getReportMetadata</a> to retrieve a list of the fields you need to configure for each Promoted Listings report type.</span> */
+  /** @description <span class="tablenote"><b>Note:</b> Using multiple funding models in one report is deprecated. If multiple funding models are used, a Warning will be returned in a header. This functionality will be decommissioned on April 3, 2023. See <a href="/develop/apis/api-deprecation-status">API Deprecation Status</a> for details.</span><br /><br />This method creates a <i>report task</i>, which generates a Promoted Listings report based on the values specified in the call.<br /><br />The report is generated based on the criteria you specify, including the report type, the report's dimensions and metrics, the report's start and end dates, the listings to include in the report, and more. <i>Metrics </i>are the quantitative measurements in the report while <i>dimensions</i> specify the attributes of the data included in the reports.<br /><br />When creating a report task, you can specify the items you want included in the report. The items you specify, using either <b>listingId</b> or <b>inventoryReference</b> values, must be in a Promoted Listings campaign for them to be included in the report.<br /><br />For details on the required and optional fields for each report type, see <a href="/api-docs/sell/static/marketing/pl-reports.html">Promoted Listings reporting</a>.<br /><br />This call returns the URL to the report task in the <b>Location</b> response header, and the URL includes the report-task ID.<br /><br />Reports often take time to generate and it's common for this call to return an HTTP status of <code>202</code>, which indicates the report is being generated. Call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTasks">getReportTasks</a> (or <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTask">getReportTask</a> with the report-task ID) to determine the status of a Promoted Listings report. When a report is complete, eBay sets its status to <b>SUCCESS</b> and you can download it using the URL returned in the <b>reportHref</b> field of the <b>getReportTask</b> call. Report files are tab-separated value gzip files with a file extension of <code>.tsv.gz</code>.<br/><br/><span class="tablenote"><b>Note:</b> The reporting of some data related to sales and ad-fees may require a 72-hour (<b>maximum</b>) adjustment period which is often referred to as the <i>Reconciliation Period</i>. Such adjustment periods should, on average, be minimal. However, at any given time, the <b>payments</b> tab may be used to view those amounts that have actually been charged.</span><br /><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> This call fails if you don't submit all the required fields for the specified report type. Fields not supported by the specified report type are ignored. Call <a href="/api-docs/sell/marketing/resources/ad_report_metadata/methods/getReportMetadata">getReportMetadata</a> to retrieve a list of the fields you need to configure for each Promoted Listings report type.</span><br/><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>For <b>ad_report</b> and <b>ad_report_task</b> methods, the API call limit is subject to a per user quota. These API calls can <b>only</b> be executed a maximum of 200 times per hour for each seller/user. If the number of calls per hour exceeds this limit, any new calls will be blocked for the next hour.</p></div><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> The data threshold for a single report is currently 500,000 records; if this threshold is exceeded, the report will fail.</p></div> */
   createReportTask: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
     /** @description The container for the fields that define the report task. */
     requestBody: {
       content: {
@@ -3326,7 +3783,7 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This call returns the details of a specific Promoted Listings report task, as specified by the <b>report_task_id</b> path parameter. <p>The report task includes the report criteria (such as the report dimensions, metrics, and included listing) and the report-generation rules (such as starting and ending dates for the specified report task).</p>  <p>Report-task IDs are generated by eBay when you call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/createReportTask">createReportTask</a>. Get a complete list of a seller's report-task IDs by calling <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTasks">getReportTasks</a>.</p> */
+  /** @description This call returns the details of a specific Promoted Listings report task, as specified by the <b>report_task_id</b> path parameter. <p>The report task includes the report criteria (such as the report dimensions, metrics, and included listing) and the report-generation rules (such as starting and ending dates for the specified report task).</p>  <p>Report-task IDs are generated by eBay when you call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/createReportTask">createReportTask</a>. Get a complete list of a seller's report-task IDs by calling <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTasks">getReportTasks</a>.</p><br/><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>For <b>ad_report</b> and <b>ad_report_task</b> methods, the API call limit is subject to a per user quota. These API calls can <b>only</b> be executed a maximum of 200 times per hour for each seller/user. If the number of calls per hour exceeds this limit, any new calls will be blocked for the next hour.</p></div> */
   getReportTask: {
     parameters: {
       path: {
@@ -3349,7 +3806,7 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This call deletes the report task specified by the <b>report_task_id</b> path parameter. This method also deletes any reports generated by the report task.  <p>Report task IDs are generated by eBay when you call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/createReportTask">createReportTask</a>. Get a complete list of a seller's report-task IDs by calling <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTasks">getReportTasks</a>.</p> */
+  /** @description This call deletes the report task specified by the <b>report_task_id</b> path parameter. This method also deletes any reports generated by the report task.  <p>Report task IDs are generated by eBay when you call <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/createReportTask">createReportTask</a>. Get a complete list of a seller's report-task IDs by calling <a href="/api-docs/sell/marketing/resources/ad_report_task/methods/getReportTasks">getReportTasks</a>.</p><br/><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>For <b>ad_report</b> and <b>ad_report_task</b> methods, the API call limit is subject to a per user quota. These API calls can <b>only</b> be executed a maximum of 200 times per hour for each seller/user. If the number of calls per hour exceeds this limit, any new calls will be blocked for the next hour.</p></div> */
   deleteReportTask: {
     parameters: {
       path: {
@@ -3366,12 +3823,18 @@ export interface operations {
       404: never;
       /** @description Conflict */
       409: never;
-      /** @description Internal Server error */
+      /** @description Internal Server Error */
       500: never;
     };
   };
   /** @description This method creates an <b>item price markdown promotion</b> (know simply as a "markdown promotion") where a discount amount is applied directly to the items included the promotion. Discounts can be specified as either a monetary amount or a percentage off the standard sales price. eBay highlights promoted items by placing teasers for the items throughout the online sales flows.  <p>Unlike an <a href="/api-docs/sell/marketing/resources/item_promotion/methods/createItemPromotion">item promotion</a>, a markdown promotion does not require the buyer meet a "threshold" before the offer takes effect. With markdown promotions, all the buyer needs to do is purchase the item to receive the promotion benefit.</p>  <p class="tablenote"><b>Important:</b> There are some restrictions for which listings are available for price markdown promotions. For details, see <a href="/api-docs/sell/marketing/static/overview.html#PM-requirements">Promotions Manager requirements and restrictions</a>. <br><br>In addition, we recommend you list items at competitive prices before including them in your markdown promotions. For an extensive list of pricing recommendations, see the <b>Growth</b> tab in Seller Hub.</p> <p>There are two ways to add items to markdown promotions:</p> <ul><li><b>Key-based promotions</b> select items using either the listing IDs or inventory reference IDs of the items you want to promote. Note that if you use inventory reference IDs, you must specify both the <b>inventoryReferenceId</b> and the associated <b>inventoryReferenceType</b> of the item(s) you want to include the promotion.</li>  <li><b>Rule-based promotions</b> select items using a list of eBay category IDs or seller Store category IDs. Rules can further constrain items in a promotion by minimum and maximum prices, brands, and item conditions.</li></ul>  <p>New promotions must be created in either a <code>DRAFT</code> or a <code>SCHEDULED</code> state. Use the DRAFT state when you are initially creating a promotion and you want to be sure it's correctly configured before scheduling it to run. When you create a promotion, the promotion ID is returned in the <b>Location</b> response header. Use this ID to reference the promotion in subsequent requests (such as to schedule a promotion that's in a DRAFT state).</p>  <p class="tablenote"><b>Tip:</b> Refer to <a href="/api-docs/sell/static/marketing/promotions-manager.html">Promotions Manager</a> in the <i>Selling Integration Guide</i> for details and examples showing how to create and manage seller promotions.</p>  <p>Markdown promotions are available on all eBay marketplaces. For more information, see <a href="/api-docs/sell/marketing/static/overview.html#PM-requirements">Promotions Manager requirements and restrictions</a>.</p> */
   createItemPriceMarkdownPromotion: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
     /** @description This type defines the fields that describe an item price markdown promotion. */
     requestBody?: {
       content: {
@@ -3422,6 +3885,10 @@ export interface operations {
   /** @description This method updates the specified item price markdown promotion with the new configuration that you supply in the payload of the request. Specify the promotion you want to update using the <b>promotion_id</b> path parameter. Call <a href="/api-docs/sell/marketing/resources/promotion/methods/getPromotions">getPromotions</a> to retrieve the IDs of a seller's promotions.  <br><br>When updating a promotion, supply all the fields that you used to configure the original promotion (and not just the fields you are updating). eBay replaces the specified promotion with the values you supply in the update request and if you don't pass a field that currently has a value, the update request fails.  <br><br>The parameters you are allowed to update with this request depend on the status of the promotion you're updating:  <ul><li>DRAFT or SCHEDULED promotions: You can update any of the parameters in these promotions that have not yet started to run, including the <b>discountRules</b>.</li> <li>RUNNING promotions: You can change the <b>endDate</b> and the item's inventory but you cannot change the promotional discount or the promotion's start date.</li> <li>ENDED promotions: Nothing can be changed.</li></ul> */
   updateItemPriceMarkdownPromotion: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description This path parameter takes a concatenation of the ID of the promotion you want to update plus the marketplace ID on which the promotion is hosted. Concatenate the two values by separating them with an "at sign" (<b>@</b>).  <br><br>The ID of the promotion (<b>promotionId</b>) is a unique eBay-assigned value that's generated when the promotion is created. The Marketplace ID is the ENUM value of eBay marketplace where the promotion is hosted. <br><br><b>Example:</b> <code>1********5@EBAY_US</code> */
         promotion_id: string;
@@ -3473,6 +3940,12 @@ export interface operations {
   };
   /** @description This method creates an <b>item promotion</b>, where the buyer receives a discount when they meet the buying criteria that's set for the promotion. Known here as "threshold promotions", these promotions trigger when a threshold is met.  <p>eBay highlights promoted items by placing teasers for the promoted items throughout the online buyer flows.</p>  <p><i>Discounts</i> are specified as either a monetary amount or a percentage off the standard sales price of a listing, letting you offer deals such as "Buy 1 Get 1" and "Buy $50, get 20% off".</p> <p><i>Volume pricing</i> promotions increase the value of the discount as the buyer increases the quantity they purchase.</p> <p><i>Coded Coupons</i> provide unique codes that a buyer can use during checkout to receive a discount. The seller can specify the number of times a buyer can use the coupon and the maximum amount across all purchases that can be discounted using the coupon. The coupon code can also be made public (appearing on the seller's Offer page, search pages, the item listing, and the checkout page) or private (only on the seller's Offer page, but the seller can include the code in email and social media).</p> <p class="tablenote"><b>Note</b>: Coded Coupons are currently available in the US, UK, DE, FR, IT, ES, and AU marketplaces.</p><p>There are two ways to add items to a threshold promotion:</p>  <ul><li><b>Key-based promotions</b> select items using either the listing IDs or inventory reference IDs of the items you want to promote. Note that if you use inventory reference IDs, you must specify both the <b>inventoryReferenceId</b> and the associated <b>inventoryReferenceType</b> of the item(s) you want to include the promotion.</li> <li><b>Rule-based promotions</b> select items using a list of eBay category IDs or seller Store category IDs. Rules can further constrain items in a promotion by minimum and maximum prices, brands, and item conditions.</li></ul>  <p>You must create a new promotion in either a <code>DRAFT</code> or <code>SCHEDULED</code> state. Use the DRAFT state when you are initially creating a promotion and you want to be sure it's correctly configured before scheduling it to run. When you create a promotion, the promotion ID is returned in the <b>Location</b> response header. Use this ID to reference the promotion in subsequent requests.</p>  <p class="tablenote"><b>Tip:</b> Refer to the <a href="/api-docs/sell/static/marketing/promotions-manager.html">Selling Integration Guide</a> for details and examples showing how to create and manage threshold promotions using the Promotions Manager.</p>  <p>For information on the eBay marketplaces that support item promotions, see <a href="/api-docs/sell/marketing/static/overview.html#PM-requirements">Promotions Manager requirements and restrictions</a>.</p> */
   createItemPromotion: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
     /** @description This type defines the fields that describe an item promotion. */
     requestBody?: {
       content: {
@@ -3491,7 +3964,7 @@ export interface operations {
       };
       /** @description Bad Request */
       400: never;
-      /** @description Business Error */
+      /** @description Conflict */
       409: never;
       /** @description Internal Server Error */
       500: never;
@@ -3523,6 +3996,10 @@ export interface operations {
   /** @description This method updates the specified threshold promotion with the new configuration that you supply in the request. Indicate the promotion you want to update using the <b>promotion_id</b> path parameter.  <p>Call <a href="/api-docs/sell/marketing/resources/promotion/methods/getPromotions">getPromotions</a> to retrieve the IDs of a seller's promotions.</p>  <p>When updating a promotion, supply all the fields that you used to configure the original promotion (and not just the fields you are updating). eBay replaces the specified promotion with the values you supply in the update request and if you don't pass a field that currently has a value, the update request will fail.</p>  <p>The parameters you are allowed to update with this request depend on the status of the promotion you're updating:  <ul><li>DRAFT or SCHEDULED promotions: You can update any of the parameters in these promotions that have not yet started to run, including the <b>discountRules</b>.</li> <li>RUNNING or PAUSED promotions: You can change the <b>endDate</b> and the item's inventory but you cannot change the promotional discount or the promotion's start date.</li> <li>ENDED promotions: Nothing can be changed.</li></ul> <p class="tablenote"><b>Tip:</b> When updating a <code>RUNNING</code> or <code>PAUSED</code> promotion, set the <b>status</b> field to <code>SCHEDULED</code> for the update request. When the promotion is updated, the previous status (either <code>RUNNING</code> or <code>PAUSED</code>) is retained.</p> */
   updateItemPromotion: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description This path parameter takes a concatenation of the ID of the promotion you want to update plus the marketplace ID on which the promotion is hosted. Concatenate the two values by separating them with an "at sign" (<b>@</b>).  <br><br>The ID of the promotion (<b>promotionId</b>) is a unique eBay-assigned value that's generated when the promotion is created. The Marketplace ID is the ENUM value of eBay marketplace where the promotion is hosted. <br><br><b>Example:</b> <code>1********5@EBAY_US</code> */
         promotion_id: string;
@@ -3728,6 +4205,220 @@ export interface operations {
       400: never;
       /** @description Not Found */
       404: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method retrieves a list of email campaigns from a seller's eBay store.<br><br>Users can filter the results by <a href="/api-docs/sell/marketing/types/api:CampaignTypeEnum">email campaign type</a>, <a href="/api-docs/sell/marketing/types/api:EmailCampaignStatusEnum">email campaign status</a>, and <a href="/api-docs/sell/marketing/types/ba:MarketplaceIdEnum">marketplace ID</a> using the <code>q</code> query parameter. */
+  getEmailCampaigns: {
+    parameters: {
+      query?: {
+        /** @description The maximum number of email campaigns returned in a page.<br><br><b>Min value</b>: 1<br><br><b>Max value</b>: 200 */
+        limit?: string;
+        /** @description The number of results to skip in a pagination query. This value cannot be less than zero.<br><br><b>Default value</b>: 0 */
+        offset?: string;
+        /** @description This field contains filter criteria for the results returned. Filter by <a href="/api-docs/sell/marketing/types/api:CampaignTypeEnum">email campaign type</a>, <a href="/api-docs/sell/marketing/types/api:EmailCampaignStatusEnum">email campaign status</a>, and <a href="/api-docs/sell/marketing/types/ba:MarketplaceIdEnum">marketplace ID</a>.<br><br>For example, setting <code>q=campaignType:WELCOME,ITEM_SHOWCASE;status:ACTIVE</code> will return only active Welcome and Item Showcase email campaigns.<br><br>If no filter is set up through the <code>q</code> query parameter, all of the seller's campaigns will be returned in the results set. */
+        q?: string;
+        /** @description The criteria for sorting email campaign results. See <a href="/api-docs/sell/marketing/types/api:ItemSortEnum" target="_blank">ItemSortEnum</a> for sorting options and their enum values.<br><br><b>Default</b>: <code>NEWLY_LISTED</code> */
+        sort?: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetEmailCampaignsResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Conflict */
+      409: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method creates a new email campaign. An eBay store owner can create six different types of email campaigns: Welcome, New products & collections, Coupon, Sale event + markdown, Order discount, and Volume pricing.<br><br>A successful <b>createEmailCampaign</b> request returns the <b>emailCampaignId</b> assigned to the new email campaign.<br><br>The fields <b>emailCampaignType</b>, <b>audienceCodes</b>, <b>itemSelectMode</b>, <b>subject</b>, and <b>personalizedMessage</b> are required for all email campaign types. <br><br>Specific email campaign types have required values for additional fields. For more information on the email campaign types, see the <a href="/api-docs/sell/static/marketing/store-email-campaigns.html#email-campain-types" target="_blank">Store Email Campaigns</a> section of the Selling Integration Guide. */
+  createEmailCampaign: {
+    parameters: {
+      header: {
+        /** @description The eBay marketplace that the email campaign interfaces with.<br><br>eBay marketplaces correspond to geographical regions or large submarkets of regions. For example, <code>EBAY-US</code> corresponds to the United States market.<br><br>See the full list of <a href="/api-docs/static/rest-request-components.html#marketpl">marketplace IDs</a>. */
+        "X-EBAY-C-MARKETPLACE-ID": string;
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
+    /** @description Create a new email campaign request. */
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateEmailCampaignRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["CreateEmailCampaignResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Conflict */
+      409: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method returns the details of a single email campaign specified by the <b>email_campaign_id</b> path parameter.<br><br>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getEmailCampaigns">getEmailCampaigns</a> to retrieve a list of all email campaigns from a seller's eBay store. */
+  getEmailCampaign: {
+    parameters: {
+      path: {
+        /** @description The unique eBay-assigned ID of the email campaign.<br><br>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getEmailCampaigns">getEmailCampaigns</a> to retrieve a list of email campaign IDs for a seller. Use the <b>emailCampaignId</b> value of the desired email campaign. */
+        email_campaign_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetEmailCampaignResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Conflict */
+      409: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method lets users update an existing email campaign. Pass the <b>emailCampaignId</b> in the request URL and specify the changes to field values in the request payload.<br><br><span class="tablenote"><b>Note: </b>You can only update the custom fields of an email campaign. Fixed values, such as the <b>emailCampaignType</b>, cannot be changed. For full specifications of fixed values for each email campaign type, see the <a href="/api-docs/sell/marketing/resources/email_campaign/methods/createEmailCampaign">createEmailCampaign</a> method documentation.</span> */
+  updateEmailCampaign: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+      path: {
+        /** @description The email campaign id assigned by the system when the email campaign is created. Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getEmailCampaigns">getEmailCampaigns</a> to retrieve a list of email campaign IDs for a seller. */
+        email_campaign_id: string;
+      };
+    };
+    /** @description update email campaign request */
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateCampaignRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["UpdateEmailCampaignResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Conflict */
+      409: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method deletes the email campaign specified by the <b>email_campaign_id</b> path parameter.<br><br>Call <a href="/api-docs/sell/marketing/resources/email_campaign/methods/getEmailCampaigns">getEmailCampaigns</a> to retrieve all of the seller's email campaigns. Use the <b>email_campaign_id</b> of the desired email campaign in the response as the path parameter for this request. */
+  deleteEmailCampaign: {
+    parameters: {
+      path: {
+        /** @description A unique eBay-assigned ID for an email campaign that is generated when an email campaign is created.<br /><br /><span class="tablenote"><b>Note:</b> You can retrieve the email campaign IDs for a specified seller using the <a href="/api-docs/sell/marketing/resources/email_campaign/methods/getEmailCampaigns">getEmailCampaigns</a> method.</span> */
+        email_campaign_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["DeleteEmailCampaignResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Conflict */
+      409: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method retrieves all available email newsletter audiences for the <a href="/api-docs/sell/marketing/types/api:CampaignTypeEnum">email campaign type</a> specified by the <b>emailCampaignType</b> path parameter.<br><br>Use the optional <b>limit</b> and <b>offset</b> path parameters to paginate the results and to control which records are returned, respectively. */
+  getAudiences: {
+    parameters: {
+      query: {
+        /** @description The email campaign type to search against. See <a href="/api-docs/sell/marketing/types/api:CampaignTypeEnum" target="_blank">CampaignTypeEnum</a> for the full list of available email campaign types and associated enum values. */
+        emailCampaignType: string;
+        /** @description The maximum number of audience groups returned per page in the results set.<br><br><b>Min value</b>: 1<br><br><b>Max value</b>: 200<br><br><b>Default value</b>: 100 */
+        limit?: string;
+        /** @description The number of results to skip in a pagination query. This value cannot be less than 0.<br><br><b>Default value</b>: 0 */
+        offset?: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetEmailCampaignAudiencesResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Conflict */
+      409: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method returns a preview of the email sent by the email campaign indicated by the <b>email_campaign_id</b> path parameter.<br><br>Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getEmailCampaigns">getEmailCampaigns</a> to obtain a list of email campaigns. Use the <b>emailCampaignId</b> value of the desired email campaign as the <b>email_campaign_id</b> path parameter value.<br><br>If this call is executed successfully, the response returns a <b>content</b> field that contains the raw HTML code of the email campaign that can then be rendered anywhere.<br><br><span class="tablenote"><b>Note:</b> The eBay listings in the email are sorted according to the email campaign sort criteria. The individual listings can change over time, as well.<br><br>The result of the email preview call can be treated as a snapshot of the email campaign taken at the date and time of the <b>renderDate</b> value found in the results of the call.</span> */
+  getEmailPreview: {
+    parameters: {
+      path: {
+        /** @description The email campaign id assigned by the system when the email campaign is created. Call <a href="/api-docs/sell/marketing/resources/campaign/methods/getEmailCampaigns">getEmailCampaigns</a> to retrieve a list of email campaign IDs for a seller. */
+        email_campaign_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetEmailPreviewResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Conflict */
+      409: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method returns the seller's email campaign performance report for a time period specified by the <b>startDate</b> and <b>endDate</b> path parameters. The maximum date range for a report retrieved by this method is one year. <br><br><span class="tablenote"><b>Note: </b>The <b>startDate</b> and <b>endDate</b> must be given in UTC format, as shown in the following example: <br><code>sell/marketing/v1/email_campaign/report?startDate=2022-11-01T19:09:02.768Z&endDate=2022-12-28T19:09:02.768Z</code></span><br>The email report returns a list of metrics, such as the number of times an email report has been opened and resulted in clicks. */
+  getEmailReport: {
+    parameters: {
+      query: {
+        /** @description The end date for the report, given in UTC format. The maximum date range for a report retrieved by this method is one year. */
+        endDate: string;
+        /** @description The start date for the report, given in UTC format. The maximum date range for a report retrieved by this method is one year. */
+        startDate: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["GetEmailReportResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Conflict */
+      409: never;
       /** @description Internal Server Error */
       500: never;
     };

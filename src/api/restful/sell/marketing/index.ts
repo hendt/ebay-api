@@ -14,11 +14,13 @@ import {
   CreateAdRequest,
   CreateAdsByInventoryReferenceRequest,
   CreateCampaignRequest,
+  CreateEmailCampaignRequest,
   CreateKeywordRequest,
   CreateNegativeKeywordRequest,
   CreateReportTask,
   ItemPriceMarkdown,
   ItemPromotion,
+  QuickSetupRequest,
   TargetedBidRequest,
   TargetedKeywordRequest,
   UpdateAdGroupRequest,
@@ -26,6 +28,7 @@ import {
   UpdateBidPercentageRequest,
   UpdateCampaignBudgetRequest,
   UpdateCampaignIdentificationRequest,
+  UpdateCampaignRequest,
   UpdateKeywordRequest,
   UpdateNegativeKeywordRequest
 } from '../../../../types/index.js';
@@ -145,6 +148,23 @@ export default class Marketing extends Restful implements OpenApi<operations> {
   public bulkUpdateAdsStatusByListingId(campaignId: string, body: BulkUpdateAdStatusByListingIdRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/bulk_update_ads_status_by_listing_id`, body);
+  }
+
+  /**
+   * This method launches a Promoted Listings Advanced campaign.
+   * @param campaignId teh campaign id
+   */
+  public launchCampaign(campaignId: string) {
+    campaignId = encodeURIComponent(campaignId);
+    return this.post(`/ad_campaign/${campaignId}/launch`);
+  }
+
+  /**
+   * This method allows the seller to expedite the creation of a Promoted Listings Advanced (PLA) campaign.
+   * @param body This type defines the fields to create a quick setup Promoted Listings Advanced (PLA) campaign.
+   */
+  public setupQuickCampaign(body: QuickSetupRequest) {
+    return this.post(`/ad_campaign/setup_quick_campaign`, body);
   }
 
   /**
@@ -1012,4 +1032,85 @@ export default class Marketing extends Restful implements OpenApi<operations> {
       }
     });
   }
+
+  /**
+   * This method returns the details of a single email campaign specified by the <b>email_campaign_id</b> path parameter.
+   */
+  public getEmailCampaign(emailCampaignId: string) {
+    emailCampaignId = encodeURIComponent(emailCampaignId);
+    return this.get(`/email_campaign/${emailCampaignId}`);
+  }
+
+  /**
+   * This method retrieves a list of email campaigns from a seller's eBay store.
+   */
+  public getEmailCampaigns({limit, q, offset, sort}:
+                             { limit?: number, q?: string, offset?: number, sort?: string } = {}) {
+    return this.get(`/email_campaign`, {
+      params: {
+        limit,
+        offset,
+        q,
+        sort
+      }
+    });
+  }
+
+  /**
+   * This method creates a new email campaign.
+   * @param body Create a new email campaign request.
+   */
+  public createEmailCampaign(body: CreateEmailCampaignRequest) {
+    return this.post(`/email_campaign`, body);
+  }
+
+  /**
+   * This method lets users update an existing email campaign.
+   * @param emailCampaignId the email campaign id
+   * @param body the UpdateCampaignRequest
+   */
+  public updateEmailCampaign(emailCampaignId: string, body: UpdateCampaignRequest) {
+    emailCampaignId = encodeURIComponent(emailCampaignId);
+    return this.put(`/email_campaign/${emailCampaignId}`, body);
+  }
+
+  /**
+   * This method deletes the email campaign specified by the <b>email_campaign_id</b> path parameter.
+   * @param emailCampaignId the email campaign id
+   */
+  public deleteEmailCampaign(emailCampaignId: string) {
+    emailCampaignId = encodeURIComponent(emailCampaignId);
+    return this.delete(`/email_campaign/${emailCampaignId}`);
+  }
+
+  /**
+   * This method returns a preview of the email sent by the email campaign indicated by the <b>email_campaign_id</b> path parameter.
+   * @param emailCampaignId the email campaign id
+   */
+  public getEmailPreview(emailCampaignId: string) {
+    emailCampaignId = encodeURIComponent(emailCampaignId);
+    return this.get(`/email_campaign/${emailCampaignId}/email_preview`);
+  }
+
+  /**
+   * This method retrieves all available email newsletter audiences.
+   */
+  public getAudiences() {
+    return this.get(`/email_campaign/audience`);
+  };
+
+  /**
+   * This method returns the seller's email campaign performance report for a time period specified by the <b>startDate</b> and <b>endDate</b> path parameters.
+   * @param startDate The start date for the report, given in UTC format. The maximum date range for a report retrieved by this method is one year.
+   * @param endDate The end date for the report, given in UTC format. The maximum date range for a report retrieved by this method is one year.
+   */
+  public getEmailReport(startDate: string, endDate: string) {
+    return this.get(`/email_campaign/report`, {
+      params: {
+        startDate,
+        endDate
+      }
+    });
+  }
+
 }

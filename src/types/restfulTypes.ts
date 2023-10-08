@@ -528,6 +528,9 @@ export type UpdateCampaignBudgetRequest = sellMarketing['schemas']['UpdateCampai
 export type UpdateCampaignIdentificationRequest = sellMarketing['schemas']['UpdateCampaignIdentificationRequest']
 export type UpdateKeywordRequest = sellMarketing['schemas']['UpdateKeywordRequest']
 export type UpdateNegativeKeywordRequest = sellMarketing['schemas']['UpdateNegativeKeywordRequest']
+export type CreateEmailCampaignRequest = sellMarketing['schemas']['CreateEmailCampaignRequest']
+export type UpdateCampaignRequest = sellMarketing['schemas']['UpdateCampaignRequest']
+export type QuickSetupRequest = sellMarketing['schemas']['QuickSetupRequest']
 
 export type FindListingRecommendationRequest = sellRecommendation['schemas']['FindListingRecommendationRequest']
 

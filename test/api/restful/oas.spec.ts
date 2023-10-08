@@ -8,8 +8,8 @@ import {IEBayApiRequest} from '../../../src/request.js';
 import buyTests from './buy/index.js';
 import commerceTests from './commerce/index.js';
 import developerTests from './developer/index.js';
-import sellTests from './sell/index.js';
 import postOrderTests from './postOrder/index.js';
+import sellTests from './sell/index.js';
 
 const allTests = {
   Buy: buyTests,
@@ -102,7 +102,7 @@ describe('Open API Tests', () => {
               );
             });
 
-            it(`"${name}:${RestfulApi.name}:${call.operationId}" call correct method (${path}).`, () => {
+            it(`"${name}:${RestfulApi.name}:${call.operationId}" call correct method ${method} (${path}).`, () => {
               return restApi[call.operationId](...args).then(() => {
                 // tslint:disable-next-line:no-unused-expression
                 expect(req[method].calledOnce).to.be.true;
