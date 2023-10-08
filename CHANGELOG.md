@@ -1,4 +1,12 @@
 # eBay API Changelog
+## [8.6.0](https://github.com/hendt/ebay-api/compare/v8.5.1...v8.6.0) (2023-10-08)
+
+
+### Features
+
+* removeComments is true to reduce module size ([91725b4](https://github.com/hendt/ebay-api/commit/91725b42e3f333e90e9ef276aa247adcbd4e783c))
+* update sell Marketing API v1.17.0 ([c3acbfb](https://github.com/hendt/ebay-api/commit/c3acbfb6b7666f44f88c8865ec4e2a72e2e6c4c2))
+
 ### [8.5.1](https://github.com/hendt/ebay-api/compare/v8.5.0...v8.5.1) (2023-09-28)
 
 
