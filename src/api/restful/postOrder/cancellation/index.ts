@@ -97,9 +97,7 @@ export default class Cancellation extends Restful {
    */
   public search(params: CancellationSearchParams) {
     return this.get(`/cancellation/search`, {
-      params: {
-        params
-      }
+      params
     });
   }
 }
