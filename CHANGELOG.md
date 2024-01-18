@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [8.6.1](https://github.com/hendt/ebay-api/compare/v8.6.0...v8.6.1) (2024-01-18)
+
+
+### Bug Fixes
+
+* :bug: fixes search cancellations request with query parameters ([60133ab](https://github.com/hendt/ebay-api/commit/60133abd43bc8d2464e8c30b47d39e35a42a11dc))
+
 ## [8.6.0](https://github.com/hendt/ebay-api/compare/v8.5.1...v8.6.0) (2023-10-08)
 
 
