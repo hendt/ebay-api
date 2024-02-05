@@ -23,6 +23,7 @@ import {operations as buyMarketingOperations} from './restful/specs/buy_marketin
 import {components as buyOffer} from './restful/specs/buy_offer_v1_beta_oas3.js';
 import {components as buyOrder} from './restful/specs/buy_order_v1_beta_oas3.js';
 import {operations as commerceCatalogOperations} from './restful/specs/commerce_catalog_v1_beta_oas3.js';
+import {components as commerceMedia} from './restful/specs/commerce_media_v1_beta_oas3.js';
 import {components as commerceNotification} from './restful/specs/commerce_notification_v1_oas3.js';
 import {components as commerceTranslation} from './restful/specs/commerce_translation_v1_beta_oas3.js';
 
@@ -435,6 +436,9 @@ export type CommerceNotificationConfig = commerceNotification['schemas']['Config
 export type TranslateRequest = commerceTranslation['schemas']['TranslateRequest']
 
 export type CommerceCatalogSearchParams = commerceCatalogOperations['search']['parameters']['query']
+
+export type CreateVideoRequest = commerceMedia['schemas']['CreateVideoRequest'];
+export type InputStream = commerceMedia['schemas']['InputStream'];
 
 export type AttributeNameValue = buyBrowse['schemas']['AttributeNameValue']
 export type CompatibilityPayload = buyBrowse['schemas']['CompatibilityPayload']
