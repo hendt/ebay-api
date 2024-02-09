@@ -1,4 +1,4 @@
-import {ClientAlerts, Finding, Shopping, Trading, Merchandising} from '../types/index.js';
+import {ClientAlerts, Finding, Merchandising, Shopping, Trading} from '../types/index.js';
 import Api from './index.js';
 import {
   Browse,
@@ -10,7 +10,16 @@ import {
   Offer,
   Order
 } from './restful/buy/index.js';
-import {Catalog, Charity, Commerce, Identity, Notification, Taxonomy, Translation} from './restful/commerce/index.js';
+import {
+  Catalog,
+  Charity,
+  Commerce,
+  Identity,
+  Media,
+  Notification,
+  Taxonomy,
+  Translation
+} from './restful/commerce/index.js';
 import {Analytics as DeveloperAnalytics, Developer, KeyManagement} from './restful/developer/index.js';
 import RestfulApi, {IRestful} from './restful/index.js';
 import {Cancellation, Case, Inquiry, PostOrder, Return,} from './restful/postOrder/index.js';
@@ -54,11 +63,12 @@ export default class ApiFactory extends Api {
   public createCommerceApi(): Commerce {
     return {
       catalog: this.createRestfulApi(Catalog),
-      identity: this.createRestfulApi(Identity),
-      taxonomy: this.createRestfulApi(Taxonomy),
-      translation: this.createRestfulApi(Translation),
       charity: this.createRestfulApi(Charity),
+      identity: this.createRestfulApi(Identity),
       notification: this.createRestfulApi(Notification),
+      media: this.createRestfulApi(Media),
+      translation: this.createRestfulApi(Translation),
+      taxonomy: this.createRestfulApi(Taxonomy),
     };
   }
 
