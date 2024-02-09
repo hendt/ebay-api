@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [8.7.1](https://github.com/hendt/ebay-api/compare/v8.7.0...v8.7.1) (2024-02-09)
+
+
+### Bug Fixes
+
+* export commerce media ([bd20570](https://github.com/hendt/ebay-api/commit/bd205704a33f4c9804f897c277e4da81d69afe87))
+
 ## [8.7.0](https://github.com/hendt/ebay-api/compare/v8.6.1...v8.7.0) (2024-02-05)
 
 
