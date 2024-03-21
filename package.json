@@ -86,14 +86,14 @@
     "gen-openapi": "npx openapi-typescript \"specs/*.json\" --output src/types/restful/"
   },
   "dependencies": {
-    "axios": "^1.2.1",
+    "axios": "^1.6.8",
     "debug": "^4.3.4",
     "fast-xml-parser": "^4.2.5",
     "qs": "^6.11.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^23.0.4",
-    "@rollup/plugin-json": "^5.0.2",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-terser": "^0.2.0",
     "@rollup/plugin-virtual": "^3.0.1",
