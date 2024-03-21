@@ -1,6 +1,5 @@
 import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
 import debug from 'debug';
-import {stringify} from 'qs';
 
 const log = debug('ebay:request');
 
@@ -22,8 +21,6 @@ export interface IEBayApiRequest<T = AxiosInstance, C = AxiosRequestConfig> {
   delete<R = any>(url: string, config?: C): Promise<R>;
 
   post<R = any>(url: string, data?: any, config?: C): Promise<R>;
-
-  postForm<R = any>(url: string, data?: any, config?: C): Promise<R>;
 
   put<R = any>(url: string, data?: any, config?: C): Promise<R>;
 }
@@ -60,9 +57,4 @@ export class AxiosRequest implements IEBayApiRequest {
     return this.instance.put(url, payload, config);
   }
 
-  public postForm<R = any>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<R> {
-    log('postForm: ' + url);
-    const body = stringify(payload);
-    return this.instance.post(url, body, config);
-  }
 }

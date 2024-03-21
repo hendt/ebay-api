@@ -1,8 +1,8 @@
 # How to run the examples
 
-## Install ts-node globally
+## Node 20
 ```bash
-npm i ts-node -g
+node --loader ts-node/esm examples/restful/buy/items.getItem.ts
 ```
 
 ## Set the environments variables:

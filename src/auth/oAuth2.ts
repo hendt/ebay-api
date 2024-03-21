@@ -1,6 +1,6 @@
 import debug from 'debug';
-import {createNanoEvents, EventCallback} from '../nanoevents.js';
 import Base from '../api/base.js';
+import {createNanoEvents, EventCallback} from '../nanoevents.js';
 import {IEBayApiRequest} from '../request.js';
 import {AppConfig, Scope} from '../types/index.js';
 
@@ -126,13 +126,13 @@ export default class OAuth2 extends Base {
     }
 
     try {
-      const response = await this.req.postForm(this.identityEndpoint, {
+      const response = await this.req.post(this.identityEndpoint, {
         scope: this.scope.join(' '),
-        grant_type: 'client_credentials'
+        grant_type: 'client_credentials',
       }, {
-        auth: {
-          username: this.config.appId,
-          password: this.config.certId
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic ' + btoa(this.config.appId + ':' + this.config.certId)
         }
       });
 
@@ -190,15 +190,23 @@ export default class OAuth2 extends Base {
    * @param ruName the redirectUri
    */
   public async mintUserAccessToken(code: string, ruName = this.config.ruName) {
+    if (!this.config.appId) {
+      throw new Error('Missing App ID (Client Id)');
+    }
+
+    if (!this.config.certId) {
+      throw new Error('Missing Cert Id (Client Secret)');
+    }
+
     try {
-      const response = await this.req.postForm(this.identityEndpoint, {
+      const response = await this.req.post(this.identityEndpoint, {
         grant_type: 'authorization_code',
         code,
         redirect_uri: ruName
       }, {
-        auth: {
-          username: this.config.appId,
-          password: this.config.certId
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic ' + btoa(this.config.appId + ':' + this.config.certId)
         }
       });
 
@@ -234,14 +242,14 @@ export default class OAuth2 extends Base {
     }
 
     try {
-      const response = await this.req.postForm(this.identityEndpoint, {
+      const response = await this.req.post(this.identityEndpoint, {
         grant_type: 'refresh_token',
         refresh_token: this._authToken.refresh_token,
         scope: this.scope.join(' ')
       }, {
-        auth: {
-          username: this.config.appId,
-          password: this.config.certId
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic ' + btoa(this.config.appId + ':' + this.config.certId)
         }
       });
 

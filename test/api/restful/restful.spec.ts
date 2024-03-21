@@ -41,8 +41,7 @@ describe('Restful API', () => {
       get: sinon.stub(),
       delete: sinon.stub(),
       put: sinon.stub(),
-      post: sinon.stub(),
-      postForm: sinon.stub().returns(Promise.resolve({
+      post: sinon.stub().returns(Promise.resolve({
         data: {access_token: 'new_access_token'}
       })),
       instance: sinon.stub()
@@ -131,37 +130,36 @@ describe('Restful API', () => {
   });
 
   it('refresh the token if invalid token returned', async () => {
-    const post = sinon.stub().onCall(0).rejects({
+    const post = sinon.stub().onFirstCall().rejects({
       response: {
         data: {
           error: 'Invalid access token'
         }
       }
-    }).onCall(1).resolves({data: {updateThings: 'ok'}});
+    }).onSecondCall().resolves(cred).resolves({data: {updateThings: 'ok'}});
 
     const api = new TestApi({
       ...config,
       autoRefreshToken: true
     }, {
       ...req,
-      post,
-      postForm: sinon.stub().resolves(cred)
+      post
     });
 
     api.auth.OAuth2.setCredentials(cred);
 
     const result = await api.updateThings();
 
-    expect(post.callCount).to.equal(2);
+    expect(post.callCount).to.equal(3);
     expect(result).to.eql({updateThings: 'ok'});
   });
 
   it('refresh the token on PostOrder call if response is 401', async () => {
-    const post = sinon.stub().onCall(0).rejects({
+    const post = sinon.stub().onFirstCall().rejects({
       response: {
         status: 401,
       }
-    }).onCall(1).resolves({data: {updateThings: 'ok'}});
+    }).onSecondCall().resolves(cred).resolves({data: {updateThings: 'ok'}});
 
     const api = new TestApi({
       ...config,
@@ -169,7 +167,6 @@ describe('Restful API', () => {
     }, {
       ...req,
       post,
-      postForm: sinon.stub().resolves(cred),
     }, undefined, {
       basePath: '/post-order/v2'
     });
@@ -178,16 +175,16 @@ describe('Restful API', () => {
 
     const result = await api.updateThings();
 
-    expect(post.callCount).to.equal(2);
+    expect(post.callCount).to.equal(3);
     expect(result).to.eql({updateThings: 'ok'});
   });
 
   it('refresh the token on Inventory call if response is 403', async () => {
-    const post = sinon.stub().onCall(0).rejects({
+    const post = sinon.stub().onFirstCall().rejects({
       response: {
         status: 403,
       }
-    }).onCall(1).resolves({data: {updateThings: 'ok'}});
+    }).onSecondCall().resolves(cred).resolves({data: {updateThings: 'ok'}});
 
     const api = new TestApi({
       ...config,
@@ -195,7 +192,6 @@ describe('Restful API', () => {
     }, {
       ...req,
       post,
-      postForm: sinon.stub().resolves(cred),
     }, undefined, {
       basePath: '/sell/inventory/v1'
     });
@@ -204,7 +200,7 @@ describe('Restful API', () => {
 
     const result = await api.updateThings();
 
-    expect(post.callCount).to.equal(2);
+    expect(post.callCount).to.equal(3);
     expect(result).to.eql({updateThings: 'ok'});
   });
 

@@ -4,8 +4,8 @@ import 'mocha';
 import sinon from 'sinon';
 import Traditional from '../../../src/api/traditional/index.js';
 import Auth from '../../../src/auth/index.js';
-import {eBayConfig} from '../../../src/types/index.js';
 import {IEBayApiRequest} from '../../../src/request.js';
+import {eBayConfig} from '../../../src/types/index.js';
 
 describe('Traditional', () => {
   const config: eBayConfig = {
@@ -22,7 +22,6 @@ describe('Traditional', () => {
     delete: sinon.stub(),
     put: sinon.stub(),
     post: sinon.stub(),
-    postForm: sinon.stub(),
     instance: sinon.stub()
   };
 
@@ -44,7 +43,6 @@ describe('Traditional', () => {
       delete: sinon.stub(),
       put: sinon.stub(),
       post,
-      postForm: sinon.stub(),
       instance: sinon.stub()
     };
     const traditional = new Traditional(config, req, auth);
@@ -68,7 +66,6 @@ describe('Traditional', () => {
       delete: sinon.stub(),
       put: sinon.stub(),
       post,
-      postForm: sinon.stub(),
       instance: sinon.stub()
     };
     auth.OAuth2.setCredentials({
@@ -99,7 +96,6 @@ describe('Traditional', () => {
       delete: sinon.stub(),
       put: sinon.stub(),
       post,
-      postForm: sinon.stub(),
       instance: sinon.stub()
     };
     auth.OAuth2.setCredentials({
@@ -131,7 +127,6 @@ describe('Traditional', () => {
       delete: sinon.stub(),
       put: sinon.stub(),
       post,
-      postForm: sinon.stub(),
       instance: sinon.stub()
     };
     auth.OAuth2.setCredentials({
@@ -155,7 +150,6 @@ describe('Traditional', () => {
       delete: sinon.stub(),
       put: sinon.stub(),
       post,
-      postForm: sinon.stub(),
       instance: sinon.stub()
     };
     auth.OAuth2.setCredentials({

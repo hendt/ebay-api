@@ -13,7 +13,6 @@ describe('FactoryTest', () => {
     delete: sinon.stub(),
     put: sinon.stub(),
     post: sinon.stub(),
-    postForm: sinon.stub(),
     instance: sinon.stub()
   };
 

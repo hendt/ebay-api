@@ -12,12 +12,11 @@ describe('AuthNAuth', () => {
       get: sinon.stub().returns(Promise.resolve({data: {}})),
       delete: sinon.stub().returns(Promise.resolve({data: {}})),
       put: sinon.stub().returns(Promise.resolve({data: {}})),
-      post: sinon.stub().returns(Promise.resolve({data: {}})),
-      postForm: sinon.stub().returns(Promise.resolve({
+      post: sinon.stub().onFirstCall().returns(Promise.resolve({
         data: {
           access_token: 'new_access_token'
         }
-      })),
+      })).returns({data: {}}),
       instance: sinon.stub()
     };
   });
