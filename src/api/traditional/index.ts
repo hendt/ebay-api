@@ -1,5 +1,10 @@
 import {stringify} from 'qs';
-import {EBayIAFTokenExpired, EBayIAFTokenInvalid, handleEBayError} from '../../errors/index.js';
+import {
+  EBayAuthTokenIsHardExpired,
+  EBayIAFTokenExpired,
+  EBayIAFTokenInvalid,
+  handleEBayError
+} from '../../errors/index.js';
 import {ClientAlerts, Finding, Merchandising, Shopping, Trading, TraditionalApi} from '../../types/index.js';
 import Api from '../index.js';
 import ClientAlertsCalls from './clientAlerts/index.js';
@@ -150,13 +155,23 @@ export default class Traditional extends Api {
       return await this.request(apiConfig, api, callName, fields);
     } catch (error: any) {
       // Try to refresh the token.
-      if (this.config.autoRefreshToken && (error.name === EBayIAFTokenExpired.name || error.name === EBayIAFTokenInvalid.name)) {
+      if (this.shouldRefreshToken(error)) {
         return await this.request(apiConfig, api, callName, fields, true);
       }
 
       throw error;
     }
   };
+
+  private shouldRefreshToken(error: any) {
+    if (!this.config.autoRefreshToken) {
+      return false;
+    }
+
+    return error.name === EBayIAFTokenExpired.name
+      || error.name === EBayIAFTokenInvalid.name
+      || error.name === EBayAuthTokenIsHardExpired.name;
+  }
 
   private async request(apiConfig: TraditionalApiConfig, api: TraditionalApi, callName: string, fields: Fields | null, refreshToken = false) {
     try {
