@@ -11,7 +11,7 @@ const endPrivateKey = '-----END PRIVATE KEY-----';
  *
  * @returns {number} The unix timestamp.
  */
-const getUnixTimestamp = (): number => Date.now() / 1000 | 0;
+export const getUnixTimestamp = (): number => Math.floor(Date.now() / 1000);
 
 const getSignatureParams = (payload: any) => [
   ...payload ? ['content-digest'] : [],
