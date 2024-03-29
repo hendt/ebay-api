@@ -1,4 +1,13 @@
 # eBay API Changelog
+### [8.7.2-RC.0](https://github.com/hendt/ebay-api/compare/v8.7.1...v8.7.2-RC.0) (2024-03-29)
+
+
+### Bug Fixes
+
+* [#165](https://github.com/hendt/ebay-api/issues/165) allow string as Metric value ([f20f688](https://github.com/hendt/ebay-api/commit/f20f688701a8835c6aeb1fd7c570ae25053d1f83))
+* refresh Auth token if it's hard expired ([1d8410f](https://github.com/hendt/ebay-api/commit/1d8410fc375d53b0305bd4ea63a64547a1e93cff))
+* use same timestamp in digital signature ([20bc69a](https://github.com/hendt/ebay-api/commit/20bc69a2d65d8addde80a3996cd5bdf895f81760))
+
 ### [8.7.1](https://github.com/hendt/ebay-api/compare/v8.7.0...v8.7.1) (2024-02-09)
 
 
