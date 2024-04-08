@@ -8,15 +8,15 @@ const log = debug('ebay:oauth2');
 
 export type Token = {
   access_token: string,
-  expires_in: number, // default 2 hours
-  token_type: string
+  expires_in?: number, // default 2 hours (7200)
+  token_type?: string // "User Access Token"
 };
 
 export type ClientToken = Token;
 
 export type AuthToken = Token & {
   refresh_token: string,
-  refresh_token_expires_in: number
+  refresh_token_expires_in?: number // 47304000
 };
 
 /**
@@ -54,6 +54,10 @@ export default class OAuth2 extends Base {
     return this.emitter.on(event, callback);
   }
 
+  get identityEndpoint() {
+    return this.config.sandbox ? OAuth2.IDENTITY_ENDPOINT.sandbox : OAuth2.IDENTITY_ENDPOINT.production;
+  }
+
   public static generateAuthUrl(
     sandbox: boolean,
     appId: string,
@@ -71,8 +75,21 @@ export default class OAuth2 extends Base {
     ].join('');
   }
 
-  get identityEndpoint() {
-    return this.config.sandbox ? OAuth2.IDENTITY_ENDPOINT.sandbox : OAuth2.IDENTITY_ENDPOINT.production;
+  /**
+   * Generates URL for consent page landing.
+   *
+   * @param ruName RuName
+   * @param scope the scopes
+   * @param state state parameter returned in the redirect URL
+   */
+  public generateAuthUrl(ruName?: string, scope: string[] = this.scope, state = ''): string {
+    ruName = ruName || this.config.ruName;
+
+    if (!ruName) {
+      throw new Error('RuName is required.');
+    }
+
+    return OAuth2.generateAuthUrl(this.config.sandbox, this.config.appId, ruName, scope, state);
   }
 
   /**
@@ -101,16 +118,16 @@ export default class OAuth2 extends Base {
     }
   }
 
-  public setClientToken(clientToken?: Token) {
+  public getScope(): string[] {
+    return [...this.scope];
+  }
+
+  public setClientToken(clientToken?: Token): void {
     this._clientToken = clientToken;
   }
 
-  public setScope(scope: Scope) {
+  public setScope(scope: Scope): void {
     this.scope = scope;
-  }
-
-  public getScope(): string[] {
-    return [...this.scope];
   }
 
   /**
@@ -165,23 +182,6 @@ export default class OAuth2 extends Base {
   }
 
   /**
-   * Generates URL for consent page landing.
-   *
-   * @param ruName RuName
-   * @param scope the scopes
-   * @param state state parameter returned in the redirect URL
-   */
-  public generateAuthUrl(ruName?: string, scope: string[] = this.scope, state = ''): string {
-    ruName = ruName || this.config.ruName;
-
-    if (!ruName) {
-      throw new Error('RuName is required.');
-    }
-
-    return OAuth2.generateAuthUrl(this.config.sandbox, this.config.appId, ruName, scope, state);
-  }
-
-  /**
    * Authorization code grant flow.
    *
    * Mint the user access token for the given code.
@@ -189,7 +189,7 @@ export default class OAuth2 extends Base {
    * @param code the code
    * @param ruName the redirectUri
    */
-  public async mintUserAccessToken(code: string, ruName = this.config.ruName) {
+  public async mintUserAccessToken(code: string, ruName = this.config.ruName): Promise<AuthToken> {
     if (!this.config.appId) {
       throw new Error('Missing App ID (Client Id)');
     }
@@ -228,7 +228,7 @@ export default class OAuth2 extends Base {
    * @param code the code
    * @param ruName the redirectUri
    */
-  public async getToken(code: string, ruName = this.config.ruName) {
+  public async getToken(code: string, ruName = this.config.ruName): Promise<AuthToken> {
     return await this.mintUserAccessToken(code, ruName);
   }
 
@@ -300,6 +300,11 @@ export default class OAuth2 extends Base {
     return null;
   }
 
+  /**
+   * Set's the auth token that contains access token and refresh token.
+   * If the argument is a string, it's treated like 'access_token'.
+   * @param authToken
+   */
   public setCredentials(authToken: AuthToken | string) {
     if (typeof authToken === 'string') {
       this._authToken = {
