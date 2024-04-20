@@ -7,7 +7,7 @@ const eBay = eBayApi.fromEnv();
   try {
     const time = await eBay.trading.GeteBayOfficialTime();
     console.log(time);
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    console.log(error);
   }
 })();

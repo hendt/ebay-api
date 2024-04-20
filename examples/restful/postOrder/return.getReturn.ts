@@ -7,7 +7,7 @@ const eBay = eBayApi.fromEnv();
   try {
     const summary = await eBay.postOrder.return.getReturn('5132021997');
     console.log(summary);
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
   }
 })();

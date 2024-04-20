@@ -1,6 +1,6 @@
 import debug from 'debug';
 import {XMLBuilder, XMLParser} from 'fast-xml-parser';
-import {checkEBayResponse, EbayNoCallError} from '../../errors/index.js';
+import {checkEBayTraditionalResponse, EBayNoCallError} from '../../errors/index.js';
 import {IEBayApiRequest} from '../../request.js';
 import {ApiRequestConfig, Headers} from '../../types/index.js';
 import {Fields} from './fields.js';
@@ -75,7 +75,7 @@ export default class XMLRequest {
   private readonly callName: string;
   private readonly fields: Fields;
   private readonly config: XMLReqConfig;
-  private readonly req: any;
+  private readonly req: IEBayApiRequest;
 
   public static j2x = new XMLBuilder(defaultJSON2XMLOptions);
 
@@ -90,7 +90,7 @@ export default class XMLRequest {
    */
   constructor(callName: string, fields: Fields | null, config: XMLReqConfig, req: IEBayApiRequest) {
     if (!callName) {
-      throw new EbayNoCallError();
+      throw new EBayNoCallError();
     }
 
     this.callName = callName;
@@ -206,7 +206,7 @@ export default class XMLRequest {
 
       const json = this.xml2JSON(data);
 
-      checkEBayResponse(json);
+      checkEBayTraditionalResponse(response, json);
 
       return json;
     } catch (error: any) {
@@ -214,7 +214,7 @@ export default class XMLRequest {
 
       if (error.response?.data) {
         const json = this.toJSON(error.response.data);
-        checkEBayResponse(json);
+        checkEBayTraditionalResponse(error.response, json);
       }
 
       throw error;

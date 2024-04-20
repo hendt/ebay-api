@@ -1,8 +1,8 @@
 // tslint:disable:no-console
-import eBayApi from '../../src/eBayApi.js';
+import FormData from 'form-data';
 import * as fs from 'fs';
 import * as path from 'path';
-import FormData from 'form-data';
+import eBayApi from '../../src/eBayApi.js';
 
 const eBay = eBayApi.fromEnv();
 
@@ -28,7 +28,7 @@ const eBay = eBayApi.fromEnv();
     });
 
     console.log(response);
-  } catch (e) {
-    console.log(JSON.stringify(e, null, 2));
+  } catch (error) {
+    console.log(JSON.stringify(error, null, 2));
   }
 })();

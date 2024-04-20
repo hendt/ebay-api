@@ -1,4 +1,4 @@
-import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
+import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import debug from 'debug';
 
 const log = debug('ebay:request');
@@ -13,16 +13,16 @@ export const multipartHeader = {
   'Content-Type': 'multipart/form-data'
 }
 
-export interface IEBayApiRequest<T = AxiosInstance, C = AxiosRequestConfig> {
+export interface IEBayApiRequest<T = AxiosInstance, C = AxiosRequestConfig, R = AxiosResponse> {
   readonly instance: T;
 
-  get<R = any>(url: string, config?: C): Promise<R>;
+  get(url: string, config?: C): Promise<R>;
 
-  delete<R = any>(url: string, config?: C): Promise<R>;
+  delete(url: string, config?: C): Promise<R>;
 
-  post<R = any>(url: string, data?: any, config?: C): Promise<R>;
+  post(url: string, data?: any, config?: C): Promise<R>;
 
-  put<R = any>(url: string, data?: any, config?: C): Promise<R>;
+  put(url: string, data?: any, config?: C): Promise<R>;
 }
 
 export class AxiosRequest implements IEBayApiRequest {

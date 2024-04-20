@@ -1,4 +1,5 @@
 import {createHash, sign} from 'crypto';
+import {EBayError} from '../errors/index.js';
 import {Cipher, Headers} from '../types/index.js';
 
 const beginPrivateKey = '-----BEGIN PRIVATE KEY-----';
@@ -88,8 +89,8 @@ export function generateBaseString(headers: Headers, signatureComponents: Signat
     baseString += `"@signature-params": (${getSignatureParamsValue(payload)});created=${timestamp}`;
 
     return baseString;
-  } catch (ex: any) {
-    throw new Error(`Error calculating signature base: ${ex.message}`);
+  } catch (error: any) {
+    throw new EBayError(`Error calculating signature base: ${error.message}`);
   }
 }
 

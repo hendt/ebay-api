@@ -18,6 +18,7 @@ It supports `client credentials grant` and `authorization code grant` \(Auth'N'A
 
 * [eBay API Explorer](https://developer.ebay.com/my/api_test_tool)
 * [eBay API Docs](https://developer.ebay.com/docs)
+* [eBay API Status](https://entwickler.ebay.de/support/api-status/production)
 
 ## Changelog
 
@@ -270,8 +271,8 @@ app.get('/success', async function (req, res) {
     // 5. Start using the API
     const orders = await eBay.sell.fulfillment.getOrders()
     res.send(orders);
-  } catch (e) {
-    console.error(e)
+  } catch (error) {
+    console.error(error)
     res.sendStatus(400)
   }
 });
@@ -301,8 +302,8 @@ app.get('/orders/:id', async function (req, res) {
     // 5. Start using the API
     const order = await eBay.sell.fulfillment.getOrder(id);
     res.send(order);
-  } catch (e) {
-    console.error(e)
+  } catch (error) {
+    console.error(error)
     res.sendStatus(400)
   }
 });
@@ -492,8 +493,8 @@ try {
   const result = await toString(data);
 
   console.log(result)
-} catch (e) {
-  console.error(e);
+} catch (error) {
+  console.error(error);
 }
 ```
 

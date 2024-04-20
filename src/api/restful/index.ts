@@ -253,8 +253,8 @@ export default abstract class Restful extends Api {
       } else {
         return response.data;
       }
-    } catch (ex) {
-      handleEBayError(ex);
+    } catch (error) {
+      handleEBayError(error);
     }
   }
 }

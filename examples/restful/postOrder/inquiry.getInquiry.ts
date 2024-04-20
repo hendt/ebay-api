@@ -7,7 +7,7 @@ const eBay = eBayApi.fromEnv();
   try {
     const summary = await eBay.postOrder.inquiry.getInquiry('5222222222');
     console.log(JSON.stringify(summary, null, 2));
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
   }
 })();

@@ -183,8 +183,8 @@ export default class Traditional extends Api {
       const xmlRequest = new XMLRequest(callName, fields, config, this.req);
 
       return await xmlRequest.request();
-    } catch (e) {
-      handleEBayError(e);
+    } catch (error) {
+      handleEBayError(error);
     }
   }
 

@@ -20,8 +20,8 @@ eBay.authNAuth.getSessionIdAndAuthUrl().then(({url, sessionId}) => {
     try {
       const time = await eBay.trading.GeteBayOfficialTime();
       console.log(time);
-    } catch (e) {
-      console.error(e)
+    } catch (error) {
+      console.error(error)
     } finally {
       rl.close();
     }

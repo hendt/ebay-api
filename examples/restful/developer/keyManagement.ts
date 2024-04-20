@@ -7,7 +7,7 @@ const eBay = eBayApi.fromEnv();
   try {
     const signingKey = await eBay.developer.keyManagement.createSigningKey('ED25519');
     console.log(JSON.stringify(signingKey, null, 2));
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
   }
 })();
