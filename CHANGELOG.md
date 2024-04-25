@@ -1,4 +1,18 @@
 # eBay API Changelog
+## [9.0.0-RC.0](https://github.com/hendt/ebay-api/compare/v8.7.2-RC.0...v9.0.0-RC.0) (2024-04-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* refactor error handling
+
+### Bug Fixes
+
+* improve Type in oAuth2 ([28a9088](https://github.com/hendt/ebay-api/commit/28a9088cac3f9c5c6064855cac336ad83d212f07))
+
+
+* refactor error handling ([05d40a9](https://github.com/hendt/ebay-api/commit/05d40a9389ca0b3496bee95dfa6d0623f54562f0))
+
 ### [8.7.2-RC.0](https://github.com/hendt/ebay-api/compare/v8.7.1...v8.7.2-RC.0) (2024-03-29)
 
 
