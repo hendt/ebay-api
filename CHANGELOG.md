@@ -1,4 +1,11 @@
 # eBay API Changelog
+## [9.0.0](https://github.com/hendt/ebay-api/compare/v9.0.0-RC.0...v9.0.0) (2024-06-20)
+
+
+### Features
+
+* update sell metadata to v1.7.1 ([124ed0b](https://github.com/hendt/ebay-api/commit/124ed0bae347267d2f31234fa52068e2e9a5829a))
+
 ## [9.0.0-RC.0](https://github.com/hendt/ebay-api/compare/v8.7.2-RC.0...v9.0.0-RC.0) (2024-04-25)
 
 
