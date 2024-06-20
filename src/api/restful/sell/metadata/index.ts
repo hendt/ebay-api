@@ -43,6 +43,24 @@ export default class Metadata extends Restful implements OpenApi<operations> {
   }
 
   /**
+   * This method returns the Extended Producer Responsibility policies for one, multiple, or all eBay categories
+   * in an eBay marketplace.
+   *
+   * @param marketplaceId This path parameter specifies the eBay marketplace for which policy information is
+   *     retrieved.
+   * @param filter This query parameter limits the response by returning eBay policy information for only the leaf
+   *     categories specified by this parameter.
+   */
+  public getExtendedProducerResponsibilityPolicies(marketplaceId: string, filter?: string) {
+    marketplaceId = encodeURIComponent(marketplaceId);
+    return this.get(`/marketplace/${marketplaceId}/get_extended_producer_responsibility_policies`, {
+      params: {
+        filter
+      }
+    });
+  }
+
+  /**
    * This method returns the eBay policies that define how to specify item conditions in the categories of a specific
    * marketplace.
    *
