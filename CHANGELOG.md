@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [9.0.1](https://github.com/hendt/ebay-api/compare/v9.0.0...v9.0.1) (2024-06-20)
+
+
+### Bug Fixes
+
+* update deps ([14c41ab](https://github.com/hendt/ebay-api/commit/14c41abaf7910d8383e43c901088d080d8453e08))
+
 ## [9.0.0](https://github.com/hendt/ebay-api/compare/v9.0.0-RC.0...v9.0.0) (2024-06-20)
 
 
