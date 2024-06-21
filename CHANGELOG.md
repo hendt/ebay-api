@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [9.0.2](https://github.com/hendt/ebay-api/compare/v9.0.1...v9.0.2) (2024-06-21)
+
+
+### Bug Fixes
+
+* revert back to postForm because axios does not encode correctly ([c369044](https://github.com/hendt/ebay-api/commit/c369044d850f21b3b6bc4bf8f90e01e841311332))
+
 ### [9.0.1](https://github.com/hendt/ebay-api/compare/v9.0.0...v9.0.1) (2024-06-20)
 
 
