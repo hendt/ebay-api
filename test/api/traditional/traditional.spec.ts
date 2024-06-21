@@ -22,6 +22,7 @@ describe('Traditional', () => {
     delete: sinon.stub(),
     put: sinon.stub(),
     post: sinon.stub(),
+    postForm: sinon.stub(),
     instance: sinon.stub()
   };
 
@@ -43,6 +44,7 @@ describe('Traditional', () => {
       delete: sinon.stub(),
       put: sinon.stub(),
       post,
+      postForm: sinon.stub(),
       instance: sinon.stub()
     };
     const traditional = new Traditional(config, req, auth);
@@ -66,6 +68,7 @@ describe('Traditional', () => {
       delete: sinon.stub(),
       put: sinon.stub(),
       post,
+      postForm: sinon.stub(),
       instance: sinon.stub()
     };
     auth.OAuth2.setCredentials({
@@ -96,6 +99,7 @@ describe('Traditional', () => {
       delete: sinon.stub(),
       put: sinon.stub(),
       post,
+      postForm: sinon.stub(),
       instance: sinon.stub()
     };
     auth.OAuth2.setCredentials({
@@ -127,6 +131,7 @@ describe('Traditional', () => {
       delete: sinon.stub(),
       put: sinon.stub(),
       post,
+      postForm: sinon.stub(),
       instance: sinon.stub()
     };
     auth.OAuth2.setCredentials({
@@ -150,6 +155,7 @@ describe('Traditional', () => {
       delete: sinon.stub(),
       put: sinon.stub(),
       post,
+      postForm: sinon.stub(),
       instance: sinon.stub()
     };
     auth.OAuth2.setCredentials({

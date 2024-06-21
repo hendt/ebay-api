@@ -214,7 +214,7 @@ export default class XMLRequest {
 
       if (error.response?.data) {
         const json = this.toJSON(error.response.data);
-        checkEBayTraditionalResponse(error.response, json);
+        checkEBayTraditionalResponse(error.response, json[this.callName + 'Response']);
       }
 
       throw error;

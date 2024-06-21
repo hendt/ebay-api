@@ -143,13 +143,13 @@ export default class OAuth2 extends Base {
     }
 
     try {
-      const response = await this.req.post(this.identityEndpoint, {
+      const response = await this.req.postForm(this.identityEndpoint, {
         scope: this.scope.join(' '),
         grant_type: 'client_credentials',
       }, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': 'Basic ' + btoa(this.config.appId + ':' + this.config.certId)
+        auth: {
+          username: this.config.appId,
+          password: this.config.certId
         }
       });
 
@@ -199,14 +199,14 @@ export default class OAuth2 extends Base {
     }
 
     try {
-      const response = await this.req.post(this.identityEndpoint, {
+      const response = await this.req.postForm(this.identityEndpoint, {
         grant_type: 'authorization_code',
         code,
         redirect_uri: ruName
       }, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': 'Basic ' + btoa(this.config.appId + ':' + this.config.certId)
+        auth: {
+          username: this.config.appId,
+          password: this.config.certId
         }
       });
 
@@ -242,14 +242,14 @@ export default class OAuth2 extends Base {
     }
 
     try {
-      const response = await this.req.post(this.identityEndpoint, {
+      const response = await this.req.postForm(this.identityEndpoint, {
         grant_type: 'refresh_token',
         refresh_token: this._authToken.refresh_token,
         scope: this.scope.join(' ')
       }, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': 'Basic ' + btoa(this.config.appId + ':' + this.config.certId)
+        auth: {
+          username: this.config.appId,
+          password: this.config.certId
         }
       });
 

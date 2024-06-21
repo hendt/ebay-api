@@ -20,11 +20,12 @@ describe('OAuth2', () => {
       get: sinon.stub(Promise.resolve({})),
       delete: sinon.stub(Promise.resolve({})),
       put: sinon.stub(Promise.resolve({})),
-      post: sinon.stub().onFirstCall().returns(Promise.resolve({
+      post: sinon.stub(Promise.resolve({})),
+      postForm: sinon.stub().returns(Promise.resolve({
         data: {
           access_token: 'new_access_token'
         }
-      })).returns({}),
+      })),
       instance: sinon.stub()
     };
   });
@@ -77,7 +78,7 @@ describe('OAuth2', () => {
     it('throws error if refresh didn\'t work', async () => {
       const oAuth2 = new OAuth2(config, {
         ...req,
-        post: sinon.stub().throws('error')
+        postForm: sinon.stub().throws('error')
       });
 
       try {
@@ -105,11 +106,11 @@ describe('OAuth2', () => {
       const oAuth2 = new OAuth2(config, req);
 
       await oAuth2.getToken('code', 'ruNameX');
-      expect(req.post.args[0][1].redirect_uri).to.equal('ruNameX');
+      expect(req.postForm.args[0][1].redirect_uri).to.equal('ruNameX');
     });
 
     it('throws error on getToken', async () => {
-      const oAuth2 = new OAuth2(config, {...req, post: sinon.stub().throws('error')});
+      const oAuth2 = new OAuth2(config, {...req, postForm: sinon.stub().throws('error')});
 
       try {
         await oAuth2.getToken('code');
@@ -157,7 +158,7 @@ describe('OAuth2', () => {
     });
 
     it('throws error on refreshAuthToken if request failed', async () => {
-      const oAuth2 = new OAuth2(config, {...req, post: sinon.stub().throws('error')});
+      const oAuth2 = new OAuth2(config, {...req, postForm: sinon.stub().throws('error')});
       oAuth2.setCredentials(cred);
       try {
         await oAuth2.refreshUserAccessToken();
@@ -181,8 +182,8 @@ describe('OAuth2', () => {
       await oAuth2.refreshToken();
       // @ts-ignore
       // tslint:disable-next-line:no-unused-expression
-      expect(req.post.called).to.be.true;
-      expect(req.post.args[0][1].grant_type).to.equal('refresh_token');
+      expect(req.postForm.called).to.be.true;
+      expect(req.postForm.args[0][1].grant_type).to.equal('refresh_token');
     });
 
     it('calls refreshClientToken', async () => {
@@ -191,8 +192,8 @@ describe('OAuth2', () => {
       await oAuth2.refreshToken();
       // @ts-ignore
       // tslint:disable-next-line:no-unused-expression
-      expect(req.post.called).to.be.true;
-      expect(req.post.args[0][1].grant_type).to.equal('client_credentials');
+      expect(req.postForm.called).to.be.true;
+      expect(req.postForm.args[0][1].grant_type).to.equal('client_credentials');
     });
 
     it('emits an refresh event', () => {
