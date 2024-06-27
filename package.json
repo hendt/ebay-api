@@ -1,7 +1,7 @@
 {
   "name": "ebay-api",
   "author": "Daniil Tomilow",
-  "version": "9.0.2",
+  "version": "9.0.3",
   "description": "eBay API for Node and Browser",
   "type": "module",
   "main": "./lib/index.js",

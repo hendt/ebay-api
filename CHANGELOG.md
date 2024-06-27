@@ -1,4 +1,12 @@
 # eBay API Changelog
+### [9.0.3](https://github.com/hendt/ebay-api/compare/v9.0.2...v9.0.3) (2024-06-27)
+
+
+### Bug Fixes
+
+* change type of response status to number ([f062fc9](https://github.com/hendt/ebay-api/commit/f062fc937895c96709f3f8ff2fe2ef730f5f1264))
+* version in README.md ([0991cc3](https://github.com/hendt/ebay-api/commit/0991cc3832ee040df01d59d11d120245822dfd22))
+
 ### [9.0.2](https://github.com/hendt/ebay-api/compare/v9.0.1...v9.0.2) (2024-06-21)
 
 
