@@ -161,7 +161,7 @@ export type EBayApiErrorResponse =
 export type ApiRequestResult = {
   response: {
     data?: EBayApiErrorResponse
-    status?: string
+    status?: number
     statusText?: string
     headers?: Record<string, string>
   }
@@ -177,7 +177,7 @@ export type ApiRequestResult = {
 export type ErrorCommonMeta = {
   res?: {
     data: any
-    status?: string
+    status?: number
     statusText?: string
     headers?: Record<string, string>
   }
