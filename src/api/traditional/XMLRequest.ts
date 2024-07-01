@@ -1,5 +1,5 @@
 import debug from 'debug';
-import {XMLBuilder, XMLParser} from 'fast-xml-parser';
+import {X2jOptions, XMLBuilder, XmlBuilderOptions, XMLParser} from 'fast-xml-parser';
 import {checkEBayTraditionalResponse, EBayNoCallError} from '../../errors/index.js';
 import {IEBayApiRequest} from '../../request.js';
 import {ApiRequestConfig, Headers} from '../../types/index.js';
@@ -7,7 +7,7 @@ import {Fields} from './fields.js';
 
 const log = debug('ebay:xml:request');
 
-export const defaultJSON2XMLOptions = {
+export const defaultXmlBuilderOptions = {
   attributeNamePrefix: '@_',
   textNodeName: '#value',
   ignoreAttributes: false,
@@ -42,7 +42,8 @@ export type BodyHeaders = {
 
 export type TraditionalApiConfig = {
   raw?: boolean,
-  parseOptions?: object,
+  parseOptions?: X2jOptions,
+  xmlBuilderOptions?: XmlBuilderOptions,
   useIaf?: boolean,
   sign?: boolean,
   hook?: (xml: string) => BodyHeaders
@@ -58,6 +59,7 @@ export type XMLReqConfig = TraditionalApiConfig & {
 export const defaultApiConfig: Required<Omit<TraditionalApiConfig, 'hook'>> = {
   raw: false,
   parseOptions: defaultXML2JSONParseOptions,
+  xmlBuilderOptions: defaultXmlBuilderOptions,
   useIaf: true,
   sign: false,
   headers: {},
@@ -77,7 +79,7 @@ export default class XMLRequest {
   private readonly config: XMLReqConfig;
   private readonly req: IEBayApiRequest;
 
-  public static j2x = new XMLBuilder(defaultJSON2XMLOptions);
+  public readonly  j2x;
 
   /**
    * Creates the new Request object
@@ -93,9 +95,11 @@ export default class XMLRequest {
       throw new EBayNoCallError();
     }
 
+    this.config = {...defaultApiConfig, ...config};
+    this.j2x = new XMLBuilder({...defaultXmlBuilderOptions, ...this.config.xmlBuilderOptions });
     this.callName = callName;
     this.fields = fields || {};
-    this.config = {...defaultApiConfig, ...config};
+
     this.req = req;
   }
 
@@ -123,7 +127,7 @@ export default class XMLRequest {
     } : {};
   }
 
-  private getParseOptions() {
+  private getParseOptions() : X2jOptions {
     return {
       ...defaultXML2JSONParseOptions,
       ...this.config.parseOptions
@@ -158,7 +162,7 @@ export default class XMLRequest {
    */
   public toXML(fields: Fields) {
     const HEADING = '<?xml version="1.0" encoding="utf-8"?>';
-    return HEADING + XMLRequest.j2x.build({
+    return HEADING + this.j2x.build({
       [this.callName + 'Request']: {
         '@_xmlns': this.config.xmlns,
         ...this.getCredentials(),

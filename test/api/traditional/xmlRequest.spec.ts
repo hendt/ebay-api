@@ -144,12 +144,15 @@ describe('XMLRequestTest', () => {
     });
   });
 
-  it('Handles tag names that ends with Array', () => {
+  it('Handles tag names that ends with Array in response', () => {
     const xml = `<?xml version="1.0" encoding="utf-8"?>
 <CALLResponse xmlns="urn:ebay:apis:eBLBaseComponents">
    <ActiveList>
         <ItemArray>
             <Item id="2">
+              <price currency="EUR">2.0</price>
+            </Item>
+            <Item id="3">
               <price currency="EUR">2.0</price>
             </Item>
         </ItemArray>
@@ -168,10 +171,50 @@ describe('XMLRequestTest', () => {
                 currency: 'EUR',
                 value: 2.0
               }
-            }]
+            }, {
+                id: 3,
+                price: {
+                  currency: 'EUR',
+                  value: 2.0
+                }
+              }]
           }
         }
       }).to.deep.equal(result);
+    });
+  });
+
+  it('Handles tag names that ends with Array in request', () => {
+    const xml = `<?xml version="1.0" encoding="utf-8"?>
+<CALLRequest xmlns="xmlns">
+<RequesterCredentials><eBayAuthToken>eBayAuthToken</eBayAuthToken></RequesterCredentials>
+    <UserDeliveryPreferenceArray>
+        <NotificationEnable>
+            <EventType>ItemListed</EventType>
+            <EventEnable>Enable</EventEnable>
+         </NotificationEnable>
+         <NotificationEnable>
+             <EventType>ItemSold</EventType>
+              <EventEnable>Enable</EventEnable>
+         </NotificationEnable>
+    </UserDeliveryPreferenceArray>
+</CALLRequest>`.replace(/>\s+</g, '><');
+    req.post = sinon.stub().returnsArg(1)
+    const request = new XMLRequest('CALL', {
+      UserDeliveryPreferenceArray: [{
+        NotificationEnable: {
+          EventType: 'ItemListed',
+          EventEnable: 'Enable',
+        }
+      }, {
+          NotificationEnable: {
+            EventType: 'ItemSold',
+            EventEnable: 'Enable',
+          },
+        }],
+    }, {...config, returnResponse: true, xmlBuilderOptions: { oneListGroup: true }}, req);
+    return request.request().then(result => {
+      expect(result).to.equal(xml);
     });
   });
 
