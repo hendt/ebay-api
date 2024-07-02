@@ -1,4 +1,12 @@
 # eBay API Changelog
+## [9.1.0](https://github.com/hendt/ebay-api/compare/v9.0.3...v9.1.0) (2024-07-02)
+
+
+### Features
+
+* add "firstError" in EBayApiError ([c2bff1e](https://github.com/hendt/ebay-api/commit/c2bff1ee5271d959282e0d86d6683dd541640fce))
+* make xmlBuilderOptions configurable ([ce7f787](https://github.com/hendt/ebay-api/commit/ce7f787136b6756350c82aa9b40aff08b90739b4))
+
 ### [9.0.3](https://github.com/hendt/ebay-api/compare/v9.0.2...v9.0.3) (2024-06-27)
 
 
