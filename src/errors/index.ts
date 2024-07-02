@@ -52,13 +52,16 @@ export class ApiEnvError extends EBayError {
 export class EbayApiError extends EBayError {
   public readonly errorCode: number | undefined;
   public readonly meta?: EBayErrorMeta;
+  public readonly firstError?: EBayFirstError
 
   constructor(message: string,
               description?: string,
               meta?: EBayErrorMeta,
-              errorCode?: number | undefined) {
+              errorCode?: number,
+              firstError?: EBayFirstError) {
     super(message, description, meta);
     this.errorCode = errorCode;
+    this.firstError = firstError;
   }
 }
 
@@ -218,7 +221,7 @@ export type EBayErrorBag = {
  * Extract the error if it wrapper in array.
  * @param data
  */
-function getEBayErrorFromResponse(data?: EBayApiErrorResponse): EBayErrorResponse {
+function getEBayError(data?: EBayApiErrorResponse): EBayErrorResponse {
   if (!data) {
     return {
       message: `eBay API Error`,
@@ -303,7 +306,7 @@ const getErrorCode = (eBayError: EBayErrorResponse): number | undefined => {
 };
 
 export const extractEBayError = (result: ApiRequestResult, data?: EBayApiErrorResponse): EBayErrorBag => {
-  const eBayError = getEBayErrorFromResponse(result.response?.data || data);
+  const eBayError = getEBayError(data || result.response?.data);
 
   const meta: EBayErrorMeta = {
     ...eBayError,
@@ -354,31 +357,32 @@ export const handleEBayError = (error: any) => {
     message,
     meta,
     description,
-    errorCode
+    errorCode,
+    firstError
   } = extractEBayError(error);
 
   if ('domain' in meta && meta.domain === 'ACCESS') {
-    throw new EBayAccessDenied(message, description, meta, errorCode);
+    throw new EBayAccessDenied(message, description, meta, errorCode, firstError);
   } else if ('message' in meta && meta.message === 'invalid_grant') {
-    throw new EBayInvalidGrant(message, description, meta, errorCode);
+    throw new EBayInvalidGrant(message, description, meta, errorCode, firstError);
   } else if ('message' in meta && meta.message === 'invalid_scope') {
-    throw new EBayInvalidScope(message, description, meta, errorCode);
+    throw new EBayInvalidScope(message, description, meta, errorCode, firstError);
   } else if ('message' in meta && meta.message === 'Invalid access token') {
-    throw new EBayInvalidAccessToken(message, description, meta, errorCode);
+    throw new EBayInvalidAccessToken(message, description, meta, errorCode, firstError);
   } else if (errorCode === EBayNotFound.code) {
-    throw new EBayNotFound(message, description, meta, errorCode);
+    throw new EBayNotFound(message, description, meta, errorCode, firstError);
   }
 
-  throw new EBayApiError(message, description, meta, errorCode);
+  throw new EBayApiError(message, description, meta, errorCode, firstError);
 };
 
 /**
  * Check if "data" is an error.
  *
- * @param result the api response
+ * @param apiResponse the api response
  * @param data the data as JSON
  */
-export const checkEBayTraditionalResponse = (result: any, data: any) => {
+export const checkEBayTraditionalResponse = (apiResponse: any, data: any) => {
   // Check if it's an error
   if (!('Errors' in data) && !('errorMessage' in data)) {
     return;
@@ -388,25 +392,26 @@ export const checkEBayTraditionalResponse = (result: any, data: any) => {
     message,
     meta,
     description,
-    errorCode
-  } = extractEBayError(result, data as EBayApiErrorResponse);
+    errorCode,
+    firstError
+  } = extractEBayError(apiResponse, data as EBayApiErrorResponse);
 
   if (typeof errorCode === 'undefined') {
-    // Should not happen
-    throw new EBayApiError(message, description, meta, errorCode);
+    // Can happen on restful request
+    throw new EBayApiError(message, description, meta, errorCode, firstError);
   }
 
   switch (errorCode) {
     case EBayIAFTokenExpired.code:
-      throw new EBayIAFTokenExpired(message, description, meta, errorCode);
+      throw new EBayIAFTokenExpired(message, description, meta, errorCode, firstError);
     case EBayIAFTokenInvalid.code:
     case 1.32: // Shopping API: Invalid token. Please specify a valid token as HTTP header.
-      throw new EBayIAFTokenInvalid(message, description, meta, errorCode);
+      throw new EBayIAFTokenInvalid(message, description, meta, errorCode, firstError);
     case EBayTokenRequired.code:
-      throw new EBayTokenRequired(message, description, meta, errorCode);
+      throw new EBayTokenRequired(message, description, meta, errorCode, firstError);
     case EBayAuthTokenIsHardExpired.code:
-      throw new EBayAuthTokenIsHardExpired(message, description, meta, errorCode);
+      throw new EBayAuthTokenIsHardExpired(message, description, meta, errorCode, firstError);
   }
 
-  throw new EBayApiError(message, description, meta, errorCode);
+  throw new EBayApiError(message, description, meta, errorCode, firstError);
 };

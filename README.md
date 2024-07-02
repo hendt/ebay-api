@@ -497,6 +497,45 @@ try {
   console.error(error);
 }
 ```
+## Handling errors
+```js
+import eBayApi from 'ebay-api';
+import { EBayApiError } from 'ebay-api/lib/errors';
+
+const eBay = new eBayApi(/* {  your config here } */);
+
+try {
+  const result = await eBay.trading.GetItem({
+    ItemID: 'itemId',
+  });
+  console.log(result);
+} catch (error) {
+  if (error instanceof EBayApiError && error.errorCode === 17) {
+    // Item not found
+  } else {
+    throw error;
+  }
+  
+  // in error there is also the field "meta" with the response
+  if (error instanceof EBayApiError && error.meta?.res?.status === 404) {
+    // not found
+    
+    // The first error
+    console.log(error?.firstError);
+  }
+  
+  
+}
+```
+
+The `errorCode` is extracted from the first error in the API response.
+
+* [Shopping API Error Codes](https://developer.ebay.com/devzone/shopping/docs/callref/Errors/ErrorMessages.html)
+* [Trading API  Error Codes](https://developer.ebay.com/devzone/xml/docs/reference/ebay/errors/errormessages.htm)
+* [RESTful  Error Codes](https://developer.ebay.com/devzone/xml/docs/reference/ebay/errors/errormessages.htm)
+* [PostOrder  Error Codes](https://developer.ebay.com/Devzone/post-order/ErrorMessages.html#ErrorsByNumber)
+
+
 
 ## Controlling Traditional XML request and response
 
@@ -505,7 +544,8 @@ The second parameter in the traditional API has the following options:
 ```typescript
 export type Options = {
   raw?: boolean // return raw XML
-  parseOptions?: object // https://github.com/NaturalIntelligence/fast-xml-parser
+  parseOptions?: X2jOptions // https://github.com/NaturalIntelligence/fast-xml-parser
+  xmlBuilderOptions?: XmlBuilderOptions // https://github.com/NaturalIntelligence/fast-xml-parser
   useIaf?: boolean // use IAF in header instead of Bearer
   headers?: Headers // additional Headers (key, value)
   hook?: (xml) => BodyHeaders // hook into the request to modify the body and headers
@@ -514,6 +554,40 @@ export type Options = {
 
 [Fast XML](https://github.com/NaturalIntelligence/fast-xml-parser) is used to parse the XML. You can pass the parse
 option to `parseOptions` parameter.
+
+### Parse JSON Array
+```js
+
+eBay.trading.SetNotificationPreferences({
+  UserDeliveryPreferenceArray: [{
+    NotificationEnable: {
+      EventType: 'ItemListed',
+      EventEnable: 'Enable',
+    }
+  }, {
+    NotificationEnable: {
+      EventType: 'ItemSold',
+      EventEnable: 'Enable',
+    },
+  }],
+}, { xmlBuilderOptions: { oneListGroup: true }})
+```
+
+Will produce:
+```xml
+<UserDeliveryPreferenceArray>
+  <NotificationEnable>
+    <EventType>ItemListed</EventType>
+    <EventEnable>Enable</EventEnable>
+  </NotificationEnable>
+  <NotificationEnable>
+    <EventType>ItemSold</EventType>
+    <EventEnable>Enable</EventEnable>
+  </NotificationEnable>
+</UserDeliveryPreferenceArray>
+```
+
+
 
 ## Examples
 
