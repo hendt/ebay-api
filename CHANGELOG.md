@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [9.1.1](https://github.com/hendt/ebay-api/compare/v9.1.0...v9.1.1) (2024-08-23)
+
+
+### Bug Fixes
+
+* [#179](https://github.com/hendt/ebay-api/issues/179) refresh the token on 931 error ([e47b93e](https://github.com/hendt/ebay-api/commit/e47b93ea23a1df0c747a294c7c448afb83ce39b8))
+
 ## [9.1.0](https://github.com/hendt/ebay-api/compare/v9.0.3...v9.1.0) (2024-07-02)
 
 
