@@ -18,7 +18,7 @@ export default class Analytics extends Restful implements OpenApi<operations> {
    * @param apiContext This optional query parameter filters the result to include only the specified API context.
    * @param apiName This optional query parameter filters the result to include only the APIs specified.
    */
-  public getRateLimits(apiContext: string, apiName: string) {
+  public getRateLimits(apiContext?: string, apiName?: string) {
     return this.get(`/rate_limit/`, {
       params: {
         api_context: apiContext,
