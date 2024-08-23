@@ -1,6 +1,7 @@
 import {stringify} from 'qs';
 import {
   EBayAuthTokenIsHardExpired,
+  EBayAuthTokenIsInvalid,
   EBayIAFTokenExpired,
   EBayIAFTokenInvalid,
   handleEBayError
@@ -170,7 +171,8 @@ export default class Traditional extends Api {
 
     return error.name === EBayIAFTokenExpired.name
       || error.name === EBayIAFTokenInvalid.name
-      || error.name === EBayAuthTokenIsHardExpired.name;
+      || error.name === EBayAuthTokenIsHardExpired.name
+      || error.name === EBayAuthTokenIsInvalid.name;
   }
 
   private async request(apiConfig: TraditionalApiConfig, api: TraditionalApi, callName: string, fields: Fields | null, refreshToken = false) {

@@ -86,6 +86,10 @@ export class EBayIAFTokenExpired extends EBayApiError {
   public static readonly code = 21917053;
 }
 
+export class EBayAuthTokenIsInvalid extends EBayApiError {
+  public static readonly code = 931;
+}
+
 export class EBayAuthTokenIsHardExpired extends EBayApiError {
   public static readonly code = 932;
 }
@@ -411,6 +415,8 @@ export const checkEBayTraditionalResponse = (apiResponse: any, data: any) => {
       throw new EBayTokenRequired(message, description, meta, errorCode, firstError);
     case EBayAuthTokenIsHardExpired.code:
       throw new EBayAuthTokenIsHardExpired(message, description, meta, errorCode, firstError);
+    case EBayAuthTokenIsInvalid.code:
+      throw new EBayAuthTokenIsInvalid(message, description, meta, errorCode, firstError);
   }
 
   throw new EBayApiError(message, description, meta, errorCode, firstError);
