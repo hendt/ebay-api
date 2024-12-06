@@ -172,7 +172,10 @@ export default class Feed extends Restful implements OpenApi<operations> {
    */
   public getLatestResultFile(scheduleId: string) {
     scheduleId = encodeURIComponent(scheduleId);
-    return this.get(`/schedule/${scheduleId}/download_result_file`);
+    return this.get(`/schedule/${scheduleId}/download_result_file`, {
+      responseType: 'arraybuffer',
+      responseEncoding: 'binary',
+  });
   }
 
   /**
@@ -262,7 +265,10 @@ export default class Feed extends Restful implements OpenApi<operations> {
    */
   public getResultFile(taskId: string) {
     taskId = encodeURIComponent(taskId);
-    return this.get(`/task/${taskId}/download_result_file`);
+    return this.get(`/task/${taskId}/download_result_file`, {
+      responseType: 'arraybuffer',
+      responseEncoding: 'binary',
+  });
   }
 
   /**
