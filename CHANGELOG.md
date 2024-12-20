@@ -1,4 +1,19 @@
 # eBay API Changelog
+## [9.2.0-RC.0](https://github.com/hendt/ebay-api/compare/v9.1.1...v9.2.0-RC.0) (2024-12-20)
+
+
+### Features
+
+* update sell inventory API to v1.18.0 ([d3a4e27](https://github.com/hendt/ebay-api/commit/d3a4e27d06eed62e5f98ef9ece7b8565676e420a))
+
+
+### Bug Fixes
+
+* [#185](https://github.com/hendt/ebay-api/issues/185) do not throw error on Warning ([a1e939a](https://github.com/hendt/ebay-api/commit/a1e939a1b66806ef8ef199e651e8e6997ec840e5))
+* Added responseType and responseEncoding to sell.feed.getLatestResultFile/getResultFile for files to download correctly ([ffe3850](https://github.com/hendt/ebay-api/commit/ffe38503a1790c61d9424f43a8cce872a98fb0d7))
+* Fulfillment API: getOrder(s) fieldGroups takes string, not string[] ([a388dbb](https://github.com/hendt/ebay-api/commit/a388dbbad4424937ab8d1a50a81936ba2ed10f55))
+* getRateLimits - params are optional ([9450863](https://github.com/hendt/ebay-api/commit/9450863bebfa9e7933e5e8e7bd2b85ae4eab82b3))
+
 ### [9.1.1](https://github.com/hendt/ebay-api/compare/v9.1.0...v9.1.1) (2024-08-23)
 
 
