@@ -387,8 +387,19 @@ export const handleEBayError = (error: any) => {
  * @param data the data as JSON
  */
 export const checkEBayTraditionalResponse = (apiResponse: any, data: any) => {
+  if (!data) {
+    log('checkEBayTraditionalResponse: No data found in response.');
+    return;
+  }
+
   // Check if it's an error
   if (!('Errors' in data) && !('errorMessage' in data)) {
+    return;
+  }
+
+  // Do not treat warnings as errors
+  if ('Errors' in data && data.Ack !== 'Failure') {
+    log(`checkEBayTraditionalResponse: eBay API returned ${data.Ack}`);
     return;
   }
 

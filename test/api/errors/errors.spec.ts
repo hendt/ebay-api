@@ -1,5 +1,12 @@
 import {expect} from 'chai';
-import {EbayApiError, EBayApiError, EBayError, extractEBayError, handleEBayError} from '../../../src/errors/index.js';
+import {
+  checkEBayTraditionalResponse,
+  EbayApiError,
+  EBayApiError,
+  EBayError,
+  extractEBayError,
+  handleEBayError
+} from '../../../src/errors/index.js';
 import {readJSONSync} from '../jsonfile.js';
 
 describe('eBay Errors', () => {
@@ -40,4 +47,21 @@ describe('eBay Errors', () => {
     })).to.throw(EBayError)
       .with.property('errorCode', 1);
   });
+
+  it('Does not throw if the error is warning', () => {
+    expect(() => checkEBayTraditionalResponse({}, {
+      'Timestamp': '2021-10-23T19:11:42.335Z',
+      'Ack': 'Warning',
+      'Errors': {
+        'ShortMessage': 'Error Message',
+        'LongMessage': 'description',
+        'ErrorCode': 930,
+        'SeverityCode': 'Error',
+        'ErrorClassification': 'RequestError'
+      },
+      'Version': 1177,
+      'Build': 'E1177_CORE_APIMSG_19110890_R1'
+    })).to.not.throw();
+  })
+
 });
