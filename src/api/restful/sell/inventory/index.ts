@@ -11,6 +11,7 @@ import {
   InventoryItemGroup,
   InventoryLocation,
   InventoryLocationFull,
+  LocationMapping,
   OfferKeysWithId,
   PublishByInventoryItemGroupRequest,
   WithdrawByInventoryItemGroupRequest
@@ -23,7 +24,6 @@ import Restful, {OpenApi} from '../../index.js';
  * marketplace.
  */
 export default class Inventory extends Restful implements OpenApi<operations> {
-
   static id = 'Inventory';
 
   get basePath(): string {
@@ -316,7 +316,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    */
   public publishOffer(offerId: string) {
     const id = encodeURIComponent(offerId);
-    return this.post(`/offer/${id}/publish/`);
+    return this.post(`/offer/${id}/publish`);
   }
 
   /**
@@ -328,7 +328,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
   public publishOfferByInventoryItemGroup(
     body: PublishByInventoryItemGroupRequest
   ) {
-    return this.post(`/offer/publish_by_inventory_item_group/`, body);
+    return this.post(`/offer/publish_by_inventory_item_group`, body);
   }
 
   /**
@@ -420,5 +420,39 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    */
   public bulkMigrateListing(body: BulkMigrateListing) {
     return this.post(`/bulk_migrate_listing`, body);
+  }
+
+  /**
+   * This method allows sellers to retrieve the locations mapped to a specific SKU within a listing.
+   * @param listingId This path parameter specifies the unique identifier of the listing that the SKU belongs to for which all mapped locations will be retrieved.
+   * @param sku This path parameter specifies the seller-defined SKU value of the item/variation for which location mappings will be retrieved.
+   */
+  public getSkuLocationMapping(listingId: string, sku: string) {
+    sku = encodeURIComponent(sku);
+    listingId = encodeURIComponent(listingId);
+    return this.get(`/listing/${listingId}/sku/${sku}/locations`);
+  }
+
+  /**
+   * This method allows sellers to map multiple fulfillment center locations to single-SKU listing, or to a single SKU within a multiple-variation listing.
+   * @param listingId This path parameter specifies the unique identifier of the listing that the SKU belongs to for which all mapped locations will be retrieved.
+   * @param sku This path parameter specifies the seller-defined SKU value of the item/variation for which location mappings will be retrieved.
+   * @param body LocationMapping
+   */
+  public createOrReplaceSkuLocationMapping(listingId: string, sku: string, body: LocationMapping) {
+    sku = encodeURIComponent(sku);
+    listingId = encodeURIComponent(listingId);
+    return this.put(`/listing/${listingId}/sku/${sku}/locations`, body);
+  }
+
+  /**
+   * This method allows sellers to remove all location mappings associated with a specific SKU within a listing.
+   * @param listingId This path parameter specifies the unique identifier of the listing that the SKU belongs to for which all mapped locations will be retrieved.
+   * @param sku This path parameter specifies the seller-defined SKU value of the item/variation for which location mappings will be retrieved.
+   */
+  public deleteSkuLocationMapping(listingId: string, sku: string) {
+    sku = encodeURIComponent(sku);
+    listingId = encodeURIComponent(listingId);
+    return this.delete(`/listing/${listingId}/sku/${sku}/locations`);
   }
 }

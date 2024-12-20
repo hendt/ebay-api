@@ -502,6 +502,7 @@ export type OfferKeysWithId = sellInventory['schemas']['OfferKeysWithId']
 export type PublishByInventoryItemGroupRequest = sellInventory['schemas']['PublishByInventoryItemGroupRequest']
 export type WithdrawByInventoryItemGroupRequest = sellInventory['schemas']['WithdrawByInventoryItemGroupRequest']
 export type InventoryItem = sellInventory['schemas']['InventoryItem']
+export type LocationMapping = sellInventory['schemas']['LocationMapping']
 
 export type BulkCreateAdRequest = sellMarketing['schemas']['BulkCreateAdRequest']
 export type BulkCreateAdsByInventoryReferenceRequest = sellMarketing['schemas']['BulkCreateAdsByInventoryReferenceRequest']

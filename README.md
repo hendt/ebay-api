@@ -35,7 +35,7 @@ It supports `client credentials grant` and `authorization code grant` \(Auth'N'A
 | **Commerce API**   | ✔ Catalog API `v1_beta.3.1`<br>✔ Charity API `v1.2.0`<br>✔ Identity API `v1.0.0`<br>✔ Notification API `v1.2.0`<br>✔ Taxonomy API `v1.0.0`<br>✔ Translation API `v1_beta.1.4`<br>✔ Media API `v1_beta.1.0`                                                                                                                                                                   |
 | **Developer API**  | ✔ Analytics API                                                                                                                                                                                                                                                                                                                                                              |
 | **Post Order API** | ✔ Cancellation API<br>✔ Case Management API<br>✔ Inquiry API<br>✔ Return API                                                                                                                                                                                                                                                                                                 |
-| **Sell API**       | ✔ Account API `v1.9.0`<br>✔ Analytics API `v1.3.0`<br>✔ Compliance API `v1.4.1`<br>✔ Feed API `v1.3.1`<br>✔ Finance API `v1.9.0`<br>✔ Fulfillment API `v1.19.10`<br>✔ Inventory API `v1.14.0`<br>✔ Listing API `v1_beta.2.1`<br>✔ Logistics API `v1_beta.0.0`<br>✔ Marketing API `v1.17.0`<br>✔ Metadata API `v1.7.1`<br>✔ Negotiation API `v1.1.0`<br>✔ Recommendation API `v1.1.0` |
+| **Sell API**       | ✔ Account API `v1.9.0`<br>✔ Analytics API `v1.3.0`<br>✔ Compliance API `v1.4.1`<br>✔ Feed API `v1.3.1`<br>✔ Finance API `v1.9.0`<br>✔ Fulfillment API `v1.19.10`<br>✔ Inventory API `v1.18.0`<br>✔ Listing API `v1_beta.2.1`<br>✔ Logistics API `v1_beta.0.0`<br>✔ Marketing API `v1.17.0`<br>✔ Metadata API `v1.7.1`<br>✔ Negotiation API `v1.1.0`<br>✔ Recommendation API `v1.1.0` |
 
 ### Traditional API
 
@@ -219,7 +219,7 @@ See the full Documentation [here](https://developer.ebay.com/api-docs/static/oau
 If no other token is set, this token will be obtained *automatically* in the process of calling an RESTful API.
 
 ### Auth'N'Auth
-
+In the Single User Model, the application supports only a single user. In this model, you need only one Auth'n'Auth token.
 👉 The "old" way. Only works with Traditional API.
 Checkout the [Auth'N'Auth example](https://github.com/hendt/ebay-api/tree/master/examples/traditional/authNAuth.ts).
 
