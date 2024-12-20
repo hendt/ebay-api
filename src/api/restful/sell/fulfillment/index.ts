@@ -51,6 +51,7 @@ export default class Fulfillment extends Restful implements OpenApi<operations> 
    * @param offset Specifies the number of orders to skip in the result set before returning the first order in the
    *     paginated response.
    * @param orderIds A comma-separated list of the unique identifiers of the orders to retrieve (maximum 50).
+   * @param fieldGroups The response type associated with the order. The only presently supported value is <code>TAX_BREAKDOWN</code>.
    */
   public getOrders({
                      filter,
@@ -63,7 +64,7 @@ export default class Fulfillment extends Restful implements OpenApi<operations> 
     limit?: number,
     offset?: number,
     orderIds?: string | string[],
-    fieldGroups?: string[]
+    fieldGroups?: string
   } = {}) {
     return this.get(`/order`, {
       params: {
