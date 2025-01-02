@@ -19,9 +19,9 @@ import Restful, {OpenApi} from '../../index.js';
  * including the seller's policies (the Fulfillment Policy, Payment Policy, and Return Policy),
  * opt in and out of eBay seller programs, configure sales tax tables, and get account information.
  */
-export default class Account extends Restful implements OpenApi<operations> {
+export default class AccountV1 extends Restful implements OpenApi<operations> {
 
-  static id = 'Account';
+  static id = 'AccountV1';
 
   get basePath(): string {
     return '/sell/account/v1';

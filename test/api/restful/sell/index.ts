@@ -1,5 +1,6 @@
 import {
-  Account,
+  AccountV1,
+  AccountV2,
   Analytics,
   Compliance,
   Feed,
@@ -16,7 +17,8 @@ import {
 import {readSpecs} from '../../jsonfile.js';
 
 const tests = new Map<any, any>();
-tests.set(Account, readSpecs( 'sell_account_v1_oas3.json', import.meta.url));
+tests.set(AccountV1, readSpecs( 'sell_account_v1_oas3.json', import.meta.url));
+tests.set(AccountV2, readSpecs( 'sell_account_v2_oas3.json', import.meta.url));
 tests.set(Analytics, readSpecs( 'sell_analytics_v1_oas3.json', import.meta.url));
 tests.set(Compliance, readSpecs( 'sell_compliance_v1_oas3.json', import.meta.url));
 tests.set(Fulfillment, readSpecs( 'sell_fulfillment_v1_oas3.json', import.meta.url));

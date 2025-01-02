@@ -27,7 +27,8 @@ import {components as commerceMedia} from './restful/specs/commerce_media_v1_bet
 import {components as commerceNotification} from './restful/specs/commerce_notification_v1_oas3.js';
 import {components as commerceTranslation} from './restful/specs/commerce_translation_v1_beta_oas3.js';
 
-import {components as sellAccount} from './restful/specs/sell_account_v1_oas3.js';
+import {components as sellAccountV1} from './restful/specs/sell_account_v1_oas3.js';
+import {components as sellAccountV2} from './restful/specs/sell_account_v2_oas3.js';
 import {components as sellCompliance} from './restful/specs/sell_compliance_v1_oas3.js';
 
 import {components as sellFulfillment} from './restful/specs/sell_fulfillment_v1_oas3.js';
@@ -470,13 +471,16 @@ export type UpdateShippingOption = buyOrder['schemas']['UpdateShippingOption']
 
 export type SuppressViolationRequest = sellCompliance['schemas']['SuppressViolationRequest'];
 
-export type CustomPolicyCreateRequest = sellAccount['schemas']['CustomPolicyCreateRequest'];
-export type CustomPolicyRequest = sellAccount['schemas']['CustomPolicyRequest'];
-export type FulfillmentPolicyRequest = sellAccount['schemas']['FulfillmentPolicyRequest'];
-export type FulfillmentSellAccountProgram = sellAccount['schemas']['Program'];
-export type PaymentPolicyRequest = sellAccount['schemas']['PaymentPolicyRequest'];
-export type ReturnPolicyRequest = sellAccount['schemas']['ReturnPolicyRequest'];
-export type SalesTaxBase = sellAccount['schemas']['SalesTaxBase'];
+export type CustomPolicyCreateRequest = sellAccountV1['schemas']['CustomPolicyCreateRequest'];
+export type CustomPolicyRequest = sellAccountV1['schemas']['CustomPolicyRequest'];
+export type FulfillmentPolicyRequest = sellAccountV1['schemas']['FulfillmentPolicyRequest'];
+export type FulfillmentSellAccountProgram = sellAccountV1['schemas']['Program'];
+export type PaymentPolicyRequest = sellAccountV1['schemas']['PaymentPolicyRequest'];
+export type ReturnPolicyRequest = sellAccountV1['schemas']['ReturnPolicyRequest'];
+export type SalesTaxBase = sellAccountV1['schemas']['SalesTaxBase'];
+
+export type RateTableUpdate = sellAccountV2['schemas']['RateTableUpdate'];
+export type UpdatePayoutPercentageRequest = sellAccountV2['schemas']['UpdatePayoutPercentageRequest'];
 
 export type LineItemReference = sellFulfillment['schemas']['LineItemReference'];
 export type UpdateEvidencePaymentDisputeRequest = sellFulfillment['schemas']['UpdateEvidencePaymentDisputeRequest'];

@@ -24,7 +24,8 @@ import {Analytics as DeveloperAnalytics, Developer, KeyManagement} from './restf
 import RestfulApi, {IRestful} from './restful/index.js';
 import {Cancellation, Case, Inquiry, PostOrder, Return,} from './restful/postOrder/index.js';
 import {
-  Account,
+  AccountV1,
+  AccountV2,
   Analytics as SellAnalytics,
   Compliance,
   Feed as SellFeed,
@@ -90,7 +91,8 @@ export default class ApiFactory extends Api {
 
   public createSellApi(): Sell {
     return {
-      account: this.createRestfulApi(Account),
+      account: this.createRestfulApi(AccountV1),
+      accountV2: this.createRestfulApi(AccountV2),
       analytics: this.createRestfulApi(SellAnalytics),
       compliance: this.createRestfulApi(Compliance),
       fulfillment: this.createRestfulApi(Fulfillment),
