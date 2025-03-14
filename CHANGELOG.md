@@ -1,4 +1,11 @@
 # eBay API Changelog
+## [9.2.0](https://github.com/hendt/ebay-api/compare/v9.2.0-RC.0...v9.2.0) (2025-03-14)
+
+
+### Features
+
+* Account API v2 ([5aad6bc](https://github.com/hendt/ebay-api/commit/5aad6bc36953829e3a8ecd56eacea28bc97ca52c))
+
 ## [9.2.0-RC.0](https://github.com/hendt/ebay-api/compare/v9.1.1...v9.2.0-RC.0) (2024-12-20)
 
 
