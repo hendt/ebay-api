@@ -5,63 +5,73 @@
 
 
 export interface paths {
-  "/public_key/{public_key_id}": {
-    /** @description This method allows users to retrieve a public key using a specified key ID. The public key that is returned in the response payload is used to process and validate eBay notifications.<br /><br />The public key ID, which is a required request parameter for this method, is retrieved from the Base64-encoded <b>X-EBAY-SIGNATURE</b> header that is included in the eBay notification.<br /><br /><span class="tablenote"><b>Note:</b> For more details about how to process eBay push notifications and validate notification message payloads, see the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a>.</span> */
-    get: operations["getPublicKey"];
-  };
-  "/topic/{topic_id}": {
-    /** @description This method allows applications to retrieve details for the specified topic. This information includes supported schema versions, formats, and other metadata for the topic.<br /><br />Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br /><br />A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic).<br /><br />Specify the topic to retrieve using the <b>topic_id</b> URI parameter.<br /><br /><span class="tablenote"><b>Note:</b> Use the <a href="/api-docs/commerce/notification/resources/topic/methods/getTopics">getTopics</a> method to find a topic if you do not know the topic ID.</span> */
-    get: operations["getTopic"];
-  };
-  "/topic": {
-    /** @description This method returns a paginated collection of all supported topics, along with the details for the topics. This information includes supported schema versions, formats, and other metadata for the topics.<br /><br />Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br /><br />A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic). */
-    get: operations["getTopics"];
-  };
-  "/subscription": {
-    /** @description This method allows applications to retrieve a list of all subscriptions. The list returned is a paginated collection of subscription resources.<br /><br />Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business. */
-    get: operations["getSubscriptions"];
-    /** @description This method allows applications to create a subscription for a topic and supported schema version. Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.<br/><br/>Each application and topic-schema pairing to a subscription should have a 1:1 cardinality.<br/><br/>You can create the subscription in disabled mode, test it (see the <b>test</b> method), and when everything is ready, you can enable the subscription (see the <b>enableSubscription</b> method).<br /><br /><span class="tablenote"><b>Note:</b> If an application is not authorized to subscribe to a topic, for example, if your authorization does not include the list of scopes required for the topic, an error code of 195011 is returned.</span> */
-    post: operations["createSubscription"];
-  };
-  "/subscription/{subscription_id}": {
-    /** @description This method allows applications to retrieve subscription details for the specified subscription.<br /><br />Specify the subscription to retrieve using the <strong>subscription_id</strong>. Use the <strong>getSubscriptions</strong> method to browse all subscriptions if you do not know the <strong>subscription_id</strong>.<br /><br />Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business. */
-    get: operations["getSubscription"];
-    /** @description This method allows applications to update a subscription. Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.<br /><br /><span class="tablenote"><b>Note:</b> This call returns an error if an application is not authorized to subscribe to a topic.</span><br/><br/>You can pause and restart a subscription. See the <b>disableSubscription</b> and <b>enableSubscription</b> methods. */
-    put: operations["updateSubscription"];
-    /** @description This method allows applications to delete a subscription. Subscriptions can be deleted regardless of status. */
-    delete: operations["deleteSubscription"];
-  };
-  "/subscription/{subscription_id}/enable": {
-    /** @description This method allows applications to enable a disabled subscription. To pause (or disable) an enabled subscription, call <strong>disableSubscription</strong>. */
-    post: operations["enableSubscription"];
-  };
-  "/subscription/{subscription_id}/disable": {
-    /** @description This method disables a subscription, which prevents the subscription from providing notifications. To restart a subscription, call <strong>enableSubscription</strong>. */
-    post: operations["disableSubscription"];
-  };
-  "/subscription/{subscription_id}/test": {
-    /** @description This method triggers a mocked test payload that includes a notification ID, publish date, and so on. Use this method to test your subscription end-to-end.<br /><br />You can create the subscription in disabled mode, test it using this method, and when everything is ready, you can enable the subscription (see the <strong>enableSubscription</strong> method).<br /><br /><span class="tablenote"><b>Note:</b> Use the <strong>notificationId</strong> to tell the difference between a test payload and a real payload.</span> */
-    post: operations["test"];
-  };
-  "/destination": {
-    /** @description This method allows applications to retrieve a paginated collection of destination resources and related details. The details include the destination names, statuses, and configurations, including the endpoints and verification tokens. */
-    get: operations["getDestinations"];
-    /** @description This method allows applications to create a destination. A destination is an endpoint that receives HTTP push notifications.<br /><br />A single destination for all topics is valid, as is individual destinations for each topic.<br /><br />To update a destination, use the <strong>updateDestination</strong> call.<br /><br />The destination created will need to be referenced while creating or updating a subscription to a topic.<br/><br/><span class="tablenote"><b>Note:</b> The destination should be created and ready to respond with the expected <b>challengeResponse</b> for the endpoint to be registered successfully. Refer to the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a> for more information.</span> */
-    post: operations["createDestination"];
-  };
-  "/destination/{destination_id}": {
-    /** @description This method allows applications to fetch the details for a destination. The details include the destination name, status, and configuration, including the endpoint and verification token. */
-    get: operations["getDestination"];
-    /** @description This method allows applications to update a destination.<br/><br/><span class="tablenote"><b>Note:</b> The destination should be created and ready to respond with the expected <b>challengeResponse</b> for the endpoint to be registered successfully. Refer to the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a> for more information.</span> */
-    put: operations["updateDestination"];
-    /** @description This method provides applications a way to delete a destination.<br /><br />The same destination ID can be used by many destinations.<br /><br />Trying to delete an active destination results in an error. You can disable a subscription, and when the destination is no longer in use, you can delete it. */
-    delete: operations["deleteDestination"];
-  };
   "/config": {
     /** @description This method allows applications to retrieve a previously created configuration. */
     get: operations["getConfig"];
     /** @description This method allows applications to create a new configuration or update an existing configuration. This app-level configuration allows developers to set up alerts. */
     put: operations["updateConfig"];
+  };
+  "/destination": {
+    /** @description This method allows applications to retrieve a paginated collection of destination resources and related details. The details include the destination names, statuses, and configurations, including the endpoints and verification tokens. */
+    get: operations["getDestinations"];
+    /** @description This method allows applications to create a destination. A destination is an endpoint that receives HTTP push notifications.<br><br>A single destination for all topics is valid, as is individual destinations for each topic.<br><br>To update a destination, use the <strong>updateDestination</strong> call.<br><br>The destination created will need to be referenced while creating or updating a subscription to a topic.<br><br><span class="tablenote"><b>Note:</b> The destination should be created and ready to respond with the expected <b>challengeResponse</b> for the endpoint to be registered successfully. Refer to the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a> for more information.</span> */
+    post: operations["createDestination"];
+  };
+  "/destination/{destination_id}": {
+    /** @description This method allows applications to fetch the details for a destination. The details include the destination name, status, and configuration, including the endpoint and verification token. */
+    get: operations["getDestination"];
+    /** @description This method allows applications to update a destination.<br><br><span class="tablenote"><b>Note:</b> The destination should be created and ready to respond with the expected <b>challengeResponse</b> for the endpoint to be registered successfully. Refer to the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a> for more information.</span> */
+    put: operations["updateDestination"];
+    /** @description This method provides applications a way to delete a destination.<br><br>The same destination ID can be used by many destinations.<br><br>Trying to delete an active destination results in an error. You can disable a subscription, and when the destination is no longer in use, you can delete it. */
+    delete: operations["deleteDestination"];
+  };
+  "/public_key/{public_key_id}": {
+    /** @description This method allows users to retrieve a public key using a specified key ID. The public key that is returned in the response payload is used to process and validate eBay notifications.<br><br>The public key ID, which is a required request parameter for this method, is retrieved from the Base64-encoded <b>X-EBAY-SIGNATURE</b> header that is included in the eBay notification.<br><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> The retrieved public key value should be cached for a temporary — but reasonable — amount of time (e.g., one-hour is recommended.) This key should not be requested for every notification since doing so can result in exceeding <a href="/develop/apis/api-call-limits" target="_blank">API call limits</a> if a large number of notification requests is received.</p></div><br><span class="tablenote"><b>Note:</b> For more details about how to process eBay push notifications and validate notification message payloads, see the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a>.</span> */
+    get: operations["getPublicKey"];
+  };
+  "/subscription": {
+    /** @description This method allows applications to retrieve a list of all subscriptions. The list returned is a paginated collection of subscription resources.<br><br>Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business. */
+    get: operations["getSubscriptions"];
+    /** @description This method allows applications to create a subscription for a topic and supported schema version. Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.<br><br>Each application and topic-schema pairing to a subscription should have a 1:1 cardinality.<br><br>You can create the subscription in disabled mode, test it (see the <b>test</b> method), and when everything is ready, you can enable the subscription (see the <b>enableSubscription</b> method).<br><br><span class="tablenote"><b>Note:</b> If an application is not authorized to subscribe to a topic, for example, if your authorization does not include the list of scopes required for the topic, an error code of 195011 is returned.</span> */
+    post: operations["createSubscription"];
+  };
+  "/subscription/{subscription_id}/filter": {
+    /** @description This method allows applications to create a filter for a subscription. Filters allow applications to only be sent notifications that match a provided criteria. Notifications that do not match this criteria will not be sent to the destination.<br><br>The <strong>filterSchema</strong> value must be a valid <a href="https://json-schema.org " target="_blank">JSON Schema Core document</a> (version 2020-12 or later). The <strong>filterSchema</strong> provided must describe the subscription's notification payload such that it supplies valid criteria to filter the subscription's notifications. The user does not need to provide <code>$schema</code> and <code>$id</code> definitions.<br><br>When a filter is first created, it is not immediately active on the subscription. If the request has a valid JSON body, the successful call returns the HTTP status code <b>201&nbsp;Created</b>. Newly created filters are in <code>PENDING</code> status until they are reviewed. If a filter is valid, it will move from <code>PENDING</code> status to <code>ENABLED</code> status. You can find the status of a filter using the <a href="/api-docs/commerce/notification/resources/subscription/methods/getSubscriptionFilter">getSubscriptionFilter</a> method. See <a href="/api-docs/commerce/notification/overview.html#create-filter" target="_blank">Creating a subscription filter for a topic</a> for additional information.<br><br><span class="tablenote"><b>Note:</b> Only one filter can be in <strong>ENABLED</strong> (which means active) status on a subscription at a time. If an <strong>ENABLED</strong> filter is overwritten by a new call to <strong>CREATE</strong> a filter for the subscription, it stays in <strong>ENABLED</strong> status until the new <strong>PENDING</strong> filter becomes the <strong>ENABLED</strong> filter, and the existing filter then becomes <strong>DISABLED</strong>.</span> */
+    post: operations["createSubscriptionFilter"];
+  };
+  "/subscription/{subscription_id}": {
+    /** @description This method allows applications to retrieve subscription details for the specified subscription.<br><br>Specify the subscription to retrieve using the <strong>subscription_id</strong>. Use the <strong>getSubscriptions</strong> method to browse all subscriptions if you do not know the <strong>subscription_id</strong>.<br><br>Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business. */
+    get: operations["getSubscription"];
+    /** @description This method allows applications to update a subscription. Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.<br><br><span class="tablenote"><b>Note:</b> This call returns an error if an application is not authorized to subscribe to a topic.</span><br><br>You can pause and restart a subscription. See the <b>disableSubscription</b> and <b>enableSubscription</b> methods. */
+    put: operations["updateSubscription"];
+    /** @description This method allows applications to delete a subscription. Subscriptions can be deleted regardless of status. */
+    delete: operations["deleteSubscription"];
+  };
+  "/subscription/{subscription_id}/filter/{filter_id}": {
+    /** @description This method allows applications to retrieve the filter details for the specified subscription filter.<br><br>Specify the subscription filter to retrieve by using the <strong>subscription_id</strong> and the <strong>filter_id</strong> associated with the subscription filter. The <strong>filter_id</strong> can be found in the response body for the <strong>getSubscription</strong> method, if there is a filter applied on the subscription.<br><br>Filters allow applications to only be sent notifications that match a provided criteria. Notifications that do not match this criteria will not be sent to the destination. */
+    get: operations["getSubscriptionFilter"];
+    /** @description This method allows applications to disable the active filter on a subscription, so that a new subscription filter may be added.<br><br><span class="tablenote"><b>Note:</b> Subscription filters in <strong>PENDING</strong> status can not be disabled. However, a new filter can be created instead with the <strong>createSubscriptionFilter</strong> method and this new filter will override the <strong>PENDING</strong> filter.</span> */
+    delete: operations["deleteSubscriptionFilter"];
+  };
+  "/subscription/{subscription_id}/disable": {
+    /** @description This method disables a subscription, which prevents the subscription from providing notifications. To restart a subscription, call <strong>enableSubscription</strong>. */
+    post: operations["disableSubscription"];
+  };
+  "/subscription/{subscription_id}/enable": {
+    /** @description This method allows applications to enable a disabled subscription. To pause (or disable) an enabled subscription, call <strong>disableSubscription</strong>. */
+    post: operations["enableSubscription"];
+  };
+  "/subscription/{subscription_id}/test": {
+    /** @description This method triggers a mocked test payload that includes a notification ID, publish date, and so on. Use this method to test your subscription end-to-end.<br><br>You can create the subscription in disabled mode, test it using this method, and when everything is ready, you can enable the subscription (see the <strong>enableSubscription</strong> method).<br><br><span class="tablenote"><b>Note:</b> Use the <strong>notificationId</strong> to tell the difference between a test payload and a real payload.</span> */
+    post: operations["testSubscription"];
+  };
+  "/topic/{topic_id}": {
+    /** @description This method allows applications to retrieve details for the specified topic. This information includes supported schema versions, formats, and other metadata for the topic.<br><br>Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br><br>A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic).<br><br>Specify the topic to retrieve using the <b>topic_id</b> URI parameter.<br><br><span class="tablenote"><b>Note:</b> Use the <a href="/api-docs/commerce/notification/resources/topic/methods/getTopics">getTopics</a> method to find a topic if you do not know the topic ID.</span> */
+    get: operations["getTopic"];
+  };
+  "/topic": {
+    /** @description This method returns a paginated collection of all supported topics, along with the details for the topics. This information includes supported schema versions, formats, and other metadata for the topics.<br><br>Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br><br>A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic). */
+    get: operations["getTopics"];
   };
 }
 
@@ -71,19 +81,25 @@ export interface components {
   schemas: {
     /** @description The type that defines the fields for the <b>alertEmail</b> field. */
     Config: {
-      /** @description The alert email address for this application. */
+      /** @description This field is used to add or modify an email address that will be used for Notification API alerts associated with the application. <b>getConfig</b> can be used to get the email address currently being used for alerts. */
       alertEmail?: string;
+    };
+    CreateSubscriptionFilterRequest: {
+      /** @description The content of a subscription filter as a valid <a href="https://json-schema.org " target="_blank">JSON Schema Core document</a> (version 2020-12 or later). The <strong>filterSchema</strong> provided must describe the subscription's notification payload such that it supplies valid criteria to filter the subscription's notifications.<br><br><span class="tablenote"><b>Note:</b> Not all topics can have filters applied to them. Use <a href="/api-docs/commerce/notification/resources/topic/methods/getTopic">getTopic</a> and <a href="/api-docs/commerce/notification/resources/topic/methods/getTopics">getTopics</a> requests to determine if a specific topic is filterable. Filterable topics have the boolean <b>filterable</b> returned as <code>true</code> in the response.</span><br><span class="tablenote"><b>Note:</b> If the JSON supplied as a subscription filter specifies a field that does not exist in the notifications for a topic, or if the topic is not filterable, the filter will be rejected and become <strong>DISABLED</strong>. If it is valid, however, the filter will move from <strong>PENDING</strong> status to <strong>ENABLED</strong> status.</span><br>Initially, when the <b>createSubscriptionFilter</b> request has been made, if the request has a valid JSON body a <b>201&nbsp;Created</b> is returned. After that, the validation of the <b>filterSchema</b> happens. See <a href="/api-docs/commerce/notification/overview.html#create-filter" target="_blank">Creating a subscription filter for a topic</a> for additional information. */
+      filterSchema?: {
+        [key: string]: Record<string, never> | undefined;
+      };
     };
     /** @description This type contains information about a subscription request. */
     CreateSubscriptionRequest: {
-      /** @description The unique identifier for the topic associated with this subscription. */
-      topicId?: string;
-      /** @description The status of this subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionStatusEnum'>eBay API documentation</a> */
-      status?: string;
-      /** @description The payload associated with this subscription. */
-      payload?: components["schemas"]["SubscriptionPayloadDetail"];
-      /** @description The unique identifier for the destination associated with this subscription. */
+      /** @description The unique identifier of the destination endpoint that will receive notifications associated with this subscription. Use the <b>getDestinations</b> method to retrieve destination IDs. */
       destinationId?: string;
+      /** @description The payload associated with the notification topic. Use <b>getTopics</b> or <b>getTopic</b> to get the supported payload for the topic. */
+      payload?: components["schemas"]["SubscriptionPayloadDetail"];
+      /** @description Set the status of the subscription to <code>ENABLED</code> or <code>DISABLED</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionStatusEnum'>eBay API documentation</a> */
+      status?: string;
+      /** @description The unique identifier of the notification topic to subscribe to. Use <b>getTopics</b> to get topic IDs. */
+      topicId?: string;
     };
     /** @description A type that contains information about the delivery configuration. */
     DeliveryConfig: {
@@ -94,42 +110,42 @@ export interface components {
     };
     /** @description A type that contains information about the destination. */
     Destination: {
+      /** @description The configuration associated with this destination. */
+      deliveryConfig?: components["schemas"]["DeliveryConfig"];
       /** @description The unique identifier for the destination. */
       destinationId?: string;
       /** @description The name associated with this destination. */
       name?: string;
-      /** @description The status for this destination.<br /><br /><span class="tablenote"><b>Note:</b> The <b>MARKED_DOWN</b> value is set by eBay systems and cannot be used in a create or update call by applications.</span><br /><br /><b>Valid values:</b><ul><li><code>ENABLED</code></li><li><code>DISABLED</code></li><li><code>MARKED_DOWN</code></li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:DestinationStatusEnum'>eBay API documentation</a> */
+      /** @description The status for this destination.<br><br><span class="tablenote"><b>Note:</b> The <b>MARKED_DOWN</b> value is set by eBay systems and cannot be used in a create or update call by applications.</span><br><br><b>Valid values:</b><ul><li><code>ENABLED</code></li><li><code>DISABLED</code></li><li><code>MARKED_DOWN</code></li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:DestinationStatusEnum'>eBay API documentation</a> */
       status?: string;
-      /** @description The configuration associated with this destination. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/desination'>eBay API documentation</a> */
-      deliveryConfig?: string;
     };
     /** @description A type that contains information about the destination request. */
     DestinationRequest: {
-      /** @description The name associated with this destination. */
-      name?: string;
-      /** @description The status for this destination.<br /><br /><span class="tablenote"><b>Note:</b> The <b>MARKED_DOWN</b> value is set by eBay systems and cannot be used in a create or update call by applications.</span><br /><br /><b>Valid values:</b><ul><li><code>ENABLED</code></li><li><code>DISABLED</code></li><li><code>MARKED_DOWN</code></li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:DestinationStatusEnum'>eBay API documentation</a> */
-      status?: string;
-      /** @description The configuration associated with this destination. */
+      /** @description This container is used to specify the destination endpoint and verification token associated with this endpoint. */
       deliveryConfig?: components["schemas"]["DeliveryConfig"];
+      /** @description The seller-specified name for the destination endpoint. */
+      name?: string;
+      /** @description This field sets the status for the destination endpoint as <code>ENABLED</code> or <code>DISABLED</code>.<br><br><span class="tablenote"><b>Note:</b> The <b>MARKED_DOWN</b> value is set by eBay systems and cannot be used in a create or update call by applications.</span> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:DestinationStatusEnum'>eBay API documentation</a> */
+      status?: string;
     };
     /** @description A type that contains information about the destination search response. */
     DestinationSearchResponse: {
+      /** @description An array that contains the destination details. */
+      destinations?: (components["schemas"]["Destination"])[];
+      /** @description The path to the call URI that produced the current page of results. */
+      href?: string;
+      /**
+       * Format: int32 
+       * @description The number of records to show in the current response.<br><br><b>Default:</b> 20
+       */
+      limit?: number;
+      /** @description The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned. */
+      next?: string;
       /**
        * Format: int32 
        * @description The total number of matches for the search criteria.
        */
       total?: number;
-      /** @description The path to the call URI that produced the current page of results. */
-      href?: string;
-      /** @description The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned. */
-      next?: string;
-      /**
-       * Format: int32 
-       * @description The number of records to show in the current response.<br /><br /><b>Default:</b> 20
-       */
-      limit?: number;
-      /** @description An array that contains the destination details. */
-      destinations?: (components["schemas"]["Destination"])[];
     };
     /** @description This type defines the fields that can be returned in an error. */
     Error: {
@@ -163,14 +179,14 @@ export interface components {
     };
     /** @description A type that describes the details about a topic's payload. */
     PayloadDetail: {
-      /** @description The supported schema version. */
-      schemaVersion?: string;
-      /** @description The supported format. Presently, <code>JSON</code> is the only supported format. */
-      format?: (string)[];
       /** @description The supported delivery protocols. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:ProtocolEnum'>eBay API documentation</a> */
       deliveryProtocol?: string;
       /** @description A deprecation indicator. */
       deprecated?: boolean;
+      /** @description The supported format. Presently, <code>JSON</code> is the only supported format. */
+      format?: (string)[];
+      /** @description The supported schema version. */
+      schemaVersion?: string;
     };
     /** @description A type that defines the public key for a unique key ID. */
     PublicKey: {
@@ -178,96 +194,114 @@ export interface components {
       algorithm?: string;
       /** @description The digest associated with the public key that is returned, such as Secure Hash Algorithm 1 (SHA1). */
       digest?: string;
-      /** @description The public key that is returned for the specified key ID.<br /><br />This value is used to validate the eBay push notification message payload. */
+      /** @description The public key that is returned for the specified key ID.<br><br>This value is used to validate the eBay push notification message payload. */
       key?: string;
     };
     /** @description A type that describes the subscription. */
     Subscription: {
+      /** @description The creation date for this subscription. */
+      creationDate?: string;
+      /** @description The unique identifier for the destination associated with this subscription. */
+      destinationId?: string;
+      /** @description The unique identifier for the filter associated with this subscription. */
+      filterId?: string;
+      /** @description The payload associated with this subscription. */
+      payload?: components["schemas"]["SubscriptionPayloadDetail"];
+      /** @description The status of this subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionStatusEnum'>eBay API documentation</a> */
+      status?: string;
       /** @description The unique identifier for the subscription. */
       subscriptionId?: string;
       /** @description The unique identifier for the topic associated with this subscription. */
       topicId?: string;
-      /** @description The status of this subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionStatusEnum'>eBay API documentation</a> */
-      status?: string;
-      /** @description The creation date for this subscription. */
+    };
+    SubscriptionFilter: {
+      /** @description The creation date for this subscription filter. */
       creationDate?: string;
-      /** @description The payload associated with this subscription. */
-      payload?: components["schemas"]["SubscriptionPayloadDetail"];
-      /** @description The unique identifier for the destination associated with this subscription. */
-      destinationId?: string;
+      /** @description The unique identifier for this subscription filter. */
+      filterId?: string;
+      /** @description The content of this subscription filter as a valid <a href="https://json-schema.org " target="_blank">JSON Schema Core document</a> (version 2020-12 or later). The <strong>filterSchema</strong> provided must describe the subscription's notification payload such that it supplies valid criteria to filter the subscription's notifications. */
+      filterSchema?: {
+        [key: string]: Record<string, never> | undefined;
+      };
+      /** @description The status of this subscription filter. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionFilterStatus'>eBay API documentation</a> */
+      filterStatus?: string;
+      /** @description The unique identifier for the subscription. */
+      subscriptionId?: string;
     };
     /** @description A type that describes the details of the subscription payload. */
     SubscriptionPayloadDetail: {
-      /** @description The supported format. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:FormatTypeEnum'>eBay API documentation</a> */
-      format?: string;
-      /** @description The supported schema version. */
-      schemaVersion?: string;
-      /** @description The supported protocol. For exmaple: <code>HTTPS</code> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:ProtocolEnum'>eBay API documentation</a> */
+      /** @description The supported delivery protocol of the notification topic.<br><br><span class="tablenote"><b>Note:</b> <code>HTTPS</code> is currently the only supported delivery protocol of all notification topics. </span> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:ProtocolEnum'>eBay API documentation</a> */
       deliveryProtocol?: string;
+      /** @description The supported data format of the payload.<br><br><span class="tablenote"><b>Note:</b> JSON is currently the only supported format for all notification topics.</span> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:FormatTypeEnum'>eBay API documentation</a> */
+      format?: string;
+      /** @description The supported schema version for the notification topic. See the <b>supportedPayloads.schemaVersion</b> field for the topic in <b>getTopics</b> or <b>getTopic</b> response. */
+      schemaVersion?: string;
     };
     /** @description A type that describes the details of the subscription search response. */
     SubscriptionSearchResponse: {
+      /** @description The path to the call URI that produced the current page of results. */
+      href?: string;
+      /**
+       * Format: int32 
+       * @description The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br><br><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span><br><br><b>Default:</b> 20
+       */
+      limit?: number;
+      /** @description The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned. */
+      next?: string;
+      /** @description The subscriptions that match the search criteria. */
+      subscriptions?: (components["schemas"]["Subscription"])[];
       /**
        * Format: int32 
        * @description The total number of matches for the search criteria.
        */
       total?: number;
-      /** @description The path to the call URI that produced the current page of results. */
-      href?: string;
-      /** @description The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned. */
-      next?: string;
-      /**
-       * Format: int32 
-       * @description The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br /><br /><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span><br /><br /><b>Default:</b> 20
-       */
-      limit?: number;
-      /** @description The subscriptions that match the search criteria. */
-      subscriptions?: (components["schemas"]["Subscription"])[];
     };
     /** @description A type that describes the details of the topic. */
     Topic: {
-      /** @description The unique identifier for the topic. */
-      topicId?: string;
-      /** @description The description of the topic. */
-      description?: string;
       /** @description The authorization scopes required to subscribe to this topic. */
       authorizationScopes?: (string)[];
-      /** @description The status of this topic. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:StatusEnum'>eBay API documentation</a> */
-      status?: string;
       /** @description The business context associated with this topic. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:ContextEnum'>eBay API documentation</a> */
       context?: string;
+      /** @description The description of the topic. */
+      description?: string;
+      /** @description The indicator of whether this topic is filterable or not. */
+      filterable?: boolean;
       /** @description The scope of this topic. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:ScopeEnum'>eBay API documentation</a> */
       scope?: string;
+      /** @description The status of this topic. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:StatusEnum'>eBay API documentation</a> */
+      status?: string;
       /** @description The supported payloads for this topic. */
       supportedPayloads?: (components["schemas"]["PayloadDetail"])[];
+      /** @description The unique identifier for the topic. */
+      topicId?: string;
     };
     /** @description A type that describes the details of the topic search response. */
     TopicSearchResponse: {
+      /** @description The path to the call URI that produced the current page of results. */
+      href?: string;
+      /**
+       * Format: int32 
+       * @description The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br><br><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span>
+       */
+      limit?: number;
+      /** @description The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned. */
+      next?: string;
+      /** @description An array of topics that match the specified criteria. */
+      topics?: (components["schemas"]["Topic"])[];
       /**
        * Format: int32 
        * @description The total number of matches for the search criteria.
        */
       total?: number;
-      /** @description The path to the call URI that produced the current page of results. */
-      href?: string;
-      /** @description The URL to access the next set of results. This field includes a <strong>continuation_token</strong>. No <b>prev</b> field is returned, but this value is persistent during the session so that you can use it to return to the next page.<br><br>This field is not returned if fewer records than specified by the <strong>limit</strong> field are returned. */
-      next?: string;
-      /**
-       * Format: int32 
-       * @description The value of the limit parameter submitted in the request, which is the maximum number of items to return per page, from the result set. A result set is the complete set of results returned by the method.<br /><br /><span class="tablenote"><b>Note:</b> Though this parameter is not required to be submitted in the request, the parameter defaults to <code>20</code> if omitted.</span>
-       */
-      limit?: number;
-      /** @description An array of topics that match the specified criteria. */
-      topics?: (components["schemas"]["Topic"])[];
     };
     /** @description A type that describes the details of the update subscription request. */
     UpdateSubscriptionRequest: {
-      /** @description The status of this subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionStatusEnum'>eBay API documentation</a> */
-      status?: string;
+      /** @description The unique identifier of the destination endpoint that will receive notifications associated with this subscription. Use <b>getDestinations</b> to retrieve destination IDs. */
+      destinationId?: string;
       /** @description The payload associated with this subscription. */
       payload?: components["schemas"]["SubscriptionPayloadDetail"];
-      /** @description The unique identifier for the destination associated with this subscription. */
-      destinationId?: string;
+      /** @description Set the status of the subscription being updated to ENABLED or DISABLED. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/notification/types/api:SubscriptionStatusEnum'>eBay API documentation</a> */
+      status?: string;
     };
   };
   responses: never;
@@ -281,161 +315,33 @@ export type external = Record<string, never>;
 
 export interface operations {
 
-  /** @description This method allows users to retrieve a public key using a specified key ID. The public key that is returned in the response payload is used to process and validate eBay notifications.<br /><br />The public key ID, which is a required request parameter for this method, is retrieved from the Base64-encoded <b>X-EBAY-SIGNATURE</b> header that is included in the eBay notification.<br /><br /><span class="tablenote"><b>Note:</b> For more details about how to process eBay push notifications and validate notification message payloads, see the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a>.</span> */
-  getPublicKey: {
-    parameters: {
-      path: {
-        /** @description The unique key ID that is used to retrieve the public key.<br /><br /><span class="tablenote"><b>Note: </b>This is retrieved from the <b>X-EBAY-SIGNATURE</b> header that is included with the push notification.</span> */
-        public_key_id: string;
-      };
-    };
+  /** @description This method allows applications to retrieve a previously created configuration. */
+  getConfig: {
     responses: {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["PublicKey"];
+          "application/json": components["schemas"]["Config"];
         };
       };
-      /** @description Bad Request */
-      400: never;
       /** @description Not Found */
       404: never;
       /** @description Internal Server Error */
       500: never;
     };
   };
-  /** @description This method allows applications to retrieve details for the specified topic. This information includes supported schema versions, formats, and other metadata for the topic.<br /><br />Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br /><br />A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic).<br /><br />Specify the topic to retrieve using the <b>topic_id</b> URI parameter.<br /><br /><span class="tablenote"><b>Note:</b> Use the <a href="/api-docs/commerce/notification/resources/topic/methods/getTopics">getTopics</a> method to find a topic if you do not know the topic ID.</span> */
-  getTopic: {
+  /** @description This method allows applications to create a new configuration or update an existing configuration. This app-level configuration allows developers to set up alerts. */
+  updateConfig: {
     parameters: {
-      path: {
-        /** @description The ID of the topic for which to retrieve the details. */
-        topic_id: string;
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
       };
     };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Topic"];
-        };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Not Found */
-      404: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This method returns a paginated collection of all supported topics, along with the details for the topics. This information includes supported schema versions, formats, and other metadata for the topics.<br /><br />Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br /><br />A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic). */
-  getTopics: {
-    parameters: {
-      query?: {
-        /** @description The maximum number of items to return per page from the result set. A result set is the complete set of results returned by the method. Range is from 10-100. <br /><br />If this parameter is omitted, the default value is used.<br/><br/><b> Default:</b> 20<br /><br /><b>Maximum:</b> 100 items per page */
-        limit?: string;
-        /** @description The token used to access the next set of results. */
-        continuation_token?: string;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["TopicSearchResponse"];
-        };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This method allows applications to retrieve a list of all subscriptions. The list returned is a paginated collection of subscription resources.<br /><br />Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business. */
-  getSubscriptions: {
-    parameters: {
-      query?: {
-        /** @description The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br/><br/><b>Default:</b> 20<br/><br/><b>Maximum:</b> 100 items per page */
-        limit?: string;
-        /** @description The continuation token for the next set of results. */
-        continuation_token?: string;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["SubscriptionSearchResponse"];
-        };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This method allows applications to create a subscription for a topic and supported schema version. Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.<br/><br/>Each application and topic-schema pairing to a subscription should have a 1:1 cardinality.<br/><br/>You can create the subscription in disabled mode, test it (see the <b>test</b> method), and when everything is ready, you can enable the subscription (see the <b>enableSubscription</b> method).<br /><br /><span class="tablenote"><b>Note:</b> If an application is not authorized to subscribe to a topic, for example, if your authorization does not include the list of scopes required for the topic, an error code of 195011 is returned.</span> */
-  createSubscription: {
-    /** @description The create subscription request. */
+    /** @description The configurations for this application. */
     requestBody?: {
       content: {
-        "application/json": components["schemas"]["CreateSubscriptionRequest"];
-      };
-    };
-    responses: {
-      /** @description Created */
-      201: {
-        headers: {
-          Location?: string;
-        };
-        content: {
-          "application/json": Record<string, never>;
-        };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Forbidden */
-      403: never;
-      /** @description Conflict */
-      409: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This method allows applications to retrieve subscription details for the specified subscription.<br /><br />Specify the subscription to retrieve using the <strong>subscription_id</strong>. Use the <strong>getSubscriptions</strong> method to browse all subscriptions if you do not know the <strong>subscription_id</strong>.<br /><br />Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business. */
-  getSubscription: {
-    parameters: {
-      path: {
-        /** @description The unique identifier for the subscription. */
-        subscription_id: string;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Subscription"];
-        };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Not Found */
-      404: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This method allows applications to update a subscription. Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.<br /><br /><span class="tablenote"><b>Note:</b> This call returns an error if an application is not authorized to subscribe to a topic.</span><br/><br/>You can pause and restart a subscription. See the <b>disableSubscription</b> and <b>enableSubscription</b> methods. */
-  updateSubscription: {
-    parameters: {
-      path: {
-        /** @description The unique identifier for the subscription. */
-        subscription_id: string;
-      };
-    };
-    /** @description The create subscription request. */
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["UpdateSubscriptionRequest"];
+        "application/json": components["schemas"]["Config"];
       };
     };
     responses: {
@@ -443,88 +349,6 @@ export interface operations {
       204: never;
       /** @description Bad Request */
       400: never;
-      /** @description Not Found */
-      404: never;
-      /** @description Conflict */
-      409: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This method allows applications to delete a subscription. Subscriptions can be deleted regardless of status. */
-  deleteSubscription: {
-    parameters: {
-      path: {
-        /** @description The unique identifier for the subscription. */
-        subscription_id: string;
-      };
-    };
-    responses: {
-      /** @description No Content */
-      204: never;
-      /** @description Bad Request */
-      400: never;
-      /** @description Not Found */
-      404: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This method allows applications to enable a disabled subscription. To pause (or disable) an enabled subscription, call <strong>disableSubscription</strong>. */
-  enableSubscription: {
-    parameters: {
-      path: {
-        /** @description The unique identifier for the subscription. */
-        subscription_id: string;
-      };
-    };
-    responses: {
-      /** @description No Content */
-      204: never;
-      /** @description Bad Request */
-      400: never;
-      /** @description Not Found */
-      404: never;
-      /** @description Conflict */
-      409: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This method disables a subscription, which prevents the subscription from providing notifications. To restart a subscription, call <strong>enableSubscription</strong>. */
-  disableSubscription: {
-    parameters: {
-      path: {
-        /** @description The unique identifier for the subscription. */
-        subscription_id: string;
-      };
-    };
-    responses: {
-      /** @description No Content */
-      204: never;
-      /** @description Bad Request */
-      400: never;
-      /** @description Not Found */
-      404: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This method triggers a mocked test payload that includes a notification ID, publish date, and so on. Use this method to test your subscription end-to-end.<br /><br />You can create the subscription in disabled mode, test it using this method, and when everything is ready, you can enable the subscription (see the <strong>enableSubscription</strong> method).<br /><br /><span class="tablenote"><b>Note:</b> Use the <strong>notificationId</strong> to tell the difference between a test payload and a real payload.</span> */
-  test: {
-    parameters: {
-      path: {
-        /** @description The unique identifier for the subscription. */
-        subscription_id: string;
-      };
-    };
-    responses: {
-      /** @description Accepted */
-      202: never;
-      /** @description Bad Request */
-      400: never;
-      /** @description Not Found */
-      404: never;
       /** @description Internal Server Error */
       500: never;
     };
@@ -533,10 +357,10 @@ export interface operations {
   getDestinations: {
     parameters: {
       query?: {
-        /** @description The number of items, from the result set, returned in a single page. Range is from 10-100. If this parameter is omitted, the default value is used.<br/><br/><b>Default:</b> 20<br/><br/><b>Maximum:</b> 100 items per page */
-        limit?: string;
-        /** @description The continuation token for the next set of results. */
+        /** @description This string value can be used to return the next page in the result set. The string to use here is returned in the <b>next</b> field of the current page of results. */
         continuation_token?: string;
+        /** @description The maximum number of destinations to return per page from the result set.<br><br><b>Min:</b> 10<br><br><b>Max:</b> 100<br><br><b>Default:</b> 20 */
+        limit?: string;
       };
     };
     responses: {
@@ -552,8 +376,14 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method allows applications to create a destination. A destination is an endpoint that receives HTTP push notifications.<br /><br />A single destination for all topics is valid, as is individual destinations for each topic.<br /><br />To update a destination, use the <strong>updateDestination</strong> call.<br /><br />The destination created will need to be referenced while creating or updating a subscription to a topic.<br/><br/><span class="tablenote"><b>Note:</b> The destination should be created and ready to respond with the expected <b>challengeResponse</b> for the endpoint to be registered successfully. Refer to the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a> for more information.</span> */
+  /** @description This method allows applications to create a destination. A destination is an endpoint that receives HTTP push notifications.<br><br>A single destination for all topics is valid, as is individual destinations for each topic.<br><br>To update a destination, use the <strong>updateDestination</strong> call.<br><br>The destination created will need to be referenced while creating or updating a subscription to a topic.<br><br><span class="tablenote"><b>Note:</b> The destination should be created and ready to respond with the expected <b>challengeResponse</b> for the endpoint to be registered successfully. Refer to the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a> for more information.</span> */
   createDestination: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
     /** @description The create destination request. */
     requestBody?: {
       content: {
@@ -582,7 +412,7 @@ export interface operations {
   getDestination: {
     parameters: {
       path: {
-        /** @description The unique identifier for the destination. */
+        /** @description The unique identifier of the destination to retrieve. Use <b>getDestinations</b> to retrieve destination IDs. */
         destination_id: string;
       };
     };
@@ -601,9 +431,13 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method allows applications to update a destination.<br/><br/><span class="tablenote"><b>Note:</b> The destination should be created and ready to respond with the expected <b>challengeResponse</b> for the endpoint to be registered successfully. Refer to the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a> for more information.</span> */
+  /** @description This method allows applications to update a destination.<br><br><span class="tablenote"><b>Note:</b> The destination should be created and ready to respond with the expected <b>challengeResponse</b> for the endpoint to be registered successfully. Refer to the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a> for more information.</span> */
   updateDestination: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
         /** @description The unique identifier for the destination. */
         destination_id: string;
@@ -628,11 +462,11 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method provides applications a way to delete a destination.<br /><br />The same destination ID can be used by many destinations.<br /><br />Trying to delete an active destination results in an error. You can disable a subscription, and when the destination is no longer in use, you can delete it. */
+  /** @description This method provides applications a way to delete a destination.<br><br>The same destination ID can be used by many destinations.<br><br>Trying to delete an active destination results in an error. You can disable a subscription, and when the destination is no longer in use, you can delete it. */
   deleteDestination: {
     parameters: {
       path: {
-        /** @description The unique identifier for the destination. */
+        /** @description The unique identifier of the destination to delete. Only disabled or marked down destinations can be deleted, and enabled destinations cannot be deleted. Use <b>getDestination</b> or <b>getDestinations</b> to see the current status of a destination. */
         destination_id: string;
       };
     };
@@ -649,32 +483,346 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method allows applications to retrieve a previously created configuration. */
-  getConfig: {
+  /** @description This method allows users to retrieve a public key using a specified key ID. The public key that is returned in the response payload is used to process and validate eBay notifications.<br><br>The public key ID, which is a required request parameter for this method, is retrieved from the Base64-encoded <b>X-EBAY-SIGNATURE</b> header that is included in the eBay notification.<br><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> The retrieved public key value should be cached for a temporary — but reasonable — amount of time (e.g., one-hour is recommended.) This key should not be requested for every notification since doing so can result in exceeding <a href="/develop/apis/api-call-limits" target="_blank">API call limits</a> if a large number of notification requests is received.</p></div><br><span class="tablenote"><b>Note:</b> For more details about how to process eBay push notifications and validate notification message payloads, see the <a href="/api-docs/commerce/notification/overview.html">Notification API overview</a>.</span> */
+  getPublicKey: {
+    parameters: {
+      path: {
+        /** @description The unique key ID that is used to retrieve the public key.<br><br><span class="tablenote"><b>Note: </b>This is retrieved from the <b>X-EBAY-SIGNATURE</b> header that is included with the push notification.</span> */
+        public_key_id: string;
+      };
+    };
     responses: {
       /** @description OK */
       200: {
         content: {
-          "application/json": components["schemas"]["Config"];
+          "application/json": components["schemas"]["PublicKey"];
         };
       };
+      /** @description Bad Request */
+      400: never;
       /** @description Not Found */
       404: never;
       /** @description Internal Server Error */
       500: never;
     };
   };
-  /** @description This method allows applications to create a new configuration or update an existing configuration. This app-level configuration allows developers to set up alerts. */
-  updateConfig: {
-    /** @description The configurations for this application. */
+  /** @description This method allows applications to retrieve a list of all subscriptions. The list returned is a paginated collection of subscription resources.<br><br>Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business. */
+  getSubscriptions: {
+    parameters: {
+      query?: {
+        /** @description This string value can be used to return the next page in the result set. The string to use here is returned in the next field of the current page of results. */
+        continuation_token?: string;
+        /** @description The maximum number of subscriptions to return per page from the result set.<br><br><b>Min:</b> 10<br><br><b>Max:</b> 100<br><br><b>Default:</b> 20 */
+        limit?: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["SubscriptionSearchResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method allows applications to create a subscription for a topic and supported schema version. Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.<br><br>Each application and topic-schema pairing to a subscription should have a 1:1 cardinality.<br><br>You can create the subscription in disabled mode, test it (see the <b>test</b> method), and when everything is ready, you can enable the subscription (see the <b>enableSubscription</b> method).<br><br><span class="tablenote"><b>Note:</b> If an application is not authorized to subscribe to a topic, for example, if your authorization does not include the list of scopes required for the topic, an error code of 195011 is returned.</span> */
+  createSubscription: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
+    /** @description The create subscription request. */
     requestBody?: {
       content: {
-        "application/json": components["schemas"]["Config"];
+        "application/json": components["schemas"]["CreateSubscriptionRequest"];
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        headers: {
+          Location?: string;
+        };
+        content: {
+          "application/json": Record<string, never>;
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Forbidden */
+      403: never;
+      /** @description Conflict */
+      409: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method allows applications to create a filter for a subscription. Filters allow applications to only be sent notifications that match a provided criteria. Notifications that do not match this criteria will not be sent to the destination.<br><br>The <strong>filterSchema</strong> value must be a valid <a href="https://json-schema.org " target="_blank">JSON Schema Core document</a> (version 2020-12 or later). The <strong>filterSchema</strong> provided must describe the subscription's notification payload such that it supplies valid criteria to filter the subscription's notifications. The user does not need to provide <code>$schema</code> and <code>$id</code> definitions.<br><br>When a filter is first created, it is not immediately active on the subscription. If the request has a valid JSON body, the successful call returns the HTTP status code <b>201&nbsp;Created</b>. Newly created filters are in <code>PENDING</code> status until they are reviewed. If a filter is valid, it will move from <code>PENDING</code> status to <code>ENABLED</code> status. You can find the status of a filter using the <a href="/api-docs/commerce/notification/resources/subscription/methods/getSubscriptionFilter">getSubscriptionFilter</a> method. See <a href="/api-docs/commerce/notification/overview.html#create-filter" target="_blank">Creating a subscription filter for a topic</a> for additional information.<br><br><span class="tablenote"><b>Note:</b> Only one filter can be in <strong>ENABLED</strong> (which means active) status on a subscription at a time. If an <strong>ENABLED</strong> filter is overwritten by a new call to <strong>CREATE</strong> a filter for the subscription, it stays in <strong>ENABLED</strong> status until the new <strong>PENDING</strong> filter becomes the <strong>ENABLED</strong> filter, and the existing filter then becomes <strong>DISABLED</strong>.</span> */
+  createSubscriptionFilter: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+      path: {
+        /** @description The unique identifier of the subscription for which a filter will be created. */
+        subscription_id: string;
+      };
+    };
+    /** @description The create subscription filter request. */
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["CreateSubscriptionFilterRequest"];
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        headers: {
+          Location?: string;
+        };
+        content: {
+          "application/json": Record<string, never>;
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Forbidden */
+      403: never;
+      /** @description Not Found */
+      404: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method allows applications to retrieve subscription details for the specified subscription.<br><br>Specify the subscription to retrieve using the <strong>subscription_id</strong>. Use the <strong>getSubscriptions</strong> method to browse all subscriptions if you do not know the <strong>subscription_id</strong>.<br><br>Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business. */
+  getSubscription: {
+    parameters: {
+      path: {
+        /** @description The unique identifier of the subscription to retrieve. Use <b>getSubscriptions</b> to retrieve subscription IDs. */
+        subscription_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Subscription"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Not Found */
+      404: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method allows applications to update a subscription. Subscriptions allow applications to express interest in notifications and keep receiving the information relevant to their business.<br><br><span class="tablenote"><b>Note:</b> This call returns an error if an application is not authorized to subscribe to a topic.</span><br><br>You can pause and restart a subscription. See the <b>disableSubscription</b> and <b>enableSubscription</b> methods. */
+  updateSubscription: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+      path: {
+        /** @description The unique identifier for the subscription to update. Use <b>getSubscriptions</b> to retrieve subscription IDs. */
+        subscription_id: string;
+      };
+    };
+    /** @description The create subscription request. */
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["UpdateSubscriptionRequest"];
       };
     };
     responses: {
       /** @description No Content */
       204: never;
+      /** @description Bad Request */
+      400: never;
+      /** @description Not Found */
+      404: never;
+      /** @description Conflict */
+      409: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method allows applications to delete a subscription. Subscriptions can be deleted regardless of status. */
+  deleteSubscription: {
+    parameters: {
+      path: {
+        /** @description The unique identifier of the subscription to delete. Use <b>getSubscriptions</b> to retrieve subscription IDs. */
+        subscription_id: string;
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: never;
+      /** @description Bad Request */
+      400: never;
+      /** @description Not Found */
+      404: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method allows applications to retrieve the filter details for the specified subscription filter.<br><br>Specify the subscription filter to retrieve by using the <strong>subscription_id</strong> and the <strong>filter_id</strong> associated with the subscription filter. The <strong>filter_id</strong> can be found in the response body for the <strong>getSubscription</strong> method, if there is a filter applied on the subscription.<br><br>Filters allow applications to only be sent notifications that match a provided criteria. Notifications that do not match this criteria will not be sent to the destination. */
+  getSubscriptionFilter: {
+    parameters: {
+      path: {
+        /** @description The unique identifier of the subscription filter.  Filter ID values, if configured for a subscription, will be shown in the <b>subscriptions.filterId</b> field in <b>getSubscription</b> and <b>getSubscription</b> responses. The filter ID value is also returned in the Location response header when a filter is created with <b>createSubscriptionFilter</b>. */
+        filter_id: string;
+        /** @description The unique identifier of the subscription associated with the filter. Use <b>getSubscriptions</b> to retrieve subscription IDs. */
+        subscription_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["SubscriptionFilter"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Forbidden */
+      403: never;
+      /** @description Not Found */
+      404: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method allows applications to disable the active filter on a subscription, so that a new subscription filter may be added.<br><br><span class="tablenote"><b>Note:</b> Subscription filters in <strong>PENDING</strong> status can not be disabled. However, a new filter can be created instead with the <strong>createSubscriptionFilter</strong> method and this new filter will override the <strong>PENDING</strong> filter.</span> */
+  deleteSubscriptionFilter: {
+    parameters: {
+      path: {
+        /** @description The unique identifier of the subscription filter to delete.  Filter ID values, if configured for a subscription, will be shown in the <b>subscriptions.filterId</b> field in <b>getSubscription</b> and <b>getSubscription</b> responses. The filter ID value is also returned in the Location response header when a filter is created with <b>createSubscriptionFilter</b>. */
+        filter_id: string;
+        /** @description The unique identifier of the subscription associated with the filter to delete. Use <b>getSubscriptions</b> to retrieve subscription IDs. */
+        subscription_id: string;
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: never;
+      /** @description Bad Request */
+      400: never;
+      /** @description Forbidden */
+      403: never;
+      /** @description Not Found */
+      404: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method disables a subscription, which prevents the subscription from providing notifications. To restart a subscription, call <strong>enableSubscription</strong>. */
+  disableSubscription: {
+    parameters: {
+      path: {
+        /** @description The unique identifier of an enabled subscription that will be disabled. Use <b>getSubscriptions</b> to retrieve subscription IDs. */
+        subscription_id: string;
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: never;
+      /** @description Bad Request */
+      400: never;
+      /** @description Not Found */
+      404: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method allows applications to enable a disabled subscription. To pause (or disable) an enabled subscription, call <strong>disableSubscription</strong>. */
+  enableSubscription: {
+    parameters: {
+      path: {
+        /** @description The unique identifier of a disabled subscription that will be enabled. Use <b>getSubscriptions</b> to retrieve subscription IDs. */
+        subscription_id: string;
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: never;
+      /** @description Bad Request */
+      400: never;
+      /** @description Not Found */
+      404: never;
+      /** @description Conflict */
+      409: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method triggers a mocked test payload that includes a notification ID, publish date, and so on. Use this method to test your subscription end-to-end.<br><br>You can create the subscription in disabled mode, test it using this method, and when everything is ready, you can enable the subscription (see the <strong>enableSubscription</strong> method).<br><br><span class="tablenote"><b>Note:</b> Use the <strong>notificationId</strong> to tell the difference between a test payload and a real payload.</span> */
+  testSubscription: {
+    parameters: {
+      path: {
+        /** @description The unique identifier of the subscription to test. Use <b>getSubscriptions</b> to retrieve subscription IDs. */
+        subscription_id: string;
+      };
+    };
+    responses: {
+      /** @description Accepted */
+      202: never;
+      /** @description Bad Request */
+      400: never;
+      /** @description Not Found */
+      404: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method allows applications to retrieve details for the specified topic. This information includes supported schema versions, formats, and other metadata for the topic.<br><br>Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br><br>A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic).<br><br>Specify the topic to retrieve using the <b>topic_id</b> URI parameter.<br><br><span class="tablenote"><b>Note:</b> Use the <a href="/api-docs/commerce/notification/resources/topic/methods/getTopics">getTopics</a> method to find a topic if you do not know the topic ID.</span> */
+  getTopic: {
+    parameters: {
+      path: {
+        /** @description The unique identifier of the notification topic for which the details are retrieved. Use <b>getTopics</b> to retrieve the topic ID. */
+        topic_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Topic"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Not Found */
+      404: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method returns a paginated collection of all supported topics, along with the details for the topics. This information includes supported schema versions, formats, and other metadata for the topics.<br><br>Applications can subscribe to any of the topics for a supported schema version and format, limited by the authorization scopes required to subscribe to the topic.<br><br>A topic specifies the type of information to be received and the data types associated with an event. An event occurs in the eBay system, such as when a user requests deletion or revokes access for an application. An event is an instance of an event type (topic). */
+  getTopics: {
+    parameters: {
+      query?: {
+        /** @description This string value can be used to return the next page in the result set. The string to use here is returned in the <b>next</b> field of the current page of results. */
+        continuation_token?: string;
+        /** @description The maximum number of notification topics to return per page from the result set.<br><br><b>Min:</b> 10<br><br><b>Max:</b> 100<br><br><b>Default:</b> 20 */
+        limit?: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["TopicSearchResponse"];
+        };
+      };
       /** @description Bad Request */
       400: never;
       /** @description Internal Server Error */

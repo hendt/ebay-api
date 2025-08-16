@@ -1,4 +1,5 @@
-import {SuppressViolationRequest} from '../../../../types/index.js';
+// Note: SuppressViolationRequest removed in updated Compliance API
+// import {SuppressViolationRequest} from '../../../../types/index.js';
 import {operations} from '../../../../types/restful/specs/sell_compliance_v1_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
 
@@ -48,12 +49,4 @@ export default class Compliance extends Restful implements OpenApi<operations> {
     });
   }
 
-  /**
-   * This call suppresses a listing violation for a specific listing. Only listing violations in the AT_RISK state (returned in the violations.complianceState field of the getListingViolations call) can be suppressed.
-   *
-   * @param body  SuppressViolationRequest
-   */
-  public suppressViolation(body: SuppressViolationRequest) {
-    return this.post(`/suppress_listing_violation`, body);
-  }
 }

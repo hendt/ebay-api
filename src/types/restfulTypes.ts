@@ -21,7 +21,7 @@ import {
 import {components as buyBrowse, operations as buyBrowseOperations} from './restful/specs/buy_browse_v1_oas3.js';
 import {operations as buyMarketingOperations} from './restful/specs/buy_marketing_v1_beta_oas3.js';
 import {components as buyOffer} from './restful/specs/buy_offer_v1_beta_oas3.js';
-import {components as buyOrder} from './restful/specs/buy_order_v1_beta_oas3.js';
+import {components as buyOrder} from './restful/specs/buy_order_v2_oas3.js';
 import {operations as commerceCatalogOperations} from './restful/specs/commerce_catalog_v1_beta_oas3.js';
 import {components as commerceMedia} from './restful/specs/commerce_media_v1_beta_oas3.js';
 import {components as commerceNotification} from './restful/specs/commerce_notification_v1_oas3.js';
@@ -29,11 +29,14 @@ import {components as commerceTranslation} from './restful/specs/commerce_transl
 
 import {components as sellAccountV1} from './restful/specs/sell_account_v1_oas3.js';
 import {components as sellAccountV2} from './restful/specs/sell_account_v2_oas3.js';
-import {components as sellCompliance} from './restful/specs/sell_compliance_v1_oas3.js';
-
+import {components as sellFeed} from './restful/specs/sell_feed_v1_oas3.js';
 import {components as sellFulfillment} from './restful/specs/sell_fulfillment_v1_oas3.js';
 import {components as sellInventory} from './restful/specs/sell_inventory_v1_oas3.js';
+import {components as sellListing} from './restful/specs/sell_listing_v1_beta_oas3.js';
+import {components as sellLogistics} from './restful/specs/sell_logistics_v1_oas3.js';
 import {components as sellMarketing} from './restful/specs/sell_marketing_v1_oas3.js';
+import {components as sellMetadata} from './restful/specs/sell_metadata_v1_oas3.js';
+import {components as sellNegotiation} from './restful/specs/sell_negotiation_v1_oas3.js';
 import {components as sellRecommendation} from './restful/specs/sell_recommendation_v1_oas3.js';
 
 export type BrowseSearchParams = {
@@ -443,9 +446,6 @@ export type InputStream = commerceMedia['schemas']['InputStream'];
 
 export type AttributeNameValue = buyBrowse['schemas']['AttributeNameValue']
 export type CompatibilityPayload = buyBrowse['schemas']['CompatibilityPayload']
-export type AddCartItemInput = buyBrowse['schemas']['AddCartItemInput']
-export type RemoveCartItemInput = buyBrowse['schemas']['RemoveCartItemInput']
-export type UpdateCartItemInput = buyBrowse['schemas']['UpdateCartItemInput']
 export type PlaceProxyBidRequest = buyOffer['schemas']['PlaceProxyBidRequest']
 export type SearchByImageRequest = buyBrowse['schemas']['SearchByImageRequest']
 
@@ -454,22 +454,19 @@ export type BuyBrowseSearchByImageParams = buyBrowseOperations['searchByImage'][
 export type BuyBrowseGetItemsParams = buyBrowseOperations['getItems']['parameters']['query'];
 export type BuyBrowseItemByLegacyIdParams = buyBrowseOperations['getItemByLegacyId']['parameters']['query'];
 
-export type BuyMarketingGetAlsoBoughtByProductParams = buyMarketingOperations['getAlsoBoughtByProduct']['parameters']['query'];
-export type BuyMarketingGetAlsoViewedByProductParams = buyMarketingOperations['getAlsoViewedByProduct']['parameters']['query'];
 export type BuyMarketingGetMerchandisedProductsParams = buyMarketingOperations['getMerchandisedProducts']['parameters']['query'];
 
-export type CreateGuestCheckoutSessionRequest = buyOrder['schemas']['CreateGuestCheckoutSessionRequest']
-export type CheckoutSessionRequestWithoutPayment = buyOrder['schemas']['CheckoutSessionRequestWithoutPayment']
+export type CreateGuestCheckoutSessionRequest = buyOrder['schemas']['CreateGuestCheckoutSessionRequestV2']
+export type CheckoutSessionRequestWithoutPayment = buyOrder['schemas']['CreateGuestCheckoutSessionRequestV2'] // Mapped to v2 equivalent
 export type CouponRequest = buyOrder['schemas']['CouponRequest']
-export type CreateSignInCheckoutSessionRequest = buyOrder['schemas']['CreateSignInCheckoutSessionRequest']
-export type GuestPlaceOrderRequest = buyOrder['schemas']['GuestPlaceOrderRequest']
-export type InitiatePaymentRequest = buyOrder['schemas']['InitiatePaymentRequest']
+export type CreateSignInCheckoutSessionRequest = buyOrder['schemas']['CreateGuestCheckoutSessionRequestV2'] // Mapped to v2 equivalent  
+export type GuestPlaceOrderRequest = buyOrder['schemas']['CreateGuestCheckoutSessionRequestV2'] // Mapped to v2 equivalent
+export type InitiatePaymentRequest = buyOrder['schemas']['CreateGuestCheckoutSessionRequestV2'] // Mapped to v2 equivalent
 export type ShippingAddressImpl = buyOrder['schemas']['ShippingAddressImpl']
-export type UpdatePaymentInformation = buyOrder['schemas']['UpdatePaymentInformation']
+export type UpdatePaymentInformation = buyOrder['schemas']['CreateGuestCheckoutSessionRequestV2'] // Mapped to v2 equivalent
 export type UpdateQuantity = buyOrder['schemas']['UpdateQuantity']
 export type UpdateShippingOption = buyOrder['schemas']['UpdateShippingOption']
 
-export type SuppressViolationRequest = sellCompliance['schemas']['SuppressViolationRequest'];
 
 export type CustomPolicyCreateRequest = sellAccountV1['schemas']['CustomPolicyCreateRequest'];
 export type CustomPolicyRequest = sellAccountV1['schemas']['CustomPolicyRequest'];
@@ -542,5 +539,42 @@ export type UpdateCampaignRequest = sellMarketing['schemas']['UpdateCampaignRequ
 export type QuickSetupRequest = sellMarketing['schemas']['QuickSetupRequest']
 
 export type FindListingRecommendationRequest = sellRecommendation['schemas']['FindListingRecommendationRequest']
+
+// Commerce Media API types
+export type CreateImageFromUrlRequest = commerceMedia['schemas']['CreateImageFromUrlRequest']
+export type CreateDocumentRequest = commerceMedia['schemas']['CreateDocumentRequest']
+export type CreateDocumentFromUrlRequest = commerceMedia['schemas']['CreateDocumentFromUrlRequest']
+
+// Commerce Notification API types
+export type CreateSubscriptionFilterRequest = commerceNotification['schemas']['CreateSubscriptionFilterRequest']
+
+// Sell Feed API types
+export type CreateOrderTaskRequest = sellFeed['schemas']['CreateOrderTaskRequest']
+export type CreateInventoryTaskRequest = sellFeed['schemas']['CreateInventoryTaskRequest']
+export type CreateUserScheduleRequest = sellFeed['schemas']['CreateUserScheduleRequest']
+export type UpdateUserScheduleRequest = sellFeed['schemas']['UpdateUserScheduleRequest']
+export type CreateTaskRequest = sellFeed['schemas']['CreateTaskRequest']
+export type CreateServiceMetricsTaskRequest = sellFeed['schemas']['CreateServiceMetricsTaskRequest']
+
+// Sell Listing API types
+export type ItemDraft = sellListing['schemas']['ItemDraft']
+
+// Sell Logistics API types
+export type ShippingQuoteRequest = sellLogistics['schemas']['ShippingQuoteRequest']
+export type CreateShipmentFromQuoteRequest = sellLogistics['schemas']['CreateShipmentFromQuoteRequest']
+
+// Sell Marketing API types
+export type SuggestMaxCpcRequest = sellMarketing['schemas']['SuggestMaxCpcRequest']
+export type UpdateBiddingStrategyRequest = sellMarketing['schemas']['UpdateBiddingStrategyRequest']
+
+// Sell Metadata API types
+export type SpecificationRequest = sellMetadata['schemas']['SpecificationRequest']
+export type PropertyNamesRequest = sellMetadata['schemas']['PropertyNamesRequest']
+export type PropertyValuesRequest = sellMetadata['schemas']['PropertyValuesRequest']
+export type MultiCompatibilityPropertyValuesRequest = sellMetadata['schemas']['MultiCompatibilityPropertyValuesRequest']
+export type ProductRequest = sellMetadata['schemas']['ProductRequest']
+
+// Sell Negotiation API types
+export type CreateOffersRequest = sellNegotiation['schemas']['CreateOffersRequest']
 
 

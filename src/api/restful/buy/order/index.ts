@@ -10,7 +10,7 @@ import {
   UpdateQuantity,
   UpdateShippingOption
 } from '../../../../types/index.js';
-import {operations} from '../../../../types/restful/specs/buy_order_v1_beta_oas3.js';
+import {operations} from '../../../../types/restful/specs/buy_order_v2_oas3.js';
 import Api, {OpenApi} from '../../index.js';
 
 /**
@@ -22,7 +22,7 @@ export default class Order extends Api implements OpenApi<operations> {
   static id = 'Order';
 
   get basePath(): string {
-    return '/buy/order/v1';
+    return '/buy/order/v2';
   }
 
   /**

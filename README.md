@@ -31,11 +31,11 @@ It supports `client credentials grant` and `authorization code grant` \(Auth'N'A
 
 | API                | Implemented                                                                                                                                                                                                                                                                                                                                                                  |
 |:-------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Buy API**        | ✔ Browse API `v1.10.0`<br>✔  Deal API `v1.3.0`<br>✔ Feed API `v1.3.1`<br>✔ Marketing API `v1_beta.1.0`<br>✔ Offer API `v1_beta.0.0`<br>✔ Order API `v1_beta.20.0`<br>✔ Marketplace Insights API `v1_beta.2.2`                                                                                                                                                                |
-| **Commerce API**   | ✔ Catalog API `v1_beta.3.1`<br>✔ Charity API `v1.2.0`<br>✔ Identity API `v1.0.0`<br>✔ Notification API `v1.2.0`<br>✔ Taxonomy API `v1.0.0`<br>✔ Translation API `v1_beta.1.4`<br>✔ Media API `v1_beta.1.0`                                                                                                                                                                   |
-| **Developer API**  | ✔ Analytics API                                                                                                                                                                                                                                                                                                                                                              |
+| **Buy API**        | ✔ Browse API `v1.20.2`<br>✔  Deal API `v1.3.0`<br>✔ Feed API `v1_beta.35.2`<br>✔ Marketing API `v1_beta.2.0`<br>✔ Offer API `v1_beta.0.1`<br>✔ Order API `v2.1.2`<br>✔ Marketplace Insights API `v1_beta.2.2`                                                                                                                                                                |
+| **Commerce API**   | ✔ Catalog API `v1_beta.5.2`<br>✔ Charity API `v1.2.1`<br>✔ Identity API `v2.0.0`<br>✔ Notification API `v1.6.1`<br>✔ Taxonomy API `v1.1.1`<br>✔ Translation API `v1_beta.1.6`<br>✔ Media API `v1_beta.4.0`                                                                                                                                                                   |
+| **Developer API**  | ✔ Analytics API `v1_beta.0.1`<br>✔ Key Management API `v1.0.0`                                                                                                                                                                                                                                                                                                                                                              |
 | **Post Order API** | ✔ Cancellation API<br>✔ Case Management API<br>✔ Inquiry API<br>✔ Return API                                                                                                                                                                                                                                                                                                 |
-| **Sell API**       | ✔ Account API `v1.9.0`<br>✔ Analytics API `v1.3.0`<br>✔ Compliance API `v1.4.1`<br>✔ Feed API `v1.3.1`<br>✔ Finance API `v1.9.0`<br>✔ Fulfillment API `v1.19.10`<br>✔ Inventory API `v1.18.0`<br>✔ Listing API `v1_beta.2.1`<br>✔ Logistics API `v1_beta.0.0`<br>✔ Marketing API `v1.17.0`<br>✔ Metadata API `v1.7.1`<br>✔ Negotiation API `v1.1.0`<br>✔ Recommendation API `v1.1.0` |
+| **Sell API**       | ✔ Account API `v1.9.2`<br>✔ Analytics API `v1.3.2`<br>✔ Compliance API `v1.4.4`<br>✔ Feed API `v1.3.1`<br>✔ Finance API `v1.17.3`<br>✔ Fulfillment API `v1.20.7`<br>✔ Inventory API `v1.18.4`<br>✔ Listing API `v1_beta.2.1`<br>✔ Logistics API `v1_beta.0.0`<br>✔ Marketing API `v1.22.2`<br>✔ Metadata API `v1.11.1`<br>✔ Negotiation API `v1.1.0`<br>✔ Recommendation API `v1.1.0` |
 
 ### Traditional API
 
@@ -455,6 +455,9 @@ eBay.trading.AddFixedPriceItem({
 
 ### Low level: use the Axios interceptor to manipulate the request
 
+## Add extra headers
+If you want to add a header to every request you can use the Axios interceptor.
+
 ```javascript
 import eBayApi from 'ebay-api';
 
@@ -466,6 +469,7 @@ eBay.req.instance.interceptors.request.use((request) => {
   return request;
 })
 ```
+
 
 ### Handle JSON GZIP response e.g fetchItemAspects
 
@@ -710,6 +714,7 @@ and [Node Example here](https://github.com/hendt/ebay-api/blob/master/examples/t
 
 4. itemAffiliateWebUrl is missing in eBay.buy.browse.search call
    You have to set `endUserCtx`.
+
 
 ## Contribution
 

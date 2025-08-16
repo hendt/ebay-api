@@ -1,3 +1,4 @@
+import {ItemDraft} from '../../../../types/index.js';
 import {operations} from '../../../../types/restful/specs/sell_listing_v1_beta_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
 
@@ -17,7 +18,7 @@ export default class Listing extends Restful implements OpenApi<operations> {
    *
    * @param data The ItemDraft
    */
-  public createItemDraft(data?: any) {
+  public createItemDraft(data?: ItemDraft) {
     return this.post(`/item_draft/`, data);
   }
 

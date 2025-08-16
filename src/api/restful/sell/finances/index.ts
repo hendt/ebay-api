@@ -90,7 +90,7 @@ export default class Finances extends Restful implements OpenApi<operations> {
                            offset,
                            sort
                          }: {
-    filter?: string;
+    filter?: string | string[];
     limit?: number;
     offset?: number;
     sort?: 'transactionDate' | '-transactionDate',

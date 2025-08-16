@@ -5,16 +5,8 @@
 
 
 export interface paths {
-  "/merchandised_product/get_also_bought_products": {
-    /** @description This call returns products that were also bought when shoppers bought the product specified in the request. Showing 'also bought' products inspires up-selling and cross-selling. You specify the product by one of the following: epid - eBay Product ID gtin - Global Trade Item Number (UPC, ISBN, EAN) brand (brand name, such as Nike) plus mpn (Manufacturer's Part Number) Restrictions For a list of supported sites and other restrictions, see API Restrictions. Note: A maximum of 12 products are returned. The call will return up to 12 products, but it can be less than 12. If the number of products found is less than 12, the call will return all of the products matching the criteria. */
-    get: operations["getAlsoBoughtByProduct"];
-  };
-  "/merchandised_product/get_also_viewed_products": {
-    /** @description This call returns products that were also viewed when shoppers viewed the product specified in the request. Showing 'also viewed' products encourages up-selling and cross-selling. You specify the product by one of the following: epid - eBay Product ID gtin - Global Trade Item Number (UPC, ISBN, EAN) brand (brand name, such as Nike) plus mpn (Manufacturer's Part Number) Restrictions For a list of supported sites and other restrictions, see API Restrictions. Note: A maximum of 12 products are returned. The call will return up to 12 products, but it can be less than 12. If the number of products found is less than 12, the call will return all of the products matching the criteria. */
-    get: operations["getAlsoViewedByProduct"];
-  };
   "/merchandised_product": {
-    /** @description This call returns an array of products based on the category and metric specified. This includes details of the product, such as the eBay product ID (EPID), title, and user reviews and ratings for the product. You can use the epid returned by this call in the Browse API search call to retrieve items for this product. Restrictions For a list of supported sites and other restrictions, see API Restrictions. */
+    /** @description This method returns an array of products based on the category and metric specified. This includes details of the product, such as the eBay product ID (EPID), title, and user reviews and ratings for the product. You can use the <code>epid</code> returned by this method in the Browse API <b>search</b> method to retrieve items for this product. <h3><b>Restrictions </b></h3> <ul><li>To test <b> getMerchandisedProducts</b> in Sandbox, you must use category ID 9355 and the response will be mock data.  </li>   <li>For a list of supported sites and other restrictions, see <a href="/api-docs/buy/marketing/overview.html#API">API Restrictions</a>.</li>  </ul> */
     get: operations["getMerchandisedProducts"];
   };
 }
@@ -23,6 +15,20 @@ export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
+    /** @description This type defines the monetary value of an amount and the currency used. */
+    Amount: {
+      /** @description The three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html" target="_blank">ISO 4217</a> code representing the currency of the amount in the <b> value</b> field. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/buy/marketing/types/bas:CurrencyCodeEnum'>eBay API documentation</a> */
+      currency?: string;
+      /** @description The monetary amount, in the currency specified by the <b> currency</b> field. */
+      value?: string;
+    };
+    /** @description The type that defines the fields for the best selling product information. */
+    BestSellingProductResponse: {
+      /** @description An array of containers for the products. */
+      merchandisedProducts?: (components["schemas"]["MerchandisedProduct"])[];
+      /** @description The container with all the warnings for the input request. */
+      warnings?: (components["schemas"]["Error"])[];
+    };
     /** @description The type that defines the fields that can be returned in an error. */
     Error: {
       /** @description This string value indicates the error category. There are three categories of errors: request errors, application errors, and system errors. */
@@ -47,39 +53,25 @@ export interface components {
       /** @description The name of the subdomain in which the error or warning occurred. */
       subdomain?: string;
     };
-    /** @description An array of name/value pairs that provide more details regarding error condition. */
+    /** @description An array of name/value pairs that provide details regarding the error. */
     ErrorParameter: {
       /** @description This is the name of input field that caused an issue with the call request. */
       name?: string;
-      /** @description This is the actual value that was passed in for the element specified in the name field. */
+      /** @description This is the actual value that was passed in for the element specified in the <b> name</b>  field. */
       value?: string;
     };
-    /** @description This type defines the monetary value of an amount and the currency used. */
-    Amount: {
-      /** @description A three-letter ISO 4217 code that indicates the currency of the amount in the value field. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/marketing/types/CurrencyCodeEnum.html'>eBay API documentation</a> */
-      currency?: string;
-      /** @description The monetary amount, in the currency specified by the currency field. */
-      value?: string;
-    };
-    /** @description The type that defines the fields for the best selling product information. */
-    BestSellingProductResponse: {
-      /** @description An array of containers for the products. */
-      merchandisedProducts?: (components["schemas"]["MerchandisedProduct"])[];
-      /** @description The container with all the warnings for the input request. */
-      warnings?: (components["schemas"]["Error"])[];
-    };
-    /** @description Type the defines the details of an image, such as size and URL. Currently only imageUrl is getting populated. The height and width were added for future use. */
+    /** @description Type the defines the details of an image, such as size and URL. Currently only <b> imageUrl</b> is getting populated. The <b> height</b> and <b> width</b> were added for future use. */
     Image: {
       /**
        * Format: int32 
-       * @description Reserved for future use.
+       * @description <b> Reserved for future use. </b>
        */
       height?: number;
       /** @description The URL of the image. */
       imageUrl?: string;
       /**
        * Format: int32 
-       * @description Reserved for future use.
+       * @description <b> Reserved for future use. </b>
        */
       width?: number;
     };
@@ -96,13 +88,13 @@ export interface components {
     MerchandisedProduct: {
       /** @description The average rating for the product based on eBay user ratings. */
       averageRating?: string;
-      /** @description The eBay product identifier of a product from the eBay product catalog. You can use this value in the Browse API search call to retrieve items for this product. */
+      /** @description The eBay product identifier of a product from the eBay product catalog. You can use this value in the Browse API <b>search</b> method to retrieve items for this product. */
       epid?: string;
       /** @description The container for the product image. */
       image?: components["schemas"]["Image"];
       /** @description An array of containers for the product market price details, such as condition and market price. */
       marketPriceDetails?: (components["schemas"]["MarketPriceDetail"])[];
-      /** @description An array of containers for ratings of the product aspects, such as &quot;Is it a good value&quot;. */
+      /** @description An array of containers for ratings of the product aspects, such as "Is it a good value". */
       ratingAspects?: (components["schemas"]["RatingAspect"])[];
       /**
        * Format: int32 
@@ -138,7 +130,7 @@ export interface components {
        * @description The number of eBay users that choose this rating aspect value.
        */
       count?: number;
-      /** @description The percentage of the aspect rating value. ratingAspectDistributions.percentage = ratingAspectDistributions.count / ratingAspects.count */
+      /** @description The percentage of the aspect rating value. <br /><br /> <b> ratingAspectDistributions.percentage</b> =  <b> ratingAspectDistributions.count</b> /  <b>ratingAspects.count</b> */
       percentage?: string;
       /** @description The rating aspect. For example: TRUE or FALSE */
       value?: string;
@@ -155,141 +147,33 @@ export type external = Record<string, never>;
 
 export interface operations {
 
-  /** @description This call returns products that were also bought when shoppers bought the product specified in the request. Showing 'also bought' products inspires up-selling and cross-selling. You specify the product by one of the following: epid - eBay Product ID gtin - Global Trade Item Number (UPC, ISBN, EAN) brand (brand name, such as Nike) plus mpn (Manufacturer's Part Number) Restrictions For a list of supported sites and other restrictions, see API Restrictions. Note: A maximum of 12 products are returned. The call will return up to 12 products, but it can be less than 12. If the number of products found is less than 12, the call will return all of the products matching the criteria. */
-  getAlsoBoughtByProduct: {
-    parameters: {
-      query?: {
-        /** @description The brand of the product. Restriction: This must be used along with mpn. Required: You must specify one epid, or one gtin, or one brand plus mpn pair. */
-        brand?: string;
-        /** @description The eBay product identifier of a product. Required: You must specify one epid, or one gtin, or one brand plus mpn pair. */
-        epid?: string;
-        /** @description The unique Global Trade Item Number of the item as defined by http://www.gtin.info. This can be a UPC (Universal Product Code), EAN (European Article Number), or an ISBN (International Standard Book Number value. Required: You must specify one epid, or one gtin, or one brand plus mpn pair. */
-        gtin?: string;
-        /** @description The manufacturer part number of the product. Restriction: This must be used along with brand. Required: You must specify one epid, or one gtin, or one brand plus mpn pair. */
-        mpn?: string;
-      };
-    };
-    responses: {
-      /** @description This call returns products that were also bought when shoppers bought the product specified in the request. Showing 'also bought' products inspires up-selling and cross-selling. You specify the product by one of the following: epid - eBay Product ID gtin - Global Trade Item Number (UPC, ISBN, EAN) brand (brand name, such as Nike) plus mpn (Manufacturer's Part Number) Restrictions For a list of supported sites and other restrictions, see API Restrictions. Note: A maximum of 12 products are returned. The call will return up to 12 products, but it can be less than 12. If the number of products found is less than 12, the call will return all of the products matching the criteria. */
-      200: {
-        content: {
-          "application/json": components["schemas"]["BestSellingProductResponse"];
-        };
-      };
-      /** @description No Content */
-      204: never;
-      /** @description Bad Request */
-      400: {
-        content: {
-          "application/json": {
-            errors?: (components["schemas"]["Error"])[];
-          };
-        };
-      };
-      /** @description Conflict */
-      409: {
-        content: {
-          "application/json": {
-            errors?: (components["schemas"]["Error"])[];
-          };
-        };
-      };
-      /** @description Internal Server Error */
-      500: {
-        content: {
-          "application/json": {
-            errors?: (components["schemas"]["Error"])[];
-          };
-        };
-      };
-    };
-  };
-  /** @description This call returns products that were also viewed when shoppers viewed the product specified in the request. Showing 'also viewed' products encourages up-selling and cross-selling. You specify the product by one of the following: epid - eBay Product ID gtin - Global Trade Item Number (UPC, ISBN, EAN) brand (brand name, such as Nike) plus mpn (Manufacturer's Part Number) Restrictions For a list of supported sites and other restrictions, see API Restrictions. Note: A maximum of 12 products are returned. The call will return up to 12 products, but it can be less than 12. If the number of products found is less than 12, the call will return all of the products matching the criteria. */
-  getAlsoViewedByProduct: {
-    parameters: {
-      query?: {
-        /** @description The brand of the product. Restriction: This must be used along with mpn. Required: You must specify one epid, or one gtin, or one brand plus mpn pair. */
-        brand?: string;
-        /** @description The eBay product identifier of a product. Required: You must specify one epid, or one gtin, or one brand plus mpn pair. */
-        epid?: string;
-        /** @description The unique Global Trade Item Number of the item as defined by http://www.gtin.info. This can be a UPC (Universal Product Code), EAN (European Article Number), or an ISBN (International Standard Book Number value. Required: You must specify one epid, or one gtin, or one brand plus mpn pair. */
-        gtin?: string;
-        /** @description The manufacturer part number of the product. Restriction: This must be used along with brand. */
-        mpn?: string;
-      };
-    };
-    responses: {
-      /** @description This call returns products that were also viewed when shoppers viewed the product specified in the request. Showing 'also viewed' products encourages up-selling and cross-selling. You specify the product by one of the following: epid - eBay Product ID gtin - Global Trade Item Number (UPC, ISBN, EAN) brand (brand name, such as Nike) plus mpn (Manufacturer's Part Number) Restrictions For a list of supported sites and other restrictions, see API Restrictions. Note: A maximum of 12 products are returned. The call will return up to 12 products, but it can be less than 12. If the number of products found is less than 12, the call will return all of the products matching the criteria. */
-      200: {
-        content: {
-          "application/json": components["schemas"]["BestSellingProductResponse"];
-        };
-      };
-      /** @description No Content */
-      204: never;
-      /** @description Bad Request */
-      400: {
-        content: {
-          "application/json": {
-            errors?: (components["schemas"]["Error"])[];
-          };
-        };
-      };
-      /** @description Conflict */
-      409: {
-        content: {
-          "application/json": {
-            errors?: (components["schemas"]["Error"])[];
-          };
-        };
-      };
-      /** @description Internal Server Error */
-      500: {
-        content: {
-          "application/json": {
-            errors?: (components["schemas"]["Error"])[];
-          };
-        };
-      };
-    };
-  };
-  /** @description This call returns an array of products based on the category and metric specified. This includes details of the product, such as the eBay product ID (EPID), title, and user reviews and ratings for the product. You can use the epid returned by this call in the Browse API search call to retrieve items for this product. Restrictions For a list of supported sites and other restrictions, see API Restrictions. */
+  /** @description This method returns an array of products based on the category and metric specified. This includes details of the product, such as the eBay product ID (EPID), title, and user reviews and ratings for the product. You can use the <code>epid</code> returned by this method in the Browse API <b>search</b> method to retrieve items for this product. <h3><b>Restrictions </b></h3> <ul><li>To test <b> getMerchandisedProducts</b> in Sandbox, you must use category ID 9355 and the response will be mock data.  </li>   <li>For a list of supported sites and other restrictions, see <a href="/api-docs/buy/marketing/overview.html#API">API Restrictions</a>.</li>  </ul> */
   getMerchandisedProducts: {
     parameters: {
       query: {
-        /** @description The aspect name/value pairs used to further refine product results. For example: &nbsp;&nbsp;&nbsp;/buy/marketing/v1_beta/merchandised_product?category_id=31388&amp;metric_name=BEST_SELLING&amp;aspect_filter=Brand:Canon You can use the Browse API search call with the fieldgroups=ASPECT_REFINEMENTS field to return the aspects of a product. For implementation help, refer to eBay API documentation at https://developer.ebay.com/devzone/rest/api-ref/marketing/types/MarketingAspectFilter.html */
+        /** @description This value specifies the aspect name/value pairs used to further refine product results. <br /><br /> For example: <br />&nbsp;&nbsp;&nbsp;<code>/buy/marketing/v1_beta/merchandised_product?category_id=31388&metric_name=BEST_SELLING&aspect_filter=Brand:Canon</code>  <br /><br />You can use the Browse API <a href="/api-docs/buy/browse/resources/item_summary/methods/search" target="_blank">search</a> method with the <code>fieldgroups=ASPECT_REFINEMENTS</code> field to return the aspects of a product. For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/buy/marketing/types/gct:MarketingAspectFilter */
         aspect_filter?: string;
-        /** @description This query parameter limits the products returned to a specific eBay category. The list of eBay category IDs is not published and category IDs are not all the same across all the eBay maketplace. You can use the following techniques to find a category by site: Use the Category Changes page. Use the Taxonomy API. For details see Get Categories for Buy APIs. Use the Browse API and submit the following call to get the dominantCategoryId for an item. /buy/browse/v1/item_summary/search?q=keyword&amp;fieldgroups=ASPECT_REFINEMENTS Maximum: 1 Required: 1 */
+        /** @description This query parameter limits the products returned to a specific eBay category.  <br /> <br />The list of eBay category IDs is not published and category IDs are not all the same across all the eBay maketplace. You can use the following techniques to find a category by site: <ul> <li>Use the <a href="https://pages.ebay.com/sellerinformation/news/categorychanges.html" target="_blank">Category Changes page</a>.</li> <li>Use the Taxonomy API. For details see <a href="/api-docs/buy/buy-categories.html">Get Categories for Buy APIs</a>. </li>  <li>Use the Browse API and submit the following method to get the <b> dominantCategoryId</b> for an item. <br /><code>/buy/browse/v1/item_summary/search?q=<em>keyword</em>&fieldgroups=ASPECT_REFINEMENTS  </code></li></ul> <br><b> Maximum: </b> 1 <br /><br><b> Required: </b> 1 */
         category_id: string;
-        /** @description This value specifies the maximum number of products to return in a result set. Note: Maximum value means the call will return up to that many products per set, but it can be less than this value. If the number of products found is less than this value, the call will return all of the products matching the criteria. Default: 8 Maximum: 100 */
+        /** @description This value specifies the maximum number of products to return in a result set. <br /> <br /><span class="tablenote"> <b>Note:</b> Maximum value means the method will return up <em>to</em> that many products per set, but it can be less than this value. If the number of products found is less than this value, the method will return all of the products matching the criteria.</span> <br /><b> Default:</b> 8<br /><br><b> Maximum: </b>100 */
         limit?: string;
-        /** @description This value filters the result set by the specified metric. Only products in this metric are returned. Currently, the only metric supported is BEST_SELLING. Default: BEST_SELLING Maximum: 1 Required: 1 */
+        /** @description This value filters the result set by the specified metric. Only products in this metric are returned.<br><br><span class="tablenote"><b>Note:</b> Currently, the only metric supported is <code> BEST_SELLING</code>.</span><br /><b> Default: </b>BEST_SELLING <br /><br> <b> Maximum: </b> 1 <br /><br> <b> Required: </b> 1 */
         metric_name: string;
       };
     };
     responses: {
-      /** @description This call returns an array of products based on the category and metric specified. This includes details of the product, such as the eBay product ID (EPID), title, and user reviews and ratings for the product. You can use the epid returned by this call in the Browse API search call to retrieve items for this product. Restrictions For a list of supported sites and other restrictions, see API Restrictions. */
+      /** @description OK */
       200: {
         content: {
           "application/json": components["schemas"]["BestSellingProductResponse"];
         };
       };
       /** @description Bad Request */
-      400: {
-        content: {
-          "application/json": {
-            errors?: (components["schemas"]["Error"])[];
-          };
-        };
-      };
+      400: never;
+      /** @description Conflict */
+      409: never;
       /** @description Internal Server Error */
-      500: {
-        content: {
-          "application/json": {
-            errors?: (components["schemas"]["Error"])[];
-          };
-        };
-      };
+      500: never;
     };
   };
 }

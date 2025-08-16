@@ -6,19 +6,19 @@
 
 export interface paths {
   "/custom_policy/": {
-    /** @description This method retrieves the list of custom policies specified by the <b>policy_types</b> query parameter for the selected eBay marketplace.<br/> <br/> <span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span><br/><br/>For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank">HTTP request headers</a>. */
+    /** @description This method retrieves the list of custom policies defined for a seller's account. To limit the returned custom policies, specify the <b>policy_types</b> query parameter. */
     get: operations["getCustomPolicies"];
-    /** @description This method creates a new custom policy in which a seller specifies their terms for complying with local governmental regulations. <br/><br/>Two Custom Policy types are supported: <ul><li>Product Compliance (PRODUCT_COMPLIANCE)</li> <li>Takeback (TAKE_BACK)</li></ul>Each Custom Policy targets a <b>policyType</b> and <b>eBay marketplace</b> combination. Multiple policies may be created as follows: <ul><li><b>Product Compliance</b>: a maximum of 10 policies per eBay marketplace may be created</li> <li><b>Takeback</b>: a maximum of 3 policies per eBay marketplace may be created</li></ul>A successful create policy call returns an HTTP status code of <b>201 Created</b> with the system-generated policy ID included in the <b>Location</b> response header.<br/><br/><b>Product Compliance Policy</b><br/><br/>Product Compliance policies disclose product information as required for regulatory compliance.<br/><br/><span class="tablenote"><strong>Note:</strong> A maximum of 10 Product Compliance policies per eBay marketplace may be created.</span> <br/><br/> <b>Takeback Policy</b><br/><br/>Takeback policies describe the seller's legal obligation to take back a previously purchased item when the buyer purchases a new one.<br/><br/><span class="tablenote"><strong>Note:</strong> A maximum of 3 Takeback policies per eBay marketplace may be created.</span> */
+    /** @description This method creates a new custom policy that specifies the seller's terms for complying with local governmental regulations. Each Custom Policy targets a <b>policyType</b>. Multiple policies may be created as using the following custom policy types:<ul><li>PRODUCT_COMPLIANCE: Product Compliance policies disclose product information as required for regulatory compliance. <br/><br/><span class="tablenote"><strong>Note:</strong> A maximum of 60 Product Compliance policies per seller may be created.</span></li><li>TAKE_BACK: Takeback policies describe the seller's legal obligation to take back a previously purchased item when the buyer purchases a new one. <br/><br/><span class="tablenote"><strong>Note:</strong> A maximum of 18 Takeback policies per seller may be created.</span></li></ul>A successful create policy call returns an HTTP status code of <b>201 Created</b> with the system-generated policy ID included in the Location response header. */
     post: operations["createCustomPolicy"];
   };
   "/custom_policy/{custom_policy_id}": {
-    /** @description This method retrieves the custom policy specified by the <b>custom_policy_id</b> path parameter for the selected eBay marketplace.<br/> <br/> <span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span><br/><br/>For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank">HTTP request headers</a>. */
+    /** @description This method retrieves the custom policy specified by the <b>custom_policy_id</b> path parameter. */
     get: operations["getCustomPolicy"];
-    /** @description This method updates an existing custom policy specified by the <b>custom_policy_id</b> path parameter for the selected marketplace. This method overwrites the policy's <b>Name</b>, <b>Label</b>, and <b>Description</b> fields. Therefore, the complete, current text of all three policy fields must be included in the request payload even when one or two of these fields will not actually be updated.<br/> <br/>For example, the value for the <b>Label</b> field is to be updated, but the <b>Name</b> and <b>Description</b> values will remain unchanged. The existing <b>Name</b> and <b>Description</b> values, as they are defined in the current policy, must also be passed in. <br/><br/>A successful policy update call returns an HTTP status code of <b>204 No Content</b>.<br/><br/><span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span><br/><br/>For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP">HTTP request headers</a>. */
+    /** @description This method updates an existing custom policy specified by the <b>custom_policy_id</b> path parameter. Since this method overwrites the policy's <b>name</b>, <b>label</b>, and <b>description</b> fields, always include the complete and current text of all three policy fields in the request payload, even if they are not being updated.<br/> <br/>For example, the value for the <b>label</b> field is to be updated, but the <b>name</b> and <b>description</b> values will remain unchanged. The existing <b>name</b> and <b>description</b> values, as they are defined in the current policy, must also be passed in. <br/><br/>A successful policy update call returns an HTTP status code of <b>204 No Content</b>. */
     put: operations["updateCustomPolicy"];
   };
   "/fulfillment_policy/": {
-    /** @description This method creates a new fulfillment policy where the policy encapsulates seller's terms for fulfilling item purchases. Fulfillment policies include the shipment options that the seller offers to buyers.  <br/><br/>Each policy targets a specific eBay marketplace and a category group type, and you can create multiple policies for each combination. <br/><br/>A successful request returns the <b>getFulfillmentPolicy</b> URI to the new policy in the <b>Location</b> response header and the ID for the new policy is returned in the response payload.  <p class="tablenote"><b>Tip:</b> For details on creating and using the business policies supported by the Account API, see <a href="/api-docs/sell/static/seller-accounts/business-policies.html">eBay business policies</a>.</p>  <p><b>Using the eBay standard envelope service (eSE)</b></p>  <p>The eBay standard envelope service (eSE) is a domestic envelope service with tracking through eBay. This service applies to specific Trading Cards categories (not all categories are supported), and to Coins & Paper Money, Postcards, and Stamps. See <a href="/api-docs/sell/static/seller-accounts/using-the-ebay-standard-envelope-service.html" target="_blank">Using the eBay standard envelope (eSE) service</a>.</p> */
+    /** @description This method creates a new fulfillment policy for an eBay marketplace where the policy encapsulates seller's terms for fulfilling item purchases. Fulfillment policies include the shipment options that the seller offers to buyers.  <br><br>A successful request returns the <b>getFulfillmentPolicy</b> URI to the new policy in the <b>Location</b> response header and the ID for the new policy is returned in the response payload.  <p class="tablenote"><b>Tip:</b> For details on creating and using the business policies supported by the Account API, see <a href="/api-docs/sell/static/seller-accounts/business-policies.html">eBay business policies</a>.</p> */
     post: operations["createFulfillmentPolicy"];
   };
   "/fulfillment_policy/{fulfillmentPolicyId}": {
@@ -30,17 +30,17 @@ export interface paths {
     delete: operations["deleteFulfillmentPolicy"];
   };
   "/fulfillment_policy": {
-    /** @description This method retrieves all the fulfillment policies configured for the marketplace you specify using the <code>marketplace_id</code> query parameter.  <br/><br/><b>Marketplaces and locales</b>  <br/><br/>Get the correct policies for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get the policies for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank">HTTP request headers</a>. */
+    /** @description This method retrieves all the fulfillment policies configured for the marketplace you specify using the <code>marketplace_id</code> query parameter. */
     get: operations["getFulfillmentPolicies"];
   };
   "/fulfillment_policy/get_by_policy_name": {
-    /** @description This method retrieves the details for a specific fulfillment policy. In the request, supply both the policy <code>name</code> and its associated <code>marketplace_id</code> as query parameters.   <br/><br/><b>Marketplaces and locales</b>  <br/><br/>Get the correct policy for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get a policy for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP">HTTP request headers</a>. */
+    /** @description This method retrieves the details for a specific fulfillment policy. In the request, supply both the policy <code>name</code> and its associated <code>marketplace_id</code> as query parameters. */
     get: operations["getFulfillmentPolicyByName"];
   };
   "/payment_policy": {
-    /** @description This method retrieves all the payment policies configured for the marketplace you specify using the <code>marketplace_id</code> query parameter.  <br/><br/><b>Marketplaces and locales</b>  <br/><br/>Get the correct policies for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get the policies for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank">HTTP request headers</a>. */
+    /** @description This method retrieves all the payment business policies configured for the marketplace you specify using the <code>marketplace_id</code> query parameter. */
     get: operations["getPaymentPolicies"];
-    /** @description This method creates a new payment policy where the policy encapsulates seller's terms for order payments.  <br/><br/>Each policy targets a specific eBay marketplace and category group, and you can create multiple policies for each combination.  <br/><br/>A successful request returns the <b>getPaymentPolicy</b> URI to the new policy in the <b>Location</b> response header and the ID for the new policy is returned in the response payload.  <p class="tablenote"><b>Tip:</b> For details on creating and using the business policies supported by the Account API, see <a href="/api-docs/sell/static/seller-accounts/business-policies.html">eBay business policies</a>.</p> */
+    /** @description This method creates a new payment policy where the policy encapsulates seller's terms for order payments. <br><br>A successful request returns the <b>getPaymentPolicy</b> URI to the new policy in the <b>Location</b> response header and the ID for the new policy is returned in the response payload.  <p class="tablenote"><b>Tip:</b> For details on creating and using the business policies supported by the Account API, see <a href="/api-docs/sell/static/seller-accounts/business-policies.html">eBay business policies</a>.</p> */
     post: operations["createPaymentPolicy"];
   };
   "/payment_policy/{payment_policy_id}": {
@@ -52,19 +52,19 @@ export interface paths {
     delete: operations["deletePaymentPolicy"];
   };
   "/payment_policy/get_by_policy_name": {
-    /** @description This method retrieves the details of a specific payment policy. Supply both the policy <code>name</code> and its associated <code>marketplace_id</code> in the request query parameters.   <br/><br/><b>Marketplaces and locales</b>  <br/><br/>Get the correct policy for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get a policy for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP">HTTP request headers</a>. */
+    /** @description This method retrieves the details of a specific payment policy. Supply both the policy <code>name</code> and its associated <code>marketplace_id</code> in the request query parameters. */
     get: operations["getPaymentPolicyByName"];
   };
   "/payments_program/{marketplace_id}/{payments_program_type}": {
-    /** @description <span class="tablenote"><b>Note:</b> This method is no longer applicable, as all seller accounts globally have been enabled for the new eBay payment and checkout flow.</span><br/><br/>This method returns whether or not the user is opted-in to the specified payments program. Sellers opt-in to payments programs by marketplace and you use the <b>marketplace_id</b> path parameter to specify the marketplace of the status flag you want returned. */
+    /** @description <span class="tablenote"><b>Note:</b> This method is no longer applicable, as all seller accounts globally have been enabled for the new eBay payment and checkout flow.</span><br>This method returns whether or not the user is opted-in to the specified payments program. Sellers opt-in to payments programs by marketplace and you use the <b>marketplace_id</b> path parameter to specify the marketplace of the status flag you want returned. */
     get: operations["getPaymentsProgram"];
   };
   "/payments_program/{marketplace_id}/{payments_program_type}/onboarding": {
-    /** @description <span class="tablenote"><b>Note:</b> This method is no longer applicable, as all seller accounts globally have been enabled for the new eBay payment and checkout flow.</span><br/><br/>This method retrieves a seller's onboarding status for a payments program for a specified marketplace. The overall onboarding status of the seller and the status of each onboarding step is returned. */
+    /** @description <span class="tablenote"><b>Note:</b> This method is no longer applicable, as all seller accounts globally have been enabled for the new eBay payment and checkout flow.</span><br>This method retrieves a seller's onboarding status for a payments program for a specified marketplace. The overall onboarding status of the seller and the status of each onboarding step is returned. */
     get: operations["getPaymentsProgramOnboarding"];
   };
   "/privilege": {
-    /** @description This method retrieves the seller's current set of privileges, including whether or not the seller's eBay registration has been completed, as well as the details of their site-wide <b>sellingLimt</b> (the amount and quantity they can sell on a given day). */
+    /** @description This method retrieves the seller's current set of privileges, including whether or not the seller's eBay registration has been completed, as well as the details of their site-wide <b>sellingLimit</b> (the amount and quantity they can sell on a given day). */
     get: operations["getPrivileges"];
   };
   "/program/get_opted_in_programs": {
@@ -72,21 +72,21 @@ export interface paths {
     get: operations["getOptedInPrograms"];
   };
   "/program/opt_in": {
-    /** @description This method opts the seller in to an eBay seller program. Refer to the <a href="/api-docs/sell/account/overview.html#opt-in" target="_blank">Account API overview</a> for information about available eBay seller programs.<br /><br /><span class="tablenote"><b>Note:</b> It can take up to 24-hours for eBay to process your request to opt-in to a Seller Program. Use the <a href="/api-docs/sell/account/resources/program/methods/getOptedInPrograms" target="_blank">getOptedInPrograms</a> call to check the status of your request after the processing period has passed.</span> */
+    /** @description This method opts the seller in to an eBay seller program. Refer to the <a href="/api-docs/sell/account/overview.html#opt-in" target="_blank">Account API overview</a> for information about available eBay seller programs.<br><br><span class="tablenote"><b>Note:</b> It can take up to 24-hours for eBay to process your request to opt-in to a Seller Program. Use the <a href="/api-docs/sell/account/resources/program/methods/getOptedInPrograms" target="_blank">getOptedInPrograms</a> call to check the status of your request after the processing period has passed.</span> */
     post: operations["optInToProgram"];
   };
   "/program/opt_out": {
-    /** @description This method opts the seller out of a seller program to which you have previously opted-in to. Get a list of the seller programs you have opted-in to using the <b>getOptedInPrograms</b> call. */
+    /** @description This method opts the seller out of a seller program in which they are currently opted in to. A seller can retrieve a list of the seller programs they are opted-in to using the <b>getOptedInPrograms</b> method. */
     post: operations["optOutOfProgram"];
   };
   "/rate_table": {
-    /** @description This method retrieves a seller's <i>shipping rate tables</i> for the country specified in the <b>country_code</b> query parameter. If you call this method without specifying a country code, the call returns all of the seller's shipping rate tables.  <br/><br/>The method's response includes a <b>rateTableId</b> for each table defined by the seller. This <b>rateTableId</b> value is used in add/revise item call or in create/update fulfillment business policy call to specify the shipping rate table to use for that policy's domestic or international shipping options. <br/><br/>This call currently supports getting rate tables related to the following marketplaces:<ul><li><code>EBAY_AU</code></li> <li><code>EBAY_CA</code></li> <li><code>EBAY_DE</code></li> <li><code>EBAY_ES</code></li> <li><code>EBAY_FR</code></li> <li><code>EBAY_GB</code></li> <li><code>EBAY_IT</code></li> <li><code>EBAY_US</code></li></ul>  <span class="tablenote"><b>Note:</b> Rate tables created with the Trading API might not have been assigned a <b>rateTableId</b> at the time of their creation. This method can assign and return <b>rateTableId</b> values for rate tables with missing IDs if you make a request using the <b>country_code</b> where the seller has defined rate tables.</span>  <br/><br/>Sellers can define up to 40 shipping rate tables for their account, which lets them set up different rate tables for each of the marketplaces they sell into. Go to <a href="https://www.ebay.com/ship/rt ">Shipping rate tables</a> in  <b>My eBay</b> to create and update rate tables. */
+    /** @description This method retrieves a seller's <i>shipping rate tables</i> for the country specified in the <b>country_code</b> query parameter. If you call this method without specifying a country code, the call returns all of the seller's shipping rate tables.  <br><br>The method's response includes a <b>rateTableId</b> for each table defined by the seller. This <b>rateTableId</b> value is used in add/revise item call or in create/update fulfillment business policy call to specify the shipping rate table to use for that policy's domestic or international shipping options. <br><br>This call currently supports getting rate tables related to the following marketplaces: United States, Canada, United Kingdom, Germany, Australia, France, Italy, and Spain.  <span class="tablenote"><b>Note:</b> Rate tables created with the Trading API might not have been assigned a <b>rateTableId</b> at the time of their creation. This method can assign and return <b>rateTableId</b> values for rate tables with missing IDs if you make a request using the <b>country_code</b> where the seller has defined rate tables.</span>  <br><br>Sellers can define up to 40 shipping rate tables for their account, which lets them set up different rate tables for each of the marketplaces they sell into. Go to <a href="https://www.ebay.com/ship/rt ">Shipping rate tables</a> in  <b>My eBay</b> to create and update rate tables. */
     get: operations["getRateTables"];
   };
   "/return_policy": {
-    /** @description This method retrieves all the return policies configured for the marketplace you specify using the <code>marketplace_id</code> query parameter.  <br/><br/><b>Marketplaces and locales</b>  <br/><br/>Get the correct policies for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get the policies for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank">HTTP request headers</a>. */
+    /** @description This method retrieves all the return policies configured for the marketplace you specify using the <code>marketplace_id</code> query parameter. */
     get: operations["getReturnPolicies"];
-    /** @description This method creates a new return policy where the policy encapsulates seller's terms for returning items.  <br/><br/>Each policy targets a specific marketplace, and you can create multiple policies for each marketplace. Return policies are not applicable to motor-vehicle listings.<br/><br/>A successful request returns the <b>getReturnPolicy</b> URI to the new policy in the <b>Location</b> response header and the ID for the new policy is returned in the response payload.  <p class="tablenote"><b>Tip:</b> For details on creating and using the business policies supported by the Account API, see <a href="/api-docs/sell/static/seller-accounts/business-policies.html">eBay business policies</a>.</p> */
+    /** @description This method creates a new return policy where the policy encapsulates seller's terms for returning items.  <br><br>Each policy targets a specific marketplace, and you can create multiple policies for each marketplace. Return policies are not applicable to motor-vehicle listings.<br><br>A successful request returns the <b>getReturnPolicy</b> URI to the new policy in the <b>Location</b> response header and the ID for the new policy is returned in the response payload.  <p class="tablenote"><b>Tip:</b> For details on creating and using the business policies supported by the Account API, see <a href="/api-docs/sell/static/seller-accounts/business-policies.html">eBay business policies</a>.</p> */
     post: operations["createReturnPolicy"];
   };
   "/return_policy/{return_policy_id}": {
@@ -98,19 +98,19 @@ export interface paths {
     delete: operations["deleteReturnPolicy"];
   };
   "/return_policy/get_by_policy_name": {
-    /** @description This method retrieves the details of a specific return policy. Supply both the policy <code>name</code> and its associated <code>marketplace_id</code> in the request query parameters.   <br/><br/><b>Marketplaces and locales</b>  <br/><br/>Get the correct policy for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get a policy for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP">HTTP request headers</a>. */
+    /** @description This method retrieves the details of a specific return policy. Supply both the policy <code>name</code> and its associated <code>marketplace_id</code> in the request query parameters. */
     get: operations["getReturnPolicyByName"];
   };
   "/sales_tax/{countryCode}/{jurisdictionId}": {
-    /** @description This call gets the current sales tax table entry for a specific tax jurisdiction. Specify the jurisdiction to retrieve using the <b>countryCode</b> and <b>jurisdictionId</b> path parameters. All four response fields will be returned if a sales tax entry exists for the tax jurisdiction. Otherwise, the response will be returned as empty.<br/><br/><span class="tablenote"><b>Important!</b> In most US states and territories, eBay now 'collects and remits' sales tax, so sellers can no longer configure sales tax rates for these states/territories.</span> */
+    /** @description This call retrieves the current sales-tax table entry for a specific tax jurisdiction. Specify the jurisdiction to retrieve using the <b>countryCode</b> and <b>jurisdictionId</b> path parameters. All four response fields will be returned if a sales-tax entry exists for the tax jurisdiction. Otherwise, the response will be returned as empty.<br><br><span class="tablenote"><b>Note:</b> Sales-tax tables are only available for the US (EBAY_US) and Canada (EBAY_CA) marketplaces.</span><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> In the US, eBay now calculates, collects, and remits sales tax to the proper taxing authorities in all 50 states and Washington, DC. Sellers can no longer specify sales-tax rates for these jurisdictions using a tax table.<br><br>However, sellers may continue to use a sales-tax table to set rates for the following US territories:<ul><li>American Samoa (AS)</li><li>Guam (GU)</li><li>Northern Mariana Islands (MP)</li><li>Palau (PW)</li><li>US Virgin Islands (VI)</li></ul>For additional information, refer to <a href="https://www.ebay.com/help/selling/fees-credits-invoices/taxes-import-charges?id=4121 " target="_blank">Taxes and import charges</a>.</p></div> */
     get: operations["getSalesTax"];
-    /** @description This method creates or updates a sales tax table entry for a jurisdiction. Specify the tax table entry you want to configure using the two path parameters: <b>countryCode</b> and <b>jurisdictionId</b>.  <br/><br/>A tax table entry for a jurisdiction is comprised of two fields: one for the jurisdiction's sales-tax rate and another that's a boolean value indicating whether or not shipping and handling are taxed in the jurisdiction.  <br/><br/>You can set up <i>tax tables</i> for countries that support different <i>tax jurisdictions</i>. Currently, only Canada, India, and the US support separate tax jurisdictions. If you sell into any of these countries, you can set up tax tables for any of the country's jurisdictions. Retrieve valid jurisdiction IDs using <b>getSalesTaxJurisdictions</b> in the Metadata API.  <br/><br/>For details on using this call, see <a href="/api-docs/sell/static/seller-accounts/tax-tables.html">Establishing sales-tax tables</a>. <br/><br/><span class="tablenote"><b>Important!</b> In the US, eBay now 'collects and remits' sales tax for every US state except for Missouri (and a few US territories), so sellers can no longer configure sales tax rates for any states except Missouri. With eBay 'collect and remit', eBay calculates the sales tax, collects the sales tax from the buyer, and remits the sales tax to the tax authorities at the buyer's location.</span> */
+    /** @description This method creates or updates a sales-tax table entry for a jurisdiction. Specify the tax table entry you want to configure using the two path parameters: <b>countryCode</b> and <b>jurisdictionId</b>.  <br><br>A tax table entry for a jurisdiction is comprised of two fields: one for the jurisdiction's sales-tax rate and another that's a boolean value indicating whether or not shipping and handling are taxed in the jurisdiction.<br><br>You can set up <i>sales-tax tables</i> for countries that support different <i>tax jurisdictions</i>.<br><br><span class="tablenote"><b>Note:</b> Sales-tax tables are only available for the US (EBAY_US) and Canada (EBAY_CA) marketplaces.</span><br>Retrieve valid jurisdiction IDs using <b><a href="/api-docs/sell/metadata/resources/country/methods/getSalesTaxJurisdictions" target="_blank">getSalesTaxJurisdictions</a></b> in the Metadata API.<br><br>For details about using this call, refer to <a href="/api-docs/sell/static/seller-accounts/tax-tables.html">Establishing sales-tax tables</a>.<br><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> In the US, eBay now calculates, collects, and remits sales tax to the proper taxing authorities in all 50 states and Washington, DC. Sellers can no longer specify sales-tax rates for these jurisdictions using a tax table.<br><br>However, sellers may continue to use a sales-tax table to set rates for the following US territories:<ul><li>American Samoa (AS)</li><li>Guam (GU)</li><li>Northern Mariana Islands (MP)</li><li>Palau (PW)</li><li>US Virgin Islands (VI)</li></ul>For additional information, refer to <a href="https://www.ebay.com/help/selling/fees-credits-invoices/taxes-import-charges?id=4121 " target="_blank">Taxes and import charges</a>.</p></div> */
     put: operations["createOrReplaceSalesTax"];
-    /** @description This call deletes a sales tax table entry for a jurisdiction. Specify the jurisdiction to delete using the <b>countryCode</b> and <b>jurisdictionId</b> path parameters. */
+    /** @description This call deletes a sales-tax table entry for a jurisdiction. Specify the jurisdiction to delete using the <b>countryCode</b> and <b>jurisdictionId</b> path parameters.<br><br><span class="tablenote"><b>Note:</b> Sales-tax tables are only available for the US (EBAY_US) and Canada (EBAY_CA) marketplaces.</span> */
     delete: operations["deleteSalesTax"];
   };
   "/sales_tax": {
-    /** @description Use this call to retrieve all sales tax table entries that the seller has defined for a specific country. All four response fields will be returned for each tax jurisdiction that matches the search criteria. <br/><br/><span class="tablenote"><b>Important!</b> In most US states and territories, eBay now 'collects and remits' sales tax, so sellers can no longer configure sales tax rates for these states/territories.</span> */
+    /** @description Use this call to retrieve all sales tax table entries that the seller has defined for a specific country. All four response fields will be returned for each tax jurisdiction that matches the search criteria. If no sales tax rates are defined for the specified, a <code>204 No Content</code> status code is returned with no response payload.<br><br><span class="tablenote"><b>Note:</b> Sales-tax tables are only available for the US (EBAY_US) and Canada (EBAY_CA) marketplaces.</span><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> In the US, eBay now calculates, collects, and remits sales tax to the proper taxing authorities in all 50 states and Washington, DC. Sellers can no longer specify sales-tax rates for these jurisdictions using a tax table.<br><br>However, sellers may continue to use a sales-tax table to set rates for the following US territories:<ul><li>American Samoa (AS)</li><li>Guam (GU)</li><li>Northern Mariana Islands (MP)</li><li>Palau (PW)</li><li>US Virgin Islands (VI)</li></ul>For additional information, refer to <a href="https://www.ebay.com/help/selling/fees-credits-invoices/taxes-import-charges?id=4121 " target="_blank">Taxes and import charges</a>.</p></div> */
     get: operations["getSalesTaxes"];
   };
   "/subscription": {
@@ -118,40 +118,12 @@ export interface paths {
     get: operations["getSubscription"];
   };
   "/kyc": {
-    /** @description <span class="tablenote"><b>Note:</b>This method was originally created to see which onboarding requirements were still pending for sellers being onboarded for eBay managed payments, but now that all seller accounts are onboarded globally, this method should now just returne an empty payload with a <code>204 No Content</code> HTTP status code. </span> */
+    /** @description <span class="tablenote"><b>Note:</b> This method was originally created to see which onboarding requirements were still pending for sellers being onboarded for eBay managed payments, but now that all seller accounts are onboarded globally, this method should now just return an empty payload with a <code>204 No Content</code> HTTP status code. </span> */
     get: operations["getKYC"];
   };
   "/advertising_eligibility": {
     /** @description This method allows developers to check the seller eligibility status for eBay advertising programs. */
     get: operations["getAdvertisingEligibility"];
-  };
-  "/location/{merchantLocationKey}": {
-    /** @description This call retrieves all defined details of the inventory location that is specified by the <b>merchantLocationKey</b> path parameter. <p>The <code>authorization</code> HTTP header is the only required request header for this call. </p><p>A successful call will return an HTTP status value of <i>200 OK</i>.</p> */
-    get: operations["getInventoryLocation"];
-    /** @description <p>Use this call to create a new inventory location. In order to create and publish an offer (and create an eBay listing), a seller must have at least one inventory location, as every offer must be associated with a location.</p><p>Upon first creating an inventory location, only a seller-defined location identifier and a physical location is required, and once set, these values can not be changed. The unique identifier value (<i>merchantLocationKey</i>) is passed in at the end of the call URI. This <i>merchantLocationKey</i> value will be used in other Inventory Location calls to identify the inventory location to perform an action against.</p><p>At this time, location types are either warehouse or store. Warehouse locations are used for traditional shipping, and store locations are generally used by US merchants selling products through the In-Store Pickup program, or used by UK, Australian, and German merchants selling products through the Click and Collect program. A full address is required for store inventory locations. However, for warehouse inventory locations, a full street address is not needed, but the city, state/province, and country of the location must be provided. </p><p>Note that all inventory locations are "enabled" by default when they are created, and you must specifically disable them (by passing in a value of <code>DISABLED</code> in the <strong>merchantLocationStatus</strong> field) if you want them to be set to the disabled state. The seller's inventory cannot be loaded to inventory locations in the disabled state.</p> <p>In addition to the <code>authorization</code> header, which is required for all eBay REST API calls, the following table includes another request header that is mandatory for the <strong>createInventoryLocation</strong> call, and two other request headers that are optional:</p><br/> <table> <tr> <th>Header</th> <th>Description</th> <th>Required?</th> <th>Applicable Values</th> </tr> <tr> <td><code>Accept</code></td> <td>Describes the response encoding, as required by the caller. Currently, the interfaces require payloads formatted in JSON, and JSON is the default.</td> <td>No</td> <td><code>application/json</code></td> </tr> <tr> <td><code>Content-Language</code></td> <td>Use this header to control the language that is used for any returned errors or warnings in the call response.</td> <td>No</td> <td><code>en-US</code></td> </tr> <tr> <td><code>Content-Type</code></td> <td>The MIME type of the body of the request. Must be JSON.</td> <td>Yes</td> <td><code>application/json</code></td> </tr> </table></p><br/><p>Unless one or more errors and/or warnings occur with the call, there is no response payload for this call. A successful call will return an HTTP status value of <i>204 No Content</i>.</p> */
-    post: operations["createInventoryLocation"];
-    /** @description <p>This call deletes the inventory location that is specified in the <code>merchantLocationKey</code> path parameter. Note that deleting a location will not affect any active eBay listings associated with the deleted location, but the seller will not be able modify the offers associated with the inventory location once it is deleted.</p><p>The <code>authorization</code> HTTP header is the only required request header for this call. </p><p>Unless one or more errors and/or warnings occur with the call, there is no response payload for this call. A successful call will return an HTTP status value of <i>200 OK</i>.</p> */
-    delete: operations["deleteInventoryLocation"];
-  };
-  "/location/{merchantLocationKey}/disable": {
-    /** @description <p>This call disables the inventory location that is specified in the <code>merchantLocationKey</code> path parameter. Sellers can not load/modify inventory to disabled inventory locations. Note that disabling an inventory location will not affect any active eBay listings associated with the disabled location, but the seller will not be able modify the offers associated with a disabled inventory location.</p><p>The <code>authorization</code> HTTP header is the only required request header for this call.</p><p>A successful call will return an HTTP status value of <i>200 OK</i>.</p> */
-    post: operations["disableInventoryLocation"];
-  };
-  "/location/{merchantLocationKey}/enable": {
-    /** @description <p>This call enables a disabled inventory location that is specified in the <code>merchantLocationKey</code> path parameter. Once a disabled inventory location is enabled, sellers can start loading/modifying inventory to that inventory location. </p><p>The <code>authorization</code> HTTP header is the only required request header for this call.</p><p>A successful call will return an HTTP status value of <i>200 OK</i>.</p> */
-    post: operations["enableInventoryLocation"];
-  };
-  "/location": {
-    /** @description This call retrieves all defined details for every inventory location associated with the seller's account. There are no required parameters for this call and no request payload. However, there are two optional query parameters, <strong>limit</strong> and <strong>offset</strong>. The <strong>limit</strong> query parameter sets the maximum number of inventory locations returned on one page of data, and the <strong>offset</strong> query parameter specifies the page of data to return. These query parameters are discussed more in the <strong>URI parameters</strong> table below. <p>The <code>authorization</code> HTTP header is the only required request header for this call. </p><p>A successful call will return an HTTP status value of <i>200 OK</i>.</p> */
-    get: operations["getInventoryLocations"];
-  };
-  "/location/{merchantLocationKey}/update_location_details": {
-    /** @description <p>Use this call to update non-physical location details for an existing inventory location. Specify the inventory location you want to update using the <b>merchantLocationKey</b> path parameter. <br/><br/>You can update the following text-based fields: <strong>name</strong>, <strong>phone</strong>, <strong>locationWebUrl</strong>, <strong>locationInstructions</strong> and <strong>locationAdditionalInformation</strong>. Whatever text is passed in for these fields in an <strong>updateInventoryLocation</strong> call will replace the current text strings defined for these fields. For store inventory locations, the operating hours and/or the special hours can also be updated. <br/><br/> The merchant location key, the physical location of the store, and its geo-location coordinates can not be updated with an <strong>updateInventoryLocation</strong> call </p><p>In addition to the <code>authorization</code> header, which is required for all eBay REST API calls, the following table includes another request header that is mandatory for the <strong>updateInventoryLocation</strong> call, and two other request headers that are optional:</p><br/> <table> <tr> <th>Header</th> <th>Description</th> <th>Required?</th> <th>Applicable Values</th> </tr> <tr> <td><code>Accept</code></td> <td>Describes the response encoding, as required by the caller. Currently, the interfaces require payloads formatted in JSON, and JSON is the default.</td> <td>No</td> <td><code>application/json</code></td> </tr> <tr> <td><code>Content-Language</code></td> <td>Use this header to control the language that is used for any returned errors or warnings in the call response.</td> <td>No</td> <td><code>en-US</code></td> </tr> <tr> <td><code>Content-Type</code></td> <td>The MIME type of the body of the request. Must be JSON.</td> <td>Yes</td> <td><code>application/json</code></td> </tr> </table><br/><p>Unless one or more errors and/or warnings occurs with the call, there is no response payload for this call. A successful call will return an HTTP status value of <i>204 No Content</i>.</p> */
-    post: operations["updateInventoryLocation"];
-  };
-  "/country/{countryCode}/sales_tax_jurisdiction": {
-    /** @description This method retrieves all the sales tax jurisdictions for the country that you specify in the <b>countryCode</b> path parameter. Countries with valid sales tax jurisdictions are Canada and the US.  <br/><br/>The response from this call tells you the jurisdictions for which a seller can configure tax tables. Although setting up tax tables is optional, you can use the <b>createOrReplaceSalesTax</b> in the <b>Account API</b> call to configure the tax tables for the jurisdictions you sell to. */
-    get: operations["getSalesTaxJurisdictions"];
   };
 }
 
@@ -159,78 +131,61 @@ export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
-    /** @description This type is used to define the physical address of an inventory location. */
-    Address: {
-      /** @description The first line of a street address. This field is required for store inventory locations that will be holding In-Store Pickup inventory. A street address is not required if the inventory location is not holding In-Store Pickup Inventory. This field will be returned if defined for an inventory location. <br/><br/><b>Max length</b>: 128 */
-      addressLine1?: string;
-      /** @description The second line of a street address. This field can be used for additional address information, such as a suite or apartment number. A street address is not required if the inventory location is not holding In-Store Pickup Inventory. This field will be returned if defined for an inventory location. <br/><br/><b>Max length</b>: 128 */
-      addressLine2?: string;
-      /** @description The city in which the inventory location resides. This field is required for store inventory locations that will be holding In-Store Pickup inventory. For warehouse locations, this field is technically optional, as a <strong>postalCode</strong> can be used instead of  <strong>city</strong>/<strong>stateOrProvince</strong> pair, and then the city is just derived from this postal/zip code. This field is returned if defined for an inventory location. <br/><br/><b>Max length</b>: 128 */
-      city?: string;
-      /** @description The country in which the address resides, represented as two-letter <a href="https://www.iso.org/iso-3166-country-codes.html " title="https://www.iso.org " target="_blank">ISO 3166</a> country code. For example, <code>US</code> represents the United States, and <code>DE</code> represents Germany. <br/><br/><b>Max length</b>: 2 For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/CountryCodeEnum"'>eBay API documentation</a> */
-      country?: string;
-      /** @description The county in which the address resides. This field is returned if defined for an inventory location. */
-      county?: string;
-      /** @description The postal/zip code of the address. eBay uses postal codes to surface In-Store Pickup items within the vicinity of a buyer's location, and it also user postal codes (origin and destination) to estimate shipping costs when the seller uses calculated shipping. A <strong>city</strong>/<strong>stateOrProvince</strong> pair can be used instead of a <strong>postalCode</strong> value, and then the postal code is just derived from the city and state/province. This field is returned if defined for an inventory location. <br/><br/><b>Max length</b>: 16 */
-      postalCode?: string;
-      /** @description The state/province in which the inventory location resides. This field is required for store inventory locations that will be holding In-Store Pickup inventory. For warehouse locations, this field is technically optional, as a <strong>postalCode</strong> can be used instead of <strong>city</strong>/<strong>stateOrProvince</strong> pair, and then the state or province is just derived from this postal/zip code. <br/><br/><b>Max length</b>: 128 */
-      stateOrProvince?: string;
-    };
     /** @description A complex type that describes the value of a monetary amount as represented by a global currency. When passing in an amount in a request payload, both <b>currency</b> and <b>value</b> fields are required, and both fields are also always returned for an amount in a response field. */
     Amount: {
-      /** @description The base currency applied to the <b>value</b> field to establish a monetary amount.  <br/><br/>The currency is represented as a 3-letter <a href="https://www.iso.org/iso-4217-currency-codes.html " title="https://www.iso.org " target="_blank">ISO 4217</a> currency code. For example, the code for the Canadian Dollar is <code>CAD</code>.<br/><br/><b>Default:</b> The default currency of the eBay marketplace that hosts the listing. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:CurrencyCodeEnum'>eBay API documentation</a> */
+      /** @description The base currency applied to the <b>value</b> field to establish a monetary amount.  <br><br>The currency is represented as a 3-letter <a href="https://www.iso.org/iso-4217-currency-codes.html " title="https://www.iso.org " target="_blank">ISO 4217</a> currency code. For example, the code for the Canadian Dollar is <code>CAD</code>.<br><br><b>Default:</b> The default currency of the eBay marketplace that hosts the listing. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:CurrencyCodeEnum'>eBay API documentation</a> */
       currency?: string;
       /** @description The monetary amount in the specified <b>currency</b>. */
       value?: string;
     };
-    /** @description The category type discerns whether the policy applies to motor vehicle listings, or to any other items except motor vehicle listings. <br/><br/>Each business policy can be associated with either or both categories ('MOTORS_VEHICLES' and 'ALL_EXCLUDING_MOTORS_VEHICLES'); however, return business policies are not applicable for motor vehicle listings. */
+    /** @description The category type discerns whether the policy applies to motor vehicle listings, or to any other items except motor vehicle listings. <br><br>Each business policy can be associated with either or both categories ('MOTORS_VEHICLES' and 'ALL_EXCLUDING_MOTORS_VEHICLES'); however, return business policies are not applicable for motor vehicle listings. */
     CategoryType: {
       /** @description <span class="tablenote"><strong>Note:</strong> This field has been deprecated and is no longer used.<ul><li>Do not include this field in any <b>create</b> or <b>update</b> method.</li><li>This field may be returned within the payload of a <b>get</b> method, but it can be ignored.</li></ul></span> */
       default?: boolean;
-      /** @description The category type to which the policy applies (motor vehicles or non-motor vehicles). <br /><br />The <code>MOTORS_VEHICLES</code> category type is not valid for return policies. eBay flows do not support the return of motor vehicles. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:CategoryTypeEnum'>eBay API documentation</a> */
+      /** @description The category type to which the policy applies (motor vehicles or non-motor vehicles). <br><br><span class="tablenote"><strong>Note:</strong> The <code>MOTORS_VEHICLES</code> category type is not valid for return policies. eBay flows do not support the return of motor vehicles.</span> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:CategoryTypeEnum'>eBay API documentation</a> */
       name?: string;
     };
     /** @description The response payload for requests that return a list of custom policies. */
     CompactCustomPolicyResponse: {
-      /** @description The unique custom policy identifier for the policy being returned.<br/><br/><span class="tablenote"><strong>Note:</strong> This value is automatically assigned by the system when the policy is created.</span> */
+      /** @description The unique custom policy identifier for the policy being returned.<br><br><span class="tablenote"><strong>Note:</strong> This value is automatically assigned by the system when the policy is created.</span> */
       customPolicyId?: string;
-      /** @description Customer-facing label shown on View Item pages for items to which the policy applies. This seller-defined string is displayed as a system-generated hyperlink pointing to detailed policy information.<br/><br/><b>Max length:</b> 65 */
+      /** @description Customer-facing label shown on View Item pages for items to which the policy applies. This seller-defined string is displayed as a system-generated hyperlink pointing to the seller's policy information.<br><br><b>Max length:</b> 65 */
       label?: string;
-      /** @description The seller-defined name for the custom policy. Names must be unique for policies assigned to the same seller, policy type, and eBay marketplace.<br /><span class="tablenote"><strong>Note:</strong> This field is visible only to the seller. </span><br /><br /><b>Max length:</b> 65 */
+      /** @description The seller-defined name for the custom policy. Names must be unique for policies assigned to the same seller and policy type.<br><br><span class="tablenote"><strong>Note:</strong> This field is visible only to the seller. </span><br><b>Max length:</b> 65 */
       name?: string;
-      /** @description Specifies the type of Custom Policy being returned. <br/><br/>Two Custom Policy types are supported: <ul><li>Product Compliance (PRODUCT_COMPLIANCE)</li> <li>Takeback (TAKE_BACK)</li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:CustomPolicyTypeEnum'>eBay API documentation</a> */
+      /** @description Specifies the type of Custom Policy being returned. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:CustomPolicyTypeEnum'>eBay API documentation</a> */
       policyType?: string;
     };
     /** @description This container defines a seller's custom policy identified by policy ID for the selected eBay marketplace. A successful call returns the requested policy information. */
     CustomPolicy: {
-      /** @description The unique custom policy identifier for a policy.<br/><br/><span class="tablenote"><strong>Note:</strong> This value is automatically assigned by the system when the policy is created.</span> */
+      /** @description The unique custom policy identifier for a policy. */
       customPolicyId?: string;
-      /** @description Details of the seller's specific policy and terms associated with the policy. Buyers access this information from the View Item page for items to which the policy has been applied.<br/><br/><b>Max length:</b> 15,000 */
+      /** @description Contains the seller's policy and policy terms. Buyers access this information from the View Item page for items to which the policy has been applied.<br><br><b>Max length:</b> 15,000 */
       description?: string;
-      /** @description Customer-facing label shown on View Item pages for items to which the policy applies. This seller-defined string is displayed as a system-generated hyperlink pointing to detailed policy information.<br/><br/><b>Max length:</b> 65 */
+      /** @description Customer-facing label shown on View Item pages for items to which the policy applies. This seller-defined string is displayed as a system-generated hyperlink pointing to the seller's policy information.<br><br><b>Max length:</b> 65 */
       label?: string;
-      /** @description The seller-defined name for the custom policy. Names must be unique for policies assigned to the same seller, policy type, and eBay marketplace.<br /><span class="tablenote"><strong>Note:</strong> This field is visible only to the seller. </span><br/><br/><b>Max length:</b> 65 */
+      /** @description The seller-defined name for the custom policy. Names must be unique for policies assigned to the same seller and policy type.<br><br><span class="tablenote"><strong>Note:</strong> This field is visible only to the seller. </span><br><b>Max length:</b> 65 */
       name?: string;
-      /** @description Specifies the type of Custom Policy. <br/><br/>Two Custom Policy types are supported: <ul><li>Product Compliance (PRODUCT_COMPLIANCE)</li> <li>Takeback (TAKE_BACK)</li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:CustomPolicyTypeEnum'>eBay API documentation</a> */
+      /** @description Specifies the type of Custom Policy being returned. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:CustomPolicyTypeEnum'>eBay API documentation</a> */
       policyType?: string;
     };
     /** @description This type is used by the request payload of the createCustomPolicy method to define a new custom policy for a specific marketplace. */
     CustomPolicyCreateRequest: {
-      /** @description Details of the seller's specific policy and terms for this policy.<br/><br/><b>Max length:</b> 15,000 */
+      /** @description Contains the seller's policy and policy terms.<br><br><b>Max length:</b> 15,000 */
       description?: string;
-      /** @description Customer-facing label shown on View Item pages for items to which the policy applies. This seller-defined string is displayed as a system-generated hyperlink pointing to detailed policy information.<br/><br/><b>Max length:</b> 65 */
+      /** @description Customer-facing label shown on View Item pages for items to which the policy applies. This seller-defined string is displayed as a system-generated hyperlink pointing to the seller's policy information.<br><br><b>Max length:</b> 65 */
       label?: string;
-      /** @description The seller-defined name for the custom policy. Names must be unique for policies assigned to the same seller, policy type, and eBay marketplace.<br /><span class="tablenote"><strong>Note:</strong> This field is visible only to the seller. </span><br/><br/><b>Max length:</b> 65 */
+      /** @description The seller-defined name for the custom policy. Names must be unique for policies assigned to the same seller and policy type.<br><br><span class="tablenote"><strong>Note:</strong> This field is visible only to the seller. </span><br><b>Max length:</b> 65 */
       name?: string;
-      /** @description Specifies the type of custom policy being created. <br/><br/>Two Custom Policy types are supported: <ul><li>Product Compliance (PRODUCT_COMPLIANCE)</li> <li>Takeback (TAKE_BACK)</li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:CustomPolicyTypeEnum'>eBay API documentation</a> */
+      /** @description Specifies the type of custom policy being created. <br><br>Two Custom Policy types are supported: <ul><li>Product Compliance (PRODUCT_COMPLIANCE)</li> <li>Takeback (TAKE_BACK)</li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:CustomPolicyTypeEnum'>eBay API documentation</a> */
       policyType?: string;
     };
     CustomPolicyRequest: {
-      /** @description Details of the seller's specific policy and terms for this policy.<br/><br/><b>Max length:</b> 15,000 */
+      /** @description Contains the seller specified policy and policy terms.<br><br><span class="tablenote"><strong>Note:</strong> Always supply this field. If this field is not specified, any previous value is removed. Call the <a href="/api-docs/sell/account/resources/custom_policy/methods/getCustomPolicy">getCustomPolicy</a> method to return the present field value for this policy.</span><br><b>Max length:</b> 15,000 */
       description?: string;
-      /** @description Customer-facing label shown on View Item pages for items to which the policy applies. This seller-defined string is displayed as a system-generated hyperlink pointing to detailed policy information.<br/><br/><b>Max length:</b> 65 */
+      /** @description Customer-facing label shown on View Item pages for items to which the policy applies. This seller-defined string is displayed as a system-generated hyperlink pointing to seller specified policy information.<br><br><span class="tablenote"><strong>Note:</strong> Always supply this field. If this field is not specified, any previous value is removed. Call the <a href="/api-docs/sell/account/resources/custom_policy/methods/getCustomPolicy">getCustomPolicy</a> method to return the present field value for this policy.</span><br><b>Max length:</b> 65 */
       label?: string;
-      /** @description The seller-defined name for the custom policy. Names must be unique for policies assigned to the same seller, policy type, and eBay marketplace.<br /><span class="tablenote"><strong>Note:</strong> This field is visible only to the seller. </span><br/><br/><b>Max length:</b> 65 */
+      /** @description The seller-defined name for the custom policy. Names must be unique for policies assigned to the same seller and policy type.<br><br><span class="tablenote"><strong>Note:</strong> This field is visible only to the seller. </span><br><br><span class="tablenote"><strong>Note:</strong> Always supply this field. If this field is not specified, any previous value is removed. Call the <a href="/api-docs/sell/account/resources/custom_policy/methods/getCustomPolicy">getCustomPolicy</a> method to return the present field value for this policy.</span><br><b>Max length:</b> 65 */
       name?: string;
     };
     CustomPolicyResponse: {
@@ -260,9 +215,9 @@ export interface components {
     };
     /** @description This type is used to specify/indicate that an initial deposit is required for a motor vehicle listing. */
     Deposit: {
-      /** @description This value indicates the initial deposit amount required from the buyer in order to purchase a motor vehicle. This value can be as high as $2,000.00 if immediate payment is not required, and up to $500.00 if immediate payment is required.<br/><br/><b>Max</b>: <code>2000.0</code> */
+      /** @description This value indicates the initial deposit amount required from the buyer in order to purchase a motor vehicle. This value can be as high as $2,000.00 if immediate payment is not required, and up to $500.00 if immediate payment is required.<br><br><b>Max</b>: <code>2000.0</code> */
       amount?: components["schemas"]["Amount"];
-      /** @description This value indicates the number of hours that the buyer has (after they commit to buy) to pay the initial deposit on a motor vehicle. Valid <b>dueIn</b> times are 24, 48, and 72 hours. <code>HOUR</code> is set as the <b>unit</b> value, and <code>24</code>, <code>48</code> or <code>72</code> are set in the <b>value</b> field.<br /><br /><span class="tablenote"><b>Note</b>: The <b>dueIn</b> value is overridden if the seller has set the motor vehicle listing to require immediate payment. If the listing requires immediate payment, the buyer must pay the deposit immediately in order to be eligible to purchase the motor vehicle.</span><br/><br/><b>Min</b>=24 (hours)<b>Max</b>=72 (hours), <b>Default</b>=48 (hours) */
+      /** @description This value indicates the number of hours that the buyer has (after they commit to buy) to pay the initial deposit on a motor vehicle. Valid <b>dueIn</b> times are 24, 48, and 72 hours. <code>HOUR</code> is set as the <b>unit</b> value, and <code>24</code>, <code>48</code> or <code>72</code> are set in the <b>value</b> field.<br><br><span class="tablenote"><b>Note</b>: The <b>dueIn</b> value is overridden if the seller has set the motor vehicle listing to require immediate payment. If the listing requires immediate payment, the buyer must pay the deposit immediately in order to be eligible to purchase the motor vehicle.</span><br><br><b>Min</b>=24 (hours)<b>Max</b>=72 (hours), <b>Default</b>=48 (hours) */
       dueIn?: components["schemas"]["TimeDuration"];
       /** @description This array is no longer applicable and should not be used since eBay now manages the electronic payment options available to buyers to pay the deposit. */
       paymentMethods?: (components["schemas"]["PaymentMethod"])[];
@@ -302,13 +257,13 @@ export interface components {
     FulfillmentPolicy: {
       /** @description This container indicates whether the fulfillment policy applies to motor vehicle listings, or if it applies to non-motor vehicle listings. */
       categoryTypes?: (components["schemas"]["CategoryType"])[];
-      /** @description A seller-defined description of the fulfillment policy. This description is only for the seller's use, and is not exposed on any eBay pages. This field is returned if set for the policy. <br/><br/><b>Max length</b>: 250 */
+      /** @description A seller-defined description of the fulfillment policy. This description is only for the seller's use, and is not exposed on any eBay pages. This field is returned if set for the policy. <br><br><b>Max length</b>: 250 */
       description?: string;
       /** @description If returned as <code>true</code>, the seller offers freight shipping. Freight shipping can be used for large items over 150 lbs. */
       freightShipping?: boolean;
       /** @description A unique eBay-assigned ID for the fulfillment policy. This ID is generated when the policy is created. */
       fulfillmentPolicyId?: string;
-      /** @description If returned as <code>true</code>, eBay's Global Shipping Program will be used by the seller to ship items to international locations.<br /><br /><span class="tablenote"><b>Note</b>: On the US marketplace, the <em><b>Global Shipping Program</b></em> is scheduled to be replaced by a new intermediated international shipping program called <em><b>eBay International Shipping</b></em>. US sellers who are opted in to the Global Shipping Program will be automatically opted in to eBay International Shipping when it becomes available to them. All US sellers will be migrated by March 31, 2023. <br /><br />eBay International Shipping is an account level setting, and no field needs to be set in a Fulfillment business policy to enable it. As long as the US seller's account is opted in to eBay International Shipping, this shipping option will be enabled automatically for all listings where international shipping is available. <br /><br />A US seller who is opted in to eBay International Shipping can also specify individual international shipping service options for a Fulfillment business policy.</span> */
+      /** @description <span class="tablenote"><b>Note</b>: This field is only applicable for the eBay United Kingdom marketplace (<code>EBAY_GB</code>).</span><br>If returned as <code>true</code>, eBay's Global Shipping Program will be used by the seller to ship items to international locations.<br><br>eBay International Shipping is an account level setting; no field needs to be set in a Fulfillment business policy to enable eBay International Shipping. If a US seller's account is opted in to eBay International Shipping, this shipping option will be enabled automatically for all listings where international shipping is available. A US seller who is opted in to eBay International Shipping can also specify individual international shipping service options for a Fulfillment business policy. */
       globalShipping?: boolean;
       /** @description Specifies the maximum number of business days the seller commits to for preparing and shipping an order after receiving a cleared payment for the order. This time does not include the transit time it takes the shipping carrier to deliver the order. <p>If only local pickup or freight shipping is available for the item, this container may not get returned.</p> */
       handlingTime?: components["schemas"]["TimeDuration"];
@@ -316,11 +271,11 @@ export interface components {
       localPickup?: boolean;
       /** @description The ID of the eBay marketplace to which this fulfillment policy applies. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum'>eBay API documentation</a> */
       marketplaceId?: string;
-      /** @description A seller-defined name for this fulfillment policy. Names must be unique for policies assigned to the same marketplace. <br/><br/><b>Max length</b>: 64 */
+      /** @description A seller-defined name for this fulfillment policy. Names must be unique for policies assigned to the same marketplace. <br><br><b>Max length</b>: 64 */
       name?: string;
-      /** @description If returned as <code>true</code>, the seller offers the "Click and Collect" option. <br/><br/>Currently, "Click and Collect" is available only to large retail merchants the eBay AU and UK marketplaces. */
+      /** @description If returned as <code>true</code>, the seller offers the "Click and Collect" option. <br><br>Currently, "Click and Collect" is available only to large retail merchants the eBay AU, UK, DE, FR, and IT marketplaces. */
       pickupDropOff?: boolean;
-      /** @description This array is used to provide detailed information on the domestic and international shipping options available for the policy. A separate <b>ShippingOption</b> object covers domestic shipping service options and international shipping service options (if the seller ships to international locations). <br /><br />The <b>optionType</b> field indicates whether the <b>ShippingOption</b> object applies to domestic or international shipping, and the <b>costType</b> field indicates whether flat-rate shipping or calculated shipping will be used. <p>A separate <b>ShippingServices</b> object is used to specify cost and other details for every available domestic and international shipping service option. </p> */
+      /** @description This array is used to provide detailed information on the domestic and international shipping options available for the policy. A separate <b>ShippingOption</b> object covers domestic shipping service options and international shipping service options (if the seller ships to international locations). <br><br>The <b>optionType</b> field indicates whether the <b>ShippingOption</b> object applies to domestic or international shipping, and the <b>costType</b> field indicates whether flat-rate shipping or calculated shipping will be used. <p>A separate <b>ShippingServices</b> object is used to specify cost and other details for every available domestic and international shipping service option. </p> */
       shippingOptions?: (components["schemas"]["ShippingOption"])[];
       /** @description This container consists of the <b>regionIncluded</b> and <b>regionExcluded</b> containers, which define the geographical regions/countries/states or provinces/domestic regions where the seller does and doesn't ship to with this fulfillment policy. */
       shipToLocations?: components["schemas"]["RegionSet"];
@@ -329,28 +284,28 @@ export interface components {
     FulfillmentPolicyRequest: {
       /** @description This container is used to specify whether the fulfillment business policy applies to motor vehicle listings, or if it applies to non-motor vehicle listings. */
       categoryTypes?: (components["schemas"]["CategoryType"])[];
-      /** @description A seller-defined description of the fulfillment policy. This description is only for the seller's use, and is not exposed on any eBay pages.  <br/><br/><b>Max length</b>: 250 */
+      /** @description A seller-defined description of the fulfillment policy. This description is only for the seller's use, and is not exposed on any eBay pages.  <br><br><b>Max length</b>: 250 */
       description?: string;
-      /** @description This field is included and set to <code>true</code> if freight shipping is available for the item. Freight shipping can be used for large items over 150 lbs.<br/><br/><b>Default</b>: false */
+      /** @description This field is included and set to <code>true</code> if freight shipping is available for the item. Freight shipping can be used for large items over 150 lbs.<br><br><b>Default</b>: false */
       freightShipping?: boolean;
-      /** @description This field is included and set to <code>true</code> if the seller wants to use the Global Shipping Program for international shipments. See the <a href="https://pages.ebay.com/help/sell/shipping-globally.html ">Global Shipping Program</a> help topic for more details and requirements on the Global Shipping Program.<br/><br/>It is possible for a seller to use a combination of the Global Shipping Program and other international shipping services. <br/><br/>If this value is set to <code>false</code> or if the field is omitted, the seller is responsible for manually specifying individual international shipping services (if the seller ships internationally)., as described in <a href="https://developer.ebay.com/api-docs/sell/static/seller-accounts/ht_shipping-worldwide.html ">Setting up worldwide shipping</a>. <br/><br/>Sellers can opt in or out of the Global Shipping Program through the Shipping preferences in My eBay.<br /><br /><span class="tablenote"><b>Note</b>: On the US marketplace, the <em><b>Global Shipping Program</b></em> is scheduled to be replaced by a new intermediated international shipping program called <em><b>eBay International Shipping</b></em>. US sellers who are opted in to the Global Shipping Program will be automatically opted in to eBay International Shipping when it becomes available to them. All US sellers will be migrated by March 31, 2023. <br /><br />eBay International Shipping is an account level setting, and no field needs to be set in a Fulfillment business policy to enable it. As long as the US seller's account is opted in to eBay International Shipping, this shipping option will be enabled automatically for all listings where international shipping is available. <br /><br />A US seller who is opted in to eBay International Shipping can also specify individual international shipping service options for a Fulfillment business policy.</span><p><b>Default</b>: false</p> */
+      /** @description <span class="tablenote"><b>Note</b>: This field is only applicable for the eBay United Kingdom marketplace (<code>EBAY_GB</code>).</span><br>This field is included and set to <code>true</code> if the seller wants to use the Global Shipping Program for international shipments. See the <a href="https://pages.ebay.com/help/sell/shipping-globally.html ">Global Shipping Program</a> help topic for more details and requirements on the Global Shipping Program.<br><br>A seller can use a combination of the Global Shipping Program and other international shipping services. <br><br>If set to <code>false</code> or if the field is omitted, the seller has to manually specifying individual international shipping services (if the seller ships internationally), as described in <a href="https://developer.ebay.com/api-docs/sell/static/seller-accounts/ht_shipping-worldwide.html ">Setting up worldwide shipping</a>. <br><br>Sellers opt in or out of the Global Shipping Program through the Shipping preferences in My eBay.<br><br>eBay International Shipping is an account level setting; no field needs to be set in a Fulfillment business policy to enable eBay International Shipping. If a US seller's account is opted in to eBay International Shipping, this shipping option will be enabled automatically for all listings where international shipping is available. A US seller who is opted in to eBay International Shipping can also specify individual international shipping service options for a Fulfillment business policy.<p><b>Default</b>: false</p> */
       globalShipping?: boolean;
-      /** @description This container is used to specify the maximum number of business days the seller commits to for preparing and shipping an order after receiving a cleared payment for the order. This time does not include the transit time it takes the shipping carrier to deliver the order.<br /><br />Valid values can vary by site and by category. To obtain the supported values for a site, call <b>GeteBayDetails</b> in the Trading API with <b>DetailName</b> set to <code>DispatchTimeMaxDetails</code>, then inspect the <b>DispatchTimeMaxDetails</b> container in the response for the time values supported by the site (typical handling times are <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code>, <code>10</code>, <code>15</code>, and <code>20</code>, but these can vary by site and may change over time.) <p>This field is conditionally required when the seller is offering one or more domestic or international shipping options, but it is not applicable when the item is only available through local pickup (<code>"localPickup": "true"</code>), or if it will be shipped through a freight shipping service (<code>"freightShipping": "true"</code>). </p> <span class="tablenote"><b>Note: </b> Top-Rated sellers must offer same-day or one-day handling for a listing in order for that listing to receive a Top Rated Plus seal on the View Item or Search Results pages. To offer zero-day or one-day handling, set field to '0' or '1', respectively.</span> */
+      /** @description This container is used to specify the maximum number of business days the seller commits to for preparing and shipping an order after receiving a cleared payment for the order. This time does not include the transit time it takes the shipping carrier to deliver the order.<br><br>Valid values can vary by site and by category. To obtain the supported values for a site, call <a href="/devzone/xml/docs/reference/ebay/GeteBayDetails.html">GeteBayDetails</a> in the Trading API with <b>DetailName</b> set to <code>DispatchTimeMaxDetails</code>, then inspect the <b>DispatchTimeMaxDetails</b> container in the response for the time values supported by the site (typical handling times are <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code>, <code>10</code>, <code>15</code>, and <code>20</code>, but these can vary by site and may change over time.) <p>This field is conditionally required when the seller is offering one or more domestic or international shipping options, but it is not applicable when the item is only available through local pickup (<code>"localPickup": "true"</code>), or if it will be shipped through a freight shipping service (<code>"freightShipping": "true"</code>). </p> <span class="tablenote"><b>Note: </b> Top-Rated sellers must offer same-day or one-day handling for a listing in order for that listing to receive a Top Rated Plus seal on the View Item or Search Results pages. To offer zero-day or one-day handling, set field to '0' or '1', respectively.</span> */
       handlingTime?: components["schemas"]["TimeDuration"];
-      /** @description This field should be included and set to <code>true</code> if local pickup is one of the fulfillment options available to the buyer. It is possible for the seller to make local pickup and some shipping service options available to the buyer.<br/><br/>With local pickup, the buyer and seller make arrangements for pickup time and location.<br/><br/><b>Default</b>: <code>false</code> */
+      /** @description This field should be included and set to <code>true</code> if local pickup is one of the fulfillment options available to the buyer. It is possible for the seller to make local pickup and some shipping service options available to the buyer.<br><br>With local pickup, the buyer and seller make arrangements for pickup time and location.<br><br><b>Default</b>: <code>false</code> */
       localPickup?: boolean;
       /** @description The ID of the eBay marketplace to which this fulfillment policy applies. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum'>eBay API documentation</a> */
       marketplaceId?: string;
-      /** @description A seller-defined name for this fulfillment policy. Names must be unique for policies assigned to the same marketplace. <br/><br/><b>Max length</b>: 64 */
+      /** @description A seller-defined name for this fulfillment policy. Names must be unique for policies assigned to the same marketplace. <br><br><b>Max length</b>: 64 */
       name?: string;
-      /** @description This field should be included and set to <code>true</code> if the seller offers the "Click and Collect" feature for an item. <p>To enable "Click and Collect" on a listing, a seller must be eligible for Click and Collect. Currently, Click and Collect is available to only large retail merchants selling in the eBay AU and UK marketplaces.</p>  <p>In addition to setting this field to <code>true</code>, the merchant must also do the following to enable the "Click and Collect" option on a listing: <ul><li>Have inventory for the product at one or more physical stores tied to the merchant's account. <p>Sellers can use the <b>createInventoryLocaion</b> method in the Inventory API to associate physical stores to their account and they can then can add inventory to specific store locations.</p></li><li>Set an immediate payment requirement on the item. The immediate payment feature requires the seller to: <ul><li>Set the <b>immediatePay</b> flag in the payment policy to 'true'.</li><li>Have a valid store location with a complete street address.</li></ul></li></ul><p>When a merchant successfully lists an item with Click and Collect, prospective buyers within a reasonable distance from one of the merchant's stores (that has stock available) will see the "Available for Click and Collect" option on the listing, along with information on the closest store that has the item.</p><b>Default</b>: false */
+      /** @description This field should be included and set to <code>true</code> if the seller offers the "Click and Collect" feature for an item. <p>To enable "Click and Collect" on a listing, a seller must be eligible for Click and Collect. Currently, Click and Collect is available to only large retail merchants selling in the eBay AU, UK, DE, FR, and IT marketplaces.</p>  <p>In addition to setting this field to <code>true</code>, the merchant must also do the following to enable the "Click and Collect" option on a listing: <ul><li>Have inventory for the product at one or more physical stores tied to the merchant's account. <p>Sellers can use the <b>createInventoryLocation</b> method in the Inventory API to associate physical stores to their account and they can then add inventory to specific store locations.</p></li><li>Set an immediate payment requirement on the item. The immediate payment feature requires the seller to: <ul><li>Set the <b>immediatePay</b> flag in the payment policy to 'true'.</li><li>Have a valid store location with a complete street address.</li></ul></li></ul><p>When a merchant successfully lists an item with Click and Collect, prospective buyers within a reasonable distance from one of the merchant's stores (that has stock available) will see the "Available for Click and Collect" option on the listing, along with information on the closest store that has the item.</p><b>Default</b>: false */
       pickupDropOff?: boolean;
-      /** @description This array is used to provide detailed information on the domestic and international shipping options available for the policy. <br /><br />A separate <b>ShippingOption</b> object is required for domestic shipping service options and for international shipping service options (if the seller ships to international locations). <ul><li>The <b>optionType</b> field is used to indicate whether the <b>ShippingOption</b> object applies to domestic or international shipping, and the <b>costType</b> field is used to indicate whether flat-rate shipping or calculated shipping will be used.</li> <li>The <b>rateTableId</b> field can be used to associate a defined shipping rate table to the policy, and the <b>packageHandlingCost</b> container can be used to set a handling charge for the policy.</li></ul> <p>A separate <b>ShippingServices</b> object will be used to specify cost and other details for every available domestic and international shipping service option. </p> */
+      /** @description This array is used to provide detailed information on the domestic and international shipping options available for the policy. <br><br>A separate <b>ShippingOption</b> object is required for domestic shipping service options and for international shipping service options (if the seller ships to international locations). <ul><li>The <b>optionType</b> field is used to indicate whether the <b>ShippingOption</b> object applies to domestic or international shipping, and the <b>costType</b> field is used to indicate whether flat-rate shipping or calculated shipping will be used.</li> <li>The <b>rateTableId</b> field can be used to associate a defined shipping rate table to the policy, and the <b>packageHandlingCost</b> container can be used to set a handling charge for the policy.</li></ul> <p>A separate <b>ShippingServices</b> object will be used to specify cost and other details for every available domestic and international shipping service option. </p> */
       shippingOptions?: (components["schemas"]["ShippingOption"])[];
-      /** @description This container consists of the <b>regionIncluded</b> and <b>regionExcluded</b> arrays, which are used to define the geographical regions/countries/states or provinces/domestic regions that a seller does and does not ship to for the associated fulfillment policy. Note that this container can be considered the master list of where the seller ships and does not ship, but there is also a <b>shipToLocations</b> container that can be set at the shipping service option level. <br/><br/>To retrieve the valid geographical shipping region values, two-digit country values, or special domestic regions for an eBay marketplace, call <b>GeteBayDetails</b> with <b>DetailName</b> value set to <code>ExcludeShippingLocationDetails</code>, then review the <b>ExcludeShippingLocationDetails</b> containers in the response for the strings you use in both the <b>regionIncluded.regionName</b> and in the <b>regionExcluded.regionName</b> fields. <br /><br />For valid geographical region names, look for the <code>ExcludeShippingLocationDetails</code> containers in the <b>GeteBayDetails</b> response where the <b>Region</b> value is <code>Worldwide</code>, and the valid values will be shown in the corresponding <b>Location</b> fields. <br /><br />For valid two-digit country codes, look for <code>ExcludeShippingLocationDetails</code> in the <b>GeteBayDetails</b> response where the <b>Region</b> value is one of the defined geographical regions, and the valid values will be shown in the corresponding <b>Location</b> fields. Alternatively, you can find the two-digit country code values in the <a href="/api-docs/sell/account/types/ba:CountryCodeEnum">CountryCodeEnum</a> type definition. For valid domestic region values, look for <code>ExcludeShippingLocationDetails</code> in the <b>GeteBayDetails</b> response where the <b>Region</b> value is either <code>Domestic Location</code> or <code>Additional Locations</code>, and the valid values will be shown in the corresponding <b>Location</b> fields. <br /><br />The <code>STATE_OR_PROVINCE</code> region type is only applicable to the US and Canada, and valid values for US states are the same <a href="https://about.usps.com/who-we-are/postal-history/state-abbreviations.htm ">two-digit abbreviations</a> used by the United States Postal Service, and valid values for Canadian provinces and territories are the same <a href="https://www.canadapost-postescanada.ca/cpc/en/support/articles/addressing-guidelines/symbols-and-abbreviations.page ">two-digit abbreviations</a> used by the Canada Post. */
+      /** @description This container consists of the <b>regionIncluded</b> and <b>regionExcluded</b> arrays, which are used to define the geographical regions/countries/states or provinces/domestic regions that a seller does and does not ship to for the associated fulfillment policy. Note that this container can be considered the master list of where the seller ships and does not ship, but there is also a <b>shipToLocations</b> container that can be set at the shipping service option level.<br><br><span class="tablenote"><b>Note:</b> Any shipping exclusions specified through this container can be overridden by the eBay International Shipping exclusions toggle located under <b>Shipping Preferences</b> in <b>My eBay</b>. For more information on eBay International Shipping, see <a href="https://www.ebay.com/help/selling/shipping-items/setting-shipping-options/ebay-international-shipping-program?id=5348" target="_blank">eBay International Shipping program</a>.</span><br>To retrieve the valid geographical shipping region values, two-digit country values, or special domestic regions for an eBay marketplace, call <a href="/devzone/xml/docs/reference/ebay/GeteBayDetails.html">GeteBayDetails</a> with <b>DetailName</b> value set to <code>ExcludeShippingLocationDetails</code>, then review the <b>ExcludeShippingLocationDetails</b> containers in the response for the strings you use in both the <b>regionIncluded.regionName</b> and in the <b>regionExcluded.regionName</b> fields. <br><br>For valid geographical region names, look for the <code>ExcludeShippingLocationDetails</code> containers in the <b>GeteBayDetails</b> response where the <b>Region</b> value is <code>Worldwide</code>, and the valid values will be shown in the corresponding <b>Location</b> fields. <br><br>For valid two-digit country codes, look for <code>ExcludeShippingLocationDetails</code> in the <b>GeteBayDetails</b> response where the <b>Region</b> value is one of the defined geographical regions, and the valid values will be shown in the corresponding <b>Location</b> fields. Alternatively, you can find the two-digit country code values in the <a href="/api-docs/sell/account/types/ba:CountryCodeEnum">CountryCodeEnum</a> type definition. For valid domestic region values, look for <code>ExcludeShippingLocationDetails</code> in the <b>GeteBayDetails</b> response where the <b>Region</b> value is either <code>Domestic Location</code> or <code>Additional Locations</code>, and the valid values will be shown in the corresponding <b>Location</b> fields. <br><br>The <code>STATE_OR_PROVINCE</code> region type is only applicable to the US and Canada, and valid values for US states are the same <a href="https://about.usps.com/who-we-are/postal-history/state-abbreviations.htm ">two-digit abbreviations</a> used by the United States Postal Service, and valid values for Canadian provinces and territories are the same <a href="https://www.canadapost-postescanada.ca/cpc/en/support/articles/addressing-guidelines/symbols-and-abbreviations.page ">two-digit abbreviations</a> used by the Canada Post. */
       shipToLocations?: components["schemas"]["RegionSet"];
     };
-    /** @description The response payload for the <b>getFulfillmentPolicies</b> method.<br /><br /><span class="tablenote"><b>Note</b>: Pagination has not yet been enabled for <b>getFulfillmentPolicies</b>, so all of the pagination-related fields are for future use.</span> */
+    /** @description The response payload for the <b>getFulfillmentPolicies</b> method.<br><br><span class="tablenote"><b>Note</b>: Pagination has not yet been enabled for <b>getFulfillmentPolicies</b>, so all of the pagination-related fields are for future use.</span> */
     FulfillmentPolicyResponse: {
       /** @description A list of all of the seller's fulfillment policies defined for the specified marketplace. This array will be returned as empty if no fulfillment policies are defined for the specified marketplace. */
       fulfillmentPolicies?: (components["schemas"]["FulfillmentPolicy"])[];
@@ -372,99 +327,20 @@ export interface components {
       prev?: string;
       /**
        * Format: int32 
-       * @description The total number of fulfillment policies retrieved in the result set.  <br/><br/>If no fulfillment policies are defined for the specified marketplace, this field is returned with a value of <code>0</code>.
+       * @description The total number of fulfillment policies retrieved in the result set.  <br><br>If no fulfillment policies are defined for the specified marketplace, this field is returned with a value of <code>0</code>.
        */
       total?: number;
-    };
-    /** @description This type is used to express the Global Positioning System (GPS) latitude and longitude coordinates of an inventory location. */
-    GeoCoordinates: {
-      /** @description The latitude (North-South) component of the geographic coordinate. This field is required if a <strong>geoCoordinates</strong> container is used. <br/><br/>This field is returned if geographical coordinates are set for the inventory location. */
-      latitude?: number;
-      /** @description The longitude (East-West) component of the geographic coordinate. This field is required if a <strong>geoCoordinates</strong> container is used. <br/><br/>This field is returned if geographical coordinates are set for the inventory location. */
-      longitude?: number;
     };
     /** @description This type defines the fields for a seller's international return policy. Sellers have the ability to set separate domestic and international return policies, but if an international return policy is not set, the same return policy settings specified for the domestic return policy are also used for returns for international buyers. */
     InternationalReturnOverrideType: {
       /** @description This field sets/indicates if the seller offers replacement items to the buyer in the case of an international return. The buyer must be willing to accept a replacement item; otherwise, the seller will need to issue a refund for a return. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ReturnMethodEnum'>eBay API documentation</a> */
       returnMethod?: string;
-      /** @description This container indicates the number of calendar days that the buyer has to return an item. The return period begins when the item is marked "delivered" at the buyer's specified ship-to location.  <br/><br/>You must set the value to one that's accepted by the marketplace and category where the item is listed. Most categories support 30-day and 60-day return periods. For a definitive list of return periods for one or more categories, call <a href="/api-docs/sell/metadata/resources/marketplace/methods/getReturnPolicies">getReturnPolicies</a> method of the <b>Metadata API</b>. <br/><br/>The <b>TimeDuration</b> type is used to set/indicate the return period, and you set the <b>unit</b> value to <code>DAY</code> and the <b>value</b> field to either <code>30</code> or <code>60</code> (or other value, as appropriate).  <br/><br/>Note that this value cannot be modified if the listing has bids or sales, or if the listing ends within 12 hours.  <br/><br/>This field is conditionally required if the <b>internationalOverride.returnsAccepted</b> field is set to <code>true</code>. */
+      /** @description This container indicates the number of calendar days that the buyer has to return an item. The return period begins when the item is marked "delivered" at the buyer's specified ship-to location.  <br><br>You must set the value to one that's accepted by the marketplace and category where the item is listed. Most categories support 30-day and 60-day return periods. For a definitive list of return periods for one or more categories, call <a href="/api-docs/sell/metadata/resources/marketplace/methods/getReturnPolicies">getReturnPolicies</a> method of the <b>Metadata API</b>. <br><br>The <b>TimeDuration</b> type is used to set/indicate the return period, and you set the <b>unit</b> value to <code>DAY</code> and the <b>value</b> field to either <code>30</code> or <code>60</code> (or other value, as appropriate).  <br><br>Note that this value cannot be modified if the listing has bids or sales, or if the listing ends within 12 hours.  <br><br>This field is conditionally required if the <b>internationalOverride.returnsAccepted</b> field is set to <code>true</code>. */
       returnPeriod?: components["schemas"]["TimeDuration"];
-      /** @description If set to <code>true</code>, the seller accepts international returns. If set to <code>false</code>, the seller does not accept international returns.  <br/><br/>This field is conditionally required if the seller chooses to have a separate international return policy. */
+      /** @description If set to <code>true</code>, the seller accepts international returns. If set to <code>false</code>, the seller does not accept international returns.  <br><br>This field is conditionally required if the seller chooses to have a separate international return policy. */
       returnsAccepted?: boolean;
-      /** @description This field indicates who is responsible for paying for the shipping charges for returned items. The field can be set to either <code>BUYER</code> or <code>SELLER</code>.  <br/><br/>Depending on the return policy and specifics of the return, either the buyer or the seller can be responsible for the return shipping costs. Note that the seller is always responsible for return shipping costs for 'significantly not as described' (SNAD) issues.  <br/><br/>This field is conditionally required if the <b>internationalOverride.returnsAccepted</b> field is set to <code>true</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ReturnShippingCostPayerEnum'>eBay API documentation</a> */
+      /** @description This field indicates who is responsible for paying for the shipping charges for returned items. The field can be set to either <code>BUYER</code> or <code>SELLER</code>.  <br><br>Depending on the return policy and specifics of the return, either the buyer or the seller can be responsible for the return shipping costs. Note that the seller is always responsible for return shipping costs for 'significantly not as described' (SNAD) issues.  <br><br>This field is conditionally required if the <b>internationalOverride.returnsAccepted</b> field is set to <code>true</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ReturnShippingCostPayerEnum'>eBay API documentation</a> */
       returnShippingCostPayer?: string;
-    };
-    /** @description This type is used by the <strong>intervals</strong> container to define the opening and closing times of a store's working day. Local time (in Military format) is used, with the following format: <code>hh:mm:ss</code>. */
-    Interval: {
-      /** @description The <strong>close</strong> value is actually the time that the store closes. Local time (in Military format) is used. So, if a store closed at 8 PM local time, the <strong>close</strong> time would look like the following: <code>20:00:00</code>. This field is conditionally required if the <strong>intervals</strong> container is used to specify working hours or special hours for a store. <br/><br/>This field is returned if set for the store location. */
-      close?: string;
-      /** @description The <strong>open</strong> value is actually the time that the store opens. Local time (in Military format) is used. So, if a store opens at 9 AM local time, the <strong>close</strong> time would look like the following: <code>09:00:00</code>. This field is conditionally required if the <strong>intervals</strong> container is used to specify working hours or special hours for a store. <br/><br/>This field is returned if set for the store location. */
-      open?: string;
-    };
-    /** @description This type is used by the <strong>updateInventoryLocation</strong> call to update operating hours, special hours, phone number, and other minor details of an inventory location. */
-    InventoryLocation: {
-      /** @description This text field is used by the merchant to provide/update additional information about an inventory location. Whatever text is passed in this field will replace the current text string defined for this field. If the text will not change, the same text should be passed in once again. <br/><br/><b>Max length</b>: 256 */
-      locationAdditionalInformation?: string;
-      /** @description This text field is generally used by the merchant to provide/update special pickup instructions for a store inventory location. Although this field is optional, it is recommended that merchants provide this field to create a pleasant and easy pickup experience for In-Store Pickup and Click and Collect orders. If this field is not included in the call request payload, eBay will use the default pickup instructions contained in the merchant's profile (if available). Whatever text is passed in this field will replace the current text string defined for this field. If the text will not change, the same text should be passed in once again. <br/><br/><b>Max length</b>: 1000 */
-      locationInstructions?: string;
-      /** @description This text field is used by the merchant to provide/update the Website address (URL) associated with the inventory location. The URL that is passed in this field will replace any other URL that may be defined for this field. <br/><br/><b>Max length</b>: 512 */
-      locationWebUrl?: string;
-      /** @description This text field is used by the merchant to update the name of the inventory location. This name should be a human-friendly name as it will be in In-Store Pickup and Click and Collect listings. A name is not required for warehouse inventory locations. For store inventory locations, this field is not immediately required, but will be required before an offer enabled with the In-Store Pickup or Click and Collect capability can be published. So, if the seller omitted this field in the <strong>createInventoryLocation</strong> call, it is required for an <strong>updateInventoryLocation</strong> call. The name that is passed in this field will replace any other name that may be defined for this field. */
-      name?: string;
-      /** @description This container is used to provide/update the regular operating hours for a store location during the days of the week. A <strong>dayOfWeekEnum</strong> field and an <strong>intervals</strong> container will be needed for each day of the week that the store location is open. Note that if operating hours are already set for an inventory location for a specific day of the week, whatever is set through an <strong>updateInventoryLocation</strong> call will override those existing hours. */
-      operatingHours?: (components["schemas"]["OperatingHours"])[];
-      /** @description This text field is used by the merchant to provide/update the phone number for the inventory location. The phone number that is passed in this field will replace any other phone number that may be defined for this field. <br/><br/><b>Max length</b>: 36 */
-      phone?: string;
-      /** @description This container is used to provide/update the special operating hours for a store location on a specific date, such as a holiday. The special hours specified for the specific date will override the normal operating hours for that particular day of the week. If special hours have already been set up for an inventory location, specifying special hours through an <strong>updateInventoryLocation</strong> call will only add to the list, unless the date(s) used are the same special date(s) already set up, in which case, the special hours set up through the <strong>updateInventoryLocation</strong> call will override the existing special hours. */
-      specialHours?: (components["schemas"]["SpecialHours"])[];
-    };
-    /** @description This type is used by the <strong>createInventoryLocation</strong> call to provide details on the inventory location, including the location's name, physical address, operating hours, special hours, phone number and other details of an inventory location. */
-    InventoryLocationFull: {
-      /** @description This required container is used to set the physical address and geographical coordinates (optional) of a warehouse or store inventory location. A warehouse inventory location only requires the city, province/state, and country, and does not require a full street address. However, the seller may still supply a full street address for a warehouse location. The physical location/address for an inventory location cannot be modified once set with a <strong>createInventoryLocation</strong> call. All other details of an inventory location (e.g. phone or operating hours) can be changed with an <strong>updateInventoryLocation</strong> call. */
-      location?: components["schemas"]["LocationDetails"];
-      /** @description This text field is used by the merchant to provide additional information about an inventory location. <br/><br/><b>Max length</b>: 256 */
-      locationAdditionalInformation?: string;
-      /** @description This text field is generally used by the merchant to provide special pickup instructions for a store inventory location. Although this field is optional, it is recommended that merchants provide this field to create a pleasant and easy pickup experience for In-Store Pickup and Click and Collect orders. If this field is not included in the call request payload, eBay will use the default pickup instructions contained in the merchant's profile (if available). <br/><br/> */
-      locationInstructions?: string;
-      /** @description This container is used to define the function of the inventory location. Typically, an inventory location will serve as a store or a warehouse, but in some cases, an inventory location may be both. <br/><br/> If this container is omitted, the location type of the inventory location will default to <code>WAREHOUSE</code>. See <a href="/api-docs/sell/inventory/types/api:StoreTypeEnum">StoreTypeEnum</a> for the supported values.<br/><br/><b>Default</b>: WAREHOUSE */
-      locationTypes?: (string)[];
-      /** @description This text field is used by the merchant to provide the Website address (URL) associated with the inventory location. <br/><br/><b>Max length</b>: 512 */
-      locationWebUrl?: string;
-      /** @description This field is used to indicate whether the inventory location will be enabled (inventory can be loaded to location) or disabled (inventory can not be loaded to location). If this field is omitted, a successful <strong>createInventoryLocation</strong> call will automatically enable the inventory location. A merchant may want to create a new inventory location but leave it as disabled if the inventory location is not yet ready for active inventory. Once the inventory location is ready, the merchant can use the <strong>enableInventoryLocation</strong> call to enable an inventory location that is in a disabled state. See <a href="/api-docs/sell/inventory/types/api:StatusEnum">StatusEnum</a> for the supported values.  <br/><br/><b>Default</b>: ENABLED For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:StatusEnum'>eBay API documentation</a> */
-      merchantLocationStatus?: string;
-      /** @description The name of the inventory location. This name should be a human-friendly name as it will be displayed in In-Store Pickup and Click and Collect listings. A name is not required for warehouse inventory locations. For store inventory locations, this field is not immediately required, but will be required before an offer enabled with the In-Store Pickup or Click and Collect capability can be published. So, if the seller omits this field in a <strong>createInventoryLocation</strong> call, it becomes required for an <strong>updateInventoryLocation</strong> call.<br/><br/><b>Max length</b>: 1000 */
-      name?: string;
-      /** @description Although not technically required, this container is highly recommended to be used to specify operating hours for a store inventory location. This container is used to express the regular operating hours for a store location during each day of the week. A <strong>dayOfWeekEnum</strong> field and an <strong>intervals</strong> container will be needed for each day of the week that the store location is open. */
-      operatingHours?: (components["schemas"]["OperatingHours"])[];
-      /** @description Although not technically required, this field is highly recommended to be used to specify the phone number for a store inventory location. <br/><br/><b>Max length</b>: 36 */
-      phone?: string;
-      /** @description This container is used to express the special operating hours for a store inventory location on a specific date, such as a holiday. The special hours specified for the specific date will override the normal operating hours for that particular day of the week. */
-      specialHours?: (components["schemas"]["SpecialHours"])[];
-    };
-    /** @description This type is used by the base response of the <strong>getInventoryLocation</strong> and <strong>getInventoryLocations</strong> calls. These responses provide details about inventory location(s) defined for the merchant's account. */
-    InventoryLocationResponse: {
-      /** @description This container provides location details of an inventory location. The <strong>address</strong> container will always be returned, but it will not always have a complete street address. Except in the case of an inventory location that supports In-Store Pickup inventory, a full address is not a requirement when setting up an inventory location. The <strong>geoCoordinates</strong> container will only be returned if the merchant provided geographical coordinates. The <strong>locationId</strong> field is always returned, but this value is only used internally by eBay. */
-      location?: components["schemas"]["Location"];
-      /** @description This text field provides additional information about an inventory location. This field is returned if it is set for the inventory location. <br/><br/><b>Max length</b>: 256 */
-      locationAdditionalInformation?: string;
-      /** @description This text field is used by the merchant to provide special pickup instructions for the store location. This field can help create a pleasant and easy pickup experience for In-Store Pickup and Click and Collect orders. If this field was not set up through a <strong>createInventoryLocation</strong> or a <strong>updateInventoryLocation</strong> call, eBay will use the default pickup instructions contained in the merchant's profile.<br/><br/><b>Max length</b>: 1000 */
-      locationInstructions?: string;
-      /** @description This container defines the function of the inventory location. Typically, an inventory location will serve as a store or a warehouse, but in some cases, an inventory location may be both. <br/><br/>The location type of an inventory location defaults to <code>WAREHOUSE</code> if a location type is not specified when a merchant creates an inventory location. */
-      locationTypes?: (string)[];
-      /** @description This text field shows the  Website address (URL) associated with the inventory location. This field is returned if defined for the inventory location. <br/><br/><b>Max length</b>: 512 */
-      locationWebUrl?: string;
-      /** @description The unique identifier of the inventory location. This identifier is set up by the merchant when the inventory location is first created with the <strong>createInventoryLocation</strong> call. Once this value is set for an inventory location, it cannot be modified. <br/><br/><b>Max length</b>: 36 */
-      merchantLocationKey?: string;
-      /** @description This field indicates whether the inventory location is enabled (inventory can be loaded to location) or disabled (inventory can not be loaded to location). The merchant can use the <strong>enableInventoryLocation</strong> call to enable an inventory location in disabled status, or the <strong>disableInventoryLocation</strong> call to disable an inventory location in enabled status. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:StatusEnum'>eBay API documentation</a> */
-      merchantLocationStatus?: string;
-      /** @description The name of the inventory location. This name should be a human-friendly name as it will be displayed in In-Store Pickup and Click and Collect listings. For store inventory locations, this field is not required for the <strong>createInventoryLocation</strong> call, but a store inventory location must have a defined <strong>name</strong> value before an In-Store Pickup and Click and Collect enabled offer is published. So, if the seller omits this field in the <strong>createInventoryLocation</strong> call, it will have to be added later through a <strong>updateInventoryLocation</strong> call. <br/><br/><b>Max length</b>: 1000 */
-      name?: string;
-      /** @description This container shows the regular operating hours for a store location during the days of the week. A <strong>dayOfWeekEnum</strong> field and an <strong>intervals</strong> container is shown for each day of the week that the store location is open. */
-      operatingHours?: (components["schemas"]["OperatingHours"])[];
-      /** @description The phone number for an inventory location. This field will typically only be set and returned for store locations. <br/><br/><b>Max length</b>: 36 */
-      phone?: string;
-      /** @description This container shows the special operating hours for a store location on a specific date or dates. */
-      specialHours?: (components["schemas"]["SpecialHours"])[];
     };
     /** @description This type is used to provide details about any KYC check that is applicable to the managed payments seller. */
     KycCheck: {
@@ -484,81 +360,32 @@ export interface components {
       /** @description This array contains one or more KYC checks required from a managed payments seller. The seller may need to provide more documentation and/or information about themselves, their company, or the bank account they are using for seller payouts.<br/><br/>If no KYC checks are currently required from the seller, this array is not returned, and the seller only receives a <code>204 No Content</code> HTTP status code. */
       kycChecks?: (components["schemas"]["KycCheck"])[];
     };
-    /** @description A complex type that is used to provide the physical address of a location, and it geo-coordinates. */
-    Location: {
-      /** @description The <strong>address</strong> container is always returned in <strong>getInventoryLocation</strong>/<strong>getInventoryLocations</strong> calls. Except in the case of an inventory location that supports In-Store Pickup  inventory, a full address is not a requirement when setting up an inventory location. */
-      address?: components["schemas"]["Address"];
-      /** @description This container displays the Global Positioning System (GPS) latitude and longitude coordinates for the inventory location. This container is only returned if the geo-coordinates are set for an inventory location. */
-      geoCoordinates?: components["schemas"]["GeoCoordinates"];
-      /** @description A unique eBay-assigned ID for the location. <br/><br/> <span class="tablenote"> <strong>Note:</strong> This field should not be confused with the seller-defined <b>merchantLocationKey</b> value. It is the <b>merchantLocationKey</b> value which is used to identify an inventory location when working with inventory location API calls. The <strong>locationId</strong> value is only used internally by eBay.</span> */
-      locationId?: string;
-    };
-    /** @description This type is used by the <b>createInventoryLocation</b> call to provide an full or partial address of an inventory location. */
-    LocationDetails: {
-      /** @description The <b>address</b> container is required for a <b>createInventoryLocation</b> call. Except in the case of an inventory location that supports In-Store Pickup inventory, a full address is not a requirement when setting up an inventory location. */
-      address?: components["schemas"]["Address"];
-      /** @description This container is used to set the Global Positioning System (GPS) latitude and longitude coordinates for the inventory location. */
-      geoCoordinates?: components["schemas"]["GeoCoordinates"];
-    };
-    /** @description This type is used by the base response payload for the <strong>getInventoryLocations</strong> call. */
-    LocationResponse: {
-      /** @description The URI of the current page of results from the result set. */
-      href?: string;
-      /**
-       * Format: int32 
-       * @description The number of items returned on a single page from the result set.
-       */
-      limit?: number;
-      /** @description The URI for the following page of results. This value is returned only if there is an additional page of results to display from the result set. <br/><br/><b>Max length</b>: 2048 */
-      next?: string;
-      /**
-       * Format: int32 
-       * @description The number of results skipped in the result set before listing the first returned result. This value is set in the request with the <b>offset</b> query parameter. <p class="tablenote"><strong>Note: </strong>The items in a paginated result set use a zero-based list where the first item in the list has an offset of <code>0</code>.</p>
-       */
-      offset?: number;
-      /** @description The URI for the preceding page of results. This value is returned only if there is a previous page of results to display from the result set. <br/><br/><b>Max length</b>: 2048 */
-      prev?: string;
-      /**
-       * Format: int32 
-       * @description The total number of items retrieved in the result set.  <br/><br/>If no items are found, this field is returned with a value of <code>0</code>.
-       */
-      total?: number;
-      /** @description An array of one or more of the merchant's inventory locations. */
-      locations?: (components["schemas"]["InventoryLocationResponse"])[];
-    };
-    /** @description This type is used to express the regular operating hours of a merchant's store during the days of the week. */
-    OperatingHours: {
-      /** @description A <strong>dayOfWeekEnum</strong> value is required for each day of the week that the store location has regular operating hours. <br/><br/>This field is returned if operating hours are defined for the store location. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:DayOfWeekEnum'>eBay API documentation</a> */
-      dayOfWeekEnum?: string;
-      /** @description This container is used to define the opening and closing times of a store's working day (defined in the <strong>dayOfWeekEnum</strong> field). An <strong>intervals</strong> container is needed for each day of the week that the store location is open. If a store location closes for lunch (or any other period during the day) and then reopens, multiple <strong>open</strong> and <strong>close</strong> pairs are needed <br/><br/>This container is returned if operating hours are defined for the store location. */
-      intervals?: (components["schemas"]["Interval"])[];
-    };
-    /** @description This type is used by the <b>paymentMethods</b> container, which is used by the seller to specify one or more offline payment methods. <br /><br /> <span class="tablenote"><b>Note</b>: eBay now controls all electronic payment methods available for a marketplace, so a seller will no longer use this type to specify any electronic payment methods.</span> */
+    /** @description This type is used by the <b>paymentMethods</b> container, which is used by the seller to specify one or more offline payment methods. <br><br> <span class="tablenote"><b>Note</b>: eBay now controls all electronic payment methods available for a marketplace, so a seller will no longer use this type to specify any electronic payment methods.</span> */
     PaymentMethod: {
       /** @description <span class="tablenote"><b>Note</b>: This array is no longer applicable and should not be used. eBay now controls all electronic payment methods available for a marketplace, and a seller never has to specify any electronic payment methods, including any credit card brands accepted. </span> */
       brands?: (string)[];
-      /** @description eBay now controls all electronic payment methods available for a marketplace, so only offline payment method enum values may be used in this field, and offline payment methods will only be applicable to listings that require or support offline payments. See the <b>PaymentMethodTypeEnum</b> type for supported offline payment method enum values. </p> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:PaymentMethodTypeEnum'>eBay API documentation</a> */
+      /** @description This array is only applicable for listings supporting offline payment methods. See the <b>PaymentMethodTypeEnum</b> type for supported offline payment method enum values. If offline payments are enabled for the policy, provide at least one offline payment method.</p> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:PaymentMethodTypeEnum'>eBay API documentation</a> */
       paymentMethodType?: string;
       /** @description <span class="tablenote"><b>Note</b>: This container is no longer applicable and should not be used. eBay now controls all electronic payment methods available for a marketplace, and a seller never has to specify any electronic payment methods, including PayPal. </span> */
       recipientAccountReference?: components["schemas"]["RecipientAccountReference"];
     };
     /** @description This type is used by the <b>paymentPolicy</b> response container, a container which defines a seller's payment business policy for a specific marketplace. */
     PaymentPolicy: {
-      /** @description This container indicates whether the fulfillment policy applies to motor vehicle listings, or if it applies to non-motor vehicle listings. */
+      /** @description This container indicates whether the payment policy applies to motor vehicle listings, or if it applies to non-motor vehicle listings. */
       categoryTypes?: (components["schemas"]["CategoryType"])[];
-      /** @description This container is applicable only if the <b>categoryTypes.name</b> field is set to <code>MOTORS_VEHICLES</code>, and is only returned if the seller requires an initial deposit on motor vehicles.<br /><br />The container shows the amount due for the deposit and when it is due (within 1-3 days after commitment to purchase, unless the listing requires immediate payment). <p class="tablenote"><b>Note:</b> The due date that is specified in the <b>deposit</b> container will be overridden if the payment business policy requires immediate payment (in this case, for the deposit), and the buyer commits to purchasing the motor vehicle through a fixed-price listing or through the 'Buy it Now' option of an auction listing. </p> */
+      /** @description This container is applicable only if the <b>categoryTypes.name</b> field is set to <code>MOTORS_VEHICLES</code>, and is only returned if the seller requires an initial deposit on motor vehicles.<br><br>The container shows the amount due for the deposit and when it is due (within 1-3 days after commitment to purchase, unless the listing requires immediate payment). <p class="tablenote"><b>Note:</b> The due date that is specified in the <b>deposit</b> container will be overridden if the payment business policy requires immediate payment (in this case, for the deposit), and the buyer commits to purchasing the motor vehicle through a fixed-price listing or through the 'Buy it Now' option of an auction listing. </p> */
       deposit?: components["schemas"]["Deposit"];
-      /** @description A seller-defined description of the payment policy. This description is only for the seller's use, and is not exposed on any eBay pages.  <br/><br/><b>Max length</b>: 250 */
+      /** @description A seller-defined description of the payment policy. This description is only for the seller's use, and is not exposed on any eBay pages.  <br><br><b>Max length</b>: 250 */
       description?: string;
-      /** @description This container applies to motor vehicles listings only and indicates when a final payment for the vehicle is due. This value is always returned if <b>categoryTypes</b> is set to <code>MOTORS_VEHICLES</code>. <br><br>This container indicates the number of days that a buyer has to make their full payment to the seller and close the remaining balance on a motor vehicle transaction. The period starts when the buyer commits to buy. The valid values, as specified with <b>TimeDuration</b>, are:<ul><li>3 DAYS</li><li>7 DAYS (the default)</li><li>10 DAYS</li><li>14 DAYS</li></ul>A <code>MOTORS_VEHICLES</code>) payment business policy must specify at least one of the following <b>paymentMethods</b> values for the final payment: <ul> <li>CASH_ON_PICKUP<br /><br /><span class="tablenote"><b>Note:</b> This payment method is only available to sellers outside the US.</span></li> <li>CASHIER_CHECK</li> <li>MONEY_ORDER</li><li>PERSONAL_CHECK</li></ul> */
+      /** @description This container applies to motor vehicles listings only and indicates when a final payment for the vehicle is due. This value is always returned if <b>categoryTypes</b> is set to <code>MOTORS_VEHICLES</code>. <br><br>This container indicates the number of days that a buyer has to make their full payment to the seller and close the remaining balance on a motor vehicle transaction. The period starts when the buyer commits to buy. The valid values, as specified with <b>TimeDuration</b>, are:<ul><li>3 DAYS</li><li>7 DAYS (the default)</li><li>10 DAYS</li><li>14 DAYS</li></ul>A <code>MOTORS_VEHICLES</code>) payment business policy must specify at least one of the following <b>paymentMethods</b> values for the final payment: <ul> <li>CASH_ON_PICKUP<br><br><span class="tablenote"><b>Note:</b> This payment method is only available to sellers outside the US.</span></li> <li>CASHIER_CHECK</li> <li>MONEY_ORDER</li><li>PERSONAL_CHECK</li></ul> */
       fullPaymentDueIn?: components["schemas"]["TimeDuration"];
-      /** @description If this field is returned as <code>true</code>, immediate payment is required from the buyer for: <ul><li>A fixed-price item</li><li>An auction item where the buyer uses the 'Buy it Now' option</li><li>A deposit for a motor vehicle listing</li></ul><br />It is possible for the seller to set this field as <code>true</code> in the payment business policy, but it will not apply in some scenarios. For example, immediate payment is not applicable for auction listings that have a winning bidder, for buyer purchases that involve the Best Offer feature, or for transactions that happen offline between the buyer and seller. */
+      /** @description If this field is returned as <code>true</code>, immediate payment is required from the buyer for: <ul><li>A fixed-price item</li><li>An auction item where the buyer uses the 'Buy it Now' option</li><li>A deposit for a motor vehicle listing</li></ul><br>It is possible for the seller to set this field as <code>true</code> in the payment business policy, but it will not apply in some scenarios. For example, immediate payment is not applicable for auction listings that have a winning bidder, for buyer purchases that involve the Best Offer feature, or for transactions that happen offline between the buyer and seller. */
       immediatePay?: boolean;
       /** @description The ID of the eBay marketplace to which the payment business policy applies. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum'>eBay API documentation</a> */
       marketplaceId?: string;
-      /** @description A seller-defined name for this fulfillment policy. Names must be unique for policies assigned to the same marketplace. <br/><br/><b>Max length</b>: 64 */
+      /** @description A seller-defined name for this payment policy. Names must be unique for policies assigned to the same marketplace. <br><br><b>Max length</b>: 64 */
       name?: string;
-      /** @description Although this field may be returned for some older payment business policies, payment instructions are no longer supported by payment business policies. If this field is returned, it can be ignored and these payment instructions will not appear in any listings that use the corresponding business policy. <br/><br/><b>Max length</b>: 1000 */
+      /** @description Although this field may be returned for some older payment business policies, payment instructions are no longer supported by payment business policies. If this field is returned, it can be ignored and these payment instructions will not appear in any listings that use the corresponding business policy. <br><br><b>Max length</b>: 1000 */
       paymentInstructions?: string;
       /** @description This container is returned to show the payment methods that are accepted for the payment business policy.  <br><br>Sellers do not have to specify any electronic payment methods for listings, so this array will often be returned empty unless the payment business policy is intended for motor vehicle listings or other items in categories where offline payments are required or supported. */
       paymentMethods?: (components["schemas"]["PaymentMethod"])[];
@@ -569,24 +396,24 @@ export interface components {
     PaymentPolicyRequest: {
       /** @description This container is used to specify whether the payment business policy applies to motor vehicle listings, or if it applies to non-motor vehicle listings. */
       categoryTypes?: (components["schemas"]["CategoryType"])[];
-      /** @description This container is used if the seller wants to require an initial deposit on a motor vehicle listing. In this container, the seller sets the deposit amount and the due date for the deposit.<br /><br />Because eBay controls all electronic payment methods, sellers do not need to specify a payment method and the <b>deposit.paymentMethods</b> array is not needed.<p class="tablenote"><b>Note: </b>The 'due date' specified in the <b>deposit</b> container will be overridden if the payment business policy requires immediate payment (in this case, for the deposit), and the buyer commits to purchase the motor vehicle through a fixed-price listing or through the 'Buy it Now' option of an auction listing.</p> */
+      /** @description This container is used if the seller wants to require an initial deposit on a motor vehicle listing. In this container, the seller sets the deposit amount and the due date for the deposit.<br><br>Because eBay controls all electronic payment methods, sellers do not need to specify a payment method and the <b>deposit.paymentMethods</b> array is not needed.<p class="tablenote"><b>Note: </b>The 'due date' specified in the <b>deposit</b> container will be overridden if the payment business policy requires immediate payment (in this case, for the deposit), and the buyer commits to purchase the motor vehicle through a fixed-price listing or through the 'Buy it Now' option of an auction listing. See <a href="/api-docs/sell/account/resources/payment_policy/methods/createPaymentPolicy#request.immediatePay">immediatePay</a>.</p> */
       deposit?: components["schemas"]["Deposit"];
-      /** @description A seller-defined description of the payment business policy. This description is only for the seller's use, and is not exposed on any eBay pages.  <br/><br/><b>Max length</b>: 250 */
+      /** @description A seller-defined description of the payment business policy. This description is only for the seller's use, and is not exposed on any eBay pages.  <br><br><b>Max length</b>: 250 */
       description?: string;
-      /** @description This container is used to specify the number of days that a buyer has to make their full payment to the seller and close the remaining balance on a motor vehicle transaction. This container must be specified for motor vehicles listings. <br/><br/>The period starts when the buyer commits to buy. The valid values, as specified with <b>TimeDuration</b>, are:<ul><li><code>3 DAYS</code></li><li><code>7 DAYS</code> (the default)</li><li><code>10 DAYS</code></li><li><code>14 DAYS</code></li></ul>In order for a buyer to make a full payment on a motor vehicle, at least one of the following <b>paymentMethods</b> values must be specified for the corresponding payment business policy: <ul> <li><code>CASH_ON_PICKUP</code></li> <li><code>CASHIER_CHECK</code></li> <li><code>MONEY_ORDER</code></li> <li><code>PERSONAL_CHECK</code></li></ul><b>Default:</b> <code>7 DAYS</code> */
+      /** @description This container is used to specify the number of days that a buyer has to make their full payment to the seller and close the remaining balance on a motor vehicle transaction. This container must be specified for motor vehicles listings. <br><br>The period starts when the buyer commits to buy. The valid values, as specified with <b>TimeDuration</b>, are:<ul><li><code>3 DAYS</code></li><li><code>7 DAYS</code> (the default)</li><li><code>10 DAYS</code></li><li><code>14 DAYS</code></li></ul>In order for a buyer to make a full payment on a motor vehicle, at least one of the following <b>paymentMethods</b> values must be specified for the corresponding payment business policy: <ul> <li><code>CASH_ON_PICKUP</code></li> <li><code>CASHIER_CHECK</code></li> <li><code>MONEY_ORDER</code></li> <li><code>PERSONAL_CHECK</code></li></ul><b>Default:</b> <code>7 DAYS</code> */
       fullPaymentDueIn?: components["schemas"]["TimeDuration"];
-      /** @description This field should be included and set to <code>true</code> if the seller wants to require immediate payment from the buyer for: <ul><li>A fixed-price item</li><li>An auction item where the buyer is using the 'Buy it Now' option</li><li>A deposit for a motor vehicle listing</li></ul><br /><b>Default:</b> False */
+      /** @description This field should be included and set to <code>true</code> if the seller wants to require immediate payment from the buyer for: <ul><li>A fixed-price item</li><li>An auction item where the buyer is using the 'Buy it Now' option</li><li>A deposit for a motor vehicle listing</li></ul><br><b>Default:</b> False */
       immediatePay?: boolean;
       /** @description The ID of the eBay marketplace to which this payment business policy applies. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum'>eBay API documentation</a> */
       marketplaceId?: string;
-      /** @description A seller-defined name for this payment business policy. Names must be unique for policies assigned to the same marketplace.<br /><br /><b>Max length:</b> 64 */
+      /** @description A seller-defined name for this payment business policy. Names must be unique for policies assigned to the same marketplace.<br><br><b>Max length:</b> 64 */
       name?: string;
       /** @description <p class="tablenote"><b>Note:</b> DO NOT USE THIS FIELD. Payment instructions are no longer supported by payment business policies.</p>A free-form string field that allows sellers to add detailed payment instructions to their listings. */
       paymentInstructions?: string;
       /** @description <p class="tablenote"><b>Note:</b> This field applies only when the seller needs to specify one or more offline payment methods. eBay now manages the electronic payment options available to buyers to pay for the item.</p>This array is used to specify one or more offline payment methods that will be accepted for payment that occurs off of eBay's platform. */
       paymentMethods?: (components["schemas"]["PaymentMethod"])[];
     };
-    /** @description The response payload for the <b>getPaymentPolicies</b> method. <br /><br /><span class="tablenote"><b>Note</b>: Pagination has not yet been enabled for <b>getPaymentPolicies</b>, so all of the pagination-related fields are for future use.</span> */
+    /** @description The response payload for the <b>getPaymentPolicies</b> method. <br><br><span class="tablenote"><b>Note</b>: Pagination has not yet been enabled for <b>getPaymentPolicies</b>, so all of the pagination-related fields are for future use.</span> */
     PaymentPolicyResponse: {
       /** @description This field is for future use. */
       href?: string;
@@ -608,7 +435,7 @@ export interface components {
       prev?: string;
       /**
        * Format: int32 
-       * @description The total number of payment business policies retrieved in the result set.  <br/><br/>If no payment business policies are defined for the specified marketplace, this field is returned with a value of <code>0</code>.
+       * @description The total number of payment business policies retrieved in the result set.  <br><br>If no payment business policies are defined for the specified marketplace, this field is returned with a value of <code>0</code>.
        */
       total?: number;
     };
@@ -639,14 +466,14 @@ export interface components {
       /** @description If returned as <code>true</code>, the seller was at one point opted-in to the associated payment program, but they later opted out of the program. A value of <code>false</code> indicates the seller never opted-in to the program or if they did opt-in to the program, they never opted-out of it.  <br><br>It's important to note that the setting of this field does not indicate the seller's current status regarding the payment program. It is possible for this field to return <code>true</code> while the <b>status</b> field returns <code>OPTED_IN</code>. */
       wasPreviouslyOptedIn?: boolean;
     };
-    /** @description A seller program in to which a seller can opt-in. */
+    /** @description The seller program to opt in to when part of an <b>optInToProgram</b> request, or out of when part of an  <b>optOutOfProgram</b> request. */
     Program: {
-      /** @description A seller program in to which a seller can opt-in. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ProgramTypeEnum'>eBay API documentation</a> */
+      /** @description The seller program to opt in to when part of an <b>optInToProgram</b> request, or out of when part of an  <b>optOutOfProgram</b> request. When returned in an <b>getOptedInPrograms</b> response, a separate <b>programType</b> field is returned for each seller program that the seller is opted in to. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ProgramTypeEnum'>eBay API documentation</a> */
       programType?: string;
     };
     /** @description The base response type of the <b>getOptedInPrograms</b> method. */
     Programs: {
-      /** @description An array of seller programs that the seller's account is opted in to. */
+      /** @description An array of seller programs that the seller's account is opted in to. An empty array is returned if the seller is not opted in to any of the seller programs. */
       programs?: (components["schemas"]["Program"])[];
     };
     /** @description This type is used to provide details about each shipping rate table that is returned in the <b>getRateTables</b> response. */
@@ -674,54 +501,54 @@ export interface components {
     };
     /** @description This type is used to define specific shipping regions. There are four 'levels' of shipping regions, including large geographical regions (like 'Asia', 'Europe', or 'Middle East'), individual countries, US states or Canadian provinces, and special locations/domestic regions within a country (like 'Alaska/Hawaii' or 'PO Box'). */
     Region: {
-      /** @description A string that indicates the name of a region, as defined by eBay. A "region" can be either a 'world region' (e.g., the "Middle East" or "Southeast Asia"), a country (represented with a two-letter country code), a state or province (represented with a two-letter code), or a special domestic region within a country. <br /><br />The <b>GeteBayDetails</b> call in the Trading API can be used to retrieve the world regions and special domestic regions within a specific country. To get these enumeration values, call <b>GeteBayDetails</b> with the <b>DetailName</b> value set to <b>ExcludeShippingLocationDetails</b>. */
+      /** @description A string that indicates the name of a region, as defined by eBay. A "region" can be either a 'world region' (e.g., the "Middle East" or "Southeast Asia"), a country (represented with a two-letter country code), a state or province (represented with a two-letter code), or a special domestic region within a country. <br><br>The <a href="/devzone/xml/docs/reference/ebay/GeteBayDetails.html">GeteBayDetails</a> call in the Trading API can be used to retrieve the world regions and special domestic regions within a specific country. To get these enumeration values, call <b>GeteBayDetails</b> with the <b>DetailName</b> value set to <b>ExcludeShippingLocationDetails</b>. */
       regionName?: string;
       /** @description Reserved for future use. <!--The region's type, which can be one of the following: 'COUNTRY', 'COUNTRY_REGION', 'STATE_OR_PROVINCE', 'WORLD_REGION', or 'WORLDWIDE'.--> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:RegionTypeEnum'>eBay API documentation</a> */
       regionType?: string;
     };
     /** @description This type consists of the <b>regionIncluded</b> and <b>regionExcluded</b> arrays, which indicate the areas to where the seller does and doesn't ship. */
     RegionSet: {
-      /** @description An array of one or more <b>regionName</b> values that specify the areas to where a seller does not ship. A <b>regionExcluded</b> list should only be set in the top-level <b>shipToLocations</b> container and not within the <b>shippingServices.shipToLocations</b> container used to specify which shipping regions are serviced by each available shipping service option. <p>Many sellers are willing to ship to many international locations, but they may want to exclude some world regions or some countries as places they are willing to ship to.<br/><br/>This array will be returned as empty if no shipping regions are excluded with the fulfillment business policy.<br /> <br /><span class="tablenote"><b>Note: </b> The <b>regionExcluded</b> array is not applicable for motor vehicle business policies on the US, CA, or UK marketplaces. If this array is used in a <b>createFulfillmentPolicy</b> or <b>updateFulfillmentPolicy</b> request, it will be ignored.</span> */
+      /** @description An array of one or more <b>regionName</b> values that specify the areas to where a seller does not ship. A <b>regionExcluded</b> list should only be set in the top-level <b>shipToLocations</b> container and not within the <b>shippingServices.shipToLocations</b> container used to specify which shipping regions are serviced by each available shipping service option. <p>Many sellers are willing to ship to many international locations, but they may want to exclude some world regions or some countries as places they are willing to ship to.<br><br>This array will be returned as empty if no shipping regions are excluded with the fulfillment business policy.<br> <br><span class="tablenote"><b>Note: </b> The <b>regionExcluded</b> array is not applicable for motor vehicle business policies on the US, CA, or UK marketplaces. If this array is used in a <b>createFulfillmentPolicy</b> or <b>updateFulfillmentPolicy</b> request, it will be ignored.</span> */
       regionExcluded?: (components["schemas"]["Region"])[];
-      /** @description An array of one or more <b>regionName</b> fields that specify the areas to where a seller ships. <br />Each eBay marketplace supports its own set of allowable shipping locations.<br /> <br /><span class="tablenote"><b>Note: </b> The <b>regionIncluded</b> array is not applicable for motor vehicle business policies on the US, CA, or UK marketplaces. If this array is used in a <b>createFulfillmentPolicy</b> or <b>updateFulfillmentPolicy</b> request, it will be ignored.</span> */
+      /** @description An array of one or more <b>regionName</b> fields that specify the areas to where a seller ships. <br>Each eBay marketplace supports its own set of allowable shipping locations.<br> <br><span class="tablenote"><b>Note: </b> The <b>regionIncluded</b> array is not applicable for motor vehicle business policies on the US, CA, or UK marketplaces. If this array is used in a <b>createFulfillmentPolicy</b> or <b>updateFulfillmentPolicy</b> request, it will be ignored.</span> */
       regionIncluded?: (components["schemas"]["Region"])[];
     };
     /** @description This type is used by the <b>returnPolicy</b> response container, a container which defines a seller's return business policy for a specific marketplace. */
     ReturnPolicy: {
-      /** @description This container indicates which category group that the return policy applies to.<br/><br/><span class="tablenote"><b>Note</b>: Return business policies are not applicable to motor vehicle listings, so the <b>categoryTypes.name</b> value will always be <code>ALL_EXCLUDING_MOTORS_VEHICLES</code> for return business policies.</span> */
+      /** @description This container indicates which category group that the return policy applies to.<br><br><span class="tablenote"><b>Note</b>: Return business policies are not applicable to motor vehicle listings, so the <b>categoryTypes.name</b> value will always be <code>ALL_EXCLUDING_MOTORS_VEHICLES</code> for return business policies.</span> */
       categoryTypes?: (components["schemas"]["CategoryType"])[];
-      /** @description A seller-defined description of the return business policy. This description is only for the seller's use, and is not exposed on any eBay pages.  <br/><br/><b>Max length</b>: 250 */
+      /** @description A seller-defined description of the return business policy. This description is only for the seller's use, and is not exposed on any eBay pages.  <br><br><b>Max length</b>: 250 */
       description?: string;
       /** @description <p class="tablenote"><span  style="color: #dd1e31;"><b>Important!</b></span> This field is deprecated, since eBay no longer supports extended holiday returns. Any value supplied in this field is neither read nor returned.</p> */
       extendedHolidayReturnsOffered?: boolean;
-      /** @description This container shows the seller's international return policy settings. This container is only returned if the seller has set a separate international return policy for the business policies. Interational return policies are optional, even if the seller ships to international locations. If a separate international return policy is not set, all of the domestic return policy settings also apply to international orders. */
+      /** @description This container shows the seller's international return policy settings. This container is only returned if the seller has set a separate international return policy for the business policy. International return policies are optional, even if the seller ships to international locations. If a separate international return policy is not set, all of the domestic return policy settings also apply to international orders. */
       internationalOverride?: components["schemas"]["InternationalReturnOverrideType"];
       /** @description The ID of the eBay marketplace to which this return business policy applies. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum'>eBay API documentation</a> */
       marketplaceId?: string;
-      /** @description A seller-defined name for this payment business policy. Names must be unique for policies assigned to the same marketplace.<br /><br /><b>Max length:</b> 64 */
+      /** @description A seller-defined name for this return business policy. Names must be unique for policies assigned to the same marketplace.<br><br><b>Max length:</b> 64 */
       name?: string;
-      /** @description If a seller indicates that they will accept buyer returns, this value will be set to <code>MONEY_BACK</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:RefundMethodEnum'>eBay API documentation</a> */
+      /** @description This field indicates the refund method offered by the seller. Its value will be <code>MONEY_BACK</code> unless the seller is enabled for <b>Buy online, Pickup in Store</b> or <b>Click and Collect</b>, and then it might be <code>MERCHANDISE_CREDIT</code>. Getting their money back for returned items is always an option for buyers, regardless of what the seller sets in this field. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:RefundMethodEnum'>eBay API documentation</a> */
       refundMethod?: string;
       /** @description <p class="tablenote"><span  style="color: #dd1e31;"><b>Important!</b></span> This field is deprecated, since eBay no longer allows sellers to charge a restocking fee for buyer remorse returns. If this field is included, it is ignored and it is no longer returned.</p> */
       restockingFeePercentage?: string;
-      /** @description This text-based field provides more details on seller-specified return instructions. This field is only returned if set for the return business policy. <p class="tablenote"><span  style="color: #dd1e31;"><b>Important!</b></span> This field is no longer supported on many eBay marketplaces. To see if a marketplace and eBay category does support this field, call <a href="/api-docs/sell/metadata/resources/marketplace/methods/getReturnPolicies">getReturnPolicies</a> method of the <b>Metadata API</b>. Then you will look for the <b>policyDescriptionEnabled</b> field with a value of <code>true</code> for the eBay category.</span></p><br/><b>Max length</b>: 5000 (8000 for DE) */
+      /** @description This text-based field provides more details on seller-specified return instructions. This field is only returned if set for the return business policy.<br><p class="tablenote"><span  style="color: #dd1e31;"><b>Important!</b></span> This field is no longer supported on many eBay marketplaces. To see if a marketplace and eBay category does support this field, call <a href="/api-docs/sell/metadata/resources/marketplace/methods/getReturnPolicies">getReturnPolicies</a> method of the <b>Metadata API</b>. Then you will look for the <b>policyDescriptionEnabled</b> field with a value of <code>true</code> for the eBay category.</span></p><br><b>Max length</b>: 5000 (8000 for DE) */
       returnInstructions?: string;
       /** @description This field is only returned if the seller is willing to offer a replacement item as an alternative to 'Money Back'. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ReturnMethodEnum'>eBay API documentation</a> */
       returnMethod?: string;
-      /** @description This container indicates the number of calendar days that the buyer has to return an item. The return period begins when the item is marked "delivered" at the buyer's specified ship-to location.  <br/><br/>Most categories support 30-day and 60-day return periods.<br/><br/><span class="tablenote"><b>Note</b>: Unless the seller has set a separate international return policy through the <b>internationalOverride</b> container, this return period will be valid for domestic and international returns (if the seller ships internationally).</span> */
+      /** @description This container indicates the number of calendar days that the buyer has to return an item. The return period begins when the item is marked "delivered" at the buyer's specified ship-to location.  <br><br>Most categories support 30-day and 60-day return periods.<br><br><span class="tablenote"><b>Note</b>: Unless the seller has set a separate international return policy through the <b>internationalOverride</b> container, this return period will be valid for domestic and international returns (if the seller ships internationally).</span> */
       returnPeriod?: components["schemas"]["TimeDuration"];
       /** @description A unique eBay-assigned ID for a return business policy. This ID is generated when the policy is created. */
       returnPolicyId?: string;
-      /** @description If this field is returned as <code>true</code>, the seller accepts returns. <br/><br/><span class="tablenote"><strong>Note:</strong>Top-Rated sellers must accept item returns and the <b>handlingTime</b> should be set to zero days or one day for a listing to receive a Top-Rated Plus badge on the View Item or search result pages. For more information on eBay's Top-Rated seller program, see <a href="https://pages.ebay.com/help/sell/top-rated.html ">Becoming a Top Rated Seller and qualifying for Top Rated Plus benefits</a>.</span> */
+      /** @description If this field is returned as <code>true</code>, the seller accepts returns. If set to <code>false</code>, the seller does not accept returns.<br><br><span class="tablenote"><strong>Note:</strong> Top-Rated sellers must accept item returns and the <b>handlingTime</b> should be set to zero days or one day for a listing to receive a Top-Rated Plus badge on the View Item or search result pages. For more information on eBay's Top-Rated seller program, see <a href="https://pages.ebay.com/help/sell/top-rated.html ">Becoming a Top Rated Seller and qualifying for Top Rated Plus benefits</a>.</span> */
       returnsAccepted?: boolean;
-      /** @description This field indicates who is responsible for paying for the shipping charges for returned items. The field can be set to either <code>BUYER</code> or <code>SELLER</code>.  <br/><br/>Depending on the return policy and specifics of the return, either the buyer or the seller can be responsible for the return shipping costs. Note that the seller is always responsible for return shipping costs for SNAD-related issues. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ReturnShippingCostPayerEnum'>eBay API documentation</a> */
+      /** @description This field indicates who is responsible for paying for the shipping charges for returned items. The field can be set to either <code>BUYER</code> or <code>SELLER</code>.  <br><br>Depending on the return policy and specifics of the return, either the buyer or the seller can be responsible for the return shipping costs. Note that the seller is always responsible for return shipping costs for SNAD-related issues. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ReturnShippingCostPayerEnum'>eBay API documentation</a> */
       returnShippingCostPayer?: string;
     };
     /** @description This root container defines a seller's return business policy for a specific marketplace and category group. This type is used when creating or updating a return business policy. */
     ReturnPolicyRequest: {
-      /** @description This container indicates which category group that the return policy applies to.<br/><br/><span class="tablenote"><b>Note</b>: Return business policies are not applicable to motor vehicle listings, so the <b>categoryTypes.name</b> value must be set to <code>ALL_EXCLUDING_MOTORS_VEHICLES</code> for return business policies.</span> */
+      /** @description This container indicates which category group that the return policy applies to.<br><br><span class="tablenote"><b>Note</b>: Return business policies are not applicable to motor vehicle listings, so the <b>categoryTypes.name</b> value must be set to <code>ALL_EXCLUDING_MOTORS_VEHICLES</code> for return business policies.</span> */
       categoryTypes?: (components["schemas"]["CategoryType"])[];
-      /** @description A seller-defined description of the return business policy. This description is only for the seller's use, and is not exposed on any eBay pages.  <br/><br/><b>Max length</b>: 250 */
+      /** @description A seller-defined description of the return business policy. This description is only for the seller's use, and is not exposed on any eBay pages.  <br><br><b>Max length</b>: 250 */
       description?: string;
       /** @description <p class="tablenote"><span  style="color: #dd1e31;"><b>Important!</b></span> This field is deprecated, since eBay no longer supports extended holiday returns. Any value supplied in this field is neither read nor returned.</p> */
       extendedHolidayReturnsOffered?: boolean;
@@ -729,24 +556,24 @@ export interface components {
       internationalOverride?: components["schemas"]["InternationalReturnOverrideType"];
       /** @description The ID of the eBay marketplace to which this return business policy applies.  For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum'>eBay API documentation</a> */
       marketplaceId?: string;
-      /** @description A seller-defined name for this return business policy. Names must be unique for policies assigned to the same marketplace. <br/><br/><b>Max length</b>: 64 */
+      /** @description A seller-defined name for this return business policy. Names must be unique for policies assigned to the same marketplace. <br><br><b>Max length</b>: 64 */
       name?: string;
-      /** @description This value indicates the refund method that will be used by the seller for buyer returns.<p class="tablenote"><span  style="color: #dd1e31;"><b>Important!</b></span> If this field is not included in a return business policy, it will default to MONEY_BACK.</p> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:RefundMethodEnum'>eBay API documentation</a> */
+      /** @description This field sets the refund method to use for returned items. Its value defaults to <code>MONEY_BACK</code> if omitted, so this field is only needed for <b>Buy online, Pickup in Store</b> or <b>Click and Collect</b> items where the seller is willing to offer merchandise credit as an additional refund method to buyers. Getting their money back for returned items is always an option for buyers, regardless of what the seller sets in this field.<p class="tablenote"><span  style="color: #dd1e31;"><b>Important!</b></span> If this field is not included in a return business policy, it will default to <code>MONEY_BACK</code>.</p> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:RefundMethodEnum'>eBay API documentation</a> */
       refundMethod?: string;
       /** @description <p class="tablenote"><span  style="color: #dd1e31;"><b>Important!</b></span> This field is deprecated, since eBay no longer allows sellers to charge a restocking fee for buyer remorse returns. If this field is included, it is ignored.</p> */
       restockingFeePercentage?: string;
-      /** @description This text-based field provides more details on seller-specified return instructions. <p class="tablenote"><span  style="color: #dd1e31;"><b>Important!</b></span> This field is no longer supported on many eBay marketplaces. To see if a marketplace and eBay category does support this field, call <a href="/api-docs/sell/metadata/resources/marketplace/methods/getReturnPolicies">getReturnPolicies</a> method of the <b>Metadata API</b>. Then you will look for the <b>policyDescriptionEnabled</b> field with a value of <code>true</code> for the eBay category.</span></p><br/><b>Max length</b>: 5000 (8000 for DE) */
+      /** @description This text-based field provides more details on seller-specified return instructions. <br><p class="tablenote"><span  style="color: #dd1e31;"><b>Important!</b></span> This field is no longer supported on many eBay marketplaces. To see if a marketplace and eBay category does support this field, call <a href="/api-docs/sell/metadata/resources/marketplace/methods/getReturnPolicies">getReturnPolicies</a> method of the <b>Metadata API</b>. Then you will look for the <b>policyDescriptionEnabled</b> field with a value of <code>true</code> for the eBay category.</span></p><br><b>Max length</b>: 5000 (8000 for DE) */
       returnInstructions?: string;
       /** @description This field can be used if the seller is willing and able to offer a replacement item as an alternative to 'Money Back'. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ReturnMethodEnum'>eBay API documentation</a> */
       returnMethod?: string;
-      /** @description This container is used to specify the number of days that the buyer has to return an item. The return period begins when the item is marked "delivered" at the buyer's specified ship-to location.  <br/><br/>You must set the value to one that's accepted by the marketplace and category where the item is listed. Most categories support 30-day and 60-day return periods.  <br/><br/>For a definitive list of return periods for one or more categories, call <a href="/api-docs/sell/metadata/resources/marketplace/methods/getReturnPolicies">getReturnPolicies</a> method of the <b>Metadata API</b>.<br/><br/>The return period is set using the <b>TimeDuration</b> type, where you set <b>unit</b> to <code>DAY</code> and <b>value</b> to either <code>30</code> or <code>60</code> (or other value, as appropriate).  <br/><br/>Note that this value cannot be modified if the listing has bids or sales, or if the listing ends within 12 hours.  <br/><br/><i>Required if </i> <b>returnsAccepted</b> is set to <code>true</code>. */
+      /** @description This container is used to specify the number of days that the buyer has to return an item. The return period begins when the item is marked "delivered" at the buyer's specified ship-to location.  <br><br>You must set the value to one that's accepted by the marketplace and category where the item is listed. Most categories support 30-day and 60-day return periods.  <p><span class="tablenote"><span style="color:#004680"><strong>Note: </strong>Eligible Parts & Accessories (P&A) listings require sellers to offer buyers free returns with a minimum return period of 30 days. See <a href="/api-docs/user-guides/static/trading-user-guide/ebay-motors-parts-accessories-easy-returns.html"  target="_blank">Support for easy returns in Parts and Accessories</a> for details.</span></p> <br>For a definitive list of return periods for one or more categories, call <a href="/api-docs/sell/metadata/resources/marketplace/methods/getReturnPolicies">getReturnPolicies</a> method of the <b>Metadata API</b>.<br><br>The return period is set using the <b>TimeDuration</b> type, where you set <b>unit</b> to <code>DAY</code> and <b>value</b> to either <code>30</code> or <code>60</code> (or other value, as appropriate).  <br><br>Note that this value cannot be modified if the listing has bids or sales, or if the listing ends within 12 hours.  <br><br><i>Required if </i> <b>returnsAccepted</b> is set to <code>true</code>. */
       returnPeriod?: components["schemas"]["TimeDuration"];
-      /** @description If set to <code>true</code>, the seller accepts returns. <p><span class="tablenote"><strong>Note:</strong>Top-Rated sellers must accept item returns and the <b>handlingTime</b> should be set to zero days or one day for a listing to receive a Top-Rated Plus badge on the View Item or search result pages. For more information on eBay's Top-Rated seller program, see <a href="http://pages.ebay.com/help/sell/top-rated.html ">Becoming a Top Rated Seller and qualifying for Top Rated Plus benefits</a>.</span></p> */
+      /** @description If set to <code>true</code>, the seller accepts returns. If set to <code>false</code>, the seller does not accept returns.<br><p><span class="tablenote"><strong>Note:</strong>Top-Rated sellers must accept item returns and the <b>handlingTime</b> should be set to zero days or one day for a listing to receive a Top-Rated Plus badge on the View Item or search result pages. For more information on eBay's Top-Rated seller program, see <a href="http://pages.ebay.com/help/sell/top-rated.html ">Becoming a Top Rated Seller and qualifying for Top Rated Plus benefits</a>.</span></p> */
       returnsAccepted?: boolean;
-      /** @description This field indicates who is responsible for paying for the shipping charges for returned items. The field can be set to either <code>BUYER</code> or <code>SELLER</code>.  <br/><br/>Depending on the return policy and specifics of the return, either the buyer or the seller can be responsible for the return shipping costs. Note that the seller is always responsible for return shipping costs for SNAD-related issues.  <br/><br/>This field is conditionally required if <b>returnsAccepted</b> is set to <code>true</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ReturnShippingCostPayerEnum'>eBay API documentation</a> */
+      /** @description This field indicates who is responsible for paying for the shipping charges for returned items. The field can be set to either <code>BUYER</code> or <code>SELLER</code>. <p><span class="tablenote"><span style="color:#004680"><strong>Note: </strong>Eligible Parts & Accessories (P&A) listings require sellers to offer buyers free returns with a minimum return period of 30 days. See <a href="/api-docs/user-guides/static/trading-user-guide/ebay-motors-parts-accessories-easy-returns.html"  target="_blank">Support for easy returns in Parts and Accessories</a> for details.</span></p> <br>Depending on the return policy and specifics of the return, either the buyer or the seller can be responsible for the return shipping costs. Note that the seller is always responsible for return shipping costs for SNAD-related issues.  <br><br>This field is conditionally required if <b>returnsAccepted</b> is set to <code>true</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ReturnShippingCostPayerEnum'>eBay API documentation</a> */
       returnShippingCostPayer?: string;
     };
-    /** @description The response payload for the <b>getReturnPolicies</b> method. <br /><br /><span class="tablenote"><b>Note</b>: Pagination has not yet been enabled for <b>getReturnPolicies</b>, so all of the pagination-related fields are for future use.</span> */
+    /** @description The response payload for the <b>getReturnPolicies</b> method. <br><br><span class="tablenote"><b>Note</b>: Pagination has not yet been enabled for <b>getReturnPolicies</b>, so all of the pagination-related fields are for future use.</span> */
     ReturnPolicyResponse: {
       /** @description This field is for future use. */
       href?: string;
@@ -768,15 +595,15 @@ export interface components {
       returnPolicies?: (components["schemas"]["ReturnPolicy"])[];
       /**
        * Format: int32 
-       * @description The total number of return business policies retrieved in the result set.  <br/><br/>If no return business policies are defined for the specified marketplace, this field is returned with a value of <code>0</code>.
+       * @description The total number of return business policies retrieved in the result set.  <br><br>If no return business policies are defined for the specified marketplace, this field is returned with a value of <code>0</code>.
        */
       total?: number;
     };
     /** @description This type is used to provide sales tax settings for a specific tax jurisdiction. */
     SalesTax: {
-      /** @description The country code enumeration value identifies the country to which this sales tax rate applies. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:CountryCodeEnum'>eBay API documentation</a> */
+      /** @description The country code enumeration value identifies the country to which this sales tax rate applies.<br><br><span class="tablenote"><b>Note:</b> Sales-tax tables are available only for the US and Canada marketplaces. Therefore, the only supported values are:<ul><li><code>US</code></li><li><code>CA</code></li></ul></span> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:CountryCodeEnum'>eBay API documentation</a> */
       countryCode?: string;
-      /** @description A unique ID that identifies the sales tax jurisdiction to which the salest tax rate applies (for example, a state within the United States). */
+      /** @description A unique ID that identifies the sales tax jurisdiction to which the sales tax rate applies.<br><br><span class="tablenote"><b>Note:</b> When the returned <code>countryCode</code> is <code>US</code>, the only supported return values for <code>salesTaxJurisdictionId</code> are:<ul><li><code>AS</code> (American Samoa)</li><li><code>GU</code> (Guam</li><li><code>MP</code> Northern Mariana Islands</li><li><code>PW (Palau)</li><li><code>VI</code> (US Virgin Islands)</li></ul></span> */
       salesTaxJurisdictionId?: string;
       /** @description The sales tax rate that will be applied to sales price. The <b>shippingAndHandlingTaxed</b> value will indicate whether or not sales tax is also applied to shipping and handling charges<br><br>Although it is a string, a percentage value is returned here, such as <code>7.75</code> */
       salesTaxPercentage?: string;
@@ -790,24 +617,14 @@ export interface components {
       /** @description This field is set to <code>true</code> if the seller wishes to apply sales tax to shipping and handling charges, and not just the total sales price of the order. Otherwise, this field's value should be set to <code>false</code>. */
       shippingAndHandlingTaxed?: boolean;
     };
-    /** @description A unique ID for a sales tax jurisdiction. */
-    SalesTaxJurisdiction: {
-      /** @description The unique ID for a sales tax jurisdiction. */
-      salesTaxJurisdictionId?: string;
-    };
-    /** @description This complex type contains a list of sales tax jurisdictions. */
-    SalesTaxJurisdictions: {
-      /** @description A list of sales tax jurisdictions. */
-      salesTaxJurisdictions?: (components["schemas"]["SalesTaxJurisdiction"])[];
-    };
     /** @description This type is used by the root response of the <b>getSalesTaxes</b> method. */
     SalesTaxes: {
-      /** @description An array of one or more sales tax rate entries for a specific marketplace (or all applicable marketplaces if the <b>country_code</b> query parameter is not used.<br><br>If no sales tax rate entries are set up, no response payload is returned, but only an HTTP status code of <code>204 No Content</code>. */
+      /** @description An array of one or more sales-tax rate entries for a specified country.<br><br>If no sales-tax rate entries are set up, no response payload is returned, but an HTTP status code of <code>204 No Content</code> is returned. */
       salesTaxes?: (components["schemas"]["SalesTax"])[];
     };
     /** @description The base response of the <b>getAdvertisingEligibility</b> method that contains the seller eligibility information for one or more advertising programs. */
     SellerEligibilityMultiProgramResponse: {
-      /** @description An array of response fields that define the seller eligibility for eBay adverstising programs. */
+      /** @description An array of response fields that define the seller eligibility for eBay advertising programs. */
       advertisingEligibility?: (components["schemas"]["SellerEligibilityResponse"])[];
     };
     /** @description A type that is used to provide the seller's eligibility status for an eBay advertising program. */
@@ -816,7 +633,7 @@ export interface components {
       programType?: string;
       /** @description The reason why a seller is ineligible for the specified eBay advertising program.<br /><br />This field is only returned if the seller is ineligible for the eBay advertising program. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/plser:SellerIneligibleReasonEnum'>eBay API documentation</a> */
       reason?: string;
-      /** @description The seller elibibilty status for the specified eBay advertising program. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/cmlib:SellerEligibilityEnum'>eBay API documentation</a> */
+      /** @description The seller eligibility status for the specified eBay advertising program. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/cmlib:SellerEligibilityEnum'>eBay API documentation</a> */
       status?: string;
     };
     /** @description Type used by the <b>sellingLimit</b> container, a container that lists the monthly cap for the quantity of items sold and total sales amount allowed for the seller's account. */
@@ -825,7 +642,7 @@ export interface components {
       amount?: components["schemas"]["Amount"];
       /**
        * Format: int32 
-       * @description This field shows the monthly cap for total quantity sold allowed for the seller's account. This container may not be returned if a seller does not have a monthly cap for total quantity sold.
+       * @description This field shows the monthly cap for total quantity sold allowed for the seller's account. This field may not be returned if a seller does not have a monthly cap for total quantity sold.
        */
       quantity?: number;
     };
@@ -840,25 +657,25 @@ export interface components {
     SetFulfillmentPolicyResponse: {
       /** @description This container indicates whether the fulfillment business policy applies to motor vehicle listings, or if it applies to non-motor vehicle listings. */
       categoryTypes?: (components["schemas"]["CategoryType"])[];
-      /** @description A seller-defined description of the fulfillment policy. This description is only for the seller's use, and is not exposed on any eBay pages. This field is returned if set for the policy. <br/><br/><b>Max length</b>: 250 */
+      /** @description A seller-defined description of the fulfillment policy. This description is only for the seller's use, and is not exposed on any eBay pages. This field is returned if set for the policy. <br><br><b>Max length</b>: 250 */
       description?: string;
       /** @description If returned as <code>true</code>, the seller offers freight shipping. Freight shipping can be used for large items over 150 lbs. */
       freightShipping?: boolean;
       /** @description A unique eBay-assigned ID for a fulfillment business policy. This ID is generated when the policy is created. */
       fulfillmentPolicyId?: string;
-      /** @description If returned as <code>true</code>, the eBay Global Shipping Program will be used by the seller to ship items to international locations.<br /><br /><span class="tablenote"><b>Note</b>: On the US marketplace, the <em><b>Global Shipping Program</b></em> is scheduled to be replaced by a new intermediated international shipping program called <em><b>eBay International Shipping</b></em>. US sellers who are opted in to the Global Shipping Program will be automatically opted in to eBay International Shipping when it becomes available to them. All US sellers will be migrated by March 31, 2023. <br /><br />eBay International Shipping is an account level setting, and no field needs to be set in a Fulfillment business policy to enable it. As long as the US seller's account is opted in to eBay International Shipping, this shipping option will be enabled automatically for all listings where international shipping is available. <br /><br />A US seller who is opted in to eBay International Shipping can also specify individual international shipping service options for a Fulfillment business policy.</span> */
+      /** @description <span class="tablenote"><b>Note</b>: This field is only applicable for the eBay United Kingdom marketplace (<code>EBAY_GB</code>).</span><br>This field is included and set to <code>true</code> if the seller wants to use the Global Shipping Program for international shipments. See the <a href="https://pages.ebay.com/help/sell/shipping-globally.html ">Global Shipping Program</a> help topic for more details and requirements on the Global Shipping Program.<br><br>A seller can use a combination of the Global Shipping Program and other international shipping services. <br><br>If set to <code>false</code> or if the field is omitted, the seller has to manually specifying individual international shipping services (if the seller ships internationally), as described in <a href="https://developer.ebay.com/api-docs/sell/static/seller-accounts/ht_shipping-worldwide.html ">Setting up worldwide shipping</a>. <br><br>Sellers opt in or out of the Global Shipping Program through the Shipping preferences in My eBay.<br><br>eBay International Shipping is an account level setting; no field needs to be set in a Fulfillment business policy to enable eBay International Shipping. If a US seller's account is opted in to eBay International Shipping, this shipping option will be enabled automatically for all listings where international shipping is available. A US seller who is opted in to eBay International Shipping can also specify individual international shipping service options for a Fulfillment business policy.</span> */
       globalShipping?: boolean;
       /** @description Specifies the maximum number of business days the seller commits to for preparing and shipping an order after receiving a cleared payment for the order. This time does not include the transit time it takes the shipping carrier to deliver the order. <p>If only local pickup or freight shipping is available for the item, this container may not get returned.</p> */
       handlingTime?: components["schemas"]["TimeDuration"];
-      /** @description If returned as <code>true</code>, local pickup is available for this policy. */
+      /** @description If returned as <code>true</code>, local pickup is available for items using this policy. */
       localPickup?: boolean;
       /** @description The ID of the eBay marketplace to which this fulfillment business policy applies. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum'>eBay API documentation</a> */
       marketplaceId?: string;
-      /** @description A seller-defined name for this fulfillment business policy. Names must be unique for policies assigned to the same marketplace. <br/><br/><b>Max length</b>: 64 */
+      /** @description A seller-defined name for this fulfillment business policy. <br><br><b>Max length</b>: 64 */
       name?: string;
-      /** @description If returned as <code>true</code>, the seller offers the "Click and Collect" option. <br/><br/>Currently, "Click and Collect" is available only to large retail merchants the eBay AU and UK marketplaces. */
+      /** @description If returned as <code>true</code>, the seller offers the "Click and Collect" option. <br><br>Currently, "Click and Collect" is available only to large retail merchants the eBay AU, UK, DE, FR, and IT marketplaces. */
       pickupDropOff?: boolean;
-      /** @description This array is used to provide detailed information on the domestic and international shipping options available for the policy. A separate <b>ShippingOption</b> object covers domestic shipping service options and international shipping service options (if the seller ships to international locations). <br /><br />The <b>optionType</b> field indicates whether the <b>ShippingOption</b> object applies to domestic or international shipping, and the <b>costType</b> field indicates whether flat-rate shipping or calculated shipping will be used. <p>A separate <b>ShippingServices</b> object is used to specify cost and other details for every available domestic and international shipping service option. </p> */
+      /** @description This array is used to provide detailed information on the domestic and international shipping options available for the policy. A separate <b>ShippingOption</b> object covers domestic shipping service options and international shipping service options (if the seller ships to international locations). <br><br>The <b>optionType</b> field indicates whether the <b>ShippingOption</b> object applies to domestic or international shipping, and the <b>costType</b> field indicates whether flat-rate shipping or calculated shipping will be used. <p>A separate <b>ShippingServices</b> object is used to specify cost and other details for every available domestic and international shipping service option. </p> */
       shippingOptions?: (components["schemas"]["ShippingOption"])[];
       /** @description This container consists of the <b>regionIncluded</b> and <b>regionExcluded</b> containers, which define the geographical regions/countries/states or provinces/domestic regions where the seller does and doesn't ship to with this fulfillment policy. */
       shipToLocations?: components["schemas"]["RegionSet"];
@@ -871,30 +688,30 @@ export interface components {
       categoryTypes?: (components["schemas"]["CategoryType"])[];
       /** @description This container is only returned if the seller just created or updated a motor vehicles payment business policy and requires buyers to pay an initial deposit after they commit to buying a motor vehicle. */
       deposit?: components["schemas"]["Deposit"];
-      /** @description A seller-defined description of the payment business policy. This description is only for the seller's use, and is not exposed on any eBay pages. This field is returned if set for the policy. <br/><br/><b>Max length</b>: 250 */
+      /** @description A seller-defined description of the payment business policy. This description is only for the seller's use, and is not exposed on any eBay pages. This field is returned if set for the policy. <br><br><b>Max length</b>: 250 */
       description?: string;
       /** @description The number of days (after the buyer commits to buy) that a buyer has to pay the remaining balance of a motor vehicle transaction. Sellers can set this value to 3, 7, 10, or 14 days.<p class="tablenote"><b>Note:</b> This value is always returned if <b>categoryTypes</b> is set to <code>MOTORS_VEHICLES</code>.</p> */
       fullPaymentDueIn?: components["schemas"]["TimeDuration"];
-      /** @description The value returned in this field will reflect the value set by the seller in the <b>immediatePay</b> request field. A value of <code>true</code> indicates that immediate payment is required from the buyer for: <ul><li>A fixed-price item</li><li>An auction item where the buyer is using the 'Buy it Now' option</li><li>A deposit for a motor vehicle listing</li></ul><br />It is possible for the seller to set this field as <code>true</code> in the payment business policy, but it will not apply in some scenarios. For example, immediate payment is not applicable for auction listings that have a winning bidder, for buyer purchases that involve the Best Offer feature, or for transactions that happen offline between the buyer and seller. */
+      /** @description The value returned in this field will reflect the value set by the seller in the <b>immediatePay</b> request field. A value of <code>true</code> indicates that immediate payment is required from the buyer for: <ul><li>A fixed-price item</li><li>An auction item where the buyer is using the 'Buy it Now' option</li><li>A deposit for a motor vehicle listing</li></ul><br>It is possible for the seller to set this field as <code>true</code> in the payment business policy, but it will not apply in some scenarios. For example, immediate payment is not applicable for auction listings that have a winning bidder, for buyer purchases that involve the Best Offer feature, or for transactions that happen offline between the buyer and seller. */
       immediatePay?: boolean;
       /** @description The ID of the eBay marketplace to which this payment business policy applies. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum'>eBay API documentation</a> */
       marketplaceId?: string;
-      /** @description A seller-defined name for this payment business policy. Names must be unique for policies assigned to the same marketplace.<br /><br /><b>Max length:</b> 64 */
+      /** @description A seller-defined name for this payment business policy. Names must be unique for policies assigned to the same marketplace.<br><br><b>Max length:</b> 64 */
       name?: string;
       /** @description <p class="tablenote"><b>Note:</b> NO LONGER SUPPORTED. Although this field may be returned for some older payment business policies, payment instructions are no longer supported by payment business policies. If this field is returned, it can be ignored and these payment instructions will not appear in any listings that use the corresponding business policy.</p>A free-form string field that allows sellers to add detailed payment instructions to their listings. */
       paymentInstructions?: string;
-      /** @description This array shows the available payment methods that the seller has set for the payment business policy.<br /><br />Sellers do not have to specify any electronic payment methods for listings, so this array will often be returned empty unless the payment business policy is intended for motor vehicle listings or other items in categories where offline payments are required or supported. */
+      /** @description This array shows the available payment methods that the seller has set for the payment business policy.<br><br>Sellers do not have to specify any electronic payment methods for listings, so this array will often be returned empty unless the payment business policy is intended for motor vehicle listings or other items in categories where offline payments are required or supported. */
       paymentMethods?: (components["schemas"]["PaymentMethod"])[];
       /** @description A unique eBay-assigned ID for a payment business policy. This ID is generated when the policy is created. */
       paymentPolicyId?: string;
       /** @description An array of one or more errors or warnings that were generated during the processing of the request. If there were no issues with the request, this array will return empty. */
       warnings?: (components["schemas"]["Error"])[];
     };
-    /** @description Complex type that that gets populated with a response containing a return policy. */
+    /** @description A complex type that is populated with a response containing a return policies. */
     SetReturnPolicyResponse: {
       /** @description This field always returns <code>ALL_EXCLUDING_MOTORS_VEHICLES</code> for return business policies, since return business policies are not applicable to motor vehicle listings. */
       categoryTypes?: (components["schemas"]["CategoryType"])[];
-      /** @description A seller-defined description of the return business policy. This description is only for the seller's use, and is not exposed on any eBay pages. This field is returned if set for the policy. <br/><br/><b>Max length</b>: 250 */
+      /** @description A seller-defined description of the return business policy. This description is only for the seller's use, and is not exposed on any eBay pages. This field is returned if set for the policy. <br><br><b>Max length</b>: 250 */
       description?: string;
       /** @description <p class="tablenote"><span  style="color: #dd1e31;"><b>Important!</b></span> This field is deprecated, since eBay no longer supports extended holiday returns. This field should no longer be returned.</p> */
       extendedHolidayReturnsOffered?: boolean;
@@ -902,78 +719,73 @@ export interface components {
       internationalOverride?: components["schemas"]["InternationalReturnOverrideType"];
       /** @description The ID of the eBay marketplace to which this return business policy applies. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum'>eBay API documentation</a> */
       marketplaceId?: string;
-      /** @description A seller-defined name for this return business policy. Names must be unique for policies assigned to the same marketplace.<br /><br /><b>Max length:</b> 64 */
+      /** @description A seller-defined name for this return business policy. Names must be unique for policies assigned to the same marketplace.<br><br><b>Max length:</b> 64 */
       name?: string;
       /** @description If a seller indicates that they will accept buyer returns, this value will be <code>MONEY_BACK</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:RefundMethodEnum'>eBay API documentation</a> */
       refundMethod?: string;
       /** @description <p class="tablenote"><span  style="color: #dd1e31;"><b>Important!</b></span> This field is deprecated, since eBay no longer allows sellers to charge a restocking fee for buyer remorse returns.</p> */
       restockingFeePercentage?: string;
-      /** @description This text-based field provides more details on seller-specified return instructions. <p class="tablenote"><span  style="color: #dd1e31;"><b>Important!</b></span> This field is no longer supported on many eBay marketplaces. To see if a marketplace and eBay category does support this field, call <a href="/api-docs/sell/metadata/resources/marketplace/methods/getReturnPolicies">getReturnPolicies</a> method of the <b>Metadata API</b>. Then you will look for the <b>policyDescriptionEnabled</b> field with a value of <code>true</code> for the eBay category.</span></p><br/><b>Max length</b>: 5000 (8000 for DE) */
+      /** @description This text-based field provides more details on seller-specified return instructions. <br><p class="tablenote"><span  style="color: #dd1e31;"><b>Important!</b></span> This field is no longer supported on many eBay marketplaces. To see if a marketplace and eBay category does support this field, call <a href="/api-docs/sell/metadata/resources/marketplace/methods/getReturnPolicies">getReturnPolicies</a> method of the <b>Metadata API</b>. Then you will look for the <b>policyDescriptionEnabled</b> field with a value of <code>true</code> for the eBay category.</span></p><br><b>Max length</b>: 5000 (8000 for DE) */
       returnInstructions?: string;
       /** @description This field will be returned if the seller is willing and able to offer a replacement item as an alternative to 'Money Back'. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ReturnMethodEnum'>eBay API documentation</a> */
       returnMethod?: string;
-      /** @description This container specifies the amount of days that the buyer has to return the item after receiving it. The return period begins when the item is marked "delivered" at the buyer's specified ship-to location. This container will be returned unless the business policy states that the seller does not accept returns. */
+      /** @description This container specifies the amount of days that the buyer has to return the item after receiving it. The return period begins when the item is marked "delivered" at the buyer's specified ship-to location. This container will be returned unless the business policy states that the seller does not accept returns. <br><p><span class="tablenote"><span style="color:#004680"><strong>Note: </strong>Eligible Parts & Accessories (P&A) listings require sellers to offer buyers free returns with a minimum return period of 30 days. See <a href="/api-docs/user-guides/static/trading-user-guide/ebay-motors-parts-accessories-easy-returns.html"  target="_blank">Support for easy returns in Parts and Accessories</a> for details.</span></p> */
       returnPeriod?: components["schemas"]["TimeDuration"];
       /** @description A unique eBay-assigned ID for a return business policy. This ID is generated when the policy is created. */
       returnPolicyId?: string;
       /** @description If set to <code>true</code>, the seller accepts returns. If set to <code>false</code>, this field indicates that the seller does not accept returns. */
       returnsAccepted?: boolean;
-      /** @description This field indicates who is responsible for paying for the shipping charges for returned items. The field can be set to either <code>BUYER</code> or <code>SELLER</code>.  <br/><br/>Note that the seller is always responsible for return shipping costs for SNAD-related issues.  <br/><br/>This container will be returned unless the business policy states that the seller does not accept returns. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ReturnShippingCostPayerEnum'>eBay API documentation</a> */
+      /** @description This field indicates who is responsible for paying for the shipping charges for returned items. The field can be set to either <code>BUYER</code> or <code>SELLER</code>.  <p><span class="tablenote"><span style="color:#004680"><strong>Note: </strong>Eligible Parts & Accessories (P&A) listings require sellers to offer buyers free returns with a minimum return period of 30 days. See <a href="/api-docs/user-guides/static/trading-user-guide/ebay-motors-parts-accessories-easy-returns.html"  target="_blank">Support for easy returns in Parts and Accessories</a> for details.</span></p> <br>Note that the seller is always responsible for return shipping costs for SNAD-related issues.  <br><br>This container will be returned unless the business policy states that the seller does not accept returns. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ReturnShippingCostPayerEnum'>eBay API documentation</a> */
       returnShippingCostPayer?: string;
       /** @description An array of one or more errors or warnings that were generated during the processing of the request. If there were no issues with the request, this array will return empty. */
       warnings?: (components["schemas"]["Error"])[];
     };
     /** @description This type is used by the <b>shippingOptions</b> array, which is used to provide detailed information on the domestic and international shipping options available for the policy. A separate <b>ShippingOption</b> object covers domestic shipping service options and international shipping service options (if the seller ships to international locations). */
     ShippingOption: {
-      /** @description This field defines whether the shipping cost model is <code>FLAT_RATE</code> (the same rate for all buyers, or buyers within a region if shipping rate tables are used) or <code>CALCULATED</code> (the shipping rate varies by the ship-to location and size and weight of the package). <br/><br/>This field is conditionally required if any shipping service options are specified (domestic and/or international). For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ShippingCostTypeEnum'>eBay API documentation</a> */
+      /** @description This field defines whether the shipping cost model is <code>FLAT_RATE</code> (the same rate for all buyers, or buyers within a region if shipping rate tables are used) or <code>CALCULATED</code> (the shipping rate varies by the ship-to location and size and weight of the package). <br><br>This field is conditionally required if any shipping service options are specified (domestic and/or international). For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ShippingCostTypeEnum'>eBay API documentation</a> */
       costType?: string;
-      /** @description This field has been deprecated. <br/><br/>Shipping insurance is offered only via a shipping carrier's shipping services and is no longer available via eBay shipping policies. */
+      /** @description This field has been deprecated. <br><br>Shipping insurance is offered only via a shipping carrier's shipping services and is no longer available via eBay shipping policies. */
       insuranceFee?: components["schemas"]["Amount"];
-      /** @description This field has been deprecated. <br/><br/>Shipping insurance is offered only via a shipping carrier's shipping services and is no longer available via eBay shipping policies. */
+      /** @description This field has been deprecated. <br><br>Shipping insurance is offered only via a shipping carrier's shipping services and is no longer available via eBay shipping policies. */
       insuranceOffered?: boolean;
       /** @description This field is used to indicate if the corresponding shipping service options (under <b>shippingServices</b> array) are domestic or international shipping service options. This field is conditionally required if any shipping service options are specified (domestic and/or international). For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ShippingOptionTypeEnum'>eBay API documentation</a> */
       optionType?: string;
-      /** @description This container is used if the seller adds handling charges to domestic and/or international shipments. <br/><br/>Sellers can not specify any domestic handling charges if they offered 'free shipping' in the policy.<br/><br/>This container will only be returned if set for the policy. */
+      /** @description This container is used if the seller adds handling charges to domestic and/or international shipments. <br><br>Sellers can not specify any domestic handling charges if they offered 'free shipping' in the policy.<br><br>This container will only be returned if set for the policy. */
       packageHandlingCost?: components["schemas"]["Amount"];
-      /** @description This field is used if the seller wants to associate a domestic or international shipping rate table to the fulfillment business policy. The <a href="/api-docs/sell/account/resources/rate_table/methods/getRateTables">getRateTables</a> method can be used to retrieve shipping rate table IDs.<br/><br/>With domestic and international shipping rate tables, the seller can set different shipping costs based on shipping regions and shipping speed/level of service (one-day, expedited, standard, economy). There are also options to additional per-weight and handling charges.<br/><br/>Sellers need to be careful that shipping rate tables match the corresponding shipping service options. In other words, a domestic shipping rate table must not be specified in the same container where international shipping service options are being specified, and vice versa, and the shipping speed/level of service of the provided shipping service options should match the shipping speed/level of service options that are defined in the shipping rate tables. <br /><br />For example, if the corresponding shipping rate table defines costs for one-day shipping services, there should be at least one one-day shipping service option specified under the <b>shippingServices</b> array.<br/><br/>This field is returned if set. */
+      /** @description This field is used if the seller wants to associate a domestic or international shipping rate table to the fulfillment business policy. The <a href="/api-docs/sell/account/resources/rate_table/methods/getRateTables">getRateTables</a> method can be used to retrieve shipping rate table IDs.<br><br>With domestic and international shipping rate tables, the seller can set different shipping costs based on shipping regions and shipping speed/level of service (one-day, expedited, standard, economy). There are also options to add additional per-weight and handling charges.<br><br>Sellers need to be careful that shipping rate tables match the corresponding shipping service options. In other words, a domestic shipping rate table must not be specified in the same container where international shipping service options are being specified, and vice versa, and the shipping speed/level of service of the provided shipping service options should match the shipping speed/level of service options that are defined in the shipping rate tables. <br><br>For example, if the corresponding shipping rate table defines costs for one-day shipping services, there should be at least one one-day shipping service option specified under the <b>shippingServices</b> array.<br><br>This field is returned if set. */
       rateTableId?: string;
-      /** @description This array consists of the domestic or international shipping services options that are defined for the policy. The shipping service options defined under this array should match what is set in the corresponding <b>shippingOptions.optionType</b> field (which controls whether domestic or international shipping service options are being defined). If a shipping rate table is being used, the specified shipping service options should also match the shipping rate table settings (domestic or international, shipping speed/level of service, etc.) <br/><br/>Sellers can specify up to four domestic shipping services and up to five international shipping service options by using separate <b>shippingService</b> containers for each. If the seller is using the Global Shipping Program as an international option, only a total of four international shipping service options (including GSP) can be offered. <br/><br/> See <a href="/api-docs/sell/static/seller-accounts/ht_shipping-setting-shipping-carrier-and-service-values.html" target="_blank">How to set up shipping carrier and shipping service values</a>. <br /><br />To use the eBay standard envelope service (eSE), see <a href="/api-docs/sell/static/seller-accounts/using-the-ebay-standard-envelope-service.html" target="_blank">Using eBay standard envelope (eSE) service</a>.<br /><br />This array is conditionally required if the seller is offering one or more domestic and/or international shipping service options. */
+      /** @description This field is the unique identifier of a seller's domestic or international shipping discount profile. If a buyer satisfies the requirements of the discount rule, this buyer will receive a shipping discount for the order. <br><br>The seller can create and manage shipping discount profiles using (Get/Set) <b>ShippingDiscountProfiles</b> calls in the <b>Trading API</b> or through the <b>Shipping Preferences</b> in <b>My eBay</b>. */
+      shippingDiscountProfileId?: string;
+      /** @description This boolean indicates whether or not the seller has set up a promotional shipping discount that will be available to buyers who satisfy the requirements of the shipping discount rule. <br><br>The seller can create and manage shipping promotional discounts using (Get/Set) <b>ShippingDiscountProfiles</b> calls in the <b>Trading API</b> or through the <b>Shipping Preferences</b> in <b>My eBay</b>. */
+      shippingPromotionOffered?: boolean;
+      /** @description This array consists of the domestic or international shipping services options that are defined for the policy. The shipping service options defined under this array should match what is set in the corresponding <b>shippingOptions.optionType</b> field (which controls whether domestic or international shipping service options are being defined). If a shipping rate table is being used, the specified shipping service options should also match the shipping rate table settings (domestic or international, shipping speed/level of service, etc.) <br><br>Sellers can specify up to four domestic shipping services and up to five international shipping service options by using separate <b>shippingService</b> containers for each. If the seller is using the Global Shipping Program as an international option, only a total of four international shipping service options (including GSP) can be offered. <br><br> See <a href="/api-docs/sell/static/seller-accounts/ht_shipping-setting-shipping-carrier-and-service-values.html" target="_blank">How to set up shipping carrier and shipping service values</a>. <br><br>To use the eBay standard envelope service (eSE), see <a href="/api-docs/sell/static/seller-accounts/using-the-ebay-standard-envelope-service.html" target="_blank">Using eBay standard envelope (eSE) service</a>.<br><br>This array is conditionally required if the seller is offering one or more domestic and/or international shipping service options. */
       shippingServices?: (components["schemas"]["ShippingService"])[];
     };
     /** @description This type is used by the <b>shippingServices</b> array, an array that provides details about every domestic and international shipping service option that is defined for the policy. */
     ShippingService: {
-      /** @description This container is used by the seller to cover the use case when a single buyer purchases multiple quantities of the same line item. This cost cannot exceed the corresponding <b>shippingCost</b> value. A seller will generally set this field when he/she wants to pass on a shipping discount to the buyer if that buyer purchases multiple quantities of a line item. <br /><br />The seller can ship multiple quantities of the line item in the same package and pass on the shipping savings to the buyer.<br/><br/>If this field is not set, and a buyer purchases multiple quantities of an item, the seller can technically charge the same cost set in the <b>shippingCost</b> container for each individual item, but in general, it behooves both the seller and the buyer (and saves both parties money) if they discuss combined shipping.<br/><br/>This field is not applicable to auction listings or single-quantity, fixed-price listings.<br/><br/>This container is returned if set. */
+      /** @description This container is used by the seller to cover the use case when a single buyer purchases multiple quantities of the same line item. This cost cannot exceed the corresponding <b>shippingCost</b> value. A seller will generally set this field when he/she wants to pass on a shipping discount to the buyer if that buyer purchases multiple quantities of a line item. <br><br>The seller can ship multiple quantities of the line item in the same package and pass on the shipping savings to the buyer.<br><br>If this field is not set, and a buyer purchases multiple quantities of an item, the seller can technically charge the same cost set in the <b>shippingCost</b> container for each individual item, but in general, it behooves both the seller and the buyer (and saves both parties money) if they discuss combined shipping.<br><br>This field is not applicable to auction listings or single-quantity, fixed-price listings.<br><br>This container is returned if set. */
       additionalShippingCost?: components["schemas"]["Amount"];
-      /** @description This field should be included and set to <code>true</code> for a motor vehicle listing if it will be the buyer's responsibility to pick up the purchased motor vehicle after full payment is made. <br /><br />This field is only applicable to motor vehicle listings. In the majority of motor vehicle listings, the seller does make the buyer responsible for pickup or shipment of the vehicle. <br/><br/>This field is returned if set.<br/><br/><b>Default</b>: false */
+      /** @description This field should be included and set to <code>true</code> for a motor vehicle listing if it will be the buyer's responsibility to pick up the purchased motor vehicle after full payment is made. <br><br>This field is only applicable to motor vehicle listings. In the majority of motor vehicle listings, the seller does make the buyer responsible for pickup or shipment of the vehicle. <br><br>This field is returned if set.<br><br><b>Default</b>: false */
       buyerResponsibleForPickup?: boolean;
-      /** @description This field should be included and set to <code>true</code> for a motor vehicle listing if it will be the buyer's responsibility to arrange for shipment of a purchased motor vehicle after full payment is made. <br /><br />This field is only applicable to motor vehicle listings. In the majority of motor vehicle listings, the seller does make the buyer responsible for pickup or shipment of the vehicle. <br/><br/>This field is returned if set.<br/><br/><b>Default</b>: false */
+      /** @description This field should be included and set to <code>true</code> for a motor vehicle listing if it will be the buyer's responsibility to arrange for shipment of a motor vehicle. <br><br>This field is only applicable to motor vehicle listings. In the majority of motor vehicle listings, the seller does make the buyer responsible for pickup or shipment of the vehicle. <br><br>This field is returned if set.<br><br><b>Default</b>: false */
       buyerResponsibleForShipping?: boolean;
-      /** @description This container is used if the seller charges a Cash on Delivery (COD) fee. <ul><li>This fee will only be applicable in the case of a 'local pickup', and if one of the specified offline payment methods is a 'cash on pickup' or 'cash on delivery' option. </li><li>This fee is added to the total cost of the item, and the total cost is due from the buyer upon the delivery of the item.</li></ul>This container is returned if set. */
-      cashOnDeliveryFee?: components["schemas"]["Amount"];
-      /** @description This field is included and set to <code>true</code> if the seller offers a free shipping option to the buyer. <br /><br />This field can only be included and set to <code>true</code> for the first domestic shipping service option specified in the <b>shippingServices</b> container (it is ignored if set for subsequent shipping services or for any international shipping service option). <br /><br />The first specified shipping service option has a <b>sortOrder</b> value of <code>1</code> or if the <b>sortOrderId</b> field is not used, it is the shipping service option that's specified first in the <b>shippingServices</b> container.<br/><br/>This container is returned if set. */
+      /** @description This field is included and set to <code>true</code> if the seller offers a free domestic shipping option to the buyer. <br><br>This field can only be included and set to <code>true</code> for the first domestic shipping service option specified in the <b>shippingServices</b> array (it is ignored if set for subsequent shipping services or for any international shipping service option). <br><br>The first specified shipping service option has a <b>sortOrder</b> value of <code>1</code> or if the <b>sortOrderId</b> field is not used, it is the shipping service option that's specified first in the <b>shippingServices</b> array.<br><br>This container is returned if set. */
       freeShipping?: boolean;
-      /** @description This field sets/indicates the shipping carrier, such as <code>USPS</code>, <code>FedEx</code>, or <code>UPS</code>. Although this field uses the <b>string</b> type, the seller must pass in a pre-defined enumeration value here. <br /><br />For a full list of shipping carrier enum values for a specified eBay marketplace, the <b>GeteBayDetails</b> call of the <b>Trading API</b> can be used, and the <b>DetailName</b> field's value should be set to <code>ShippingCarrierDetails</code>. The enum values for each shipping carriers can be found in each <b>ShippingCarrierDetails.ShippingCarrier</b> field in the response payload.<br/><br/> This field is actually optional, as the shipping carrier is also tied into the <b>shippingServiceCode</b> enum value, and that field is required for every specified shipping service option.<br/><br/>This field is returned if set. */
+      /** @description This field sets/indicates the shipping carrier, such as <code>USPS</code>, <code>FedEx</code>, or <code>UPS</code>. Although this field uses the <b>string</b> type, the seller must pass in a pre-defined enumeration value here. <br><br>For a full list of shipping carrier enum values for a specified eBay marketplace, the <a href="/devzone/xml/docs/reference/ebay/GeteBayDetails.html">GeteBayDetails</a> call of the <b>Trading API</b> can be used, and the <b>DetailName</b> field's value should be set to <code>ShippingCarrierDetails</code>. The enum values for each shipping carriers can be found in each <b>ShippingCarrierDetails.ShippingCarrier</b> field in the response payload.<br><br> This field is actually optional, as the shipping carrier is also tied into the <b>shippingServiceCode</b> enum value, and that field is required for every specified shipping service option.<br><br>This field is returned if set. */
       shippingCarrierCode?: string;
-      /** @description This container is used to set the shipping cost to ship one item using the corresponding shipping service option. This container is conditionally required if the seller is using flat-rate shipping and is not using a domestic or international shipping rate table. <br /><br />This container is not necessary for calculated shipping, since eBay will calculate the shipping cost and display it in the View Item page based off of the potential buyer's ship-to location.<br/><br/>This value is automatically set to <code>0.0</code> for the first specified domestic shipping service option and if the corresponding <b>freeShipping</b> field is set to <code>true</code>.  <br/><br/>This container is returned if set for the policy. */
+      /** @description This container is used to set the shipping cost to ship one item using the corresponding shipping service option. This container is conditionally required if the seller is using flat-rate shipping and is not using a domestic or international shipping rate table. <br><br>This container is not necessary for calculated shipping, since eBay will calculate the shipping cost and display it in the View Item page based off of the potential buyer's ship-to location.<br><br>This value is automatically set to <code>0.0</code> for the first specified domestic shipping service option and if the corresponding <b>freeShipping</b> field is set to <code>true</code>.  <br><br>This container is returned if set for the policy. */
       shippingCost?: components["schemas"]["Amount"];
-      /** @description This field sets/indicates the domestic or international shipping service option, such as <code>USPSPriority</code>, <code>FedEx2Day</code>, or <code>UPS3rdDay</code>. Although this field uses the <b>string</b> type, the seller must pass in a pre-defined enumeration value here. <br /><br />For a full list of shipping service option enum values for a specified eBay marketplace, the <b>GeteBayDetails</b> call of the <b>Trading API</b> can be used, and the <b>DetailName</b> field's value should be set to <code>ShippingServiceDetails</code>. <br /><br />The enum values for each shipping service option can be found in each <b>ShippingServiceDetails.ShippingService</b> field in the response payload. The seller must make sure that the shipping service option is still valid, which is indicated by a <code>true</code> value in the corresponding <b>ValidForSellingFlow</b> boolean field. International shipping service options are typically returned at the top of the response payload, and are indicated by an <b>InternationalService</b> boolean field that reads <code>true</code>. <br /><br />The <b>InternationalService</b> boolean field is not returned at all for domestic shipping service options. <br/><br/> This field is required for every specified shipping service option.<br/><br/>This field is returned if set. */
+      /** @description This field sets/indicates the domestic or international shipping service option, such as <code>USPSPriority</code>, <code>FedEx2Day</code>, or <code>UPS3rdDay</code>. Although this field uses the <b>string</b> type, the seller must pass in a pre-defined enumeration value here. <br><br>For a full list of shipping service option enum values for a specified eBay marketplace, the <a href="/devzone/xml/docs/reference/ebay/GeteBayDetails.html">GeteBayDetails</a> call of the <b>Trading API</b> can be used, and the <b>DetailName</b> field's value should be set to <code>ShippingServiceDetails</code>. <br><br>The enum values for each shipping service option can be found in each <b>ShippingServiceDetails.ShippingService</b> field in the response payload. The seller must make sure that the shipping service option is still valid, which is indicated by a <code>true</code> value in the corresponding <b>ValidForSellingFlow</b> boolean field. International shipping service options are typically returned at the top of the response payload, and are indicated by an <b>InternationalService</b> boolean field that reads <code>true</code>. <br><br>The <b>InternationalService</b> boolean field is not returned at all for domestic shipping service options. <br><br> This field is required for every specified shipping service option. */
       shippingServiceCode?: string;
-      /** @description This container is used to set the ship-to locations applicable to the corresponding shipping service option. Although the <b>regionExcluded</b> container is defined for <b>RegionSet</b> type and could technically be used here, it is recommened that only the <b>regionIncluded</b> container be used at the shipping service level. The excluded shipping regions (if any) can instead be set up in the top-level <b>regionExcluded</b> container. <br /><br />The <b>regionIncluded</b> and <b>regionExcluded</b> containers define the geographical regions/countries/states or provinces/domestic regions where the seller does and doesn't ship to with this fulfillment policy.<br/><br/>To retrieve the valid geographical shipping region values, two-digit country values, or special domestic regions for an eBay marketplace, call <b>GeteBayDetails</b> with <b>DetailName</b> value set to <code>ExcludeShippingLocationDetails</code>, then review the <b>ExcludeShippingLocationDetails</b> containers in the response for the strings you use in the <b>regionIncluded.regionName</b> field. <ul><li>For valid geographical region names, look for the <code>ExcludeShippingLocationDetails</code> containers in the <b>GeteBayDetails</b> response where the <b>Region</b> value is <code>Worldwide</code>, and the valid values will be shown in the corresponding <b>Location</b> fields.</li> <li>For valid two-digit country codes, look for <code>ExcludeShippingLocationDetails</code> in the <b>GeteBayDetails</b> response where the <b>Region</b> value is one of the defined geographical regions, and the valid values will be shown in the corresponding <b>Location</b> fields. Alternatively, you can find the two-digit country code values in the <a href="/api-docs/sell/account/types/ba:CountryCodeEnum">CountryCodeEnum</a> type definition.</li>  <li>For valid domestic region values, look for <code>ExcludeShippingLocationDetails</code> in the <b>GeteBayDetails</b> response where the <b>Region</b> value is either <code>Domestic Location</code> or <code>Additional Locations</code>, and the valid values will be shown in the corresponding <b>Location</b> fields.</li></ul> The <code>STATE_OR_PROVINCE</code> region type is only applicable to the US and Canada, and valid values for US states are the same <a href="https://about.usps.com/who-we-are/postal-history/state-abbreviations.htm ">two-digit abbreviations</a> used by the United States Postal Service, and valid values for Canadian provinces and territories are the same <a href="https://www.canadapost-postescanada.ca/cpc/en/support/articles/addressing-guidelines/symbols-and-abbreviations.page ">two-digit abbreviations</a> used by the Canada Post. */
+      /** @description This container is used to set the ship-to locations applicable to the corresponding shipping service option. Although the <b>regionExcluded</b> container is defined for <b>RegionSet</b> type and could technically be used here, it is recommened that only the <b>regionIncluded</b> container be used at the shipping service level. The excluded shipping regions (if any) can instead be set up in the top-level <b>regionExcluded</b> container. <br><br>The <b>regionIncluded</b> and <b>regionExcluded</b> containers define the geographical regions/countries/states or provinces/domestic regions where the seller does and doesn't ship to with this fulfillment policy.<br><br>To retrieve the valid geographical shipping region values, two-digit country values, or special domestic regions for an eBay marketplace, call <a href="/devzone/xml/docs/reference/ebay/GeteBayDetails.html">GeteBayDetails</a> with <b>DetailName</b> value set to <code>ExcludeShippingLocationDetails</code>, then review the <b>ExcludeShippingLocationDetails</b> containers in the response for the strings you use in the <b>regionIncluded.regionName</b> field. <ul><li>For valid geographical region names, look for the <code>ExcludeShippingLocationDetails</code> containers in the <b>GeteBayDetails</b> response where the <b>Region</b> value is <code>Worldwide</code>, and the valid values will be shown in the corresponding <b>Location</b> fields.</li> <li>For valid two-digit country codes, look for <code>ExcludeShippingLocationDetails</code> in the <b>GeteBayDetails</b> response where the <b>Region</b> value is one of the defined geographical regions, and the valid values will be shown in the corresponding <b>Location</b> fields. Alternatively, you can find the two-digit country code values in the <a href="/api-docs/sell/account/types/ba:CountryCodeEnum">CountryCodeEnum</a> type definition.</li>  <li>For valid domestic region values, look for <code>ExcludeShippingLocationDetails</code> in the <b>GeteBayDetails</b> response where the <b>Region</b> value is either <code>Domestic Location</code> or <code>Additional Locations</code>, and the valid values will be shown in the corresponding <b>Location</b> fields.</li></ul> The <code>STATE_OR_PROVINCE</code> region type is only applicable to the US and Canada, and valid values for US states are the same <a href="https://about.usps.com/who-we-are/postal-history/state-abbreviations.htm ">two-digit abbreviations</a> used by the United States Postal Service, and valid values for Canadian provinces and territories are the same <a href="https://www.canadapost-postescanada.ca/cpc/en/support/articles/addressing-guidelines/symbols-and-abbreviations.page ">two-digit abbreviations</a> used by the Canada Post. */
       shipToLocations?: components["schemas"]["RegionSet"];
       /**
        * Format: int32 
-       * @description The integer value set in this field controls the order of the corresponding domestic or international shipping service option in the View Item and Checkout pages. <br/><br/>Sellers can specify up to four domestic shipping services (in four separate <b>shippingService</b> containers), so valid values are 1, 2, 3, and 4. A shipping service option with a <b>sortOrder</b> value of <code>1</code> appears at the top of View Item and Checkout pages. Conversely, a shipping service option with a <b>sortOrder</b> value of <code>1</code> appears at the bottom of the list. <br/><br/>Sellers can specify up to five international shipping services (in five separate <b>shippingService</b> containers), so valid values for international shipping services are 1, 2, 3, 4, and 5. Similarly to domestic shipping service options, the <b>sortOrder</b> value of a international shipping service option controls the placement of that shipping service option in the View Item and Checkout pages. <br/><br/>If the <b>sortOrder</b> field is not supplied, the order of domestic and international shipping service options is determined by the order in which they are listed in the API call. <br/><br/><b>Min</b>: 1. <b>Max</b>: 4 (for domestic shipping service) or 5 (for international shipping service).
+       * @description The integer value set in this field controls the order of the corresponding domestic or international shipping service option in the View Item and Checkout pages. <br><br>If the <b>sortOrder</b> field is not supplied, the order of domestic and international shipping service options is determined by the order in which they are listed in the API call. <br><br><b>Min</b>: 1. <b>Max</b>: 4 (for domestic shipping service) or 5 (for international shipping service).
        */
       sortOrder?: number;
-      /** @description <span class="tablenote"> <strong>Note:</strong> DO NOT USE THIS FIELD. Shipping surcharges for domestic shipping service options can no longer be set with fulfillment business policies, except through shipping rate tables. <br /><br />To do this, a seller would set up a surcharge-based shipping rate table and specify the surcharge in that table. Then, the seller would need to associate this shipping rate table to the fulfillment business policy by specifying the unique ID of the shipping rate table through the <b>shippingOptions.rateTableId</b> field. </span>Shipping surcharges cannot be applied at all to international shipping service options. */
+      /** @description <span class="tablenote"> <strong>Note:</strong> DO NOT USE THIS FIELD. Shipping surcharges for domestic shipping service options can no longer be set with fulfillment business policies, except through shipping rate tables. <br><br>To do this, a seller would set up a surcharge-based shipping rate table and specify the surcharge in that table. Then, the seller would need to associate this shipping rate table to the fulfillment business policy by specifying the unique ID of the shipping rate table through the <b>shippingOptions.rateTableId</b> field. </span>Shipping surcharges cannot be applied at all to international shipping service options. */
       surcharge?: components["schemas"]["Amount"];
-    };
-    /** @description This type is used to express the special operating hours of a store location on a specific date. A <strong>specialHours</strong> container is needed when the store's opening hours on a specific date are different than the normal operating hours on that particular day of the week. */
-    SpecialHours: {
-      /** @description A <strong>date</strong> value is required for each specific date that the store location has special operating hours.  <br/><br/>The timestamp is formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html " title="https://www.iso.org " target="_blank">ISO 8601</a> string, which is based on the 24-hour Coordinated Universal Time (UTC) clock.  <br/><br/><b>Format:</b> <code>[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z</code> <br/><b>Example:</b> <code>2018-08-04T07:09:00.000Z</code> <br/><br/>This field is returned if set for the store location. */
-      date?: string;
-      /** @description This container is used to define the opening and closing times of a store on a specific date (defined in the <strong>date</strong> field). An <strong>intervals</strong> container is needed for each specific date that the store has special operating hours. These special operating hours on the specific date override the normal operating hours for the specific day of the week. If a store location closes for lunch (or any other period during the day) and then reopens, multiple <strong>open</strong> and <strong>close</strong> pairs are needed. <br/><br/>This container is returned if set for the store location. */
-      intervals?: (components["schemas"]["Interval"])[];
     };
     /** @description This type is used by the <strong>getSubscription</strong> response container, which defines the subscription types and levels for the seller account. */
     Subscription: {
@@ -988,7 +800,7 @@ export interface components {
       /** @description The term of the subscription plan (typically in months). */
       term?: components["schemas"]["TimeDuration"];
     };
-    /** @description This type is used by the response payload for the <b>getSubscription</b> method.<br /><br /><span class="tablenote"><b>Note</b>: Pagination has not yet been enabled for <b>getSubscription</b>, so all of the pagination-related fields are for future use.</span> */
+    /** @description This type is used by the response payload for the <b>getSubscription</b> method.<br><br><span class="tablenote"><b>Note</b>: Pagination has not yet been enabled for <b>getSubscription</b>, so all of the pagination-related fields are for future use.</span> */
     SubscriptionResponse: {
       /** @description This field is for future use. */
       href?: string;
@@ -1007,9 +819,9 @@ export interface components {
        */
       total?: number;
     };
-    /** @description A type used to specify a period of time using a specified time-measurement unit. Payment, return, and fulfillment business policies all use this type to specify time windows.<br/><br/>Whenever a container that uses this type is used in a request, both of these fields are required. Similarly, whenever a container that uses this type is returned in a response, both of these fields are always returned. */
+    /** @description A type used to specify a period of time using a specified time-measurement unit. Payment, return, and fulfillment business policies all use this type to specify time windows.<br><br>Whenever a container that uses this type is used in a request, both of these fields are required. Similarly, whenever a container that uses this type is returned in a response, both of these fields are always returned. */
     TimeDuration: {
-      /** @description These enum values represent the time measurement unit, such as <code>DAY</code>. A span of time is defined when you apply the value specified in the <b>value</b> field to the value specified for <b>unit</b>. <br/><br/>See <b>TimeDurationUnitEnum</b> for a complete list of possible time-measurement units. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:TimeDurationUnitEnum'>eBay API documentation</a> */
+      /** @description These enum values represent the time measurement unit, such as <code>DAY</code>. A span of time is defined when you apply the value specified in the <b>value</b> field to the value specified for <b>unit</b>. <br><br>See <b>TimeDurationUnitEnum</b> for a complete list of possible time-measurement units. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:TimeDurationUnitEnum'>eBay API documentation</a> */
       unit?: string;
       /**
        * Format: int32 
@@ -1029,16 +841,12 @@ export type external = Record<string, never>;
 
 export interface operations {
 
-  /** @description This method retrieves the list of custom policies specified by the <b>policy_types</b> query parameter for the selected eBay marketplace.<br/> <br/> <span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span><br/><br/>For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank">HTTP request headers</a>. */
+  /** @description This method retrieves the list of custom policies defined for a seller's account. To limit the returned custom policies, specify the <b>policy_types</b> query parameter. */
   getCustomPolicies: {
     parameters: {
       query?: {
-        /** @description This query parameter specifies the type of custom policies to be returned.<br /><br />Multiple policy types may be requested in a single call by providing a comma-delimited set of all policy types to be returned.<br/><br/><span class="tablenote"><strong>Note:</strong> Omitting this query parameter from a request will also return policies of all policy types.</span><br/><br/>Two Custom Policy types are supported: <ul><li>Product Compliance (PRODUCT_COMPLIANCE)</li> <li>Takeback (TAKE_BACK)</li></ul> */
+        /** @description This query parameter specifies the type of custom policies to be returned.<br><br>Multiple policy types may be requested in a single call by providing a comma-delimited set of all policy types to be returned.<br><br><span class="tablenote"><strong>Note:</strong> Omitting this query parameter from a request will also return policies of all policy types.</span><br> See the <a href="/api-docs/sell/account/types/api:CustomPolicyTypeEnum" target="_blank ">CustomPolicyTypeEnum</a> type for a list of supported values. */
         policy_types?: string;
-      };
-      header: {
-        /** @description This header parameter specifies the eBay markeplace for the custom policy that is being created. Supported values for this header can be found in the <a href="/api-docs/sell/account/types/ba:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> type definition.<br/> <br/> <span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span> */
-        "X-EBAY-C-MARKETPLACE-ID": string;
       };
     };
     responses: {
@@ -1054,12 +862,12 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method creates a new custom policy in which a seller specifies their terms for complying with local governmental regulations. <br/><br/>Two Custom Policy types are supported: <ul><li>Product Compliance (PRODUCT_COMPLIANCE)</li> <li>Takeback (TAKE_BACK)</li></ul>Each Custom Policy targets a <b>policyType</b> and <b>eBay marketplace</b> combination. Multiple policies may be created as follows: <ul><li><b>Product Compliance</b>: a maximum of 10 policies per eBay marketplace may be created</li> <li><b>Takeback</b>: a maximum of 3 policies per eBay marketplace may be created</li></ul>A successful create policy call returns an HTTP status code of <b>201 Created</b> with the system-generated policy ID included in the <b>Location</b> response header.<br/><br/><b>Product Compliance Policy</b><br/><br/>Product Compliance policies disclose product information as required for regulatory compliance.<br/><br/><span class="tablenote"><strong>Note:</strong> A maximum of 10 Product Compliance policies per eBay marketplace may be created.</span> <br/><br/> <b>Takeback Policy</b><br/><br/>Takeback policies describe the seller's legal obligation to take back a previously purchased item when the buyer purchases a new one.<br/><br/><span class="tablenote"><strong>Note:</strong> A maximum of 3 Takeback policies per eBay marketplace may be created.</span> */
+  /** @description This method creates a new custom policy that specifies the seller's terms for complying with local governmental regulations. Each Custom Policy targets a <b>policyType</b>. Multiple policies may be created as using the following custom policy types:<ul><li>PRODUCT_COMPLIANCE: Product Compliance policies disclose product information as required for regulatory compliance. <br/><br/><span class="tablenote"><strong>Note:</strong> A maximum of 60 Product Compliance policies per seller may be created.</span></li><li>TAKE_BACK: Takeback policies describe the seller's legal obligation to take back a previously purchased item when the buyer purchases a new one. <br/><br/><span class="tablenote"><strong>Note:</strong> A maximum of 18 Takeback policies per seller may be created.</span></li></ul>A successful create policy call returns an HTTP status code of <b>201 Created</b> with the system-generated policy ID included in the Location response header. */
   createCustomPolicy: {
     parameters: {
       header: {
-        /** @description This header parameter specifies the eBay markeplace for the custom policy that is being created. Supported values for this header can be found in the <a href="/api-docs/sell/account/types/ba:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> type definition.<br/> <br/> <span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span> */
-        "X-EBAY-C-MARKETPLACE-ID": string;
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
       };
     };
     /** @description Request to create a new Custom Policy. */
@@ -1086,15 +894,11 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method retrieves the custom policy specified by the <b>custom_policy_id</b> path parameter for the selected eBay marketplace.<br/> <br/> <span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span><br/><br/>For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank">HTTP request headers</a>. */
+  /** @description This method retrieves the custom policy specified by the <b>custom_policy_id</b> path parameter. */
   getCustomPolicy: {
     parameters: {
-      header: {
-        /** @description This header parameter specifies the eBay markeplace for the custom policy that is being created. Supported values for this header can be found in the <a href="/api-docs/sell/account/types/ba:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> type definition.<br/> <br/> <span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span> */
-        "X-EBAY-C-MARKETPLACE-ID": string;
-      };
       path: {
-        /** @description This path parameter is the unique custom policy identifier for the policy to be returned.<br/><br/><span class="tablenote"><strong>Note:</strong> This value is automatically assigned by the system when the policy is created.</span> */
+        /** @description This path parameter is the unique identifier of the custom policy to retrieve.<br><br> This ID can be retrieved for a custom policy by using the <a href="/api-docs/sell/account/resources/custom_policy/methods/getCustomPolicies" target="_blank ">getCustomPolicies</a> method. */
         custom_policy_id: string;
       };
     };
@@ -1113,15 +917,15 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method updates an existing custom policy specified by the <b>custom_policy_id</b> path parameter for the selected marketplace. This method overwrites the policy's <b>Name</b>, <b>Label</b>, and <b>Description</b> fields. Therefore, the complete, current text of all three policy fields must be included in the request payload even when one or two of these fields will not actually be updated.<br/> <br/>For example, the value for the <b>Label</b> field is to be updated, but the <b>Name</b> and <b>Description</b> values will remain unchanged. The existing <b>Name</b> and <b>Description</b> values, as they are defined in the current policy, must also be passed in. <br/><br/>A successful policy update call returns an HTTP status code of <b>204 No Content</b>.<br/><br/><span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span><br/><br/>For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP">HTTP request headers</a>. */
+  /** @description This method updates an existing custom policy specified by the <b>custom_policy_id</b> path parameter. Since this method overwrites the policy's <b>name</b>, <b>label</b>, and <b>description</b> fields, always include the complete and current text of all three policy fields in the request payload, even if they are not being updated.<br/> <br/>For example, the value for the <b>label</b> field is to be updated, but the <b>name</b> and <b>description</b> values will remain unchanged. The existing <b>name</b> and <b>description</b> values, as they are defined in the current policy, must also be passed in. <br/><br/>A successful policy update call returns an HTTP status code of <b>204 No Content</b>. */
   updateCustomPolicy: {
     parameters: {
       header: {
-        /** @description This header parameter specifies the eBay markeplace for the custom policy that is being created. Supported values for this header can be found in the <a href="/api-docs/sell/account/types/ba:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> type definition.<br/> <br/> <span class="tablenote"><strong>Note:</strong> The following eBay marketplaces support Custom Policies: <ul><li>Germany (EBAY_DE)</li> <li>Canada (EBAY_CA)</li> <li>Australia (EBAY_AU)</li> <li>United States (EBAY_US)</li> <li>France (EBAY_FR)</li></ul></span> */
-        "X-EBAY-C-MARKETPLACE-ID": string;
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
       };
       path: {
-        /** @description This path parameter is the unique custom policy identifier for the policy to be returned.<br/><br/><span class="tablenote"><strong>Note:</strong> This value is automatically assigned by the system when the policy is created.</span> */
+        /** @description This path parameter is the unique identifier of the custom policy to update.<br><br><span class="tablenote"><b>Note:</b> A list of custom policies defined for a seller's account that includes this ID can be retrieved by calling the <a href="/api-docs/sell/account/resources/custom_policy/methods/getCustomPolicies" target="_blank ">getCustomPolicies</a> method.</span> */
         custom_policy_id: string;
       };
     };
@@ -1144,8 +948,14 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method creates a new fulfillment policy where the policy encapsulates seller's terms for fulfilling item purchases. Fulfillment policies include the shipment options that the seller offers to buyers.  <br/><br/>Each policy targets a specific eBay marketplace and a category group type, and you can create multiple policies for each combination. <br/><br/>A successful request returns the <b>getFulfillmentPolicy</b> URI to the new policy in the <b>Location</b> response header and the ID for the new policy is returned in the response payload.  <p class="tablenote"><b>Tip:</b> For details on creating and using the business policies supported by the Account API, see <a href="/api-docs/sell/static/seller-accounts/business-policies.html">eBay business policies</a>.</p>  <p><b>Using the eBay standard envelope service (eSE)</b></p>  <p>The eBay standard envelope service (eSE) is a domestic envelope service with tracking through eBay. This service applies to specific Trading Cards categories (not all categories are supported), and to Coins & Paper Money, Postcards, and Stamps. See <a href="/api-docs/sell/static/seller-accounts/using-the-ebay-standard-envelope-service.html" target="_blank">Using the eBay standard envelope (eSE) service</a>.</p> */
+  /** @description This method creates a new fulfillment policy for an eBay marketplace where the policy encapsulates seller's terms for fulfilling item purchases. Fulfillment policies include the shipment options that the seller offers to buyers.  <br><br>A successful request returns the <b>getFulfillmentPolicy</b> URI to the new policy in the <b>Location</b> response header and the ID for the new policy is returned in the response payload.  <p class="tablenote"><b>Tip:</b> For details on creating and using the business policies supported by the Account API, see <a href="/api-docs/sell/static/seller-accounts/business-policies.html">eBay business policies</a>.</p> */
   createFulfillmentPolicy: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
     /** @description Request to create a seller account fulfillment policy. */
     requestBody: {
       content: {
@@ -1172,7 +982,7 @@ export interface operations {
   getFulfillmentPolicy: {
     parameters: {
       path: {
-        /** @description This path parameter specifies the ID of the fulfillment policy you want to retrieve. */
+        /** @description This path parameter specifies the ID of the fulfillment policy you want to retrieve.<br><br> This ID can be retrieved for a fulfillment policy by using the <a href="/api-docs/sell/account/resources/fulfillment_policy/methods/getFulfillmentPolicies" target="_blank ">getFulfillmentPolicies</a> method. */
         fulfillmentPolicyId: string;
       };
     };
@@ -1194,8 +1004,12 @@ export interface operations {
   /** @description This method updates an existing fulfillment policy. Specify the policy you want to update using the <b>fulfillment_policy_id</b> path parameter. Supply a complete policy payload with the updates you want to make; this call overwrites the existing policy with the new details specified in the payload. */
   updateFulfillmentPolicy: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
-        /** @description This path parameter specifies the ID of the fulfillment policy you want to update. */
+        /** @description This path parameter specifies the ID of the fulfillment policy you want to update.<br><br>This ID can be retrieved for a specific fulfillment policy by using the <a href="/api-docs/sell/account/resources/fulfillment_policy/methods/getFulfillmentPolicies" target="_blank ">getFulfillmentPolicies</a> method. */
         fulfillmentPolicyId: string;
       };
     };
@@ -1224,7 +1038,7 @@ export interface operations {
   deleteFulfillmentPolicy: {
     parameters: {
       path: {
-        /** @description This path parameter specifies the ID of the fulfillment policy to delete. */
+        /** @description This path parameter specifies the ID of the fulfillment policy to delete.<br><br> This ID can be retrieved for a fulfillment policy by using the <a href="/api-docs/sell/account/resources/fulfillment_policy/methods/getFulfillmentPolicies" target="_blank ">getFulfillmentPolicies</a> method. */
         fulfillmentPolicyId: string;
       };
     };
@@ -1241,12 +1055,16 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method retrieves all the fulfillment policies configured for the marketplace you specify using the <code>marketplace_id</code> query parameter.  <br/><br/><b>Marketplaces and locales</b>  <br/><br/>Get the correct policies for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get the policies for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank">HTTP request headers</a>. */
+  /** @description This method retrieves all the fulfillment policies configured for the marketplace you specify using the <code>marketplace_id</code> query parameter. */
   getFulfillmentPolicies: {
     parameters: {
       query: {
         /** @description This query parameter specifies the eBay marketplace of the policies you want to retrieve. For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum */
         marketplace_id: string;
+      };
+      header?: {
+        /** @description Get the correct policies for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get the policies for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank">HTTP request headers</a>. */
+        "Content-Language"?: string;
       };
     };
     responses: {
@@ -1262,14 +1080,18 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method retrieves the details for a specific fulfillment policy. In the request, supply both the policy <code>name</code> and its associated <code>marketplace_id</code> as query parameters.   <br/><br/><b>Marketplaces and locales</b>  <br/><br/>Get the correct policy for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get a policy for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP">HTTP request headers</a>. */
+  /** @description This method retrieves the details for a specific fulfillment policy. In the request, supply both the policy <code>name</code> and its associated <code>marketplace_id</code> as query parameters. */
   getFulfillmentPolicyByName: {
     parameters: {
       query: {
         /** @description This query parameter specifies the eBay marketplace of the policy you want to retrieve. For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum */
         marketplace_id: string;
-        /** @description This query parameter specifies the seller-defined name of the fulfillment policy you want to retrieve. */
+        /** @description This query parameter specifies the seller-defined name of the fulfillment policy you want to retrieve.<br><br>This value can be retrieved for a fulfillment policy by using the <a href="/api-docs/sell/account/resources/fulfillment_policy/methods/getFulfillmentPolicies" target="_blank ">getFulfillmentPolicies</a> method. */
         name: string;
+      };
+      header?: {
+        /** @description Get the correct policies for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get the policies for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank">HTTP request headers</a>. */
+        "Content-Language"?: string;
       };
     };
     responses: {
@@ -1285,12 +1107,16 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method retrieves all the payment policies configured for the marketplace you specify using the <code>marketplace_id</code> query parameter.  <br/><br/><b>Marketplaces and locales</b>  <br/><br/>Get the correct policies for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get the policies for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank">HTTP request headers</a>. */
+  /** @description This method retrieves all the payment business policies configured for the marketplace you specify using the <code>marketplace_id</code> query parameter. */
   getPaymentPolicies: {
     parameters: {
       query: {
         /** @description This query parameter specifies the eBay marketplace of the policies you want to retrieve. For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum */
         marketplace_id: string;
+      };
+      header?: {
+        /** @description Get the correct policies for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get the policies for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank">HTTP request headers</a>. */
+        "Content-Language"?: string;
       };
     };
     responses: {
@@ -1306,8 +1132,14 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method creates a new payment policy where the policy encapsulates seller's terms for order payments.  <br/><br/>Each policy targets a specific eBay marketplace and category group, and you can create multiple policies for each combination.  <br/><br/>A successful request returns the <b>getPaymentPolicy</b> URI to the new policy in the <b>Location</b> response header and the ID for the new policy is returned in the response payload.  <p class="tablenote"><b>Tip:</b> For details on creating and using the business policies supported by the Account API, see <a href="/api-docs/sell/static/seller-accounts/business-policies.html">eBay business policies</a>.</p> */
+  /** @description This method creates a new payment policy where the policy encapsulates seller's terms for order payments. <br><br>A successful request returns the <b>getPaymentPolicy</b> URI to the new policy in the <b>Location</b> response header and the ID for the new policy is returned in the response payload.  <p class="tablenote"><b>Tip:</b> For details on creating and using the business policies supported by the Account API, see <a href="/api-docs/sell/static/seller-accounts/business-policies.html">eBay business policies</a>.</p> */
   createPaymentPolicy: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
     /** @description Payment policy request */
     requestBody: {
       content: {
@@ -1334,7 +1166,7 @@ export interface operations {
   getPaymentPolicy: {
     parameters: {
       path: {
-        /** @description This path parameter specifies the ID of the payment policy you want to retrieve. */
+        /** @description This path parameter specifies the ID of the payment policy you want to retrieve. <br><br> This ID can be retrieved for a payment policy by using the <a href="/api-docs/sell/account/resources/payment_policy/methods/getPaymentPolicies" target="_blank ">getPaymentPolices</a> method. */
         payment_policy_id: string;
       };
     };
@@ -1356,8 +1188,12 @@ export interface operations {
   /** @description This method updates an existing payment policy. Specify the policy you want to update using the <b>payment_policy_id</b> path parameter. Supply a complete policy payload with the updates you want to make; this call overwrites the existing policy with the new details specified in the payload. */
   updatePaymentPolicy: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
-        /** @description This path parameter specifies the ID of the payment policy you want to update. */
+        /** @description This path parameter specifies the ID of the payment policy you want to update. <br><br> This ID can be retrieved for a payment policy by using the <a href="/api-docs/sell/account/resources/payment_policy/methods/getPaymentPolicies" target="_blank ">getPaymentPolices</a> method. */
         payment_policy_id: string;
       };
     };
@@ -1386,7 +1222,7 @@ export interface operations {
   deletePaymentPolicy: {
     parameters: {
       path: {
-        /** @description This path parameter specifies the ID of the payment policy you want to delete. */
+        /** @description This path parameter specifies the unique identifier of the payment policy you want to delete.<br><br> This ID can be retrieved for a payment policy by using the <a href="/api-docs/sell/account/resources/payment_policy/methods/getPaymentPolicies" target="_blank ">getPaymentPolices</a> method. */
         payment_policy_id: string;
       };
     };
@@ -1403,14 +1239,18 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method retrieves the details of a specific payment policy. Supply both the policy <code>name</code> and its associated <code>marketplace_id</code> in the request query parameters.   <br/><br/><b>Marketplaces and locales</b>  <br/><br/>Get the correct policy for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get a policy for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP">HTTP request headers</a>. */
+  /** @description This method retrieves the details of a specific payment policy. Supply both the policy <code>name</code> and its associated <code>marketplace_id</code> in the request query parameters. */
   getPaymentPolicyByName: {
     parameters: {
       query: {
         /** @description This query parameter specifies the eBay marketplace of the policy you want to retrieve. For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum */
         marketplace_id: string;
-        /** @description This query parameter specifies the seller-defined name of the payment policy you want to retrieve. */
+        /** @description This query parameter specifies the seller-defined name of the payment policy you want to retrieve.<br><br> This value can be retrieved for a payment policy by using the <a href="/api-docs/sell/account/resources/payment_policy/methods/getPaymentPolicies" target="_blank ">getPaymentPolicies</a> method. */
         name: string;
+      };
+      header?: {
+        /** @description Get the correct policy for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get a policy for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP">HTTP request headers</a>. */
+        "Content-Language"?: string;
       };
     };
     responses: {
@@ -1426,7 +1266,7 @@ export interface operations {
       500: never;
     };
   };
-  /** @description <span class="tablenote"><b>Note:</b> This method is no longer applicable, as all seller accounts globally have been enabled for the new eBay payment and checkout flow.</span><br/><br/>This method returns whether or not the user is opted-in to the specified payments program. Sellers opt-in to payments programs by marketplace and you use the <b>marketplace_id</b> path parameter to specify the marketplace of the status flag you want returned. */
+  /** @description <span class="tablenote"><b>Note:</b> This method is no longer applicable, as all seller accounts globally have been enabled for the new eBay payment and checkout flow.</span><br>This method returns whether or not the user is opted-in to the specified payments program. Sellers opt-in to payments programs by marketplace and you use the <b>marketplace_id</b> path parameter to specify the marketplace of the status flag you want returned. */
   getPaymentsProgram: {
     parameters: {
       path: {
@@ -1451,7 +1291,7 @@ export interface operations {
       500: never;
     };
   };
-  /** @description <span class="tablenote"><b>Note:</b> This method is no longer applicable, as all seller accounts globally have been enabled for the new eBay payment and checkout flow.</span><br/><br/>This method retrieves a seller's onboarding status for a payments program for a specified marketplace. The overall onboarding status of the seller and the status of each onboarding step is returned. */
+  /** @description <span class="tablenote"><b>Note:</b> This method is no longer applicable, as all seller accounts globally have been enabled for the new eBay payment and checkout flow.</span><br>This method retrieves a seller's onboarding status for a payments program for a specified marketplace. The overall onboarding status of the seller and the status of each onboarding step is returned. */
   getPaymentsProgramOnboarding: {
     parameters: {
       path: {
@@ -1476,7 +1316,7 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method retrieves the seller's current set of privileges, including whether or not the seller's eBay registration has been completed, as well as the details of their site-wide <b>sellingLimt</b> (the amount and quantity they can sell on a given day). */
+  /** @description This method retrieves the seller's current set of privileges, including whether or not the seller's eBay registration has been completed, as well as the details of their site-wide <b>sellingLimit</b> (the amount and quantity they can sell on a given day). */
   getPrivileges: {
     responses: {
       /** @description Success */
@@ -1508,8 +1348,14 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method opts the seller in to an eBay seller program. Refer to the <a href="/api-docs/sell/account/overview.html#opt-in" target="_blank">Account API overview</a> for information about available eBay seller programs.<br /><br /><span class="tablenote"><b>Note:</b> It can take up to 24-hours for eBay to process your request to opt-in to a Seller Program. Use the <a href="/api-docs/sell/account/resources/program/methods/getOptedInPrograms" target="_blank">getOptedInPrograms</a> call to check the status of your request after the processing period has passed.</span> */
+  /** @description This method opts the seller in to an eBay seller program. Refer to the <a href="/api-docs/sell/account/overview.html#opt-in" target="_blank">Account API overview</a> for information about available eBay seller programs.<br><br><span class="tablenote"><b>Note:</b> It can take up to 24-hours for eBay to process your request to opt-in to a Seller Program. Use the <a href="/api-docs/sell/account/resources/program/methods/getOptedInPrograms" target="_blank">getOptedInPrograms</a> call to check the status of your request after the processing period has passed.</span> */
   optInToProgram: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
     /** @description Program being opted-in to. */
     requestBody: {
       content: {
@@ -1533,8 +1379,14 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method opts the seller out of a seller program to which you have previously opted-in to. Get a list of the seller programs you have opted-in to using the <b>getOptedInPrograms</b> call. */
+  /** @description This method opts the seller out of a seller program in which they are currently opted in to. A seller can retrieve a list of the seller programs they are opted-in to using the <b>getOptedInPrograms</b> method. */
   optOutOfProgram: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
     /** @description Program being opted-out of. */
     requestBody: {
       content: {
@@ -1558,7 +1410,7 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method retrieves a seller's <i>shipping rate tables</i> for the country specified in the <b>country_code</b> query parameter. If you call this method without specifying a country code, the call returns all of the seller's shipping rate tables.  <br/><br/>The method's response includes a <b>rateTableId</b> for each table defined by the seller. This <b>rateTableId</b> value is used in add/revise item call or in create/update fulfillment business policy call to specify the shipping rate table to use for that policy's domestic or international shipping options. <br/><br/>This call currently supports getting rate tables related to the following marketplaces:<ul><li><code>EBAY_AU</code></li> <li><code>EBAY_CA</code></li> <li><code>EBAY_DE</code></li> <li><code>EBAY_ES</code></li> <li><code>EBAY_FR</code></li> <li><code>EBAY_GB</code></li> <li><code>EBAY_IT</code></li> <li><code>EBAY_US</code></li></ul>  <span class="tablenote"><b>Note:</b> Rate tables created with the Trading API might not have been assigned a <b>rateTableId</b> at the time of their creation. This method can assign and return <b>rateTableId</b> values for rate tables with missing IDs if you make a request using the <b>country_code</b> where the seller has defined rate tables.</span>  <br/><br/>Sellers can define up to 40 shipping rate tables for their account, which lets them set up different rate tables for each of the marketplaces they sell into. Go to <a href="https://www.ebay.com/ship/rt ">Shipping rate tables</a> in  <b>My eBay</b> to create and update rate tables. */
+  /** @description This method retrieves a seller's <i>shipping rate tables</i> for the country specified in the <b>country_code</b> query parameter. If you call this method without specifying a country code, the call returns all of the seller's shipping rate tables.  <br><br>The method's response includes a <b>rateTableId</b> for each table defined by the seller. This <b>rateTableId</b> value is used in add/revise item call or in create/update fulfillment business policy call to specify the shipping rate table to use for that policy's domestic or international shipping options. <br><br>This call currently supports getting rate tables related to the following marketplaces: United States, Canada, United Kingdom, Germany, Australia, France, Italy, and Spain.  <span class="tablenote"><b>Note:</b> Rate tables created with the Trading API might not have been assigned a <b>rateTableId</b> at the time of their creation. This method can assign and return <b>rateTableId</b> values for rate tables with missing IDs if you make a request using the <b>country_code</b> where the seller has defined rate tables.</span>  <br><br>Sellers can define up to 40 shipping rate tables for their account, which lets them set up different rate tables for each of the marketplaces they sell into. Go to <a href="https://www.ebay.com/ship/rt ">Shipping rate tables</a> in  <b>My eBay</b> to create and update rate tables. */
   getRateTables: {
     parameters: {
       query?: {
@@ -1579,12 +1431,16 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method retrieves all the return policies configured for the marketplace you specify using the <code>marketplace_id</code> query parameter.  <br/><br/><b>Marketplaces and locales</b>  <br/><br/>Get the correct policies for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get the policies for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank">HTTP request headers</a>. */
+  /** @description This method retrieves all the return policies configured for the marketplace you specify using the <code>marketplace_id</code> query parameter. */
   getReturnPolicies: {
     parameters: {
       query: {
-        /** @description This query parameter specifies the ID of the eBay marketplace of the policy you want to retrieve. For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum */
+        /** @description This query parameter specifies the ID of the eBay marketplace of the policies you want to retrieve. For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum */
         marketplace_id: string;
+      };
+      header?: {
+        /** @description Get the correct policies for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get the policies for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank">HTTP request headers</a>. */
+        "Content-Language"?: string;
       };
     };
     responses: {
@@ -1600,8 +1456,14 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method creates a new return policy where the policy encapsulates seller's terms for returning items.  <br/><br/>Each policy targets a specific marketplace, and you can create multiple policies for each marketplace. Return policies are not applicable to motor-vehicle listings.<br/><br/>A successful request returns the <b>getReturnPolicy</b> URI to the new policy in the <b>Location</b> response header and the ID for the new policy is returned in the response payload.  <p class="tablenote"><b>Tip:</b> For details on creating and using the business policies supported by the Account API, see <a href="/api-docs/sell/static/seller-accounts/business-policies.html">eBay business policies</a>.</p> */
+  /** @description This method creates a new return policy where the policy encapsulates seller's terms for returning items.  <br><br>Each policy targets a specific marketplace, and you can create multiple policies for each marketplace. Return policies are not applicable to motor-vehicle listings.<br><br>A successful request returns the <b>getReturnPolicy</b> URI to the new policy in the <b>Location</b> response header and the ID for the new policy is returned in the response payload.  <p class="tablenote"><b>Tip:</b> For details on creating and using the business policies supported by the Account API, see <a href="/api-docs/sell/static/seller-accounts/business-policies.html">eBay business policies</a>.</p> */
   createReturnPolicy: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
     /** @description Return policy request */
     requestBody: {
       content: {
@@ -1628,7 +1490,7 @@ export interface operations {
   getReturnPolicy: {
     parameters: {
       path: {
-        /** @description This path parameter specifies the of the return policy you want to retrieve. */
+        /** @description This path parameter specifies the unique identifier of the return policy you want to retrieve. <br><br> This ID can be retrieved for a return policy by using the <a href="/api-docs/sell/account/resources/return_policy/methods/getReturnPolicies" target="_blank ">getReturnPolicies</a> method. */
         return_policy_id: string;
       };
     };
@@ -1650,8 +1512,12 @@ export interface operations {
   /** @description This method updates an existing return policy. Specify the policy you want to update using the <b>return_policy_id</b> path parameter. Supply a complete policy payload with the updates you want to make; this call overwrites the existing policy with the new details specified in the payload. */
   updateReturnPolicy: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
-        /** @description This path parameter specifies the ID of the return policy you want to update. */
+        /** @description This path parameter specifies the ID of the return policy you want to update. <br><br> This ID can be retrieved for a return policy by using the <a href="/api-docs/sell/account/resources/return_policy/methods/getReturnPolicies" target="_blank ">getReturnPolicies</a> method. */
         return_policy_id: string;
       };
     };
@@ -1680,7 +1546,7 @@ export interface operations {
   deleteReturnPolicy: {
     parameters: {
       path: {
-        /** @description This path parameter specifies the ID of the return policy you want to delete. */
+        /** @description This path parameter specifies the unique identifier of the return policy you want to delete.<br><br> This ID can be retrieved for a return policy by using the <a href="/api-docs/sell/account/resources/return_policy/methods/getReturnPolicies" target="_blank ">getReturnPolicies</a> method. */
         return_policy_id: string;
       };
     };
@@ -1697,14 +1563,18 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method retrieves the details of a specific return policy. Supply both the policy <code>name</code> and its associated <code>marketplace_id</code> in the request query parameters.   <br/><br/><b>Marketplaces and locales</b>  <br/><br/>Get the correct policy for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get a policy for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP">HTTP request headers</a>. */
+  /** @description This method retrieves the details of a specific return policy. Supply both the policy <code>name</code> and its associated <code>marketplace_id</code> in the request query parameters. */
   getReturnPolicyByName: {
     parameters: {
       query: {
         /** @description This query parameter specifies the ID of the eBay marketplace of the policy you want to retrieve. For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum */
         marketplace_id: string;
-        /** @description This query parameter specifies the seller-defined name of the return policy you want to retrieve. */
+        /** @description This query parameter specifies the seller-defined name of the return policy you want to retrieve.<br><br> This value can be retrieved for a return policy by using the <a href="/api-docs/sell/account/resources/return_policy/methods/getReturnPolicies" target="_blank ">getReturnPolicies</a> method. */
         name: string;
+      };
+      header?: {
+        /** @description Get the correct policy for a marketplace that supports multiple locales using the <code>Content-Language</code> request header. For example, get a policy for the French locale of the Canadian marketplace by specifying <code>fr-CA</code> for the <code>Content-Language</code> header. Likewise, target the Dutch locale of the Belgium marketplace by setting <code>Content-Language: nl-BE</code>. For details on header values, see <a href="/api-docs/static/rest-request-components.html#HTTP">HTTP request headers</a>. */
+        "Content-Language"?: string;
       };
     };
     responses: {
@@ -1720,13 +1590,13 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This call gets the current sales tax table entry for a specific tax jurisdiction. Specify the jurisdiction to retrieve using the <b>countryCode</b> and <b>jurisdictionId</b> path parameters. All four response fields will be returned if a sales tax entry exists for the tax jurisdiction. Otherwise, the response will be returned as empty.<br/><br/><span class="tablenote"><b>Important!</b> In most US states and territories, eBay now 'collects and remits' sales tax, so sellers can no longer configure sales tax rates for these states/territories.</span> */
+  /** @description This call retrieves the current sales-tax table entry for a specific tax jurisdiction. Specify the jurisdiction to retrieve using the <b>countryCode</b> and <b>jurisdictionId</b> path parameters. All four response fields will be returned if a sales-tax entry exists for the tax jurisdiction. Otherwise, the response will be returned as empty.<br><br><span class="tablenote"><b>Note:</b> Sales-tax tables are only available for the US (EBAY_US) and Canada (EBAY_CA) marketplaces.</span><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> In the US, eBay now calculates, collects, and remits sales tax to the proper taxing authorities in all 50 states and Washington, DC. Sellers can no longer specify sales-tax rates for these jurisdictions using a tax table.<br><br>However, sellers may continue to use a sales-tax table to set rates for the following US territories:<ul><li>American Samoa (AS)</li><li>Guam (GU)</li><li>Northern Mariana Islands (MP)</li><li>Palau (PW)</li><li>US Virgin Islands (VI)</li></ul>For additional information, refer to <a href="https://www.ebay.com/help/selling/fees-credits-invoices/taxes-import-charges?id=4121 " target="_blank">Taxes and import charges</a>.</p></div> */
   getSalesTax: {
     parameters: {
       path: {
-        /** @description This path parameter specifies the two-letter <a href="https://www.iso.org/iso-3166-country-codes.html " title="https://www.iso.org " target="_blank">ISO 3166</a> code for the country whose sales tax table you want to retrieve. */
+        /** @description This path parameter specifies the two-letter <a href="https://www.iso.org/iso-3166-country-codes.html " title="https://www.iso.org " target="_blank">ISO 3166</a> code for the country whose sales tax table you want to retrieve.<br><br><span class="tablenote"><b>Note:</b> Sales-tax tables are available only for the US and Canada marketplaces. Therefore, the only supported values are:<ul><li><code>US</code></li><li><code>CA</code></li></ul></span> */
         countryCode: string;
-        /** @description This path parameter specifies the ID of the sales tax jurisdiction for the tax table entry you want to retrieve. Retrieve valid jurisdiction IDs using <b>getSalesTaxJurisdictions</b> in the Metadata API. */
+        /** @description This path parameter specifies the ID of the sales tax jurisdiction for the tax table entry to be retrieved.<br><br>Valid jurisdiction IDs can be retrieved using the <a href="/api-docs/sell/metadata/resources/country/methods/getSalesTaxJurisdictions" target="_blank ">getSalesTaxJurisdiction</a> method of the Metadata API.<br><br><span class="tablenote"><b>Note:</b> When <code>countryCode</code> is set to <code>US</code>, the only supported values for <code>jurisdictionId</code> are:<ul><li><code>AS</code> (American Samoa)</li><li><code>GU</code> (Guam</li><li><code>MP</code> Northern Mariana Islands</li><li><code>PW (Palau)</li><li><code>VI</code> (US Virgin Islands)</li></ul></span> */
         jurisdictionId: string;
       };
     };
@@ -1747,13 +1617,17 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method creates or updates a sales tax table entry for a jurisdiction. Specify the tax table entry you want to configure using the two path parameters: <b>countryCode</b> and <b>jurisdictionId</b>.  <br/><br/>A tax table entry for a jurisdiction is comprised of two fields: one for the jurisdiction's sales-tax rate and another that's a boolean value indicating whether or not shipping and handling are taxed in the jurisdiction.  <br/><br/>You can set up <i>tax tables</i> for countries that support different <i>tax jurisdictions</i>. Currently, only Canada, India, and the US support separate tax jurisdictions. If you sell into any of these countries, you can set up tax tables for any of the country's jurisdictions. Retrieve valid jurisdiction IDs using <b>getSalesTaxJurisdictions</b> in the Metadata API.  <br/><br/>For details on using this call, see <a href="/api-docs/sell/static/seller-accounts/tax-tables.html">Establishing sales-tax tables</a>. <br/><br/><span class="tablenote"><b>Important!</b> In the US, eBay now 'collects and remits' sales tax for every US state except for Missouri (and a few US territories), so sellers can no longer configure sales tax rates for any states except Missouri. With eBay 'collect and remit', eBay calculates the sales tax, collects the sales tax from the buyer, and remits the sales tax to the tax authorities at the buyer's location.</span> */
+  /** @description This method creates or updates a sales-tax table entry for a jurisdiction. Specify the tax table entry you want to configure using the two path parameters: <b>countryCode</b> and <b>jurisdictionId</b>.  <br><br>A tax table entry for a jurisdiction is comprised of two fields: one for the jurisdiction's sales-tax rate and another that's a boolean value indicating whether or not shipping and handling are taxed in the jurisdiction.<br><br>You can set up <i>sales-tax tables</i> for countries that support different <i>tax jurisdictions</i>.<br><br><span class="tablenote"><b>Note:</b> Sales-tax tables are only available for the US (EBAY_US) and Canada (EBAY_CA) marketplaces.</span><br>Retrieve valid jurisdiction IDs using <b><a href="/api-docs/sell/metadata/resources/country/methods/getSalesTaxJurisdictions" target="_blank">getSalesTaxJurisdictions</a></b> in the Metadata API.<br><br>For details about using this call, refer to <a href="/api-docs/sell/static/seller-accounts/tax-tables.html">Establishing sales-tax tables</a>.<br><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> In the US, eBay now calculates, collects, and remits sales tax to the proper taxing authorities in all 50 states and Washington, DC. Sellers can no longer specify sales-tax rates for these jurisdictions using a tax table.<br><br>However, sellers may continue to use a sales-tax table to set rates for the following US territories:<ul><li>American Samoa (AS)</li><li>Guam (GU)</li><li>Northern Mariana Islands (MP)</li><li>Palau (PW)</li><li>US Virgin Islands (VI)</li></ul>For additional information, refer to <a href="https://www.ebay.com/help/selling/fees-credits-invoices/taxes-import-charges?id=4121 " target="_blank">Taxes and import charges</a>.</p></div> */
   createOrReplaceSalesTax: {
     parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>.<br><br>For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
       path: {
-        /** @description This path parameter specifies the two-letter <a href="https://www.iso.org/iso-3166-country-codes.html " title="https://www.iso.org " target="_blank">ISO 3166</a> code for the country for which you want to create a sales tax table entry. */
+        /** @description This path parameter specifies the two-letter <a href="https://www.iso.org/iso-3166-country-codes.html " title="https://www.iso.org " target="_blank">ISO 3166</a> code for the country for which you want to create a sales tax table entry.<br><br><span class="tablenote"><b>Note:</b> Sales-tax tables are available only for the US and Canada marketplaces. Therefore, the only supported values are:<ul><li><code>US</code></li><li><code>CA</code></li></ul> */
         countryCode: string;
-        /** @description This path parameter specifies the ID of the tax jurisdiction for the table entry you want to create. Retrieve valid jurisdiction IDs using <b>getSalesTaxJurisdictions</b> in the Metadata API. */
+        /** @description This path parameter specifies the ID of the tax jurisdiction for the table entry to be created.<br><br>Valid jurisdiction IDs can be retrieved using the <a href="/api-docs/sell/metadata/resources/country/methods/getSalesTaxJurisdictions" target="_blank ">getSalesTaxJurisdiction</a> method of the Metadata API.<br><br><span class="tablenote"><b>Note:</b> When <code>countryCode</code> is set to <code>US</code>, the only supported values for <code>jurisdictionId</code> are:<ul><li><code>AS</code> (American Samoa)</li><li><code>GU</code> (Guam)</li><li><code>MP</code> (Northern Mariana Islands)</li><li><code>PW</code> (Palau)</li><li><code>VI</code> (US Virgin Islands)</li></ul></span> */
         jurisdictionId: string;
       };
     };
@@ -1774,13 +1648,13 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This call deletes a sales tax table entry for a jurisdiction. Specify the jurisdiction to delete using the <b>countryCode</b> and <b>jurisdictionId</b> path parameters. */
+  /** @description This call deletes a sales-tax table entry for a jurisdiction. Specify the jurisdiction to delete using the <b>countryCode</b> and <b>jurisdictionId</b> path parameters.<br><br><span class="tablenote"><b>Note:</b> Sales-tax tables are only available for the US (EBAY_US) and Canada (EBAY_CA) marketplaces.</span> */
   deleteSalesTax: {
     parameters: {
       path: {
-        /** @description This path parameter specifies the two-letter <a href="https://www.iso.org/iso-3166-country-codes.html " title="https://www.iso.org " target="_blank">ISO 3166</a> code for the country whose sales tax table entry you want to delete. */
+        /** @description This path parameter specifies the two-letter <a href="https://www.iso.org/iso-3166-country-codes.html " title="https://www.iso.org " target="_blank">ISO 3166</a> code for the country whose sales tax table entry you want to delete.<br><br><span class="tablenote"><b>Note:</b> Sales-tax tables are available only for the US and Canada marketplaces. Therefore, the only supported values are:<ul><li><code>US</code></li><li><code>CA</code></li></ul></span> */
         countryCode: string;
-        /** @description This path parameter specifies the ID of the sales tax jurisdiction whose table entry you want to delete. Retrieve valid jurisdiction IDs using <b>getSalesTaxJurisdictions</b> in the Metadata API. */
+        /** @description This path parameter specifies the ID of the sales tax jurisdiction whose table entry you want to delete.<br><br>Valid jurisdiction IDs can be retrieved using the <a href="/api-docs/sell/metadata/resources/country/methods/getSalesTaxJurisdictions" target="_blank ">getSalesTaxJurisdiction</a> method of the Metadata API.<br><br><span class="tablenote"><b>Note:</b> When <code>countryCode</code> is set to <code>US</code>, the only supported values for <code>jurisdictionId</code> are:<ul><li><code>AS</code> (American Samoa)</li><li><code>GU</code> (Guam)</li><li><code>MP</code> (Northern Mariana Islands)</li><li><code>PW</code> (Palau)</li><li><code>VI</code> (US Virgin Islands)</li></ul></span> */
         jurisdictionId: string;
       };
     };
@@ -1795,11 +1669,11 @@ export interface operations {
       500: never;
     };
   };
-  /** @description Use this call to retrieve all sales tax table entries that the seller has defined for a specific country. All four response fields will be returned for each tax jurisdiction that matches the search criteria. <br/><br/><span class="tablenote"><b>Important!</b> In most US states and territories, eBay now 'collects and remits' sales tax, so sellers can no longer configure sales tax rates for these states/territories.</span> */
+  /** @description Use this call to retrieve all sales tax table entries that the seller has defined for a specific country. All four response fields will be returned for each tax jurisdiction that matches the search criteria. If no sales tax rates are defined for the specified, a <code>204 No Content</code> status code is returned with no response payload.<br><br><span class="tablenote"><b>Note:</b> Sales-tax tables are only available for the US (EBAY_US) and Canada (EBAY_CA) marketplaces.</span><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> In the US, eBay now calculates, collects, and remits sales tax to the proper taxing authorities in all 50 states and Washington, DC. Sellers can no longer specify sales-tax rates for these jurisdictions using a tax table.<br><br>However, sellers may continue to use a sales-tax table to set rates for the following US territories:<ul><li>American Samoa (AS)</li><li>Guam (GU)</li><li>Northern Mariana Islands (MP)</li><li>Palau (PW)</li><li>US Virgin Islands (VI)</li></ul>For additional information, refer to <a href="https://www.ebay.com/help/selling/fees-credits-invoices/taxes-import-charges?id=4121 " target="_blank">Taxes and import charges</a>.</p></div> */
   getSalesTaxes: {
     parameters: {
       query: {
-        /** @description This path parameter specifies the two-letter <a href="https://www.iso.org/iso-3166-country-codes.html " title="https://www.iso.org " target="_blank">ISO 3166</a> code for the country whose tax table you want to retrieve. For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/sell/account/types/ba:CountryCodeEnum */
+        /** @description This path parameter specifies the two-letter <a href="https://www.iso.org/iso-3166-country-codes.html " title="https://www.iso.org " target="_blank">ISO 3166</a> code for the country whose tax table you want to retrieve.<br><br><span class="tablenote"><b>Note:</b> Sales-tax tables are available only for the US and Canada marketplaces. Therefore, the only supported values are:<ul><li><code>US</code></li><li><code>CA</code></li></ul></span> For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/sell/account/types/ba:CountryCodeEnum */
         country_code: string;
       };
     };
@@ -1839,7 +1713,7 @@ export interface operations {
       500: never;
     };
   };
-  /** @description <span class="tablenote"><b>Note:</b>This method was originally created to see which onboarding requirements were still pending for sellers being onboarded for eBay managed payments, but now that all seller accounts are onboarded globally, this method should now just returne an empty payload with a <code>204 No Content</code> HTTP status code. </span> */
+  /** @description <span class="tablenote"><b>Note:</b> This method was originally created to see which onboarding requirements were still pending for sellers being onboarded for eBay managed payments, but now that all seller accounts are onboarded globally, this method should now just return an empty payload with a <code>204 No Content</code> HTTP status code. </span> */
   getKYC: {
     responses: {
       /** @description OK */
@@ -1860,11 +1734,11 @@ export interface operations {
   getAdvertisingEligibility: {
     parameters: {
       query?: {
-        /** @description A comma-separated list of eBay advertising programs.<br /><br /><span class="tablenote"><b>Tip:</b> See the <a href="/api-docs/sell/account/types/plser:AdvertisingProgramEnum"> AdvertisingProgramEnum</a> type for possible values.</span><br /><br />If no programs are specified, the results will be returned for all programs. */
+        /** @description A comma-separated list of eBay advertising programs for which eligibility status will be returned.<br><br> See the <a href="/api-docs/sell/account/types/plser:AdvertisingProgramEnum" target="_blank"> AdvertisingProgramEnum</a> type for a list of supported values.<br><br>If no programs are specified, the results will be returned for all programs. */
         program_types?: string;
       };
       header: {
-        /** @description The unique identifier of the eBay marketplace for which the seller eligibility status shall be checked.<br /><br /><span class="tablenote"><b>Note:</b> This value is case-sensitive.</span> */
+        /** @description The unique identifier of the eBay marketplace for which the seller eligibility status shall be checked. This header is required or the call will fail.<br><br>See the <a href="/api-docs/sell/account/types/ba:MarketplaceIdEnum " target="_blank ">MarketplaceIdEnum</a> type for the supported marketplace ID values. */
         "X-EBAY-C-MARKETPLACE-ID": string;
       };
     };
@@ -1877,190 +1751,6 @@ export interface operations {
       };
       /** @description Bad Request */
       400: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This call retrieves all defined details of the inventory location that is specified by the <b>merchantLocationKey</b> path parameter. <p>The <code>authorization</code> HTTP header is the only required request header for this call. </p><p>A successful call will return an HTTP status value of <i>200 OK</i>.</p> */
-  getInventoryLocation: {
-    parameters: {
-      path: {
-        /** @description A unique merchant-defined key (ID) for an inventory location. This value is passed in at the end of the call URI to specify the inventory location to retrieve. <br/><br/><b>Max length</b>: 36 */
-        merchantLocationKey: string;
-      };
-    };
-    responses: {
-      /** @description Success */
-      200: {
-        content: {
-          "application/json": components["schemas"]["InventoryLocationResponse"];
-        };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Not Found */
-      404: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description <p>Use this call to create a new inventory location. In order to create and publish an offer (and create an eBay listing), a seller must have at least one inventory location, as every offer must be associated with a location.</p><p>Upon first creating an inventory location, only a seller-defined location identifier and a physical location is required, and once set, these values can not be changed. The unique identifier value (<i>merchantLocationKey</i>) is passed in at the end of the call URI. This <i>merchantLocationKey</i> value will be used in other Inventory Location calls to identify the inventory location to perform an action against.</p><p>At this time, location types are either warehouse or store. Warehouse locations are used for traditional shipping, and store locations are generally used by US merchants selling products through the In-Store Pickup program, or used by UK, Australian, and German merchants selling products through the Click and Collect program. A full address is required for store inventory locations. However, for warehouse inventory locations, a full street address is not needed, but the city, state/province, and country of the location must be provided. </p><p>Note that all inventory locations are "enabled" by default when they are created, and you must specifically disable them (by passing in a value of <code>DISABLED</code> in the <strong>merchantLocationStatus</strong> field) if you want them to be set to the disabled state. The seller's inventory cannot be loaded to inventory locations in the disabled state.</p> <p>In addition to the <code>authorization</code> header, which is required for all eBay REST API calls, the following table includes another request header that is mandatory for the <strong>createInventoryLocation</strong> call, and two other request headers that are optional:</p><br/> <table> <tr> <th>Header</th> <th>Description</th> <th>Required?</th> <th>Applicable Values</th> </tr> <tr> <td><code>Accept</code></td> <td>Describes the response encoding, as required by the caller. Currently, the interfaces require payloads formatted in JSON, and JSON is the default.</td> <td>No</td> <td><code>application/json</code></td> </tr> <tr> <td><code>Content-Language</code></td> <td>Use this header to control the language that is used for any returned errors or warnings in the call response.</td> <td>No</td> <td><code>en-US</code></td> </tr> <tr> <td><code>Content-Type</code></td> <td>The MIME type of the body of the request. Must be JSON.</td> <td>Yes</td> <td><code>application/json</code></td> </tr> </table></p><br/><p>Unless one or more errors and/or warnings occur with the call, there is no response payload for this call. A successful call will return an HTTP status value of <i>204 No Content</i>.</p> */
-  createInventoryLocation: {
-    parameters: {
-      path: {
-        /** @description A unique, merchant-defined key (ID) for an inventory location. This unique identifier, or key, is used in other Inventory API calls to identify an inventory location. <br/><br/><b>Max length</b>: 36 */
-        merchantLocationKey: string;
-      };
-    };
-    /** @description Inventory Location details */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["InventoryLocationFull"];
-      };
-    };
-    responses: {
-      /** @description No Content */
-      204: never;
-      /** @description Bad Request */
-      400: never;
-      /** @description Location Already Exists */
-      409: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description <p>This call deletes the inventory location that is specified in the <code>merchantLocationKey</code> path parameter. Note that deleting a location will not affect any active eBay listings associated with the deleted location, but the seller will not be able modify the offers associated with the inventory location once it is deleted.</p><p>The <code>authorization</code> HTTP header is the only required request header for this call. </p><p>Unless one or more errors and/or warnings occur with the call, there is no response payload for this call. A successful call will return an HTTP status value of <i>200 OK</i>.</p> */
-  deleteInventoryLocation: {
-    parameters: {
-      path: {
-        /** @description A unique merchant-defined key (ID) for an inventory location. This value is passed in at the end of the call URI to indicate the inventory location to be deleted. <br/><br/><b>Max length</b>: 36 */
-        merchantLocationKey: string;
-      };
-    };
-    responses: {
-      /** @description Success */
-      204: never;
-      /** @description Bad Request */
-      400: never;
-      /** @description Not Found */
-      404: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description <p>This call disables the inventory location that is specified in the <code>merchantLocationKey</code> path parameter. Sellers can not load/modify inventory to disabled inventory locations. Note that disabling an inventory location will not affect any active eBay listings associated with the disabled location, but the seller will not be able modify the offers associated with a disabled inventory location.</p><p>The <code>authorization</code> HTTP header is the only required request header for this call.</p><p>A successful call will return an HTTP status value of <i>200 OK</i>.</p> */
-  disableInventoryLocation: {
-    parameters: {
-      path: {
-        /** @description A unique merchant-defined key (ID) for an inventory location. This value is passed in through the call URI to disable the specified inventory location. <br/><br/><b>Max length</b>: 36 */
-        merchantLocationKey: string;
-      };
-    };
-    responses: {
-      /** @description Success */
-      200: {
-        content: {
-          "application/json": Record<string, never>;
-        };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Not Found */
-      404: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description <p>This call enables a disabled inventory location that is specified in the <code>merchantLocationKey</code> path parameter. Once a disabled inventory location is enabled, sellers can start loading/modifying inventory to that inventory location. </p><p>The <code>authorization</code> HTTP header is the only required request header for this call.</p><p>A successful call will return an HTTP status value of <i>200 OK</i>.</p> */
-  enableInventoryLocation: {
-    parameters: {
-      path: {
-        /** @description A unique merchant-defined key (ID) for an inventory location. This value is passed in through the call URI to specify the disabled inventory location to enable. <br/><br/><b>Max length</b>: 36 */
-        merchantLocationKey: string;
-      };
-    };
-    responses: {
-      /** @description Success */
-      200: {
-        content: {
-          "application/json": Record<string, never>;
-        };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Not Found */
-      404: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This call retrieves all defined details for every inventory location associated with the seller's account. There are no required parameters for this call and no request payload. However, there are two optional query parameters, <strong>limit</strong> and <strong>offset</strong>. The <strong>limit</strong> query parameter sets the maximum number of inventory locations returned on one page of data, and the <strong>offset</strong> query parameter specifies the page of data to return. These query parameters are discussed more in the <strong>URI parameters</strong> table below. <p>The <code>authorization</code> HTTP header is the only required request header for this call. </p><p>A successful call will return an HTTP status value of <i>200 OK</i>.</p> */
-  getInventoryLocations: {
-    parameters: {
-      query?: {
-        /** @description The value passed in this query parameter sets the maximum number of records to return per page of data. Although this field is a string, the value passed in this field should be a positive integer value. If this query parameter is not set, up to 100 records will be returned on each page of results. <br/><br/> <strong>Min</strong>: 1 */
-        limit?: string;
-        /** @description Specifies the number of locations to skip in the result set before returning the first location in the paginated response.  <p>Combine <b>offset</b> with the <b>limit</b> query parameter to control the items returned in the response. For example, if you supply an <b>offset</b> of <code>0</code> and a <b>limit</b> of <code>10</code>, the first page of the response contains the first 10 items from the complete list of items retrieved by the call. If <b>offset</b> is <code>10</code> and <b>limit</b> is <code>20</code>, the first page of the response contains items 11-30 from the complete result set.</p> <p><b>Default:</b> 0</p> */
-        offset?: string;
-      };
-    };
-    responses: {
-      /** @description Success */
-      200: {
-        content: {
-          "application/json": components["schemas"]["LocationResponse"];
-        };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description <p>Use this call to update non-physical location details for an existing inventory location. Specify the inventory location you want to update using the <b>merchantLocationKey</b> path parameter. <br/><br/>You can update the following text-based fields: <strong>name</strong>, <strong>phone</strong>, <strong>locationWebUrl</strong>, <strong>locationInstructions</strong> and <strong>locationAdditionalInformation</strong>. Whatever text is passed in for these fields in an <strong>updateInventoryLocation</strong> call will replace the current text strings defined for these fields. For store inventory locations, the operating hours and/or the special hours can also be updated. <br/><br/> The merchant location key, the physical location of the store, and its geo-location coordinates can not be updated with an <strong>updateInventoryLocation</strong> call </p><p>In addition to the <code>authorization</code> header, which is required for all eBay REST API calls, the following table includes another request header that is mandatory for the <strong>updateInventoryLocation</strong> call, and two other request headers that are optional:</p><br/> <table> <tr> <th>Header</th> <th>Description</th> <th>Required?</th> <th>Applicable Values</th> </tr> <tr> <td><code>Accept</code></td> <td>Describes the response encoding, as required by the caller. Currently, the interfaces require payloads formatted in JSON, and JSON is the default.</td> <td>No</td> <td><code>application/json</code></td> </tr> <tr> <td><code>Content-Language</code></td> <td>Use this header to control the language that is used for any returned errors or warnings in the call response.</td> <td>No</td> <td><code>en-US</code></td> </tr> <tr> <td><code>Content-Type</code></td> <td>The MIME type of the body of the request. Must be JSON.</td> <td>Yes</td> <td><code>application/json</code></td> </tr> </table><br/><p>Unless one or more errors and/or warnings occurs with the call, there is no response payload for this call. A successful call will return an HTTP status value of <i>204 No Content</i>.</p> */
-  updateInventoryLocation: {
-    parameters: {
-      path: {
-        /** @description A unique merchant-defined key (ID) for an inventory location. This value is passed in the call URI to indicate the inventory location to be updated. <br/><br/><b>Max length</b>: 36 */
-        merchantLocationKey: string;
-      };
-    };
-    /** @description The inventory location details to be updated (other than the address and geo co-ordinates). */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["InventoryLocation"];
-      };
-    };
-    responses: {
-      /** @description Success */
-      204: never;
-      /** @description Bad Request */
-      400: never;
-      /** @description Not Found */
-      404: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This method retrieves all the sales tax jurisdictions for the country that you specify in the <b>countryCode</b> path parameter. Countries with valid sales tax jurisdictions are Canada and the US.  <br/><br/>The response from this call tells you the jurisdictions for which a seller can configure tax tables. Although setting up tax tables is optional, you can use the <b>createOrReplaceSalesTax</b> in the <b>Account API</b> call to configure the tax tables for the jurisdictions you sell to. */
-  getSalesTaxJurisdictions: {
-    parameters: {
-      path: {
-        /** @description This path parameter specifies the two-letter <a href="https://www.iso.org/iso-3166-country-codes.html " title="https://www.iso.org " target="_blank">ISO 3166</a> country code for the country whose jurisdictions you want to retrieve. eBay provides sales tax jurisdiction information for Canada and the United States.Valid values for this path parameter are <code>CA</code> and <code>US</code>. */
-        countryCode: string;
-      };
-    };
-    responses: {
-      /** @description Success */
-      200: {
-        content: {
-          "application/json": components["schemas"]["SalesTaxJurisdictions"];
-        };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Not Found */
-      404: never;
       /** @description Internal Server Error */
       500: never;
     };

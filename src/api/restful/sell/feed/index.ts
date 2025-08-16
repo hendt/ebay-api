@@ -1,5 +1,13 @@
 import {multipartHeader} from '../../../../request.js';
-import {SellFeedParams} from '../../../../types/index.js';
+import {
+  SellFeedParams,
+  CreateOrderTaskRequest,
+  CreateInventoryTaskRequest,
+  CreateUserScheduleRequest,
+  UpdateUserScheduleRequest,
+  CreateTaskRequest,
+  CreateServiceMetricsTaskRequest
+} from '../../../../types/index.js';
 import {operations} from '../../../../types/restful/specs/sell_feed_v1_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
 
@@ -49,7 +57,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
    *
    * @param data The CreateOrderTaskRequest
    */
-  public createOrderTask(data: any) {
+  public createOrderTask(data: CreateOrderTaskRequest) {
     return this.post(`/order_task`, data);
   }
 
@@ -91,7 +99,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
   /**
    * This method creates an inventory-related download task for a specified feed type with optional filter criteria.
    */
-  public createInventoryTask(data: any) {
+  public createInventoryTask(data: CreateInventoryTaskRequest) {
     return this.post('/inventory_task', data);
   }
 
@@ -130,7 +138,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
    *
    * @params data The CreateUserScheduleRequest
    */
-  public createSchedule(data: any) {
+  public createSchedule(data: CreateUserScheduleRequest) {
     return this.post(`/schedule`, data);
   }
 
@@ -150,7 +158,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
    * @param scheduleId The ID of the schedule to update.
    * @param data The UpdateUserScheduleRequest.
    */
-  public updateSchedule(scheduleId: string, data?: any) {
+  public updateSchedule(scheduleId: string, data?: UpdateUserScheduleRequest) {
     scheduleId = encodeURIComponent(scheduleId);
     return this.put(`/schedule/${scheduleId}`, data);
   }
@@ -244,7 +252,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
    *
    * @param data The CreateTaskRequest.
    */
-  public createTask(data: any) {
+  public createTask(data: CreateTaskRequest) {
     return this.post(`/task`, data);
   }
 
@@ -328,7 +336,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
    * @params acceptLanguage Use this header to specify the natural language in which the authenticated user desires the response.
    * @params data The CreateServiceMetricsTaskRequest
    */
-  public createCustomerServiceMetricTask(acceptLanguage: string, data: any) {
+  public createCustomerServiceMetricTask(acceptLanguage: string, data: CreateServiceMetricsTaskRequest) {
     return this.post(`/customer_service_metric_task`, data, {
       headers: {
         'accept-language': acceptLanguage

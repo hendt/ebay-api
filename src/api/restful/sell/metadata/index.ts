@@ -1,3 +1,10 @@
+import {
+  SpecificationRequest,
+  PropertyNamesRequest,
+  PropertyValuesRequest,
+  MultiCompatibilityPropertyValuesRequest,
+  ProductRequest
+} from '../../../../types/index.js';
 import {operations} from '../../../../types/restful/specs/sell_metadata_v1_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
 
@@ -164,5 +171,147 @@ export default class Metadata extends Restful implements OpenApi<operations> {
   public getHazardousMaterialsLabels(marketplaceId: string) {
     marketplaceId = encodeURIComponent(marketplaceId);
     return this.get(`/marketplace/${marketplaceId}/get_hazardous_materials_labels`);
+  }
+
+  /**
+   * This method returns category policies for the specified marketplace.
+   * @param marketplaceId The eBay marketplace ID
+   * @param filter Filter for specific categories
+   */
+  public getCategoryPolicies(marketplaceId: string, filter?: string) {
+    marketplaceId = encodeURIComponent(marketplaceId);
+    return this.get(`/marketplace/${marketplaceId}/get_category_policies`, {
+      params: { filter }
+    });
+  }
+
+  /**
+   * This method returns classified ad policies for the specified marketplace.
+   * @param marketplaceId The eBay marketplace ID
+   * @param filter Filter for specific categories
+   */
+  public getClassifiedAdPolicies(marketplaceId: string, filter?: string) {
+    marketplaceId = encodeURIComponent(marketplaceId);
+    return this.get(`/marketplace/${marketplaceId}/get_classified_ad_policies`, {
+      params: { filter }
+    });
+  }
+
+  /**
+   * This method returns the currencies available for the specified marketplace.
+   * @param marketplaceId The eBay marketplace ID
+   */
+  public getCurrencies(marketplaceId: string) {
+    marketplaceId = encodeURIComponent(marketplaceId);
+    return this.get(`/marketplace/${marketplaceId}/get_currencies`);
+  }
+
+  /**
+   * This method returns listing type policies for the specified marketplace.
+   * @param marketplaceId The eBay marketplace ID
+   * @param filter Filter for specific categories
+   */
+  public getListingTypePolicies(marketplaceId: string, filter?: string) {
+    marketplaceId = encodeURIComponent(marketplaceId);
+    return this.get(`/marketplace/${marketplaceId}/get_listing_type_policies`, {
+      params: { filter }
+    });
+  }
+
+  /**
+   * This method returns motors listing policies for the specified marketplace.
+   * @param marketplaceId The eBay marketplace ID
+   * @param filter Filter for specific categories
+   */
+  public getMotorsListingPolicies(marketplaceId: string, filter?: string) {
+    marketplaceId = encodeURIComponent(marketplaceId);
+    return this.get(`/marketplace/${marketplaceId}/get_motors_listing_policies`, {
+      params: { filter }
+    });
+  }
+
+  /**
+   * This method returns product safety labels for the specified marketplace.
+   * @param marketplaceId The eBay marketplace ID
+   */
+  public getProductSafetyLabels(marketplaceId: string) {
+    marketplaceId = encodeURIComponent(marketplaceId);
+    return this.get(`/marketplace/${marketplaceId}/get_product_safety_labels`);
+  }
+
+  /**
+   * This method returns regulatory policies for the specified marketplace.
+   * @param marketplaceId The eBay marketplace ID
+   * @param filter Filter for specific categories
+   */
+  public getRegulatoryPolicies(marketplaceId: string, filter?: string) {
+    marketplaceId = encodeURIComponent(marketplaceId);
+    return this.get(`/marketplace/${marketplaceId}/get_regulatory_policies`, {
+      params: { filter }
+    });
+  }
+
+  /**
+   * This method returns shipping policies for the specified marketplace.
+   * @param marketplaceId The eBay marketplace ID
+   * @param filter Filter for specific categories
+   */
+  public getShippingPolicies(marketplaceId: string, filter?: string) {
+    marketplaceId = encodeURIComponent(marketplaceId);
+    return this.get(`/marketplace/${marketplaceId}/get_shipping_policies`, {
+      params: { filter }
+    });
+  }
+
+  /**
+   * This method returns site visibility policies for the specified marketplace.
+   * @param marketplaceId The eBay marketplace ID
+   * @param filter Filter for specific categories
+   */
+  public getSiteVisibilityPolicies(marketplaceId: string, filter?: string) {
+    marketplaceId = encodeURIComponent(marketplaceId);
+    return this.get(`/marketplace/${marketplaceId}/get_site_visibility_policies`, {
+      params: { filter }
+    });
+  }
+
+  /**
+   * This method returns compatibilities by specification.
+   * @param body The specification request
+   */
+  public getCompatibilitiesBySpecification(body?: SpecificationRequest) {
+    return this.post(`/compatibilities/get_compatibilities_by_specification`, body);
+  }
+
+  /**
+   * This method returns compatibility property names.
+   * @param body The property names request
+   */
+  public getCompatibilityPropertyNames(body?: PropertyNamesRequest) {
+    return this.post(`/compatibilities/get_compatibility_property_names`, body);
+  }
+
+  /**
+   * This method returns compatibility property values.
+   * @param body The property values request
+   */
+  public getCompatibilityPropertyValues(body?: PropertyValuesRequest) {
+    return this.post(`/compatibilities/get_compatibility_property_values`, body);
+  }
+
+  /**
+   * This method returns multiple compatibility property values.
+   * @param body The multi property values request
+   */
+  public getMultiCompatibilityPropertyValues(body?: MultiCompatibilityPropertyValuesRequest) {
+    return this.post(`/compatibilities/get_multi_compatibility_property_values`, body);
+  }
+
+  /**
+   * This method returns product compatibilities.
+   * @param body The product compatibilities request
+   */
+  public getProductCompatibilities(body?: ProductRequest) {
+    return this.post(`/compatibilities/get_product_compatibilities`, body);
   }
 }

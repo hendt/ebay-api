@@ -3,7 +3,8 @@ import {
   CreateSubscriptionRequest,
   DestinationRequest,
   NotificationParams,
-  UpdateSubscriptionRequest
+  UpdateSubscriptionRequest,
+  CreateSubscriptionFilterRequest
 } from '../../../../types/index.js';
 import {operations} from '../../../../types/restful/specs/commerce_notification_v1_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
@@ -129,11 +130,46 @@ export default class Notification extends Restful implements OpenApi<operations>
   }
 
   /**
+   * This method creates a subscription filter for the specified subscription.
+   *
+   * @param subscriptionId The unique identifier for the subscription.
+   * @param body The subscription filter request.
+   */
+  public createSubscriptionFilter(subscriptionId: string, body?: CreateSubscriptionFilterRequest) {
+    subscriptionId = encodeURIComponent(subscriptionId);
+    return this.post(`/subscription/${subscriptionId}/filter`, body);
+  }
+
+  /**
+   * This method retrieves the subscription filter for the specified subscription.
+   *
+   * @param subscriptionId The unique identifier for the subscription.
+   * @param filterId The unique identifier for the filter.
+   */
+  public getSubscriptionFilter(subscriptionId: string, filterId: string) {
+    subscriptionId = encodeURIComponent(subscriptionId);
+    filterId = encodeURIComponent(filterId);
+    return this.get(`/subscription/${subscriptionId}/filter/${filterId}`);
+  }
+
+  /**
+   * This method deletes the subscription filter for the specified subscription.
+   *
+   * @param subscriptionId The unique identifier for the subscription.
+   * @param filterId The unique identifier for the filter.
+   */
+  public deleteSubscriptionFilter(subscriptionId: string, filterId: string) {
+    subscriptionId = encodeURIComponent(subscriptionId);
+    filterId = encodeURIComponent(filterId);
+    return this.delete(`/subscription/${subscriptionId}/filter/${filterId}`);
+  }
+
+  /**
    * This method triggers a mocked test payload that includes a notification ID, publish date, and so on.
    *
    * @param subscriptionId The unique identifier for the subscription.
    */
-  public test(subscriptionId: string) {
+  public testSubscription(subscriptionId: string) {
     subscriptionId = encodeURIComponent(subscriptionId);
     return this.post(`/subscription/${subscriptionId}/test`);
   }

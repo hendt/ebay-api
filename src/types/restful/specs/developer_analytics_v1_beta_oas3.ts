@@ -6,11 +6,11 @@
 
 export interface paths {
   "/rate_limit/": {
-    /** @description This method retrieves the call limit and utilization data for an application. The data is retrieved for all RESTful APIs and resources. The response from getRateLimits includes a list of the applicable resources and the &quot;call limit&quot;, or quota, that is set for each resource. In addition to quota information, the response also includes the number of remaining calls available before the limit is reached, the time remaining before the quota resets, and the length of the &quot;time window&quot; to which the quota applies. By default, this method returns utilization data for all RESTful API resources. Use the api_name and api_context query parameters to filter the response to only the desired APIs. For more on call limits, see Compatible Application Check. */
+    /** @description This method retrieves the call limit and utilization data for an application. The data is retrieved for all RESTful APIs and the legacy Trading API.  <br><br>The response from <b>getRateLimits</b> includes a list of the applicable resources and the "call limit", or quota, that is set for each resource. In addition to quota information, the response also includes the number of remaining calls available before the limit is reached, the time remaining before the quota resets, the number of calls made to the specific resource, and the length of the "time window" to which the quota applies.  <br><br>By default, this method returns utilization data for all RESTful API and the legacy Trading API resources. Use the <b>api_name</b> and <b>api_context</b> query parameters to filter the response to only the desired APIs.  <br><br>For more on call limits, see <a href="https://developer.ebay.com/support/app-check " target="_blank">Application Growth Check</a>. */
     get: operations["getRateLimits"];
   };
   "/user_rate_limit/": {
-    /** @description This method retrieves the call limit and utilization data for an application user. The call-limit data is returned for all RESTful APIs and resources that limit calls on a per-user basis. The response from getUserRateLimits includes a list of the applicable resources and the &quot;call limit&quot;, or quota, that is set for each resource. In addition to quota information, the response also includes the number of remaining calls available before the limit is reached, the time remaining before the quota resets, and the length of the &quot;time window&quot; to which the quota applies. By default, this method returns utilization data for all RESTful API resources that limit request access by user. Use the api_name and api_context query parameters to filter the response to only the desired APIs. For more on call limits, see Compatible Application Check. */
+    /** @description This method retrieves the call limit and utilization data for an application user. The call-limit data is returned for all RESTful APIs and the legacy Trading API that limit calls on a per-user basis.  <br><br>The response from <b>getUserRateLimits</b> includes a list of the applicable resources and the "call limit", or quota, that is set for each resource. In addition to quota information, the response also includes the number of remaining calls available before the limit is reached, the time remaining before the quota resets, the number of calls made to the specific resource, and the length of the "time window" to which the quota applies.  <br><br>By default, this method returns utilization data for all RESTful APIs resources and the legacy Trading API calls that limit request access by user. Use the <b>api_name</b> and <b>api_context</b> query parameters to filter the response to only the desired APIs.  <br><br>For more on call limits, see <a href="https://developer.ebay.com/support/app-check " target="_blank">Application Growth Check</a>. */
     get: operations["getUserRateLimits"];
   };
 }
@@ -19,49 +19,6 @@ export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
-    /** @description This complex type defines a &quot;rate&quot; as the quota of calls that can be made to a resource per time window, the remaining number of calls before the threshold is met, the amount of time until the time window resets, and the length of the time window (in seconds). */
-    Rate: {
-      /**
-       * Format: int32 
-       * @description The maximum number of requests that can be made to this resource during a set time period. The length of time to which the limit is applied is defined by the associated timeWindow value. This value is often referred to as the &quot;call quota&quot; for the resource.
-       */
-      limit?: number;
-      /**
-       * Format: int32 
-       * @description The remaining number of requests that can be made to this resource before the associated time window resets.
-       */
-      remaining?: number;
-      /** @description The data and time the time window and accumulated calls for this resource reset. When the reset time is reached, the remaining value is reset to the value of limit, and this reset value is reset to the current time plus the number of seconds defined by the timeWindow value. The time stamp is formatted as an ISO 8601 string, which is based on the 24-hour Universal Coordinated Time (UTC) clock. Format: YYYY-MM-DDTHH:MM:SS.SSSZ Example: 2018-08-04T07:09:00.000Z */
-      reset?: string;
-      /**
-       * Format: int32 
-       * @description A period of time, expressed in seconds. The call quota for a resource is applied to the period of time defined by the value of this field.
-       */
-      timeWindow?: number;
-    };
-    /** @description This complex types defines the resource (such as an API method) for which the rate-limit data is returned. A method is included in an API, and an API is part of an API context for the API version specified. */
-    RateLimit: {
-      /** @description The context of the API for which rate-limit data is returned. For example buy, sell, commerce, or developer. */
-      apiContext?: string;
-      /** @description The name of the API for which rate-limit data is returned. For example browse for the Buy API, inventory for the Sell API, or taxonomy for the Commerce API. */
-      apiName?: string;
-      /** @description The version of the API for which rate-limit data is returned. For example v1 or v2. */
-      apiVersion?: string;
-      /** @description A list of the methods for which rate-limit data is returned. For example item for the Feed API, getOrder for the Fulfillment API, and getProduct for the Catalog API. */
-      resources?: (components["schemas"]["Resource"])[];
-    };
-    /** @description This complex type defines a list of rate-limit data as it pertains to a method within the specified version of an API. */
-    RateLimitsResponse: {
-      /** @description The rate-limit data for the specified APIs. The rate-limit data is returned for all the methods in the specified APIs and data pertains to the current time window. */
-      rateLimits?: (components["schemas"]["RateLimit"])[];
-    };
-    /** @description This complex type defines the resource (API method) and the current rate-limit data for that resource. */
-    Resource: {
-      /** @description The name of the resource (an API or an API method) to which the rate-limit data applies. */
-      name?: string;
-      /** @description A list of rate-limit data, where each list element represents the rate-limit data for a specific resource. */
-      rates?: (components["schemas"]["Rate"])[];
-    };
     /** @description This type defines the fields that can be returned in an error. */
     Error: {
       /** @description Identifies the type of erro. */
@@ -92,6 +49,54 @@ export interface components {
       /** @description The value of the object. */
       value?: string;
     };
+    /** @description This complex type defines a "rate" as the quota of calls that can be made to a resource per time window, the remaining number of calls before the threshold is met, the amount of time until the time window resets, and the length of the time window (in seconds). */
+    Rate: {
+      /**
+       * Format: int32 
+       * @description The number of calls a user has made to this resource within a set time period. This time period is defined by the associated <b>timeWindow</b> value.
+       */
+      count?: number;
+      /**
+       * Format: int32 
+       * @description The maximum number of requests that can be made to this resource during a set time period. The length of time to which the limit is applied is defined by the associated <b>timeWindow</b> value.  <br><br>This value is often referred to as the "call quota" for the resource.
+       */
+      limit?: number;
+      /**
+       * Format: int32 
+       * @description The remaining number of requests that can be made to this resource before the associated time window resets.
+       */
+      remaining?: number;
+      /** @description The data and time the time window and accumulated calls for this resource reset.  <br><br>When the <b>reset</b> time is reached, the <b>remaining</b> value is reset to the value of <b>limit</b>, and this <b>reset</b> value is reset to the current time plus the number of seconds defined by the <b>timeWindow</b> value. <br><br>The time stamp is formatted as an <a href="http://www.iso.org/iso/home/standards/iso8601.htm " target="_blank">ISO 8601</a> string, which is based on the 24-hour Universal Coordinated Time (UTC) clock. <br><br><b>Format:</b> <code>[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z</code> <br><b>Example:</b> <code>2018-08-04T07:09:00.000Z</code> */
+      reset?: string;
+      /**
+       * Format: int32 
+       * @description A period of time, expressed in seconds. The call quota for a resource is applied to the period of time defined by the value of this field.
+       */
+      timeWindow?: number;
+    };
+    /** @description This complex types defines the resource (such as an API method) for which the rate-limit data is returned.  <br><br>A method is included in an API, and an API is part of an API context for the API version specified. */
+    RateLimit: {
+      /** @description The context of the API for which rate-limit data is returned. For example <code>buy</code>, <code>sell</code>, <code>commerce</code>, <code>developer</code> or <code>tradingapi</code>. */
+      apiContext?: string;
+      /** @description The name of the API for which rate-limit data is returned. For example <code>browse</code> for the Buy API, <code>inventory</code> for the Sell API, <code>taxonomy</code> for the Commerce API, or <code>tradingapi</code> for Trading API. */
+      apiName?: string;
+      /** @description The version of the API for which rate-limit data is returned. For example <code>v1</code> or <code>v2</code>. */
+      apiVersion?: string;
+      /** @description A list of the methods for which rate-limit data is returned. For example <code>item</code> for the Feed API, <code>getOrder</code> for the Fulfillment API, <code>getProduct</code> for the Catalog API, <code>AddItems</code> for the Trading API. */
+      resources?: (components["schemas"]["Resource"])[];
+    };
+    /** @description This complex type defines a list of rate-limit data as it pertains to a method within the specified version of an API. */
+    RateLimitsResponse: {
+      /** @description The rate-limit data for the specified APIs. The rate-limit data is returned for all the methods in the specified APIs and data pertains to the current time window. */
+      rateLimits?: (components["schemas"]["RateLimit"])[];
+    };
+    /** @description This complex type defines the resource (API method) and the current rate-limit data for that resource. */
+    Resource: {
+      /** @description The name of the resource (an API or an API method) to which the rate-limit data applies. */
+      name?: string;
+      /** @description A list of rate-limit data, where each list element represents the rate-limit data for a specific resource. */
+      rates?: (components["schemas"]["Rate"])[];
+    };
   };
   responses: never;
   parameters: never;
@@ -104,13 +109,13 @@ export type external = Record<string, never>;
 
 export interface operations {
 
-  /** @description This method retrieves the call limit and utilization data for an application. The data is retrieved for all RESTful APIs and resources. The response from getRateLimits includes a list of the applicable resources and the &quot;call limit&quot;, or quota, that is set for each resource. In addition to quota information, the response also includes the number of remaining calls available before the limit is reached, the time remaining before the quota resets, and the length of the &quot;time window&quot; to which the quota applies. By default, this method returns utilization data for all RESTful API resources. Use the api_name and api_context query parameters to filter the response to only the desired APIs. For more on call limits, see Compatible Application Check. */
+  /** @description This method retrieves the call limit and utilization data for an application. The data is retrieved for all RESTful APIs and the legacy Trading API.  <br><br>The response from <b>getRateLimits</b> includes a list of the applicable resources and the "call limit", or quota, that is set for each resource. In addition to quota information, the response also includes the number of remaining calls available before the limit is reached, the time remaining before the quota resets, the number of calls made to the specific resource, and the length of the "time window" to which the quota applies.  <br><br>By default, this method returns utilization data for all RESTful API and the legacy Trading API resources. Use the <b>api_name</b> and <b>api_context</b> query parameters to filter the response to only the desired APIs.  <br><br>For more on call limits, see <a href="https://developer.ebay.com/support/app-check " target="_blank">Application Growth Check</a>. */
   getRateLimits: {
     parameters: {
       query?: {
-        /** @description This optional query parameter filters the result to include only the specified API context. Acceptable values for the parameter are buy, sell, commerce, and developer. */
+        /** @description This optional query parameter filters the result to include only the specified API context. <br><br><b>Valid values:</b> <ul><li><code>buy</code></li><li><code>sell</code></li> <li><code>commerce</code></li><li><code>developer</code></li><li><code>tradingapi</code></li></ul> */
         api_context?: string;
-        /** @description This optional query parameter filters the result to include only the APIs specified. Example values are browse for the Buy APIs context, inventory for the Sell APIs context, and taxonomy for the Commerce APIs context. */
+        /** @description This optional query parameter filters the result to include only the APIs specified. <br><br><b>Example values:</b> <ul> <li><code>browse</code> for the <a href="/../develop/apis/restful-apis/buy-apis#buy-apis" target="_blank">Buy APIs</a></li> <li><code>inventory</code> for the <a href="/../develop/apis/restful-apis/sell-apis#sell-apis" target="_blank">Sell APIs</a></li>  <li><code>taxonomy</code> for the <a href="/../develop/apis/restful-apis/commerce-apis#commerce-apis" target="_blank">Commerce APIs</a></li>  <li><code>tradingapi</code> for the <a href="/../Devzone/XML/docs/Reference/eBay/index.html" target="_blank">Trading APIs</a></li></ul> */
         api_name?: string;
       };
     };
@@ -124,22 +129,16 @@ export interface operations {
       /** @description No Content */
       204: never;
       /** @description Internal Server Error */
-      500: {
-        content: {
-          "application/json": {
-            errors?: (components["schemas"]["Error"])[];
-          };
-        };
-      };
+      500: never;
     };
   };
-  /** @description This method retrieves the call limit and utilization data for an application user. The call-limit data is returned for all RESTful APIs and resources that limit calls on a per-user basis. The response from getUserRateLimits includes a list of the applicable resources and the &quot;call limit&quot;, or quota, that is set for each resource. In addition to quota information, the response also includes the number of remaining calls available before the limit is reached, the time remaining before the quota resets, and the length of the &quot;time window&quot; to which the quota applies. By default, this method returns utilization data for all RESTful API resources that limit request access by user. Use the api_name and api_context query parameters to filter the response to only the desired APIs. For more on call limits, see Compatible Application Check. */
+  /** @description This method retrieves the call limit and utilization data for an application user. The call-limit data is returned for all RESTful APIs and the legacy Trading API that limit calls on a per-user basis.  <br><br>The response from <b>getUserRateLimits</b> includes a list of the applicable resources and the "call limit", or quota, that is set for each resource. In addition to quota information, the response also includes the number of remaining calls available before the limit is reached, the time remaining before the quota resets, the number of calls made to the specific resource, and the length of the "time window" to which the quota applies.  <br><br>By default, this method returns utilization data for all RESTful APIs resources and the legacy Trading API calls that limit request access by user. Use the <b>api_name</b> and <b>api_context</b> query parameters to filter the response to only the desired APIs.  <br><br>For more on call limits, see <a href="https://developer.ebay.com/support/app-check " target="_blank">Application Growth Check</a>. */
   getUserRateLimits: {
     parameters: {
       query?: {
-        /** @description This optional query parameter filters the result to include only the specified API context. Acceptable values for the parameter are buy, sell, commerce, and developer. */
+        /** @description This optional query parameter filters the result to include only the specified API context. <br><br><b>Valid values:</b> <ul><li><code>buy</code></li> <li><code>sell</code></li> <li><code>commerce</code></li> <li><code>developer</code></li> <li><code>tradingapi</code></li></ul> */
         api_context?: string;
-        /** @description This optional query parameter filters the result to include only the APIs specified. Example values are browse for the Buy APIs context, inventory for the Sell APIs context, and taxonomy for the Commerce APIs context. */
+        /** @description This optional query parameter filters the result to include only the APIs specified. <br><br><b>Example values:</b> <ul><li><code>browse</code> for the <a href="/../develop/apis/restful-apis/buy-apis#buy-apis" target="_blank">Buy APIs</a></li> <li><code>inventory</code> for the <a href="/../develop/apis/restful-apis/sell-apis#sell-apis" target="_blank">Sell APIs</a></li>  <li><code>taxonomy</code> for the <a href="/../develop/apis/restful-apis/commerce-apis#commerce-apis" target="_blank">Commerce APIs</a></li>  <li><code>tradingapi</code> for the <a href="/../Devzone/XML/docs/Reference/eBay/index.html" target="_blank">Trading APIs</a></li></ul> */
         api_name?: string;
       };
     };
@@ -153,13 +152,7 @@ export interface operations {
       /** @description No Content */
       204: never;
       /** @description Internal Server Error */
-      500: {
-        content: {
-          "application/json": {
-            errors?: (components["schemas"]["Error"])[];
-          };
-        };
-      };
+      500: never;
     };
   };
 }

@@ -6,19 +6,19 @@
 
 export interface paths {
   "/deal_item": {
-    /** @description This method retrieves a paginated set of deal items. The result set contains all deal items associated with the specified search criteria and marketplace ID. Request headers This method uses the X-EBAY-C-ENDUSERCTX request header to support revenue sharing for eBay Partner Networks and to improve the accuracy of shipping and delivery time estimations. For details see, Request headers in the Buying Integration Guide. Restrictions This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see API Restrictions. eBay Partner Network: In order to receive a commission for your sales, you must use the URL returned in the itemAffiliateWebUrl field to forward your buyer to the ebay.com site. */
+    /** @description This method retrieves a paginated set of deal items. The result set contains all deal items associated with the specified search criteria and marketplace ID.<h3>Restrictions</h3>This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see <a href="/api-docs/buy/browse/overview.html#API" target="_blank">API Restrictions</a>.<br><br><span class="tablenote"><b>eBay Partner Network: </b> In order to receive a commission for your sales, you must use the URL returned in the <code>itemAffiliateWebUrl</code> field to forward your buyer to the ebay.com site.</span> */
     get: operations["getDealItems"];
   };
   "/event/{event_id}": {
-    /** @description This method retrieves the details for an eBay event. The result set contains detailed information associated with the specified event ID, such as applicable coupons, start and end dates, and event terms. Request headers This method uses the X-EBAY-C-ENDUSERCTX request header to support revenue sharing for eBay Partner Networks and to improve the accuracy of shipping and delivery time estimations. For details see, Request headers in the Buying Integration Guide. Restrictions This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see API Restrictions. eBay Partner Network: In order to receive a commission for your sales, you must use the URL returned in the itemAffiliateWebUrl field to forward your buyer to the ebay.com site. */
+    /** @description This method retrieves the details for an eBay event. The result set contains detailed information associated with the specified event ID, such as applicable coupons, start and end dates, and event terms.<h3><b>Restrictions </b></h3>This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see <a href="/api-docs/buy/browse/overview.html#API" target="_blank">API Restrictions</a>.<br><br><span class="tablenote"><b>eBay Partner Network: </b> In order to receive a commission for your sales, you must use the URL returned in the <code>itemAffiliateWebUrl</code> field to forward your buyer to the ebay.com site. </span> */
     get: operations["getEvent"];
   };
   "/event": {
-    /** @description This method returns paginated results containing all eBay events for the specified marketplace. Request headers This method uses the X-EBAY-C-ENDUSERCTX request header to support revenue sharing for eBay Partner Networks and to improve the accuracy of shipping and delivery time estimations. For details see, Request headers in the Buying Integration Guide. Restrictions This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see API Restrictions. eBay Partner Network: In order to receive a commission for your sales, you must use the URL returned in the itemAffiliateWebUrl field to forward your buyer to the ebay.com site. */
+    /** @description This method returns paginated results containing all eBay events for the specified marketplace.<h3><b>Restrictions </b></h3>This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see <a href="/api-docs/buy/browse/overview.html#API" target="_blank ">API Restrictions</a>.<br><br><span class="tablenote"><b>eBay Partner Network: </b> In order to receive a commission for your sales, you must use the URL returned in the <code>itemAffiliateWebUrl</code> field to forward your buyer to the ebay.com site. </span> */
     get: operations["getEvents"];
   };
   "/event_item": {
-    /** @description This method returns a paginated set of event items. The result set contains all event items associated with the specified search criteria and marketplace ID. Request headers This method uses the X-EBAY-C-ENDUSERCTX request header to support revenue sharing for eBay Partner Networks and to improve the accuracy of shipping and delivery time estimations. For details see, Request headers in the Buying Integration Guide. Restrictions This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see API Restrictions. eBay Partner Network: In order to receive a commission for your sales, you must use the URL returned in the itemAffiliateWebUrl field to forward your buyer to the ebay.com site. */
+    /** @description This method returns a paginated set of event items. The result set contains all event items associated with the specified search criteria and marketplace ID.<h3><b>Restrictions </b></h3>This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see <a href="/api-docs/buy/browse/overview.html#API" target="_blank ">API Restrictions</a>.<br><br><span class="tablenote"><b>eBay Partner Network: </b> In order to receive a commission for your sales, you must use the URL returned in the <code>itemAffiliateWebUrl</code> field to forward your buyer to the ebay.com site. </span> */
     get: operations["getEventItems"];
   };
 }
@@ -29,9 +29,9 @@ export interface components {
   schemas: {
     /** @description The currency and value of the item. */
     Amount: {
-      /** @description The three-letter ISO 4217 code representing the currency of the amount in the value field. Default: The currency of the authenticated user's country. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/buy/deal/types/bas:CurrencyCodeEnum'>eBay API documentation</a> */
+      /** @description The three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html" target="_blank">ISO 4217</a> code representing the currency of the amount in the <b> value</b> field.<br /><br /><b> Default:</b> The currency of the authenticated user's country. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/buy/deal/types/bas:CurrencyCodeEnum'>eBay API documentation</a> */
       currency?: string;
-      /** @description The monetary value, in the currency specified by the currency field. */
+      /** @description The monetary value, in the currency specified by the <b> currency</b> field. */
       value?: string;
     };
     /** @description The details for the coupon available for the item. */
@@ -65,11 +65,11 @@ export interface components {
       image?: components["schemas"]["Image"];
       /** @description The item web URL with affiliate attribution. */
       itemAffiliateWebUrl?: string;
-      /** @description The unique identifier for the deal item group. This is the parent item ID for the seller-defined variations. Note: This field is returned for multiple-SKU items. */
+      /** @description The unique identifier for the deal item group. This is the parent item ID for the seller-defined variations.<br /><br /><span class="tablenote"><b>Note: </b>This field is returned for multiple-SKU items.</span> */
       itemGroupId?: string;
       /** @description An enumeration value that indicates the type of item group. An item group contains items that have various aspect differences, such as color, size, or storage capacity. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/buy/deal/types/api:ItemGroupTypeEnum'>eBay API documentation</a> */
       itemGroupType?: string;
-      /** @description The unique identifier for the deal item. Note: This field is only returned for single-SKU items. */
+      /** @description The unique identifier for the deal item.<br /><br /><span class="tablenote"><b>Note: </b>This field is only returned for single-SKU items.</span> */
       itemId?: string;
       /** @description The web URL for the deal item. */
       itemWebUrl?: string;
@@ -77,7 +77,7 @@ export interface components {
       legacyItemId?: string;
       /** @description The original price for the deal item, and the discount amount and percentage. */
       marketingPrice?: components["schemas"]["MarketingPrice"];
-      /** @description The price for the deal item. Note: The price does include the value-added tax (VAT) for applicable jurisdictions when requested from supported marketplaces. In this case, users must pass the X-EBAY-C-MARKETPLACE-ID request header specifying the supported marketplace (such as EBAY_GB) to see the VAT-inclusive pricing. For more information on VAT, refer to VAT Obligations in the EU. */
+      /** @description The price for the deal item. <br /><br /><span class="tablenote"><b> Note: </b>The price does include the value-added tax (VAT) for applicable jurisdictions when requested from supported marketplaces. In this case, users must pass the <a href="/api-docs/static/rest-request-components.html#HTTP"><code>X-EBAY-C-MARKETPLACE-ID</code></a> request header specifying the supported marketplace (such as <code>EBAY_GB</code>) to see the VAT-inclusive pricing. For more information on VAT, refer to <a href="https://www.ebay.co.uk/help/listings/default/vat-obligations-eu?id=4650&st=12&pos=1&query=Your%20VAT%20obligations%20in%20the%20EU&intent=VAT">VAT Obligations in the EU</a>.</span> */
       price?: components["schemas"]["Amount"];
       /** @description A list of programs applicable to the item. */
       qualifiedPrograms?: (string)[];
@@ -85,9 +85,9 @@ export interface components {
       shippingOptions?: (components["schemas"]["ShippingOption"])[];
       /** @description The title of the deal item. */
       title?: string;
-      /** @description The price per unit for the deal item. Some European countries require listings for certain types of products to include the price per unit so that buyers can accurately compare prices. For example: &quot;unitPricingMeasure&quot;: &quot;100g&quot;, &quot;unitPrice&quot;: { &nbsp;&nbsp;&quot;value&quot;: &quot;7.99&quot;, &nbsp;&nbsp;&quot;currency&quot;: &quot;GBP&quot; */
+      /** @description The price per unit for the deal item. Some European countries require listings for certain types of products to include the price per unit so that buyers can accurately compare prices. <br /><br />For example: <br /><br /><code>"unitPricingMeasure": "100g",<br /> "unitPrice": {<br />&nbsp;&nbsp;"value": "7.99",<br />&nbsp;&nbsp;"currency": "GBP"</code> */
       unitPrice?: components["schemas"]["Amount"];
-      /** @description The designation used to specify the quantity of the deal item, such as size, weight, volume, and count. This helps buyers compare prices. For example, the following tells the buyer that the item is 7.99 per 100 grams. &quot;unitPricingMeasure&quot;: &quot;100g&quot;, &quot;unitPrice&quot;: { &nbsp;&nbsp;&quot;value&quot;: &quot;7.99&quot;, &nbsp;&nbsp;&quot;currency&quot;: &quot;GBP&quot; */
+      /** @description The designation used to specify the quantity of the deal item, such as size, weight, volume, and count. This helps buyers compare prices. <br /><br />For example, the following tells the buyer that the item is 7.99 per 100 grams. <br /><br /><code>"unitPricingMeasure": "100g",<br /> "unitPrice": {<br />&nbsp;&nbsp;"value": "7.99",<br />&nbsp;&nbsp;"currency": "GBP"</code> */
       unitPricingMeasure?: string;
     };
     /** @description The result set for the deal item search. */
@@ -98,14 +98,14 @@ export interface components {
       href?: string;
       /**
        * Format: int32 
-       * @description The maximum number of items, from the current result set, returned on a single page. Default: 20
+       * @description The maximum number of items, from the current result set, returned on a single page.<br /><br /><b>Default:</b> <code>20</code>
        */
       limit?: number;
       /** @description The relative path to the next set of results. */
       next?: string;
       /**
        * Format: int32 
-       * @description The number of items that will be skipped in the result set. This is used with the limit field to control the pagination of the output. For example, if the offset is set to 0 and the limit is set to 10, the method will retrieve items 1 through 10 from the list of items returned. If the offset is set to 10 and the limit is set to 10, the method will retrieve items 11 through 20 from the list of items returned. Default: 0
+       * @description The number of items that will be skipped in the result set. This is used with the <b>limit</b> field to control the pagination of the output.<br /><br />For example, if the <b>offset</b> is set to <code>0</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 1 through 10 from the list of items returned. If the <b>offset</b> is set to <code>10</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 11 through 20 from the list of items returned.<br /><br /><b>Default:</b> <code>0</code>
        */
       offset?: number;
       /** @description The relative path to the previous set of results. */
@@ -185,11 +185,11 @@ export interface components {
       image?: components["schemas"]["Image"];
       /** @description The item web URL with affiliate attribution. */
       itemAffiliateWebUrl?: string;
-      /** @description The unique identifier for the event item group. This is the parent item ID for the seller-defined variations. Note: This field is returned for multiple-SKU items. */
+      /** @description The unique identifier for the event item group. This is the parent item ID for the seller-defined variations.<br /><br /><span class="tablenote"><b>Note: </b>This field is returned for multiple-SKU items.</span> */
       itemGroupId?: string;
       /** @description An enumeration value that indicates the type of item group. An item group contains items that have various aspect differences, such as color, size, or storage capacity. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/buy/deal/types/api:ItemGroupTypeEnum'>eBay API documentation</a> */
       itemGroupType?: string;
-      /** @description The unique identifier for the event item. Note: This field is only returned for single-SKU items. */
+      /** @description The unique identifier for the event item.<br /><br /><span class="tablenote"><b>Note: </b>This field is only returned for single-SKU items.</span> */
       itemId?: string;
       /** @description The web URL for the event item. */
       itemWebUrl?: string;
@@ -205,9 +205,9 @@ export interface components {
       shippingOptions?: (components["schemas"]["ShippingOption"])[];
       /** @description The title of the event item. */
       title?: string;
-      /** @description The price per unit for the event item. Some European countries require listings for certain types of products to include the price per unit so that buyers can accurately compare prices. For example: &quot;unitPricingMeasure&quot;: &quot;100g&quot;, &quot;unitPrice&quot;: { &nbsp;&nbsp;&quot;value&quot;: &quot;7.99&quot;, &nbsp;&nbsp;&quot;currency&quot;: &quot;GBP&quot; */
+      /** @description The price per unit for the event item. Some European countries require listings for certain types of products to include the price per unit so that buyers can accurately compare prices. <br /><br />For example: <br /><br /><code>"unitPricingMeasure": "100g",<br /> "unitPrice": {<br />&nbsp;&nbsp;"value": "7.99",<br />&nbsp;&nbsp;"currency": "GBP"</code> */
       unitPrice?: components["schemas"]["Amount"];
-      /** @description The designation used to specify the quantity of the event item, such as size, weight, volume, and count. This helps buyers compare prices. For example, the following tells the buyer that the item is 7.99 per 100 grams. &quot;unitPricingMeasure&quot;: &quot;100g&quot;, &quot;unitPrice&quot;: { &nbsp;&nbsp;&quot;value&quot;: &quot;7.99&quot;, &nbsp;&nbsp;&quot;currency&quot;: &quot;GBP&quot; */
+      /** @description The designation used to specify the quantity of the event item, such as size, weight, volume, and count. This helps buyers compare prices. <br /><br />For example, the following tells the buyer that the item is 7.99 per 100 grams. <br /><br /><code>"unitPricingMeasure": "100g",<br /> "unitPrice": {<br />&nbsp;&nbsp;"value": "7.99",<br />&nbsp;&nbsp;"currency": "GBP"</code> */
       unitPricingMeasure?: string;
     };
     /** @description The result set for the event item search. */
@@ -218,14 +218,14 @@ export interface components {
       href?: string;
       /**
        * Format: int32 
-       * @description The maximum number of items, from the current result set, returned on a single page. Default: 20
+       * @description The maximum number of items, from the current result set, returned on a single page.<br /><br /><b>Default:</b> <code>20</code>
        */
       limit?: number;
       /** @description The relative path to the next set of results. */
       next?: string;
       /**
        * Format: int32 
-       * @description The number of items that will be skipped in the result set. This is used with the limit field to control the pagination of the output. For example, if the offset is set to 0 and the limit is set to 10, the method will retrieve items 1 through 10 from the list of items returned. If the offset is set to 10 and the limit is set to 10, the method will retrieve items 11 through 20 from the list of items returned. Default: 0
+       * @description The number of items that will be skipped in the result set. This is used with the <b>limit</b> field to control the pagination of the output.<br /><br />For example, if the <b>offset</b> is set to <code>0</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 1 through 10 from the list of items returned. If the <b>offset</b> is set to <code>10</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 11 through 20 from the list of items returned.<br /><br /><b>Default:</b> <code>0</code>
        */
       offset?: number;
       /** @description The relative path to the previous set of results. */
@@ -244,14 +244,14 @@ export interface components {
       href?: string;
       /**
        * Format: int32 
-       * @description The maximum number of items, from the current result set, returned on a single page. Default: 20
+       * @description The maximum number of items, from the current result set, returned on a single page.<br /><br /><b>Default:</b> <code>20</code>
        */
       limit?: number;
       /** @description The relative path to the next set of results. */
       next?: string;
       /**
        * Format: int32 
-       * @description The number of items that will be skipped in the result set. This is used with the limit field to control the pagination of the output. For example, if the offset is set to 0 and the limit is set to 10, the method will retrieve items 1 through 10 from the list of items returned. If the offset is set to 10 and the limit is set to 10, the method will retrieve items 11 through 20 from the list of items returned. Default: 0
+       * @description The number of items that will be skipped in the result set. This is used with the <b>limit</b> field to control the pagination of the output.<br /><br />For example, if the <b>offset</b> is set to <code>0</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 1 through 10 from the list of items returned. If the <b>offset</b> is set to <code>10</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 11 through 20 from the list of items returned.<br /><br /><b>Default:</b> <code>0</code>
        */
       offset?: number;
       /** @description The relative path to the previous set of results. */
@@ -277,18 +277,18 @@ export interface components {
     MarketingPrice: {
       /** @description The monetary value of the seller discount. */
       discountAmount?: components["schemas"]["Amount"];
-      /** @description The percentage of the seller discount based on the value returned in the originalPrice field. */
+      /** @description The percentage of the seller discount based on the value returned in the <b>originalPrice</b> field. */
       discountPercentage?: string;
       /** @description The monetary value of the item prior to the discount. */
       originalPrice?: components["schemas"]["Amount"];
-      /** @description The pricing treatment (discount) that was applied to the price of the item. Note: The pricing treatment affects how and where the discounted price can be displayed. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/buy/deal/types/api:PriceTreatmentEnum'>eBay API documentation</a> */
+      /** @description The pricing treatment (discount) that was applied to the price of the item. <br /><br /><span class="tablenote"><b>Note: </b> The pricing treatment affects how and where the discounted price can be displayed.</span> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/buy/deal/types/api:PriceTreatmentEnum'>eBay API documentation</a> */
       priceTreatment?: string;
     };
     /** @description The details provided for the shipping provider, such as shipping cost and type. */
     ShippingOption: {
-      /** @description The final shipping cost for all items after all discounts are applied. Note: The price does include the value-added tax (VAT) for applicable jurisdictions when requested from supported marketplaces. In this case, users must pass the X-EBAY-C-MARKETPLACE-ID request header specifying the supported marketplace (such as EBAY_GB) to see the VAT-inclusive pricing. For more information on VAT, refer to VAT Obligations in the EU. */
+      /** @description The final shipping cost for all items after all discounts are applied. <br /><br /><span class="tablenote"><b> Note: </b>The price does include the value-added tax (VAT) for applicable jurisdictions when requested from supported marketplaces. In this case, users must pass the <a href="/api-docs/static/rest-request-components.html#HTTP"><code>X-EBAY-C-MARKETPLACE-ID</code></a> request header specifying the supported marketplace (such as <code>EBAY_GB</code>) to see the VAT-inclusive pricing. For more information on VAT, refer to <a href="https://www.ebay.co.uk/help/listings/default/vat-obligations-eu?id=4650&st=12&pos=1&query=Your%20VAT%20obligations%20in%20the%20EU&intent=VAT">VAT Obligations in the EU</a>.</span> */
       shippingCost?: components["schemas"]["Amount"];
-      /** @description The class of the shipping cost. Valid Values: FIXED or CALCULATED Code so that your app gracefully handles any future changes to this list. */
+      /** @description The class of the shipping cost. <br /><br /><b> Valid Values: </b> <code>FIXED</code> or <code>CALCULATED</code> <br /><br />Code so that your app gracefully handles any future changes to this list. */
       shippingCostType?: string;
     };
     /** @description The terms for the event, provided in a full-text description and summary. */
@@ -310,24 +310,26 @@ export type external = Record<string, never>;
 
 export interface operations {
 
-  /** @description This method retrieves a paginated set of deal items. The result set contains all deal items associated with the specified search criteria and marketplace ID. Request headers This method uses the X-EBAY-C-ENDUSERCTX request header to support revenue sharing for eBay Partner Networks and to improve the accuracy of shipping and delivery time estimations. For details see, Request headers in the Buying Integration Guide. Restrictions This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see API Restrictions. eBay Partner Network: In order to receive a commission for your sales, you must use the URL returned in the itemAffiliateWebUrl field to forward your buyer to the ebay.com site. */
+  /** @description This method retrieves a paginated set of deal items. The result set contains all deal items associated with the specified search criteria and marketplace ID.<h3>Restrictions</h3>This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see <a href="/api-docs/buy/browse/overview.html#API" target="_blank">API Restrictions</a>.<br><br><span class="tablenote"><b>eBay Partner Network: </b> In order to receive a commission for your sales, you must use the URL returned in the <code>itemAffiliateWebUrl</code> field to forward your buyer to the ebay.com site.</span> */
   getDealItems: {
     parameters: {
       query?: {
-        /** @description The unique identifier of the eBay category for the search. */
+        /** @description This query parameter specifies the unique identifier of the eBay category for the search.<br><br>For details see <a href="/api-docs/buy/buy-categories.html" target="_blank">Get Categories for Buy APIs</a>. */
         category_ids?: string;
-        /** @description A filter for commissionable deals. Restriction: This filter is currently only supported for the US marketplace. */
+        /** @description This query parameter allows the response to filter by commissionable items.<br><br>If set to <code>true</code>, only commissionable items will be returned in the response. If set to <code>false</code>, commissionable items will <b>not</b> be returned in the response.<br><br><span class="tablenote"><b>Note:</b> This filter is currently only supported for the US marketplace.</span> */
         commissionable?: string;
-        /** @description A filter for items that can be shipped to the specified country. */
+        /** @description This query parameter allows the response to only return items that can be shipped to the specified country (2-digit ISO code). */
         delivery_country?: string;
         /** @description The maximum number of items, from the current result set, returned on a single page. */
         limit?: string;
-        /** @description The number of items that will be skipped in the result set. This is used with the limit field to control the pagination of the output. For example, if the offset is set to 0 and the limit is set to 10, the method will retrieve items 1 through 10 from the list of items returned. If the offset is set to 10 and the limit is set to 10, the method will retrieve items 11 through 20 from the list of items returned. Default: 0 */
+        /** @description The number of items that will be skipped in the result set. This is used with the <b>limit</b> field to control the pagination of the output.<br /><br />For example, if the <b>offset</b> is set to <code>0</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 1 through 10 from the list of items returned. If the <b>offset</b> is set to <code>10</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 11 through 20 from the list of items returned.<br /><br /><b>Default:</b> <code>0</code> */
         offset?: string;
       };
       header: {
-        /** @description A header used to specify the eBay marketplace ID. */
+        /** @description This header identifies the eBay marketplace.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for supported marketplace ID values. */
         "X-EBAY-C-MARKETPLACE-ID": string;
+        /** @description This header is required to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br><br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a> section of the Buying Integration Guide. */
+        "X-EBAY-C-ENDUSERCTX"?: string;
       };
     };
     responses: {
@@ -345,15 +347,17 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method retrieves the details for an eBay event. The result set contains detailed information associated with the specified event ID, such as applicable coupons, start and end dates, and event terms. Request headers This method uses the X-EBAY-C-ENDUSERCTX request header to support revenue sharing for eBay Partner Networks and to improve the accuracy of shipping and delivery time estimations. For details see, Request headers in the Buying Integration Guide. Restrictions This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see API Restrictions. eBay Partner Network: In order to receive a commission for your sales, you must use the URL returned in the itemAffiliateWebUrl field to forward your buyer to the ebay.com site. */
+  /** @description This method retrieves the details for an eBay event. The result set contains detailed information associated with the specified event ID, such as applicable coupons, start and end dates, and event terms.<h3><b>Restrictions </b></h3>This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see <a href="/api-docs/buy/browse/overview.html#API" target="_blank">API Restrictions</a>.<br><br><span class="tablenote"><b>eBay Partner Network: </b> In order to receive a commission for your sales, you must use the URL returned in the <code>itemAffiliateWebUrl</code> field to forward your buyer to the ebay.com site. </span> */
   getEvent: {
     parameters: {
       header: {
-        /** @description A header used to specify the eBay marketplace ID. */
+        /** @description This header identifies the eBay marketplace.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for supported marketplace ID values. */
         "X-EBAY-C-MARKETPLACE-ID": string;
+        /** @description This header is required to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br><br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a> section of the Buying Integration Guide. */
+        "X-EBAY-C-ENDUSERCTX"?: string;
       };
       path: {
-        /** @description The unique identifier for the eBay event. */
+        /** @description This path parameters specifies the unique identifier for the eBay event being retrieved.<br><br>Use the <a href="/api-docs/buy/deal/resources/event/methods/getEvents" target="_blank">getEvents</a> method to retrieve event IDs. */
         event_id: string;
       };
     };
@@ -374,18 +378,20 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method returns paginated results containing all eBay events for the specified marketplace. Request headers This method uses the X-EBAY-C-ENDUSERCTX request header to support revenue sharing for eBay Partner Networks and to improve the accuracy of shipping and delivery time estimations. For details see, Request headers in the Buying Integration Guide. Restrictions This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see API Restrictions. eBay Partner Network: In order to receive a commission for your sales, you must use the URL returned in the itemAffiliateWebUrl field to forward your buyer to the ebay.com site. */
+  /** @description This method returns paginated results containing all eBay events for the specified marketplace.<h3><b>Restrictions </b></h3>This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see <a href="/api-docs/buy/browse/overview.html#API" target="_blank ">API Restrictions</a>.<br><br><span class="tablenote"><b>eBay Partner Network: </b> In order to receive a commission for your sales, you must use the URL returned in the <code>itemAffiliateWebUrl</code> field to forward your buyer to the ebay.com site. </span> */
   getEvents: {
     parameters: {
       query?: {
-        /** @description The maximum number of items, from the current result set, returned on a single page. Default: 20 Maximum Value: 100 */
+        /** @description The maximum number of items, from the current result set, returned on a single page.<br /><br /><b>Default:</b> <code>20</code><br /><br /><b>Maximum Value:</b> <code>100</code> */
         limit?: string;
-        /** @description The number of items that will be skipped in the result set. This is used with the limit field to control the pagination of the output. For example, if the offset is set to 0 and the limit is set to 10, the method will retrieve items 1 through 10 from the list of items returned. If the offset is set to 10 and the limit is set to 10, the method will retrieve items 11 through 20 from the list of items returned. Default: 0 */
+        /** @description The number of items that will be skipped in the result set. This is used with the <b>limit</b> field to control the pagination of the output.<br /><br />For example, if the <b>offset</b> is set to <code>0</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 1 through 10 from the list of items returned. If the <b>offset</b> is set to <code>10</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 11 through 20 from the list of items returned.<br /><br /><b>Default:</b> <code>0</code> */
         offset?: string;
       };
       header: {
-        /** @description A header used to specify the eBay marketplace ID. */
+        /** @description This header identifies the eBay marketplace.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for supported marketplace ID values. */
         "X-EBAY-C-MARKETPLACE-ID": string;
+        /** @description This header is required to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br><br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a> section of the Buying Integration Guide. */
+        "X-EBAY-C-ENDUSERCTX"?: string;
       };
     };
     responses: {
@@ -403,24 +409,26 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method returns a paginated set of event items. The result set contains all event items associated with the specified search criteria and marketplace ID. Request headers This method uses the X-EBAY-C-ENDUSERCTX request header to support revenue sharing for eBay Partner Networks and to improve the accuracy of shipping and delivery time estimations. For details see, Request headers in the Buying Integration Guide. Restrictions This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see API Restrictions. eBay Partner Network: In order to receive a commission for your sales, you must use the URL returned in the itemAffiliateWebUrl field to forward your buyer to the ebay.com site. */
+  /** @description This method returns a paginated set of event items. The result set contains all event items associated with the specified search criteria and marketplace ID.<h3><b>Restrictions </b></h3>This method can return a maximum of 10,000 items. For a list of supported sites and other restrictions, see <a href="/api-docs/buy/browse/overview.html#API" target="_blank ">API Restrictions</a>.<br><br><span class="tablenote"><b>eBay Partner Network: </b> In order to receive a commission for your sales, you must use the URL returned in the <code>itemAffiliateWebUrl</code> field to forward your buyer to the ebay.com site. </span> */
   getEventItems: {
     parameters: {
       query: {
-        /** @description The unique identifier of the eBay category for the search. Maximum Value: 1 */
+        /** @description This query parameter specifies the unique identifiers of the eBay categories for the search.<br><br>For details see <a href="/api-docs/buy/buy-categories.html" target="_blank">Get Categories for Buy APIs</a>.<br /><br /><b>Maximum Value:</b> <code>1</code> */
         category_ids?: string;
-        /** @description A filter for items that can be shipped to the specified country. */
+        /** @description This query parameter allows the response to only return items that can be shipped to the specified country (2-digit ISO code). */
         delivery_country?: string;
-        /** @description The unique identifiers for the eBay events. Maximum Value: 1 */
+        /** @description This query parameter specifies the unique identifiers for the eBay event items being retrieved.<br><br>Use the <a href="/api-docs/buy/deal/resources/event/methods/getEvents" target="_blank">getEvents</a> method to retrieve event IDs.<br /><br /><b>Maximum Value:</b> <code>1</code> */
         event_ids: string;
-        /** @description The maximum number of items, from the current result set, returned on a single page. Default: 20 */
+        /** @description The maximum number of items, from the current result set, returned on a single page.<br /><br /><b>Default:</b> <code>20</code> */
         limit?: string;
-        /** @description The number of items that will be skipped in the result set. This is used with the limit field to control the pagination of the output. For example, if the offset is set to 0 and the limit is set to 10, the method will retrieve items 1 through 10 from the list of items returned. If the offset is set to 10 and the limit is set to 10, the method will retrieve items 11 through 20 from the list of items returned. Default: 0 */
+        /** @description The number of items that will be skipped in the result set. This is used with the <b>limit</b> field to control the pagination of the output.<br /><br />For example, if the <b>offset</b> is set to <code>0</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 1 through 10 from the list of items returned. If the <b>offset</b> is set to <code>10</code> and the <b>limit</b> is set to <code>10</code>, the method will retrieve items 11 through 20 from the list of items returned.<br /><br /><b>Default:</b> <code>0</code> */
         offset?: string;
       };
       header: {
-        /** @description A header used to specify the eBay marketplace ID. */
+        /** @description This header identifies the eBay marketplace.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl " target="_blank ">HTTP request headers</a> for supported marketplace ID values. */
         "X-EBAY-C-MARKETPLACE-ID": string;
+        /** @description This header is required to support revenue sharing for eBay Partner Network and to improve the accuracy of shipping and delivery time estimations.<br><br>For additional information, refer to <a href="/api-docs/buy/static/api-browse.html#Headers" target="_blank ">Use request headers</a> section of the Buying Integration Guide. */
+        "X-EBAY-C-ENDUSERCTX"?: string;
       };
     };
     responses: {

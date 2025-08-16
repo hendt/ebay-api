@@ -5,17 +5,45 @@
 
 
 export interface paths {
+  "/image/create_image_from_file": {
+    /** @description This method uploads a picture file to eBay Picture Services (EPS) using multipart/form-data. <p>All images must comply with eBay's picture requirements, such as dimension and file size restrictions. For more information, see <a href="https://www.ebay.com/help/policies/listing-policies/picture-policy?id=4370"  target="_blank">Picture policy</a>. The image formats supported are <b>JPG</b>, <b>GIF</b>, <b>PNG</b>, <b>BMP</b>, <b>TIFF</b>, <b>AVIF</b>, <b>HEIC</b>, and <b>WEBP</b>. For more information, see <a href="/api-docs/sell/static/inventory/managing-image-media.html#image-requirements" target="_blank">Image requirements</a>.</p><p><span class="tablenote"><strong>Note:</strong> Animated GIF, and multi-page PNG/TIFF files, are not supported. Any animation effect of supported formats will be lost upon upload.</span></p><p>This call does not have a JSON Request payload but uploads the file as form-data. For example:<br /> <pre> image: &quot;sample_picture.jpg&quot; </pre>See <a href="/api-docs/commerce/media/resources/image/methods/createImageFromFile#h2-samples">Samples</a> for information.</p><p><span class="tablenote"><strong>Note:</strong> You must use a <b>Content-Type</b> header with its value set to 'multipart/form-data'.</span></p><p>When an EPS image is successfully created, the method returns the HTTP Status Code <code>201 Created</code>. The method also returns the getImage URI in the <b>Location</b> response header.</p><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> Make sure to capture the image ID URI returned in the response <a href="/api-docs/commerce/media/resources/image/methods/createImageFromFile#h2-output">location header</a> provided in the following format:</p><p><code>https://apim.ebay.com/commerce/media/v1_beta/image/<em>{image_id}</em></code> </p><p>You can capture the entire URI, or just save the <code>{image_id}</code> only. Pass the <code>{image_id}</code> as a path parameter in the <b><a href="/api-docs/commerce/media/resources/image/methods/getImage" target="_blank">getImage</a></b> method to return the value needed to associate an image to a listing using the Trading and Inventory APIs.</p></div><p>See <a href="/api-docs/sell/static/inventory/managing-image-media.html" target="_blank">Managing images</a> for additional details.</p> */
+    post: operations["createImageFromFile"];
+  };
+  "/image/create_image_from_url": {
+    /** @description This method uploads a picture to eBay Picture Services (EPS) from the specified URL. Specify the location of the picture on an external web server through the <b>imageUrl</b> field. <p>All images must comply with eBay’s picture requirements, such as dimension and file size restrictions. For more information, see <a href="https://www.ebay.com/help/policies/listing-policies/picture-policy?id=4370" target="_blank">Picture policy</a>. The image formats supported are <b>JPG</b>, <b>GIF</b>, <b>PNG</b>, <b>BMP</b>, <b>TIFF</b>, <b>AVIF</b>, <b>HEIC</b>, and <b>WEBP</b>. In addition, the provided URL must be secured using HTTPS (HTTP is not permitted). For more information, see <a href="/api-docs/sell/static/inventory/managing-image-media.html#image-requirements" target="_blank">Image requirements</a>.</p><p><span class="tablenote"><strong>Note:</strong> Animated GIF, and multi-page PNG/TIFF files, are not supported. Any animation effect of supported formats will be lost upon upload.</span></p><p>When an EPS image is successfully created, the method returns the HTTP Status Code <code>201 Created</code>. The method also returns the getImage URI in the <b>Location</b> response header.</p><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> Make sure to capture the image ID URI returned in the response <a href="/api-docs/commerce/media/resources/image/methods/createImageFromUrl#h2-output">location header</a> provided in the following format:</p><p><code>https://apim.ebay.com/commerce/media/v1_beta/image/<em>{image_id}</em></code> </p><p>You can capture the entire URI, or just save the <code>{image_id}</code> only. Pass the <code>{image_id}</code> as a path parameter in the <b><a href="/api-docs/commerce/media/resources/image/methods/getImage" target="_blank">getImage</a></b> method to return the value needed to associate an image to a listing using the Trading and Inventory APIs.</p></div><p>See <a href="/api-docs/sell/static/inventory/managing-image-media.html" target="_blank">Managing images</a> for additional details.</p> */
+    post: operations["createImageFromUrl"];
+  };
+  "/image/{image_id}": {
+    /** @description This method retrieves an EPS image URL and its expiration details for the unique identifier specified in the path parameter <b>image_id</b>. Use the retrieved EPS image URL to add the image to a listing through the <b>Inventory API</b> or the <b>Trading API</b>. See <a href="/api-docs/sell/static/inventory/managing-image-media.html"  target="_blank">Managing images</a> for additional details.<br><br><span class="tablenote"><b>Note:</b> If a user inputs a valid <b>image_id</b> as a path parameter but the EPS image associated with that ID has expired, the call will fail and a <b>404 Not Found</b> status code will be returned.</span> */
+    get: operations["getImage"];
+  };
   "/video": {
     /** @description This method creates a video. When using this method, specify the <b>title</b>, <b>size</b>, and <b>classification</b> of the video to be created. <b>Description</b> is an optional field for this method.<br /><br /><span class="tablenote"><span style="color:#478415"><strong>Tip:</strong></span> See <a href="https://www.ebay.com/help/selling/listings/creating-managing-listings/add-video-to-listing?id=5272#section3" target="_blank">Adding a video to your listing</a> in the eBay Seller Center for details about video formatting requirements and restrictions, or visit the relevant eBay site help pages for the region in which the listings will be posted.</span><br /><br />When a video is successfully created, the method returns the HTTP Status Code <code>201 Created.</code>The method also returns the location response header containing the <b>video ID</b>, which you can use to retrieve the video.<br /><br /><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> There is no ability to edit metadata on videos at this time. There is also no method to delete videos.</span><br /><br />To upload a created video, use the <a href=" /api-docs/commerce/media/resources/video/methods/uploadVideo" target="_blank">uploadVideo</a> method. */
     post: operations["createVideo"];
   };
   "/video/{video_id}": {
-    /** @description This method retrieves a video's metadata and content given a specified <b>video ID</b>. The method returns the <b>title</b>, <b>size</b>, <b>classification</b>, <b>description</b>, <b>video ID</b>, <b>playList</b>, <b>status</b>, <b>status message</b> (if any), <b>expiration  date</b>, and <b>thumbnail</b> image of the retrieved video. <p>The video’s <b>title</b>, <b>size</b>, <b>classification</b>, and <b>description</b> are set using the <a href=" /api-docs/commerce/media/resources/video/methods/createVideo" target="_blank">createVideo</a> method.</p> <p>The video's <b>playList</b> contains two URLs that link to instances of the streaming video based on the supported protocol.</p><p>The <b>status</b> field contains the current status of the video. After a video upload is successfully completed, the video's <b>status</b> will show as <code>PROCESSING</code> until the video reaches one of the terminal states of <code>LIVE</code>, <code>BLOCKED</code> or <code>PROCESSING_FAILED</code>.<p> If a video's processing fails, it could be because the file is corrupted, is too large, or its size doesn’t match what was provided in the metadata. Refer to the error messages to determine the cause of the video’s failure to upload.</p> <p> The <b>status message</b> will indicate why a video was blocked from uploading.</p><p>The video’s <b>expiration date</b> is automatically set to 365 days (one year) after the video’s initial creation.<p>The video's <b>thumbnail</b> image is automatically generated when the video is created. */
+    /** @description This method retrieves a video's metadata and content given a specified <b>video ID</b>. The method returns the <b>title</b>, <b>size</b>, <b>classification</b>, <b>description</b>, <b>video ID</b>, <b>playList</b>, <b>status</b>, <b>status message</b> (if any), <b>expiration  date</b>, and <b>thumbnail</b> image of the retrieved video. <p>The video's <b>title</b>, <b>size</b>, <b>classification</b>, and <b>description</b> are set using the <a href=" /api-docs/commerce/media/resources/video/methods/createVideo" target="_blank">createVideo</a> method.</p> <p>The video's <b>playList</b> contains two URLs that link to instances of the streaming video based on the supported protocol.</p><p>The <b>status</b> field contains the current status of the video. After a video upload is successfully completed, the video's <b>status</b> will show as <code>PROCESSING</code> until the video reaches one of the terminal states of <code>LIVE</code>, <code>BLOCKED</code> or <code>PROCESSING_FAILED</code>.<p> If a video's processing fails, it could be because the file is corrupted, is too large, or its size doesn't match what was provided in the metadata. Refer to the error messages to determine the cause of the video's failure to upload.</p> <p> The <b>status message</b> will indicate why a video was blocked from uploading.</p><p>If a video is not being used on an active listing, its <b>expiration date</b> is automatically set to 30 days after the video's initial upload.<p>The video's <b>thumbnail</b> image is automatically generated when the video is created. */
     get: operations["getVideo"];
   };
   "/video/{video_id}/upload": {
     /** @description This method associates the specified file with the specified <b>video ID</b> and uploads the input file. After the file has been uploaded the processing of the file begins.<br /><br /><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> The size of the video to be uploaded must exactly match the size of the video's input stream that was set in the <a href=" /api-docs/commerce/media/resources/video/methods/createVideo" target="_blank">createVideo</a> method. If the sizes do not match, the video will not upload successfully.</span><br /><br />When a video is successfully uploaded, it returns the HTTP Status Code <code>200 OK</code>.<br /><br />The status flow is <code>PENDING_UPLOAD</code> > <code>PROCESSING</code> > <code>LIVE</code>,  <code>PROCESSING_FAILED</code>, or <code>BLOCKED</code>. After a video upload is successfully completed, the status will show as <code>PROCESSING</code> until the video reaches one of the terminal states of <code>LIVE</code>, <code>BLOCKED</code>, or <code>PROCESSING_FAILED</code>. If the size information (in bytes) provided is incorrect, the API will throw an error.<br /><br /><span class="tablenote"><span style="color:#478415"><strong>Tip:</strong></span> See <a href="https://www.ebay.com/help/selling/listings/creating-managing-listings/add-video-to-listing?id=5272#section3" target="_blank">Adding a video to your listing</a> in the eBay Seller Center for details about video formatting requirements and restrictions, or visit the relevant eBay site help pages for the region in which the listings will be posted.</span><br /><br />To retrieve an uploaded video, use the <a href="/api-docs/commerce/media/resources/video/methods/getVideo" target="_blank">getVideo</a> method. */
     post: operations["uploadVideo"];
+  };
+  "/document": {
+    /** @description This method stages a document to be uploaded, and requires the type of document to be uploaded, and the language(s) that the document contains. A successful call returns a <b>documentId</b> value that is then used as a path parameter in an <a href=" /api-docs/commerce/media/resources/document/methods/uploadDocument" >uploadDocument</a> call.<p>When a document is successfully created, the method returns the HTTP Status Code <code>201 Created.</code> The method returns <b>documentId</b> in the response payload, which you can use to retrieve the document resource. This ID is also returned in the <b>location</b> header, for convenience.</p><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> Make sure to capture the document ID value returned in the response payload. This value is required to use the other methods in the <b>document</b> resource, and also needed to associate a document to a listing using the Trading and Inventory APIs.</p></div><p>To upload a created document, use the document ID returned from this method's response with the <a href=" /api-docs/commerce/media/resources/document/methods/uploadDocument" >uploadDocument</a> method. See <a href="/api-docs/sell/static/inventory/managing-document-media.html" target="_blank">Managing documents</a> for information on creating, uploading, and adding documents to listings.</p> */
+    post: operations["createDocument"];
+  };
+  "/document/create_document_from_url": {
+    /** @description This method downloads a document from the provided URL and adds that document to the user's account. This method requires the URL of the document, the type of document to be uploaded, and the language(s) that the document contains. <br><br>When a document is successfully created, the method returns the HTTP Status Code <code>201 Created.</code> The method returns <b>documentId</b> in the response payload, which you can use to retrieve the document resource. This ID is also returned in the <b>location</b> header, for convenience.</p><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> Make sure to capture the document ID value returned in the response payload. This value is required to use the other methods in the <b>document</b> resource, and also needed to associate a document to a listing using the Trading and Inventory APIs.</p></div><br>After creating a document using this method, a <a href="/api-docs/commerce/media/resources/document/methods/getDocument" target="_blank">getDocument</a> call should be made to check for a <b>documentStatus</b> of <code>ACCEPTED</code>. Only documents with this status can be added to a listing. See <a href="/api-docs/sell/static/inventory/managing-document-media.html" target="_blank">Managing documents</a> for more information on creating, uploading, and adding documents to listings. */
+    post: operations["createDocumentFromUrl"];
+  };
+  "/document/{document_id}": {
+    /** @description This method retrieves the current <b>status</b> and metadata of the specified document.<br><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> The document ID value returned in the response payload of the <a href="/api-docs/commerce/media/resources/document/methods/createDocument">createDocument</a> method is a required input path parameter for this method.</p></div><p>See <a href="/api-docs/sell/static/inventory/managing-document-media.html" target="_blank">Managing documents</a> for additional information.</p> */
+    get: operations["getDocument"];
+  };
+  "/document/{document_id}/upload": {
+    /** @description This method associates the specified file with the specified document ID and uploads the input file. After the file has been uploaded, the processing of the file begins. Supported file types include .PDF, .JPEG/.JPG, and .PNG, with a maximum file size of 10 MB (10485760 bytes).<br><br><span class="tablenote"><b>Note:</b> Animated and multi-page PNG files are not currently supported.</span><br><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> The document ID value returned in the response of the <a href="/api-docs/commerce/media/resources/document/methods/createDocument">createDocument</a> method is a required input path parameter for this method. This value is also returned in the <b>location</b> header of the <b>createDocument</b> response payload.</span><br>A successful upload returns the HTTP Status Code <code>200 OK</code>.<br><p>See <a href="/api-docs/sell/static/inventory/managing-document-media.html" target="_blank">Managing documents</a> for additional information.</p> <span class="tablenote"><b>Note:</b> You must use a <strong>Content-Type</strong> header with its value set to <b>multipart/form-data</b>.</p></span></p>This call does not have a JSON Request payload but uploads the file as form-data. For example:<br /> <pre>file: @&quot;/C:/Users/.../drone_user_warranty.pdf&quot;</pre>See <a href="/api-docs/commerce/media/resources/document/methods/uploadDocument#h2-samples">Samples</a> for information. */
+    post: operations["uploadDocument"];
   };
 }
 
@@ -23,6 +51,38 @@ export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
+    /** @description This type contains the metadata used to create the document ID when creating a document using a URL. */
+    CreateDocumentFromUrlRequest: {
+      /** @description The type of the document being created. For example, a <code>USER_GUIDE_OR_MANUAL</code> or a <code>SAFETY_DATA_SHEET</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:DocumentTypeEnum'>eBay API documentation</a> */
+      documentType?: string;
+      /** @description The URL of the document being created.<br><br>The document referenced by the URL must be a .pdf, .png, .jpg, or .jpeg file, and must be no larger than 10 MB. */
+      documentUrl?: string;
+      /** @description This array shows the language(s) used in the document. */
+      languages?: (string)[];
+    };
+    /** @description This type contains the metadata used to create the document ID. */
+    CreateDocumentRequest: {
+      /** @description The type of the document being uploaded. For example, a <code>USER_GUIDE_OR_MANUAL</code> or a <code>SAFETY_DATA_SHEET</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:DocumentTypeEnum'>eBay API documentation</a> */
+      documentType?: string;
+      /** @description This array shows the language(s) used in the document. */
+      languages?: (string)[];
+    };
+    /** @description This type provides information about the created document ID. */
+    CreateDocumentResponse: {
+      /** @description The unique identifier of the document to be uploaded.<br><br>This value is returned in the response and <b>location</b> header of the <b>createDocument</b> and <b>createDocumentFromUrl</b> methods. This ID can be used with the <b>getDocument</b> and <b>uploadDocument</b> methods, and to add an uploaded document to a listing. See <a href="/api-docs/sell/static/inventory/managing-document-media.html#add-documents" target="_blank">Adding documents to listings</a> for more information. */
+      documentId?: string;
+      /** @description The status of the document resource.<br><br>For example, the value <code>PENDING_UPLOAD</code> is the initial state when the reference to the document has been created using the <b>createDocument</b> method. When creating a document using the <b>createDocumentFromUrl</b> method, the initial state will be <code>SUBMITTED</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:DocumentStatusEnum'>eBay API documentation</a> */
+      documentStatus?: string;
+      /** @description The type of the document uploaded. For example, <code>USER_GUIDE_OR_MANUAL</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:DocumentTypeEnum'>eBay API documentation</a> */
+      documentType?: string;
+      /** @description This array shows the language(s) used in the document. */
+      languages?: (string)[];
+    };
+    /** @description A type that provides the location of the image. */
+    CreateImageFromUrlRequest: {
+      /** @description The image URL of the self-hosted picture to upload to eBay Picture Services (EPS). In addition to the picture requirements in <a href="https://www.ebay.com/help/policies/listing-policies/picture-policy?id=4370" target="_blank">Picture policy</a>, the provided URL must be secured using HTTPS (HTTP is not permitted). For more information, see <a href="/api-docs/sell/static/inventory/managing-image-media.html#image-requirements" target="_blank">Image requirements</a>. */
+      imageUrl?: string;
+    };
     /** @description The request to create a video, which must contain the video's <b>title</b>, <b>size</b>, and <b>classification</b>. <b>Description</b> is an optional field when creating videos. */
     CreateVideoRequest: {
       /** @description The intended use for this video content. Currently, videos can only be added and associated with eBay listings, so the only supported value is <code>ITEM</code>. */
@@ -36,6 +96,28 @@ export interface components {
       size?: number;
       /** @description The title of the video. */
       title?: string;
+    };
+    /** @description This type provides information about the <b>documentId</b>. */
+    DocumentMetadata: {
+      /** @description The name of the file including its extension (for example, <code>drone_user_warranty.pdf</code>). */
+      fileName?: string;
+      /** @description The size, in bytes, of the document content. */
+      fileSize?: string;
+      /** @description The type of the file uploaded. Supported file types include the following: <code>pdf</code>, <code>jpeg</code>, <code>jpg</code>, and <code>png</code>. */
+      fileType?: string;
+    };
+    /** @description This type provides information returned about a created document ID, which may or may not have been uploaded. */
+    DocumentResponse: {
+      /** @description The unique ID of the document. */
+      documentId?: string;
+      /** @description This container provides the name, size, and type of the specified file. */
+      documentMetadata?: components["schemas"]["DocumentMetadata"];
+      /** @description The status of the document resource.<br><br>Once a document has been uploaded using the <b>uploadDocument</b> method, the <b>documentStatus</b> will be <code>SUBMITTED</code>. The document will then either be accepted or rejected. Only documents with the status of <code>ACCEPTED</code> are available to be added to a listing. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:DocumentStatusEnum'>eBay API documentation</a> */
+      documentStatus?: string;
+      /** @description The type of the document uploaded. For example, <code>USER_GUIDE_OR_MANUAL</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:DocumentTypeEnum'>eBay API documentation</a> */
+      documentType?: string;
+      /** @description This array shows the language(s) used in the document. */
+      languages?: (string)[];
     };
     /** @description This type defines the fields that can be returned in an error. */
     Error: {
@@ -67,9 +149,16 @@ export interface components {
       /** @description The value of the object. */
       value?: string;
     };
-    /** @description The automatically generated thumbnail image of the video. */
+    /** @description A type that provides the location of the image. */
     Image: {
-      /** @description The URL to access this image. */
+      /** @description The URL of the image's location. */
+      imageUrl?: string;
+    };
+    /** @description A type that provides an image's details including its URL and expiration. */
+    ImageResponse: {
+      /** @description The date and time when an unused EPS image will expire and be removed from the EPS server, in Coordinated Universal Time (UTC). As long as an EPS image is being used in an active listing, that image will remain on the EPS server and be accessible. */
+      expirationDate?: string;
+      /** @description The EPS URL to access the uploaded image. This URL will be used in listing calls to add the image to a listing. */
       imageUrl?: string;
     };
     /** @description The streaming input of the video source. The input source must be an .mp4 file of the type MPEG-4 Part 10 or Advanced Video Coding (MPEG-4 AVC). */
@@ -92,7 +181,7 @@ export interface components {
       classification?: (string)[];
       /** @description The description of the video. The video description is an optional field that can be set using the <a href=" /api-docs/commerce/media/resources/video/methods/createVideo" target="_blank">createVideo</a> method. */
       description?: string;
-      /** @description The expiration date of the video in Coordinated Universal Time (UTC). The video’s expiration date is automatically set to 365 days (one year) after the video’s initial upload. */
+      /** @description The date and time when an unused video will expire and be removed from the eBay Video Services server, in Coordinated Universal Time (UTC).<br><br>As long as a video is being used in an active listing, that video will remain on the server and be accessible. If a video is not being used on an active listing, its expiration date is automatically set to 30 days after the video's initial upload. */
       expirationDate?: string;
       /** @description The video moderation information that is returned if a video is blocked by moderators.<br /><br /><span class="tablenote"><span style="color:#478415"><strong>Tip:</strong></span> See <a href="https://www.ebay.com/help/selling/listings/creating-managing-listings/add-video-to-listing?id=5272#section2" target="_blank">Video moderation and restrictions</a> in the eBay Seller Center for details about video moderation.</span><br /><br />If the video status is <code>BLOCKED</code>, ensure that the video complies with eBay's video formatting and content guidelines. Afterwards, begin the video creation and upload procedure anew using the <strong>createVideo</strong> and <strong>uploadVideo</strong> methods. */
       moderation?: components["schemas"]["Moderation"];
@@ -126,6 +215,88 @@ export type external = Record<string, never>;
 
 export interface operations {
 
+  /** @description This method uploads a picture file to eBay Picture Services (EPS) using multipart/form-data. <p>All images must comply with eBay's picture requirements, such as dimension and file size restrictions. For more information, see <a href="https://www.ebay.com/help/policies/listing-policies/picture-policy?id=4370"  target="_blank">Picture policy</a>. The image formats supported are <b>JPG</b>, <b>GIF</b>, <b>PNG</b>, <b>BMP</b>, <b>TIFF</b>, <b>AVIF</b>, <b>HEIC</b>, and <b>WEBP</b>. For more information, see <a href="/api-docs/sell/static/inventory/managing-image-media.html#image-requirements" target="_blank">Image requirements</a>.</p><p><span class="tablenote"><strong>Note:</strong> Animated GIF, and multi-page PNG/TIFF files, are not supported. Any animation effect of supported formats will be lost upon upload.</span></p><p>This call does not have a JSON Request payload but uploads the file as form-data. For example:<br /> <pre> image: &quot;sample_picture.jpg&quot; </pre>See <a href="/api-docs/commerce/media/resources/image/methods/createImageFromFile#h2-samples">Samples</a> for information.</p><p><span class="tablenote"><strong>Note:</strong> You must use a <b>Content-Type</b> header with its value set to 'multipart/form-data'.</span></p><p>When an EPS image is successfully created, the method returns the HTTP Status Code <code>201 Created</code>. The method also returns the getImage URI in the <b>Location</b> response header.</p><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> Make sure to capture the image ID URI returned in the response <a href="/api-docs/commerce/media/resources/image/methods/createImageFromFile#h2-output">location header</a> provided in the following format:</p><p><code>https://apim.ebay.com/commerce/media/v1_beta/image/<em>{image_id}</em></code> </p><p>You can capture the entire URI, or just save the <code>{image_id}</code> only. Pass the <code>{image_id}</code> as a path parameter in the <b><a href="/api-docs/commerce/media/resources/image/methods/getImage" target="_blank">getImage</a></b> method to return the value needed to associate an image to a listing using the Trading and Inventory APIs.</p></div><p>See <a href="/api-docs/sell/static/inventory/managing-image-media.html" target="_blank">Managing images</a> for additional details.</p> */
+  createImageFromFile: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>multipart/form-data</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        headers: {
+          Location?: string;
+        };
+        content: {
+          "application/json": components["schemas"]["ImageResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Forbidden */
+      403: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method uploads a picture to eBay Picture Services (EPS) from the specified URL. Specify the location of the picture on an external web server through the <b>imageUrl</b> field. <p>All images must comply with eBay’s picture requirements, such as dimension and file size restrictions. For more information, see <a href="https://www.ebay.com/help/policies/listing-policies/picture-policy?id=4370" target="_blank">Picture policy</a>. The image formats supported are <b>JPG</b>, <b>GIF</b>, <b>PNG</b>, <b>BMP</b>, <b>TIFF</b>, <b>AVIF</b>, <b>HEIC</b>, and <b>WEBP</b>. In addition, the provided URL must be secured using HTTPS (HTTP is not permitted). For more information, see <a href="/api-docs/sell/static/inventory/managing-image-media.html#image-requirements" target="_blank">Image requirements</a>.</p><p><span class="tablenote"><strong>Note:</strong> Animated GIF, and multi-page PNG/TIFF files, are not supported. Any animation effect of supported formats will be lost upon upload.</span></p><p>When an EPS image is successfully created, the method returns the HTTP Status Code <code>201 Created</code>. The method also returns the getImage URI in the <b>Location</b> response header.</p><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> Make sure to capture the image ID URI returned in the response <a href="/api-docs/commerce/media/resources/image/methods/createImageFromUrl#h2-output">location header</a> provided in the following format:</p><p><code>https://apim.ebay.com/commerce/media/v1_beta/image/<em>{image_id}</em></code> </p><p>You can capture the entire URI, or just save the <code>{image_id}</code> only. Pass the <code>{image_id}</code> as a path parameter in the <b><a href="/api-docs/commerce/media/resources/image/methods/getImage" target="_blank">getImage</a></b> method to return the value needed to associate an image to a listing using the Trading and Inventory APIs.</p></div><p>See <a href="/api-docs/sell/static/inventory/managing-image-media.html" target="_blank">Managing images</a> for additional details.</p> */
+  createImageFromUrl: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateImageFromUrlRequest"];
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        headers: {
+          Location?: string;
+        };
+        content: {
+          "application/json": components["schemas"]["ImageResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Forbidden */
+      403: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method retrieves an EPS image URL and its expiration details for the unique identifier specified in the path parameter <b>image_id</b>. Use the retrieved EPS image URL to add the image to a listing through the <b>Inventory API</b> or the <b>Trading API</b>. See <a href="/api-docs/sell/static/inventory/managing-image-media.html"  target="_blank">Managing images</a> for additional details.<br><br><span class="tablenote"><b>Note:</b> If a user inputs a valid <b>image_id</b> as a path parameter but the EPS image associated with that ID has expired, the call will fail and a <b>404 Not Found</b> status code will be returned.</span> */
+  getImage: {
+    parameters: {
+      path: {
+        /** @description This path parameter is the unique identifier of a created image. Use the value returned in the location header of the method used to create the image (<b>createImageFromFile</b> or <b>createImageFromUrl</b>, as applicable). */
+        image_id: string;
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ImageResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Forbidden */
+      403: never;
+      /** @description Not Found */
+      404: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
   /** @description This method creates a video. When using this method, specify the <b>title</b>, <b>size</b>, and <b>classification</b> of the video to be created. <b>Description</b> is an optional field for this method.<br /><br /><span class="tablenote"><span style="color:#478415"><strong>Tip:</strong></span> See <a href="https://www.ebay.com/help/selling/listings/creating-managing-listings/add-video-to-listing?id=5272#section3" target="_blank">Adding a video to your listing</a> in the eBay Seller Center for details about video formatting requirements and restrictions, or visit the relevant eBay site help pages for the region in which the listings will be posted.</span><br /><br />When a video is successfully created, the method returns the HTTP Status Code <code>201 Created.</code>The method also returns the location response header containing the <b>video ID</b>, which you can use to retrieve the video.<br /><br /><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> There is no ability to edit metadata on videos at this time. There is also no method to delete videos.</span><br /><br />To upload a created video, use the <a href=" /api-docs/commerce/media/resources/video/methods/uploadVideo" target="_blank">uploadVideo</a> method. */
   createVideo: {
     parameters: {
@@ -150,7 +321,7 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method retrieves a video's metadata and content given a specified <b>video ID</b>. The method returns the <b>title</b>, <b>size</b>, <b>classification</b>, <b>description</b>, <b>video ID</b>, <b>playList</b>, <b>status</b>, <b>status message</b> (if any), <b>expiration  date</b>, and <b>thumbnail</b> image of the retrieved video. <p>The video’s <b>title</b>, <b>size</b>, <b>classification</b>, and <b>description</b> are set using the <a href=" /api-docs/commerce/media/resources/video/methods/createVideo" target="_blank">createVideo</a> method.</p> <p>The video's <b>playList</b> contains two URLs that link to instances of the streaming video based on the supported protocol.</p><p>The <b>status</b> field contains the current status of the video. After a video upload is successfully completed, the video's <b>status</b> will show as <code>PROCESSING</code> until the video reaches one of the terminal states of <code>LIVE</code>, <code>BLOCKED</code> or <code>PROCESSING_FAILED</code>.<p> If a video's processing fails, it could be because the file is corrupted, is too large, or its size doesn’t match what was provided in the metadata. Refer to the error messages to determine the cause of the video’s failure to upload.</p> <p> The <b>status message</b> will indicate why a video was blocked from uploading.</p><p>The video’s <b>expiration date</b> is automatically set to 365 days (one year) after the video’s initial creation.<p>The video's <b>thumbnail</b> image is automatically generated when the video is created. */
+  /** @description This method retrieves a video's metadata and content given a specified <b>video ID</b>. The method returns the <b>title</b>, <b>size</b>, <b>classification</b>, <b>description</b>, <b>video ID</b>, <b>playList</b>, <b>status</b>, <b>status message</b> (if any), <b>expiration  date</b>, and <b>thumbnail</b> image of the retrieved video. <p>The video's <b>title</b>, <b>size</b>, <b>classification</b>, and <b>description</b> are set using the <a href=" /api-docs/commerce/media/resources/video/methods/createVideo" target="_blank">createVideo</a> method.</p> <p>The video's <b>playList</b> contains two URLs that link to instances of the streaming video based on the supported protocol.</p><p>The <b>status</b> field contains the current status of the video. After a video upload is successfully completed, the video's <b>status</b> will show as <code>PROCESSING</code> until the video reaches one of the terminal states of <code>LIVE</code>, <code>BLOCKED</code> or <code>PROCESSING_FAILED</code>.<p> If a video's processing fails, it could be because the file is corrupted, is too large, or its size doesn't match what was provided in the metadata. Refer to the error messages to determine the cause of the video's failure to upload.</p> <p> The <b>status message</b> will indicate why a video was blocked from uploading.</p><p>If a video is not being used on an active listing, its <b>expiration date</b> is automatically set to 30 days after the video's initial upload.<p>The video's <b>thumbnail</b> image is automatically generated when the video is created. */
   getVideo: {
     parameters: {
       path: {
@@ -194,7 +365,7 @@ export interface operations {
     /** @description The request payload for this method is the input stream for the video source. The input source must be an .mp4 file of the type MPEG-4 Part 10 or Advanced Video Coding (MPEG-4 AVC). */
     requestBody?: {
       content: {
-        "application/json": components["schemas"]["InputStream"];
+        "application/octet-stream": components["schemas"]["InputStream"];
       };
     };
     responses: {
@@ -202,6 +373,8 @@ export interface operations {
       200: never;
       /** @description Bad Request */
       400: never;
+      /** @description Forbidden */
+      403: never;
       /** @description Not Found */
       404: never;
       /** @description Conflict */
@@ -210,6 +383,114 @@ export interface operations {
       411: never;
       /** @description Range Not Satisfiable */
       416: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method stages a document to be uploaded, and requires the type of document to be uploaded, and the language(s) that the document contains. A successful call returns a <b>documentId</b> value that is then used as a path parameter in an <a href=" /api-docs/commerce/media/resources/document/methods/uploadDocument" >uploadDocument</a> call.<p>When a document is successfully created, the method returns the HTTP Status Code <code>201 Created.</code> The method returns <b>documentId</b> in the response payload, which you can use to retrieve the document resource. This ID is also returned in the <b>location</b> header, for convenience.</p><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> Make sure to capture the document ID value returned in the response payload. This value is required to use the other methods in the <b>document</b> resource, and also needed to associate a document to a listing using the Trading and Inventory APIs.</p></div><p>To upload a created document, use the document ID returned from this method's response with the <a href=" /api-docs/commerce/media/resources/document/methods/uploadDocument" >uploadDocument</a> method. See <a href="/api-docs/sell/static/inventory/managing-document-media.html" target="_blank">Managing documents</a> for information on creating, uploading, and adding documents to listings.</p> */
+  createDocument: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["CreateDocumentRequest"];
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        headers: {
+          Location?: string;
+        };
+        content: {
+          "application/json": components["schemas"]["CreateDocumentResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method downloads a document from the provided URL and adds that document to the user's account. This method requires the URL of the document, the type of document to be uploaded, and the language(s) that the document contains. <br><br>When a document is successfully created, the method returns the HTTP Status Code <code>201 Created.</code> The method returns <b>documentId</b> in the response payload, which you can use to retrieve the document resource. This ID is also returned in the <b>location</b> header, for convenience.</p><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> Make sure to capture the document ID value returned in the response payload. This value is required to use the other methods in the <b>document</b> resource, and also needed to associate a document to a listing using the Trading and Inventory APIs.</p></div><br>After creating a document using this method, a <a href="/api-docs/commerce/media/resources/document/methods/getDocument" target="_blank">getDocument</a> call should be made to check for a <b>documentStatus</b> of <code>ACCEPTED</code>. Only documents with this status can be added to a listing. See <a href="/api-docs/sell/static/inventory/managing-document-media.html" target="_blank">Managing documents</a> for more information on creating, uploading, and adding documents to listings. */
+  createDocumentFromUrl: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["CreateDocumentFromUrlRequest"];
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        headers: {
+          Location?: string;
+        };
+        content: {
+          "application/json": components["schemas"]["CreateDocumentResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method retrieves the current <b>status</b> and metadata of the specified document.<br><br><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> The document ID value returned in the response payload of the <a href="/api-docs/commerce/media/resources/document/methods/createDocument">createDocument</a> method is a required input path parameter for this method.</p></div><p>See <a href="/api-docs/sell/static/inventory/managing-document-media.html" target="_blank">Managing documents</a> for additional information.</p> */
+  getDocument: {
+    parameters: {
+      path: {
+        /** @description The unique identifier of the document for which status and metadata is being retrieved.<br><br>This value is returned in the response of the <a href="/api-docs/commerce/media/resources/document/methods/createDocument" target="_blank">createDocument</a> method. */
+        document_id: string;
+      };
+    };
+    responses: {
+      /** @description Uploaded */
+      200: {
+        content: {
+          "application/json": components["schemas"]["DocumentResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Document Not Found */
+      404: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method associates the specified file with the specified document ID and uploads the input file. After the file has been uploaded, the processing of the file begins. Supported file types include .PDF, .JPEG/.JPG, and .PNG, with a maximum file size of 10 MB (10485760 bytes).<br><br><span class="tablenote"><b>Note:</b> Animated and multi-page PNG files are not currently supported.</span><br><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> The document ID value returned in the response of the <a href="/api-docs/commerce/media/resources/document/methods/createDocument">createDocument</a> method is a required input path parameter for this method. This value is also returned in the <b>location</b> header of the <b>createDocument</b> response payload.</span><br>A successful upload returns the HTTP Status Code <code>200 OK</code>.<br><p>See <a href="/api-docs/sell/static/inventory/managing-document-media.html" target="_blank">Managing documents</a> for additional information.</p> <span class="tablenote"><b>Note:</b> You must use a <strong>Content-Type</strong> header with its value set to <b>multipart/form-data</b>.</p></span></p>This call does not have a JSON Request payload but uploads the file as form-data. For example:<br /> <pre>file: @&quot;/C:/Users/.../drone_user_warranty.pdf&quot;</pre>See <a href="/api-docs/commerce/media/resources/document/methods/uploadDocument#h2-samples">Samples</a> for information. */
+  uploadDocument: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>multipart/form-data</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+      path: {
+        /** @description The unique identifier of the document to be uploaded.<br><br>This value is returned in the response of the <a href="/api-docs/commerce/media/resources/document/methods/createDocument" target="_blank">createDocument</a> method. */
+        document_id: string;
+      };
+    };
+    responses: {
+      /** @description Uploaded */
+      200: {
+        content: {
+          "application/json": components["schemas"]["DocumentResponse"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Document Not Found */
+      404: never;
       /** @description Internal Server Error */
       500: never;
     };

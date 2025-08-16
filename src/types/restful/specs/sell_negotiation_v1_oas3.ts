@@ -6,11 +6,11 @@
 
 export interface paths {
   "/find_eligible_items": {
-    /** @description This method evaluates a seller's current listings and returns the set of IDs that are eligible for a seller-initiated discount offer to a buyer. A listing ID is returned only when one or more buyers have shown an &quot;interest&quot; in the listing. If any buyers have shown interest in a listing, the seller can initiate a &quot;negotiation&quot; with them by calling sendOfferToInterestedBuyers, which sends all interested buyers a message that offers the listing at a discount. For details about how to create seller offers to buyers, see Sending offers to buyers. */
+    /** @description This method evaluates a seller's current listings and returns the set of IDs that are eligible for a seller-initiated discount offer to a buyer.  <br><br>A listing ID is returned only when one or more buyers have shown an "interest" in the listing.  <br><br>If any buyers have shown interest in a listing, the seller can initiate a "negotiation" with them by calling <a href="/api-docs/sell/negotiation/resources/offer/methods/sendOfferToInterestedBuyers">sendOfferToInterestedBuyers</a>, which sends all interested buyers a message that offers the listing at a discount.  <br><br>For details about how to create seller offers to buyers, see <a href="/api-docs/sell/static/marketing/offers-to-buyers.html" title="Selling Integration Guide">Sending offers to buyers</a>. */
     get: operations["findEligibleItems"];
   };
   "/send_offer_to_interested_buyers": {
-    /** @description This method sends eligible buyers offers to purchase items in a listing at a discount. When a buyer has shown interest in a listing, they become &quot;eligible&quot; to receive a seller-initiated offer to purchase the item(s). Sellers use findEligibleItems to get the set of listings that have interested buyers. If a listing has interested buyers, sellers can use this method (sendOfferToInterestedBuyers) to send an offer to the buyers who are interested in the listing. The offer gives buyers the ability to purchase the associated listings at a discounted price. For details about how to create seller offers to buyers, see Sending offers to buyers. */
+    /** @description This method sends eligible buyers offers to purchase items in a listing at a discount.  <br><br>When a buyer has shown <i>interest</i> in a listing, they become "eligible" to receive a seller-initiated offer to purchase the item(s).  <br><br>Sellers use <a href="/api-docs/sell/negotiation/resources/offer/methods/findEligibleItems">findEligibleItems</a> to get the set of listings that have interested buyers. If a listing has interested buyers, sellers can use this method (<b>sendOfferToInterestedBuyers</b>) to send an offer to the buyers who are interested in the listing. The offer gives buyers the ability to purchase the associated listings at a discounted price.  <br><br>For details about how to create seller offers to buyers, see <a href="/api-docs/sell/static/marketing/offers-to-buyers.html" title="Selling Integration Guide">Sending offers to buyers</a>. */
     post: operations["sendOfferToInterestedBuyers"];
   };
 }
@@ -21,25 +21,25 @@ export interface components {
   schemas: {
     /** @description A complex type that describes the value of a monetary amount as represented by a global currency. */
     Amount: {
-      /** @description The base currency applied to the value field to establish a monetary amount. The currency is represented as a 3-letter ISO4217 currency code. For example, the code for the Canadian Dollar is CAD. Default: The default currency of the eBay marketplace that hosts the listing. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/negotiation/types/bas:CurrencyCodeEnum'>eBay API documentation</a> */
+      /** @description The base currency applied to the <b>value</b> field to establish a monetary amount.  <br><br>The currency is represented as a 3-letter <a href="http://www.currency-iso.org/en/home/tables/table-a1.html" title="www.currency-iso.org" target="_blank">ISO4217</a> currency code. For example, the code for the Canadian Dollar is <code>CAD</code>.  <br><br><b>Default:</b> The default currency of the eBay marketplace that hosts the listing. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/negotiation/types/bas:CurrencyCodeEnum'>eBay API documentation</a> */
       currency?: string;
-      /** @description The monetary amount in the specified currency. */
+      /** @description The monetary amount in the specified <b>currency</b>. */
       value?: string;
     };
     /** @description This complex type contains the fields needed to create an offer to a buyer that is initiated by the seller. */
     CreateOffersRequest: {
-      /** @description If set to true, the buyer is allowed to make a counter-offer to the seller's offer. Note: Currently, you must set this field to false; counter-offers are not supported in this release. Default: false */
+      /** @description If set to <code>true</code>, the buyer is allowed to make a counter-offer to the seller's offer.  <br><br><span class="tablenote"><b>Note:</b> Currently, you must set this field to <code>false</code>; counter-offers are not supported in this release.</span>  <br><br><b>Default:</b> <code>false</code> */
       allowCounterOffer?: boolean;
-      /** @description A seller-defined message related to the offer being made. This message is sent to the list of &quot;interested&quot; buyers. To increase the conversion rate of the offers a seller makes to buyers, eBay recommends you always add a customized message to your offers. Maximum length: 2,000 characters */
+      /** @description A seller-defined message related to the offer being made.  <br><br>This message is sent to the list of "interested" buyers.  <br><br>To increase the conversion rate of the offers a seller makes to buyers, eBay recommends you always add a customized message to your offers.  <br><br><b>Maximum length:</b> 2,000 characters */
       message?: string;
-      /** @description The length of time the offer is valid from when it is created. The duration of the offer begins at the date and time denoted by creationDate. When the span of time specified by offerDuration passes beyond the creationDate, the offer expires. Note: offerDuration currently defaults to 2 days and you cannot set it to any other value (if specified, the unit and value fields in TimeDuration must be set to DAY and 2, respectively). Default: 2 Days */
+      /** @description The length of time the offer is valid from when it is created.  <br><br>The duration of the offer begins at the date and time denoted by <b>creationDate</b>. When the span of time specified by <b>offerDuration</b> passes beyond the <b>creationDate</b>, the offer expires.  <br><br><span class="tablenote"><b>Note:</b> <b>offerDuration</b> currently defaults to 2 days and you cannot set it to any other value (if specified, the <b>unit</b> and <b>value</b> fields in TimeDuration must be set to <code>DAY</code> and <code>2</code>, respectively).</span>  <br><br><b>Default:</b> 2 Days */
       offerDuration?: components["schemas"]["TimeDuration"];
-      /** @description An array of objects where each object contains the details of an offer and the ID of the listing on which the offer is being made. Note that the service does not currently support the creation of multiple offers with a single call to sendOfferToInterestedBuyer. With this, each request can target only one listing at a time and you must populate this array with a single element that contains the details of one offer. */
+      /** @description An array of objects where each object contains the details of an offer and the ID of the listing on which the offer is being made.  <br><br>Note that the service does not currently support the creation of multiple offers with a single call to <b>sendOfferToInterestedBuyer</b>. With this, each request can target only one listing at a time and you must populate this array with a single element that contains the details of one offer. */
       offeredItems?: (components["schemas"]["OfferedItem"])[];
     };
-    /** @description A listing that is eligible for a seller-initiated offer to a buyer. Listings are identified by a listingId value that is generated and assigned by eBay when a seller lists an item using the Trading API. Note: The Negotiation API does not currently support listings that are managed with the Inventory API. */
+    /** @description A listing that is eligible for a seller-initiated offer to a buyer.  <br><br>Listings are identified by a <b>listingId</b> value that is generated and assigned by eBay when a seller lists an item using the Trading API.  <br><br><b>Note:</b> The Negotiation API does not currently support listings that are managed with the Inventory API. */
     EligibleItem: {
-      /** @description The unique eBay-assigned ID for an eBay listing. A listingId is assigned by eBay when a seller creates a listing with the Trading API. */
+      /** @description The unique eBay-assigned ID for an eBay listing.  <br><br>A <b>listingId</b> is assigned by eBay when a seller creates a listing with the Trading API. */
       listingId?: string;
     };
     /** @description This type defines the fields that can be returned in an error. */
@@ -74,89 +74,89 @@ export interface components {
     };
     /** @description A complex type that defines an offer that a seller makes to eligible buyers. */
     Offer: {
-      /** @description If set to true, the buyer is allowed to make a counter-offer to the seller's offer. */
+      /** @description If set to <code>true</code>, the buyer is allowed to make a counter-offer to the seller's offer. */
       allowCounterOffer?: boolean;
       /** @description The buyer who has been sent the offer. */
       buyer?: components["schemas"]["User"];
-      /** @description The date and time when the seller's offer was created. The returned timestamp is formatted as an ISO 8601 string, which is based on the 24-hour Coordinated Universal Time (UTC) clock. Format: [YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z Example: 2018-08-20T07:09:00.000Z */
+      /** @description The date and time when the seller's offer was created.  <br><br>The returned timestamp is formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html" title="https://www.iso.org" target="_blank">ISO 8601</a> string, which is based on the 24-hour Coordinated Universal Time (UTC) clock.  <br><br><b>Format:</b> <code>[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z</code> <br><b>Example:</b> <code>2018-08-20T07:09:00.000Z</code> */
       creationDate?: string;
-      /** @description The eBay UserName of the user (seller) who initiated the offer. */
+      /** @description The eBay <b>UserName</b> of the user (seller) who initiated the offer. */
       initiatedBy?: string;
-      /** @description The date and time when the offer was last modified. The returned timestamp is formatted as an ISO 8601 string. */
+      /** @description The date and time when the offer was last modified.  <br><br>The returned timestamp is formatted as an <a href="http://www.iso.org/iso/home/standards/iso8601.htm" target="_blank">ISO 8601</a> string. */
       lastModifiedDate?: string;
-      /** @description A seller-defined message related to the offer being made. This message is sent to the list of &quot;interested&quot; buyers along with the offer message from eBay. */
+      /** @description A seller-defined message related to the offer being made. This message is sent to the list of "interested" buyers along with the offer message from eBay. */
       message?: string;
-      /** @description The length of time that the offer is valid. The duration of the offer begins at the date and time denoted by creationDate. When the span of time specified by offerDuration passes beyond the creationDate, the offer expires. */
+      /** @description The length of time that the offer is valid.  <br><br>The duration of the offer begins at the date and time denoted by <b>creationDate</b>. When the span of time specified by <b>offerDuration</b> passes beyond the <b>creationDate</b>, the offer expires. */
       offerDuration?: components["schemas"]["TimeDuration"];
-      /** @description The list of items associated with the offer. Currently, the offer list is restricted to a single offer. */
+      /** @description The list of items associated with the offer. <br><br>Currently, the offer list is restricted to a single offer. */
       offeredItems?: (components["schemas"]["OfferedItem"])[];
       /** @description A unique eBay-assigned identifier for the offer. */
       offerId?: string;
-      /** @description The current state, or status, of an offer. Status states include PENDING, COUNTERED, ACCEPTED, and DECLINED. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/negotiation/types/api:OfferStatusEnum'>eBay API documentation</a> */
+      /** @description The current state, or status, of an offer.  <br><br>Status states include <code>PENDING</code>, <code>COUNTERED</code>, <code>ACCEPTED</code>, and <code>DECLINED</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/negotiation/types/api:OfferStatusEnum'>eBay API documentation</a> */
       offerStatus?: string;
       /** @description The type of offer being made. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/negotiation/types/api:OfferTypeEnum'>eBay API documentation</a> */
       offerType?: string;
       /** @description A unique, eBay-assigned ID for the revision of the offer. */
       revision?: string;
     };
-    /** @description A complex type that defines the offer being made to an &quot;interested&quot; buyer. */
+    /** @description A complex type that defines the offer being made to an "interested" buyer. */
     OfferedItem: {
-      /** @description This value denotes the percentage that the listing in the offer will be discounted from its original listed price. The seller can specify either the exact price of the discounted items with the price field or they can use this field to specify the percentage that the listing will be discounted, but not both. Minimum: 5 Required if you do not specify a price value. */
+      /** @description This value denotes the percentage that the listing in the offer will be discounted from its original listed price.  <br><br>The seller can specify either the exact price of the discounted items with the <b>price</b> field or they can use this field to specify the percentage that the listing will be discounted, but not both.  <br><br><b>Minimum:</b> <code>5</code>  <br><br><i>Required if</i> you do not specify a <b>price</b> value. */
       discountPercentage?: string;
-      /** @description This value is a unique eBay-assigned ID that identifies the listing to which the offer pertains. A listingId value is generated by eBay when you list an item with the Trading API. */
+      /** @description This value is a unique eBay-assigned ID that identifies the listing to which the offer pertains.  <br><br>A <b>listingId</b> value is generated by eBay when you list an item with the Trading API.<!--  <br><br><i>Required if</i> you do not specify an <b>sku</b> value.--> */
       listingId?: string;
-      /** @description This value denotes the final discounted price of the listing in the offer being made to the buyer. This value must be lower than the original price of the item as stated in the original listing. The seller can use either this field to specify the exact discounted price of the listing or they can use the discountPercentage field to specify the percentage that the listing will be discounted, but not both. Required if you do not specify a discountPercentage value. */
+      /** @description This value denotes the final discounted price of the listing in the offer being made to the buyer. This value must be lower than the original price of the item as stated in the original listing.  <br><br>The seller can use either this field to specify the exact discounted price of the listing or they can use the <b>discountPercentage</b> field to specify the percentage that the listing will be discounted, but not both.  <br><br><i>Required if</i> you do not specify a <b>discountPercentage</b> value. */
       price?: components["schemas"]["Amount"];
       /**
        * Format: int32 
-       * @description This integer value indicates the number of items in the eBay listing for which the offer is being made. The offer being made by the seller is an &quot;all or nothing&quot; offer, meaning the buyer must purchase the indicated quantity of items in order to receive the discount on the transaction. Default: 1
+       * @description This integer value indicates the number of items in the eBay listing for which the offer is being made.  <br><br>The offer being made by the seller is an "all or nothing" offer, meaning the buyer must purchase the indicated quantity of items in order to receive the discount on the transaction.  <br><br><b>Default:</b> <code>1</code>
        */
       quantity?: number;
     };
     /** @description This complex type defines a collection of listings that are eligible for an offer to a buyer. */
     PagedEligibleItemCollection: {
-      /** @description A list of items that are eligible for a seller-initiated offer to a buyer. Each element in the list contains the listing ID of a listed item. These IDs represent the listings for which buyers have shown an interest. */
+      /** @description A list of items that are eligible for a seller-initiated offer to a buyer.  <br><br>Each element in the list contains the listing ID<!-- <i>or</i> the SKU value--> of a listed item. These IDs represent the listings for which buyers have shown an interest. */
       eligibleItems?: (components["schemas"]["EligibleItem"])[];
       /** @description The URI of the current page of results from the result set. */
       href?: string;
       /**
        * Format: int32 
-       * @description The number of items returned on a single page from the result set. This value can be set in the request with the limit query parameter.
+       * @description The number of items returned on a single page from the result set. This value can be set in the request with the <b>limit</b> query parameter.
        */
       limit?: number;
-      /** @description The URI for the following page of results. This value is returned only if there is an additional page of results to display from the result set. Max length: 2048 */
+      /** @description The URI for the following page of results. This value is returned only if there is an additional page of results to display from the result set. <br><br><b>Max length</b>: 2048 */
       next?: string;
       /**
        * Format: int32 
-       * @description The number of results skipped in the result set before listing the first returned result. This value can be set in the request with the offset query parameter. Note: The items in a paginated result set use a zero-based list where the first item in the list has an offset of 0.
+       * @description The number of results skipped in the result set before listing the first returned result. This value can be set in the request with the <b>offset</b> query parameter. <p class="tablenote"><strong>Note: </strong>The items in a paginated result set use a zero-based list where the first item in the list has an offset of <code>0</code>.</p>
        */
       offset?: number;
-      /** @description The URI for the preceding page of results. This value is returned only if there is a previous page of results to display from the result set. Max length: 2048 */
+      /** @description The URI for the preceding page of results. This value is returned only if there is a previous page of results to display from the result set. <br><br><b>Max length</b>: 2048 */
       prev?: string;
       /**
        * Format: int32 
-       * @description The total number of items retrieved in the result set. If no items match the search criteria, the server returns the HTTP status code 204 No Content.
+       * @description The total number of items retrieved in the result set.  <br><br>If no items match the search criteria, the server returns the HTTP status code <br><code>204 No Content</code>.
        */
       total?: number;
     };
-    /** @description The response object returned from a SendOfferToInterestedBuyers request. */
+    /** @description The response object returned from a <b>SendOfferToInterestedBuyers</b> request. */
     SendOfferToInterestedBuyersCollectionResponse: {
-      /** @description The offers container returns a list of the offers sent to buyers who have shown an interest in listings included in the offer. */
+      /** @description The <b>offers</b> container returns a list of the offers sent to buyers who have shown an interest in listings included in the offer. */
       offers?: (components["schemas"]["Offer"])[];
     };
     /** @description A complex type that specifies a period of time using a specified time-measurement unit. */
     TimeDuration: {
-      /** @description A time-measurement unit that specifies a singular period of time. A span of time is defined when you apply the value specified in the value field to the value specified for unit. Time-measurement units can be YEAR, MONTH, DAY, and so on. See TimeDurationUnitEnum for a complete list of possible time-measurement units. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/negotiation/types/bas:TimeDurationUnitEnum'>eBay API documentation</a> */
+      /** @description A time-measurement unit that specifies a singular period of time.  <br><br>A span of time is defined when you apply the value specified in the <b>value</b> field to the value specified for <b>unit</b>.  <br><br>Time-measurement units can be YEAR, MONTH, DAY, and so on. See <b>TimeDurationUnitEnum</b> for a complete list of possible time-measurement units. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/negotiation/types/bas:TimeDurationUnitEnum'>eBay API documentation</a> */
       unit?: string;
       /**
        * Format: int32 
-       * @description An integer that represents an amount of time, as measured by the time-measurement unit specified in the unit field.
+       * @description An integer that represents an amount of time, as measured by the time-measurement unit specified in the <b>unit</b> field.
        */
       value?: number;
     };
-    /** @description This complex type identifies an eBay user. */
+    /** @description This complex type identifies an eBay user<!-- by either their <b>maskedUsername</b> or their full <b>username</b>-->. */
     User: {
-      /** @description The masked user name is a user name that has certain characters hidden for privacy of the user. */
+      /** @description The masked user name is a user name that has certain characters hidden for privacy of the user.<!-- This field is populated only when the full user name cannot be used.--> */
       maskedUsername?: string;
     };
   };
@@ -171,17 +171,17 @@ export type external = Record<string, never>;
 
 export interface operations {
 
-  /** @description This method evaluates a seller's current listings and returns the set of IDs that are eligible for a seller-initiated discount offer to a buyer. A listing ID is returned only when one or more buyers have shown an &quot;interest&quot; in the listing. If any buyers have shown interest in a listing, the seller can initiate a &quot;negotiation&quot; with them by calling sendOfferToInterestedBuyers, which sends all interested buyers a message that offers the listing at a discount. For details about how to create seller offers to buyers, see Sending offers to buyers. */
+  /** @description This method evaluates a seller's current listings and returns the set of IDs that are eligible for a seller-initiated discount offer to a buyer.  <br><br>A listing ID is returned only when one or more buyers have shown an "interest" in the listing.  <br><br>If any buyers have shown interest in a listing, the seller can initiate a "negotiation" with them by calling <a href="/api-docs/sell/negotiation/resources/offer/methods/sendOfferToInterestedBuyers">sendOfferToInterestedBuyers</a>, which sends all interested buyers a message that offers the listing at a discount.  <br><br>For details about how to create seller offers to buyers, see <a href="/api-docs/sell/static/marketing/offers-to-buyers.html" title="Selling Integration Guide">Sending offers to buyers</a>. */
   findEligibleItems: {
     parameters: {
       query?: {
-        /** @description This query parameter specifies the maximum number of items to return from the result set on a page in the paginated response. Minimum: 1 &nbsp; &nbsp;Maximum: 200 Default: 10 */
+        /** @description This query parameter specifies the maximum number of items to return from the result set on a page in the paginated response.<br><br><b>Minimum:</b> 1<br><br><b>Maximum:</b> 200<br><br><b>Default: </b>10 */
         limit?: string;
-        /** @description This query parameter specifies the number of results to skip in the result set before returning the first result in the paginated response. Combine offset with the limit query parameter to control the items returned in the response. For example, if you supply an offset of 0 and a limit of 10, the first page of the response contains the first 10 results from the complete list of items retrieved by the call. If offset is 10 and limit is 20, the first page of the response contains items 11-30 from the complete result set. Default: 0 */
+        /** @description This query parameter specifies the number of results to skip in the result set before returning the first result in the paginated response.  <br><br>Combine <b>offset</b> with the <b>limit</b> query parameter to control the items returned in the response. For example, if you supply an <b>offset</b> of <code>0</code> and a <b>limit</b> of <code>10</code>, the first page of the response contains the first 10 results from the complete list of items retrieved by the call. If <b>offset</b> is <code>10</code> and <b>limit</b> is <code>20</code>, the first page of the response contains items 11-30 from the complete result set. <br><br><b>Default:</b> 0 */
         offset?: string;
       };
       header: {
-        /** @description The eBay marketplace on which you want to search for eligible listings. For a complete list of supported marketplaces, see Negotiation API requirements and restrictions. */
+        /** @description The eBay marketplace on which you want to search for eligible listings. <br><br>For a complete list of supported marketplaces, see <a href="/api-docs/sell/negotiation/overview.html#requirements" title="Negotiation API Overview">Negotiation API requirements and restrictions</a>. */
         "X-EBAY-C-MARKETPLACE-ID": string;
       };
     };
@@ -200,12 +200,14 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method sends eligible buyers offers to purchase items in a listing at a discount. When a buyer has shown interest in a listing, they become &quot;eligible&quot; to receive a seller-initiated offer to purchase the item(s). Sellers use findEligibleItems to get the set of listings that have interested buyers. If a listing has interested buyers, sellers can use this method (sendOfferToInterestedBuyers) to send an offer to the buyers who are interested in the listing. The offer gives buyers the ability to purchase the associated listings at a discounted price. For details about how to create seller offers to buyers, see Sending offers to buyers. */
+  /** @description This method sends eligible buyers offers to purchase items in a listing at a discount.  <br><br>When a buyer has shown <i>interest</i> in a listing, they become "eligible" to receive a seller-initiated offer to purchase the item(s).  <br><br>Sellers use <a href="/api-docs/sell/negotiation/resources/offer/methods/findEligibleItems">findEligibleItems</a> to get the set of listings that have interested buyers. If a listing has interested buyers, sellers can use this method (<b>sendOfferToInterestedBuyers</b>) to send an offer to the buyers who are interested in the listing. The offer gives buyers the ability to purchase the associated listings at a discounted price.  <br><br>For details about how to create seller offers to buyers, see <a href="/api-docs/sell/static/marketing/offers-to-buyers.html" title="Selling Integration Guide">Sending offers to buyers</a>. */
   sendOfferToInterestedBuyers: {
     parameters: {
       header: {
-        /** @description The eBay marketplace on which your listings with &quot;eligible&quot; buyers appear. For a complete list of supported marketplaces, see Negotiation API requirements and restrictions. */
+        /** @description The eBay marketplace on which your listings with "eligible" buyers appear.  <br><br>For a complete list of supported marketplaces, see <a href="/api-docs/sell/negotiation/overview.html#requirements" title="Negotiation API Overview">Negotiation API requirements and restrictions</a>. */
         "X-EBAY-C-MARKETPLACE-ID": string;
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
       };
     };
     /** @description Send offer to eligible items request. */

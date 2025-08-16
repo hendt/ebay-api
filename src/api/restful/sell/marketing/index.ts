@@ -30,7 +30,9 @@ import {
   UpdateCampaignIdentificationRequest,
   UpdateCampaignRequest,
   UpdateKeywordRequest,
-  UpdateNegativeKeywordRequest
+  UpdateNegativeKeywordRequest,
+  SuggestMaxCpcRequest,
+  UpdateBiddingStrategyRequest
 } from '../../../../types/index.js';
 import {operations} from '../../../../types/restful/specs/sell_marketing_v1_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
@@ -1111,6 +1113,31 @@ export default class Marketing extends Restful implements OpenApi<operations> {
         endDate
       }
     });
+  }
+
+  /**
+   * This method allows sellers to retrieve the suggested budget for an offsite campaign.
+   */
+  public suggestBudget() {
+    return this.get(`/ad_campaign/suggest_budget`);
+  }
+
+  /**
+   * This method allows sellers to retrieve the suggested maximum cost-per-click value for a smart targeting campaign.
+   * @param body The request to suggest max CPC
+   */
+  public suggestMaxCpc(body?: SuggestMaxCpcRequest) {
+    return this.post(`/ad_campaign/suggest_max_cpc`, body);
+  }
+
+  /**
+   * This method allows sellers to change the bidding strategy for a specified Cost Per Click (CPC) campaign.
+   * @param campaignId A unique eBay-assigned ID for an ad campaign
+   * @param body The bidding strategy update request
+   */
+  public updateBiddingStrategy(campaignId: string, body?: UpdateBiddingStrategyRequest) {
+    campaignId = encodeURIComponent(campaignId);
+    return this.post(`/ad_campaign/${campaignId}/update_bidding_strategy`, body);
   }
 
 }

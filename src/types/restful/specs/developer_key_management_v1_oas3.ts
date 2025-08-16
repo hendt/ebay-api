@@ -117,6 +117,12 @@ export interface operations {
   };
   /** @description This method creates keypairs using one of the following ciphers:<ul><li>ED25519 (Edwards Curve)</li><li>RSA</li></ul><span class="tablenote"><b>Note:</b> The recommended signature cipher is <b>ED25519</b> (Edwards Curve) since it uses much shorter keys and therefore decreases the header size. However, for development frameworks that do not support ED25519, RSA is also supported.</span><br/>Following a successful completion, the following keys are returned:<ul><li>Private Key</li><li>Public Key</li><li>Public Key as JWE</li></ul>Once keypairs are created, developers are <b>strongly advised</b> to create and store a local copy of each keypair for future reference. Although the <b>Public Key</b>, <b>Public Key as JWE</b>, and metadata for keypairs may be retrieved by the <code>getSigningKey</code> and <code>getSigningKeys</code> methods, in order to further ensure the security of confidential client information, eBay does not store the <b>Private Key</b> value in any system. If a developer loses their <b>Private Key</b> they must generate new keypairs using the <code>createSigningKey</code> method.<br/><span class="tablenote"><b>Note:</b> For additional information about using keypairs, refer to <a href= "/develop/guides/digital-signatures-for-apis " target= "_blank ">Digital Signatures for APIs</a>.</span> */
   createSigningKey: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
     requestBody?: {
       content: {
         "application/json": components["schemas"]["CreateSigningKeyRequest"];

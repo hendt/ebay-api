@@ -1,596 +1,1400 @@
 {
-  "openapi": "3.0.0",
-  "info": {
-    "title": "Media API",
-    "description": "The Media API allows sellers to create, upload, and fetch videos.",
-    "contact": {
-      "name": "eBay Inc,"
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Media API",
+        "description": "The <b>Media API</b> lets sellers to create, upload, and retrieve files, including:<ul><li>images</li><li>videos</li><li>documents (for GPSR regulations)</li></ul>",
+        "contact": {
+            "name": "eBay Inc,"
+        },
+        "license": {
+            "name": "eBay API License Agreement",
+            "url": "https://developer.ebay.com/join/api-license-agreement"
+        },
+        "version": "v1_beta.4.0"
     },
-    "license": {
-      "name": "eBay API License Agreement",
-      "url": "https://go.developer.ebay.com/api-license-agreement"
-    },
-    "version": "v1_beta.1.0"
-  },
-  "servers": [
-    {
-      "url": "https://apim.ebay.com{basePath}",
-      "description": "Production",
-      "variables": {
-        "basePath": {
-          "default": "/commerce/media/v1_beta"
+    "servers": [
+        {
+            "url": "https://apim.ebay.com{basePath}",
+            "description": "Production",
+            "variables": {
+                "basePath": {
+                    "default": "/commerce/media/v1_beta"
+                }
+            }
+        },
+        {
+            "url": "https://api.ebay.com{basePath}",
+            "description": "Production",
+            "variables": {
+                "basePath": {
+                    "default": "/commerce/media/v1_beta"
+                }
+            }
         }
-      }
-    }
-  ],
-  "paths": {
-    "/video": {
-      "post": {
-        "tags": [
-          "video"
-        ],
-        "description": "This method creates a video. When using this method, specify the <b>title</b>, <b>size</b>, and <b>classification</b> of the video to be created. <b>Description</b> is an optional field for this method.<br /><br /><span class=\"tablenote\"><span style=\"color:#478415\"><strong>Tip:</strong></span> See <a href=\"https://www.ebay.com/help/selling/listings/creating-managing-listings/add-video-to-listing?id=5272#section3\" target=\"_blank\">Adding a video to your listing</a> in the eBay Seller Center for details about video formatting requirements and restrictions, or visit the relevant eBay site help pages for the region in which the listings will be posted.</span><br /><br />When a video is successfully created, the method returns the HTTP Status Code <code>201 Created.</code>The method also returns the location response header containing the <b>video ID</b>, which you can use to retrieve the video.<br /><br /><span class=\"tablenote\"><span style=\"color:#004680\"><strong>Note:</strong></span> There is no ability to edit metadata on videos at this time. There is also no method to delete videos.</span><br /><br />To upload a created video, use the <a href=\" /api-docs/commerce/media/resources/video/methods/uploadVideo\" target=\"_blank\">uploadVideo</a> method.",
-        "operationId": "createVideo",
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "description": "This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href=\"/api-docs/static/rest-request-components.html#HTTP\" target=\"_blank \">HTTP request headers</a>.",
-            "required": true,
-            "schema": {
-              "type": "string"
+    ],
+    "paths": {
+        "/image/create_image_from_file": {
+            "post": {
+                "tags": [
+                    "image"
+                ],
+                "description": "This method uploads a picture file to eBay Picture Services (EPS) using multipart/form-data. <p>All images must comply with eBay's picture requirements, such as dimension and file size restrictions. For more information, see <a href=\"https://www.ebay.com/help/policies/listing-policies/picture-policy?id=4370\"  target=\"_blank\">Picture policy</a>. The image formats supported are <b>JPG</b>, <b>GIF</b>, <b>PNG</b>, <b>BMP</b>, <b>TIFF</b>, <b>AVIF</b>, <b>HEIC</b>, and <b>WEBP</b>. For more information, see <a href=\"/api-docs/sell/static/inventory/managing-image-media.html#image-requirements\" target=\"_blank\">Image requirements</a>.</p><p><span class=\"tablenote\"><strong>Note:</strong> Animated GIF, and multi-page PNG/TIFF files, are not supported. Any animation effect of supported formats will be lost upon upload.</span></p><p>This call does not have a JSON Request payload but uploads the file as form-data. For example:<br /> <pre> image: &quot;sample_picture.jpg&quot; </pre>See <a href=\"/api-docs/commerce/media/resources/image/methods/createImageFromFile#h2-samples\">Samples</a> for information.</p><p><span class=\"tablenote\"><strong>Note:</strong> You must use a <b>Content-Type</b> header with its value set to 'multipart/form-data'.</span></p><p>When an EPS image is successfully created, the method returns the HTTP Status Code <code>201 Created</code>. The method also returns the getImage URI in the <b>Location</b> response header.</p><div class=\"msgbox_important\"><p class=\"msgbox_importantInDiv\" data-mc-autonum=\"&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;\"><span class=\"autonumber\"><span><b><span style=\"color: #dd1e31;\" class=\"mcFormatColor\">Important!</span></b></span></span> Make sure to capture the image ID URI returned in the response <a href=\"/api-docs/commerce/media/resources/image/methods/createImageFromFile#h2-output\">location header</a> provided in the following format:</p><p><code>https://apim.ebay.com/commerce/media/v1_beta/image/<em>{image_id}</em></code> </p><p>You can capture the entire URI, or just save the <code>{image_id}</code> only. Pass the <code>{image_id}</code> as a path parameter in the <b><a href=\"/api-docs/commerce/media/resources/image/methods/getImage\" target=\"_blank\">getImage</a></b> method to return the value needed to associate an image to a listing using the Trading and Inventory APIs.</p></div><p>See <a href=\"/api-docs/sell/static/inventory/managing-image-media.html\" target=\"_blank\">Managing images</a> for additional details.</p>",
+                "operationId": "createImageFromFile",
+                "parameters": [
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "description": "This header indicates the format of the request body provided by the client. Its value should be set to <b>multipart/form-data</b>. <br><br> For more information, refer to <a href=\"/api-docs/static/rest-request-components.html#HTTP\" target=\"_blank \">HTTP request headers</a>.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string",
+                                    "description": "The location response header contains the URI of the newly created image ID in the format:<br> <code>https://apim.ebay.com/commerce/media/v1_beta/image/<em>{image_id}</em></code> <br><br>Capture this URI to use with the <a href=\"/api-docs/commerce/media/resources/image/methods/getImage\" target=\"_blank\">getImage</a> method. See <a href=\"/api-docs/sell/static/inventory/managing-image-media.html\"  target=\"_blank\">Managing images</a> for more information."
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ImageResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "x-response-codes": {
+                            "errors": {
+                                "190201": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The image file size is larger than the limit. Please refer to the documentation."
+                                },
+                                "190202": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The supplied image dimensions exceed the limit. Please refer to the documentation."
+                                },
+                                "190203": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The supplied image is in a format that is not supported. Please refer to the documentation for a list of supported formats."
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "x-response-codes": {
+                            "errors": {
+                                "190013": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Unauthorized access."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "x-response-codes": {
+                            "errors": {
+                                "190000": {
+                                    "domain": "API_MEDIA",
+                                    "category": "APPLICATION",
+                                    "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_auth": [
+                            "https://api.ebay.com/oauth/api_scope/sell.inventory"
+                        ]
+                    }
+                ]
             }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateVideoRequest"
-              }
-            }
-          },
-          "required": false
         },
-        "responses": {
-          "201": {
-            "description": "Created",
-            "headers": {
-              "Location": {
-                "schema": {
-                  "type": "string",
-                  "description": "The created video resource location and the unique <b>video ID</b>."
-                }
-              }
+        "/image/create_image_from_url": {
+            "post": {
+                "tags": [
+                    "image"
+                ],
+                "description": "This method uploads a picture to eBay Picture Services (EPS) from the specified URL. Specify the location of the picture on an external web server through the <b>imageUrl</b> field. <p>All images must comply with eBay’s picture requirements, such as dimension and file size restrictions. For more information, see <a href=\"https://www.ebay.com/help/policies/listing-policies/picture-policy?id=4370\" target=\"_blank\">Picture policy</a>. The image formats supported are <b>JPG</b>, <b>GIF</b>, <b>PNG</b>, <b>BMP</b>, <b>TIFF</b>, <b>AVIF</b>, <b>HEIC</b>, and <b>WEBP</b>. In addition, the provided URL must be secured using HTTPS (HTTP is not permitted). For more information, see <a href=\"/api-docs/sell/static/inventory/managing-image-media.html#image-requirements\" target=\"_blank\">Image requirements</a>.</p><p><span class=\"tablenote\"><strong>Note:</strong> Animated GIF, and multi-page PNG/TIFF files, are not supported. Any animation effect of supported formats will be lost upon upload.</span></p><p>When an EPS image is successfully created, the method returns the HTTP Status Code <code>201 Created</code>. The method also returns the getImage URI in the <b>Location</b> response header.</p><div class=\"msgbox_important\"><p class=\"msgbox_importantInDiv\" data-mc-autonum=\"&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;\"><span class=\"autonumber\"><span><b><span style=\"color: #dd1e31;\" class=\"mcFormatColor\">Important!</span></b></span></span> Make sure to capture the image ID URI returned in the response <a href=\"/api-docs/commerce/media/resources/image/methods/createImageFromUrl#h2-output\">location header</a> provided in the following format:</p><p><code>https://apim.ebay.com/commerce/media/v1_beta/image/<em>{image_id}</em></code> </p><p>You can capture the entire URI, or just save the <code>{image_id}</code> only. Pass the <code>{image_id}</code> as a path parameter in the <b><a href=\"/api-docs/commerce/media/resources/image/methods/getImage\" target=\"_blank\">getImage</a></b> method to return the value needed to associate an image to a listing using the Trading and Inventory APIs.</p></div><p>See <a href=\"/api-docs/sell/static/inventory/managing-image-media.html\" target=\"_blank\">Managing images</a> for additional details.</p>",
+                "operationId": "createImageFromUrl",
+                "parameters": [
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "description": "This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href=\"/api-docs/static/rest-request-components.html#HTTP\" target=\"_blank \">HTTP request headers</a>.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateImageFromUrlRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string",
+                                    "description": "The location response header contains the URI of the newly created image ID in the format:<br> <code>https://apim.ebay.com/commerce/media/v1_beta/image/<em>{image_id}</em></code> <br><br>Capture this URI to use with the <a href=\"/api-docs/commerce/media/resources/image/methods/getImage\" target=\"_blank\">getImage</a> method. See <a href=\"/api-docs/sell/static/inventory/managing-image-media.html\"  target=\"_blank\">Managing images</a> for more information."
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ImageResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "x-response-codes": {
+                            "errors": {
+                                "190201": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The image file size is larger than the limit. Please refer to the documentation."
+                                },
+                                "190202": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The supplied image dimensions exceed the limit. Please refer to the documentation."
+                                },
+                                "190203": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The supplied image is in a format that is not supported. Please refer to the documentation for a list of supported formats."
+                                },
+                                "190204": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "No valid image can be downloaded from the provided imageUrl. Please refer to the documentation."
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "x-response-codes": {
+                            "errors": {
+                                "190013": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Unauthorized access."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "x-response-codes": {
+                            "errors": {
+                                "190000": {
+                                    "domain": "API_MEDIA",
+                                    "category": "APPLICATION",
+                                    "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_auth": [
+                            "https://api.ebay.com/oauth/api_scope/sell.inventory"
+                        ]
+                    }
+                ]
             }
-          },
-          "400": {
-            "description": "Bad Request",
-            "x-response-codes": {
-              "errors": {
-                "190002": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "Missing or invalid size. The size of the file (in bytes) is required."
-                },
-                "190003": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "Maximum size exceeded for supported uploads. Please refer to the documentation."
-                },
-                "190004": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "Title length limit has been exceeded. Please refer to the documentation."
-                },
-                "190005": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "Description length exceeded. Please refer to the documentation."
-                },
-                "190006": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "A video title is required."
-                },
-                "190014": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "A video classification is required."
-                },
-                "190016": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "Markups are not permitted in the video title."
-                },
-                "190017": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "Markups are not permitted in the video description."
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "x-response-codes": {
-              "errors": {
-                "190013": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "Unauthorized access."
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "x-response-codes": {
-              "errors": {
-                "190000": {
-                  "domain": "API_MEDIA",
-                  "category": "APPLICATION",
-                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
-                }
-              }
-            }
-          }
         },
-        "security": [
-          {
-            "api_auth": [
-              "https://api.ebay.com/oauth/api_scope/sell.inventory"
+        "/image/{image_id}": {
+            "get": {
+                "tags": [
+                    "image"
+                ],
+                "description": "This method retrieves an EPS image URL and its expiration details for the unique identifier specified in the path parameter <b>image_id</b>. Use the retrieved EPS image URL to add the image to a listing through the <b>Inventory API</b> or the <b>Trading API</b>. See <a href=\"/api-docs/sell/static/inventory/managing-image-media.html\"  target=\"_blank\">Managing images</a> for additional details.<br><br><span class=\"tablenote\"><b>Note:</b> If a user inputs a valid <b>image_id</b> as a path parameter but the EPS image associated with that ID has expired, the call will fail and a <b>404 Not Found</b> status code will be returned.</span>",
+                "operationId": "getImage",
+                "parameters": [
+                    {
+                        "name": "image_id",
+                        "in": "path",
+                        "description": "This path parameter is the unique identifier of a created image. Use the value returned in the location header of the method used to create the image (<b>createImageFromFile</b> or <b>createImageFromUrl</b>, as applicable).",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ImageResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "x-response-codes": {
+                            "errors": {
+                                "190013": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Unauthorized access."
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "x-response-codes": {
+                            "errors": {
+                                "190200": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The image resource was not found."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "x-response-codes": {
+                            "errors": {
+                                "190000": {
+                                    "domain": "API_MEDIA",
+                                    "category": "APPLICATION",
+                                    "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_auth": [
+                            "https://api.ebay.com/oauth/api_scope/sell.inventory"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/video": {
+            "post": {
+                "tags": [
+                    "video"
+                ],
+                "description": "This method creates a video. When using this method, specify the <b>title</b>, <b>size</b>, and <b>classification</b> of the video to be created. <b>Description</b> is an optional field for this method.<br /><br /><span class=\"tablenote\"><span style=\"color:#478415\"><strong>Tip:</strong></span> See <a href=\"https://www.ebay.com/help/selling/listings/creating-managing-listings/add-video-to-listing?id=5272#section3\" target=\"_blank\">Adding a video to your listing</a> in the eBay Seller Center for details about video formatting requirements and restrictions, or visit the relevant eBay site help pages for the region in which the listings will be posted.</span><br /><br />When a video is successfully created, the method returns the HTTP Status Code <code>201 Created.</code>The method also returns the location response header containing the <b>video ID</b>, which you can use to retrieve the video.<br /><br /><span class=\"tablenote\"><span style=\"color:#004680\"><strong>Note:</strong></span> There is no ability to edit metadata on videos at this time. There is also no method to delete videos.</span><br /><br />To upload a created video, use the <a href=\" /api-docs/commerce/media/resources/video/methods/uploadVideo\" target=\"_blank\">uploadVideo</a> method.",
+                "operationId": "createVideo",
+                "parameters": [
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "description": "This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href=\"/api-docs/static/rest-request-components.html#HTTP\" target=\"_blank \">HTTP request headers</a>.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateVideoRequest"
+                            }
+                        }
+                    },
+                    "required": false
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string",
+                                    "description": "The created video resource location and the unique <b>video ID</b>."
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "x-response-codes": {
+                            "errors": {
+                                "190002": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Missing or invalid size. Size (in bytes) is required."
+                                },
+                                "190003": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Maximum size exceeded for supported uploads. Please refer to documentation."
+                                },
+                                "190004": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Title length exceeded. Please refer to documentation."
+                                },
+                                "190005": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Description length exceeded. Please refer to documentation."
+                                },
+                                "190006": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Title is required."
+                                },
+                                "190014": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "A video classification is required."
+                                },
+                                "190016": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Markups are not permitted in the video title."
+                                },
+                                "190017": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Markups are not permitted in the video description."
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "x-response-codes": {
+                            "errors": {
+                                "190013": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Unauthorized access."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "x-response-codes": {
+                            "errors": {
+                                "190000": {
+                                    "domain": "API_MEDIA",
+                                    "category": "APPLICATION",
+                                    "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_auth": [
+                            "https://api.ebay.com/oauth/api_scope/sell.inventory"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/video/{video_id}": {
+            "get": {
+                "tags": [
+                    "video"
+                ],
+                "description": "This method retrieves a video's metadata and content given a specified <b>video ID</b>. The method returns the <b>title</b>, <b>size</b>, <b>classification</b>, <b>description</b>, <b>video ID</b>, <b>playList</b>, <b>status</b>, <b>status message</b> (if any), <b>expiration  date</b>, and <b>thumbnail</b> image of the retrieved video. <p>The video's <b>title</b>, <b>size</b>, <b>classification</b>, and <b>description</b> are set using the <a href=\" /api-docs/commerce/media/resources/video/methods/createVideo\" target=\"_blank\">createVideo</a> method.</p> <p>The video's <b>playList</b> contains two URLs that link to instances of the streaming video based on the supported protocol.</p><p>The <b>status</b> field contains the current status of the video. After a video upload is successfully completed, the video's <b>status</b> will show as <code>PROCESSING</code> until the video reaches one of the terminal states of <code>LIVE</code>, <code>BLOCKED</code> or <code>PROCESSING_FAILED</code>.<p> If a video's processing fails, it could be because the file is corrupted, is too large, or its size doesn't match what was provided in the metadata. Refer to the error messages to determine the cause of the video's failure to upload.</p> <p> The <b>status message</b> will indicate why a video was blocked from uploading.</p><p>If a video is not being used on an active listing, its <b>expiration date</b> is automatically set to 30 days after the video's initial upload.<p>The video's <b>thumbnail</b> image is automatically generated when the video is created.",
+                "operationId": "getVideo",
+                "parameters": [
+                    {
+                        "name": "video_id",
+                        "in": "path",
+                        "description": "The unique identifier of the video to be retrieved.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Video"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "x-response-codes": {
+                            "errors": {
+                                "190013": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Unauthorized access."
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "x-response-codes": {
+                            "errors": {
+                                "190001": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The specified video_Id does not exist."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "x-response-codes": {
+                            "errors": {
+                                "190000": {
+                                    "domain": "API_MEDIA",
+                                    "category": "APPLICATION",
+                                    "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_auth": [
+                            "https://api.ebay.com/oauth/api_scope/sell.inventory"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/video/{video_id}/upload": {
+            "post": {
+                "tags": [
+                    "video"
+                ],
+                "description": "This method associates the specified file with the specified <b>video ID</b> and uploads the input file. After the file has been uploaded the processing of the file begins.<br /><br /><span class=\"tablenote\"><span style=\"color:#004680\"><strong>Note:</strong></span> The size of the video to be uploaded must exactly match the size of the video's input stream that was set in the <a href=\" /api-docs/commerce/media/resources/video/methods/createVideo\" target=\"_blank\">createVideo</a> method. If the sizes do not match, the video will not upload successfully.</span><br /><br />When a video is successfully uploaded, it returns the HTTP Status Code <code>200 OK</code>.<br /><br />The status flow is <code>PENDING_UPLOAD</code> > <code>PROCESSING</code> > <code>LIVE</code>,  <code>PROCESSING_FAILED</code>, or <code>BLOCKED</code>. After a video upload is successfully completed, the status will show as <code>PROCESSING</code> until the video reaches one of the terminal states of <code>LIVE</code>, <code>BLOCKED</code>, or <code>PROCESSING_FAILED</code>. If the size information (in bytes) provided is incorrect, the API will throw an error.<br /><br /><span class=\"tablenote\"><span style=\"color:#478415\"><strong>Tip:</strong></span> See <a href=\"https://www.ebay.com/help/selling/listings/creating-managing-listings/add-video-to-listing?id=5272#section3\" target=\"_blank\">Adding a video to your listing</a> in the eBay Seller Center for details about video formatting requirements and restrictions, or visit the relevant eBay site help pages for the region in which the listings will be posted.</span><br /><br />To retrieve an uploaded video, use the <a href=\"/api-docs/commerce/media/resources/video/methods/getVideo\" target=\"_blank\">getVideo</a> method.",
+                "operationId": "uploadVideo",
+                "parameters": [
+                    {
+                        "name": "Content-Length",
+                        "in": "header",
+                        "description": "Use this header to specify the content length for the upload. Use Content-Range: bytes {1}-{2}/{3} and Content-Length:{4} headers.<br /><br /><span class=\"tablenote\"><span style=\"color:#004680\"><strong>Note:</strong></span> This header is optional and is only required for <i>resumable</i> uploads (when an upload is interrupted and must be resumed from a certain point).</span>",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Content-Range",
+                        "in": "header",
+                        "description": "Use this header to specify the content range for the upload. The Content-Range should be of the following bytes ((?:[0-9]+-[0-9]+)|\\\\\\\\*)/([0-9]+|\\\\\\\\*) pattern.<br /><br /><span class=\"tablenote\"><span style=\"color:#004680\"><strong>Note:</strong></span> This header is optional and is only required for <i>resumable</i> uploads (when an upload is interrupted and must be resumed from a certain point).</span>",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "description": "Use this header to specify the content type for the upload. The Content-Type should be set to <code>application/octet-stream</code>.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "video_id",
+                        "in": "path",
+                        "description": "The unique identifier of the video to be uploaded.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "The request payload for this method is the input stream for the video source. The input source must be an .mp4 file of the type MPEG-4 Part 10 or Advanced Video Coding (MPEG-4 AVC).",
+                    "content": {
+                        "application/octet-stream": {
+                            "schema": {
+                                "description": "The request payload for this method is the input stream for the video source. The input source must be an .mp4 file of the type MPEG-4 Part 10 or Advanced Video Coding (MPEG-4 AVC).",
+                                "$ref": "#/components/schemas/InputStream"
+                            }
+                        }
+                    },
+                    "required": false
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "x-response-codes": {
+                            "errors": {
+                                "190007": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The content length does not match the content size specified."
+                                },
+                                "190010": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The video's Content-Range is invalid. The Content-Range should be of the following bytes ((?:[0-9]+-[0-9]+)|\\\\\\\\*)/([0-9]+|\\\\\\\\*) pattern."
+                                },
+                                "190012": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The content length of the video is invalid."
+                                },
+                                "190015": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The uploaded content must match the video size."
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "x-response-codes": {
+                            "errors": {
+                                "190013": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Unauthorized access."
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "x-response-codes": {
+                            "errors": {
+                                "190001": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The specified video_Id does not exist."
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "x-response-codes": {
+                            "errors": {
+                                "190011": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The video is already uploaded."
+                                }
+                            }
+                        }
+                    },
+                    "411": {
+                        "description": "Content Length Required",
+                        "x-response-codes": {
+                            "errors": {
+                                "190008": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The content length is required."
+                                }
+                            }
+                        }
+                    },
+                    "416": {
+                        "description": "Range Not Satisfiable",
+                        "x-response-codes": {
+                            "errors": {
+                                "190009": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "The Content-Range specified is incorrect. Use Content-Range: bytes {1}}-{2}/{3} and Content-Length:{4} headers."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "x-response-codes": {
+                            "errors": {
+                                "190000": {
+                                    "domain": "API_MEDIA",
+                                    "category": "APPLICATION",
+                                    "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_auth": [
+                            "https://api.ebay.com/oauth/api_scope/sell.inventory"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/document": {
+            "post": {
+                "tags": [
+                    "document"
+                ],
+                "description": "This method stages a document to be uploaded, and requires the type of document to be uploaded, and the language(s) that the document contains. A successful call returns a <b>documentId</b> value that is then used as a path parameter in an <a href=\" /api-docs/commerce/media/resources/document/methods/uploadDocument\" >uploadDocument</a> call.<p>When a document is successfully created, the method returns the HTTP Status Code <code>201 Created.</code> The method returns <b>documentId</b> in the response payload, which you can use to retrieve the document resource. This ID is also returned in the <b>location</b> header, for convenience.</p><div class=\"msgbox_important\"><p class=\"msgbox_importantInDiv\" data-mc-autonum=\"&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;\"><span class=\"autonumber\"><span><b><span style=\"color: #dd1e31;\" class=\"mcFormatColor\">Important!</span></b></span></span> Make sure to capture the document ID value returned in the response payload. This value is required to use the other methods in the <b>document</b> resource, and also needed to associate a document to a listing using the Trading and Inventory APIs.</p></div><p>To upload a created document, use the document ID returned from this method's response with the <a href=\" /api-docs/commerce/media/resources/document/methods/uploadDocument\" >uploadDocument</a> method. See <a href=\"/api-docs/sell/static/inventory/managing-document-media.html\" target=\"_blank\">Managing documents</a> for information on creating, uploading, and adding documents to listings.</p> ",
+                "operationId": "createDocument",
+                "parameters": [
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "description": "This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href=\"/api-docs/static/rest-request-components.html#HTTP\" target=\"_blank \">HTTP request headers</a>.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateDocumentRequest"
+                            }
+                        }
+                    },
+                    "required": false
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string",
+                                    "description": "The <b>location</b> response header returns the <b>getDocument</b> URI."
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateDocumentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "x-response-codes": {
+                            "errors": {
+                                "190050": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Missing or invalid 'languages' value(s)."
+                                },
+                                "190051": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Missing or invalid 'documentType' value."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "api_auth": [
+                            "https://api.ebay.com/oauth/api_scope/sell.inventory"
+                        ]
+                    }
+                ]
+            },
+            "servers": [
+                {
+                    "url": "https://api.ebay.com{basePath}",
+                    "description": "Production",
+                    "variables": {
+                        "basePath": {
+                            "default": "/commerce/media/v1_beta"
+                        }
+                    }
+                }
             ]
-          }
-        ]
-      }
-    },
-    "/video/{video_id}": {
-      "get": {
-        "tags": [
-          "video"
-        ],
-        "description": "This method retrieves a video's metadata and content given a specified <b>video ID</b>. The method returns the <b>title</b>, <b>size</b>, <b>classification</b>, <b>description</b>, <b>video ID</b>, <b>playList</b>, <b>status</b>, <b>status message</b> (if any), <b>expiration  date</b>, and <b>thumbnail</b> image of the retrieved video. <p>The video’s <b>title</b>, <b>size</b>, <b>classification</b>, and <b>description</b> are set using the <a href=\" /api-docs/commerce/media/resources/video/methods/createVideo\" target=\"_blank\">createVideo</a> method.</p> <p>The video's <b>playList</b> contains two URLs that link to instances of the streaming video based on the supported protocol.</p><p>The <b>status</b> field contains the current status of the video. After a video upload is successfully completed, the video's <b>status</b> will show as <code>PROCESSING</code> until the video reaches one of the terminal states of <code>LIVE</code>, <code>BLOCKED</code> or <code>PROCESSING_FAILED</code>.<p> If a video's processing fails, it could be because the file is corrupted, is too large, or its size doesn’t match what was provided in the metadata. Refer to the error messages to determine the cause of the video’s failure to upload.</p> <p> The <b>status message</b> will indicate why a video was blocked from uploading.</p><p>The video’s <b>expiration date</b> is automatically set to 365 days (one year) after the video’s initial creation.<p>The video's <b>thumbnail</b> image is automatically generated when the video is created.",
-        "operationId": "getVideo",
-        "parameters": [
-          {
-            "name": "video_id",
-            "in": "path",
-            "description": "The unique identifier of the video to be retrieved.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Video"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "403": {
-            "description": "Forbidden",
-            "x-response-codes": {
-              "errors": {
-                "190013": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "Unauthorized access."
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "x-response-codes": {
-              "errors": {
-                "190001": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "The specified video_Id does not exist."
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "x-response-codes": {
-              "errors": {
-                "190000": {
-                  "domain": "API_MEDIA",
-                  "category": "APPLICATION",
-                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
-                }
-              }
-            }
-          }
         },
-        "security": [
-          {
-            "api_auth": [
-              "https://api.ebay.com/oauth/api_scope/sell.inventory"
+        "/document/create_document_from_url": {
+            "post": {
+                "tags": [
+                    "document"
+                ],
+                "description": "This method downloads a document from the provided URL and adds that document to the user's account. This method requires the URL of the document, the type of document to be uploaded, and the language(s) that the document contains. <br><br>When a document is successfully created, the method returns the HTTP Status Code <code>201 Created.</code> The method returns <b>documentId</b> in the response payload, which you can use to retrieve the document resource. This ID is also returned in the <b>location</b> header, for convenience.</p><div class=\"msgbox_important\"><p class=\"msgbox_importantInDiv\" data-mc-autonum=\"&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;\"><span class=\"autonumber\"><span><b><span style=\"color: #dd1e31;\" class=\"mcFormatColor\">Important!</span></b></span></span> Make sure to capture the document ID value returned in the response payload. This value is required to use the other methods in the <b>document</b> resource, and also needed to associate a document to a listing using the Trading and Inventory APIs.</p></div><br>After creating a document using this method, a <a href=\"/api-docs/commerce/media/resources/document/methods/getDocument\" target=\"_blank\">getDocument</a> call should be made to check for a <b>documentStatus</b> of <code>ACCEPTED</code>. Only documents with this status can be added to a listing. See <a href=\"/api-docs/sell/static/inventory/managing-document-media.html\" target=\"_blank\">Managing documents</a> for more information on creating, uploading, and adding documents to listings.",
+                "operationId": "createDocumentFromUrl",
+                "parameters": [
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "description": "This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href=\"/api-docs/static/rest-request-components.html#HTTP\" target=\"_blank \">HTTP request headers</a>.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateDocumentFromUrlRequest"
+                            }
+                        }
+                    },
+                    "required": false
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string",
+                                    "description": "The <b>location</b> response header returns the <b>getDocument</b> URI."
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateDocumentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "x-response-codes": {
+                            "errors": {
+                                "190050": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Missing or invalid ‘languages’ value(s)."
+                                },
+                                "190051": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Missing or invalid ‘documentType’ value."
+                                },
+                                "190055": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Missing or invalid 'documentUrl'  value."
+                                },
+                                "190056": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Missing or invalid domain in 'documentUrl'."
+                                },
+                                "190057": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Missing or malformed 'documentUrl'."
+                                },
+                                "190058": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Missing or invalid 'request'."
+                                },
+                                "190059": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Invalid value for ‘documentUrl’ was supplied. Failed to download document from 'documentUrl'."
+                                },
+                                "190060": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Invalid value for ‘documentUrl’ was supplied. Please provide an HTTPS 'documentUrl'."
+                                },
+                                "190061": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Invalid value for ‘documentUrl’ was supplied. File type could not be detected from ‘documentUrl'."
+                                },
+                                "190062": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Invalid value for ‘documentUrl’ was supplied. Not an allowed file type for download from ‘documentUrl'."
+                                },
+                                "190063": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "Invalid value for ‘documentUrl’ was supplied. File size exceeds the maximum limit from ‘documentUrl'."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "api_auth": [
+                            "https://api.ebay.com/oauth/api_scope/sell.inventory"
+                        ]
+                    }
+                ]
+            },
+            "servers": [
+                {
+                    "url": "https://api.ebay.com{basePath}",
+                    "description": "Production",
+                    "variables": {
+                        "basePath": {
+                            "default": "/commerce/media/v1_beta"
+                        }
+                    }
+                }
             ]
-          }
-        ]
-      }
-    },
-    "/video/{video_id}/upload": {
-      "post": {
-        "tags": [
-          "video"
-        ],
-        "description": "This method associates the specified file with the specified <b>video ID</b> and uploads the input file. After the file has been uploaded the processing of the file begins.<br /><br /><span class=\"tablenote\"><span style=\"color:#004680\"><strong>Note:</strong></span> The size of the video to be uploaded must exactly match the size of the video's input stream that was set in the <a href=\" /api-docs/commerce/media/resources/video/methods/createVideo\" target=\"_blank\">createVideo</a> method. If the sizes do not match, the video will not upload successfully.</span><br /><br />When a video is successfully uploaded, it returns the HTTP Status Code <code>200 OK</code>.<br /><br />The status flow is <code>PENDING_UPLOAD</code> > <code>PROCESSING</code> > <code>LIVE</code>,  <code>PROCESSING_FAILED</code>, or <code>BLOCKED</code>. After a video upload is successfully completed, the status will show as <code>PROCESSING</code> until the video reaches one of the terminal states of <code>LIVE</code>, <code>BLOCKED</code>, or <code>PROCESSING_FAILED</code>. If the size information (in bytes) provided is incorrect, the API will throw an error.<br /><br /><span class=\"tablenote\"><span style=\"color:#478415\"><strong>Tip:</strong></span> See <a href=\"https://www.ebay.com/help/selling/listings/creating-managing-listings/add-video-to-listing?id=5272#section3\" target=\"_blank\">Adding a video to your listing</a> in the eBay Seller Center for details about video formatting requirements and restrictions, or visit the relevant eBay site help pages for the region in which the listings will be posted.</span><br /><br />To retrieve an uploaded video, use the <a href=\"/api-docs/commerce/media/resources/video/methods/getVideo\" target=\"_blank\">getVideo</a> method.",
-        "operationId": "uploadVideo",
-        "parameters": [
-          {
-            "name": "Content-Length",
-            "in": "header",
-            "description": "Use this header to specify the content length for the upload. Use Content-Range: bytes {1}-{2}/{3} and Content-Length:{4} headers.<br /><br /><span class=\"tablenote\"><span style=\"color:#004680\"><strong>Note:</strong></span> This header is optional and is only required for <i>resumable</i> uploads (when an upload is interrupted and must be resumed from a certain point).</span>",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Content-Range",
-            "in": "header",
-            "description": "Use this header to specify the content range for the upload. The Content-Range should be of the following bytes ((?:[0-9]+-[0-9]+)|\\\\\\\\*)/([0-9]+|\\\\\\\\*) pattern.<br /><br /><span class=\"tablenote\"><span style=\"color:#004680\"><strong>Note:</strong></span> This header is optional and is only required for <i>resumable</i> uploads (when an upload is interrupted and must be resumed from a certain point).</span>",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "description": "Use this header to specify the content type for the upload. The Content-Type should be set to <code>application/octet-stream</code>.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "video_id",
-            "in": "path",
-            "description": "The unique identifier of the video to be uploaded.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "The request payload for this method is the input stream for the video source. The input source must be an .mp4 file of the type MPEG-4 Part 10 or Advanced Video Coding (MPEG-4 AVC).",
-          "content": {
-            "application/json": {
-              "schema": {
-                "description": "The request payload for this method is the input stream for the video source. The input source must be an .mp4 file of the type MPEG-4 Part 10 or Advanced Video Coding (MPEG-4 AVC).",
-                "$ref": "#/components/schemas/InputStream"
-              }
-            }
-          },
-          "required": false
         },
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request",
-            "x-response-codes": {
-              "errors": {
-                "190007": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "The content length does not match the content size specified."
+        "/document/{document_id}": {
+            "get": {
+                "tags": [
+                    "document"
+                ],
+                "description": "This method retrieves the current <b>status</b> and metadata of the specified document.<br><br><div class=\"msgbox_important\"><p class=\"msgbox_importantInDiv\" data-mc-autonum=\"&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;\"><span class=\"autonumber\"><span><b><span style=\"color: #dd1e31;\" class=\"mcFormatColor\">Important!</span></b></span></span> The document ID value returned in the response payload of the <a href=\"/api-docs/commerce/media/resources/document/methods/createDocument\">createDocument</a> method is a required input path parameter for this method.</p></div><p>See <a href=\"/api-docs/sell/static/inventory/managing-document-media.html\" target=\"_blank\">Managing documents</a> for additional information.</p>",
+                "operationId": "getDocument",
+                "parameters": [
+                    {
+                        "name": "document_id",
+                        "in": "path",
+                        "description": "The unique identifier of the document for which status and metadata is being retrieved.<br><br>This value is returned in the response of the <a href=\"/api-docs/commerce/media/resources/document/methods/createDocument\" target=\"_blank\">createDocument</a> method.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Uploaded",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DocumentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Document Not Found",
+                        "x-response-codes": {
+                            "errors": {
+                                "190052": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "No document found with id {document_id}."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
                 },
-                "190010": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "The video's Content-Range is invalid. The Content-Range should be of the following bytes ((?:[0-9]+-[0-9]+)|\\\\\\\\*)/([0-9]+|\\\\\\\\*) pattern."
-                },
-                "190012": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "The content length of the video is invalid."
-                },
-                "190015": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "The uploaded content must match the video size."
+                "security": [
+                    {
+                        "api_auth": [
+                            "https://api.ebay.com/oauth/api_scope/sell.inventory"
+                        ]
+                    }
+                ]
+            },
+            "servers": [
+                {
+                    "url": "https://api.ebay.com{basePath}",
+                    "description": "Production",
+                    "variables": {
+                        "basePath": {
+                            "default": "/commerce/media/v1_beta"
+                        }
+                    }
                 }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "x-response-codes": {
-              "errors": {
-                "190001": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "The specified video_Id does not exist."
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Conflict",
-            "x-response-codes": {
-              "errors": {
-                "190011": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "The video is already uploaded."
-                }
-              }
-            }
-          },
-          "411": {
-            "description": "Content Length Required",
-            "x-response-codes": {
-              "errors": {
-                "190008": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "The content length is required."
-                }
-              }
-            }
-          },
-          "416": {
-            "description": "Range Not Satisfiable",
-            "x-response-codes": {
-              "errors": {
-                "190009": {
-                  "domain": "API_MEDIA",
-                  "category": "REQUEST",
-                  "description": "The Content-Range specified is incorrect. Use Content-Range: bytes {1}}-{2}/{3} and Content-Length:{4} headers."
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "x-response-codes": {
-              "errors": {
-                "190000": {
-                  "domain": "API_MEDIA",
-                  "category": "APPLICATION",
-                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "api_auth": [
-              "https://api.ebay.com/oauth/api_scope/sell.inventory"
             ]
-          }
-        ]
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "CreateVideoRequest": {
-        "type": "object",
-        "properties": {
-          "classification": {
-            "type": "array",
-            "description": "The intended use for this video content. Currently, videos can only be added and associated with eBay listings, so the only supported value is <code>ITEM</code>.",
-            "items": {
-              "type": "string",
-              "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:Classification'>eBay API documentation</a>"
-            }
-          },
-          "description": {
-            "type": "string",
-            "description": "The description of the video."
-          },
-          "size": {
-            "type": "integer",
-            "description": "The size, in bytes, of the video content. <br><br><b>Max:</b> 157,286,400 bytes",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "description": "The title of the video."
-          }
         },
-        "description": "The request to create a video, which must contain the video's <b>title</b>, <b>size</b>, and <b>classification</b>. <b>Description</b> is an optional field when creating videos."
-      },
-      "Error": {
-        "type": "object",
-        "properties": {
-          "category": {
-            "type": "string",
-            "description": "Identifies the type of erro."
-          },
-          "domain": {
-            "type": "string",
-            "description": "Name for the primary system where the error occurred. This is relevant for application errors."
-          },
-          "errorId": {
-            "type": "integer",
-            "description": "A unique number to identify the error.",
-            "format": "int32"
-          },
-          "inputRefIds": {
-            "type": "array",
-            "description": "An array of request elements most closely associated to the error.",
-            "items": {
-              "type": "string"
-            }
-          },
-          "longMessage": {
-            "type": "string",
-            "description": "A more detailed explanation of the error."
-          },
-          "message": {
-            "type": "string",
-            "description": "Information on how to correct the problem, in the end user's terms and language where applicable."
-          },
-          "outputRefIds": {
-            "type": "array",
-            "description": "An array of request elements most closely associated to the error.",
-            "items": {
-              "type": "string"
-            }
-          },
-          "parameters": {
-            "type": "array",
-            "description": "An array of name/value pairs that describe details the error condition. These are useful when multiple errors are returned.",
-            "items": {
-              "$ref": "#/components/schemas/ErrorParameter"
-            }
-          },
-          "subdomain": {
-            "type": "string",
-            "description": "Further helps indicate which subsystem the error is coming from. System subcategories include: Initialization, Serialization, Security, Monitoring, Rate Limiting, etc."
-          }
-        },
-        "description": "This type defines the fields that can be returned in an error."
-      },
-      "ErrorParameter": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The object of the error."
-          },
-          "value": {
-            "type": "string",
-            "description": "The value of the object."
-          }
+        "/document/{document_id}/upload": {
+            "post": {
+                "tags": [
+                    "document"
+                ],
+                "description": "This method associates the specified file with the specified document ID and uploads the input file. After the file has been uploaded, the processing of the file begins. Supported file types include .PDF, .JPEG/.JPG, and .PNG, with a maximum file size of 10 MB (10485760 bytes).<br><br><span class=\"tablenote\"><b>Note:</b> Animated and multi-page PNG files are not currently supported.</span><br><span class=\"tablenote\"><span style=\"color:#004680\"><strong>Note:</strong></span> The document ID value returned in the response of the <a href=\"/api-docs/commerce/media/resources/document/methods/createDocument\">createDocument</a> method is a required input path parameter for this method. This value is also returned in the <b>location</b> header of the <b>createDocument</b> response payload.</span><br>A successful upload returns the HTTP Status Code <code>200 OK</code>.<br><p>See <a href=\"/api-docs/sell/static/inventory/managing-document-media.html\" target=\"_blank\">Managing documents</a> for additional information.</p> <span class=\"tablenote\"><b>Note:</b> You must use a <strong>Content-Type</strong> header with its value set to <b>multipart/form-data</b>.</p></span></p>This call does not have a JSON Request payload but uploads the file as form-data. For example:<br /> <pre>file: @&quot;/C:/Users/.../drone_user_warranty.pdf&quot;</pre>See <a href=\"/api-docs/commerce/media/resources/document/methods/uploadDocument#h2-samples\">Samples</a> for information.",
+                "operationId": "uploadDocument",
+                "parameters": [
+                    {
+                        "name": "document_id",
+                        "in": "path",
+                        "description": "The unique identifier of the document to be uploaded.<br><br>This value is returned in the response of the <a href=\"/api-docs/commerce/media/resources/document/methods/createDocument\" target=\"_blank\">createDocument</a> method.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "description": "This header indicates the format of the request body provided by the client. Its value should be set to <b>multipart/form-data</b>. <br><br> For more information, refer to <a href=\"/api-docs/static/rest-request-components.html#HTTP\" target=\"_blank \">HTTP request headers</a>.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Uploaded",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DocumentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Document Not Found",
+                        "x-response-codes": {
+                            "errors": {
+                                "190052": {
+                                    "domain": "API_MEDIA",
+                                    "category": "REQUEST",
+                                    "description": "No document found with id {document_id}."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "api_auth": [
+                            "https://api.ebay.com/oauth/api_scope/sell.inventory"
+                        ]
+                    }
+                ]
+            },
+            "servers": [
+                {
+                    "url": "https://api.ebay.com{basePath}",
+                    "description": "Production",
+                    "variables": {
+                        "basePath": {
+                            "default": "/commerce/media/v1_beta"
+                        }
+                    }
+                }
+            ]
         }
-      },
-      "Image": {
-        "type": "object",
-        "properties": {
-          "imageUrl": {
-            "type": "string",
-            "description": "The URL to access this image."
-          }
-        },
-        "description": "The automatically generated thumbnail image of the video."
-      },
-      "InputStream": {
-        "type": "object",
-        "description": "The streaming input of the video source. The input source must be an .mp4 file of the type MPEG-4 Part 10 or Advanced Video Coding (MPEG-4 AVC)."
-      },
-      "Moderation": {
-        "type": "object",
-        "properties": {
-          "rejectReasons": {
-            "type": "array",
-            "description": "The reason(s) why the specified video was blocked by moderators.",
-            "items": {
-              "type": "string",
-              "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:RejectReasonEnum'>eBay API documentation</a>"
-            }
-          }
-        },
-        "description": "A container that provides video moderation information when calling the <strong>getVideo</strong> method.<br /><br />This container is returned if the specified video has been blocked by moderators.<br /><br /><span class=\"tablenote\"><span style=\"color:#478415\"><strong>Tip:</strong></span> See <a href=\"https://www.ebay.com/help/selling/listings/creating-managing-listings/add-video-to-listing?id=5272#section2\" target=\"_blank\">Video moderation and restrictions</a> in the eBay Seller Center for details about video moderation.</span>"
-      },
-      "Play": {
-        "type": "object",
-        "properties": {
-          "playUrl": {
-            "type": "string",
-            "description": "The playable URL for this video."
-          },
-          "protocol": {
-            "type": "string",
-            "description": "The protocol for the video playlist. Supported protocols are DASH (Dynamic Adaptive Streaming over HTTP) and HLS (HTTP Live Streaming). For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:ProtocolEnum'>eBay API documentation</a>"
-          }
-        },
-        "description": "The two streaming video URLs available for a successfully uploaded video with a status of <code>LIVE</code>. The supported streaming video protocols are DASH (Dynamic Adaptive Streaming over HTTP) and HLS (HTTP Live Streaming)."
-      },
-      "Video": {
-        "type": "object",
-        "properties": {
-          "classification": {
-            "type": "array",
-            "description": "The intended use for this video content. Currently, videos can only be added and associated with eBay listings, so the only supported value is <code>ITEM</code>.",
-            "items": {
-              "type": "string",
-              "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:Classification'>eBay API documentation</a>"
-            }
-          },
-          "description": {
-            "type": "string",
-            "description": "The description of the video. The video description is an optional field that can be set using the <a href=\" /api-docs/commerce/media/resources/video/methods/createVideo\" target=\"_blank\">createVideo</a> method."
-          },
-          "expirationDate": {
-            "type": "string",
-            "description": "The expiration date of the video in Coordinated Universal Time (UTC). The video’s expiration date is automatically set to 365 days (one year) after the video’s initial upload."
-          },
-          "moderation": {
-            "description": "The video moderation information that is returned if a video is blocked by moderators.<br /><br /><span class=\"tablenote\"><span style=\"color:#478415\"><strong>Tip:</strong></span> See <a href=\"https://www.ebay.com/help/selling/listings/creating-managing-listings/add-video-to-listing?id=5272#section2\" target=\"_blank\">Video moderation and restrictions</a> in the eBay Seller Center for details about video moderation.</span><br /><br />If the video status is <code>BLOCKED</code>, ensure that the video complies with eBay's video formatting and content guidelines. Afterwards, begin the video creation and upload procedure anew using the <strong>createVideo</strong> and <strong>uploadVideo</strong> methods.",
-            "$ref": "#/components/schemas/Moderation"
-          },
-          "playLists": {
-            "type": "array",
-            "description": "The playlist created for the uploaded video, which provides the streaming video URLs to play the video. The supported streaming video protocols are DASH (Dynamic Adaptive Streaming over HTTP) and HLS (HTTP Live Streaming). The playlist will only be generated if a video is successfully uploaded with a status of <code>LIVE</code>.",
-            "items": {
-              "$ref": "#/components/schemas/Play"
-            }
-          },
-          "size": {
-            "type": "integer",
-            "description": "The size, in bytes, of the video content.",
-            "format": "int32"
-          },
-          "status": {
-            "type": "string",
-            "description": "The status of the current video resource. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:VideoStatusEnum'>eBay API documentation</a>"
-          },
-          "statusMessage": {
-            "type": "string",
-            "description": "The <b>statusMessage</b> field contains additional information on the status. For example, information on why processing might have failed or if the video was blocked."
-          },
-          "thumbnail": {
-            "description": "The URL of the thumbnail image of the video. The thumbnail image's URL must be an eBayPictureURL (EPS URL).",
-            "$ref": "#/components/schemas/Image"
-          },
-          "title": {
-            "type": "string",
-            "description": "The title of the video."
-          },
-          "videoId": {
-            "type": "string",
-            "description": "The unique ID of the video."
-          }
-        },
-        "description": "A response field that retrieves all the metadata for the video, including its <b>title</b>, <b>classification</b>, <b>size</b>, <b>description</b>, <b>status</b>, <b>status message</b> (if any), and <b>expiration date</b>."
-      }
     },
-    "securitySchemes": {
-      "api_auth": {
-        "type": "oauth2",
-        "description": "The security definitions for this API. Please check individual operations for applicable scopes.",
-        "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "https://auth.ebay.com/oauth2/authorize",
-            "tokenUrl": "https://api.ebay.com/identity/v1/oauth2/token",
-            "scopes": {
-              "https://api.ebay.com/oauth/api_scope/sell.inventory": "View and manage your inventory and offers"
+    "components": {
+        "schemas": {
+            "CreateDocumentFromUrlRequest": {
+                "type": "object",
+                "properties": {
+                    "documentType": {
+                        "type": "string",
+                        "description": "The type of the document being created. For example, a <code>USER_GUIDE_OR_MANUAL</code> or a <code>SAFETY_DATA_SHEET</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:DocumentTypeEnum'>eBay API documentation</a>"
+                    },
+                    "documentUrl": {
+                        "type": "string",
+                        "description": "The URL of the document being created.<br><br>The document referenced by the URL must be a .pdf, .png, .jpg, or .jpeg file, and must be no larger than 10 MB."
+                    },
+                    "languages": {
+                        "type": "array",
+                        "description": "This array shows the language(s) used in the document.",
+                        "items": {
+                            "type": "string",
+                            "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:LanguageEnum'>eBay API documentation</a>"
+                        }
+                    }
+                },
+                "description": "This type contains the metadata used to create the document ID when creating a document using a URL."
+            },
+            "CreateDocumentRequest": {
+                "type": "object",
+                "properties": {
+                    "documentType": {
+                        "type": "string",
+                        "description": "The type of the document being uploaded. For example, a <code>USER_GUIDE_OR_MANUAL</code> or a <code>SAFETY_DATA_SHEET</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:DocumentTypeEnum'>eBay API documentation</a>"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "description": "This array shows the language(s) used in the document.",
+                        "items": {
+                            "type": "string",
+                            "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:LanguageEnum'>eBay API documentation</a>"
+                        }
+                    }
+                },
+                "description": "This type contains the metadata used to create the document ID."
+            },
+            "CreateDocumentResponse": {
+                "type": "object",
+                "properties": {
+                    "documentId": {
+                        "type": "string",
+                        "description": "The unique identifier of the document to be uploaded.<br><br>This value is returned in the response and <b>location</b> header of the <b>createDocument</b> and <b>createDocumentFromUrl</b> methods. This ID can be used with the <b>getDocument</b> and <b>uploadDocument</b> methods, and to add an uploaded document to a listing. See <a href=\"/api-docs/sell/static/inventory/managing-document-media.html#add-documents\" target=\"_blank\">Adding documents to listings</a> for more information. "
+                    },
+                    "documentStatus": {
+                        "type": "string",
+                        "description": "The status of the document resource.<br><br>For example, the value <code>PENDING_UPLOAD</code> is the initial state when the reference to the document has been created using the <b>createDocument</b> method. When creating a document using the <b>createDocumentFromUrl</b> method, the initial state will be <code>SUBMITTED</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:DocumentStatusEnum'>eBay API documentation</a>"
+                    },
+                    "documentType": {
+                        "type": "string",
+                        "description": "The type of the document uploaded. For example, <code>USER_GUIDE_OR_MANUAL</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:DocumentTypeEnum'>eBay API documentation</a>"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "description": "This array shows the language(s) used in the document.",
+                        "items": {
+                            "type": "string",
+                            "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:LanguageEnum'>eBay API documentation</a>"
+                        }
+                    }
+                },
+                "description": "This type provides information about the created document ID."
+            },
+            "CreateImageFromUrlRequest": {
+                "type": "object",
+                "properties": {
+                    "imageUrl": {
+                        "type": "string",
+                        "description": "The image URL of the self-hosted picture to upload to eBay Picture Services (EPS). In addition to the picture requirements in <a href=\"https://www.ebay.com/help/policies/listing-policies/picture-policy?id=4370\" target=\"_blank\">Picture policy</a>, the provided URL must be secured using HTTPS (HTTP is not permitted). For more information, see <a href=\"/api-docs/sell/static/inventory/managing-image-media.html#image-requirements\" target=\"_blank\">Image requirements</a>."
+                    }
+                },
+                "description": "A type that provides the location of the image."
+            },
+            "CreateVideoRequest": {
+                "type": "object",
+                "properties": {
+                    "classification": {
+                        "type": "array",
+                        "description": "The intended use for this video content. Currently, videos can only be added and associated with eBay listings, so the only supported value is <code>ITEM</code>.",
+                        "items": {
+                            "type": "string",
+                            "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:Classification'>eBay API documentation</a>"
+                        }
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "The description of the video."
+                    },
+                    "size": {
+                        "type": "integer",
+                        "description": "The size, in bytes, of the video content. <br><br><b>Max:</b> 157,286,400 bytes",
+                        "format": "int32"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "The title of the video."
+                    }
+                },
+                "description": "The request to create a video, which must contain the video's <b>title</b>, <b>size</b>, and <b>classification</b>. <b>Description</b> is an optional field when creating videos."
+            },
+            "DocumentMetadata": {
+                "type": "object",
+                "properties": {
+                    "fileName": {
+                        "type": "string",
+                        "description": "The name of the file including its extension (for example, <code>drone_user_warranty.pdf</code>)."
+                    },
+                    "fileSize": {
+                        "type": "string",
+                        "description": "The size, in bytes, of the document content."
+                    },
+                    "fileType": {
+                        "type": "string",
+                        "description": "The type of the file uploaded. Supported file types include the following: <code>pdf</code>, <code>jpeg</code>, <code>jpg</code>, and <code>png</code>."
+                    }
+                },
+                "description": "This type provides information about the <b>documentId</b>."
+            },
+            "DocumentResponse": {
+                "type": "object",
+                "properties": {
+                    "documentId": {
+                        "type": "string",
+                        "description": "The unique ID of the document."
+                    },
+                    "documentMetadata": {
+                        "description": "This container provides the name, size, and type of the specified file.",
+                        "$ref": "#/components/schemas/DocumentMetadata"
+                    },
+                    "documentStatus": {
+                        "type": "string",
+                        "description": "The status of the document resource.<br><br>Once a document has been uploaded using the <b>uploadDocument</b> method, the <b>documentStatus</b> will be <code>SUBMITTED</code>. The document will then either be accepted or rejected. Only documents with the status of <code>ACCEPTED</code> are available to be added to a listing. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:DocumentStatusEnum'>eBay API documentation</a>"
+                    },
+                    "documentType": {
+                        "type": "string",
+                        "description": "The type of the document uploaded. For example, <code>USER_GUIDE_OR_MANUAL</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:DocumentTypeEnum'>eBay API documentation</a>"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "description": "This array shows the language(s) used in the document.",
+                        "items": {
+                            "type": "string",
+                            "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:LanguageEnum'>eBay API documentation</a>"
+                        }
+                    }
+                },
+                "description": "This type provides information returned about a created document ID, which may or may not have been uploaded."
+            },
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "category": {
+                        "type": "string",
+                        "description": "Identifies the type of erro."
+                    },
+                    "domain": {
+                        "type": "string",
+                        "description": "Name for the primary system where the error occurred. This is relevant for application errors."
+                    },
+                    "errorId": {
+                        "type": "integer",
+                        "description": "A unique number to identify the error.",
+                        "format": "int32"
+                    },
+                    "inputRefIds": {
+                        "type": "array",
+                        "description": "An array of request elements most closely associated to the error.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "longMessage": {
+                        "type": "string",
+                        "description": "A more detailed explanation of the error."
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Information on how to correct the problem, in the end user's terms and language where applicable."
+                    },
+                    "outputRefIds": {
+                        "type": "array",
+                        "description": "An array of request elements most closely associated to the error.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "parameters": {
+                        "type": "array",
+                        "description": "An array of name/value pairs that describe details the error condition. These are useful when multiple errors are returned.",
+                        "items": {
+                            "$ref": "#/components/schemas/ErrorParameter"
+                        }
+                    },
+                    "subdomain": {
+                        "type": "string",
+                        "description": "Further helps indicate which subsystem the error is coming from. System subcategories include: Initialization, Serialization, Security, Monitoring, Rate Limiting, etc."
+                    }
+                },
+                "description": "This type defines the fields that can be returned in an error."
+            },
+            "ErrorParameter": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The object of the error."
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "The value of the object."
+                    }
+                }
+            },
+            "Image": {
+                "type": "object",
+                "properties": {
+                    "imageUrl": {
+                        "type": "string",
+                        "description": "The URL of the image's location."
+                    }
+                },
+                "description": "A type that provides the location of the image."
+            },
+            "ImageResponse": {
+                "type": "object",
+                "properties": {
+                    "expirationDate": {
+                        "type": "string",
+                        "description": "The date and time when an unused EPS image will expire and be removed from the EPS server, in Coordinated Universal Time (UTC). As long as an EPS image is being used in an active listing, that image will remain on the EPS server and be accessible."
+                    },
+                    "imageUrl": {
+                        "type": "string",
+                        "description": "The EPS URL to access the uploaded image. This URL will be used in listing calls to add the image to a listing."
+                    }
+                },
+                "description": "A type that provides an image's details including its URL and expiration."
+            },
+            "InputStream": {
+                "type": "object",
+                "description": "The streaming input of the video source. The input source must be an .mp4 file of the type MPEG-4 Part 10 or Advanced Video Coding (MPEG-4 AVC)."
+            },
+            "Moderation": {
+                "type": "object",
+                "properties": {
+                    "rejectReasons": {
+                        "type": "array",
+                        "description": "The reason(s) why the specified video was blocked by moderators.",
+                        "items": {
+                            "type": "string",
+                            "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:RejectReasonEnum'>eBay API documentation</a>"
+                        }
+                    }
+                },
+                "description": "A container that provides video moderation information when calling the <strong>getVideo</strong> method.<br /><br />This container is returned if the specified video has been blocked by moderators.<br /><br /><span class=\"tablenote\"><span style=\"color:#478415\"><strong>Tip:</strong></span> See <a href=\"https://www.ebay.com/help/selling/listings/creating-managing-listings/add-video-to-listing?id=5272#section2\" target=\"_blank\">Video moderation and restrictions</a> in the eBay Seller Center for details about video moderation.</span>"
+            },
+            "Play": {
+                "type": "object",
+                "properties": {
+                    "playUrl": {
+                        "type": "string",
+                        "description": "The playable URL for this video."
+                    },
+                    "protocol": {
+                        "type": "string",
+                        "description": "The protocol for the video playlist. Supported protocols are DASH (Dynamic Adaptive Streaming over HTTP) and HLS (HTTP Live Streaming). For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:ProtocolEnum'>eBay API documentation</a>"
+                    }
+                },
+                "description": "The two streaming video URLs available for a successfully uploaded video with a status of <code>LIVE</code>. The supported streaming video protocols are DASH (Dynamic Adaptive Streaming over HTTP) and HLS (HTTP Live Streaming)."
+            },
+            "Video": {
+                "type": "object",
+                "properties": {
+                    "classification": {
+                        "type": "array",
+                        "description": "The intended use for this video content. Currently, videos can only be added and associated with eBay listings, so the only supported value is <code>ITEM</code>.",
+                        "items": {
+                            "type": "string",
+                            "description": " For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:Classification'>eBay API documentation</a>"
+                        }
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "The description of the video. The video description is an optional field that can be set using the <a href=\" /api-docs/commerce/media/resources/video/methods/createVideo\" target=\"_blank\">createVideo</a> method."
+                    },
+                    "expirationDate": {
+                        "type": "string",
+                        "description": "The date and time when an unused video will expire and be removed from the eBay Video Services server, in Coordinated Universal Time (UTC).<br><br>As long as a video is being used in an active listing, that video will remain on the server and be accessible. If a video is not being used on an active listing, its expiration date is automatically set to 30 days after the video's initial upload."
+                    },
+                    "moderation": {
+                        "description": "The video moderation information that is returned if a video is blocked by moderators.<br /><br /><span class=\"tablenote\"><span style=\"color:#478415\"><strong>Tip:</strong></span> See <a href=\"https://www.ebay.com/help/selling/listings/creating-managing-listings/add-video-to-listing?id=5272#section2\" target=\"_blank\">Video moderation and restrictions</a> in the eBay Seller Center for details about video moderation.</span><br /><br />If the video status is <code>BLOCKED</code>, ensure that the video complies with eBay's video formatting and content guidelines. Afterwards, begin the video creation and upload procedure anew using the <strong>createVideo</strong> and <strong>uploadVideo</strong> methods.",
+                        "$ref": "#/components/schemas/Moderation"
+                    },
+                    "playLists": {
+                        "type": "array",
+                        "description": "The playlist created for the uploaded video, which provides the streaming video URLs to play the video. The supported streaming video protocols are DASH (Dynamic Adaptive Streaming over HTTP) and HLS (HTTP Live Streaming). The playlist will only be generated if a video is successfully uploaded with a status of <code>LIVE</code>.",
+                        "items": {
+                            "$ref": "#/components/schemas/Play"
+                        }
+                    },
+                    "size": {
+                        "type": "integer",
+                        "description": "The size, in bytes, of the video content.",
+                        "format": "int32"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The status of the current video resource. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/media/types/api:VideoStatusEnum'>eBay API documentation</a>"
+                    },
+                    "statusMessage": {
+                        "type": "string",
+                        "description": "The <b>statusMessage</b> field contains additional information on the status. For example, information on why processing might have failed or if the video was blocked."
+                    },
+                    "thumbnail": {
+                        "description": "The URL of the thumbnail image of the video. The thumbnail image's URL must be an eBayPictureURL (EPS URL).",
+                        "$ref": "#/components/schemas/Image"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "The title of the video."
+                    },
+                    "videoId": {
+                        "type": "string",
+                        "description": "The unique ID of the video."
+                    }
+                },
+                "description": "A response field that retrieves all the metadata for the video, including its <b>title</b>, <b>classification</b>, <b>size</b>, <b>description</b>, <b>status</b>, <b>status message</b> (if any), and <b>expiration date</b>."
             }
-          }
+        },
+        "securitySchemes": {
+            "api_auth": {
+                "type": "oauth2",
+                "description": "The security definitions for this API. Please check individual operations for applicable scopes.",
+                "flows": {
+                    "authorizationCode": {
+                        "authorizationUrl": "https://auth.ebay.com/oauth2/authorize",
+                        "tokenUrl": "https://api.ebay.com/identity/v1/oauth2/token",
+                        "scopes": {
+                            "https://api.ebay.com/oauth/api_scope/sell.inventory": "View and manage your inventory and offers"
+                        }
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }

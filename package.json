@@ -83,6 +83,7 @@
     "prerelease": "npm run tslint && npm run test && npm run build",
     "release": "standard-version",
     "rc": "npm run release -- --prerelease RC && git push --follow-tags origin next",
+    "fetch-openapi": "node scripts/fetch-open-api.cjs",
     "gen-openapi": "npx openapi-typescript \"specs/*.json\" --output src/types/restful/"
   },
   "dependencies": {

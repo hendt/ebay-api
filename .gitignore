@@ -8,3 +8,5 @@ dist
 ebay-api.iml
 .nyc_output
 coverage
+CLAUDE.md
+.claude

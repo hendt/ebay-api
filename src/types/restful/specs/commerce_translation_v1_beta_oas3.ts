@@ -6,7 +6,7 @@
 
 export interface paths {
   "/translate": {
-    /** @description This method translates listing title and listing description text from one language into another. For a full list of supported language translations, see the table in the API Overview page. */
+    /** @description This method translates listing title and listing description text from one language into another. For a full list of supported language translations, see the <a href="/develop/guides-v2/other-apis/other-apis-guide#supported-languages"target="_blank ">table</a>. */
     post: operations["translate"];
   };
 }
@@ -45,18 +45,18 @@ export interface components {
       /** @description The value of the object. */
       value?: string;
     };
-    /** @description This is the base type of the translate method request payload. */
+    /** @description This is the base type of the <b>translate</b> method request payload. */
     TranslateRequest: {
-      /** @description The language of the input text to be translated. Not all LanguageEnum values are supported in this field. For a full list of supported language translations, see the table in the API Overview page. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/translation/types/api:LanguageEnum'>eBay API documentation</a> */
+      /** @description The language of the input text to be translated. Not all <b>LanguageEnum</b> values are supported in this field. For a full list of supported language pairings, see the Supported languages <a href="/develop/guides-v2/other-apis/other-apis-guide#supported-languages"target="_blank ">table</a>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/translation/types/api:LanguageEnum'>eBay API documentation</a> */
       from?: string;
-      /** @description The input text to translate. For ITEM_DESCRIPTION translations, HTML/CSS markup and links can be included, but will count toward max character limit. Max Length: 1,000 characters for ITEM_TITLE 100,000 characters for ITEM_DESCRIPTION, including markup/tagsMax Occurrence: 1. Only one continuous text string currently supported. */
+      /** @description The input text to translate. The maximum number of characters permitted is determined by the <b>translationContext</b> value:<ul><li><code>ITEM_TITLE</code>: 1000 characters maximum</li><li><code>ITEM_DESCRIPTION</code>: 20,000 characters maximum.<br><span class="tablenote"><b>Note:</b> When translating <code>ITEM_DESCRIPTION</code> text, HTML/CSS markup and links can be included and will not count toward this 20,000 character limit.</span></li></ul><span class="tablenote"><b>Note:</b> Currently, only one input string can be translated per API call. Support for multiple continuous text strings is expected in the future.</span> */
       text?: (string)[];
-      /** @description The target language for the translation of the input text. Not all LanguageEnum values are supported in this field. For a full list of supported language translations, see the table in the API Overview page. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/translation/types/api:LanguageEnum'>eBay API documentation</a> */
+      /** @description The target language for the translation of the input text. Not all <b>LanguageEnum</b> values are supported in this field. For a full list of supported language pairings, see the Supported languages <a href="/develop/guides-v2/other-apis/other-apis-guide#supported-languages"target="_blank ">table</a>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/translation/types/api:LanguageEnum'>eBay API documentation</a> */
       to?: string;
-      /** @description Input the listing entity to be translated. Valid Values: ITEM_TITLE and ITEM_DESCRIPTION For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/translation/types/api:TranslationContextEnum'>eBay API documentation</a> */
+      /** @description Input the listing entity to be translated.<br><br><b>Valid Values:</b> <code>ITEM_TITLE</code> and <code>ITEM_DESCRIPTION</code></p> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/translation/types/api:TranslationContextEnum'>eBay API documentation</a> */
       translationContext?: string;
     };
-    /** @description This is the base type of the translate method response payload. */
+    /** @description This is the base type of the <b>translate</b> method response payload. */
     TranslateResponse: {
       /** @description The enumeration value indicates the language of the input text. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/translation/types/api:LanguageEnum'>eBay API documentation</a> */
       from?: string;
@@ -65,11 +65,11 @@ export interface components {
       /** @description An array showing the input and translated text. Only one input string can be translated at this time. Support for multiple continuous text strings is expected in the future. */
       translations?: (components["schemas"]["Translation"])[];
     };
-    /** @description This type is used by the translations array, which shows the original text supplied by the user in the request payload, and the text translated by eBay. Only one input string can be translated at this time. Support for multiple continuous text strings is expected in the future. */
+    /** @description This type is used by the <b>translations</b> array, which shows the original text supplied by the user in the request payload, and the text translated by eBay.<br><br>Only one input string can be translated at this time. Support for multiple continuous text strings is expected in the future. */
     Translation: {
-      /** @description The original text, in the language specified in the from field, that was input into the text field in the request. */
+      /** @description The original text, in the language specified in the <b>from</b> field, that was input into the <b>text</b> field in the request. */
       originalText?: string;
-      /** @description The translation of the original text into the language specified in the to field. */
+      /** @description The translation of the original text into the language specified in the <b>to</b> field. */
       translatedText?: string;
     };
   };
@@ -84,8 +84,14 @@ export type external = Record<string, never>;
 
 export interface operations {
 
-  /** @description This method translates listing title and listing description text from one language into another. For a full list of supported language translations, see the table in the API Overview page. */
+  /** @description This method translates listing title and listing description text from one language into another. For a full list of supported language translations, see the <a href="/develop/guides-v2/other-apis/other-apis-guide#supported-languages"target="_blank ">table</a>. */
   translate: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
     requestBody: {
       content: {
         "application/json": components["schemas"]["TranslateRequest"];

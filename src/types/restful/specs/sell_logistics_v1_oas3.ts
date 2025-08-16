@@ -5,29 +5,29 @@
 
 
 export interface paths {
+  "/shipment/{shipmentId}/cancel": {
+    /** @description This method cancels the shipment associated with the specified shipment ID and the associated shipping label is deleted. When you cancel a shipment, the <b>totalShippingCost</b> of the canceled shipment is refunded to the account established by the user's billing agreement.  <br><br>Note that you cannot cancel a shipment if you have used the associated shipping label. */
+    post: operations["cancelShipment"];
+  };
+  "/shipment/create_from_shipping_quote": {
+    /** @description This method creates a shipment based on the <b>shippingQuoteId</b> and <b>rateId</b> values supplied in the request. The rate identified by the <b>rateId</b> value specifies the carrier and service for the package shipment, and the rate ID must be contained in the shipping quote identified by the <b>shippingQuoteId</b> value. Call <b>createShippingQuote</b> to retrieve a set of live shipping rates.<br><br><span class="tablenote"><b>Note:</b> The Logistics API only supports USPS shipping rates and labels.</span><br/>When you create a shipment, eBay generates a shipping label that you can download and use to ship your package.<br/><br/>In a <b>createFromShippingQuote</b> request, sellers can include a list of shipping options they want to add to the base service quoted in the selected rate. The list of available shipping options is specific to each quoted rate and if available, the options are listed in the rate container of the shipping quote.<br/><br/>In addition to a configurable return-to location and other details about the shipment, the response to this method includes:<ul><li>The shipping carrier and service to be used for the package shipment</li><li>A list of selected shipping options, if any</li><li>The shipment tracking number</li><li>The total shipping cost (the sum cost of the base shipping service and any added options)</li></ul>When you create a shipment, your billing agreement account is charged the sum of the <b>baseShippingCost</b> and the total cost of any additional shipping options you might have selected. Use the URL returned in <b>labelDownloadURL</b> field, or call <b>downloadLabelFile</b> with the <b>shipmentId</b> value from the response, to download a shipping label for your package.<br/><br/><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> Sellers must set up their payment method before they can use this method to create a shipment and the associated shipping label.</p></div><h3 id="ba">Set up a billing agreement</h3>Prior to using this method to create a shipment, sellers must first set up their billing agreement. Failure to do so will return <code>Error 90030 Payment could not be completed.</code><br/><br/>The preferred method for sellers to set up their billing agreement is to go to <a href="https://gslblui.ebay.com/gslblui/payments " target="_blank">Set up billing agreement</a> and follow the on-screen directions.<br/><br/>Alternatively, sellers can do the following:<ul><li>Go to https://www.ebay.com/ship/single/{order_id}, where {order_id} is that of the order for which the label is being printed.</li><li>When prompted, select <b>PayPal</b>.</li><li>Verify that <b>Save PayPal for future purchases</b> is selected.</li><li>Click <b>Set up Payments</b> which will open PayPal in a pop-up window.</li><li>Log in using <i>PayPal credentials</i>, and then follow the on-screen prompts to set up the billing agreement.</li><li>Once the agreement has been set up, sellers can leave this page as there is no need to actually print a label.</li></ul> */
+    post: operations["createFromShippingQuote"];
+  };
+  "/shipment/{shipmentId}/download_label_file": {
+    /** @description This method returns the shipping label file that was generated for the <b>shipmentId</b> value specified in the request. Call <b>createFromShippingQuote</b> to generate a shipment ID.<br><br><span class="tablenote"><b>Note:</b> The Logistics API only supports USPS shipping rates and labels.</span><br>Use the <code>Accept</code> HTTP header to specify the format of the returned file. The default file format is a PDF file. <!-- Are other options available? --> */
+    get: operations["downloadLabelFile"];
+  };
+  "/shipment/{shipmentId}": {
+    /** @description This method retrieves the shipment details for the specified shipment ID. Call <b>createFromShippingQuote</b> to generate a shipment ID. */
+    get: operations["getShipment"];
+  };
   "/shipping_quote": {
-    /** @description The createShippingQuote method returns a shipping quote that contains a list of live &quot;rates.&quot; Each rate represents an offer made by a shipping carrier for a specific service and each offer has a live quote for the base service cost. Rates have a time window in which they are &quot;live,&quot; and rates expire when their purchase window ends. If offered by the carrier, rates can include shipping options (and their associated prices), and users can add any offered shipping option to the base service should they desire. Also, depending on the services required, rates can also include pickup and delivery windows. Each rate is for a single package and is based on the following information: The shipping origin The shipping destination The package size (weight and dimensions) Rates are identified by a unique eBay-assigned rateId and rates are based on price points, pickup and delivery time frames, and other user requirements. Because each rate offered must be compliant with the eBay shipping program, all rates reflect eBay-negotiated prices. The various rates returned in a shipping quote offer the user a choice from which they can choose a shipping service that best fits their needs. Select the rate for your shipment and using the associated rateId, call cerateFromShippingQuote to create a shipment and generate a shipping label that you can use to ship the package. */
+    /** @description The <b>createShippingQuote</b> method returns a <i>shipping quote </i> that contains a list of live "rates."  <br><br>Each rate represents an offer made by a shipping carrier for a specific service and each offer has a live quote for the base service cost. Rates have a time window in which they are "live," and rates expire when their purchase window ends. If offered by the carrier, rates can include shipping options (and their associated prices), and users can add any offered shipping option to the base service should they desire.  Also, depending on the services required, rates can also include pickup and delivery windows.<br><br><span class="tablenote"><b>Note:</b> The Logistics API only supports USPS shipping rates and labels.</span><br>Each rate is for a single package and is based on the following information: <ul><li>The shipping origin</li> <li>The shipping destination</li> <li>The package size (weight and dimensions)</li></ul>  Rates are identified by a unique eBay-assigned <b>rateId</b> and rates are based on price points, pickup and delivery time frames, and other user requirements. Because each rate offered must be compliant with the eBay shipping program, all rates reflect eBay-negotiated prices.  <br><br>The various rates returned in a shipping quote offer the user a choice from which they can choose a shipping service that best fits their needs. Select the rate for your shipment and using the associated <b>rateId</b>, call <b>createFromShippingQuote</b> to create a shipment and generate a shipping label that you can use to ship the package. */
     post: operations["createShippingQuote"];
   };
   "/shipping_quote/{shippingQuoteId}": {
-    /** @description This method retrieves the complete details of the shipping quote associated with the specified shippingQuoteId value. A &quot;shipping quote&quot; pertains to a single specific package and contains a set of shipping &quot;rates&quot; that quote the cost to ship the package by different shipping carriers and services. The quotes are based on the package's origin, destination, and size. Call createShippingQuote to create a shippingQuoteId. */
+    /** @description This method retrieves the complete details of the shipping quote associated with the specified <b>shippingQuoteId</b> value.  <br><br>A "shipping quote" pertains to a single specific package and contains a set of shipping "rates" that quote the cost to ship the package by different shipping carriers and services. The quotes are based on the package's origin, destination, and size.  <br><br>Call <b>createShippingQuote</b> to create a <b>shippingQuoteId</b>. */
     get: operations["getShippingQuote"];
-  };
-  "/shipment/create_from_shipping_quote": {
-    /** @description This method creates a &quot;shipment&quot; based on the shippingQuoteId and rateId values supplied in the request. The rate identified by the rateId value specifies the carrier and service for the package shipment, and the rate ID must be contained in the shipping quote identified by the shippingQuoteId value. Call createShippingQuote to retrieve a set of live shipping rates. When you create a shipment, eBay generates a shipping label that you can download and use to ship your package. In a createFromShippingQuote request, sellers can include a list of shipping options they want to add to the base service quoted in the selected rate. The list of available shipping options is specific to each quoted rate and if available, the options are listed in the rate container of the of the shipping quote. In addition to a configurable return-to location and other details about the shipment, the response to this method includes: The shipping carrier and service to be used for the package shipment A list of selected shipping options, if any The shipment tracking number The total shipping cost (the sum cost of the base shipping service and any added options) When you create a shipment, your billing agreement account is charged the sum of the baseShippingCost and the total cost of any additional shipping options you might have selected. Use the URL returned in labelDownloadUrl field, or call downloadLabelFile with the shipmentId value from the response, to download a shipping label for your package. Important! Sellers must set up their payment method with eBay before they can use this method to create a shipment and the associated shipping label. */
-    post: operations["createFromShippingQuote"];
-  };
-  "/shipment/{shipmentId}": {
-    /** @description This method retrieves the shipment details for the specified shipment ID. Call createFromShippingQuote to generate a shipment ID. */
-    get: operations["getShipment"];
-  };
-  "/shipment/{shipmentId}/download_label_file": {
-    /** @description This method returns the shipping label file that was generated for the shipmentId value specified in the request. Call createFromShippingQuote to generate a shipment ID. Use the Accept HTTP header to specify the format of the returned file. The default file format is a PDF file. */
-    get: operations["downloadLabelFile"];
-  };
-  "/shipment/{shipmentId}/cancel": {
-    /** @description This method cancels the shipment associated with the specified shipment ID and the associated shipping label is deleted. When you cancel a shipment, the totalShippingCost of the canceled shipment is refunded to the account established by the user's billing agreement. Note that you cannot cancel a shipment if you have used the associated shipping label. */
-    post: operations["cancelShipment"];
   };
 }
 
@@ -37,16 +37,16 @@ export interface components {
   schemas: {
     /** @description This complex type contains information about a shipping option that can be purchased in addition to the base shipping cost of a recommended rate. Additional options for each rate are defined, named, and offered by the selected shipping carrier. Examples include shipping insurance or the requirement for a recipient signature. */
     AdditionalOption: {
-      /** @description The monetary cost of the additional shipping option identified by the optionType field. */
+      /** @description The monetary cost of the additional shipping option identified by the <b>optionType</b> field. */
       additionalCost?: components["schemas"]["Amount"];
       /** @description The name of a shipping option that can be purchased in addition to the base shipping cost of this rate. The value supplied in this field must match exactly the option name as supplied by the selected rate. */
       optionType?: string;
     };
     /** @description A complex type that describes the value of a monetary amount as represented by a global currency. */
     Amount: {
-      /** @description The base currency applied to the value field to establish a monetary amount. The currency is represented as a 3-letter ISO 4217 currency code. For example, the code for the Canadian Dollar is CAD. Default: The default currency of the eBay marketplace that hosts the listing. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/logistics/types/bas:CurrencyCodeEnum'>eBay API documentation</a> */
+      /** @description The base currency applied to the <b>value</b> field to establish a monetary amount.  <br><br>The currency is represented as a 3-letter <a href="https://www.iso.org/iso-4217-currency-codes.html " title="https://www.iso.org " target="_blank">ISO 4217</a> currency code. For example, the code for the Canadian Dollar is <code>CAD</code>.  <br><br><b>Default:</b> The default currency of the eBay marketplace that hosts the listing. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/logistics/types/bas:CurrencyCodeEnum'>eBay API documentation</a> */
       currency?: string;
-      /** @description The monetary amount in the specified currency. */
+      /** @description The monetary amount in the specified <b>currency</b>.  <br><br><i>Required in</i> the <b>amount</b> type. */
       value?: string;
     };
     /** @description This complex type contains contact information for an individual buyer or seller. */
@@ -68,7 +68,7 @@ export interface components {
       addressLine2?: string;
       /** @description The city in which the address is located. */
       city?: string;
-      /** @description The country of the address, represented as two-letter ISO 3166 country code. For example, US represents the United States and DE represents Germany. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/logistics/types/bas:CountryCodeEnum'>eBay API documentation</a> */
+      /** @description The country of the address, represented as two-letter <a href="https://www.iso.org/iso-3166-country-codes.html " title="https://www.iso.org " target="_blank">ISO 3166</a> country code. For example, <code>US</code> represents the United States and <code>DE</code> represents Germany. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/logistics/types/bas:CountryCodeEnum'>eBay API documentation</a> */
       countryCode?: string;
       /** @description The county (not country) in which the address is located. Counties typically contain multiple cities or towns. */
       county?: string;
@@ -77,19 +77,19 @@ export interface components {
       /** @description The state or province in which the address is located. States and provinces often contain multiple counties. */
       stateOrProvince?: string;
     };
-    /** @description This complex type contains the request payload for the createFromShippingQuote method. */
+    /** @description This complex type contains the request payload for the <b>createFromShippingQuote</b> method. */
     CreateShipmentFromQuoteRequest: {
-      /** @description Supply a list of one or more shipping options that the seller wants to purchase for this shipment. The baseShippingCost field that's associated with the selected shipping rate is the cost of the base service offered in the rate. In addition to the base service, sellers can add additional shipping services to the base service. Shipping options include things such as shipping insurance or a recipient's signature upon delivery. The cost of any added services is summed with the base shipping cost to determine the final cost for the shipment. All options added to the shipment must be chosen from the set of shipping options offered with the selected rate. */
+      /** @description Supply a list of one or more shipping options that the seller wants to purchase for this shipment.  <br><br>The <b>baseShippingCost</b> field that's associated with the selected shipping rate is the cost of the base service offered in the rate. In addition to the base service, sellers can add additional shipping services to the base service. Shipping options include things such as shipping insurance or a recipient's signature upon delivery. The cost of any added services is summed with the base shipping cost to determine the final cost for the shipment. All options added to the shipment must be chosen from the set of shipping options offered with the selected rate. */
       additionalOptions?: (components["schemas"]["AdditionalOption"])[];
       /** @description Optional text to be printed on the shipping label if the selected shipping carrier supports custom messages on their labels. */
       labelCustomMessage?: string;
-      /** @description The seller's desired label size. Any supplied value is applied only if the shipping carrier supports multiple label sizes, otherwise the carrier's default label size is used. 4&quot;x6&quot; */
+      /** @description The seller's desired label size. Any supplied value is applied only if the shipping carrier supports multiple label sizes, otherwise the carrier's default label size is used.  <br><br>Currently, the only valid value is: <code>4"x6"</code> */
       labelSize?: string;
-      /** @description The eBay-assigned ID of the shipping rate that the seller selected for the shipment. This value is generated by a call to createShippingQuote and is returned in the rates.rateId field. */
+      /** @description The unique eBay-assigned identifier of the shipping rate that the seller selected for the shipment. This value is generated by using the <a href="/api-docs/sell/logistics/resources/shipping_quote/methods/createShippingQuote" target="_blank">createShippingQuote</a> method and is returned in the <b>rates.rateId</b> field. */
       rateId?: string;
-      /** @description The optional return address and contact details for the shipment. The return address is printed on the shipping label. If not specified, the return address defaults to the shipFrom address returned in shipping quote. */
+      /** @description The optional return address and contact details for the shipment. The return address is printed on the shipping label. If not specified, the return address defaults to the <b>shipFrom</b> address returned in shipping quote. */
       returnTo?: components["schemas"]["Contact"];
-      /** @description The unique eBay-assigned ID of the shipping quote that was generated by a call to createShippingQuote. */
+      /** @description The unique eBay-assigned identifier of the shipping quote that was generated by the <a href="/api-docs/sell/logistics/resources/shipping_quote/methods/createShippingQuote" target="_blank">createShippingQuote</a> method. */
       shippingQuoteId?: string;
     };
     /** @description This complex type defines the dimensions of a package to be shipped. */
@@ -105,7 +105,7 @@ export interface components {
     };
     /** @description A container that defines the elements of error and warning message. */
     Error: {
-      /** @description The category type for this error or warning. It takes a string that can have one of three values: Application: Indicates an exception or error occurred in the application code or at runtime. Examples include catching an exception in a service's business logic, system failures, or request errors from a dependency. Business: Used when your service or a dependent service refused to continue processing on the resource because of a business rule violation such as &quot;Seller does not ship item to Antarctica&quot; or &quot;Buyer ineligible to purchase an alcoholic item&quot;. Business errors are not syntactical input errors. Request: Used when there is anything wrong with the request, such as authentication, syntactical errors, rate limiting or missing headers, bad HTTP header values, and so on. */
+      /** @description The category type for this error or warning. It takes a string that can have one of three values:<ul><li><code>Application</code>: Indicates an exception or error occurred in the application code or at runtime. Examples include catching an exception in a service's business logic, system failures, or request errors from a dependency.</li><li><code>Business</code>: Used when your service or a dependent service refused to continue processing on the resource because of a business rule violation such as "Seller does not ship item to Antarctica" or "Buyer ineligible to purchase an alcoholic item". Business errors are not syntactical input errors.</li><li><code>Request</code>: Used when there is anything wrong with the request, such as authentication, syntactical errors, rate limiting or missing headers, bad HTTP header values, and so on.</li></ul> */
       category?: string;
       /** @description Name of the domain containing the service or application. */
       domain?: string;
@@ -114,15 +114,15 @@ export interface components {
        * @description A positive integer that uniquely identifies the specific error condition that occurred. Your application can use error codes as identifiers in your customized error-handling algorithms.
        */
       errorId?: number;
-      /** @description Identifies specific request elements associated with the error, if any. inputRefId's response is format specific. For JSON, use JSONPath notation. */
+      /** @description Identifies specific request elements associated with the error, if any. inputRefId's response is format specific. For JSON, use <i>JSONPath</i> notation. */
       inputRefIds?: (string)[];
       /** @description An expanded version of message that should be around 100-200 characters long, but is not required to be such. */
       longMessage?: string;
       /** @description An end user and app-developer friendly device agnostic message. It explains what the error or warning is, and how to fix it (in a general sense). Its value is at most 50 characters long. If applicable, the value is localized in the end user's requested locale. */
       message?: string;
-      /** @description Identifies specific response elements associated with the error, if any. Path format is the same as inputRefId. */
+      /** @description Identifies specific response elements associated with the error, if any. Path format is the same as <code>inputRefId</code>. */
       outputRefIds?: (string)[];
-      /** @description This optional complex field type contains a list of one or more context-specific ErrorParameter objects, with each item in the list entry being a parameter (or input field name) that caused an error condition. Each ErrorParameter object consists of two fields, a name and a value. */
+      /** @description This optional complex field type contains a list of one or more context-specific <code>ErrorParameter</code> objects, with each item in the list entry being a parameter (or input field name) that caused an error condition. Each <code>ErrorParameter</code> object consists of two fields, a <code>name</code> and a <code>value</code>. */
       parameters?: (components["schemas"]["ErrorParameter"])[];
       /** @description Name of the domain's subsystem or subdivision. For example, checkout is a subdomain in the buying domain. */
       subdomain?: string;
@@ -136,9 +136,9 @@ export interface components {
     };
     /** @description This complex type defines an order from which a seller is including one or more line items in a single package to be shipped. */
     Order: {
-      /** @description The e-commerce platform or environment where the order was created. Use the value EBAY to get the rates available for eBay orders. */
+      /** @description The marketplace where the order was created.<br><br>Use the value <code>EBAY</code> to get the rates available for eBay orders. */
       channel?: string;
-      /** @description The unique ID of the order supplied by the channel of origin. For eBay orders, this would be the orderId. */
+      /** @description The unique identifier of the order. The <a href=/api-docs/sell/fulfillment/resources/order/methods/getOrders" target="_blank">getOrders</a> method of the <b>Fulfillment API</b> can be used to retrieve order IDs. */
       orderId?: string;
     };
     /** @description This complex type specifies the dimensions and weight of a package. */
@@ -155,26 +155,26 @@ export interface components {
     };
     /** @description This complex type defines a time window for the pickup of a package. */
     PickupSlot: {
-      /** @description The date and time the pickup slot ends, formatted as an ISO 8601 string, which is based on the 24-hour Coordinated Universal Time (UTC) clock. Format: [YYYY]-[MM]-[DD]T[HH]:[MM]:[SS].[SSS]Z Example: 2018-08-20T07:09:00.000Z */
+      /** @description The date and time the pickup slot ends, formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html " title="https://www.iso.org " target="_blank">ISO 8601</a> string, which is based on the 24-hour Coordinated Universal Time (UTC) clock.  <br><br><b>Format:</b> <code>[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z</code> <br><b>Example:</b> <code>2018-08-20T07:09:00.000Z</code> */
       pickupSlotEndTime?: string;
-      /** @description Seller-defined name for the pickup slot. */
+      /** @description Seller-defined name for the pickup slot. <!-- Max characters? --> */
       pickupSlotId?: string;
-      /** @description The date and time the pickup slot begins, formatted as an ISO 8601 UTC string. */
+      /** @description The date and time the pickup slot begins, formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html " title="https://www.iso.org " target="_blank">ISO 8601</a> UTC string. */
       pickupSlotStartTime?: string;
-      /** @description The time zone of the pickup location, returned as Time Zone Database ID (also know as an Olson time zone ID). */
+      /** @description The time zone of the pickup location, returned as <a href="https://www.iana.org/time-zones " target="_blank">Time Zone Database</a> ID (also know as an Olson time zone ID). */
       pickupSlotTimeZone?: string;
     };
-    /** @description The &quot;rate&quot; that has been selected and purchased for the shipment, as referenced by the rateId value. */
+    /** @description The "rate" that has been selected and purchased for the shipment, as referenced by the <b>rateId</b> value. */
     PurchasedRate: {
       /** @description An list of additional, optional features that have been purchased for the shipment. */
       additionalOptions?: (components["schemas"]["AdditionalOption"])[];
-      /** @description The amount of the &quot;base cost&quot; for the shipment as set by the given carrier for the specified service. This cost excludes any addition costs accrued from the addition of any optional shipping options. */
+      /** @description The amount of the "base cost" for the shipment as set by the given carrier for the specified service. This cost excludes any addition costs accrued from the addition of any optional shipping options. */
       baseShippingCost?: components["schemas"]["Amount"];
-      /** @description The time zone of the destination according to Time Zone Database. For example, &quot;America/Los_Angeles&quot;. */
+      /** @description The time zone of the destination according to <a href="https://www.iana.org/time-zones " target="_blank">Time Zone Database</a>. For example, "America/Los_Angeles". */
       destinationTimeZone?: string;
-      /** @description A string value representing maximum (latest) estimated delivery time, formatted as an ISO 8601 string, which is based on the 24-hour Coordinated Universal Time (UTC) clock. Format: [YYYY]-[MM]-[DD]T[HH]:[MM]:[SS].[SSS]Z Example: 2018-08-20T07:09:00.000Z */
+      /** @description A string value representing maximum (latest) estimated delivery time, formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html " title="https://www.iso.org " target="_blank">ISO 8601</a> string, which is based on the 24-hour Coordinated Universal Time (UTC) clock.  <br><br><b>Format:</b> <code>[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z</code> <br><b>Example:</b> <code>2018-08-20T07:09:00.000Z</code> */
       maxEstimatedDeliveryDate?: string;
-      /** @description A string value representing minimum (earliest) estimated delivery time, formatted as an ISO 8601ISO 8601 UTC string. */
+      /** @description A string value representing minimum (earliest) estimated delivery time, formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html " title="https://www.iso.org " target="_blank">ISO 8601</a>ISO 8601</a> UTC string. */
       minEstimatedDeliveryDate?: string;
       /** @description A list of pickup networks compatible with the shipping service. */
       pickupNetworks?: (string)[];
@@ -188,7 +188,7 @@ export interface components {
       shippingCarrierCode?: string;
       /** @description The name of the shipping carrier. */
       shippingCarrierName?: string;
-      /** @description The unique eBay-generated ID of the shipping quote from which the seller selected a shipping rate (rateId). */
+      /** @description The unique eBay-generated ID of the <i>shipping quote</i> from which the seller selected a shipping rate (<b>rateId</b>). */
       shippingQuoteId?: string;
       /** @description String ID code for the shipping service selected for the package shipment. This is a service that the shipping carrier supplies. */
       shippingServiceCode?: string;
@@ -199,13 +199,13 @@ export interface components {
     };
     /** @description This complex type contains live quote information about a shipping service that's available for a given shipping quote request, including the shipping carrier and service, delivery window, shipping cost, and additional shipping options. */
     Rate: {
-      /** @description Contains service and pricing information for one or more shipping options that are offered by the carrier and can be purchased in addition to the base shipping service provided by this rate. Shipping options can include items such as INSURANCE and SIGNATURE. */
+      /** @description Contains service and pricing information for one or more shipping options that are offered by the carrier and can be purchased in addition to the base shipping service provided by this rate. Shipping options can include items such as <code>INSURANCE</code> and <code>SIGNATURE</code>. */
       additionalOptions?: (components["schemas"]["AdditionalOption"])[];
-      /** @description A live quote for the cost that the carrier (identified by shippingCarrierCode) is charging for the shipping service being offered (identified by shippingServiceCode), excluding any additional shipping options. */
+      /** @description A live quote for the cost that the carrier (identified by <b>shippingCarrierCode</b>) is charging for the shipping service being offered (identified by <b>shippingServiceCode</b>), excluding any additional shipping options. */
       baseShippingCost?: components["schemas"]["Amount"];
-      /** @description The name of the time zone region, as defined in the IANA Time Zone Database, to which the package is being shipped. Delivery dates are calculated relative to this time zone. Note: This is different from a Coordinated Universal Time (UTC) offset. For example, the America/Los_Angeles time zone identifies a region with the UTC standard time offset of -08:00, but so do several other time zones, including America/Tijuana,America/Dawson, and Pacific/Pitcairn. */
+      /** @description The name of the time zone region, as defined in the <a href="http://www.iana.org/time-zones "  target="_blank">IANA Time Zone Database</a>, to which the package is being shipped.  <br><br>Delivery dates are calculated relative to this time zone.  <br><br><span class="tablenote"><strong>Note:</strong> This is different from a Coordinated Universal Time (UTC) offset. For example, the <i>America/Los_Angeles</i> time zone identifies a region with the UTC standard time offset of <code>-08:00</code>, but so do several other time zones, including <i>America/Tijuana</i>,<i>America/Dawson</i>, and <i>Pacific/Pitcairn</i>.</span> */
       destinationTimeZone?: string;
-      /** @description The latest stated date and time the shipment will be delivered at this rate. The time stamp is formatted as an ISO 8601 string, which is based on the 24-hour Coordinated Universal Time (UTC) clock. Format: [YYYY]-[MM]-[DD]T[HH]:[MM]:[SS].[SSS]Z Example: 2018-08-20T07:09:00.000Z */
+      /** @description The latest stated date and time the shipment will be delivered at this rate.  <br><br>The time stamp is formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html " title="https://www.iso.org " target="_blank">ISO 8601</a> string, which is based on the 24-hour Coordinated Universal Time (UTC) clock.  <br><br><b>Format:</b> <code>[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z</code> <br><b>Example:</b> <code>2018-08-20T07:09:00.000Z</code> */
       maxEstimatedDeliveryDate?: string;
       /** @description The estimated earliest date and time the shipment will be delivered at this rate. The time stamp is formatted as an ISO 8601 UTC string. */
       minEstimatedDeliveryDate?: string;
@@ -213,17 +213,17 @@ export interface components {
       pickupNetworks?: (string)[];
       /** @description A list of available pickup slots for the package. */
       pickupSlots?: (components["schemas"]["PickupSlot"])[];
-      /** @description The type of pickup or drop-off service associated with the pickupSlots time frames. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/logistics/types/api:PickupTypeEnum'>eBay API documentation</a> */
+      /** @description The type of pickup or drop-off service associated with the <b>pickupSlots</b> time frames. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/logistics/types/api:PickupTypeEnum'>eBay API documentation</a> */
       pickupType?: string;
       /** @description The unique eBay-assigned ID for this shipping rate. */
       rateId?: string;
-      /** @description A list of reasons this rate is recommended. Available values are: BUYER_CHOSEN &mdash; The rate meets or exceeds the requirements of the buyer's preferred shipping option. CHEAPEST_ON_TIME &mdash; The rate is the cheapest rate available that will provide delivery within the seller's time frame commitment. EBAY_PLUS_OK &mdash; The rate complies with the shipping requirements of the eBay Plus program. FASTEST_ON_TIME &mdash; The rate has the fastest shipping time, and will provide delivery within the seller's time frame commitment. GUARANTEED_DELIVERY_OK &mdash; The rate complies with the shipping requirements of the eBay Guaranteed Delivery program. */
+      /** @description A list of reasons this rate is recommended. Available values are: <ul> <li><code>BUYER_CHOSEN</code> &mdash; The rate meets or exceeds the requirements of the buyer's preferred shipping option.</li> <li><code>CHEAPEST_ON_TIME</code> &mdash; The rate is the cheapest rate available that will provide delivery within the seller's time frame commitment.</li>  <li><code>EBAY_PLUS_OK</code> &mdash; The rate complies with the shipping requirements of the eBay Plus program.</li> <li><code>FASTEST_ON_TIME</code> &mdash; The rate has the fastest shipping time, and will provide delivery within the seller's time frame commitment.</li> <li><code>GUARANTEED_DELIVERY_OK</code> &mdash; The rate complies with the shipping requirements of the eBay Guaranteed Delivery program.</li></ul> */
       rateRecommendation?: (string)[];
-      /** @description The code name of the shipping carrier who will provide the service identified by shippingServiceCode. */
+      /** @description The code name of the shipping carrier who will provide the service identified by <b>shippingServiceCode</b>. */
       shippingCarrierCode?: string;
       /** @description The common name of the shipping carrier. */
       shippingCarrierName?: string;
-      /** @description The code name of the shipping service to be provided by the carrier identified by shippingCarrierCode. */
+      /** @description The code name of the shipping service to be provided by the carrier identified by <b>shippingCarrierCode</b>. */
       shippingServiceCode?: string;
       /** @description The common name of the shipping service. */
       shippingServiceName?: string;
@@ -232,25 +232,25 @@ export interface components {
     Shipment: {
       /** @description Cancellation status for the package, if one exists. */
       cancellation?: components["schemas"]["ShipmentCancellation"];
-      /** @description The date and time the shipment was created, formatted as an ISO 8601 string, which is based on the 24-hour Coordinated Universal Time (UTC) clock. Format: [YYYY]-[MM]-[DD]T[HH]:[MM]:[SS].[SSS]Z Example: 2018-08-20T07:09:00.000Z */
+      /** @description The date and time the shipment was created, formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html " title="https://www.iso.org " target="_blank">ISO 8601</a> string, which is based on the 24-hour Coordinated Universal Time (UTC) clock.  <br><br><b>Format:</b> <code>[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z</code> <br><b>Example:</b> <code>2018-08-20T07:09:00.000Z</code> */
       creationDate?: string;
       /** @description If supported by the selected shipping carrier, this field can contain optional seller text to be printed on the shipping label. */
       labelCustomMessage?: string;
-      /** @description The direct URL the seller can use to download an image of the shipping label. By default, the file format is PDF. See downloadLabelFile for requesting different response file formats. */
+      /** @description The direct URL the seller can use to download an image of the shipping label. By default, the file format is PDF. See <a href="/api-docs/sell/logistics/resources/shipment/methods/downloadLabelFile">downloadLabelFile</a> for requesting different response file formats. */
       labelDownloadUrl?: string;
-      /** @description The seller's desired label size. The support for multi-sized labels is shipping-carrier specific and if the size requested in the creaateFromShippingQuote call matches a size the carrier supports, the value will be represented here in the shipment. Currently, the only valid value is: 4&quot;x6&quot; */
+      /** @description The seller's desired label size. The support for multi-sized labels is shipping-carrier specific and if the size requested in the <b>creaateFromShippingQuote</b> call matches a size the carrier supports, the value will be represented here in the shipment. <br><br>Currently, the only valid value is: <code>4"x6"</code> */
       labelSize?: string;
-      /** @description This list value is optionally assigned by the seller. When present, each element in the returned list contains seller-assigned information about an order (such as an order number). Because a package can contain all or part of one or more orders, this field provides a way for sellers to identify the packages that contain specific orders. */
+      /** @description A list of one or more orders that will be shipped in the shipping package. */
       orders?: (components["schemas"]["Order"])[];
       /** @description The weight and dimensions of the package. */
       packageSpecification?: components["schemas"]["PackageSpecification"];
-      /** @description The shipping rate that the seller has chosen to purchase for this shipment. Each rate, identified by a rateId, contains the offered base service, options, and shipping parameters that were selected for the package shipment. */
+      /** @description The shipping rate that the seller has chosen to purchase for this shipment. Each rate, identified by a <b>rateId</b>, contains the offered base service, options, and shipping parameters that were selected for the package shipment. */
       rate?: components["schemas"]["PurchasedRate"];
-      /** @description The address and contact details that should be used for item returns. Sellers have the option to define a return address that is different from their shipFrom address. If not specified, the return address defaults to the shipFrom address in the shipping quote. */
+      /** @description The address and contact details that should be used for item returns. Sellers have the option to define a return address that is different from their <b>shipFrom</b> address. If not specified, the return address defaults to the <b>shipFrom</b> address in the shipping quote. */
       returnTo?: components["schemas"]["Contact"];
       /** @description The address and contact details for the origin of the package shipment. */
       shipFrom?: components["schemas"]["Contact"];
-      /** @description The unique eBay-assigned ID for the shipment. The ID is generated when the shipment is created by a call to createFromShippingQuote. */
+      /** @description The unique eBay-assigned ID for the shipment. The ID is generated when the shipment is created by a call to <b>createFromShippingQuote</b>. */
       shipmentId?: string;
       /** @description A unique carrier-assigned ID string that can be used to track the shipment. */
       shipmentTrackingNumber?: string;
@@ -259,35 +259,35 @@ export interface components {
     };
     /** @description This type defines a shipment cancellation by the date and time the cancellation request was made and the current status of the request. */
     ShipmentCancellation: {
-      /** @description The time and date the request was made to cancel the shipment, formatted as an ISO 8601 UTC string. */
+      /** @description The time and date the request was made to cancel the shipment, formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html " title="https://www.iso.org " target="_blank">ISO 8601</a> UTC string. */
       cancellationRequestedDate?: string;
       /** @description This enum specifies the current cancellation status of a shipment, if a cancellation request has been made. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/logistics/types/api:ShipmentCancellationStatusEnum'>eBay API documentation</a> */
       cancellationStatus?: string;
     };
-    /** @description This complex type describes a &quot;shipping quote,&quot; which contains the parameters for a package shipment. The shipping quote contains a list of &quot;live quotes&quot; or rates for the shipment. Rates are offerd by a carrier for a particular service, of set of services, for shipping the package. Included in the shipping quote are the package specifications, the shipment's origin and destination addresses, and the shipping parameters specified by the seller. Use the rateId value to select the specific service you want when you create a shipment by calling createFromShippingQuote. */
+    /** @description This complex type describes a "shipping quote," which contains the parameters for a package shipment. The shipping quote contains a list of "live quotes" or <i>rates</i> for the shipment. Rates are offerd by a carrier for a particular service, of set of services, for shipping the package. Included in the shipping quote are the package specifications, the shipment's origin and destination addresses, and the shipping parameters specified by the seller.  <br><br>Use the <b>rateId</b> value to select the specific service you want when you create a shipment by calling <b>createFromShippingQuote</b>. */
     ShippingQuote: {
       /** @description The date and time this quote was created, expressed as an ISO 8601 UTC string. */
       creationDate?: string;
       /** @description The last date and time that this quote will be honored, expressed as an ISO 8601 UTC string. After this time the quote expires and the expressed rates can no longer be purchased. */
       expirationDate?: string;
-      /** @description This list value is optionally assigned by the seller. When present, each element in the returned list contains seller-assigned information about an order (such as an order number). Because a package can contain all or part of one or more orders, this field provides a way for sellers to identify the packages that contain specific orders. */
+      /** @description A list of one or more orders that will be shipped in the shipping package. */
       orders?: (components["schemas"]["Order"])[];
       /** @description The weight and dimensions of the package covered by this shipping quote. */
       packageSpecification?: components["schemas"]["PackageSpecification"];
-      /** @description A list of rates where each rate, as identified by a rateId, contains information about a specific shipping service offered by a carrier. Rates include shipping carrier and service, the to and from locations, the pickup and delivery windows, the seller's shipping parameters, the service constraints, and the cost for the base service and a list of additional shipping options. Each rate offered is supported by a label service where you can purchase the rate, and associated shipping label, via a call to createFromShippingQuote. */
+      /** @description A list of <i>rates</i> where each rate, as identified by a <b>rateId</b>, contains information about a specific shipping service offered by a carrier.  Rates include shipping carrier and service, the to and from locations, the pickup and delivery windows, the seller's shipping parameters, the service constraints, and the cost for the base service and a list of additional shipping options.<br><br><span class="tablenote"><b>Note:</b> The Logistics API only supports USPS shipping rates and labels.</span><br>Each rate offered is supported by a label service where you can purchase the rate, and associated shipping label, via a call to <b>createFromShippingQuote</b>. */
       rates?: (components["schemas"]["Rate"])[];
       /** @description The address and contact details for the origin of the shipment. */
       shipFrom?: components["schemas"]["Contact"];
       /** @description The unique eBay-assigned ID for this shipping quote. The value of this field is associated with a specific package, based on its origin, destination, and size. */
       shippingQuoteId?: string;
-      /** @description The address and contact details for the origin of the shipment. */
+      /** @description The address and contact details for the origin of the shipment.  <!-- which address should this be for a GSP shipment?--> */
       shipTo?: components["schemas"]["Contact"];
       /** @description A list of any warnings triggered by the request. */
       warnings?: (components["schemas"]["Error"])[];
     };
-    /** @description This complex type defines the request body for createShippingQuote. Sellers request a quote for a shipment by defining the &quot;To&quot; and &quot;From&quot; addresses for the package, plus the package's size. Carriers respond by offering up a &quot;rate&quot; for the service of theirs that best fits seller's needs. */
+    /** @description This complex type defines the request body for <b>createShippingQuote</b>. Sellers <i>request a quote</i> for a shipment by defining the "To" and "From" addresses for the package, plus the package's size.  <br><br>Carriers respond by offering up a "rate" for the service of theirs that best fits seller's needs. */
     ShippingQuoteRequest: {
-      /** @description A seller-defined list that contains information about the orders in the package. This allows sellers to include information about the line items in the package with the shipment information. A package can contain any number of line items from one or more orders, providing they all ship in the same package. Maximum list size: 10 */
+      /** @description In this array, the seller specifies one or more orders that will be shipped in the shipping package. <br><br>A shipping package can contain any number of line items from one or more orders, providing they all ship in the same package.  <br><br><b>Maximum list size:</b> 10 */
       orders?: (components["schemas"]["Order"])[];
       /** @description Declares the weight and dimensions of the package. */
       packageSpecification?: components["schemas"]["PackageSpecification"];
@@ -298,9 +298,9 @@ export interface components {
     };
     /** @description This complex type contains information about the weight of an object such as a shipping package. */
     Weight: {
-      /** @description The unit of measurement used to specify the weight of a shipping package. Both the unit and value fields are required if the weight container is used. If the English system of measurement is being used, the applicable values for weight units are POUND and OUNCE. If the metric system of measurement is being used, the applicable values for weight units are KILOGRAM and GRAM. The metric system is used by most countries outside of the US. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/logistics/types/api:WeightUnitOfMeasureEnum'>eBay API documentation</a> */
+      /** @description The unit of measurement used to specify the weight of a shipping package. Both the <strong>unit</strong> and <strong>value</strong> fields are required if the <strong>weight</strong> container is used. If the English system of measurement is being used, the applicable values for weight units are <code>POUND</code> and <code>OUNCE</CODE>. If the metric system of measurement is being used, the applicable values for weight units are <code>KILOGRAM</code> and <code>GRAM</code>. The metric system is used by most countries outside of the US. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/logistics/types/api:WeightUnitOfMeasureEnum'>eBay API documentation</a> */
       unit?: string;
-      /** @description The numeric value of the weight of the package, as measured by the value of unit. */
+      /** @description The numeric value of the weight of the package, as measured by the value of <b>unit</b>. */
       value?: string;
     };
   };
@@ -315,54 +315,41 @@ export type external = Record<string, never>;
 
 export interface operations {
 
-  /** @description The createShippingQuote method returns a shipping quote that contains a list of live &quot;rates.&quot; Each rate represents an offer made by a shipping carrier for a specific service and each offer has a live quote for the base service cost. Rates have a time window in which they are &quot;live,&quot; and rates expire when their purchase window ends. If offered by the carrier, rates can include shipping options (and their associated prices), and users can add any offered shipping option to the base service should they desire. Also, depending on the services required, rates can also include pickup and delivery windows. Each rate is for a single package and is based on the following information: The shipping origin The shipping destination The package size (weight and dimensions) Rates are identified by a unique eBay-assigned rateId and rates are based on price points, pickup and delivery time frames, and other user requirements. Because each rate offered must be compliant with the eBay shipping program, all rates reflect eBay-negotiated prices. The various rates returned in a shipping quote offer the user a choice from which they can choose a shipping service that best fits their needs. Select the rate for your shipment and using the associated rateId, call cerateFromShippingQuote to create a shipment and generate a shipping label that you can use to ship the package. */
-  createShippingQuote: {
-    /** @description The request object for createShippingQuote. */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["ShippingQuoteRequest"];
-      };
-    };
-    responses: {
-      /** @description Created */
-      201: {
-        content: {
-          "application/json": components["schemas"]["ShippingQuote"];
-        };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Conflict */
-      409: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This method retrieves the complete details of the shipping quote associated with the specified shippingQuoteId value. A &quot;shipping quote&quot; pertains to a single specific package and contains a set of shipping &quot;rates&quot; that quote the cost to ship the package by different shipping carriers and services. The quotes are based on the package's origin, destination, and size. Call createShippingQuote to create a shippingQuoteId. */
-  getShippingQuote: {
+  /** @description This method cancels the shipment associated with the specified shipment ID and the associated shipping label is deleted. When you cancel a shipment, the <b>totalShippingCost</b> of the canceled shipment is refunded to the account established by the user's billing agreement.  <br><br>Note that you cannot cancel a shipment if you have used the associated shipping label. */
+  cancelShipment: {
     parameters: {
       path: {
-        /** @description This path parameter specifies the unique eBay-assigned ID of the shipping quote you want to retrieve. The shippingQuoteId value is generated and returned by a call to createShippingQuote. */
-        shippingQuoteId: string;
+        /** @description This path parameter specifies the unique eBay-assigned ID of the shipment to be canceled.<br><br>The <b>shipmentId</b> value is generated and returned by the <a href="/api-docs/sell/logistics/resources/shipment/methods/createFromShippingQuote" target="_blank">createFromShippingQuote</a> method. */
+        shipmentId: string;
       };
     };
     responses: {
       /** @description Success */
       200: {
         content: {
-          "application/json": components["schemas"]["ShippingQuote"];
+          "application/json": components["schemas"]["Shipment"];
         };
       };
       /** @description Bad Request */
       400: never;
       /** @description Not Found */
       404: never;
+      /** @description Conflict */
+      409: never;
       /** @description Internal Server Error */
       500: never;
     };
   };
-  /** @description This method creates a &quot;shipment&quot; based on the shippingQuoteId and rateId values supplied in the request. The rate identified by the rateId value specifies the carrier and service for the package shipment, and the rate ID must be contained in the shipping quote identified by the shippingQuoteId value. Call createShippingQuote to retrieve a set of live shipping rates. When you create a shipment, eBay generates a shipping label that you can download and use to ship your package. In a createFromShippingQuote request, sellers can include a list of shipping options they want to add to the base service quoted in the selected rate. The list of available shipping options is specific to each quoted rate and if available, the options are listed in the rate container of the of the shipping quote. In addition to a configurable return-to location and other details about the shipment, the response to this method includes: The shipping carrier and service to be used for the package shipment A list of selected shipping options, if any The shipment tracking number The total shipping cost (the sum cost of the base shipping service and any added options) When you create a shipment, your billing agreement account is charged the sum of the baseShippingCost and the total cost of any additional shipping options you might have selected. Use the URL returned in labelDownloadUrl field, or call downloadLabelFile with the shipmentId value from the response, to download a shipping label for your package. Important! Sellers must set up their payment method with eBay before they can use this method to create a shipment and the associated shipping label. */
+  /** @description This method creates a shipment based on the <b>shippingQuoteId</b> and <b>rateId</b> values supplied in the request. The rate identified by the <b>rateId</b> value specifies the carrier and service for the package shipment, and the rate ID must be contained in the shipping quote identified by the <b>shippingQuoteId</b> value. Call <b>createShippingQuote</b> to retrieve a set of live shipping rates.<br><br><span class="tablenote"><b>Note:</b> The Logistics API only supports USPS shipping rates and labels.</span><br/>When you create a shipment, eBay generates a shipping label that you can download and use to ship your package.<br/><br/>In a <b>createFromShippingQuote</b> request, sellers can include a list of shipping options they want to add to the base service quoted in the selected rate. The list of available shipping options is specific to each quoted rate and if available, the options are listed in the rate container of the shipping quote.<br/><br/>In addition to a configurable return-to location and other details about the shipment, the response to this method includes:<ul><li>The shipping carrier and service to be used for the package shipment</li><li>A list of selected shipping options, if any</li><li>The shipment tracking number</li><li>The total shipping cost (the sum cost of the base shipping service and any added options)</li></ul>When you create a shipment, your billing agreement account is charged the sum of the <b>baseShippingCost</b> and the total cost of any additional shipping options you might have selected. Use the URL returned in <b>labelDownloadURL</b> field, or call <b>downloadLabelFile</b> with the <b>shipmentId</b> value from the response, to download a shipping label for your package.<br/><br/><div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> Sellers must set up their payment method before they can use this method to create a shipment and the associated shipping label.</p></div><h3 id="ba">Set up a billing agreement</h3>Prior to using this method to create a shipment, sellers must first set up their billing agreement. Failure to do so will return <code>Error 90030 Payment could not be completed.</code><br/><br/>The preferred method for sellers to set up their billing agreement is to go to <a href="https://gslblui.ebay.com/gslblui/payments " target="_blank">Set up billing agreement</a> and follow the on-screen directions.<br/><br/>Alternatively, sellers can do the following:<ul><li>Go to https://www.ebay.com/ship/single/{order_id}, where {order_id} is that of the order for which the label is being printed.</li><li>When prompted, select <b>PayPal</b>.</li><li>Verify that <b>Save PayPal for future purchases</b> is selected.</li><li>Click <b>Set up Payments</b> which will open PayPal in a pop-up window.</li><li>Log in using <i>PayPal credentials</i>, and then follow the on-screen prompts to set up the billing agreement.</li><li>Once the agreement has been set up, sellers can leave this page as there is no need to actually print a label.</li></ul> */
   createFromShippingQuote: {
+    parameters: {
+      header: {
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+        /** @description This header parameter specifies the eBay marketplace for the shipment being created.<br><br>For a list of valid values, refer to the section <a href="/api-docs/static/rest-request-components.html#marketpl" target="_blank">Marketplace ID Values</a> in the <b>Using eBay RESTful APIs</b> guide. */
+        "X-EBAY-C-MARKETPLACE-ID": string;
+      };
+    };
     /** @description The create shipment from quote request. */
     requestBody: {
       content: {
@@ -384,34 +371,15 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method retrieves the shipment details for the specified shipment ID. Call createFromShippingQuote to generate a shipment ID. */
-  getShipment: {
-    parameters: {
-      path: {
-        /** @description This path parameter specifies the unique eBay-assigned ID of the shipment you want to retrieve. The shipmentId value is generated and returned by a call to createFromShippingQuote. */
-        shipmentId: string;
-      };
-    };
-    responses: {
-      /** @description Success */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Shipment"];
-        };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Not Found */
-      404: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This method returns the shipping label file that was generated for the shipmentId value specified in the request. Call createFromShippingQuote to generate a shipment ID. Use the Accept HTTP header to specify the format of the returned file. The default file format is a PDF file. */
+  /** @description This method returns the shipping label file that was generated for the <b>shipmentId</b> value specified in the request. Call <b>createFromShippingQuote</b> to generate a shipment ID.<br><br><span class="tablenote"><b>Note:</b> The Logistics API only supports USPS shipping rates and labels.</span><br>Use the <code>Accept</code> HTTP header to specify the format of the returned file. The default file format is a PDF file. <!-- Are other options available? --> */
   downloadLabelFile: {
     parameters: {
+      header: {
+        /** @description This header specifies the format of the returned file. For this method, the value of the header should be <code>Accept: application/pdf</code>. */
+        Accept: string;
+      };
       path: {
-        /** @description This path parameter specifies the unique eBay-assigned ID of the shipment associated with the shipping label you want to download. The shipmentId value is generated and returned by a call to createFromShippingQuote. */
+        /** @description This path parameter specifies the unique eBay-assigned identifier of the shipment associated with the shipping label you want to download.<br><br> The <b>shipmentId</b> value is generated and returned by the <a href="/api-docs/sell/logistics/resources/shipment/methods/createFromShippingQuote" target="_blank">createFromShippingQuote</a> method. */
         shipmentId: string;
       };
     };
@@ -430,11 +398,11 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method cancels the shipment associated with the specified shipment ID and the associated shipping label is deleted. When you cancel a shipment, the totalShippingCost of the canceled shipment is refunded to the account established by the user's billing agreement. Note that you cannot cancel a shipment if you have used the associated shipping label. */
-  cancelShipment: {
+  /** @description This method retrieves the shipment details for the specified shipment ID. Call <b>createFromShippingQuote</b> to generate a shipment ID. */
+  getShipment: {
     parameters: {
       path: {
-        /** @description This path parameter specifies the unique eBay-assigned ID of the shipment to be canceled. The shipmentId value is generated and returned by a call to createFromShippingQuote. */
+        /** @description This path parameter specifies the unique eBay-assigned identifier of the shipment you want to retrieve.<br><br>The <b>shipmentId</b> value is generated and returned by the <a href="/api-docs/sell/logistics/resources/shipment/methods/createFromShippingQuote" target="_blank">createFromShippingQuote</a> method. */
         shipmentId: string;
       };
     };
@@ -449,8 +417,60 @@ export interface operations {
       400: never;
       /** @description Not Found */
       404: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description The <b>createShippingQuote</b> method returns a <i>shipping quote </i> that contains a list of live "rates."  <br><br>Each rate represents an offer made by a shipping carrier for a specific service and each offer has a live quote for the base service cost. Rates have a time window in which they are "live," and rates expire when their purchase window ends. If offered by the carrier, rates can include shipping options (and their associated prices), and users can add any offered shipping option to the base service should they desire.  Also, depending on the services required, rates can also include pickup and delivery windows.<br><br><span class="tablenote"><b>Note:</b> The Logistics API only supports USPS shipping rates and labels.</span><br>Each rate is for a single package and is based on the following information: <ul><li>The shipping origin</li> <li>The shipping destination</li> <li>The package size (weight and dimensions)</li></ul>  Rates are identified by a unique eBay-assigned <b>rateId</b> and rates are based on price points, pickup and delivery time frames, and other user requirements. Because each rate offered must be compliant with the eBay shipping program, all rates reflect eBay-negotiated prices.  <br><br>The various rates returned in a shipping quote offer the user a choice from which they can choose a shipping service that best fits their needs. Select the rate for your shipment and using the associated <b>rateId</b>, call <b>createFromShippingQuote</b> to create a shipment and generate a shipping label that you can use to ship the package. */
+  createShippingQuote: {
+    parameters: {
+      header: {
+        /** @description This header parameter specifies the eBay marketplace for the shipping quote that is being created.<br><br>For a list of valid values, refer to the section <a href="/api-docs/static/rest-request-components.html#marketpl" target="_blank">Marketplace ID Values</a> in the <b>Using eBay RESTful APIs</b> guide. */
+        "X-EBAY-C-MARKETPLACE-ID": string;
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
+      };
+    };
+    /** @description The request object for <b>createShippingQuote</b>. */
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ShippingQuoteRequest"];
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        content: {
+          "application/json": components["schemas"]["ShippingQuote"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
       /** @description Conflict */
       409: never;
+      /** @description Internal Server Error */
+      500: never;
+    };
+  };
+  /** @description This method retrieves the complete details of the shipping quote associated with the specified <b>shippingQuoteId</b> value.  <br><br>A "shipping quote" pertains to a single specific package and contains a set of shipping "rates" that quote the cost to ship the package by different shipping carriers and services. The quotes are based on the package's origin, destination, and size.  <br><br>Call <b>createShippingQuote</b> to create a <b>shippingQuoteId</b>. */
+  getShippingQuote: {
+    parameters: {
+      path: {
+        /** @description This path parameter specifies the unique eBay-assigned ID of the shipping quote you want to retrieve.<br><br>The <b>shippingQuoteId</b> value is generated and returned by the <a href="/api-docs/sell/logistics/resources/shipping_quote/methods/createShippingQuote" target="_blank">createShippingQuote</a> method. */
+        shippingQuoteId: string;
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ShippingQuote"];
+        };
+      };
+      /** @description Bad Request */
+      400: never;
+      /** @description Not Found */
+      404: never;
       /** @description Internal Server Error */
       500: never;
     };

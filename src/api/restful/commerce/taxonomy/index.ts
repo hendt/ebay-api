@@ -141,4 +141,14 @@ export default class Taxonomy extends Restful implements OpenApi<operations> {
       responseType: 'arraybuffer'
     });
   }
+
+  /**
+   * This call returns any eBay leaf categories in the specified category tree that have expired and the currently active leaf categories that have replaced them.
+   *
+   * @param categoryTreeId The unique identifier of the eBay category tree for which expired categories are being requested.
+   */
+  public getExpiredCategories(categoryTreeId: string) {
+    categoryTreeId = encodeURIComponent(categoryTreeId);
+    return this.get(`/category_tree/${categoryTreeId}/get_expired_categories`);
+  }
 }

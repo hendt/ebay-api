@@ -6,11 +6,11 @@
 
 export interface paths {
   "/bidding/{item_id}": {
-    /** @description This method retrieves the bidding details that are specific to the buyer of the specified auction. This must be an auction where the buyer has already placed a bid. To retrieve the bidding information you use a user access token and pass in the item ID of the auction. You can also retrieve general bidding details about the auction, such as start price, minimum bid price, and the count of unique bidders, using the Browse API getItem method. URLs for this method Production URL: https://api.ebay.com/buy/offer/v1_beta/bidding/ Sandbox URL: https://api.sandbox.ebay.com/buy/offer/v1_beta/bidding/ Restrictions For a list of supported sites and other restrictions, see API Restrictions. */
+    /** @description This method retrieves the bidding details that are specific to the buyer of the specified auction. This must be an auction where the buyer has already placed a bid. <br><br>To retrieve the bidding information you use a <a href="/api-docs/static/oauth-tokens.html">user access token</a> and pass in the item ID of the auction. You can also retrieve general bidding details about the auction, such as minimum bid price and the count of unique bidders, using the <b>Browse API</b> <a href="/api-docs/buy/browse/resources/item/methods/getItems">getItems</a> method.    <h3><b>Restrictions </b></h3> <p> For a list of supported sites and other restrictions, see <a href="/api-docs/buy/offer/overview.html#API">API Restrictions</a>.</p> */
     get: operations["getBidding"];
   };
   "/bidding/{item_id}/place_proxy_bid": {
-    /** @description This method uses a user access token to place a proxy bid for the buyer on a specific auction item. The item must offer AUCTION as one of the buyingOptions. To place a bid, you pass in the item ID of the auction as a URI parameter and the buyer's maximum bid amount (maxAmount ) in the payload. By placing a proxy bid, the buyer is agreeing to purchase the item if they win the auction. After this bid is placed, if someone else outbids the buyer a bid, eBay automatically bids again for the buyer up to the amount of their maximum bid. When the bid exceeds the buyer's maximum bid, eBay will notify them that they have been outbid. To find auctions, you can use the Browse API to search for items and use a filter to return only auction items. For example: /buy/browse/v1/item_summary/search?q=iphone&amp;filter=buyingOptions:{AUCTION} URLs for this method Production URL: https://api.ebay.com/buy/offer/v1_beta/bidding/ Sandbox URL: https://api.sandbox.ebay.com/buy/offer/v1_beta/bidding/ Restrictions For a list of supported sites and other restrictions, see API Restrictions. */
+    /** @description This method uses a <a href="/api-docs/static/oauth-qref-auth-code-grant.html">user access token</a> to place a proxy bid for the buyer on a specific auction item. The item must offer <code>AUCTION</code> as one of the <b> buyingOptions</b>. <br><br>To place a bid, you pass in the item ID of the auction as a URI parameter and the buyer's maximum bid amount (<b>maxAmount </b>) in the payload.   By placing a proxy bid, the buyer is agreeing to purchase the item if they win the auction. <p>After this bid is placed, if someone else outbids the buyer a bid, eBay automatically bids again for the buyer up to the amount of their maximum bid. When the bid exceeds the buyer's maximum bid, eBay will notify them that they have been outbid.<br><br>To find auctions, you can use the <a href="/api-docs/buy/browse/resources/item_summary/methods/search">Browse API to search</a> for items and use a filter to return only auction items. For example: <br><br>   <code>/buy/browse/v1/item_summary/search?q=iphone&filter=buyingOptions:{AUCTION}</code> </p><h3><b>Restrictions </b></h3>For a list of supported sites and other restrictions, see <a href="/api-docs/buy/offer/overview.html#API">API Restrictions</a>. */
     post: operations["placeProxyBid"];
   };
 }
@@ -21,7 +21,7 @@ export interface components {
   schemas: {
     /** @description The type that defines the fields for a monetary value and its currency. */
     Amount: {
-      /** @description The three-letter ISO 4217 code representing the currency of the amount in the value field. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/offer/types/CurrencyCodeEnum.html'>eBay API documentation</a> */
+      /** @description The three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html" target="_blank">ISO 4217</a> code representing the currency of the amount in the <b> value</b> field.  For implementation help, refer to <a href='https://developer.ebay.com/api-docs/buy/offer/types/bas:CurrencyCodeEnum'>eBay API documentation</a> */
       currency?: string;
       /** @description The monetary amount. */
       value?: string;
@@ -30,7 +30,7 @@ export interface components {
     Bidding: {
       /** @description The date the auction will end. */
       auctionEndDate?: string;
-      /** @description An enumeration value that represents the current state of the auction, such as ENDED or LIVE. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/offer/types/AuctionStatusEnum.html'>eBay API documentation</a> */
+      /** @description An enumeration value that represents the current state of the auction, such as <code>ACTIVE</code> or <code>ENDED</code>. <br><br>If this value is <code>ENDED</code> and the value of <b>highBidder</b> is <code>true</code>, this indicates the buyer has won the auction. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/buy/offer/types/api:AuctionStatusEnum'>eBay API documentation</a> */
       auctionStatus?: string;
       /**
        * Format: int32 
@@ -39,15 +39,15 @@ export interface components {
       bidCount?: number;
       /** @description The amount of the highest bid, which is the current price of the item. */
       currentPrice?: components["schemas"]["Amount"];
-      /** @description The buyer's proxy bid, which is the maxAmount specified in the request. */
+      /** @description The buyer's proxy bid, which is the <b>maxAmount</b> specified in the request. */
       currentProxyBid?: components["schemas"]["ProxyBid"];
-      /** @description Indicates if the buyer is the highest bidder. */
+      /** @description Indicates if the buyer is the highest bidder. <ul> <li>If the value is <code>false</code>, this indicates that either the buyer has not bid on this item or has been out-bid. </li> <li>If this value is <code>true</code>, this indicates the buyer is winning the auction and if the value of <b>auctionStatus</b> is <code>ENDED</code>, this indicates the buyer has won the auction.</ul> */
       highBidder?: boolean;
       /** @description The eBay RESTful identifier of an item being bid on, which was submitted in the request. */
       itemId?: string;
-      /** @description This indicates if the reserve price of the item has been met. A reserve price is set by the seller and is the minimum amount the seller is willing to sell the item for. If the highest bid is not equal to or higher than the reserve price when the auction ends, the listing ends and the item is not sold. Note: This is returned only for auctions that have a reserve price. */
+      /** @description This indicates if the reserve price of the item has been met. A reserve price is set by the seller and is the minimum amount the seller is willing to sell the item for. <p>If the highest bid is not equal to or higher than the reserve price when the auction ends, the listing ends and the item is not sold.</p> <p><b>Note: </b>This is returned only for auctions that have a reserve price.</p> */
       reservePriceMet?: boolean;
-      /** @description The suggested bid amount for the next bid. Note: These are generated suggestions and do not guarantee the buyer will win the bid. This means these suggestions do not take into account the max bid amount of other bidders. The buyer can be outbid even if they submit the highest suggested bid. */
+      /** @description The suggested bid amount for the next bid. <b>Note: </b>These are generated suggestions and do not guarantee the buyer will win the bid. This means these suggestions do not take into account the max bid amount of other bidders. The buyer can be outbid even if they submit the highest suggested bid. */
       suggestedBidAmounts?: (components["schemas"]["Amount"])[];
     };
     /** @description This type defines the fields that can be returned in an error. */
@@ -82,9 +82,9 @@ export interface components {
     };
     /** @description The type that defines the fields for placing a proxy bid. */
     PlaceProxyBidRequest: {
-      /** @description The amount of the proxy bid to be placed. This is the maximum amount the buyer is willing to pay for the item. Note: Currency for the bid must be the currency specified by the seller when listing the item. If the currency has been converted, the seller's currency will be returned in the convertedFromCurrency field. VAT (value added tax) does not need to be added to the proxy bid amount even if VAT applies. */
+      /** @description The amount of the proxy bid to be placed. This is the maximum amount the buyer is willing to pay for the item. <br><br><b>Note: </b>  <ul>  <li>Currency for the bid must be the currency specified by the seller when listing the item.</li>    <li>VAT (value added tax) does not need to be added to the proxy bid amount even if VAT applies.  </li>  </ul> */
       maxAmount?: components["schemas"]["Amount"];
-      /** @description Specifics whether buyer wants to give their consent to bid on adult-only items. For a buyer to bid on an adult-only item, you must collect their consent using this field and they must agree to the Terms of Use. For more information about adult-only items on eBay, see Adult-Only items on eBay. Default: false */
+      /** @description Specifies whether the buyer wants to give their consent to bid on adult-only items. For a buyer to bid on an adult-only item, you must collect their consent using this field, and they must agree to the Terms of Use. <p>For more information about adult-only items on eBay, see  <a href="https://www.ebay.com/help/terms-conditions/default/searching-adult-items?id=4661" target="_blank">Adult-Only items on eBay</a>.</p> <p><b>Default: </b>false </p> */
       userConsent?: components["schemas"]["UserConsent"];
     };
     /** @description The type that defines the fields for the place proxy bid response. */
@@ -101,7 +101,7 @@ export interface components {
     };
     /** @description The type that defines the fields for collecting the buyers consent. */
     UserConsent: {
-      /** @description The type that defines the fields for buyer consent to bid on adult-only items. For more information about adult-only items on eBay, see Adult-Only items on eBay. */
+      /** @description The type that defines the fields for buyer consent to bid on adult-only items.<br><br>This field must be included in the <b>placeProxyBid</b> request and set to <code>true</code> if the buyer is bidding on an <i>adult-only</i> item.<br><br>For more information about adult-only items on eBay, see  <a href="https://www.ebay.com/help/terms-conditions/default/searching-adult-items?id=4661" target="_blank">Adult-Only items on eBay</a>. */
       adultOnlyItem?: boolean;
     };
   };
@@ -116,15 +116,15 @@ export type external = Record<string, never>;
 
 export interface operations {
 
-  /** @description This method retrieves the bidding details that are specific to the buyer of the specified auction. This must be an auction where the buyer has already placed a bid. To retrieve the bidding information you use a user access token and pass in the item ID of the auction. You can also retrieve general bidding details about the auction, such as start price, minimum bid price, and the count of unique bidders, using the Browse API getItem method. URLs for this method Production URL: https://api.ebay.com/buy/offer/v1_beta/bidding/ Sandbox URL: https://api.sandbox.ebay.com/buy/offer/v1_beta/bidding/ Restrictions For a list of supported sites and other restrictions, see API Restrictions. */
+  /** @description This method retrieves the bidding details that are specific to the buyer of the specified auction. This must be an auction where the buyer has already placed a bid. <br><br>To retrieve the bidding information you use a <a href="/api-docs/static/oauth-tokens.html">user access token</a> and pass in the item ID of the auction. You can also retrieve general bidding details about the auction, such as minimum bid price and the count of unique bidders, using the <b>Browse API</b> <a href="/api-docs/buy/browse/resources/item/methods/getItems">getItems</a> method.    <h3><b>Restrictions </b></h3> <p> For a list of supported sites and other restrictions, see <a href="/api-docs/buy/offer/overview.html#API">API Restrictions</a>.</p> */
   getBidding: {
     parameters: {
       header: {
-        /** @description The ID of the eBay marketplace where the buyer is based. Note: This value is case sensitive. For example: &nbsp;&nbsp;X-EBAY-C-MARKETPLACE-ID = EBAY_US For a list of supported sites see, API Restrictions. */
+        /** @description The ID of the eBay marketplace where the buyer is based. This value is case sensitive.<br><br>For example: <br>&nbsp;&nbsp;<code>X-EBAY-C-MARKETPLACE-ID = EBAY_US</code>  <br><br> For a list of supported sites see, <a href="/api-docs/buy/offer/overview.html#API">API Restrictions</a>. */
         "X-EBAY-C-MARKETPLACE-ID": string;
       };
       path: {
-        /** @description The eBay RESTful identifier of an item that you want the buyer's bidding information. This ID is returned by the Browse and Feed API methods. RESTful Item ID example: v1|272394640372|0 For more information about item ID for RESTful APIs, see the Legacy API compatibility section of the Buy APIs Overview. Restriction: The buyer must have placed a bid for this item. */
+        /** @description This path parameter specifies the unique eBay RESTful identifier of an item for which you want the buyer's bidding information.<br><br>This ID is returned by the <b> Browse</b> and <b> Feed</b> API methods.  <br><br> <b>RESTful Item ID example: </b><code>v1|2**********2|0</code> <br><br>For more information about item ID for RESTful APIs, see the <a href="/api-docs/buy/static/api-browse.html#Legacy">Legacy API compatibility</a> section of the <i>Buy APIs Overview</i>.  <br><br><b>Restriction: </b> The buyer must have placed a bid for this item. */
         item_id: string;
       };
     };
@@ -143,15 +143,17 @@ export interface operations {
       500: never;
     };
   };
-  /** @description This method uses a user access token to place a proxy bid for the buyer on a specific auction item. The item must offer AUCTION as one of the buyingOptions. To place a bid, you pass in the item ID of the auction as a URI parameter and the buyer's maximum bid amount (maxAmount ) in the payload. By placing a proxy bid, the buyer is agreeing to purchase the item if they win the auction. After this bid is placed, if someone else outbids the buyer a bid, eBay automatically bids again for the buyer up to the amount of their maximum bid. When the bid exceeds the buyer's maximum bid, eBay will notify them that they have been outbid. To find auctions, you can use the Browse API to search for items and use a filter to return only auction items. For example: /buy/browse/v1/item_summary/search?q=iphone&amp;filter=buyingOptions:{AUCTION} URLs for this method Production URL: https://api.ebay.com/buy/offer/v1_beta/bidding/ Sandbox URL: https://api.sandbox.ebay.com/buy/offer/v1_beta/bidding/ Restrictions For a list of supported sites and other restrictions, see API Restrictions. */
+  /** @description This method uses a <a href="/api-docs/static/oauth-qref-auth-code-grant.html">user access token</a> to place a proxy bid for the buyer on a specific auction item. The item must offer <code>AUCTION</code> as one of the <b> buyingOptions</b>. <br><br>To place a bid, you pass in the item ID of the auction as a URI parameter and the buyer's maximum bid amount (<b>maxAmount </b>) in the payload.   By placing a proxy bid, the buyer is agreeing to purchase the item if they win the auction. <p>After this bid is placed, if someone else outbids the buyer a bid, eBay automatically bids again for the buyer up to the amount of their maximum bid. When the bid exceeds the buyer's maximum bid, eBay will notify them that they have been outbid.<br><br>To find auctions, you can use the <a href="/api-docs/buy/browse/resources/item_summary/methods/search">Browse API to search</a> for items and use a filter to return only auction items. For example: <br><br>   <code>/buy/browse/v1/item_summary/search?q=iphone&filter=buyingOptions:{AUCTION}</code> </p><h3><b>Restrictions </b></h3>For a list of supported sites and other restrictions, see <a href="/api-docs/buy/offer/overview.html#API">API Restrictions</a>. */
   placeProxyBid: {
     parameters: {
       header: {
-        /** @description The ID of the eBay marketplace where the buyer is based. Note: This value is case sensitive. For example: &nbsp;&nbsp;X-EBAY-C-MARKETPLACE-ID = EBAY_US For a list of supported sites see, API Restrictions. */
+        /** @description The ID of the eBay marketplace where the buyer is based. This value is case sensitive.<br><br> For example: <br>&nbsp;&nbsp;<code>X-EBAY-C-MARKETPLACE-ID = EBAY_US</code>  <br><br> For a list of supported sites see, <a href="/api-docs/buy/offer/overview.html#API">API Restrictions</a>. */
         "X-EBAY-C-MARKETPLACE-ID": string;
+        /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+        "Content-Type": string;
       };
       path: {
-        /** @description The eBay RESTful identifier of an item you want to bid on. This ID is returned by the Browse and Feed API methods. RESTful Item ID Example: v1|272394640372|0 For more information about item ID for RESTful APIs, see the Legacy API compatibility section of the Buy APIs Overview. */
+        /** @description This path parameter specifies the unique eBay RESTful identifier of an item you want to bid on.<br><br>This ID is returned by the <a href="/api-docs/buy/browse/overview.html" target="_blank ">Browse</a> and <a href="/api-docs/buy/feed/overview.html" target="_blank ">Feed Beta</a> API methods.  <br><br> <b>RESTful Item ID Example: </b><code>v1|2**********2|0</code> <br><br>For more information about item ID for RESTful APIs, see the <a href="/api-docs/buy/static/api-browse.html#Legacy">Legacy API compatibility</a> section of the <i>Buy APIs Overview</i>. */
         item_id: string;
       };
     };

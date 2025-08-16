@@ -6,7 +6,7 @@
 
 export interface paths {
   "/user/": {
-    /** @description This method retrieves the account profile information for an authenticated user, which requires a User access token. What is returned is controlled by the scopes. For a business account you use the default scope commerce.identity.readonly, which returns all the fields in the businessAccount container. These are returned because this is all public information. For an individual account, the fields returned in the individualAccount container are based on the scope you use. Using the default scope, only public information, such as eBay user ID, are returned. For details about what each scope returns, see the Identity API Overview. */
+    /** @description This method retrieves the account profile information for an authenticated user, which requires a <a href="/api-docs/static/oauth-authorization-code-grant.html">User access token</a>. What is returned is controlled by the <a href="#scopes">scopes</a>. <p>For a business account you use the default scope <code>commerce.identity.readonly</code>, which returns all the fields in the <a href="/api-docs/commerce/identity/resources/user/methods/getUser#response.businessAccount">businessAccount</a> container. These are returned  because this is all public information.</p>  <p> For an individual account, the fields returned in the <a href="/api-docs/commerce/identity/resources/user/methods/getUser#response.individualAccount">individualAccount</a> container are based on the scope you use. Using the default scope, only public information, such as eBay user ID, are returned. For details about what each scope returns, see the <a href="/api-docs/commerce/identity/overview.html">Identity API Overview</a>.</p> <p>In the Sandbox, this API returns mock data. <b>Note: </b> You must use the correct scope or scopes for the data you want returned.</p> */
     get: operations["getUser"];
   };
 }
@@ -23,7 +23,7 @@ export interface components {
       addressLine2?: string;
       /** @description The city of the address. */
       city?: string;
-      /** @description The two-letter ISO 3166 standard of the country of the address. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/identity/types/CountryCodeEnum.html'>eBay API documentation</a> */
+      /** @description The two-letter <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> standard of the country of the address. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/identity/types/bas:CountryCodeEnum'>eBay API documentation</a> */
       country?: string;
       /** @description The county of the address. */
       county?: string;
@@ -36,7 +36,7 @@ export interface components {
     BusinessAccount: {
       /** @description The container that returns the address of the business account. */
       address?: components["schemas"]["Address"];
-      /** @description An additional name that is used for their business on eBay. The business name is returned in the name field. */
+      /** @description An additional name that is used for their business on eBay. The business name is returned in the <b> name</b> field. */
       doingBusinessAs?: string;
       /** @description The email address of the business account. */
       email?: string;
@@ -105,28 +105,28 @@ export interface components {
     };
     /** @description The type that defines the fields for the details of a phone. */
     Phone: {
-      /** @description The two-letter ISO 3166 standard of the country to which the phone number belongs. */
+      /** @description The two-letter <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> standard of the country to which the phone number belongs. */
       countryCode?: string;
       /** @description The numeric string representing the phone number. */
       number?: string;
-      /** @description The type of phone service. Valid Values: MOBILE or LAND_LINE Code so that your app gracefully handles any future changes to this list. */
+      /** @description The type of phone service. <br /><br /><b> Valid Values: </b> MOBILE or LAND_LINE  <br /><br />Code so that your app gracefully handles any future changes to this list. */
       phoneType?: string;
     };
-    /** @description The type that defines the fields for the getUser method. */
+    /** @description The type that defines the fields for the <b>getUser</b> method. */
     UserResponse: {
-      /** @description Indicates the user account type. This is determined when the user registers with eBay. If they register for a business account, this value will be BUSINESS. If they register for a private account, this value will be INDIVIDUAL. This designation is required by the tax laws in the following countries: EBAY_AT, EBAY_BE, EBAY_CH, EBAY_DE, EBAY_ES, EBAY_FR, EBAY_GB, EBAY_IE, EBAY_IT, EBAY_PL Valid Values: BUSINESS or INDIVIDUAL Code so that your app gracefully handles any future changes to this list. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/identity/types/AccountTypeEnum.html'>eBay API documentation</a> */
+      /** @description Indicates the user account type. This is determined when the user registers with eBay. If they register for a business account, this value will be BUSINESS. If they register for a private account, this value will be INDIVIDUAL. This designation is required by the tax laws in the following countries:   <br /><br />EBAY_AT, EBAY_BE, EBAY_CH, EBAY_DE, EBAY_ES, EBAY_FR, EBAY_GB, EBAY_IE, EBAY_IT, EBAY_PL <br /><br /><b> Valid Values:</b> BUSINESS or INDIVIDUAL <br /><br />Code so that your app gracefully handles any future changes to this list. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/identity/types/api:AccountTypeEnum'>eBay API documentation</a> */
       accountType?: string;
       /** @description The container that returns the business account information of the user. */
       businessAccount?: components["schemas"]["BusinessAccount"];
       /** @description The account information of the user. */
       individualAccount?: components["schemas"]["IndividualAccount"];
-      /** @description The eBay site on which the account is registered. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/identity/types/MarketplaceIdEnum.html'>eBay API documentation</a> */
+      /** @description The eBay site on which the account is registered. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/identity/types/bas:MarketplaceIdEnum'>eBay API documentation</a> */
       registrationMarketplaceId?: string;
-      /** @description Indicates the user's account status. Possible values: CONFIRMED, UNCONFIRMED, ACCOUNTONHOLD and UNDETERMINED. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/identity/types/UserStatusEnum.html'>eBay API documentation</a> */
+      /** @description Indicates the user's account status. Possible values: <code>CONFIRMED</code>, <code>UNCONFIRMED</code>, <code>ACCOUNTONHOLD</code> and <code>UNDETERMINED</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/identity/types/api:UserStatusEnum'>eBay API documentation</a> */
       status?: string;
       /** @description The eBay immutable user ID of the user's account and can always be used to identify the user. */
       userId?: string;
-      /** @description The user name, which was specific by the user when they created the account. Note: This value can be changed by the user. */
+      /** @description The user name, which was specific by the user when they created the account. <br /><br /><span class="tablenote"><b>Note: </b> This value can be changed by the user.</span> */
       username?: string;
     };
   };
@@ -141,7 +141,7 @@ export type external = Record<string, never>;
 
 export interface operations {
 
-  /** @description This method retrieves the account profile information for an authenticated user, which requires a User access token. What is returned is controlled by the scopes. For a business account you use the default scope commerce.identity.readonly, which returns all the fields in the businessAccount container. These are returned because this is all public information. For an individual account, the fields returned in the individualAccount container are based on the scope you use. Using the default scope, only public information, such as eBay user ID, are returned. For details about what each scope returns, see the Identity API Overview. */
+  /** @description This method retrieves the account profile information for an authenticated user, which requires a <a href="/api-docs/static/oauth-authorization-code-grant.html">User access token</a>. What is returned is controlled by the <a href="#scopes">scopes</a>. <p>For a business account you use the default scope <code>commerce.identity.readonly</code>, which returns all the fields in the <a href="/api-docs/commerce/identity/resources/user/methods/getUser#response.businessAccount">businessAccount</a> container. These are returned  because this is all public information.</p>  <p> For an individual account, the fields returned in the <a href="/api-docs/commerce/identity/resources/user/methods/getUser#response.individualAccount">individualAccount</a> container are based on the scope you use. Using the default scope, only public information, such as eBay user ID, are returned. For details about what each scope returns, see the <a href="/api-docs/commerce/identity/overview.html">Identity API Overview</a>.</p> <p>In the Sandbox, this API returns mock data. <b>Note: </b> You must use the correct scope or scopes for the data you want returned.</p> */
   getUser: {
     responses: {
       /** @description OK */

@@ -1,3 +1,4 @@
+import {CreateOffersRequest} from '../../../../types/index.js';
 import {operations} from '../../../../types/restful/specs/sell_negotiation_v1_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
 
@@ -32,7 +33,7 @@ export default class Negotiation extends Restful implements OpenApi<operations> 
    *
    * @param data The CreateOffersRequest
    */
-  public sendOfferToInterestedBuyers(data: any) {
+  public sendOfferToInterestedBuyers(data: CreateOffersRequest) {
     return this.post(`/send_offer_to_interested_buyers`, data);
   }
 }
