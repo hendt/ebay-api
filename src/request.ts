@@ -14,6 +14,12 @@ export const multipartHeader = {
   'Content-Type': 'multipart/form-data'
 }
 
+export const defaultAxiosConfig: AxiosRequestConfig = {
+  paramsSerializer: {
+    indexes: null
+  }
+}
+
 export interface IEBayApiRequest<T = AxiosInstance, C = AxiosRequestConfig, R = AxiosResponse> {
   readonly instance: T;
 
@@ -36,6 +42,7 @@ export class AxiosRequest implements IEBayApiRequest {
       headers: {
         ...defaultGlobalHeaders
       },
+      ...defaultAxiosConfig,
       ...config
     });
   }
