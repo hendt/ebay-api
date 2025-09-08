@@ -1,4 +1,12 @@
 # eBay API Changelog
+### [9.2.1](https://github.com/hendt/ebay-api/compare/v9.2.0...v9.2.1) (2025-09-08)
+
+
+### Bug Fixes
+
+* add missed sell account v2 specs ([18df828](https://github.com/hendt/ebay-api/commit/18df828c0d9267ab5d81e7f9b3616aea44b8860b))
+* set axios paramsSerializer to null - no brackets ([90555fb](https://github.com/hendt/ebay-api/commit/90555fbacf39f22a7d3ba2cb4bd1cce0d9208df1))
+
 ## [9.2.0](https://github.com/hendt/ebay-api/compare/v9.2.0-RC.0...v9.2.0) (2025-03-14)
 
 
