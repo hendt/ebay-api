@@ -1,18 +1,71 @@
 # eBay Node API in TypeScript with Browser support
 
-[![Build Status](https://travis-ci.com/hendt/ebay-api.svg?branch=master)](https://travis-ci.com/hendt/ebay-api)
+<!-- Quality & CI -->
 [![codecov](https://codecov.io/gh/hendt/ebay-api/branch/master/graph/badge.svg?token=E67PSWIZFZ)](https://codecov.io/gh/hendt/ebay-api)
 
-[![GitHub](https://img.shields.io/npm/l/ebay-api?style=flat-square)](https://github.com/hendt/ebay-api/blob/master/LICENSE)
+<!-- Package Stats -->
 [![npm version](https://img.shields.io/npm/v/ebay-api.svg?style=flat-square)](https://www.npmjs.com/package/ebay-api)
-[![](https://data.jsdelivr.com/v1/package/npm/ebay-api/badge)](https://www.jsdelivr.com/package/npm/ebay-api)
-[![npm](https://img.shields.io/npm/dt/ebay-api.svg?style=flat-square)](https://www.npmjs.com/package/ebay-api)
+[![npm downloads](https://img.shields.io/npm/dt/ebay-api.svg?style=flat-square)](https://www.npmjs.com/package/ebay-api)
+[![jsDelivr](https://data.jsdelivr.com/v1/package/npm/ebay-api/badge)](https://www.jsdelivr.com/package/npm/ebay-api)
+
+<!-- License -->
+[![License](https://img.shields.io/npm/l/ebay-api?style=flat-square)](./LICENSE)
 
 This eBay API implements both Traditional \(xml\) and the RESTful eBay API.
 It supports `client credentials grant` and `authorization code grant` \(Auth'N'Auth, OAuth2 and IAF\). Digital Signature is supported too.
 
 * [API Browser Examples](https://hendt.github.io/ebay-api/)
 * [API Documentation](https://hendt.gitbook.io/ebay-api/)
+
+## Table of Contents
+
+- [🚀 Quick Start](#-quick-start)
+- [Install](#install)
+- [eBay Docs](#ebay-docs)
+- [Implementation Status](#implementation-status)
+- [🔧 eBayApi Config](#-ebayapi-config)
+- [Load Config from Environment](#load-config-from-environment)
+- [🐞 Debug](#-debug)
+- [🔑 Access Token Types](#-access-token-types)
+- [OAuth2: Authorization Code Grant](#oauth2-exchanging-the-authorization-code-for-a-user-access-token)
+- [Digital Signature](#digital-signature)
+- [RESTful API](#restful-api)
+- [Traditional API](#controlling-traditional-xml-request-and-response)
+- [Examples](#examples)
+- [FAQ](#faq)
+- [Contribution](#contribution)
+- [📝 License](#-license)
+
+## 🚀 Quick Start
+
+Sign up for an API key here: [Developer Account](https://developer.ebay.com/signin?tab=register).
+
+### Installation
+
+```bash
+npm install ebay-api 
+# or
+yarn add ebay-api
+```
+
+### Basic Usage
+
+```typescript
+import eBayApi from 'ebay-api';
+// or:
+// const eBayApi = require('ebay-api')
+
+const eBay = new eBayApi({
+  appId: '-- also called Client ID --',
+  certId: '-- also called Client Secret --',
+  sandbox: false
+});
+
+const item = await eBay.buy.browse.getItem('v1|254188828753|0');
+console.log(JSON.stringify(item, null, 2));
+```
+
+For more examples, check out the [examples directory](./examples).
 
 ## eBay Docs
 
@@ -48,38 +101,9 @@ It supports `client credentials grant` and `authorization code grant` \(Auth'N'A
 | **Client Alerts API** | ✔           |
 | **Feedback API**      | ✔           |
 
-## Install
+## Detailed Configuration
 
-```bash
-npm install ebay-api 
-yarn add ebay-api
-```
-
-## 🚀 Usage & Quick start
-
-Sign up for an API key here: [Developer Account](https://developer.ebay.com/signin?tab=register).
-Checkout API [examples](https://github.com/hendt/ebay-api/tree/master/examples).
-
-### NodeJS
-
-```javascript
-import eBayApi from 'ebay-api';
-// or:
-// const eBayApi = require('ebay-api')
-
-const eBay = new eBayApi({
-  appId: '-- also called Client ID --',
-  certId: '-- also called Client Secret --',
-  sandbox: false
-});
-
-const item = await eBay.buy.browse.getItem('v1|254188828753|0');
-console.log(JSON.stringify(item, null, 2));
-```
-
-#### Detailed configuration example
-
-```javascript
+```typescript
 import eBayApi from 'ebay-api';
 
 const eBay = new eBayApi({
@@ -101,16 +125,16 @@ const eBay = new eBayApi({
 });
 ```
 
-### Browser
+## Browser Usage
 
 Check out live example: [https://hendt.github.io/ebay-api/](https://hendt.github.io/ebay-api/).
 Because of the eBay CORS problems a Proxy server is required to use the API in the Browser.
 
-For testing purpose you can use `https://ebay.hendt.workers.dev/` url as proxy. You can also set up your own Proxy
-server. We have added a example for cloudfront
+For testing purposes you can use `https://ebay.hendt.workers.dev/` url as proxy. You can also set up your own Proxy
+server. We have added an example for cloudfront
 workers: [https://github.com/hendt/ebay-api/blob/master/proxy/worker.js](https://github.com/hendt/ebay-api/blob/master/proxy/worker.js)
 
-Or use [https://github.com/Rob--W/cors-anywhere](CORS Anywhere is a NodeJS proxy) (works very well with heroku.com).
+Or use [CORS Anywhere](https://github.com/Rob--W/cors-anywhere) (a NodeJS proxy that works very well with heroku.com).
 
 #### ESM
 
@@ -229,7 +253,7 @@ You can also generate the token on eBay developer page and use it directly (see 
 
 [eBay Docs](https://developer.ebay.com/api-docs/static/oauth-auth-code-grant-request.html)
 
-```javascript
+```js
 import eBayApi from 'ebay-api';
 
 // 1. Create new eBayApi instance and set the scope.
@@ -252,7 +276,7 @@ After you granted success, eBay will redirect you to your 'Auth accepted URL' an
 
 This is how it would look like if you use `express`:
 
-```javascript
+```js
 import eBayApi from 'ebay-api';
 
 
@@ -324,8 +348,8 @@ Signatures are required when the call is made for EU- or UK-domiciled sellers, a
   - Approve Cancellation Request -> (`eBay.postOrder.inquiry.sign.approveCancellationRequest()`)
 
 ### How to use Digital Signature
-```js
-// 1. Create singning key and save it appropriatly
+```typescript
+// 1. Create signing key and save it appropriately
 const signingKey = await eBay.developer.keyManagement.createSigningKey('ED25519');
 // 2. Set the signature
 eBay.setSignature(signingKey)
@@ -348,7 +372,7 @@ const account = await eBay.trading.GetAccount(null, {sign: true});
 
 ### How to set the Scope
 
-```javascript
+```typescript
 const eBay = new eBayApi({
   // ...
   scope: ['https://api.ebay.com/oauth/api_scope']
@@ -367,21 +391,21 @@ eBay.OAuth2.setScope([
 For some APIs, eBay use a `apix`/`apiz` subdomain. To use these subdomains you can use `.apix`/`.apiz` before the api
 call like this:
 
-```javascript
-  eBay.buy.browse.apix.getItem() // now it will use https://apix.ebay.com
-eBay.buy.browse.apiz.getItem() // now it will use https://apiz.ebay.com
+```typescript
+eBay.buy.browse.apix.getItem(); // now it will use https://apix.ebay.com
+eBay.buy.browse.apiz.getItem(); // now it will use https://apiz.ebay.com
 ```
 
 In any case eBay adds a new subdomain, it's also possible to configure whatever you want:
 
-```javascript
-  eBay.buy.browse.api({subdomain: 'apiy'}).getItem() // now it will use https://apiy.ebay.com
+```typescript
+eBay.buy.browse.api({subdomain: 'apiy'}).getItem(); // now it will use https://apiy.ebay.com
 ```
 
 ### Return raw RESTful API response
 
-```javascript
-  eBay.buy.browse.api({
+```typescript
+eBay.buy.browse.api({
   returnResponse: true, // return the response instead of data
 }).getItem();
 ```   
@@ -393,9 +417,9 @@ with `invalid access token` error.
 
 Use Event Emitter to get the token when it gets successfully refreshed.
 
-```javascript
+```typescript
 eBay.OAuth2.on('refreshAuthToken', (token) => {
-  console.log(token)
+  console.log(token);
   // Store this token in DB
 });
 
@@ -410,7 +434,7 @@ To manual refresh the auth token use `eBay.OAuth2.refreshAuthToken()` and for th
 token use `eBay.OAuth2.refreshClientToken()`.
 Keep in mind that you need the 'refresh_token' value set.
 
-```javascript
+```typescript
 const token = await eBay.OAuth2.refreshToken();
 // will refresh Auth Token if set, otherwise the client token if set.
 ```
@@ -422,23 +446,23 @@ You have multiple options to do this.
 
 ### RESTful API headers
 
-```javascript
-  const eBay = new eBayApi();
+```typescript
+const eBay = new eBayApi();
 
 eBay.buy.browse.api({
   headers: {
     'X-EBAY-SOA-GLOBAL-ID': 'EBAY-DE'
   }
 }).getItem('v1|382282567190|651094235351').then((item) => {
-  console.log(item)
-})
+  console.log(item);
+});
 ```
 
 ### Traditional API headers
 
 You can pass headers directly in the method call in the second parameter:
 
-```javascript
+```typescript
 eBay.trading.AddFixedPriceItem({
   Item: {
     Title: 'title',
@@ -450,12 +474,12 @@ eBay.trading.AddFixedPriceItem({
   headers: {
     'X-EBAY-SOA-GLOBAL-ID': 'EBAY-DE'
   }
-})
+});
 ```
 
 ### Low level: use the Axios interceptor to manipulate the request
 
-```javascript
+```typescript
 import eBayApi from 'ebay-api';
 
 const eBay = new eBayApi(/* {  your config here } */);
@@ -464,7 +488,7 @@ eBay.req.instance.interceptors.request.use((request) => {
   // Add Header
   request.headers['X-EBAY-SOA-GLOBAL-ID'] = 'EBAY-DE';
   return request;
-})
+});
 ```
 
 ### Handle JSON GZIP response e.g fetchItemAspects
@@ -475,11 +499,11 @@ You need a decompress library installed like `zlib`.
 npm install zlib # or yarn add zlib
 ```
 
-```javascript
+```typescript
 import eBayApi from 'ebay-api';
 import zlib from 'zlib';
 
-const toString = (data) => new Promise((resolve) => {
+const toString = (data: Buffer): Promise<string> => new Promise((resolve) => {
   zlib.gunzip(data, (err, output) => {
     if (err) throw err;
     resolve(output.toString());
@@ -498,7 +522,7 @@ try {
 }
 ```
 ## Handling errors
-```js
+```typescript
 import eBayApi from 'ebay-api';
 import { EBayApiError } from 'ebay-api/lib/errors';
 
@@ -595,7 +619,7 @@ Will produce:
 
 You can submit your description using CDATA if you want to use HTML or XML.
 
-```javascript
+```js
 eBay.trading.AddFixedPriceItem({
   Item: {
     Title: 'title',
@@ -603,49 +627,49 @@ eBay.trading.AddFixedPriceItem({
       __cdata: '<div>test</div>'
     }
   }
-})
+});
 ```
 
 ### Trading - ReviseFixedPriceItem (Update the price of an item)
 
-```javascript
+```js
 eBay.trading.ReviseFixedPriceItem({
   Item: {
     ItemID: 'itemId',
     StartPrice: 'startPrice'
   }
-})
+});
 ```
 
 ### Buy - getItem
 
-```javascript
+```js
 eBay.buy.browse.getItem('v1|382282567190|651094235351').then(a => {
   console.log(a);
 }).catch(e => {
-  console.log(e)
+  console.log(e);
 });
 ```
 
 ### Post-Order - getReturn
 
-```javascript
+```js
 eBay.postOrder.return.getReturn('5132021997').then(a => {
   console.log(a);
 }).catch(e => {
-  console.log(e)
+  console.log(e);
 });
 ```
 
 ### Finding - findItemsByProduct \(use XML attributes and value\)
 
-```javascript
+```js
 eBay.finding.findItemsByProduct({
   productId: {
     '@_type': 'ReferenceID',
     '#value': '53039031'
   }
-})
+});
 
 // will produce:
 // <productId type="ReferenceID">53039031</productId>
@@ -653,7 +677,7 @@ eBay.finding.findItemsByProduct({
 
 ### Finding - findItemsIneBayStores
 
-```javascript
+```js
 eBay.finding.findItemsIneBayStores({
   storeName: 'HENDT'
 }, {raw: true}).then(result => {
@@ -664,7 +688,7 @@ eBay.finding.findItemsIneBayStores({
 
 ### Finding - findItemsAdvanced \(findItemsByKeywords\)
 
-```javascript
+```js
 eBay.finding.findItemsAdvanced({
   itemFilter: [{
     name: 'Seller',
@@ -678,7 +702,7 @@ eBay.finding.findItemsAdvanced({
 
 ### Trading - GetMyeBaySelling
 
-```javascript
+```js
 eBay.trading.GetMyeBaySelling({
   SoldList: {
     Include: true,
@@ -717,7 +741,6 @@ Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
 
 ## Supported By
 
-[hendt.de](https://hendt.de)  
 [rootle.de](https://rootle.de)
 
 ## 📝 License
