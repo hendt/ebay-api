@@ -77,6 +77,7 @@
     "build": "rimraf lib dist && tsc && tsc --project tsconfig.cjs.json && rollup -c --bundleConfigAsCjs && npm run cjs:fix",
     "prepare": "npm run build",
     "tslint": "tslint -c tslint.json '{src,test,examples}/**/*.ts'",
+    "tslint:fix": "tslint --fix -c tslint.json '{src,test,examples}/**/*.ts'",
     "test": "mocha --reporter=dot",
     "report": "c8 npm run test",
     "report:summary": "c8 --reporter=lcov --reporter=text-summary npm run test",
