@@ -1,4 +1,11 @@
 # eBay API Changelog
+## [9.3.0](https://github.com/hendt/ebay-api/compare/v9.2.2...v9.3.0) (2025-11-19)
+
+
+### Features
+
+* add traditional API response types and update index exports ([cf5d2eb](https://github.com/hendt/ebay-api/commit/cf5d2eb6792971b14c8470a1ccb0ac4e33261e75))
+
 ### [9.2.2](https://github.com/hendt/ebay-api/compare/v9.2.1...v9.2.2) (2025-09-22)
 
 ### [9.2.1](https://github.com/hendt/ebay-api/compare/v9.2.0...v9.2.1) (2025-09-08)
