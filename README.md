@@ -741,6 +741,7 @@ Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
 
 ## Supported By
 
+[leaderboarded.com](https://leaderboarded.com/)
 [rootle.de](https://rootle.de)
 
 ## 📝 License
