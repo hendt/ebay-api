@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [9.3.1](https://github.com/hendt/ebay-api/compare/v9.3.0...v9.3.1) (2025-12-06)
+
+
+### Bug Fixes
+
+* run npm audit fix and update dependencies ([8c3437d](https://github.com/hendt/ebay-api/commit/8c3437df9f24c7101534a33d58d53d5900c058ea))
+
 ## [9.3.0](https://github.com/hendt/ebay-api/compare/v9.2.2...v9.3.0) (2025-11-19)
 
 
