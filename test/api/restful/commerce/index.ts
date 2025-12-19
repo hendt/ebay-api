@@ -3,6 +3,7 @@ import {
   Charity,
   Identity,
   Media,
+  Message,
   Notification,
   Taxonomy,
   Translation
@@ -17,5 +18,6 @@ tests.set(Translation, readSpecs('commerce_translation_v1_beta_oas3.json', impor
 tests.set(Charity, readSpecs('commerce_charity_v1_oas3.json', import.meta.url));
 tests.set(Notification, readSpecs('commerce_notification_v1_oas3.json', import.meta.url));
 tests.set(Media, readSpecs('commerce_media_v1_beta_oas3.json', import.meta.url));
+tests.set(Message, readSpecs('commerce_message_v1_oas3.json', import.meta.url));
 
 export default tests;

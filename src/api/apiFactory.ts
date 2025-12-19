@@ -16,6 +16,7 @@ import {
   Commerce,
   Identity,
   Media,
+  Message,
   Notification,
   Taxonomy,
   Translation
@@ -70,6 +71,7 @@ export default class ApiFactory extends Api {
       media: this.createRestfulApi(Media),
       translation: this.createRestfulApi(Translation),
       taxonomy: this.createRestfulApi(Taxonomy),
+      message: this.createRestfulApi(Message)
     };
   }
 

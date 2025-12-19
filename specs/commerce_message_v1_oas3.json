@@ -1,0 +1,1109 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "M2M Public API Service",
+        "description": "This API allows eBay sellers to send, retrieve, and manage messages.",
+        "contact": {
+            "name": "eBay Inc,"
+        },
+        "license": {
+            "name": "eBay API License Agreement",
+            "url": "https://developer.ebay.com/join/api-license-agreement"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.ebay.com{basePath}",
+            "description": "Production",
+            "variables": {
+                "basePath": {
+                    "default": "/commerce/message/v1"
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/bulk_update_conversation": {
+            "post": {
+                "tags": [
+                    "conversation"
+                ],
+                "description": "This method can be used to update the <b>conversationStatus</b> of up to 10 conversations.<br><br>The <b>conversationId</b>, existing <b>conversationType</b>, and updated <b>conversationStatus</b> for each conversation to modify are required in the <b>conversations</b> array.<br><br><div class=\"msgbox_important\"><p class=\"msgbox_importantInDiv\" data-mc-autonum=\"&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;\"><span class=\"autonumber\"><span><b><span style=\"color: #dd1e31;\" class=\"mcFormatColor\">Important!</span></b></span></span> Though it cannot be updated, the <b>conversationType</b> field is required for each conversation being updated.</p></div><br>If the updates were successful, the <b>conversationId</b> of each conversation will be returned with an associated <b>updateStatus</b> value of <code>SUCCESSFUL</code>.",
+                "operationId": "bulkUpdateConversation",
+                "parameters": [
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "description": "This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br>For more information, refer to <a href=\"/api-docs/static/rest-request-components.html#HTTP\" target=\"_blank \">HTTP request headers</a>.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BulkUpdateConversationsRequest"
+                            }
+                        }
+                    },
+                    "required": false
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BulkUpdateConversationsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "x-response-codes": {
+                            "errors": {
+                                "355001": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid conversationStatus value. Please see documentation for valid values."
+                                },
+                                "355002": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid conversationType value. Please see documentation for valid values."
+                                },
+                                "355007": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid or unrecognized conversation_id value."
+                                },
+                                "355019": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "The number of conversations for batch update exceeds the limit, a maximum of {maximumConversationAllowedCount} conversations is allowed per request."
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "x-response-codes": {
+                            "errors": {
+                                "335000": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "APPLICATION",
+                                    "description": "Internal server error encountered. If this problem persists, contact the eBay Developers Program for support."
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_auth": [
+                            "https://api.ebay.com/oauth/api_scope/commerce.message"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/conversation/{conversation_id}": {
+            "get": {
+                "tags": [
+                    "conversation"
+                ],
+                "description": "This method can be used to retrieve messages within a specific conversation.<br><br>The <b>conversation_id</b> of the conversation for which to retrieve messages is required as path parameters, and the and <b>conversation_type</b> of the conversation is required as a query parameter.",
+                "operationId": "getConversation",
+                "parameters": [
+                    {
+                        "name": "conversation_id",
+                        "in": "path",
+                        "description": "This path parameters specifies the unique identifier of the conversation that is to be retrieved.<br><br>Use the <a href=\"/api-docs/commerce/message/resources/conversation/methods/getConversations\" target=\"_blank\">getConversations</a> method to retrieve conversation ID values.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "conversation_type",
+                        "in": "query",
+                        "description": "This query parameter specifies the type of the conversation being retrieved.<br><br>This parameter is always required when using the this method.<br><br><b>Valid values:</b><ul><li><code>FROM_EBAY</code></li><li><code>FROM_MEMBERS</code></li></ul>",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The maximum number of entries that can be returned on each page of the paginated response.<br><br>Use this parameter in conjunction with the <b>offset</b> parameter to control the pagination of the output. For example, if <b>offset</b> is set to <code>10</code> and <b>limit</b> is set to <code>10</code>, the call retrieves entries 11 through 20 from the result set.<br><br><span class=\"tablenote\"><b>Note:</b> This feature employs a zero-based list, where the first item in the list has an offset of <code>0</code>.</span><br>If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 25<br><br><b>Maximum:</b> 50",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "The number of reports to skip in the result set before returning the first entry in the paginated response.<br><br>Use this parameter in conjunction with the <b>limit</b> parameter to control the pagination of the output. For example, if <b>offset</b> is set to <code>0</code> and <b>limit</b> is set to <code>10</code>, the first page of the response will contain the first 10 entries from the complete list retrieved by the call.<br><br><span class=\"tablenote\"><b>Note:</b> This feature employs a zero-based list, where the first item in the list has an offset of <code>0</code>.</span><br>If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 0",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetMessagesByConversationIdResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "x-response-codes": {
+                            "errors": {
+                                "355007": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid or unrecognized conversation_id value."
+                                },
+                                "355008": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid offset. The offset value must be a positive integer value and synchronized up with the limit value. If the limit value is 20, value offset values would be 0, 20, 40, etc."
+                                },
+                                "355009": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid limit. The limit value must be a positive integer value that does not exceed {maximumAllowedLimitNumber}."
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "x-response-codes": {
+                            "errors": {
+                                "335000": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "APPLICATION",
+                                    "description": "Internal server error encountered. If this problem persists, contact the eBay Developers Program for support."
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_auth": [
+                            "https://api.ebay.com/oauth/api_scope/commerce.message"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/conversation": {
+            "get": {
+                "tags": [
+                    "conversation"
+                ],
+                "description": "This method can be used to retrieve one or more conversations associated with a user.<br><br>The <b>conversation_type</b> query parameter is required when using this method to specify if the retrieved conversations are from eBay or from members.<br><br>The result set can also optionally be filtered by conversation status, reference, username, and/or time range. The <b>limit</b> and <b>offset</b> path parameters can be used to paginate the result set and control how many conversations are returned in the response.",
+                "operationId": "getConversations",
+                "parameters": [
+                    {
+                        "name": "conversation_status",
+                        "in": "query",
+                        "description": "This query parameter specifies the status of the conversations being retrieved. Only conversations in the specified status will be returned.<br><br><b>Valid values:</b><ul><li><code>ACTIVE</code></li><li><code>ARCHIVE</code></li><li><code>DELETE</code></li><li><code>READ</code></li><li><code>UNREAD</code></li></ul>",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "conversation_type",
+                        "in": "query",
+                        "description": "This query parameter specifies the type of the conversations being retrieved. Only conversations of the specified type will be returned.<br><br>This parameter is always required when using this method.<br><br><b>Valid values:</b><ul><li><code>FROM_EBAY</code></li><li><code>FROM_MEMBERS</code></li></ul>",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "end_time",
+                        "in": "query",
+                        "description": "This query parameter specifies the end time (in ISO 8601 format) for which to stop retrieving conversations.<br><br>For example, if set to <code>2024-11-06T10:00:00.000Z</code>, only messages sent before this time will be retrieved.<br><br><b>Format:</b> yyyy-MM-ddThh:mm.ss.sssZ<br><br><span class=\"tablenote\"><b>Note:</b> Currently, this parameter is only available if the <b>conversation_type</b> of the conversation is <code>FROM_MEMBERS</code>.</span>",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The maximum number of entries that can be returned on each page of the paginated response.<br><br>Use this parameter in conjunction with the <b>offset</b> parameter to control the pagination of the output. For example, if <b>offset</b> is set to <code>10</code> and <b>limit</b> is set to <code>10</code>, the call retrieves entries 11 through 20 from the result set.<br><br><span class=\"tablenote\"><b>Note:</b> This feature employs a zero-based list, where the first item in the list has an offset of <code>0</code>.</span><br>If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 25<br><br><b>Maximum:</b> 50",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "The number of reports to skip in the result set before returning the first entry in the paginated response.<br><br>Use this parameter in conjunction with the <b>limit</b> parameter to control the pagination of the output. For example, if <b>offset</b> is set to <code>0</code> and <b>limit</b> is set to <code>10</code>, the first page of the response will contain the first 10 entries from the complete list retrieved by the call.<br><br><span class=\"tablenote\"><b>Note:</b> This feature employs a zero-based list, where the first item in the list has an offset of <code>0</code>.</span><br>If this parameter is omitted, the default value is used.<br><br><b>Default:</b> 0",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "other_party_username",
+                        "in": "query",
+                        "description": "This query parameter specifies the user name (login name) of an eBay user for which to retrieve conversations.<br><br>If this filter is used, only conversation(s) from the other eBay user specified through this parameter will be returned. ",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "reference_id",
+                        "in": "query",
+                        "description": "This query parameter specifies the unique identifier of the reference (specified by the corresponding <b>reference_type</b> value) associated with the conversation. Only conversations associated with the specified reference ID will be returned.<br><br>For example, in the case of a <code>LISTING</code> reference, this value will be the item ID value of the listing.<br><br><span class=\"tablenote\"><b>Note:</b> If this query parameter is used, the <b>reference_type</b> parameter must also be used to specify the type of reference this ID is associated with.</span>",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "reference_type",
+                        "in": "query",
+                        "description": "This query parameter specifies the type of reference associated with a conversation.<br><br>The reference type is used to specify what the conversation is in reference to. For example, a value of <code>LISTING</code> specifies that the conversation is associated with a specific listing. The item ID associated with this listing can then be specified through the <b>reference_id</b> query parameter.<br><br>Currently, only the <code>LISTING</code> reference type is supported.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "start_time",
+                        "in": "query",
+                        "description": "This query parameter specifies the start time (in ISO 8601 format) for which to start retrieving conversations.<br><br>For example, if set to <code>2024-11-06T10:00:00.000Z</code>, only messages sent after this time will be retrieved.<br><br><b>Format:</b> yyyy-MM-ddThh:mm.ss.sssZ<br><br><span class=\"tablenote\"><b>Note:</b> Currently, this parameter is only available if the <b>conversation_type</b> of the conversation is <code>FROM_MEMBERS</code>.</span>",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetAllMyConversationsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "x-response-codes": {
+                            "errors": {
+                                "355001": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid conversation_status value. Please see documentation for valid values."
+                                },
+                                "355002": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid conversation_type value. Please see documentation for valid values."
+                                },
+                                "355003": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid reference_type value. Please see documentation for valid values."
+                                },
+                                "355004": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "The start_time must be an earlier date than end_time."
+                                },
+                                "355005": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid date format used for one or both date filters. Please use ISO 8601 dates with UTC offset."
+                                },
+                                "355006": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid or unrecognized other_party_username value."
+                                },
+                                "355008": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid offset. The offset value must be a positive integer value and synchronized up with the limit value. If the limit value is 20, value offset values would be 0, 20, 40, etc."
+                                },
+                                "355009": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid limit. The limit value must be a positive integer value that does not exceed {maximumAllowedLimitNumber}"
+                                },
+                                "355016": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid reference_id. The reference_id value must be a positive integer value."
+                                },
+                                "355017": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "The required conversation_type query parameter is either missing or has an invalid value. Please include this parameter and use a supported value."
+                                },
+                                "355022": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "The parameter reference_type is required whenever reference_id is provided."
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "x-response-codes": {
+                            "errors": {
+                                "335000": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "APPLICATION",
+                                    "description": "Internal server error encountered. If this problem persists, contact the eBay Developers Program for support."
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_auth": [
+                            "https://api.ebay.com/oauth/api_scope/commerce.message"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/send_message": {
+            "post": {
+                "tags": [
+                    "conversation"
+                ],
+                "description": "This method can be used to start a conversation with another user or send a message in an existing conversation with another user based on the information provided in the request.<br><br>To send a message, one of the <b>conversationId</b> or <b>otherPartyUsername</b> request fields are required. The <b>conversationId</b> must be used when sending a message in an existing conversation and specifies the conversation for which to send the message. For a new conversation, the <b>otherPartyUsername</b> field must be used to send the message to a specific user. In addition, the <b>messageText</b> field is required as it contains the body text of the message.<br><br>Optionally, media (such as images or documents) can be attached to the message using the <b>messageMedia</b> container. The <b>reference</b> container can also be used to associate a message with a listing.",
+                "operationId": "sendMessage",
+                "parameters": [
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "description": "This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br>For more information, refer to <a href=\"/api-docs/static/rest-request-components.html#HTTP\" target=\"_blank \">HTTP request headers</a>.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SendMessageRequest"
+                            }
+                        }
+                    },
+                    "required": false
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SendMessageResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "x-response-codes": {
+                            "errors": {
+                                "355003": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid referenceType value. Please see documentation for valid values."
+                                },
+                                "355006": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid or unrecognized otherPartyUsername value."
+                                },
+                                "355007": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid or unrecognized conversation_id value."
+                                },
+                                "355010": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "The maximum amount of media that may be sent is {maximumMediaAllowedCount}. Please reduce the number of media in the messageMedia array to {maximumMediaAllowedCount} and try again."
+                                },
+                                "355011": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid mediaType value. Please see documentation for valid values."
+                                },
+                                "355012": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "All fields under messageMedia are required. Please add missing field(s)."
+                                },
+                                "355013": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "The messageText string exceeds the maximum character threshold of {maximumMessageTextAllowedLength}. Please modify the message text to meet this requirement."
+                                },
+                                "355014": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid mediaUrl. Please see documentation."
+                                },
+                                "355015": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Please pass message text or upload one of more media attachments."
+                                },
+                                "355016": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid referenceId. The referenceId value must be a positive integer value."
+                                },
+                                "355018": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "conversationId and otherPartyUsername cannot both be empty."
+                                },
+                                "355020": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "The referenceId is invalid, no listing can be found by this referenceId."
+                                },
+                                "355021": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "All fields under reference are required. Please add missing field(s)."
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "x-response-codes": {
+                            "errors": {
+                                "335000": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "APPLICATION",
+                                    "description": "Internal server error encountered. If this problem persists, contact the eBay Developers Program for support."
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_auth": [
+                            "https://api.ebay.com/oauth/api_scope/commerce.message"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/update_conversation": {
+            "post": {
+                "tags": [
+                    "conversation"
+                ],
+                "description": "This method can be used to update the <b>conversationStatus</b> or the <b>read</b> status of a specified conversation.<br><br><span class=\"tablenote\"><b>Note:</b> Only one of these statuses can be updated at a time using this method. If both fields are included, only the <b>read</b> status of the specified conversation will be updated and the <b>conversationStatus</b> field will be ignored.</span><br>The <b>conversationId</b> of the conversation to modify, as well as the existing <b>conversationType</b> of the specified conversation are required as part of the request payload.<br><br><div class=\"msgbox_important\"><p class=\"msgbox_importantInDiv\" data-mc-autonum=\"&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;\"><span class=\"autonumber\"><span><b><span style=\"color: #dd1e31;\" class=\"mcFormatColor\">Important!</span></b></span></span> Though it cannot be updated, the existing <b>conversationType</b> of the specified conversation to be updated is required in the request payload. If this value is not provided, an error will occur.</p></div><br>To update a conversation's status (for example, updating an <code>ACTIVE</code> conversation to <code>ARCHIVE</code>), include the <b>conversationStatus</b> field in the request with the updated value. To update a conversation's read status (for example, updating an <code>UNREAD</code> conversation to <code>READ</code>), include the <b>read</b> boolean in the request with the updated value.",
+                "operationId": "updateConversation",
+                "parameters": [
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "description": "This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br>For more information, refer to <a href=\"/api-docs/static/rest-request-components.html#HTTP\" target=\"_blank \">HTTP request headers</a>.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateConversationRequest"
+                            }
+                        }
+                    },
+                    "required": false
+                },
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "x-response-codes": {
+                            "errors": {
+                                "355001": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid conversationStatus value. Please see documentation for valid values."
+                                },
+                                "355002": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid conversationType value. Please see documentation for valid values."
+                                },
+                                "355007": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "REQUEST",
+                                    "description": "Invalid or unrecognized conversation_id value."
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "x-response-codes": {
+                            "errors": {
+                                "335000": {
+                                    "domain": "API_MESSAGE",
+                                    "category": "APPLICATION",
+                                    "description": "Internal server error encountered. If this problem persists, contact the eBay Developers Program for support."
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_auth": [
+                            "https://api.ebay.com/oauth/api_scope/commerce.message"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "BulkConversation": {
+                "type": "object",
+                "properties": {
+                    "conversationId": {
+                        "type": "string",
+                        "description": "This field indicates the unique identifier of the conversation that is to be updated.<br><br>Use the <a href=\"/api-docs/commerce/message/resources/conversation/methods/getConversations\" target=\"_blank\">getConversations</a> method to retrieve conversation ID values."
+                    },
+                    "conversationStatus": {
+                        "type": "string",
+                        "description": "This field indicates the status for which to update the associated conversation.<br><br><b>Valid values:</b><ul><li><code>ACTIVE</code></li><li><code>ARCHIVE</code></li><li><code>DELETE</code></li><li><code>READ</code></li><li><code>UNREAD</code></li></ul>"
+                    },
+                    "conversationType": {
+                        "type": "string",
+                        "description": "This field specifies the existing type of the conversation that is to be updated.<br><br><div class=\"msgbox_important\"><p class=\"msgbox_importantInDiv\" data-mc-autonum=\"&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;\"><span class=\"autonumber\"><span><b><span style=\"color: #dd1e31;\" class=\"mcFormatColor\">Important!</span></b></span></span> This value <b>cannot</b> be updated using this method, but is required for each conversation being updated.</p></div><br><b>Valid values:</b><ul><li><code>FROM_MEMBERS</code></li><li><code>FROM_EBAY</code></li></ul>"
+                    }
+                },
+                "description": "This type specifies the conversations to be updated."
+            },
+            "BulkUpdateConversationsRequest": {
+                "type": "object",
+                "properties": {
+                    "conversations": {
+                        "type": "array",
+                        "description": "This array specifies the list of conversations to update and the updated <b>conversationStatus</b> for each.",
+                        "items": {
+                            "$ref": "#/components/schemas/BulkConversation"
+                        }
+                    }
+                },
+                "description": "This type defines the request body of the <b>bulkUpdateConversation</b> method."
+            },
+            "BulkUpdateConversationsResponse": {
+                "type": "object",
+                "properties": {
+                    "conversationsMetadata": {
+                        "description": "This container returns metadata from the call, such as how many conversations were updated, how many succeeded, and how many failed.",
+                        "$ref": "#/components/schemas/ConversationsMetadata"
+                    },
+                    "conversationsResponse": {
+                        "type": "array",
+                        "description": "This array returns a list of each conversation specified in the request, and if the requested update was successful or failed.",
+                        "items": {
+                            "$ref": "#/components/schemas/ConversationsResponse"
+                        }
+                    }
+                },
+                "description": "This type defines the response payload of the <b>bulkUpdateConversation</b> method."
+            },
+            "ConversationDetail": {
+                "type": "object",
+                "properties": {
+                    "conversationId": {
+                        "type": "string",
+                        "description": "The unique identifier of the conversation."
+                    },
+                    "conversationStatus": {
+                        "type": "string",
+                        "description": "This value indicates the current status of the conversation, such as <code>ACTIVE</code> or <code>ARCHIVE</code>."
+                    },
+                    "conversationTitle": {
+                        "type": "string",
+                        "description": "The title of the conversation."
+                    },
+                    "conversationType": {
+                        "type": "string",
+                        "description": "This value indicates the type of the conversation, such as <code>FROM_EBAY</code> or <code>FROM_MEMBERS</code>."
+                    },
+                    "createdDate": {
+                        "type": "string",
+                        "description": "This value indicates the date, in ISO 8601 format, the conversation was created."
+                    },
+                    "latestMessage": {
+                        "description": "This container returns the latest message in the conversation and its details.",
+                        "$ref": "#/components/schemas/MessageDetail"
+                    },
+                    "referenceId": {
+                        "type": "string",
+                        "description": "This value indicates the reference ID associated with the corresponding <b>referenceType</b> value.<br><br>In the case of a <code>LISTING</code> <b>referenceType</b>, this value will be the item ID value of the associated listing."
+                    },
+                    "referenceType": {
+                        "type": "string",
+                        "description": "This value indicates the reference type, if applicable, associated with the conversation.<br><br>The reference type is used to specify what the conversation is in reference to. For example, a value of <code>LISTING</code> specifies that the conversation is associated with a specific listing. The item ID associated with this listing will then be returned in the <b>referenceId</b> field.<br><br>Currently, only <code>LISTING</code> will be returned."
+                    },
+                    "unreadCount": {
+                        "type": "integer",
+                        "description": "This value indicates the amount of unread messages in the conversation.",
+                        "format": "int32"
+                    }
+                },
+                "description": "This type defines the details of a conversation, such as its ID, status, type, and latest message."
+            },
+            "ConversationsMetadata": {
+                "type": "object",
+                "properties": {
+                    "totalConversationsCount": {
+                        "type": "integer",
+                        "description": "The total amount of conversations being updated.",
+                        "format": "int32"
+                    },
+                    "updateFailureCount": {
+                        "type": "integer",
+                        "description": "The number of conversations in which the specified update failed.",
+                        "format": "int32"
+                    },
+                    "updateSuccessCount": {
+                        "type": "integer",
+                        "description": "The number of conversations in which the specified update succeeded.",
+                        "format": "int32"
+                    }
+                },
+                "description": "This type defines the metadata, such as successes and failures, associated with a bulk conversation status update."
+            },
+            "ConversationsResponse": {
+                "type": "object",
+                "properties": {
+                    "conversationId": {
+                        "type": "string",
+                        "description": "The unique identifier of the conversation."
+                    },
+                    "updateStatus": {
+                        "type": "string",
+                        "description": "The update status of the conversation, such as <code>SUCCESS</code> or <code>FAILURE</code>."
+                    }
+                },
+                "description": "This type provides the updated information for a conversation that has been modified."
+            },
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "category": {
+                        "type": "string",
+                        "description": "Identifies the type of erro."
+                    },
+                    "domain": {
+                        "type": "string",
+                        "description": "Name for the primary system where the error occurred. This is relevant for application errors."
+                    },
+                    "errorId": {
+                        "type": "integer",
+                        "description": "A unique number to identify the error.",
+                        "format": "int32"
+                    },
+                    "inputRefIds": {
+                        "type": "array",
+                        "description": "An array of request elements most closely associated to the error.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "longMessage": {
+                        "type": "string",
+                        "description": "A more detailed explanation of the error."
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Information on how to correct the problem, in the end user's terms and language where applicable."
+                    },
+                    "outputRefIds": {
+                        "type": "array",
+                        "description": "An array of request elements most closely associated to the error.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "parameters": {
+                        "type": "array",
+                        "description": "An array of name/value pairs that describe details the error condition. These are useful when multiple errors are returned.",
+                        "items": {
+                            "$ref": "#/components/schemas/ErrorParameter"
+                        }
+                    },
+                    "subdomain": {
+                        "type": "string",
+                        "description": "Further helps indicate which subsystem the error is coming from. System subcategories include: Initialization, Serialization, Security, Monitoring, Rate Limiting, etc."
+                    }
+                },
+                "description": "This type defines the fields that can be returned in an error."
+            },
+            "ErrorParameter": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The object of the error."
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "The value of the object."
+                    }
+                }
+            },
+            "GetAllMyConversationsResponse": {
+                "type": "object",
+                "properties": {
+                    "conversations": {
+                        "type": "array",
+                        "description": "This array returns the conversations that match the filter criteria.<br><br>Each conversation is returned with information such as its ID, status, title, type, and creation date, as well as the latest message in the conversation.",
+                        "items": {
+                            "$ref": "#/components/schemas/ConversationDetail"
+                        }
+                    },
+                    "href": {
+                        "type": "string",
+                        "description": "The URI to the current page of results."
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "The value of the <b>limit</b> parameter submitted in the request.",
+                        "format": "int32"
+                    },
+                    "next": {
+                        "type": "string",
+                        "description": "The URI for the next page of results.<br><br>This value is returned if there is an additional page of results in the result set."
+                    },
+                    "offset": {
+                        "type": "integer",
+                        "description": "The value of the <b>offset</b> parameter submitted in the request.",
+                        "format": "int32"
+                    },
+                    "prev": {
+                        "type": "string",
+                        "description": "The URI for the previous page of results.<br><br>This is retuned if there is a previous page of results in the result set."
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": "The total number of entries returned in the result set.",
+                        "format": "int32"
+                    }
+                },
+                "description": "This type defines the response payload of the <b>getConversations</b> method."
+            },
+            "GetMessagesByConversationIdResponse": {
+                "type": "object",
+                "properties": {
+                    "conversationStatus": {
+                        "type": "string",
+                        "description": "The current status of the conversation, such as <code>ACTIVE</code> or <code>ARCHIVE</code>. "
+                    },
+                    "conversationTitle": {
+                        "type": "string",
+                        "description": "The title of the conversation."
+                    },
+                    "conversationType": {
+                        "type": "string",
+                        "description": "The type of the conversation, such as <code>FROM_EBAY</code> or <code>FROM_MEMBERS</code>."
+                    },
+                    "href": {
+                        "type": "string",
+                        "description": "The URI to the current page of results."
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "The value of the <b>limit</b> parameter submitted in the request.",
+                        "format": "int32"
+                    },
+                    "messages": {
+                        "type": "array",
+                        "description": "This array returns a list of messages from the specified conversation.",
+                        "items": {
+                            "$ref": "#/components/schemas/MessageDetail"
+                        }
+                    },
+                    "next": {
+                        "type": "string",
+                        "description": "The URI for the next page of results.<br><br>This value is only returned if there is an additional page of results in the result set."
+                    },
+                    "offset": {
+                        "type": "integer",
+                        "description": "The value of the <b>offset</b> parameter submitted in the request.",
+                        "format": "int32"
+                    },
+                    "prev": {
+                        "type": "string",
+                        "description": "The URI for the previous page of results.<br><br>This is only retuned if there is a previous page of results in the result set."
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": "The total number of entries returned in the result set.",
+                        "format": "int32"
+                    }
+                },
+                "description": "This type defines the response payload of the <b>getConversation</b> method."
+            },
+            "MessageDetail": {
+                "type": "object",
+                "properties": {
+                    "createdDate": {
+                        "type": "string",
+                        "description": "The date,  in ISO 8601 format, the message was received."
+                    },
+                    "messageBody": {
+                        "type": "string",
+                        "description": "The message text."
+                    },
+                    "messageId": {
+                        "type": "string",
+                        "description": "The unique identifier of the message."
+                    },
+                    "messageMedia": {
+                        "type": "array",
+                        "description": "This array returns a list, if applicable, of media attached to the message.",
+                        "items": {
+                            "$ref": "#/components/schemas/MessageMedia"
+                        }
+                    },
+                    "readStatus": {
+                        "type": "boolean",
+                        "description": "This boolean indicates if the message has been viewed by the recipient.<br><br>If this boolean is returned as <code>true</code>, the message has been read. If this boolean is returned as <code>false</code>, the message has not been read."
+                    },
+                    "recipientUsername": {
+                        "type": "string",
+                        "description": "The eBay username of the message recipient."
+                    },
+                    "senderUsername": {
+                        "type": "string",
+                        "description": "The eBay username of the message sender."
+                    },
+                    "subject": {
+                        "type": "string",
+                        "description": "The subject line of the message."
+                    }
+                },
+                "description": "This type defines message details for a conversation."
+            },
+            "MessageMedia": {
+                "type": "object",
+                "properties": {
+                    "mediaName": {
+                        "type": "string",
+                        "description": "The name of the media attached to the message."
+                    },
+                    "mediaType": {
+                        "type": "string",
+                        "description": "The type of media attached to the message.<br><br><b>Valid values:</b><ul><li><code>IMAGE</code></li><li><code>PDF</code></li><li><code>DOC</code></li><li><code>TXT</code></li></ul>"
+                    },
+                    "mediaUrl": {
+                        "type": "string",
+                        "description": "The URL of the self-hosted media attached to the message. URLs must use the \"HTTPS\" protocol."
+                    }
+                },
+                "description": "This type specifies the type of message media sent when sending a message."
+            },
+            "Reference": {
+                "type": "object",
+                "properties": {
+                    "referenceId": {
+                        "type": "string",
+                        "description": "This value indicates the reference ID associated with the corresponding <b>referenceType</b> value.<br><br>For example, in the case of a <code>LISTING</code> reference type, this value will be the item ID value of the listing."
+                    },
+                    "referenceType": {
+                        "type": "string",
+                        "description": "This value indicates the reference type to associate with the conversation.<br><br>The reference type is used to specify what the conversation is in reference to. For example, a value of <code>LISTING</code> specifies that the conversation is associated with a specific listing. The item ID associated with this listing will then be returned in the <b>referenceId</b> field.<br><br>Currently, only <code>LISTING</code> is supported."
+                    }
+                },
+                "description": "This type specifies the reference type and associated reference ID associated with a message."
+            },
+            "SendMessageRequest": {
+                "type": "object",
+                "properties": {
+                    "conversationId": {
+                        "type": "string",
+                        "description": "This field specifies the unique identifier of the conversation in which to send the message.<br><br>Use the <a href=\"/api-docs/commerce/message/resources/conversation/methods/getConversations\" target=\"_blank\">getConversations</a> method to retrieve conversation ID values.<br><br>This field is required if sending a message in an existing conversation."
+                    },
+                    "emailCopyToSender": {
+                        "type": "boolean",
+                        "description": "This boolean indicates whether a copy of the message should be emailed to the sender.<br><br>If this boolean is input as <code>true</code>, a copy of the message will be emailed to the sender."
+                    },
+                    "messageMedia": {
+                        "type": "array",
+                        "description": "This array lists the individual forms of media, if any, to be attached to the message.<br><br>Up to five individual forms of media may be be sent per message. If more than five are specified in this array, an error will occur and the call will fail.",
+                        "items": {
+                            "$ref": "#/components/schemas/MessageMedia"
+                        }
+                    },
+                    "messageText": {
+                        "type": "string",
+                        "description": "The text of the message.<br><br><b>Max length:</b> 2000 characters"
+                    },
+                    "otherPartyUsername": {
+                        "type": "string",
+                        "description": "This field specifies the eBay username of the entity for which to send the message.<br><br>This field is required if starting a new conversation with another eBay user."
+                    },
+                    "reference": {
+                        "description": "This container should be used if the new or existing conversation is related to a specific eBay listing.<br><br>For example, a <b>referenceType</b> of <code>LISTING</code> and an associated <b>referenceId</b> will specify the item ID value of the listing associated with the message.",
+                        "$ref": "#/components/schemas/Reference"
+                    }
+                },
+                "description": "This type defines the request payload of the <b>sendMessage</b> method."
+            },
+            "SendMessageResponse": {
+                "type": "object",
+                "properties": {
+                    "createdDate": {
+                        "type": "string",
+                        "description": "The date, in ISO 8601 format, the message was sent."
+                    },
+                    "messageBody": {
+                        "type": "string",
+                        "description": "The message text."
+                    },
+                    "messageId": {
+                        "type": "string",
+                        "description": "The unique identifier of the message."
+                    },
+                    "messageMedia": {
+                        "type": "array",
+                        "description": "This array will be returned if the user attached one or more images or documents to the message.",
+                        "items": {
+                            "$ref": "#/components/schemas/MessageMedia"
+                        }
+                    },
+                    "readStatus": {
+                        "type": "boolean",
+                        "description": "The read status of the message.<br><br>If returned as <code>true</code>, the message has been read by the recipient."
+                    },
+                    "recipientUserName": {
+                        "type": "string",
+                        "description": "The eBay username of the recipient."
+                    },
+                    "senderUserName": {
+                        "type": "string",
+                        "description": "The eBay username of the sender."
+                    },
+                    "subject": {
+                        "type": "string",
+                        "description": "The subject line of the message."
+                    }
+                },
+                "description": "This type defines the response payload of the <b>sendMessage</b> method."
+            },
+            "UpdateConversationRequest": {
+                "type": "object",
+                "properties": {
+                    "conversationId": {
+                        "type": "string",
+                        "description": "This field specifies the unique identifier of the conversation that is to be updated.<br><br>Use the <a href=\"/api-docs/commerce/message/resources/conversation/methods/getConversations\" target=\"_blank\">getConversations</a> method to retrieve conversation ID values"
+                    },
+                    "conversationStatus": {
+                        "type": "string",
+                        "description": "This field specifies the status for which to update the specified conversation.<br><br><b>Valid values:</b><ul><li><code>ACTIVE</code></li><li><code>ARCHIVE</code></li><li><code>DELETE</code></li></ul><span class=\"tablenote\"><b>Note:</b> This field should not be used in conjunction with the <b>read</b> field. If both fields are input in the request, only the <b>read</b> status will be updated for the specified conversation and the <b>conversationStatus</b> field will be ignored.</span>"
+                    },
+                    "conversationType": {
+                        "type": "string",
+                        "description": "This field specifies the existing type of the conversation being updated.<br><br><div class=\"msgbox_important\"><p class=\"msgbox_importantInDiv\" data-mc-autonum=\"&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;\"><span class=\"autonumber\"><span><b><span style=\"color: #dd1e31;\" class=\"mcFormatColor\">Important!</span></b></span></span> This value <b>cannot</b> be updated using this method, but is required as part of the request payload.</p></div><br><b>Valid values:</b><ul><li><code>FROM_MEMBERS</code></li><li><code>FROM_EBAY</code></li></ul>"
+                    },
+                    "read": {
+                        "type": "boolean",
+                        "description": "This boolean specifies the read status for which to update the conversation.<br><br>If set to <code>true</code>, the conversation will update to 'read', and if set to <code>false</code>, the conversation will update to 'unread'.<br><br><span class=\"tablenote\"><b>Note:</b> This field should not be used in conjunction with the <b>conversationStatus</b> field. If both fields are input in the request, only the <b>read</b> status will be updated for the specified conversation and the <b>conversationStatus</b> field will be ignored.</span>"
+                    }
+                },
+                "description": "This type defines the request payload of the <b>updateConversation</b> method."
+            }
+        },
+        "securitySchemes": {
+            "api_auth": {
+                "type": "oauth2",
+                "description": "The security definitions for this API. Please check individual operations for applicable scopes.",
+                "flows": {}
+            }
+        }
+    }
+}
