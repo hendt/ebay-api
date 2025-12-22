@@ -1,4 +1,11 @@
 # eBay API Changelog
+## [9.4.0](https://github.com/hendt/ebay-api/compare/v9.3.1...v9.4.0) (2025-12-22)
+
+
+### Features
+
+* message API v1 ([fa23326](https://github.com/hendt/ebay-api/commit/fa233264592fe2e706997dc346bd22fa2d313552))
+
 ### [9.3.1](https://github.com/hendt/ebay-api/compare/v9.3.0...v9.3.1) (2025-12-06)
 
 
