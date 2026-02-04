@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [9.4.1-RC.0](https://github.com/hendt/ebay-api/compare/v9.4.0...v9.4.1-RC.0) (2026-02-04)
+
+
+### Bug Fixes
+
+* **deps:** upgrade openapi-typescript to v7 ([4859d9c](https://github.com/hendt/ebay-api/commit/4859d9c3596d2d1b4a37594c533aefb3a64e93cf))
+
 ## [9.4.0](https://github.com/hendt/ebay-api/compare/v9.3.1...v9.4.0) (2025-12-22)
 
 
