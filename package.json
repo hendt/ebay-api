@@ -75,7 +75,6 @@
   "scripts": {
     "cjs:fix": "node -e \"require('fs').writeFileSync('lib/package.json', JSON.stringify({type: 'commonjs'}, null, 2))\"",
     "build": "rimraf lib dist && tsc && tsc --project tsconfig.cjs.json && rollup -c --bundleConfigAsCjs && npm run cjs:fix",
-    "prepare": "npm run build",
     "tslint": "tslint -c tslint.json '{src,test,examples}/**/*.ts'",
     "tslint:fix": "tslint --fix -c tslint.json '{src,test,examples}/**/*.ts'",
     "test": "mocha --reporter=dot",
