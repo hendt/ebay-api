@@ -11,8 +11,6 @@ export const defaultXmlBuilderOptions = {
   attributeNamePrefix: '@_',
   textNodeName: '#value',
   ignoreAttributes: false,
-  cdataTagName: '__cdata',
-  cdataPositionChar: '\\c',
   format: false,
   indentBy: '  ',
   suppressEmptyNode: false,
@@ -24,7 +22,7 @@ export const defaultXML2JSONParseOptions = {
   textNodeName: 'value',
   ignoreAttributes: false,
   parseAttributeValue: true,
-  parseNodeValue: true,
+  parseTagValue: true,
   numberParseOptions: {
     hex: false,
     leadingZeros: false
