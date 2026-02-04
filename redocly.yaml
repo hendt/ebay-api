@@ -1,0 +1,141 @@
+apis:
+  buy_browse_v1:
+    root: specs/buy_browse_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/buy_browse_v1_oas3.ts
+  buy_deal_v1:
+    root: specs/buy_deal_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/buy_deal_v1_oas3.ts
+  buy_feed_v1_beta:
+    root: specs/buy_feed_v1_beta_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/buy_feed_v1_beta_oas3.ts
+  buy_marketing_v1_beta:
+    root: specs/buy_marketing_v1_beta_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/buy_marketing_v1_beta_oas3.ts
+  buy_marketplace_insights_v1_beta:
+    root: specs/buy_marketplace_insights_v1_beta_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/buy_marketplace_insights_v1_beta_oas3.ts
+  buy_offer_v1_beta:
+    root: specs/buy_offer_v1_beta_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/buy_offer_v1_beta_oas3.ts
+  buy_order_v1_beta:
+    root: specs/buy_order_v1_beta_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/buy_order_v1_beta_oas3.ts
+  cancellation:
+    root: specs/cancellation_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/cancellation_oas3.ts
+  case:
+    root: specs/case_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/case_oas3.ts
+  commerce_catalog_v1_beta:
+    root: specs/commerce_catalog_v1_beta_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/commerce_catalog_v1_beta_oas3.ts
+  commerce_charity_v1:
+    root: specs/commerce_charity_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/commerce_charity_v1_oas3.ts
+  commerce_identity_v1:
+    root: specs/commerce_identity_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/commerce_identity_v1_oas3.ts
+  commerce_media_v1_beta:
+    root: specs/commerce_media_v1_beta_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/commerce_media_v1_beta_oas3.ts
+  commerce_message_v1:
+    root: specs/commerce_message_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/commerce_message_v1_oas3.ts
+  commerce_notification_v1:
+    root: specs/commerce_notification_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/commerce_notification_v1_oas3.ts
+  commerce_taxonomy_v1:
+    root: specs/commerce_taxonomy_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/commerce_taxonomy_v1_oas3.ts
+  commerce_translation_v1_beta:
+    root: specs/commerce_translation_v1_beta_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/commerce_translation_v1_beta_oas3.ts
+  developer_analytics_v1_beta:
+    root: specs/developer_analytics_v1_beta_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/developer_analytics_v1_beta_oas3.ts
+  developer_key_management_v1:
+    root: specs/developer_key_management_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/developer_key_management_v1_oas3.ts
+  inquiry:
+    root: specs/inquiry_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/inquiry_oas3.ts
+  return:
+    root: specs/return_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/return_oas3.ts
+  sell_account_v1:
+    root: specs/sell_account_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/sell_account_v1_oas3.ts
+  sell_account_v2:
+    root: specs/sell_account_v2_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/sell_account_v2_oas3.ts
+  sell_analytics_v1:
+    root: specs/sell_analytics_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/sell_analytics_v1_oas3.ts
+  sell_compliance_v1:
+    root: specs/sell_compliance_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/sell_compliance_v1_oas3.ts
+  sell_feed_v1:
+    root: specs/sell_feed_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/sell_feed_v1_oas3.ts
+  sell_finances_v1:
+    root: specs/sell_finances_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/sell_finances_v1_oas3.ts
+  sell_fulfillment_v1:
+    root: specs/sell_fulfillment_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/sell_fulfillment_v1_oas3.ts
+  sell_inventory_v1:
+    root: specs/sell_inventory_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/sell_inventory_v1_oas3.ts
+  sell_listing_v1_beta:
+    root: specs/sell_listing_v1_beta_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/sell_listing_v1_beta_oas3.ts
+  sell_logistics_v1:
+    root: specs/sell_logistics_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/sell_logistics_v1_oas3.ts
+  sell_marketing_v1:
+    root: specs/sell_marketing_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/sell_marketing_v1_oas3.ts
+  sell_metadata_v1:
+    root: specs/sell_metadata_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/sell_metadata_v1_oas3.ts
+  sell_negotiation_v1:
+    root: specs/sell_negotiation_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/sell_negotiation_v1_oas3.ts
+  sell_recommendation_v1:
+    root: specs/sell_recommendation_v1_oas3.json
+    x-openapi-ts:
+      output: src/types/restful/specs/sell_recommendation_v1_oas3.ts

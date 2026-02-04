@@ -3,157 +3,183 @@
  * Do not make direct changes to the file.
  */
 
-
 export interface paths {
-  "/user/": {
-    /** @description This method retrieves the account profile information for an authenticated user, which requires a User access token. What is returned is controlled by the scopes. For a business account you use the default scope commerce.identity.readonly, which returns all the fields in the businessAccount container. These are returned because this is all public information. For an individual account, the fields returned in the individualAccount container are based on the scope you use. Using the default scope, only public information, such as eBay user ID, are returned. For details about what each scope returns, see the Identity API Overview. */
-    get: operations["getUser"];
-  };
-}
-
-export type webhooks = Record<string, never>;
-
-export interface components {
-  schemas: {
-    /** @description The type that defines the fields for an address. */
-    Address: {
-      /** @description The first line of the street address. */
-      addressLine1?: string;
-      /** @description The second line of the street address. This field is not always used, but can be used for 'Suite Number' or 'Apt Number'. */
-      addressLine2?: string;
-      /** @description The city of the address. */
-      city?: string;
-      /** @description The two-letter ISO 3166 standard of the country of the address. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/identity/types/CountryCodeEnum.html'>eBay API documentation</a> */
-      country?: string;
-      /** @description The county of the address. */
-      county?: string;
-      /** @description The postal code of the address. */
-      postalCode?: string;
-      /** @description The state or province of the address. */
-      stateOrProvince?: string;
-    };
-    /** @description The type that defines the fields for the business account information. */
-    BusinessAccount: {
-      /** @description The container that returns the address of the business account. */
-      address?: components["schemas"]["Address"];
-      /** @description An additional name that is used for their business on eBay. The business name is returned in the name field. */
-      doingBusinessAs?: string;
-      /** @description The email address of the business account. */
-      email?: string;
-      /** @description The business name associated with the user's eBay account. */
-      name?: string;
-      /** @description The container that returns the contact details of the person who is the primary contact for this account. */
-      primaryContact?: components["schemas"]["Contact"];
-      /** @description The container that returns the primary phone number for the business account. */
-      primaryPhone?: components["schemas"]["Phone"];
-      /** @description The container that returns the secondary phone number for the business account. */
-      secondaryPhone?: components["schemas"]["Phone"];
-      /** @description The business website address associated with the eBay account. */
-      website?: string;
-    };
-    /** @description The type that defines the fields for the information of the contact person for the account. */
-    Contact: {
-      /** @description The first name of the contact person. */
-      firstName?: string;
-      /** @description The last name of the contact person. */
-      lastName?: string;
-    };
-    /** @description This type defines the fields that can be returned in an error. */
-    Error: {
-      /** @description Identifies the type of erro. */
-      category?: string;
-      /** @description Name for the primary system where the error occurred. This is relevant for application errors. */
-      domain?: string;
-      /**
-       * Format: int32 
-       * @description A unique number to identify the error.
-       */
-      errorId?: number;
-      /** @description An array of request elements most closely associated to the error. */
-      inputRefIds?: (string)[];
-      /** @description A more detailed explanation of the error. */
-      longMessage?: string;
-      /** @description Information on how to correct the problem, in the end user's terms and language where applicable. */
-      message?: string;
-      /** @description An array of request elements most closely associated to the error. */
-      outputRefIds?: (string)[];
-      /** @description An array of name/value pairs that describe details the error condition. These are useful when multiple errors are returned. */
-      parameters?: (components["schemas"]["ErrorParameter"])[];
-      /** @description Further helps indicate which subsystem the error is coming from. System subcategories include: Initialization, Serialization, Security, Monitoring, Rate Limiting, etc. */
-      subdomain?: string;
-    };
-    ErrorParameter: {
-      /** @description The object of the error. */
-      name?: string;
-      /** @description The value of the object. */
-      value?: string;
-    };
-    /** @description The type that defines the fields for the information of an individual account. */
-    IndividualAccount: {
-      /** @description The eBay user's registration email address. */
-      email?: string;
-      /** @description The eBay user's first name. */
-      firstName?: string;
-      /** @description The eBay user's last name. */
-      lastName?: string;
-      /** @description The container that returns the eBay user's primary phone number information. */
-      primaryPhone?: components["schemas"]["Phone"];
-      /** @description The container that returns the eBay user's address information. */
-      registrationAddress?: components["schemas"]["Address"];
-      /** @description The container that returns the eBay user's secondary phone number information. */
-      secondaryPhone?: components["schemas"]["Phone"];
-    };
-    /** @description The type that defines the fields for the details of a phone. */
-    Phone: {
-      /** @description The two-letter ISO 3166 standard of the country to which the phone number belongs. */
-      countryCode?: string;
-      /** @description The numeric string representing the phone number. */
-      number?: string;
-      /** @description The type of phone service. Valid Values: MOBILE or LAND_LINE Code so that your app gracefully handles any future changes to this list. */
-      phoneType?: string;
-    };
-    /** @description The type that defines the fields for the getUser method. */
-    UserResponse: {
-      /** @description Indicates the user account type. This is determined when the user registers with eBay. If they register for a business account, this value will be BUSINESS. If they register for a private account, this value will be INDIVIDUAL. This designation is required by the tax laws in the following countries: EBAY_AT, EBAY_BE, EBAY_CH, EBAY_DE, EBAY_ES, EBAY_FR, EBAY_GB, EBAY_IE, EBAY_IT, EBAY_PL Valid Values: BUSINESS or INDIVIDUAL Code so that your app gracefully handles any future changes to this list. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/identity/types/AccountTypeEnum.html'>eBay API documentation</a> */
-      accountType?: string;
-      /** @description The container that returns the business account information of the user. */
-      businessAccount?: components["schemas"]["BusinessAccount"];
-      /** @description The account information of the user. */
-      individualAccount?: components["schemas"]["IndividualAccount"];
-      /** @description The eBay site on which the account is registered. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/identity/types/MarketplaceIdEnum.html'>eBay API documentation</a> */
-      registrationMarketplaceId?: string;
-      /** @description Indicates the user's account status. Possible values: CONFIRMED, UNCONFIRMED, ACCOUNTONHOLD and UNDETERMINED. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/identity/types/UserStatusEnum.html'>eBay API documentation</a> */
-      status?: string;
-      /** @description The eBay immutable user ID of the user's account and can always be used to identify the user. */
-      userId?: string;
-      /** @description The user name, which was specific by the user when they created the account. Note: This value can be changed by the user. */
-      username?: string;
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
-}
-
-export type external = Record<string, never>;
-
-export interface operations {
-
-  /** @description This method retrieves the account profile information for an authenticated user, which requires a User access token. What is returned is controlled by the scopes. For a business account you use the default scope commerce.identity.readonly, which returns all the fields in the businessAccount container. These are returned because this is all public information. For an individual account, the fields returned in the individualAccount container are based on the scope you use. Using the default scope, only public information, such as eBay user ID, are returned. For details about what each scope returns, see the Identity API Overview. */
-  getUser: {
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["UserResponse"];
+    "/user/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description Not found */
-      404: never;
-      /** @description Internal Server Error */
-      500: never;
+        /** @description This method retrieves the account profile information for an authenticated user, which requires a User access token. What is returned is controlled by the scopes. For a business account you use the default scope commerce.identity.readonly, which returns all the fields in the businessAccount container. These are returned because this is all public information. For an individual account, the fields returned in the individualAccount container are based on the scope you use. Using the default scope, only public information, such as eBay user ID, are returned. For details about what each scope returns, see the Identity API Overview. */
+        get: operations["getUser"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-  };
+}
+export type webhooks = Record<string, never>;
+export interface components {
+    schemas: {
+        /** @description The type that defines the fields for an address. */
+        Address: {
+            /** @description The first line of the street address. */
+            addressLine1?: string;
+            /** @description The second line of the street address. This field is not always used, but can be used for 'Suite Number' or 'Apt Number'. */
+            addressLine2?: string;
+            /** @description The city of the address. */
+            city?: string;
+            /** @description The two-letter ISO 3166 standard of the country of the address. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/identity/types/CountryCodeEnum.html'>eBay API documentation</a> */
+            country?: string;
+            /** @description The county of the address. */
+            county?: string;
+            /** @description The postal code of the address. */
+            postalCode?: string;
+            /** @description The state or province of the address. */
+            stateOrProvince?: string;
+        };
+        /** @description The type that defines the fields for the business account information. */
+        BusinessAccount: {
+            /** @description The container that returns the address of the business account. */
+            address?: components["schemas"]["Address"];
+            /** @description An additional name that is used for their business on eBay. The business name is returned in the name field. */
+            doingBusinessAs?: string;
+            /** @description The email address of the business account. */
+            email?: string;
+            /** @description The business name associated with the user's eBay account. */
+            name?: string;
+            /** @description The container that returns the contact details of the person who is the primary contact for this account. */
+            primaryContact?: components["schemas"]["Contact"];
+            /** @description The container that returns the primary phone number for the business account. */
+            primaryPhone?: components["schemas"]["Phone"];
+            /** @description The container that returns the secondary phone number for the business account. */
+            secondaryPhone?: components["schemas"]["Phone"];
+            /** @description The business website address associated with the eBay account. */
+            website?: string;
+        };
+        /** @description The type that defines the fields for the information of the contact person for the account. */
+        Contact: {
+            /** @description The first name of the contact person. */
+            firstName?: string;
+            /** @description The last name of the contact person. */
+            lastName?: string;
+        };
+        /** @description This type defines the fields that can be returned in an error. */
+        Error: {
+            /** @description Identifies the type of erro. */
+            category?: string;
+            /** @description Name for the primary system where the error occurred. This is relevant for application errors. */
+            domain?: string;
+            /**
+             * Format: int32
+             * @description A unique number to identify the error.
+             */
+            errorId?: number;
+            /** @description An array of request elements most closely associated to the error. */
+            inputRefIds?: string[];
+            /** @description A more detailed explanation of the error. */
+            longMessage?: string;
+            /** @description Information on how to correct the problem, in the end user's terms and language where applicable. */
+            message?: string;
+            /** @description An array of request elements most closely associated to the error. */
+            outputRefIds?: string[];
+            /** @description An array of name/value pairs that describe details the error condition. These are useful when multiple errors are returned. */
+            parameters?: components["schemas"]["ErrorParameter"][];
+            /** @description Further helps indicate which subsystem the error is coming from. System subcategories include: Initialization, Serialization, Security, Monitoring, Rate Limiting, etc. */
+            subdomain?: string;
+        };
+        ErrorParameter: {
+            /** @description The object of the error. */
+            name?: string;
+            /** @description The value of the object. */
+            value?: string;
+        };
+        /** @description The type that defines the fields for the information of an individual account. */
+        IndividualAccount: {
+            /** @description The eBay user's registration email address. */
+            email?: string;
+            /** @description The eBay user's first name. */
+            firstName?: string;
+            /** @description The eBay user's last name. */
+            lastName?: string;
+            /** @description The container that returns the eBay user's primary phone number information. */
+            primaryPhone?: components["schemas"]["Phone"];
+            /** @description The container that returns the eBay user's address information. */
+            registrationAddress?: components["schemas"]["Address"];
+            /** @description The container that returns the eBay user's secondary phone number information. */
+            secondaryPhone?: components["schemas"]["Phone"];
+        };
+        /** @description The type that defines the fields for the details of a phone. */
+        Phone: {
+            /** @description The two-letter ISO 3166 standard of the country to which the phone number belongs. */
+            countryCode?: string;
+            /** @description The numeric string representing the phone number. */
+            number?: string;
+            /** @description The type of phone service. Valid Values: MOBILE or LAND_LINE Code so that your app gracefully handles any future changes to this list. */
+            phoneType?: string;
+        };
+        /** @description The type that defines the fields for the getUser method. */
+        UserResponse: {
+            /** @description Indicates the user account type. This is determined when the user registers with eBay. If they register for a business account, this value will be BUSINESS. If they register for a private account, this value will be INDIVIDUAL. This designation is required by the tax laws in the following countries: EBAY_AT, EBAY_BE, EBAY_CH, EBAY_DE, EBAY_ES, EBAY_FR, EBAY_GB, EBAY_IE, EBAY_IT, EBAY_PL Valid Values: BUSINESS or INDIVIDUAL Code so that your app gracefully handles any future changes to this list. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/identity/types/AccountTypeEnum.html'>eBay API documentation</a> */
+            accountType?: string;
+            /** @description The container that returns the business account information of the user. */
+            businessAccount?: components["schemas"]["BusinessAccount"];
+            /** @description The account information of the user. */
+            individualAccount?: components["schemas"]["IndividualAccount"];
+            /** @description The eBay site on which the account is registered. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/identity/types/MarketplaceIdEnum.html'>eBay API documentation</a> */
+            registrationMarketplaceId?: string;
+            /** @description Indicates the user's account status. Possible values: CONFIRMED, UNCONFIRMED, ACCOUNTONHOLD and UNDETERMINED. For implementation help, refer to <a href='https://developer.ebay.com/devzone/rest/api-ref/identity/types/UserStatusEnum.html'>eBay API documentation</a> */
+            status?: string;
+            /** @description The eBay immutable user ID of the user's account and can always be used to identify the user. */
+            userId?: string;
+            /** @description The user name, which was specific by the user when they created the account. Note: This value can be changed by the user. */
+            username?: string;
+        };
+    };
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
+}
+export type $defs = Record<string, never>;
+export interface operations {
+    getUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserResponse"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
 }

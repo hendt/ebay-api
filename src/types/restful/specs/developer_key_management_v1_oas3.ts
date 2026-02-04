@@ -3,167 +3,274 @@
  * Do not make direct changes to the file.
  */
 
-
 export interface paths {
-  "/signing_key": {
-    /** @description This method returns the <b>Public Key</b>, <b>Public Key as JWE</b>, and metadata for all keypairs associated with the application key making the call.<br/><br/><span class="tablenote"><b>Note:</b> It is important to note that <code>privateKey</code> values are <b>not</b> returned. In order to further ensure the security of confidential client information, eBay does <b>not</b> store <code>privateKey</code> values in any system. If a developer loses their <code>privateKey</code> they must generate new keypairs set using the <code>createSigningKey</code> method.</span> */
-    get: operations["getSigningKeys"];
-    /** @description This method creates keypairs using one of the following ciphers:<ul><li>ED25519 (Edwards Curve)</li><li>RSA</li></ul><span class="tablenote"><b>Note:</b> The recommended signature cipher is <b>ED25519</b> (Edwards Curve) since it uses much shorter keys and therefore decreases the header size. However, for development frameworks that do not support ED25519, RSA is also supported.</span><br/>Following a successful completion, the following keys are returned:<ul><li>Private Key</li><li>Public Key</li><li>Public Key as JWE</li></ul>Once keypairs are created, developers are <b>strongly advised</b> to create and store a local copy of each keypair for future reference. Although the <b>Public Key</b>, <b>Public Key as JWE</b>, and metadata for keypairs may be retrieved by the <code>getSigningKey</code> and <code>getSigningKeys</code> methods, in order to further ensure the security of confidential client information, eBay does not store the <b>Private Key</b> value in any system. If a developer loses their <b>Private Key</b> they must generate new keypairs using the <code>createSigningKey</code> method.<br/><span class="tablenote"><b>Note:</b> For additional information about using keypairs, refer to <a href= "/develop/guides/digital-signatures-for-apis " target= "_blank ">Digital Signatures for APIs</a>.</span> */
-    post: operations["createSigningKey"];
-  };
-  "/signing_key/{signing_key_id}": {
-    /** @description This method returns the <b>Public Key</b>, <b>Public Key as JWE</b>, and metadata for a specified <code>signingKeyId</code> associated with the application key making the call.<br/><br/><span class="tablenote"><b>Note:</b> It is important to note that the <code>privateKey</code> value is <b>not</b> returned. In order to further ensure the security of confidential client information, eBay does <b>not</b> store the <code>privateKey</code> value in any system. If a developer loses their <code>privateKey</code> they must generate new keypairs using the <code>createSigningKey</code> method.</span> */
-    get: operations["getSigningKey"];
-  };
+    "/signing_key": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method returns the <b>Public Key</b>, <b>Public Key as JWE</b>, and metadata for all keypairs associated with the application key making the call.<br/><br/><span class="tablenote"><b>Note:</b> It is important to note that <code>privateKey</code> values are <b>not</b> returned. In order to further ensure the security of confidential client information, eBay does <b>not</b> store <code>privateKey</code> values in any system. If a developer loses their <code>privateKey</code> they must generate new keypairs set using the <code>createSigningKey</code> method.</span> */
+        get: operations["getSigningKeys"];
+        put?: never;
+        /** @description This method creates keypairs using one of the following ciphers:<ul><li>ED25519 (Edwards Curve)</li><li>RSA</li></ul><span class="tablenote"><b>Note:</b> The recommended signature cipher is <b>ED25519</b> (Edwards Curve) since it uses much shorter keys and therefore decreases the header size. However, for development frameworks that do not support ED25519, RSA is also supported.</span><br/>Following a successful completion, the following keys are returned:<ul><li>Private Key</li><li>Public Key</li><li>Public Key as JWE</li></ul>Once keypairs are created, developers are <b>strongly advised</b> to create and store a local copy of each keypair for future reference. Although the <b>Public Key</b>, <b>Public Key as JWE</b>, and metadata for keypairs may be retrieved by the <code>getSigningKey</code> and <code>getSigningKeys</code> methods, in order to further ensure the security of confidential client information, eBay does not store the <b>Private Key</b> value in any system. If a developer loses their <b>Private Key</b> they must generate new keypairs using the <code>createSigningKey</code> method.<br/><span class="tablenote"><b>Note:</b> For additional information about using keypairs, refer to <a href= "/develop/guides/digital-signatures-for-apis " target= "_blank ">Digital Signatures for APIs</a>.</span> */
+        post: operations["createSigningKey"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/signing_key/{signing_key_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method returns the <b>Public Key</b>, <b>Public Key as JWE</b>, and metadata for a specified <code>signingKeyId</code> associated with the application key making the call.<br/><br/><span class="tablenote"><b>Note:</b> It is important to note that the <code>privateKey</code> value is <b>not</b> returned. In order to further ensure the security of confidential client information, eBay does <b>not</b> store the <code>privateKey</code> value in any system. If a developer loses their <code>privateKey</code> they must generate new keypairs using the <code>createSigningKey</code> method.</span> */
+        get: operations["getSigningKey"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
-
 export type webhooks = Record<string, never>;
-
 export interface components {
-  schemas: {
-    /** @description This request creates a new signing key. */
-    CreateSigningKeyRequest: {
-      /** @description The enumerated value for the cipher to be used to create the signing key. Refer to <a href= "/api-docs/developer/key-management/types/api:SigningKeyCipher" target= "_blank">SigningKeyCiper</a> for the list of supported enum values. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/developer/key_management/types/api:SigningKeyCipher'>eBay API documentation</a> */
-      signingKeyCipher?: string;
+    schemas: {
+        /** @description This request creates a new signing key. */
+        CreateSigningKeyRequest: {
+            /** @description The enumerated value for the cipher to be used to create the signing key. Refer to <a href= "/api-docs/developer/key-management/types/api:SigningKeyCipher" target= "_blank">SigningKeyCiper</a> for the list of supported enum values. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/developer/key_management/types/api:SigningKeyCipher'>eBay API documentation</a> */
+            signingKeyCipher?: string;
+        };
+        /** @description This type defines the fields that can be returned in an error. */
+        Error: {
+            /** @description Identifies the type of erro. */
+            category?: string;
+            /** @description Name for the primary system where the error occurred. This is relevant for application errors. */
+            domain?: string;
+            /**
+             * Format: int32
+             * @description A unique number to identify the error.
+             */
+            errorId?: number;
+            /** @description An array of request elements most closely associated to the error. */
+            inputRefIds?: string[];
+            /** @description A more detailed explanation of the error. */
+            longMessage?: string;
+            /** @description Information on how to correct the problem, in the end user's terms and language where applicable. */
+            message?: string;
+            /** @description An array of request elements most closely associated to the error. */
+            outputRefIds?: string[];
+            /** @description An array of name/value pairs that describe details the error condition. These are useful when multiple errors are returned. */
+            parameters?: components["schemas"]["ErrorParameter"][];
+            /** @description Further helps indicate which subsystem the error is coming from. System subcategories include: Initialization, Serialization, Security, Monitoring, Rate Limiting, etc. */
+            subdomain?: string;
+        };
+        ErrorParameter: {
+            /** @description The object of the error. */
+            name?: string;
+            /** @description The value of the object. */
+            value?: string;
+        };
+        /** @description This container stores metadata information for all keypairs that are owned by a user. */
+        QuerySigningKeysResponse: {
+            /** @description An array of metadata information for keypairs owned by a user. */
+            signingKeys?: components["schemas"]["SigningKey"][];
+        };
+        /** @description This container stores metadata for a signing key. */
+        SigningKey: {
+            /**
+             * Format: int32
+             * @description The UNIX timestamp when the <code>SigningKey</code> was created. This time is represented as the number of seconds from "1970-01-01T00:00:00Z", as measured in UTC, until the date and time the <code>SigningKey</code> was created.
+             */
+            creationTime?: number;
+            /**
+             * Format: int32
+             * @description The UNIX timestamp when the <code>SigningKey</code> expires. This time is represented as the number of seconds from "1970-01-01T00:00:00Z", as measured in UTC, until the date and time the <code>SigningKey</code> expires.<br/><span class="tablenote"><b>Note:</b> All keys have an expiration date of three (3) years after their <code>creationTime</code>.</span>
+             */
+            expirationTime?: number;
+            /** @description This is the JSON Web Encrypted (JWE) value for the <code>publicKey</code>. */
+            jwe?: string;
+            /** @description This is the Private Key that has been generated using the specified <code>signingKeyCipher</code>.<br/><span class="tablenote"><b>Note:</b> The <code>privateKey</code> value will <b>only</b> be returned in the response payload of the  <code>createSigningKey</code> method.<br/><br/>It will <i>never</i> be returned by the <code>getSigningKey</code> or <code>getSigningKeys</code> methods.</span>Developers are <b>strongly advised</b> to download their <code>privateKey</code> value as Privacy Enhance Mail (PEM) format and store it locally for future reference. In order to guarantee the security of confidential client information, eBay does not store <code>privateKey</code> values on any system.<br/><span class="tablenote"><b>Note:</b> If a developer loses their <code>privateKey</code> they must generate new keypairs set using the <code>createSigningKey</code> method.</span> */
+            privateKey?: string;
+            /** @description This is the Public Key that has been generated using the specified <code>signingKeyCipher</code>.<br/><br/>As a matter of good practice, developers are <b>strongly advised</b> to download this value and store it locally for safe-keeping and future reference. */
+            publicKey?: string;
+            /** @description Indicates the cipher used to create the keypairs. Refer to <a href= "/api-docs/developer/key-management/types/api:SigningKeyCipher" target= "_blank">SigningKeyCiper</a> for the list of supported enum values. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/developer/key_management/types/api:SigningKeyCipher'>eBay API documentation</a> */
+            signingKeyCipher?: string;
+            /** @description The system-generated eBay ID for the keypairs. */
+            signingKeyId?: string;
+        };
     };
-    /** @description This type defines the fields that can be returned in an error. */
-    Error: {
-      /** @description Identifies the type of erro. */
-      category?: string;
-      /** @description Name for the primary system where the error occurred. This is relevant for application errors. */
-      domain?: string;
-      /**
-       * Format: int32 
-       * @description A unique number to identify the error.
-       */
-      errorId?: number;
-      /** @description An array of request elements most closely associated to the error. */
-      inputRefIds?: (string)[];
-      /** @description A more detailed explanation of the error. */
-      longMessage?: string;
-      /** @description Information on how to correct the problem, in the end user's terms and language where applicable. */
-      message?: string;
-      /** @description An array of request elements most closely associated to the error. */
-      outputRefIds?: (string)[];
-      /** @description An array of name/value pairs that describe details the error condition. These are useful when multiple errors are returned. */
-      parameters?: (components["schemas"]["ErrorParameter"])[];
-      /** @description Further helps indicate which subsystem the error is coming from. System subcategories include: Initialization, Serialization, Security, Monitoring, Rate Limiting, etc. */
-      subdomain?: string;
-    };
-    ErrorParameter: {
-      /** @description The object of the error. */
-      name?: string;
-      /** @description The value of the object. */
-      value?: string;
-    };
-    /** @description This container stores metadata information for all keypairs that are owned by a user. */
-    QuerySigningKeysResponse: {
-      /** @description An array of metadata information for keypairs owned by a user. */
-      signingKeys?: (components["schemas"]["SigningKey"])[];
-    };
-    /** @description This container stores metadata for a signing key. */
-    SigningKey: {
-      /**
-       * Format: int32 
-       * @description The UNIX timestamp when the <code>SigningKey</code> was created. This time is represented as the number of seconds from "1970-01-01T00:00:00Z", as measured in UTC, until the date and time the <code>SigningKey</code> was created.
-       */
-      creationTime?: number;
-      /**
-       * Format: int32 
-       * @description The UNIX timestamp when the <code>SigningKey</code> expires. This time is represented as the number of seconds from "1970-01-01T00:00:00Z", as measured in UTC, until the date and time the <code>SigningKey</code> expires.<br/><span class="tablenote"><b>Note:</b> All keys have an expiration date of three (3) years after their <code>creationTime</code>.</span>
-       */
-      expirationTime?: number;
-      /** @description This is the JSON Web Encrypted (JWE) value for the <code>publicKey</code>. */
-      jwe?: string;
-      /** @description This is the Private Key that has been generated using the specified <code>signingKeyCipher</code>.<br/><span class="tablenote"><b>Note:</b> The <code>privateKey</code> value will <b>only</b> be returned in the response payload of the  <code>createSigningKey</code> method.<br/><br/>It will <i>never</i> be returned by the <code>getSigningKey</code> or <code>getSigningKeys</code> methods.</span>Developers are <b>strongly advised</b> to download their <code>privateKey</code> value as Privacy Enhance Mail (PEM) format and store it locally for future reference. In order to guarantee the security of confidential client information, eBay does not store <code>privateKey</code> values on any system.<br/><span class="tablenote"><b>Note:</b> If a developer loses their <code>privateKey</code> they must generate new keypairs set using the <code>createSigningKey</code> method.</span> */
-      privateKey?: string;
-      /** @description This is the Public Key that has been generated using the specified <code>signingKeyCipher</code>.<br/><br/>As a matter of good practice, developers are <b>strongly advised</b> to download this value and store it locally for safe-keeping and future reference. */
-      publicKey?: string;
-      /** @description Indicates the cipher used to create the keypairs. Refer to <a href= "/api-docs/developer/key-management/types/api:SigningKeyCipher" target= "_blank">SigningKeyCiper</a> for the list of supported enum values. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/developer/key_management/types/api:SigningKeyCipher'>eBay API documentation</a> */
-      signingKeyCipher?: string;
-      /** @description The system-generated eBay ID for the keypairs. */
-      signingKeyId?: string;
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
-
-export type external = Record<string, never>;
-
+export type $defs = Record<string, never>;
 export interface operations {
-
-  /** @description This method returns the <b>Public Key</b>, <b>Public Key as JWE</b>, and metadata for all keypairs associated with the application key making the call.<br/><br/><span class="tablenote"><b>Note:</b> It is important to note that <code>privateKey</code> values are <b>not</b> returned. In order to further ensure the security of confidential client information, eBay does <b>not</b> store <code>privateKey</code> values in any system. If a developer loses their <code>privateKey</code> they must generate new keypairs set using the <code>createSigningKey</code> method.</span> */
-  getSigningKeys: {
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["QuerySigningKeysResponse"];
+    getSigningKeys: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Unauthorized */
-      401: never;
-      /** @description Forbidden */
-      403: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This method creates keypairs using one of the following ciphers:<ul><li>ED25519 (Edwards Curve)</li><li>RSA</li></ul><span class="tablenote"><b>Note:</b> The recommended signature cipher is <b>ED25519</b> (Edwards Curve) since it uses much shorter keys and therefore decreases the header size. However, for development frameworks that do not support ED25519, RSA is also supported.</span><br/>Following a successful completion, the following keys are returned:<ul><li>Private Key</li><li>Public Key</li><li>Public Key as JWE</li></ul>Once keypairs are created, developers are <b>strongly advised</b> to create and store a local copy of each keypair for future reference. Although the <b>Public Key</b>, <b>Public Key as JWE</b>, and metadata for keypairs may be retrieved by the <code>getSigningKey</code> and <code>getSigningKeys</code> methods, in order to further ensure the security of confidential client information, eBay does not store the <b>Private Key</b> value in any system. If a developer loses their <b>Private Key</b> they must generate new keypairs using the <code>createSigningKey</code> method.<br/><span class="tablenote"><b>Note:</b> For additional information about using keypairs, refer to <a href= "/develop/guides/digital-signatures-for-apis " target= "_blank ">Digital Signatures for APIs</a>.</span> */
-  createSigningKey: {
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["CreateSigningKeyRequest"];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["SigningKey"];
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuerySigningKeysResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Unauthorized */
-      401: never;
-      /** @description Forbidden */
-      403: never;
-      /** @description Internal Server Error */
-      500: never;
     };
-  };
-  /** @description This method returns the <b>Public Key</b>, <b>Public Key as JWE</b>, and metadata for a specified <code>signingKeyId</code> associated with the application key making the call.<br/><br/><span class="tablenote"><b>Note:</b> It is important to note that the <code>privateKey</code> value is <b>not</b> returned. In order to further ensure the security of confidential client information, eBay does <b>not</b> store the <code>privateKey</code> value in any system. If a developer loses their <code>privateKey</code> they must generate new keypairs using the <code>createSigningKey</code> method.</span> */
-  getSigningKey: {
-    parameters: {
-      path: {
-        /** @description The system-generated eBay ID of the keypairs being requested. */
-        signing_key_id: string;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        content: {
-          "application/json": components["schemas"]["SigningKey"];
+    createSigningKey: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Unauthorized */
-      401: never;
-      /** @description Forbidden */
-      403: never;
-      /** @description Not found */
-      404: never;
-      /** @description Internal Server Error */
-      500: never;
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CreateSigningKeyRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SigningKey"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-  };
+    getSigningKey: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The system-generated eBay ID of the keypairs being requested. */
+                signing_key_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SigningKey"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
 }
