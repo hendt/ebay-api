@@ -128,7 +128,7 @@ export default class Taxonomy extends Restful implements OpenApi<operations> {
       params: {
         category_id: categoryId,
         compatibility_property: compatibilityProperty,
-        filter: filter
+        ...(filter?.trim() && { filter })
       }
     });
   }
