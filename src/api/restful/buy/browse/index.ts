@@ -36,7 +36,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    * @param {BrowseSearchParams} params
    */
   public search(params: BuyBrowseSearchParams) {
-    return this.get(`/item_summary/search`, {
+    return this.get('/item_summary/search', {
       params
     });
   }
@@ -49,7 +49,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    * @param {Object} body The container for the image information fields.
    */
   public searchByImage(params: BuyBrowseSearchByImageParams, body?: SearchByImageRequest) {
-    return this.post(`/item_summary/search_by_image`, body, {
+    return this.post('/item_summary/search_by_image', body, {
       params
     });
   }
@@ -60,7 +60,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    * @param {params} params
    */
   public getItems(params: BuyBrowseGetItemsParams) {
-    return this.get(`/item/`, {
+    return this.get('/item/', {
       params
     });
   }
@@ -88,7 +88,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    * @param {LegacyItemParams} params
    */
   public getItemByLegacyId(params: BuyBrowseItemByLegacyIdParams) {
-    return this.get(`/item/get_item_by_legacy_id`, {
+    return this.get('/item/get_item_by_legacy_id', {
       params
     });
   }
@@ -99,7 +99,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    * @param itemGroupId
    */
   public getItemsByItemGroup(itemGroupId: string) {
-    return this.get(`/item/get_items_by_item_group`, {
+    return this.get('/item/get_items_by_item_group', {
       params: {
         item_group_id: itemGroupId
       }
@@ -127,7 +127,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    * @param {Object} item AddCartItemInput
    */
   public addItem(item: AddCartItemInput) {
-    return this.post(`/shopping_cart/add_item`, item);
+    return this.post('/shopping_cart/add_item', item);
   }
 
   /**
@@ -135,7 +135,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    * items added to the cart while on ebay.com as well as items added to the cart using the Browse API.
    */
   public getShoppingCart() {
-    return this.get(`/shopping_cart/`);
+    return this.get('/shopping_cart/');
   }
 
   /**
@@ -144,7 +144,7 @@ export default class Browse extends Restful implements OpenApi<operations> {
    *  @param {Object} item RemoveCartItemInput
    */
   public removeItem(item: RemoveCartItemInput) {
-    return this.post(`/shopping_cart/remove_item`, item);
+    return this.post('/shopping_cart/remove_item', item);
   }
 
   /**
@@ -154,6 +154,6 @@ export default class Browse extends Restful implements OpenApi<operations> {
    * @param {UpdateCartItemInput} item UpdateCartItemInput
    */
   public updateQuantity(item: UpdateCartItemInput) {
-    return this.post(`/shopping_cart/update_quantity`, item);
+    return this.post('/shopping_cart/update_quantity', item);
   }
 }

@@ -1,4 +1,3 @@
-// tslint:disable:no-console
 import eBayApi from '../../src/eBayApi.js';
 
 import {EventType} from '../../src/api/traditional/clientAlerts';

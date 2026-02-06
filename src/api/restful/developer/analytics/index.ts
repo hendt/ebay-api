@@ -19,7 +19,7 @@ export default class Analytics extends Restful implements OpenApi<operations> {
    * @param apiName This optional query parameter filters the result to include only the APIs specified.
    */
   public getRateLimits(apiContext?: string, apiName?: string) {
-    return this.get(`/rate_limit/`, {
+    return this.get('/rate_limit/', {
       params: {
         api_context: apiContext,
         api_name: apiName
@@ -34,7 +34,7 @@ export default class Analytics extends Restful implements OpenApi<operations> {
    * @param apiName This optional query parameter filters the result to include only the APIs specified.
    */
   public getUserRateLimits(apiContext: string, apiName: string) {
-    return this.get(`/user_rate_limit/`, {
+    return this.get('/user_rate_limit/', {
       params: {
         api_context: apiContext,
         api_name: apiName

@@ -54,26 +54,26 @@ export default class Fulfillment extends Restful implements OpenApi<operations> 
    * @param fieldGroups The response type associated with the order. The only presently supported value is <code>TAX_BREAKDOWN</code>.
    */
   public getOrders({
-                     filter,
-                     limit,
-                     offset,
-                     orderIds,
-                     fieldGroups,
-                   }: {
+    filter,
+    limit,
+    offset,
+    orderIds,
+    fieldGroups
+  }: {
     filter?: string,
     limit?: number,
     offset?: number,
     orderIds?: string | string[],
     fieldGroups?: string
   } = {}) {
-    return this.get(`/order`, {
+    return this.get('/order', {
       params: {
         filter,
         limit,
         offset,
         orderIds: Array.isArray(orderIds) ? orderIds.join() : orderIds,
         fieldGroups
-      },
+      }
     });
   }
 
@@ -109,7 +109,7 @@ export default class Fulfillment extends Restful implements OpenApi<operations> 
    */
   public createShippingFulfillment(
     orderId: string,
-    body: ShippingFulfillmentDetails,
+    body: ShippingFulfillmentDetails
   ) {
     orderId = encodeURIComponent(orderId);
     return this.post(`/order/${orderId}/shipping_fulfillment`, body);
@@ -168,15 +168,15 @@ export default class Fulfillment extends Restful implements OpenApi<operations> 
    * @param offset This field is used to specify the number of records to skip in the result set before returning the first payment dispute in the paginated response.
    */
   public getPaymentDisputeSummaries({
-                                      orderId: order_id,
-                                      buyerUsername: buyer_username,
-                                      openDateFrom: open_date_from,
-                                      openDateTo: open_date_to,
-                                      paymentDisputeStatus: payment_dispute_status,
-                                      limit,
-                                      offset
-                                    }: PaymentParams) {
-    return this.get(`/payment_dispute_summary`, {
+    orderId: order_id,
+    buyerUsername: buyer_username,
+    openDateFrom: open_date_from,
+    openDateTo: open_date_to,
+    paymentDisputeStatus: payment_dispute_status,
+    limit,
+    offset
+  }: PaymentParams) {
+    return this.get('/payment_dispute_summary', {
       params: {
         order_id,
         buyer_username,

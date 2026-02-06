@@ -46,7 +46,7 @@ export default class Notification extends Restful implements OpenApi<operations>
    * @param continuationToken The token used to access the next set of results.
    */
   public getTopics({limit, continuationToken: continuation_token}: NotificationParams) {
-    return this.get(`/topic`, {
+    return this.get('/topic', {
       params: {
         limit,
         continuation_token
@@ -61,7 +61,7 @@ export default class Notification extends Restful implements OpenApi<operations>
    * @param continuation_token The continuation token for the next set of results.
    */
   public getSubscriptions({limit, continuationToken: continuation_token}: NotificationParams) {
-    return this.get(`/subscription`, {
+    return this.get('/subscription', {
       params: {
         limit,
         continuation_token
@@ -75,7 +75,7 @@ export default class Notification extends Restful implements OpenApi<operations>
    * @param body The create subscription request.
    */
   public createSubscription(body: CreateSubscriptionRequest) {
-    return this.post(`/subscription`, body);
+    return this.post('/subscription', body);
   }
 
   /**
@@ -143,7 +143,7 @@ export default class Notification extends Restful implements OpenApi<operations>
    * @param subscriptionId The unique identifier for the subscription.
    */
   public getDestinations({limit, continuationToken: continuation_token}: NotificationParams) {
-    return this.get(`/destination`, {
+    return this.get('/destination', {
       params: {
         limit,
         continuation_token
@@ -157,7 +157,7 @@ export default class Notification extends Restful implements OpenApi<operations>
    * @param body The create destination request.
    */
   public createDestination(body: DestinationRequest) {
-    return this.post(`/destination`, body);
+    return this.post('/destination', body);
   }
 
   /**
@@ -195,7 +195,7 @@ export default class Notification extends Restful implements OpenApi<operations>
    * This method allows applications to retrieve a previously created configuration.
    */
   public getConfig() {
-    return this.get(`/config`);
+    return this.get('/config');
   }
 
   /**
@@ -204,6 +204,6 @@ export default class Notification extends Restful implements OpenApi<operations>
    * @param body The configurations for this application.
    */
   public updateConfig(body: CommerceNotificationConfig) {
-    return this.put(`/config`, body);
+    return this.put('/config', body);
   }
 }

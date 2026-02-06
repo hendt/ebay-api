@@ -19,7 +19,7 @@ export default class Compliance extends Restful implements OpenApi<operations> {
    * @param complianceType A user passes in one or more compliance type values through this query parameter.
    */
   public getListingViolationsSummary(complianceType?: string) {
-    return this.get(`/listing_violation_summary`, {
+    return this.get('/listing_violation_summary', {
       params: {
         compliance_type: complianceType
       }
@@ -38,7 +38,7 @@ export default class Compliance extends Restful implements OpenApi<operations> {
    */
   public getListingViolations({complianceType, offset, listingId, limit}:
                                 { complianceType?: string, offset?: number, listingId?: string, limit?: number } = {}) {
-    return this.get(`/listing_violation`, {
+    return this.get('/listing_violation', {
       params: {
         compliance_type: complianceType,
         offset,
@@ -54,6 +54,6 @@ export default class Compliance extends Restful implements OpenApi<operations> {
    * @param body  SuppressViolationRequest
    */
   public suppressViolation(body: SuppressViolationRequest) {
-    return this.post(`/suppress_listing_violation`, body);
+    return this.post('/suppress_listing_violation', body);
   }
 }

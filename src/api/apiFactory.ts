@@ -23,7 +23,7 @@ import {
 } from './restful/commerce/index.js';
 import {Analytics as DeveloperAnalytics, Developer, KeyManagement} from './restful/developer/index.js';
 import RestfulApi, {IRestful} from './restful/index.js';
-import {Cancellation, Case, Inquiry, PostOrder, Return,} from './restful/postOrder/index.js';
+import {Cancellation, Case, Inquiry, PostOrder, Return} from './restful/postOrder/index.js';
 import {
   AccountV1,
   AccountV2,
@@ -58,7 +58,7 @@ export default class ApiFactory extends Api {
       offer: this.createRestfulApi(Offer),
       order: this.createRestfulApi(Order),
       deal: this.createRestfulApi(Deal),
-      marketplaceInsights:  this.createRestfulApi(MarketplaceInsights),
+      marketplaceInsights:  this.createRestfulApi(MarketplaceInsights)
     };
   }
 
@@ -78,7 +78,7 @@ export default class ApiFactory extends Api {
   public createDeveloperApi(): Developer {
     return {
       analytics: this.createRestfulApi(DeveloperAnalytics),
-      keyManagement: this.createRestfulApi(KeyManagement),
+      keyManagement: this.createRestfulApi(KeyManagement)
     };
   }
 
@@ -87,7 +87,7 @@ export default class ApiFactory extends Api {
       cancellation: this.createRestfulApi(Cancellation),
       case: this.createRestfulApi(Case),
       inquiry: this.createRestfulApi(Inquiry),
-      return: this.createRestfulApi(Return),
+      return: this.createRestfulApi(Return)
     };
   }
 
@@ -106,7 +106,7 @@ export default class ApiFactory extends Api {
       feed: this.createRestfulApi(SellFeed),
       logistics: this.createRestfulApi(Logistics),
       negotiation: this.createRestfulApi(Negotiation),
-      listing: this.createRestfulApi(Listing),
+      listing: this.createRestfulApi(Listing)
     };
   }
 
@@ -138,7 +138,6 @@ export default class ApiFactory extends Api {
     return this.traditional.createMerchandisingApi();
   }
 
-  // tslint:disable-next-line:variable-name
   private createRestfulApi<T extends RestfulApi>(RestfulApiClass: IRestful): T {
     const id = RestfulApiClass.id;
     return (

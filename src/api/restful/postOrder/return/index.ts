@@ -67,7 +67,7 @@ export default class Return extends Restful {
    * @param payload the CheckEligibilityRequest
    */
   public checkReturnEligibility(payload: CheckEligibilityRequest) {
-    return this.post(`/return/check_eligibility`, payload);
+    return this.post('/return/check_eligibility', payload);
   }
 
   /**
@@ -86,7 +86,7 @@ export default class Return extends Restful {
    * @param payload the SetReturnCreationSessionRequest
    */
   public createReturnDraft(payload: SetReturnCreationSessionRequest) {
-    return this.post(`/return/draft`, payload);
+    return this.post('/return/draft', payload);
   }
 
   /**
@@ -96,7 +96,7 @@ export default class Return extends Restful {
    * @param fieldGroups can be used in the call URI to control the detail level that is returned in response.
    */
   public createReturnRequest(payload: CreateReturnRequest, fieldGroups?: GetReturnFieldGroupEnum | `${GetReturnFieldGroupEnum}`) {
-    return this.post(`/return`, payload, {
+    return this.post('/return', payload, {
       params: {
         fieldgroups: fieldGroups
       }
@@ -178,7 +178,7 @@ export default class Return extends Restful {
    * @param payload the GetEstimateRequest
    */
   public getReturnEstimate(payload: GetEstimateRequest) {
-    return this.post(`/return/estimate`, payload);
+    return this.post('/return/estimate', payload);
   }
 
   /**
@@ -195,7 +195,7 @@ export default class Return extends Restful {
    * Retrieve seller's return preferences.
    */
   public getReturnPreferences() {
-    return this.get(`/return/preference`);
+    return this.get('/return/preference');
   }
 
   /**
@@ -296,7 +296,7 @@ export default class Return extends Restful {
    * @param params the SearchReturnParams
    */
   public search(params: SearchReturnParams) {
-    return this.get(`/return/search`, {
+    return this.get('/return/search', {
       params
     });
   }
@@ -334,7 +334,7 @@ export default class Return extends Restful {
    *     a Return Merchandise Authorization (RMA) when returning an item.
    */
   public setReturnPreferences(rmaRequired: boolean) {
-    return this.post(`/return/preference`, {
+    return this.post('/return/preference', {
       rmaRequired
     });
   }

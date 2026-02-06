@@ -19,7 +19,7 @@ export default class Negotiation extends Restful implements OpenApi<operations> 
    * @param offset This query parameter specifies the number of results to skip in the result set before returning the first result in the paginated response.
    */
   public findEligibleItems({limit, offset}: { limit?: string, offset?: string } = {}) {
-    return this.get(`/find_eligible_items`, {
+    return this.get('/find_eligible_items', {
       params: {
         limit,
         offset
@@ -33,6 +33,6 @@ export default class Negotiation extends Restful implements OpenApi<operations> 
    * @param data The CreateOffersRequest
    */
   public sendOfferToInterestedBuyers(data: any) {
-    return this.post(`/send_offer_to_interested_buyers`, data);
+    return this.post('/send_offer_to_interested_buyers', data);
   }
 }

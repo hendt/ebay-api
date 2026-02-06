@@ -164,7 +164,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param body This type defines the fields to create a quick setup Promoted Listings Advanced (PLA) campaign.
    */
   public setupQuickCampaign(body: QuickSetupRequest) {
-    return this.post(`/ad_campaign/setup_quick_campaign`, body);
+    return this.post('/ad_campaign/setup_quick_campaign', body);
   }
 
   /**
@@ -265,7 +265,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    *     single listing) or INVENTORY_ITEM_GROUP (a multi-variation listing).
    */
   public getAdsByInventoryReference(campaignId: string, inventoryReferenceId: string,
-                                    inventoryReferenceType: string) {
+    inventoryReferenceType: string) {
     campaignId = encodeURIComponent(campaignId);
     return this.get(`/ad_campaign/${campaignId}/get_ads_by_inventory_reference`, {
       params: {
@@ -409,7 +409,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
                           campaignName?: string, campaignStatus?: string, endDateRange?: string, limit?: number,
                           offset?: number, startDateRange?: string
                         } = {}) {
-    return this.get(`/ad_campaign`, {
+    return this.get('/ad_campaign', {
       params: {
         campaign_name: campaignName,
         campaign_status: campaignStatus,
@@ -438,7 +438,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param body his type defines the fields for the create campaign request.
    */
   public createCampaign(body: CreateCampaignRequest) {
-    return this.post(`/ad_campaign`, body);
+    return this.post('/ad_campaign', body);
   }
 
   /**
@@ -479,7 +479,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
     inventoryReferenceType?: string,
     listingId?: string
   } = {}) {
-    return this.get(`/ad_campaign/find_campaign_by_ad_reference`, {
+    return this.get('/ad_campaign/find_campaign_by_ad_reference', {
       params: {
         inventory_reference_id: inventoryReferenceId,
         inventory_reference_type: inventoryReferenceType,
@@ -494,7 +494,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param campaignName Name of the campaign.
    */
   public getCampaignByName(campaignName: string) {
-    return this.get(`/ad_campaign/get_campaign_by_name`, {
+    return this.get('/ad_campaign/get_campaign_by_name', {
       params: {
         campaign_name: campaignName
       }
@@ -668,7 +668,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param body A type that defines the fields for the bulk request to create negative keywords.
    */
   public bulkCreateNegativeKeyword(body: BulkCreateNegativeKeywordRequest) {
-    return this.post(`/bulk_create_negative_keyword`, body);
+    return this.post('/bulk_create_negative_keyword', body);
   }
 
   /**
@@ -676,7 +676,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param body A type that defines the fields for the bulk request to create negative keywords.
    */
   public bulkUpdateNegativeKeyword(body: BulkUpdateNegativeKeywordRequest) {
-    return this.post(`/bulk_update_negative_keyword`, body);
+    return this.post('/bulk_update_negative_keyword', body);
   }
 
   /**
@@ -688,19 +688,19 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param offset The number of results that will be skipped in the result set.
    */
   public getNegativeKeywords({
-                               adGroupIds,
-                               campaignIds,
-                               limit,
-                               negativeKeywordStatus,
-                               offset
-                             }: {
+    adGroupIds,
+    campaignIds,
+    limit,
+    negativeKeywordStatus,
+    offset
+  }: {
     adGroupIds?: string,
     campaignIds?: string,
     limit?: number,
     negativeKeywordStatus?: string,
     offset?: number
   } = {}) {
-    return this.get(`/negative_keyword`, {
+    return this.get('/negative_keyword', {
       params: {
         ad_group_ids: adGroupIds,
         campaign_ids: campaignIds, limit,
@@ -714,7 +714,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param body A type that defines the fields for the request to create a negative keyword.
    */
   public createNegativeKeyword(body: CreateNegativeKeywordRequest) {
-    return this.post(`/negative_keyword`, body);
+    return this.post('/negative_keyword', body);
   }
 
   /**
@@ -751,7 +751,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * This call retrieves information that details the fields used in each of the Promoted Listings reports.
    */
   public getReportMetadata() {
-    return this.get(`/ad_report_metadata`);
+    return this.get('/ad_report_metadata');
   }
 
   /**
@@ -777,7 +777,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    */
   public getReportTasks({limit, offset, reportTaskStatuses}:
                           { limit?: number, offset?: number, reportTaskStatuses?: string } = {}) {
-    return this.get(`/ad_report_task`, {
+    return this.get('/ad_report_task', {
       params: {
         limit,
         offset,
@@ -805,7 +805,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param body The container for the fields that define the report task.
    */
   public createReportTask(body: CreateReportTask) {
-    return this.post(`/ad_report_task`, body);
+    return this.post('/ad_report_task', body);
   }
 
   /**
@@ -826,7 +826,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param body This type defines the fields that describe an item price markdown promotion.
    */
   public createItemPriceMarkdownPromotion(body: ItemPriceMarkdown) {
-    return this.post(`/item_price_markdown`, body);
+    return this.post('/item_price_markdown', body);
   }
 
   /**
@@ -869,7 +869,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param body This type defines the fields that describe an item promotion.
    */
   public createItemPromotion(body: ItemPromotion) {
-    return this.post(`/item_promotion`, body);
+    return this.post('/item_promotion', body);
   }
 
   /**
@@ -920,7 +920,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param status This query parameter applies only to markdown promotions.
    */
   public getListingSet(promotionId: string,
-                       {limit, offset, q, sort, status}: {
+    {limit, offset, q, sort, status}: {
                          limit?: number, offset?: number, q?: string,
                          sort?: string, status?: string
                        } = {}) {
@@ -950,12 +950,12 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param sort Specifies the order for how to sort the response.
    */
   public getPromotions(marketplaceId: string,
-                       {limit, offset, promotionStatus, promotionType, q, sort}:
+    {limit, offset, promotionStatus, promotionType, q, sort}:
                          {
                            limit?: number, offset?: number, promotionStatus?: string, promotionType?: string,
                            q?: string, sort?: string
                          } = {}) {
-    return this.get(`/promotion`, {
+    return this.get('/promotion', {
       params: {
         marketplace_id: marketplaceId,
         limit,
@@ -1008,7 +1008,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    */
   public getPromotionReports(marketplaceId: string, {limit, offset, promotionStatus, promotionType, q}:
     { limit?: number, offset?: number, promotionStatus?: string, promotionType?: string, q?: string } = {}) {
-    return this.get(`/promotion_report`, {
+    return this.get('/promotion_report', {
       params: {
         marketplace_id: marketplaceId,
         limit,
@@ -1026,7 +1026,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param marketplaceId The eBay marketplace ID of the siteId you for which you want a promotion summary report.
    */
   public getPromotionSummaryReport(marketplaceId: string) {
-    return this.get(`/promotion_summary_report`, {
+    return this.get('/promotion_summary_report', {
       params: {
         marketplace_id: marketplaceId
       }
@@ -1046,7 +1046,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    */
   public getEmailCampaigns({limit, q, offset, sort}:
                              { limit?: number, q?: string, offset?: number, sort?: string } = {}) {
-    return this.get(`/email_campaign`, {
+    return this.get('/email_campaign', {
       params: {
         limit,
         offset,
@@ -1061,7 +1061,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param body Create a new email campaign request.
    */
   public createEmailCampaign(body: CreateEmailCampaignRequest) {
-    return this.post(`/email_campaign`, body);
+    return this.post('/email_campaign', body);
   }
 
   /**
@@ -1096,7 +1096,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * This method retrieves all available email newsletter audiences.
    */
   public getAudiences() {
-    return this.get(`/email_campaign/audience`);
+    return this.get('/email_campaign/audience');
   };
 
   /**
@@ -1105,7 +1105,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param endDate The end date for the report, given in UTC format. The maximum date range for a report retrieved by this method is one year.
    */
   public getEmailReport(startDate: string, endDate: string) {
-    return this.get(`/email_campaign/report`, {
+    return this.get('/email_campaign/report', {
       params: {
         startDate,
         endDate

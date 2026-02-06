@@ -32,7 +32,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * @param policyTypes This query parameter specifies the type of custom policies to be returned.
    */
   public getCustomPolicies(policyTypes: string) {
-    return this.get(`/custom_policy/`, {
+    return this.get('/custom_policy/', {
       params: {
         policy_types: policyTypes
       }
@@ -44,7 +44,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * @param body Request to create a new Custom Policy.
    */
   public createCustomPolicy(body: CustomPolicyCreateRequest) {
-    return this.post(`/custom_policy/`, body);
+    return this.post('/custom_policy/', body);
   }
 
   /**
@@ -73,7 +73,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * @param marketplaceId This query parameter specifies the eBay marketplace of the policies you want to retrieve.
    */
   public getFulfillmentPolicies(marketplaceId: string) {
-    return this.get(`/fulfillment_policy`, {
+    return this.get('/fulfillment_policy', {
       params: {
         marketplace_id: marketplaceId
       }
@@ -87,7 +87,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * @param body Request to create a seller account fulfillment policy.
    */
   public createFulfillmentPolicy(body: FulfillmentPolicyRequest) {
-    return this.post(`/fulfillment_policy/`, body);
+    return this.post('/fulfillment_policy/', body);
   }
 
   /**
@@ -128,7 +128,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * @param name This query parameter specifies the user-defined name of the fulfillment policy you want to retrieve.
    */
   public getFulfillmentPolicyByName(marketplaceId: string, name: string) {
-    return this.get(`/fulfillment_policy/get_by_policy_name`, {
+    return this.get('/fulfillment_policy/get_by_policy_name', {
       params: {
         marketplace_id: marketplaceId,
         name
@@ -143,7 +143,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * @param marketplaceId This query parameter specifies the eBay marketplace of the policy you want to retrieve.
    */
   public getPaymentPolicies(marketplaceId: string) {
-    return this.get(`/payment_policy`, {
+    return this.get('/payment_policy', {
       params: {
         marketplace_id: marketplaceId
       }
@@ -167,7 +167,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * @param body Payment policy request
    */
   public createPaymentPolicy(body: PaymentPolicyRequest) {
-    return this.post(`/payment_policy`, body);
+    return this.post('/payment_policy', body);
   }
 
   /**
@@ -198,7 +198,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * @param name This query parameter specifies the user-defined name of the payment policy you want to retrieve.
    */
   public getPaymentPolicyByName(marketplaceId: string, name: string) {
-    return this.get(`/payment_policy/get_by_policy_name`, {
+    return this.get('/payment_policy/get_by_policy_name', {
       params: {
         marketplace_id: marketplaceId,
         name
@@ -236,14 +236,14 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * This method retrieves the seller's current set of privileges.
    */
   public getPrivileges() {
-    return this.get(`/privilege`);
+    return this.get('/privilege');
   }
 
   /**
    * This method gets a list of the seller programs that the seller has opted-in to.
    */
   public getOptedInPrograms() {
-    return this.get(`/program/get_opted_in_programs`);
+    return this.get('/program/get_opted_in_programs');
   }
 
   /**
@@ -252,7 +252,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * @param body Program being opted-in to.
    */
   public optInToProgram(body?: FulfillmentSellAccountProgram) {
-    return this.post(`/program/opt_in`, body);
+    return this.post('/program/opt_in', body);
   }
 
   /**
@@ -261,7 +261,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * @param body Program being opted-out of.
    */
   public optOutOfProgram(body?: FulfillmentSellAccountProgram) {
-    return this.post(`/program/opt_out`, body);
+    return this.post('/program/opt_out', body);
   }
 
   /**
@@ -272,7 +272,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    *     you want shipping-rate table information.
    */
   public getRateTables(countryCode?: string) {
-    return this.get(`/rate_table`, {
+    return this.get('/rate_table', {
       params: {
         country_code: countryCode
       }
@@ -287,7 +287,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    *     retrieve.
    */
   public getReturnPolicies(marketplaceId: string) {
-    return this.get(`/return_policy`, {
+    return this.get('/return_policy', {
       params: {
         marketplace_id: marketplaceId
       }
@@ -310,7 +310,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * @param body Return policy request
    */
   public createReturnPolicy(body: ReturnPolicyRequest) {
-    return this.post(`/return_policy`, body);
+    return this.post('/return_policy', body);
   }
 
   /**
@@ -342,7 +342,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * @param name This query parameter specifies the user-defined name of the return policy you want to retrieve.
    */
   public getReturnPolicyByName(marketplaceId: string, name: string) {
-    return this.get(`/return_policy/get_by_policy_name`, {
+    return this.get('/return_policy/get_by_policy_name', {
       params: {
         marketplace_id: marketplaceId,
         name
@@ -401,7 +401,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    *     tax table you want to retrieve.
    */
   public getSalesTaxes(countryCode: string) {
-    return this.get(`/sales_tax`, {
+    return this.get('/sales_tax', {
       params: {
         country_code: countryCode
       }
@@ -414,7 +414,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * @param continuationToken This field is for future use.
    */
   public getSubscription({limit, continuationToken}: { limit?: string, continuationToken?: string } = {}) {
-    return this.get(`/subscription`, {
+    return this.get('/subscription', {
       params: {
         limit,
         continuation_token: continuationToken
@@ -426,7 +426,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * his method is used by sellers onboarded for eBay managed payments, or sellers who are currently going through, or who are eligible for onboarding for eBay managed payments.
    */
   public getKYC() {
-    return this.get(`/kyc`,);
+    return this.get('/kyc');
   }
 
   /**
@@ -434,7 +434,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * @param programTypes A comma-separated list of eBay advertising programs.
    */
   public getAdvertisingEligibility(programTypes?: string) {
-    return this.get(`/advertising_eligibility`, {
+    return this.get('/advertising_eligibility', {
       params: {
         program_types: programTypes
       }
@@ -494,7 +494,7 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
    * @param offset Specifies the number of locations to skip in the result set before returning the first location in the paginated response.
    */
   public getInventoryLocations({limit, offset}: { limit?: number, offset?: number } = {}) {
-    return this.get(`/location`, {
+    return this.get('/location', {
       params: {
         limit,
         offset

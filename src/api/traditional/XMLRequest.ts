@@ -135,7 +135,7 @@ export default class XMLRequest {
   private getHeaders() {
     return {
       ...defaultHeaders,
-      ...this.config.headers,
+      ...this.config.headers
     };
   }
 

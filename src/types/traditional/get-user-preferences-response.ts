@@ -2,7 +2,7 @@
 import type {
   CountryCodeType,
   CurrencyCodeType,
-  StandardOutputFields,
+  StandardOutputFields
 } from './common.js';
 
 export interface GetUserPreferencesResponse extends StandardOutputFields {

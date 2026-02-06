@@ -75,12 +75,12 @@
   "scripts": {
     "cjs:fix": "node -e \"require('fs').writeFileSync('lib/package.json', JSON.stringify({type: 'commonjs'}, null, 2))\"",
     "build": "rimraf lib dist && tsc && tsc --project tsconfig.cjs.json && rollup -c --bundleConfigAsCjs && npm run cjs:fix",
-    "tslint": "tslint -c tslint.json '{src,test,examples}/**/*.ts'",
-    "tslint:fix": "tslint --fix -c tslint.json '{src,test,examples}/**/*.ts'",
+    "lint": "eslint src test examples",
+    "lint:fix": "eslint --fix src test examples",
     "test": "mocha --reporter=dot",
     "report": "c8 npm run test",
     "report:summary": "c8 --reporter=lcov --reporter=text-summary npm run test",
-    "prerelease": "npm run tslint && npm run test && npm run build",
+    "prerelease": "npm run lint && npm run test && npm run build",
     "release": "standard-version",
     "rc": "npm run release -- --prerelease RC && git push --follow-tags origin next",
     "gen-openapi": "npx openapi-typescript"
@@ -103,8 +103,11 @@
     "@types/node": "^18.11.10",
     "@types/qs": "^6.9.7",
     "@types/sinon": "^10.0.13",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
     "c8": "^7.11.3",
     "chai": "^4.3.7",
+    "eslint": "^9.39.2",
     "form-data": "^4.0.0",
     "mocha": "^10.1.0",
     "openapi-typescript": "^7.10.1",
@@ -115,7 +118,6 @@
     "sinon": "^17.0.1",
     "standard-version": "^9.0.0",
     "ts-node": "^10.9.2",
-    "tslint": "^6.1.0",
     "typescript": "^5.1.6"
   },
   "repository": {

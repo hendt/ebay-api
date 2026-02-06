@@ -2,7 +2,7 @@
 import type {
   AddressType,
   CurrencyCodeType,
-  StandardOutputFields,
+  StandardOutputFields
 } from './common.js';
 
 export interface GetBestOffersResponse extends StandardOutputFields {

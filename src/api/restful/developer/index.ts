@@ -7,6 +7,6 @@ export type Developer = {
 };
 
 export {
-    Analytics,
-    KeyManagement
+  Analytics,
+  KeyManagement
 };

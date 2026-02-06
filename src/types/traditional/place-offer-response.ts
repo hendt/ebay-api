@@ -1,7 +1,7 @@
 // https://developer.ebay.com/Devzone/XML/docs/Reference/eBay/PlaceOffer.html#Output
 import type {
   CurrencyCodeType,
-  StandardOutputFields,
+  StandardOutputFields
 } from './common.js';
 
 export interface PlaceOfferResponse extends StandardOutputFields {

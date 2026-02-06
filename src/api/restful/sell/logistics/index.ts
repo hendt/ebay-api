@@ -18,7 +18,7 @@ export default class Logistics extends Restful implements OpenApi<operations> {
    * @param data The ShippingQuoteRequest
    */
   public createShippingQuote(data: any) {
-    return this.post(`/shipping_quote`, data);
+    return this.post('/shipping_quote', data);
   }
 
   /**
@@ -37,7 +37,7 @@ export default class Logistics extends Restful implements OpenApi<operations> {
    * @param data The CreateShipmentFromQuoteRequest
    */
   public createFromShippingQuote(data: any) {
-    return this.post(`/shipment/create_from_shipping_quote`, data);
+    return this.post('/shipment/create_from_shipping_quote', data);
   }
 
   /**

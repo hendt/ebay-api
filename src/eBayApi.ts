@@ -24,7 +24,6 @@ const defaultConfig: Omit<AppConfig, keyof Keyset> = {
   contentLanguage: ContentLanguage.en_US
 };
 
-// tslint:disable-next-line:class-name
 export default class eBayApi extends Api {
   public static readonly SiteId = SiteId;
   public static readonly MarketplaceId = MarketplaceId;
@@ -55,25 +54,24 @@ export default class eBayApi extends Api {
     }
 
     return new eBayApi({
-        appId: process.env.EBAY_APP_ID,
-        certId: process.env.EBAY_CERT_ID,
-        devId: process.env.EBAY_DEV_ID,
-        authToken: process.env.EBAY_AUTH_TOKEN,
-        siteId: process.env.EBAY_SITE_ID ? parseInt(process.env.EBAY_SITE_ID, 10) : SiteId.EBAY_US,
-        marketplaceId: process.env.EBAY_MARKETPLACE_ID && process.env.EBAY_MARKETPLACE_ID in MarketplaceId ?
+      appId: process.env.EBAY_APP_ID,
+      certId: process.env.EBAY_CERT_ID,
+      devId: process.env.EBAY_DEV_ID,
+      authToken: process.env.EBAY_AUTH_TOKEN,
+      siteId: process.env.EBAY_SITE_ID ? parseInt(process.env.EBAY_SITE_ID, 10) : SiteId.EBAY_US,
+      marketplaceId: process.env.EBAY_MARKETPLACE_ID && process.env.EBAY_MARKETPLACE_ID in MarketplaceId ?
           MarketplaceId[process.env.EBAY_MARKETPLACE_ID as keyof typeof MarketplaceId] as MarketplaceId :
-          MarketplaceId.EBAY_US,
-        ruName: process.env.EBAY_RU_NAME,
-        sandbox: (process.env.EBAY_SANDBOX === 'true'),
-        signature
-      },
-      req);
+        MarketplaceId.EBAY_US,
+      ruName: process.env.EBAY_RU_NAME,
+      sandbox: (process.env.EBAY_SANDBOX === 'true'),
+      signature
+    },
+    req);
   }
 
   // Shortcuts to auth
   public readonly authNAuth: AuthNAuth;
   public readonly oAuth2: OAuth2;
-  // tslint:disable-next-line:variable-name
   public readonly OAuth2: OAuth2;
 
   private readonly factory: ApiFactory;
