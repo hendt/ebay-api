@@ -113,8 +113,11 @@ export default class Taxonomy extends Restful implements OpenApi<operations> {
    * @param categoryId The unique identifier of an eBay category.
    * @param compatibilityProperty One compatible vehicle property applicable to the specified eBay marketplace and
    *     eBay category is specified in this required filter.
+   * @param filter Comma separated <name:value> pairs used to filter the specified compatibilityProperty. Example:
+   *     filter=Year:2015,Make:Honda,Model:CR-V. The filter parameter is required when the compatibility_property
+   *     parameter is specified. The filter parameter is not required when the compatibility_property parameter is not
+   *     specified.  
    */
-  ///category_tree/100/get_compatibility_property_values?compatibility_property=Model&category_id=33559&filter=Year:2018,Make:Honda
   public getCompatibilityPropertyValues(
     categoryTreeId: string,
     categoryId: string,
