@@ -1,4 +1,6 @@
 # eBay API Changelog
+### [9.4.2](https://github.com/hendt/ebay-api/compare/v9.4.1...v9.4.2) (2026-02-07)
+
 ### [9.4.1](https://github.com/hendt/ebay-api/compare/v9.4.0...v9.4.1) (2026-02-06)
 
 
