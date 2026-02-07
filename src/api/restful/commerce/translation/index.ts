@@ -19,6 +19,6 @@ export default class Translation extends Restful implements OpenApi<operations> 
    * @param body TranslateRequest
    */
   public translate(body: TranslateRequest) {
-    return this.post(`/translate`, body);
+    return this.post('/translate', body);
   }
 }

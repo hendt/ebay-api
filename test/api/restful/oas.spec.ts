@@ -28,7 +28,7 @@ function createReq(): IEBayApiRequest<any> {
     put: sinon.stub().returns(Promise.resolve({data: {}})),
     post: sinon.stub().returns(Promise.resolve({data: {}})),
     postForm: sinon.stub().returns(Promise.resolve({data: {}})),
-    instance: sinon.stub().returns(Promise.resolve({data: {}})),
+    instance: sinon.stub().returns(Promise.resolve({data: {}}))
   };
 }
 
@@ -38,13 +38,12 @@ const auth = new Auth(appConfig, request);
 auth.OAuth2.setClientToken({
   access_token: 'token',
   expires_in: 1,
-  token_type: 'test',
+  token_type: 'test'
 });
 
 describe('Open API Tests', () => {
   Object.entries(allTests).forEach(([name, tests]) => {
     describe('API > restful > ' + name, () => {
-      // tslint:disable-next-line:variable-name
       tests.forEach((Oas, RestfulApi) => {
         it('should match name with id', () => {
           expect(RestfulApi.id).to.equal(RestfulApi.name);
@@ -55,7 +54,7 @@ describe('Open API Tests', () => {
         if (Oas.servers) {
           it('"' + name + ':' + RestfulApi.name + '" should return url', () => {
             expect(api.baseUrl).to.oneOf(
-              Oas.servers.map((server: any) => server.url.replace('{basePath}', server.variables.basePath.default)),
+              Oas.servers.map((server: any) => server.url.replace('{basePath}', server.variables.basePath.default))
             );
           });
 
@@ -104,7 +103,6 @@ describe('Open API Tests', () => {
 
             it(`"${name}:${RestfulApi.name}:${call.operationId}" call correct method ${method} (${path}).`, () => {
               return restApi[call.operationId](...args).then(() => {
-                // tslint:disable-next-line:no-unused-expression
                 expect(req[method].calledOnce).to.be.true;
               });
             });

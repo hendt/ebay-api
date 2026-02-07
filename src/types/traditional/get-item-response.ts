@@ -3,7 +3,7 @@ import type {
   CountryCodeType,
   CurrencyCodeType,
   DaysCodeType,
-  StandardOutputFields,
+  StandardOutputFields
 } from './common.js';
 
 export interface GetItemResponse extends StandardOutputFields {

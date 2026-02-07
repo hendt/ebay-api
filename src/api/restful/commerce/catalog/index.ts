@@ -35,7 +35,7 @@ export default class Catalog extends Restful implements OpenApi<Omit<operations,
    *     requests.
    */
   public getChangeRequests({filter, limit, offset}: { filter?: string, limit?: number, offset?: number } = {}) {
-    return this.get(`/change_request`, {
+    return this.get('/change_request', {
       params: {
         filter,
         limit,
@@ -62,7 +62,7 @@ export default class Catalog extends Restful implements OpenApi<Omit<operations,
    * @param params SearchCatalogParams
    */
   public search(params?: CommerceCatalogSearchParams) {
-    return this.get(`/product_summary/search`, {
+    return this.get('/product_summary/search', {
       params
     });
   }
@@ -82,11 +82,11 @@ export default class Catalog extends Restful implements OpenApi<Omit<operations,
    * @param marketplaceId Use this header to specify the eBay marketplace identifier.
    */
   public getProductMetadata(epid: string,
-                            {otherApplicableCategoryIds, primaryCategoryId}: {
+    {otherApplicableCategoryIds, primaryCategoryId}: {
                               otherApplicableCategoryIds?: string,
                               primaryCategoryId?: string,
                             } = {}) {
-    return this.get(`/get_product_metadata`, {
+    return this.get('/get_product_metadata', {
       params: {
         epid,
         other_applicable_category_ids: otherApplicableCategoryIds,
@@ -104,7 +104,7 @@ export default class Catalog extends Restful implements OpenApi<Omit<operations,
    * @param otherApplicableCategoryIds A string of comma-separated category IDs.
    */
   public getProductMetadataForCategories(primaryCategoryId: string, otherApplicableCategoryIds?: string) {
-    return this.get(`/get_product_metadata_for_categories`, {
+    return this.get('/get_product_metadata_for_categories', {
       params: {
         primary_category_id: primaryCategoryId,
         other_applicable_category_ids: otherApplicableCategoryIds

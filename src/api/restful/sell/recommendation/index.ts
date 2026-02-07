@@ -27,9 +27,9 @@ export default class Recommendation extends Restful implements OpenApi<operation
    * @param body FindListingRecommendationRequest
    */
   public findListingRecommendations({filter, limit, offset}: { filter?: string, limit?: number, offset?: number } = {},
-                                    body?: FindListingRecommendationRequest
+    body?: FindListingRecommendationRequest
   ) {
-    return this.post(`/find`, {
+    return this.post('/find', {
       data: body,
       params: {
         filter,

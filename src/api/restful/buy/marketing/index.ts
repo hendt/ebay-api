@@ -28,7 +28,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param params
    */
   public getAlsoBoughtByProduct(params: BuyMarketingGetAlsoBoughtByProductParams) {
-    return this.get(`/merchandised_product/get_also_bought_products`, {
+    return this.get('/merchandised_product/get_also_bought_products', {
       params
     });
   }
@@ -39,7 +39,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param params
    */
   public getAlsoViewedByProduct(params: BuyMarketingGetAlsoViewedByProductParams) {
-    return this.get(`/merchandised_product/get_also_viewed_products`, {
+    return this.get('/merchandised_product/get_also_viewed_products', {
       params
     });
   }
@@ -50,7 +50,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param params
    */
   public getMerchandisedProducts(params: BuyMarketingGetMerchandisedProductsParams) {
-    return this.get(`/merchandised_product`, {
+    return this.get('/merchandised_product', {
       params
     });
   }

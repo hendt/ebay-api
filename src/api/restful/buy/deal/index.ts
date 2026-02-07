@@ -22,19 +22,19 @@ export default class Deal extends Restful implements OpenApi<operations> {
    * @param offset The number of items that will be skipped in the result set.
    */
   public getDealItems({
-                        categoryIds,
-                        commissionable,
-                        deliveryCountry,
-                        limit,
-                        offset
-                      }: {
+    categoryIds,
+    commissionable,
+    deliveryCountry,
+    limit,
+    offset
+  }: {
     categoryIds?: string,
     commissionable?: string,
     deliveryCountry?: string,
     limit?: string,
     offset?: string
   }) {
-    return this.get(`/deal_item`, {
+    return this.get('/deal_item', {
       params: {
         category_ids: categoryIds,
         commissionable,
@@ -62,7 +62,7 @@ export default class Deal extends Restful implements OpenApi<operations> {
    * @param offset The number of items that will be skipped in the result set.
    */
   public getEvents({limit, offset}: { limit?: string, offset?: string, }) {
-    return this.get(`/event`, {
+    return this.get('/event', {
       params: {
         limit,
         offset
@@ -85,7 +85,7 @@ export default class Deal extends Restful implements OpenApi<operations> {
     limit,
     offset
   }: { categoryIds?: string, deliveryCountry?: string, limit?: string, offset?: string, } = {}) {
-    return this.get(`/event_item`, {
+    return this.get('/event_item', {
       params: {
         event_ids: eventIds,
         limit,

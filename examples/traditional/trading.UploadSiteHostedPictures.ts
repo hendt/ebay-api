@@ -1,4 +1,3 @@
-// tslint:disable:no-console
 import FormData from 'form-data';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -13,7 +12,7 @@ const eBay = eBayApi.fromEnv();
     // const image = fs.readFileSync(path.resolve(__dirname, 'upload_bad_quality.jpg'));
     // --> To reduce possible issues with picture display quality, eBay recommends that pictures you upload have a JPEG quality value of 90 or greater.
     const response = await eBay.trading.UploadSiteHostedPictures({
-      ExtensionInDays: 1,
+      ExtensionInDays: 1
     }, {
       hook: (xml: string) => {
         const form = new FormData();

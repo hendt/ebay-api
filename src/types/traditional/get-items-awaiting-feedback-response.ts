@@ -1,7 +1,7 @@
 // https://developer.ebay.com/Devzone/XML/docs/Reference/eBay/GetItemsAwaitingFeedback.html#Output
 import type {
   AddressType,
-  StandardOutputFields,
+  StandardOutputFields
 } from './common.js';
 
 export interface GetItemsAwaitingFeedbackResponse extends StandardOutputFields {

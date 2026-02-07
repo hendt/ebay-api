@@ -172,12 +172,12 @@ describe('XMLRequestTest', () => {
                 value: 2.0
               }
             }, {
-                id: 3,
-                price: {
-                  currency: 'EUR',
-                  value: 2.0
-                }
-              }]
+              id: 3,
+              price: {
+                currency: 'EUR',
+                value: 2.0
+              }
+            }]
           }
         }
       }).to.deep.equal(result);
@@ -204,14 +204,14 @@ describe('XMLRequestTest', () => {
       UserDeliveryPreferenceArray: [{
         NotificationEnable: {
           EventType: 'ItemListed',
-          EventEnable: 'Enable',
+          EventEnable: 'Enable'
         }
       }, {
-          NotificationEnable: {
-            EventType: 'ItemSold',
-            EventEnable: 'Enable',
-          },
-        }],
+        NotificationEnable: {
+          EventType: 'ItemSold',
+          EventEnable: 'Enable'
+        }
+      }]
     }, {...config, returnResponse: true, xmlBuilderOptions: { oneListGroup: true }}, req);
     return request.request().then(result => {
       expect(result).to.equal(xml);
@@ -228,9 +228,9 @@ describe('XMLRequestTest', () => {
             body: 'custom',
             headers: {
               'X_-HEADER': 'header',
-              'Content-Type': 'multipart/form-data',
+              'Content-Type': 'multipart/form-data'
             }
-          }),
+          })
         },
         {...req, post});
 
@@ -239,7 +239,7 @@ describe('XMLRequestTest', () => {
         expect(post.args[0][2].headers).to.eql({
           'CALL': 'CALL',
           'Content-Type': 'multipart/form-data',
-          'X_-HEADER': 'header',
+          'X_-HEADER': 'header'
         });
         expect(result).to.equal(apiResponse);
       });

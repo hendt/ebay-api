@@ -4,7 +4,7 @@ import type {
   CountryCodeType,
   CurrencyCodeType,
   DaysCodeType,
-  StandardOutputFields,
+  StandardOutputFields
 } from './common.js';
 
 export interface GetSellerListResponse extends StandardOutputFields {

@@ -41,23 +41,23 @@ export default class Finances extends Restful implements OpenApi<operations> {
    * @param sort Allows sorting by payouts date in descending order with '-payoutDate' (default) and ascending with 'payoutDate'
    */
   public getPayouts({
-                      filter,
-                      limit,
-                      offset,
-                      sort,
-                    }: {
+    filter,
+    limit,
+    offset,
+    sort
+  }: {
     filter?: string;
     limit?: number;
     offset?: number;
     sort?: 'payoutDate' | '-payoutDate';
   } = {}) {
-    return this.get(`/payout`, {
+    return this.get('/payout', {
       params: {
         filter,
         limit,
         offset,
-        sort,
-      },
+        sort
+      }
     });
   }
 
@@ -68,11 +68,11 @@ export default class Finances extends Restful implements OpenApi<operations> {
    *     call.
    */
   public getPayoutSummary({
-                            filter,
-                          }: {
+    filter
+  }: {
     filter?: string;
   } = {}) {
-    return this.get(`/payout_summary`, {params: {filter}});
+    return this.get('/payout_summary', {params: {filter}});
   }
 
   /**
@@ -85,23 +85,23 @@ export default class Finances extends Restful implements OpenApi<operations> {
    * @param sort Allows sorting by transaction date in descending order with '-transactionDate' (default) and ascending with 'transactionDate'
    */
   public getTransactions({
-                           filter,
-                           limit,
-                           offset,
-                           sort
-                         }: {
+    filter,
+    limit,
+    offset,
+    sort
+  }: {
     filter?: string;
     limit?: number;
     offset?: number;
     sort?: 'transactionDate' | '-transactionDate',
   } = {}) {
-    return this.get(`/transaction`, {
+    return this.get('/transaction', {
       params: {
         filter,
         limit,
         offset,
-        sort,
-      },
+        sort
+      }
     });
   }
 
@@ -112,14 +112,14 @@ export default class Finances extends Restful implements OpenApi<operations> {
    * @param limit The number of transaction to return per page of the result set.
    */
   public getTransactionSummary({
-                                 filter,
-                               }: {
+    filter
+  }: {
     filter?: string;
   } = {}) {
-    return this.get(`/transaction_summary`, {
+    return this.get('/transaction_summary', {
       params: {
-        filter,
-      },
+        filter
+      }
     });
   }
 
@@ -137,6 +137,6 @@ export default class Finances extends Restful implements OpenApi<operations> {
    *  Retrieve all pending funds that have not yet been distributed through a seller payout.
    */
   public getSellerFundsSummary() {
-    return this.get(`/seller_funds_summary`);
+    return this.get('/seller_funds_summary');
   }
 }

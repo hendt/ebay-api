@@ -12,12 +12,12 @@ MC4CAQAwBQYDK2VwBCIEIJ+DYvh6SEqVTm50DFtMDoQikTmiCqirVv9mWG9qfSnF
 describe('Digital Signature', () => {
   it('should be able to generate \'signature-input\' header when request has payload', () => {
     const signatureInput = generateSignatureInput({}, 123);
-    expect(signatureInput).to.eql(`sig1=("content-digest" "x-ebay-signature-key" "@method" "@path" "@authority");created=123`);
+    expect(signatureInput).to.eql('sig1=("content-digest" "x-ebay-signature-key" "@method" "@path" "@authority");created=123');
   });
 
   it('should be able to generate \'signature-input\' header when request has no payload', () => {
     const signatureInput = generateSignatureInput(null, 123);
-    expect(signatureInput).to.eql(`sig1=("x-ebay-signature-key" "@method" "@path" "@authority");created=123`);
+    expect(signatureInput).to.eql('sig1=("x-ebay-signature-key" "@method" "@path" "@authority");created=123');
   });
 
   it('should be able to generate \'Signature\' header', () => {

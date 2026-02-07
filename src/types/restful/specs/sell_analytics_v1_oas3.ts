@@ -3,345 +3,477 @@
  * Do not make direct changes to the file.
  */
 
-
 export interface paths {
-  "/customer_service_metric/{customer_service_metric_type}/{evaluation_type}": {
-    /** @description Use this method to retrieve a seller's performance and rating for the customer service metric.  <br><br>Control the response from the <b>getCustomerServiceMetric</b> method using the following path and query parameters: <ul><li><b>customer_service_metric_type</b> controls the type of customer service transactions evaluated for the metric rating.</li> <li><b>evaluation_type</b> controls the period you want to review.</li> <li><b>evaluation_marketplace_id</b> specifies the target marketplace for the evaluation.</li></ul> Currently, metric data is returned for only peer benchmarking. For details on the workings of peer benchmarking, see <a href="https://www.ebay.com/help/policies/selling-policies/seller-performance-policy/service-metrics-policy?id=4769" title="eBay Help pages" target="_blank">Service metrics policy</a>.  <br><br>For details on using and understanding the response from this method, see <a href="/api-docs/sell/static/performance/customer-service-metric.html" title="Selling Integration Guide">Interpreting customer service metric ratings</a>. */
-    get: operations["getCustomerServiceMetric"];
-  };
-  "/seller_standards_profile": {
-    /** @description This call retrieves all the standards profiles for the associated seller.  <br><br>A <i>standards profile </i> is a set of eBay seller metrics and the seller's associated compliance values (either <code>TOP_RATED</code>, <code>ABOVE_STANDARD</code>, or <code>BELOW_STANDARD</code>).  <br><br>A seller's multiple profiles are distinguished by two criteria, a "program" and a "cycle." A profile's <i>program </i> is one of three regions where the seller may have done business, or <code>PROGRAM_GLOBAL</code> to indicate all marketplaces where the seller has done business. The <i>cycle</i> value specifies whether the standards compliance values were determined at the last official eBay evaluation or at the time of the request. */
-    get: operations["findSellerStandardsProfiles"];
-  };
-  "/seller_standards_profile/{program}/{cycle}": {
-    /** @description This call retrieves a single standards profile for the associated seller.  <br><br>A <i>standards profile </i> is a set of eBay seller metrics and the seller's associated compliance values (either <code>TOP_RATED</code>, <code>ABOVE_STANDARD</code>, or <code>BELOW_STANDARD</code>).  <br><br>A seller can have multiple profiles distinguished by two criteria, a "program" and a "cycle." A profile's <i>program </i> is one of three regions where the seller may have done business, or <code>PROGRAM_GLOBAL</code> to indicate all marketplaces where the seller has done business. The <i>cycle</i> value specifies whether the standards compliance values were determined at the last official eBay evaluation (<code>CURRENT</code>) or at the time of the request (<code>PROJECTED</code>). Both cycle and a program values are required URI parameters for this method. */
-    get: operations["getSellerStandardsProfile"];
-  };
-  "/traffic_report": {
-    /** @description This method returns a report that details the user traffic received by a seller's listings. <br><br>A traffic report gives sellers the ability to review how often their listings appeared on eBay, how many times their listings are viewed, and how many purchases were made. The report also returns the report's start and end dates, and the date the information was last updated.  <br><br>For more information, see <a href="/api-docs/sell/static/performance/traffic-report.html" target="_blank">Traffic report details</a> */
-    get: operations["getTrafficReport"];
-  };
+    "/customer_service_metric/{customer_service_metric_type}/{evaluation_type}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Use this method to retrieve a seller's performance and rating for the customer service metric.  <br><br>Control the response from the <b>getCustomerServiceMetric</b> method using the following path and query parameters: <ul><li><b>customer_service_metric_type</b> controls the type of customer service transactions evaluated for the metric rating.</li> <li><b>evaluation_type</b> controls the period you want to review.</li> <li><b>evaluation_marketplace_id</b> specifies the target marketplace for the evaluation.</li></ul> Currently, metric data is returned for only peer benchmarking. For details on the workings of peer benchmarking, see <a href="https://www.ebay.com/help/policies/selling-policies/seller-performance-policy/service-metrics-policy?id=4769" title="eBay Help pages" target="_blank">Service metrics policy</a>.  <br><br>For details on using and understanding the response from this method, see <a href="/api-docs/sell/static/performance/customer-service-metric.html" title="Selling Integration Guide">Interpreting customer service metric ratings</a>. */
+        get: operations["getCustomerServiceMetric"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/seller_standards_profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This call retrieves all the standards profiles for the associated seller.  <br><br>A <i>standards profile </i> is a set of eBay seller metrics and the seller's associated compliance values (either <code>TOP_RATED</code>, <code>ABOVE_STANDARD</code>, or <code>BELOW_STANDARD</code>).  <br><br>A seller's multiple profiles are distinguished by two criteria, a "program" and a "cycle." A profile's <i>program </i> is one of three regions where the seller may have done business, or <code>PROGRAM_GLOBAL</code> to indicate all marketplaces where the seller has done business. The <i>cycle</i> value specifies whether the standards compliance values were determined at the last official eBay evaluation or at the time of the request. */
+        get: operations["findSellerStandardsProfiles"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/seller_standards_profile/{program}/{cycle}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This call retrieves a single standards profile for the associated seller.  <br><br>A <i>standards profile </i> is a set of eBay seller metrics and the seller's associated compliance values (either <code>TOP_RATED</code>, <code>ABOVE_STANDARD</code>, or <code>BELOW_STANDARD</code>).  <br><br>A seller can have multiple profiles distinguished by two criteria, a "program" and a "cycle." A profile's <i>program </i> is one of three regions where the seller may have done business, or <code>PROGRAM_GLOBAL</code> to indicate all marketplaces where the seller has done business. The <i>cycle</i> value specifies whether the standards compliance values were determined at the last official eBay evaluation (<code>CURRENT</code>) or at the time of the request (<code>PROJECTED</code>). Both cycle and a program values are required URI parameters for this method. */
+        get: operations["getSellerStandardsProfile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/traffic_report": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method returns a report that details the user traffic received by a seller's listings. <br><br>A traffic report gives sellers the ability to review how often their listings appeared on eBay, how many times their listings are viewed, and how many purchases were made. The report also returns the report's start and end dates, and the date the information was last updated.  <br><br>For more information, see <a href="/api-docs/sell/static/performance/traffic-report.html" target="_blank">Traffic report details</a> */
+        get: operations["getTrafficReport"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
-
 export type webhooks = Record<string, never>;
-
 export interface components {
-  schemas: {
-    /** @description This complex type defines the fields that comprise the benchmark against which the seller's performance is compared. The comparison determines the seller's rating for the metric. */
-    BenchmarkMetadata: {
-      /** @description This field returns the average value for the group, as defined by the specified <b>basis</b>.  <br><br>When the benchmark <b>basis</b> is set to <code>PEER_BENCHMARK</code>, the value returned in this field is the benchmark value to which the seller's metric <b>value</b> is compared to determine the seller's rating for the customer service metric. */
-      average?: string;
+    schemas: {
+        /** @description This complex type defines the fields that comprise the benchmark against which the seller's performance is compared. The comparison determines the seller's rating for the metric. */
+        BenchmarkMetadata: {
+            /** @description This field returns the average value for the group, as defined by the specified <b>basis</b>.  <br><br>When the benchmark <b>basis</b> is set to <code>PEER_BENCHMARK</code>, the value returned in this field is the benchmark value to which the seller's metric <b>value</b> is compared to determine the seller's rating for the customer service metric. */
+            average?: string;
+        };
+        /** @description A complex type that describes a program cycle. */
+        Cycle: {
+            /** @description The cycle type, either <code>CURRENT</code> or <code>PROJECTED</code>. <br><br><code>CURRENT</code> means the profile's metrics values are from the most recent official eBay  monthly standards evaluation. <code>PROJECTED</code> means the profile values were determined when the profile was requested. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/ssp:CycleTypeEnum'>eBay API documentation</a> */
+            cycleType?: string;
+            /** @description The date and time at which the standard compliance values were determined for the profile.  <br><br>The time stamp is formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html" target="_blank">ISO 8601</a> string, which is based on the 24-hour Universal Coordinated Time (UTC) clock. <br><br><b>Format:</b> <code>[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z</code> <br><b>Example:</b> <code>2018-08-04T07:09:00.000Z</code> */
+            evaluationDate?: string;
+            /** @description The month in which the currently effective seller level was computed.  <br><br>The value is always formatted as <code>YYYY-MM</code>. If the cycle is <code>CURRENT</code>, this value is the month and year the of the last eBay compliance evaluation. If this is for a <code>PROJECTED</code> cycle, the value is the month and year of the next scheduled evaluation. Because eBay does official evaluations around the 20th of each month, a <code>PROJECTED</code> value may indicate either the current or the next month. */
+            evaluationMonth?: string;
+        };
+        /** @description A complex type that defines a dimension key and metrics in a traffic report. */
+        Definition: {
+            /** @description Indicates the data type of the returned dimension. For example, if the <b>dimension</b> is <code>day</code>, the data type is <code>DATE</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/ssp:DataTypeEnum'>eBay API documentation</a> */
+            dataType?: string;
+            /** @description The value the <b>dimension</b> or <b>metric</b> parameter as submitted in the request. */
+            key?: string;
+            /** @description The localized name of the metric or dimension (translated into the language specified in the <b>Accept-Language</b> HTTP request header). For example, if <b>Accept-Language</b> is set to <code>de-DE</code>, the value "day" in the <b>dimension</b> container is returned as "tag", and a metric of TRANSACTION is returned as "Transaktionsanzahl". */
+            localizedName?: string;
+        };
+        /** @description The fields in this complex type define the dimension, or attributes, by which the associated customer service metric and benchmark data is measured.  <br><br>The value of <b>dimensionKey</b> gets set according to the configuration of the input request. The <b>name</b> and <b>value</b> pair further define dimension under the key. */
+        Dimension: {
+            /** @description <b>dimensionKey</b> defines the basis against which the seller's customer service metric is measured.  <br><br>The value of this field gets set according to the value of the <b>customer_service_metric_type</b> input parameter. The following input configurations return the responses shown: <ul><li><code>ITEM_NOT_AS_DESCRIBED</code> &ndash; Returns benchmark ratings based on L1 listing categories, so the result shows metrics where the <b>dimensionKey</b> is set to <code>LISTING_CATEGORY</code>.</li>  <li><code>ITEM_NOT_RECEIVED</code> &ndash; Returns benchmark ratings based on world shipping regions, so the result shows metrics where the <b>dimensionKey</b> is set to <code>SHIPPING_REGION</code>.  <br><br>The shipping region is indicated by the associated <b>value</b> field. For specifics on world shipping regions, see the FAQ section on the following page: <a href="https://www.ebay.com/help/selling/selling/monitor-service-metrics?id=4785" title="eBay Help page" target="_blank">Monitor your service metrics</a></li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/api:DimensionTypeEnum'>eBay API documentation</a> */
+            dimensionKey?: string;
+            /** @description The dimension name returned in this field depends on the <b>dimensionKey</b>: <ul><li>If  <b>dimensionKey</b> is set to <code>SHIPPING_REGION</code>, this field is set to one of following values, which represent established shipping corridors: <ul><li><code>Domestic</code></li> <li><code>International: Mature region</code></li> <li><code>International: Emerging region</code></li></ul></li>  <li>If <b>dimensionKey</b> is set to <code>LISTING_CATEGORY</code>, this field is set to the name of the primary (L1) category in which the items being rated were listed.</li></ul> */
+            name?: string;
+            /** @description The value returned in this field depends on the <b>dimensionKey</b>.  <br><br>If <b>dimensionKey</b> equals <code>LISTING_CATEGORY</code>, the value returned in this field is the category ID of the primary (L1) category in which the items being rated were listed.  <br><br>If <b>dimensionKey</b> equals <code>SHIPPING_REGION</code>, one of the following values is returned:  <ul><li><code>DOMESTIC</code></li> <li><code>INTERNATIONAL_MATURED_REGION</code></li> <li><code>INTERNATIONAL_EMERGING_REGION</code></li></ul> */
+            value?: string;
+        };
+        /** @description This complex type defines a the customer service metrics and seller benchmark performance related to a given dimension. */
+        DimensionMetric: {
+            /** @description This type defines the "dimension," or attributes, against which the associated customer service metric values and benchmark ratings are based.  <br><br>The <b>dimensionKey</b> value is set according to the <b>customer_service_metric_type</b> request parameter and the values in the associated <b>name</b>/<b>value</b> pairs relate to the <b>dimensionKey</b> that's being used to calculate the benchmark rating. */
+            dimension?: components["schemas"]["Dimension"];
+            /** @description This is a list of <b>Metric</b> elements where each element contains data and information related to the transactions grouped by the associated <b>dimension</b>. */
+            metrics?: components["schemas"]["Metric"][];
+        };
+        /** @description This complex type defines of a piece of data that is grouped by the associated <b>basis</b>. It contains the <b>name</b> for the data set and its associated <b>value</b>. */
+        Distribution: {
+            /** @description The name of a distribution in which the seller is active. */
+            name?: string;
+            /** @description This field contains the number of transactions the seller had in the distribution (identified by the associated <b>name</b> field) during the metric <b>evaluationCycle</b>. */
+            value?: string;
+        };
+        /** @description Type that defines the fields that can be returned in an error. */
+        Error: {
+            /** @description Identifies whether the error was in the REQUEST or happened when running the APPLICATION. */
+            category?: string;
+            /** @description The primary system where the error occurred. This is relevant for application errors. For Analytics errors, it always has the value <code>API_ANALYTICS</code>. */
+            domain?: string;
+            /**
+             * Format: int32
+             * @description A positive integer that uniquely identifies the specific error condition that occurred. Your application can use error codes as identifiers in your customized error-handling algorithms. Traffic report error IDs range from 50001 to 50500.
+             */
+            errorId?: number;
+            /** @description Identifies specific request elements associated with the error, if any. inputRefId's response is format specific. For JSON, use <i>JSONPath</i> notation. */
+            inputRefIds?: string[];
+            /** @description A more detailed explanation of the error than given in the <code>message</code> error field. */
+            longMessage?: string;
+            /** @description Information on how to correct the problem, in the end user's terms and language where applicable. Its value is at most 50 characters long. If applicable, the value is localized in the end user's requested locale. */
+            message?: string;
+            /** @description Identifies specific response elements associated with the error, if any. Path format is the same as <code>inputRefId</code>. */
+            outputRefIds?: string[];
+            /** @description This optional list of name/value pairs that contain context-specific <code>ErrorParameter</code> objects, with each item in the list being a parameter (or input field name) that caused an error condition. Each <code>ErrorParameter</code> object consists of two fields, a <code>name</code> and a <code>value</code>. */
+            parameters?: components["schemas"]["ErrorParameter"][];
+            /** @description If present, indicates which subsystem in which the error occurred. */
+            subdomain?: string;
+        };
+        /** @description A complex type that defines an error and error message. */
+        ErrorParameter: {
+            /** @description Name of the entity that threw the error. */
+            name?: string;
+            /** @description A description of the error. */
+            value?: string;
+        };
+        /** @description This complex type describes the start and end dates of the of the time period over which the associated benchmark is computed.  <br><br>All timestamps are based on Mountain Standard Time (MST).  <br><br>The timestamp is formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html" title="https://www.iso.org" target="_blank">ISO 8601</a> string, which is based on the 24-hour Coordinated Universal Time (UTC) clock. */
+        EvaluationCycle: {
+            /** @description End date and time of the transaction lookback range. All timestamps are based on Mountain Standard Time (MST).  <br><br>The timestamp is formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html" title="https://www.iso.org" target="_blank">ISO 8601</a> string, which is based on the 24-hour Coordinated Universal Time (UTC) clock. */
+            endDate?: string;
+            /** @description The ISO-8601 date and time at which the seller was evaluated for this customer service metric rating. */
+            evaluationDate?: string;
+            /** @description This field specifies the transaction <i>lookback period</i> used for the evaluation. <br><br>The <b>evaluation_type</b> value specified in the request is returned in this field. There are two possible values:  <ul><li><code>CURRENT</code> &ndash; A monthly evaluation that occurs on the 20th of every month.</li> <li><code>PROJECTED</code> &ndash; A daily evaluation that provides a projection of how the seller is currently performing with regards to the upcoming evaluation period.</li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/api:EvaluationTypeEnum'>eBay API documentation</a> */
+            evaluationType?: string;
+            /** @description The start date and time of the transaction lookback range. All timestamps are based on Mountain Standard Time (MST).  <br><br>The timestamp is formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html" title="https://www.iso.org" target="_blank">ISO 8601</a> string, which is based on the 24-hour Coordinated Universal Time (UTC) clock.  <br><br><b>Format:</b> <code>[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z</code> <br><b>Example:</b> <code>2018-08-04T07:09:00.000Z</code> */
+            startDate?: string;
+        };
+        /** @description The response container for a list of seller profiles. */
+        FindSellerStandardsProfilesResponse: {
+            /** @description A list of the seller's standards profiles.  <br><br>A "standards profile" is a set of eBay seller standards categories and the values related to the associated seller.  <br><br>Profiles are distinguished by a combination of cycle and program values. The "program" value specifies the region to which the data is from. The "cycle" value specifies whether the values were determined just now, or if the values are from the last official eBay seller standards evaluation. */
+            standardsProfiles?: components["schemas"]["StandardsProfile"][];
+        };
+        /** @description This complex data type defines the response data that is returned from a request to <b>getCustomerServiceMetric</b>.  <br><br>The <b>dimensionMetrics</b> object contains the details of the dimension being measured and the calculated customer service metric values. <br><br>The <b>evaluationCycle</b> defines the period used to calculate the metric values.  <br><br>The <b>marketplaceId</b> is the eBay marketplace for which the metrics are being considered. */
+        GetCustomerServiceMetricResponse: {
+            /** @description This container provides a seller's customer service <b>metric</b> performance for a given <b>dimension</b>.  <br><br>In the <b>getCustomerServiceMetric</b> request, specify values for the following request parameters to control the returned dimension and the associated metric values: <ul><li> <b>customer_service_metric_type</b></li> <li><b>evaluation_type</b></li> <li><b>evaluation_marketplace_id</b></li></ul> */
+            dimensionMetrics?: components["schemas"]["DimensionMetric"][];
+            /** @description This complex type defines the evaluation type (<code>CURRENT</code> or <code>PROJECTED</code>) and the transaction lookback period used to calculate the seller's customer service metric. */
+            evaluationCycle?: components["schemas"]["EvaluationCycle"];
+            /** @description The eBay marketplace ID of the marketplace upon which the customer service metric evaluation is based.  <br><br>The <b>customer_service_metric</b> resource supports a limited set of marketplaces. For a complete list of the supported marketplaces, please see the <a href="https://www.ebay.com/help/policies/selling-policies/seller-performance-policy/service-metrics-policy?id=4769#section2" title="eBay Help pages">Service metrics policy</a> page. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/bas:MarketplaceIdEnum'>eBay API documentation</a> */
+            marketplaceId?: string;
+        };
+        /** @description Type that defines the headers for the dimension keys and metrics returned in the report. */
+        Header: {
+            /** @description A list of the dimension or metric keys returned in the report. The values for each are is returned in the associated <b>key</b> fields. */
+            dimensionKeys?: components["schemas"]["Definition"][];
+            /** @description The list of metrics returned in the report. The values for each are is returned in the associated <b>key</b> fields. */
+            metrics?: components["schemas"]["Definition"][];
+        };
+        /** @description Type the defines the metadata information of the report. This includes the headers and the individual metadata records. */
+        Metadata: {
+            /** @description The container that returns the <b>dimensionKeys</b> and <b>metrics</b> headers for the report. */
+            metadataHeader?: components["schemas"]["MetadataHeader"];
+            /** @description A list of the individual report records. */
+            metadataRecords?: components["schemas"]["MetadataRecord"][];
+        };
+        /** @description Type that defines the metadata header fields. */
+        MetadataHeader: {
+            /** @description The key value used for the report. <br><br>For example: <code>"key": "LISTING_ID"</code> */
+            key?: string;
+            /** @description The list of dimension key values used for the report header. Each list element contains the key name, its data type, and its localized name.  <br><br>For example: <p><code>"metadataKeys": [<br>&nbsp;&nbsp;"key": "LISTING_TITLE",<br>&nbsp;&nbsp;"localizedName": "Listing title",<br>&nbsp;&nbsp;"dataType": "STRING"</code></p> */
+            metadataKeys?: components["schemas"]["Definition"][];
+        };
+        /** @description A complex type that defines the data records returned in the report. */
+        MetadataRecord: {
+            /** @description A list of data in a row returned in the traffic report. The data in each of the cells match the labels in headers of the report. */
+            metadataValues?: components["schemas"]["Value"][];
+            /** @description The value of the key on which the report is based. <br><br>For example, if the key is the listing ID, the value of this container could be: <br><br><code>"value": {<br>&nbsp;&nbsp;"value": "142133954229",<br>&nbsp;&nbsp;"applicable": true<br>}</code> */
+            value?: components["schemas"]["Value"];
+        };
+        /** @description This complex data type defines the details of the customer service metric and benchmark data related to the associated <b>dimension</b>. */
+        Metric: {
+            /** @description This complex type defines a set of benchmark data, which includes the <b>average</b> rating for the group included in the benchmark evaluation and the seller's calculated customer service metric rating for the benchmark.  <br><br>This container is returned only if the associated <b>metricKey</b> value is <code>RATE</code>. */
+            benchmark?: components["schemas"]["MetricBenchmark"];
+            /** @description Returned when <b>metricKey</b> equals <code>COUNT</code>, this field returns an array of  seller data where each set of data is grouped according by an overarching <b>basis</b>.  <br><br>When the seller distribution is returned, the numeric value of the associated <b>value</b> container equals the sum of the transactions where the seller meets the criteria of the customer service metric type for the given <b>dimension</b> during the <b>evaluationCycle</b>. */
+            distributions?: components["schemas"]["MetricDistribution"][];
+            /** @description This field indicates the customer service metric being returned in the associated <b>metrics</b> container. The field is set as follows: <ul><li><code>TRANSACTION_COUNT</code> &ndash; When set to this value, the associated <b>value</b> field returns the number of transactions completed in the peer group for the metric being evaluated in the associated <b>dimension</b> and <b>evaluationCycle</b>.</li> <li><code>COUNT</code> &ndash; When set to this value, the associated <b>value</b> field is set to the number of transactions completed by the seller for the metric being evaluated in the associated <b>dimension</b> and <b>evaluationCycle</b>.</li> <li><code>RATE</code> &ndash; When set to this value, the fields in the associated container return the seller's calculated <b>value</b> for the associated customer service metric along with the benchmark data against which the seller is evaluated.  <br><br>Specifically, when <b>metricKey</b> is set to <code>RATE</code>, the associated <b>value</b> field is set to the value of <b>metricKey</b> <code>TRANSACTION_COUNT</code> divided by the value of <b>metricKey</b> <code>COUNT</code>.  <br><br>The <b>benchmark.rating</b> value is the seller's rating for the metric in the associated <b>dimension</b> and <b>evaluationCycle</b>.</li></ul> */
+            metricKey?: string;
+            /** @description This field is set to the seller's numeric rating for the associated <b>metricKey</b> for the given <b>dimension</b> during the <b>evaluationCycle</b>.  <br><br>To determine the seller's rating for this metric, the value of this field is compared to the average metric value of the group. */
+            value?: string;
+        };
+        /** @description This complex type defines the benchmark data, which includes the <b>average</b> value of the metric for the group (the benchmark) and the seller's overall <b>rating</b> when compared to the benchmark. */
+        MetricBenchmark: {
+            /** @description If this field is present, it indicates that the rating given to the seller was "adjusted" for one reason or another.  <br><br>If eBay determines that the normal rating of a seller is impacted by circumstances beyond their control, they can issue an override to adjust the rating given to the seller. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/api:RatingAdjustmentTypeEnum'>eBay API documentation</a> */
+            adjustment?: string;
+            /** @description This field returns the "basis" by which the benchmark is calculated for the customer service metric type. <br><br>Currently, the only supported basis is <code>PEER_BENCHMARK</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/api:BenchmarkTypeEnum'>eBay API documentation</a> */
+            basis?: string;
+            /** @description This field contains the benchmark data. */
+            metadata?: components["schemas"]["BenchmarkMetadata"];
+            /** @description This field returns seller's rating for the customer service metric.  <br><br>The rating is set to a value that equals the relative deviation between the seller's metric value and the benchmark value for the customer service metric.  <br><br>Deviation values range from <code>LOW</code> to <code>VERY HIGH</code>, and the lower the deviation, the better the seller rating. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/api:RatingTypeEnum'>eBay API documentation</a> */
+            rating?: string;
+        };
+        /** @description This complex data type describes the metric distribution by basis. */
+        MetricDistribution: {
+            /** @description This field returns the basis, or the method, by which the metric rating is calculated. */
+            basis?: string;
+            /** @description This field returns a list of name/value pairs, where the <b>name</b> indicates the distribution being rated and the <b>value</b> indicates the count of seller transactions that meet the distribution criteria. */
+            data?: components["schemas"]["Distribution"][];
+        };
+        /** @description Type that defines the fields of the individual record of the report. */
+        Record: {
+            /** @description A list where each element contains either the string <code>DAY</code> (if the <b>dimension</b> is <code>DAY</code>), or the listing ID for which the record's metric data is computed. A second array member, <b>applicable</b>, is always <code>true</code> for dimension values. */
+            dimensionValues?: components["schemas"]["Value"][];
+            /** @description A list where each element contains a <b>value</b> field that indicates the record's value for the metric. Each element also contains an <b>applicable</b> field that indicates the veracity of the computed <b>value</b>.   <br><br>Note that there are no metric names or IDs associated with the values returned in this array. The metadata to which these values relate can be found in the key values in <b>metadataKeys</b>. The order of the metric values in this array equals the order of the key values in <b>metadataHeader</b>. */
+            metricValues?: components["schemas"]["Value"][];
+        };
+        /** @description The complex type that defines that defines the report. */
+        Report: {
+            /** @description A complex type containing the header of the report and the type of data containted in the rows of the report. */
+            dimensionMetadata?: components["schemas"]["Metadata"][];
+            /** @description <br><br>The time stamp is formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html" target="_blank">ISO 8601</a> string, which is based on the 24-hour Universal Coordinated Time (UTC) clock.  <br><br>If you specify an end date that is beyond the <a href="#response.lastUpdatedDate">lastUpdatedDate</a> value, eBay returns a report that contains data only up to the lastUpdateDate date. <br><br><b>Format:</b> <code>[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z</code> <br><b>Example:</b> <code>2018-08-20T07:09:00.000Z</code> */
+            endDate?: string;
+            /** @description A complex type containing the header for the report. */
+            header?: components["schemas"]["Header"];
+            /** @description The date and time, in ISO 8601 format, that indicates the last time the data returned in the report was updated. */
+            lastUpdatedDate?: string;
+            /** @description A complex type containing the individual data records for the traffic report. */
+            records?: components["schemas"]["Record"][];
+            /** @description The start date of the date range used to calculate the report, in ISO 8601 format. */
+            startDate?: string;
+            /** @description An array of any process errors or warnings that were generated during the processing of the call processing. */
+            warnings?: components["schemas"]["Error"][];
+        };
+        /** @description A complex type that defines a seller profile. */
+        StandardsProfile: {
+            /** @description A complex type that specifies the profile's evaluation cycle (<code>CURRENT</code> or <code>PROJECTED</code>), the date the evaluation was calculated, and  the month to which the evaluation pertains.  <br><br>Each program has at least one cycle, but a program can include both cycle types. */
+            cycle?: components["schemas"]["Cycle"];
+            /** @description If set to <code>true</code>, this flag indicates this is the default program for the seller.  <br><br>Except for sellers in China, a seller's default program is the marketplace where they registered with eBay. Seller's in China select their default program when they register. */
+            defaultProgram?: boolean;
+            /** @description Specifies how the overall seller level was calculated.  <br><br>In the event of special circumstances (as determined by eBay), eBay may override the calculated seller level. In general, such overrides protect a seller's level. The usual value for both cycle types is "Seller level generated by standards monthly evaluation cycle." */
+            evaluationReason?: string;
+            /** @description A list of the metrics upon which a seller's profile is evaluated.  <br><br>Each program's applicable metrics and requirements are listed at <a href="http://www.sps.ebay.com/sd/sdrequirements" target="_blank">eBay Top Rated seller program standards</a>. */
+            metrics?: components["schemas"]["Metric"][];
+            /** @description Indicates the program used to generate the profile data. Values can be <code>PROGRAM_DE</code>, <code>PROGRAM_UK</code>, <code>PROGRAM_US</code>, or <code>PROGRAM_GLOBAL</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/ssp:ProgramEnum'>eBay API documentation</a> */
+            program?: string;
+            /** @description The overall standards level of the seller, one of <code>TOP_RATED</code>, <code>ABOVE_STANDARD</code>, or <code>BELOW_STANDARD</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/ssp:StandardsLevelEnum'>eBay API documentation</a> */
+            standardsLevel?: string;
+        };
+        /** @description A complex type that contains a value, plus the veracity of that value. */
+        Value: {
+            /** @description If set to <code>true</code>, this flag indicates the value in the <b>value</b> field is valid as computed.  <br><br>A value of <code>false</code> indicates one or more of the values used to calculate the value was invalid. The occurrence of this is a rare, however consider this case: suppose a buyer navigates to a View Item page at 11:59 pm (the end of the day) and purchases the item at 12:05am the next day. In this case, the item would have been purchased with <code>0</code> views for the day. */
+            applicable?: boolean;
+            /** @description The value of the report data. */
+            value?: Record<string, never>;
+        };
     };
-    /** @description A complex type that describes a program cycle. */
-    Cycle: {
-      /** @description The cycle type, either <code>CURRENT</code> or <code>PROJECTED</code>. <br><br><code>CURRENT</code> means the profile's metrics values are from the most recent official eBay  monthly standards evaluation. <code>PROJECTED</code> means the profile values were determined when the profile was requested. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/ssp:CycleTypeEnum'>eBay API documentation</a> */
-      cycleType?: string;
-      /** @description The date and time at which the standard compliance values were determined for the profile.  <br><br>The time stamp is formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html" target="_blank">ISO 8601</a> string, which is based on the 24-hour Universal Coordinated Time (UTC) clock. <br><br><b>Format:</b> <code>[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z</code> <br><b>Example:</b> <code>2018-08-04T07:09:00.000Z</code> */
-      evaluationDate?: string;
-      /** @description The month in which the currently effective seller level was computed.  <br><br>The value is always formatted as <code>YYYY-MM</code>. If the cycle is <code>CURRENT</code>, this value is the month and year the of the last eBay compliance evaluation. If this is for a <code>PROJECTED</code> cycle, the value is the month and year of the next scheduled evaluation. Because eBay does official evaluations around the 20th of each month, a <code>PROJECTED</code> value may indicate either the current or the next month. */
-      evaluationMonth?: string;
-    };
-    /** @description A complex type that defines a dimension key and metrics in a traffic report. */
-    Definition: {
-      /** @description Indicates the data type of the returned dimension. For example, if the <b>dimension</b> is <code>day</code>, the data type is <code>DATE</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/ssp:DataTypeEnum'>eBay API documentation</a> */
-      dataType?: string;
-      /** @description The value the <b>dimension</b> or <b>metric</b> parameter as submitted in the request. */
-      key?: string;
-      /** @description The localized name of the metric or dimension (translated into the language specified in the <b>Accept-Language</b> HTTP request header). For example, if <b>Accept-Language</b> is set to <code>de-DE</code>, the value "day" in the <b>dimension</b> container is returned as "tag", and a metric of TRANSACTION is returned as "Transaktionsanzahl". */
-      localizedName?: string;
-    };
-    /** @description The fields in this complex type define the dimension, or attributes, by which the associated customer service metric and benchmark data is measured.  <br><br>The value of <b>dimensionKey</b> gets set according to the configuration of the input request. The <b>name</b> and <b>value</b> pair further define dimension under the key. */
-    Dimension: {
-      /** @description <b>dimensionKey</b> defines the basis against which the seller's customer service metric is measured.  <br><br>The value of this field gets set according to the value of the <b>customer_service_metric_type</b> input parameter. The following input configurations return the responses shown: <ul><li><code>ITEM_NOT_AS_DESCRIBED</code> &ndash; Returns benchmark ratings based on L1 listing categories, so the result shows metrics where the <b>dimensionKey</b> is set to <code>LISTING_CATEGORY</code>.</li>  <li><code>ITEM_NOT_RECEIVED</code> &ndash; Returns benchmark ratings based on world shipping regions, so the result shows metrics where the <b>dimensionKey</b> is set to <code>SHIPPING_REGION</code>.  <br><br>The shipping region is indicated by the associated <b>value</b> field. For specifics on world shipping regions, see the FAQ section on the following page: <a href="https://www.ebay.com/help/selling/selling/monitor-service-metrics?id=4785" title="eBay Help page" target="_blank">Monitor your service metrics</a></li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/api:DimensionTypeEnum'>eBay API documentation</a> */
-      dimensionKey?: string;
-      /** @description The dimension name returned in this field depends on the <b>dimensionKey</b>: <ul><li>If  <b>dimensionKey</b> is set to <code>SHIPPING_REGION</code>, this field is set to one of following values, which represent established shipping corridors: <ul><li><code>Domestic</code></li> <li><code>International: Mature region</code></li> <li><code>International: Emerging region</code></li></ul></li>  <li>If <b>dimensionKey</b> is set to <code>LISTING_CATEGORY</code>, this field is set to the name of the primary (L1) category in which the items being rated were listed.</li></ul> */
-      name?: string;
-      /** @description The value returned in this field depends on the <b>dimensionKey</b>.  <br><br>If <b>dimensionKey</b> equals <code>LISTING_CATEGORY</code>, the value returned in this field is the category ID of the primary (L1) category in which the items being rated were listed.  <br><br>If <b>dimensionKey</b> equals <code>SHIPPING_REGION</code>, one of the following values is returned:  <ul><li><code>DOMESTIC</code></li> <li><code>INTERNATIONAL_MATURED_REGION</code></li> <li><code>INTERNATIONAL_EMERGING_REGION</code></li></ul> */
-      value?: string;
-    };
-    /** @description This complex type defines a the customer service metrics and seller benchmark performance related to a given dimension. */
-    DimensionMetric: {
-      /** @description This type defines the "dimension," or attributes, against which the associated customer service metric values and benchmark ratings are based.  <br><br>The <b>dimensionKey</b> value is set according to the <b>customer_service_metric_type</b> request parameter and the values in the associated <b>name</b>/<b>value</b> pairs relate to the <b>dimensionKey</b> that's being used to calculate the benchmark rating. */
-      dimension?: components["schemas"]["Dimension"];
-      /** @description This is a list of <b>Metric</b> elements where each element contains data and information related to the transactions grouped by the associated <b>dimension</b>. */
-      metrics?: (components["schemas"]["Metric"])[];
-    };
-    /** @description This complex type defines of a piece of data that is grouped by the associated <b>basis</b>. It contains the <b>name</b> for the data set and its associated <b>value</b>. */
-    Distribution: {
-      /** @description The name of a distribution in which the seller is active. */
-      name?: string;
-      /** @description This field contains the number of transactions the seller had in the distribution (identified by the associated <b>name</b> field) during the metric <b>evaluationCycle</b>. */
-      value?: string;
-    };
-    /** @description Type that defines the fields that can be returned in an error. */
-    Error: {
-      /** @description Identifies whether the error was in the REQUEST or happened when running the APPLICATION. */
-      category?: string;
-      /** @description The primary system where the error occurred. This is relevant for application errors. For Analytics errors, it always has the value <code>API_ANALYTICS</code>. */
-      domain?: string;
-      /**
-       * Format: int32 
-       * @description A positive integer that uniquely identifies the specific error condition that occurred. Your application can use error codes as identifiers in your customized error-handling algorithms. Traffic report error IDs range from 50001 to 50500.
-       */
-      errorId?: number;
-      /** @description Identifies specific request elements associated with the error, if any. inputRefId's response is format specific. For JSON, use <i>JSONPath</i> notation. */
-      inputRefIds?: (string)[];
-      /** @description A more detailed explanation of the error than given in the <code>message</code> error field. */
-      longMessage?: string;
-      /** @description Information on how to correct the problem, in the end user's terms and language where applicable. Its value is at most 50 characters long. If applicable, the value is localized in the end user's requested locale. */
-      message?: string;
-      /** @description Identifies specific response elements associated with the error, if any. Path format is the same as <code>inputRefId</code>. */
-      outputRefIds?: (string)[];
-      /** @description This optional list of name/value pairs that contain context-specific <code>ErrorParameter</code> objects, with each item in the list being a parameter (or input field name) that caused an error condition. Each <code>ErrorParameter</code> object consists of two fields, a <code>name</code> and a <code>value</code>. */
-      parameters?: (components["schemas"]["ErrorParameter"])[];
-      /** @description If present, indicates which subsystem in which the error occurred. */
-      subdomain?: string;
-    };
-    /** @description A complex type that defines an error and error message. */
-    ErrorParameter: {
-      /** @description Name of the entity that threw the error. */
-      name?: string;
-      /** @description A description of the error. */
-      value?: string;
-    };
-    /** @description This complex type describes the start and end dates of the of the time period over which the associated benchmark is computed.  <br><br>All timestamps are based on Mountain Standard Time (MST).  <br><br>The timestamp is formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html" title="https://www.iso.org" target="_blank">ISO 8601</a> string, which is based on the 24-hour Coordinated Universal Time (UTC) clock. */
-    EvaluationCycle: {
-      /** @description End date and time of the transaction lookback range. All timestamps are based on Mountain Standard Time (MST).  <br><br>The timestamp is formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html" title="https://www.iso.org" target="_blank">ISO 8601</a> string, which is based on the 24-hour Coordinated Universal Time (UTC) clock. */
-      endDate?: string;
-      /** @description The ISO-8601 date and time at which the seller was evaluated for this customer service metric rating. */
-      evaluationDate?: string;
-      /** @description This field specifies the transaction <i>lookback period</i> used for the evaluation. <br><br>The <b>evaluation_type</b> value specified in the request is returned in this field. There are two possible values:  <ul><li><code>CURRENT</code> &ndash; A monthly evaluation that occurs on the 20th of every month.</li> <li><code>PROJECTED</code> &ndash; A daily evaluation that provides a projection of how the seller is currently performing with regards to the upcoming evaluation period.</li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/api:EvaluationTypeEnum'>eBay API documentation</a> */
-      evaluationType?: string;
-      /** @description The start date and time of the transaction lookback range. All timestamps are based on Mountain Standard Time (MST).  <br><br>The timestamp is formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html" title="https://www.iso.org" target="_blank">ISO 8601</a> string, which is based on the 24-hour Coordinated Universal Time (UTC) clock.  <br><br><b>Format:</b> <code>[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z</code> <br><b>Example:</b> <code>2018-08-04T07:09:00.000Z</code> */
-      startDate?: string;
-    };
-    /** @description The response container for a list of seller profiles. */
-    FindSellerStandardsProfilesResponse: {
-      /** @description A list of the seller's standards profiles.  <br><br>A "standards profile" is a set of eBay seller standards categories and the values related to the associated seller.  <br><br>Profiles are distinguished by a combination of cycle and program values. The "program" value specifies the region to which the data is from. The "cycle" value specifies whether the values were determined just now, or if the values are from the last official eBay seller standards evaluation. */
-      standardsProfiles?: (components["schemas"]["StandardsProfile"])[];
-    };
-    /** @description This complex data type defines the response data that is returned from a request to <b>getCustomerServiceMetric</b>.  <br><br>The <b>dimensionMetrics</b> object contains the details of the dimension being measured and the calculated customer service metric values. <br><br>The <b>evaluationCycle</b> defines the period used to calculate the metric values.  <br><br>The <b>marketplaceId</b> is the eBay marketplace for which the metrics are being considered. */
-    GetCustomerServiceMetricResponse: {
-      /** @description This container provides a seller's customer service <b>metric</b> performance for a given <b>dimension</b>.  <br><br>In the <b>getCustomerServiceMetric</b> request, specify values for the following request parameters to control the returned dimension and the associated metric values: <ul><li> <b>customer_service_metric_type</b></li> <li><b>evaluation_type</b></li> <li><b>evaluation_marketplace_id</b></li></ul> */
-      dimensionMetrics?: (components["schemas"]["DimensionMetric"])[];
-      /** @description This complex type defines the evaluation type (<code>CURRENT</code> or <code>PROJECTED</code>) and the transaction lookback period used to calculate the seller's customer service metric. */
-      evaluationCycle?: components["schemas"]["EvaluationCycle"];
-      /** @description The eBay marketplace ID of the marketplace upon which the customer service metric evaluation is based.  <br><br>The <b>customer_service_metric</b> resource supports a limited set of marketplaces. For a complete list of the supported marketplaces, please see the <a href="https://www.ebay.com/help/policies/selling-policies/seller-performance-policy/service-metrics-policy?id=4769#section2" title="eBay Help pages">Service metrics policy</a> page. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/bas:MarketplaceIdEnum'>eBay API documentation</a> */
-      marketplaceId?: string;
-    };
-    /** @description Type that defines the headers for the dimension keys and metrics returned in the report. */
-    Header: {
-      /** @description A list of the dimension or metric keys returned in the report. The values for each are is returned in the associated <b>key</b> fields. */
-      dimensionKeys?: (components["schemas"]["Definition"])[];
-      /** @description The list of metrics returned in the report. The values for each are is returned in the associated <b>key</b> fields. */
-      metrics?: (components["schemas"]["Definition"])[];
-    };
-    /** @description Type the defines the metadata information of the report. This includes the headers and the individual metadata records. */
-    Metadata: {
-      /** @description The container that returns the <b>dimensionKeys</b> and <b>metrics</b> headers for the report. */
-      metadataHeader?: components["schemas"]["MetadataHeader"];
-      /** @description A list of the individual report records. */
-      metadataRecords?: (components["schemas"]["MetadataRecord"])[];
-    };
-    /** @description Type that defines the metadata header fields. */
-    MetadataHeader: {
-      /** @description The key value used for the report. <br><br>For example: <code>"key": "LISTING_ID"</code> */
-      key?: string;
-      /** @description The list of dimension key values used for the report header. Each list element contains the key name, its data type, and its localized name.  <br><br>For example: <p><code>"metadataKeys": [<br>&nbsp;&nbsp;"key": "LISTING_TITLE",<br>&nbsp;&nbsp;"localizedName": "Listing title",<br>&nbsp;&nbsp;"dataType": "STRING"</code></p> */
-      metadataKeys?: (components["schemas"]["Definition"])[];
-    };
-    /** @description A complex type that defines the data records returned in the report. */
-    MetadataRecord: {
-      /** @description A list of data in a row returned in the traffic report. The data in each of the cells match the labels in headers of the report. */
-      metadataValues?: (components["schemas"]["Value"])[];
-      /** @description The value of the key on which the report is based. <br><br>For example, if the key is the listing ID, the value of this container could be: <br><br><code>"value": {<br>&nbsp;&nbsp;"value": "142133954229",<br>&nbsp;&nbsp;"applicable": true<br>}</code> */
-      value?: components["schemas"]["Value"];
-    };
-    /** @description This complex data type defines the details of the customer service metric and benchmark data related to the associated <b>dimension</b>. */
-    Metric: {
-      /** @description This complex type defines a set of benchmark data, which includes the <b>average</b> rating for the group included in the benchmark evaluation and the seller's calculated customer service metric rating for the benchmark.  <br><br>This container is returned only if the associated <b>metricKey</b> value is <code>RATE</code>. */
-      benchmark?: components["schemas"]["MetricBenchmark"];
-      /** @description Returned when <b>metricKey</b> equals <code>COUNT</code>, this field returns an array of  seller data where each set of data is grouped according by an overarching <b>basis</b>.  <br><br>When the seller distribution is returned, the numeric value of the associated <b>value</b> container equals the sum of the transactions where the seller meets the criteria of the customer service metric type for the given <b>dimension</b> during the <b>evaluationCycle</b>. */
-      distributions?: (components["schemas"]["MetricDistribution"])[];
-      /** @description This field indicates the customer service metric being returned in the associated <b>metrics</b> container. The field is set as follows: <ul><li><code>TRANSACTION_COUNT</code> &ndash; When set to this value, the associated <b>value</b> field returns the number of transactions completed in the peer group for the metric being evaluated in the associated <b>dimension</b> and <b>evaluationCycle</b>.</li> <li><code>COUNT</code> &ndash; When set to this value, the associated <b>value</b> field is set to the number of transactions completed by the seller for the metric being evaluated in the associated <b>dimension</b> and <b>evaluationCycle</b>.</li> <li><code>RATE</code> &ndash; When set to this value, the fields in the associated container return the seller's calculated <b>value</b> for the associated customer service metric along with the benchmark data against which the seller is evaluated.  <br><br>Specifically, when <b>metricKey</b> is set to <code>RATE</code>, the associated <b>value</b> field is set to the value of <b>metricKey</b> <code>TRANSACTION_COUNT</code> divided by the value of <b>metricKey</b> <code>COUNT</code>.  <br><br>The <b>benchmark.rating</b> value is the seller's rating for the metric in the associated <b>dimension</b> and <b>evaluationCycle</b>.</li></ul> */
-      metricKey?: string;
-      /** @description This field is set to the seller's numeric rating for the associated <b>metricKey</b> for the given <b>dimension</b> during the <b>evaluationCycle</b>.  <br><br>To determine the seller's rating for this metric, the value of this field is compared to the average metric value of the group. */
-      value?: string;
-    };
-    /** @description This complex type defines the benchmark data, which includes the <b>average</b> value of the metric for the group (the benchmark) and the seller's overall <b>rating</b> when compared to the benchmark. */
-    MetricBenchmark: {
-      /** @description If this field is present, it indicates that the rating given to the seller was "adjusted" for one reason or another.  <br><br>If eBay determines that the normal rating of a seller is impacted by circumstances beyond their control, they can issue an override to adjust the rating given to the seller. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/api:RatingAdjustmentTypeEnum'>eBay API documentation</a> */
-      adjustment?: string;
-      /** @description This field returns the "basis" by which the benchmark is calculated for the customer service metric type. <br><br>Currently, the only supported basis is <code>PEER_BENCHMARK</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/api:BenchmarkTypeEnum'>eBay API documentation</a> */
-      basis?: string;
-      /** @description This field contains the benchmark data. */
-      metadata?: components["schemas"]["BenchmarkMetadata"];
-      /** @description This field returns seller's rating for the customer service metric.  <br><br>The rating is set to a value that equals the relative deviation between the seller's metric value and the benchmark value for the customer service metric.  <br><br>Deviation values range from <code>LOW</code> to <code>VERY HIGH</code>, and the lower the deviation, the better the seller rating. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/api:RatingTypeEnum'>eBay API documentation</a> */
-      rating?: string;
-    };
-    /** @description This complex data type describes the metric distribution by basis. */
-    MetricDistribution: {
-      /** @description This field returns the basis, or the method, by which the metric rating is calculated. */
-      basis?: string;
-      /** @description This field returns a list of name/value pairs, where the <b>name</b> indicates the distribution being rated and the <b>value</b> indicates the count of seller transactions that meet the distribution criteria. */
-      data?: (components["schemas"]["Distribution"])[];
-    };
-    /** @description Type that defines the fields of the individual record of the report. */
-    Record: {
-      /** @description A list where each element contains either the string <code>DAY</code> (if the <b>dimension</b> is <code>DAY</code>), or the listing ID for which the record's metric data is computed. A second array member, <b>applicable</b>, is always <code>true</code> for dimension values. */
-      dimensionValues?: (components["schemas"]["Value"])[];
-      /** @description A list where each element contains a <b>value</b> field that indicates the record's value for the metric. Each element also contains an <b>applicable</b> field that indicates the veracity of the computed <b>value</b>.   <br><br>Note that there are no metric names or IDs associated with the values returned in this array. The metadata to which these values relate can be found in the key values in <b>metadataKeys</b>. The order of the metric values in this array equals the order of the key values in <b>metadataHeader</b>. */
-      metricValues?: (components["schemas"]["Value"])[];
-    };
-    /** @description The complex type that defines that defines the report. */
-    Report: {
-      /** @description A complex type containing the header of the report and the type of data containted in the rows of the report. */
-      dimensionMetadata?: (components["schemas"]["Metadata"])[];
-      /** @description   <br><br>The time stamp is formatted as an <a href="https://www.iso.org/iso-8601-date-and-time-format.html" target="_blank">ISO 8601</a> string, which is based on the 24-hour Universal Coordinated Time (UTC) clock.  <br><br>If you specify an end date that is beyond the <a href="#response.lastUpdatedDate">lastUpdatedDate</a> value, eBay returns a report that contains data only up to the lastUpdateDate date. <br><br><b>Format:</b> <code>[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss].[sss]Z</code> <br><b>Example:</b> <code>2018-08-20T07:09:00.000Z</code> */
-      endDate?: string;
-      /** @description A complex type containing the header for the report. */
-      header?: components["schemas"]["Header"];
-      /** @description The date and time, in ISO 8601 format, that indicates the last time the data returned in the report was updated. */
-      lastUpdatedDate?: string;
-      /** @description A complex type containing the individual data records for the traffic report. */
-      records?: (components["schemas"]["Record"])[];
-      /** @description The start date of the date range used to calculate the report, in ISO 8601 format. */
-      startDate?: string;
-      /** @description An array of any process errors or warnings that were generated during the processing of the call processing. */
-      warnings?: (components["schemas"]["Error"])[];
-    };
-    /** @description A complex type that defines a seller profile. */
-    StandardsProfile: {
-      /** @description A complex type that specifies the profile's evaluation cycle (<code>CURRENT</code> or <code>PROJECTED</code>), the date the evaluation was calculated, and  the month to which the evaluation pertains.  <br><br>Each program has at least one cycle, but a program can include both cycle types. */
-      cycle?: components["schemas"]["Cycle"];
-      /** @description If set to <code>true</code>, this flag indicates this is the default program for the seller.  <br><br>Except for sellers in China, a seller's default program is the marketplace where they registered with eBay. Seller's in China select their default program when they register. */
-      defaultProgram?: boolean;
-      /** @description Specifies how the overall seller level was calculated.  <br><br>In the event of special circumstances (as determined by eBay), eBay may override the calculated seller level. In general, such overrides protect a seller's level. The usual value for both cycle types is "Seller level generated by standards monthly evaluation cycle." */
-      evaluationReason?: string;
-      /** @description A list of the metrics upon which a seller's profile is evaluated.  <br><br>Each program's applicable metrics and requirements are listed at <a href="http://www.sps.ebay.com/sd/sdrequirements" target="_blank">eBay Top Rated seller program standards</a>. */
-      metrics?: (components["schemas"]["Metric"])[];
-      /** @description Indicates the program used to generate the profile data. Values can be <code>PROGRAM_DE</code>, <code>PROGRAM_UK</code>, <code>PROGRAM_US</code>, or <code>PROGRAM_GLOBAL</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/ssp:ProgramEnum'>eBay API documentation</a> */
-      program?: string;
-      /** @description The overall standards level of the seller, one of <code>TOP_RATED</code>, <code>ABOVE_STANDARD</code>, or <code>BELOW_STANDARD</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/analytics/types/ssp:StandardsLevelEnum'>eBay API documentation</a> */
-      standardsLevel?: string;
-    };
-    /** @description A complex type that contains a value, plus the veracity of that value. */
-    Value: {
-      /** @description If set to <code>true</code>, this flag indicates the value in the <b>value</b> field is valid as computed.  <br><br>A value of <code>false</code> indicates one or more of the values used to calculate the value was invalid. The occurrence of this is a rare, however consider this case: suppose a buyer navigates to a View Item page at 11:59 pm (the end of the day) and purchases the item at 12:05am the next day. In this case, the item would have been purchased with <code>0</code> views for the day. */
-      applicable?: boolean;
-      /** @description The value of the report data. */
-      value?: Record<string, never>;
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
-
-export type external = Record<string, never>;
-
+export type $defs = Record<string, never>;
 export interface operations {
-
-  /** @description Use this method to retrieve a seller's performance and rating for the customer service metric.  <br><br>Control the response from the <b>getCustomerServiceMetric</b> method using the following path and query parameters: <ul><li><b>customer_service_metric_type</b> controls the type of customer service transactions evaluated for the metric rating.</li> <li><b>evaluation_type</b> controls the period you want to review.</li> <li><b>evaluation_marketplace_id</b> specifies the target marketplace for the evaluation.</li></ul> Currently, metric data is returned for only peer benchmarking. For details on the workings of peer benchmarking, see <a href="https://www.ebay.com/help/policies/selling-policies/seller-performance-policy/service-metrics-policy?id=4769" title="eBay Help pages" target="_blank">Service metrics policy</a>.  <br><br>For details on using and understanding the response from this method, see <a href="/api-docs/sell/static/performance/customer-service-metric.html" title="Selling Integration Guide">Interpreting customer service metric ratings</a>. */
-  getCustomerServiceMetric: {
-    parameters: {
-      query: {
-        /** @description Use this query parameter to specify the Marketplace ID to evaluate for the customer service metrics and benchmark data.  <br><br>For the list of supported marketplaces, see <a href="/api-docs/sell/analytics/static/overview.html#requirements" title="Analytics API Overview" target="_blank">Analytics API requirements and restrictions</a>. For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/sell/analytics/types/bas:MarketplaceIdEnum */
-        evaluation_marketplace_id: string;
-      };
-      path: {
-        /** @description Use this path parameter to specify the type of customer service metrics and benchmark data you want returned for the seller. Supported types are:<br> <ul><li><code>ITEM_NOT_AS_DESCRIBED</code></li><li><code>ITEM_NOT_RECEIVED</code></li></ul> */
-        customer_service_metric_type: string;
-        /** @description Use this path parameter to specify the evaluation period to use for the performance metrics. See <a href="/api-docs/sell/analytics/types/api:EvaluationTypeEnum" target="_blank"> EvaluationTypeEnum</a> for more information on the supported values. */
-        evaluation_type: string;
-      };
-    };
-    responses: {
-      /** @description Success */
-      200: {
-        content: {
-          "application/json": components["schemas"]["GetCustomerServiceMetricResponse"];
+    getCustomerServiceMetric: {
+        parameters: {
+            query: {
+                /** @description Use this query parameter to specify the Marketplace ID to evaluate for the customer service metrics and benchmark data.  <br><br>For the list of supported marketplaces, see <a href="/api-docs/sell/analytics/static/overview.html#requirements" title="Analytics API Overview" target="_blank">Analytics API requirements and restrictions</a>. For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/sell/analytics/types/bas:MarketplaceIdEnum */
+                evaluation_marketplace_id: string;
+            };
+            header?: never;
+            path: {
+                /** @description Use this path parameter to specify the type of customer service metrics and benchmark data you want returned for the seller. Supported types are:<br> <ul><li><code>ITEM_NOT_AS_DESCRIBED</code></li><li><code>ITEM_NOT_RECEIVED</code></li></ul> */
+                customer_service_metric_type: string;
+                /** @description Use this path parameter to specify the evaluation period to use for the performance metrics. See <a href="/api-docs/sell/analytics/types/api:EvaluationTypeEnum" target="_blank"> EvaluationTypeEnum</a> for more information on the supported values. */
+                evaluation_type: string;
+            };
+            cookie?: never;
         };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Resource not found. Invalid path parameters. */
-      404: never;
-      /** @description Conflict */
-      409: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This call retrieves all the standards profiles for the associated seller.  <br><br>A <i>standards profile </i> is a set of eBay seller metrics and the seller's associated compliance values (either <code>TOP_RATED</code>, <code>ABOVE_STANDARD</code>, or <code>BELOW_STANDARD</code>).  <br><br>A seller's multiple profiles are distinguished by two criteria, a "program" and a "cycle." A profile's <i>program </i> is one of three regions where the seller may have done business, or <code>PROGRAM_GLOBAL</code> to indicate all marketplaces where the seller has done business. The <i>cycle</i> value specifies whether the standards compliance values were determined at the last official eBay evaluation or at the time of the request. */
-  findSellerStandardsProfiles: {
-    responses: {
-      /** @description Success */
-      200: {
-        content: {
-          "application/json": components["schemas"]["FindSellerStandardsProfilesResponse"];
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetCustomerServiceMetricResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found. Invalid path parameters. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Internal Server Error */
-      500: never;
     };
-  };
-  /** @description This call retrieves a single standards profile for the associated seller.  <br><br>A <i>standards profile </i> is a set of eBay seller metrics and the seller's associated compliance values (either <code>TOP_RATED</code>, <code>ABOVE_STANDARD</code>, or <code>BELOW_STANDARD</code>).  <br><br>A seller can have multiple profiles distinguished by two criteria, a "program" and a "cycle." A profile's <i>program </i> is one of three regions where the seller may have done business, or <code>PROGRAM_GLOBAL</code> to indicate all marketplaces where the seller has done business. The <i>cycle</i> value specifies whether the standards compliance values were determined at the last official eBay evaluation (<code>CURRENT</code>) or at the time of the request (<code>PROJECTED</code>). Both cycle and a program values are required URI parameters for this method. */
-  getSellerStandardsProfile: {
-    parameters: {
-      path: {
-        /** @description This path parameter is used to specify the cycle for which metrics and metadata will be retrieved.<br><br>See <a href="/api-docs/sell/analytics/types/ssp:CycleTypeEnum" target="_blank">CycleTypeEnum</a> for a list of supported values. */
-        cycle: string;
-        /** @description This path parameter is used to specify the seller standards program for which metrics and metadata will be retrieved. <br><br>See <a href="/api-docs/sell/analytics/types/ssp:ProgramEnum" target="_blank">ProgramEnum</a> for a list of supported values. */
-        program: string;
-      };
-    };
-    responses: {
-      /** @description Success */
-      200: {
-        content: {
-          "application/json": components["schemas"]["StandardsProfile"];
+    findSellerStandardsProfiles: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description No content */
-      204: never;
-      /** @description Bad Request */
-      400: never;
-      /** @description Resource not found */
-      404: never;
-      /** @description Internal Server Error */
-      500: never;
-    };
-  };
-  /** @description This method returns a report that details the user traffic received by a seller's listings. <br><br>A traffic report gives sellers the ability to review how often their listings appeared on eBay, how many times their listings are viewed, and how many purchases were made. The report also returns the report's start and end dates, and the date the information was last updated.  <br><br>For more information, see <a href="/api-docs/sell/static/performance/traffic-report.html" target="_blank">Traffic report details</a> */
-  getTrafficReport: {
-    parameters: {
-      query?: {
-        /** @description This query parameter specifies the <i>dimension</i>, or "attribute," that is applied to the report <b>metric</b>.  <br><br><b>Valid values:</b> <code>DAY</code> or <code>LISTING</code>  <br><br><b>Examples</b> <ul><li>If you specify <code>dimension=DAY</code> and <code>metric=CLICK_THROUGH_RATE</code>, the traffic report contains the number of times an item displayed on a search results page and the buyer clicked through to the View Item page for each day in the date range, as in: <br><code>12-06-17: 32, 12-07-17: 54, ...</code></li> <li>If you specify <code>dimension=LISTING</code> and <code>metric=LISTING_IMPRESSION_STORE</code>, the traffic report contains the number of times that listing appeared on the seller's store during the specified date range. <br><br>For example, <code>LISTING_IMPRESSION_STORE: 157</code> means the item appeared 157 times in the store during the date range.</li><li>If you specify <code>dimension=LISTING</code> without specifying any <b>listing_ids</b> in the parameter filter, the traffic report returned in the response contains a maximum of 200 listings.</li></ul> <!-- Dimension - Enables user to specify input to slice the data that the user is interested in - For example specify listing and days as dimensions to get traffic report for all the sellers listings grouped by listing and days. Refer to DimensionEnum) --> */
-        dimension?: string;
-        /** @description This query parameter refines the information returned in the traffic report. <br><p><span class="tablenote"><b>Note: </b> URL encode all the values you supply in the <b>filter</b> parameter. See <b>URL encoding query parameter values</b> as described in <a href="/api-docs/static/rest-request-components.html#parameters" target="_blank">URL parameters</a>.</span></p>Configure the following properties of the <b>filter</b> parameter to tune the traffic report to your needs: <ul> <li><b>date_range</b> <br>Limits the report to the specified range of dates. This value can be formatted in one of two ways depending on the user's time zone.<ul><li><b>For America/Los_Angeles time zone</b>, input the date range using <code>YYMMDD</code> format. As this is the default time zone used for timestamps in the report, the time zone does not need to be specified. Enclose the earliest date and end date for the report in brackets ("<code>[ ]</code>"), as follows:<br><br><code>[YYYYMMDD..YYYYMMDD]</code><br><br>For example:<br><pre>[20240101..20240131]</pre></li><li><b>For all other time zones</b>, input the date range using <a href="https://www.iso.org/iso-8601-date-and-time-format.html" target="_blank">ISO 8601</a> format, and specify the time zone using a UTC offset. A time zone offset is a positive or negative value that represents the number of hours a time zone is from UTC (see <a href="https://www.utctime.net/utc-time-zone-converter" target="_blank">UTC Time Zone Converter</a> for offset values for your time zone). Enclose the earliest date and end date for the report in brackets ("<code>[ ]</code>"), as follows:<br><br><code>[yyyy-MM-dd'T'HH:mm:ss.SSS+|-hh:mm..yyyy-MM-dd'T'HH:mm:ss.SSS+|-hh:mm]</code><br><br>For example:<br><pre>[2024-01-01T02:00:00.000-05:00..2024-01-31T02:00:00.000-05:00]</pre><span class="tablenote"><b>Note:</b> All time values entered in this format will be dropped, and will be replaced with <code>00:00:00.000</code> for <b>startDate</b> and <code>23:59:59.000</code> for <b>endDate</b> in the response body.</span></li></ul>The maximum range between the start and end dates is 90 days, and the earliest start date you can specify is two years prior to the current date, which is defined as 730 days (365 &#42; 2), not accounting for Leap Year.<br><br><a name="lastUDate"></a>The last date for which traffic data exists is a value called <b>lastUpdatedDate</b>. eBay returns an error if you specify a date range greater than 90 days, or the start date is after the lastUpdatedDate. If the specified end date is beyond the lastUpdatedDate, eBay returns data up to the lastUpdatedDate.<br><br><b>Required:</b> Always</li> <li><b>listing_ids</b> <br>This filter limits the results to only the supplied list of <b>listingId</b> values. <br><br><span class="tablenote"><b>Note:</b> If you specify <code>dimension=LISTING</code> without specifying any listing_ids in this parameter, the traffic report returned in the response contains a maximum of 200 listings.</span><br>You can specify to 200 different <b>listingId</b> values. Enclose the list of IDs with curly braces ("<code>{ }</code>"), and separate multiple values with a pipe character ("<code>|</code>").  <br><br>This filter only returns data for listings that have been either active or sold in last 90 days, and any unsold listings in the last 30 days. All listings must be the seller's and they  must be listed on the marketplace specified by the <b>marketplace_ids</b> filter argument.</li> <li><b>marketplace_ids</b> <br>This filter limits the report to seller data related to only the specified marketplace ID (currently the filter allows only a single marketplace ID). Enclose the marketplace ID in curly braces ("<code>{ }</code>").  <br><br><b>Valid values:</b> <ul class="compact"><li><code>EBAY_AU</code></li> <li><code>EBAY_DE</code></li><li><code>EBAY_ES</code></li><li><code>EBAY_FR</code></li> <li><code>EBAY_GB</code></li> <li><code>EBAY_IT</code></li><li><code>EBAY_US</code></li> <li><code>EBAY_MOTORS_US</code></li></ul> <br><b>Required if</b> you set the <b>dimension</b> parameter to <code>DAY</code>.</li></ul> <br><b>Example filter parameter</b> <br>The following example shows how to configure the <b>filter</b> parameter with the <b>marketplace_ids</b> and <b>date_range</b> filters: <p><code>filter=marketplace_ids:{EBAY_US},date_range:[20170601..20170828]</code><br><br>Encoding this portion of the query parameter sample yields: <p><code>filter=marketplace_ids:%7BEBAY_US%7D,date_range:%5B20230601..20230828%5D</code> </p><br>See <a href=" /api-docs/sell/analytics/resources/traffic_report/methods/getTrafficReport#h2-samples">samples</a> for additional examples.<!-- **Filter results based on the specified filter parameters- window_days (WindowDaysEnum), date_range, marketplace_id (MarketplaceIdEnum - Only EBAY_US, EBAY_MOTORS_US, EBAY_GB, EBAY_AU, EBAY_DE are supported), listing_ids, traffic_source (Takes a list. Supported values: ORGANIC, PROMOTED_LISTINGS). Valid filters come from QueryParamEnum --> For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/sell/analytics/types/csb:FilterField */
-        filter?: string;
-        /** @description <a name="metrics"></a>This query parameter specifies the metrics you want covered in the report. <br><p><span class="tablenote"><b>Note: </b> Unlike names for parameters and enumerated values, metric values are not case sensitive.</span></p><b>Valid values:</b><ul>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#click_through_rate" target="_blank">CLICK_THROUGH_RATE</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_impression_search_results_page" target="_blank">LISTING_IMPRESSION_SEARCH_RESULTS_PAGE</a> </li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_impression_store" target="_blank">LISTING_IMPRESSION_STORE</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_impression_total" target="_blank">LISTING_IMPRESSION_TOTAL</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_views_source_direct" target="_blank">LISTING_VIEWS_SOURCE_DIRECT</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_views_source_off_ebay" target="_blank">LISTING_VIEWS_SOURCE_OFF_EBAY</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_views_source_other_ebay" target="_blank">LISTING_VIEWS_SOURCE_OTHER_EBAY</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_views_source_search_results_page" target="_blank">LISTING_VIEWS_SOURCE_SEARCH_RESULTS_PAGE</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_views_source_store" target="_blank">LISTING_VIEWS_SOURCE_STORE</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_views_total" target="_blank">LISTING_VIEWS_TOTAL</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#sales_conversion_rate" target="_blank">SALES_CONVERSION_RATE</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#total_impression_total" target="_blank">TOTAL_IMPRESSION_TOTAL</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#transaction" target="_blank">TRANSACTION</a></li></ul>Specify a comma-separated list of the metrics to include them in the report. See <a href="/api-docs/sell/static/performance/traffic-report.html#metric-parameters" target="_blank">Using different metric parameters</a> for more information including detailed metric descriptions and localized names.<!-- Metric - Lets the user specify the list of fields that they would like to see in the report. Allowed values: CLICK_THROUGH_RATE, LISTING_IMPRESSION_SEARCH_RESULTS_PAGE, LISTING_IMPRESSION_STORE, LISTING_IMPRESSION_TOTAL, LISTING_VIEWS_SOURCE_DIRECT, LISTING_VIEWS_SOURCE_OFF_EBAY, LISTING_VIEWS_SOURCE_OTHER_EBAY, LISTING_VIEWS_SOURCE_SEARCH_RESULTS_PAGE, LISTING_VIEWS_SOURCE_STORE, LISTING_VIEWS_TOTAL, SALES_CONVERSION_RATE (DataMetricEnum), TOTAL_IMPRESSION_TOTAL, TRANSACTION --> */
-        metric?: string;
-        /** @description This query parameter sorts the report on the specified metric.  <br><br>You can only specify a single metric in the sort parameter and the specified metric must be included in the configuration of the report's <a href="#metrics">metric</a> parameter.  <br><br>Sorting is helpful when you want to review how a specific metric is performing, such as the CLICK_THROUGH_RATE.  <br><br>Most reports can be sorted in ascending or descending order. Precede the value of a descending-order request with a minus sign ("<code>-</code>"), for example: <code>sort=-CLICK_THROUGH_RATE</code>.<br /><br /><span class="tablenote"><b>Note:</b> There are a couple of constraints on sorting the report by different metrics:<ul><li>Sorting on the <code>SALES_CONVERSION_RATE</code> metric is not supported</li><li>The <code>TRANSACTION</code> metric can only be sorted in the descending order (sorting in the ascending order is not supported).</li></ul></span> <!-- Sort order for a collection of resources: Specify the metric value to be sorted. Allowed values are from DataMetricEnum --> For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/sell/analytics/types/csb:SortField */
-        sort?: string;
-      };
-    };
-    responses: {
-      /** @description Success */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Report"];
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FindSellerStandardsProfilesResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
-      };
-      /** @description Bad Request */
-      400: never;
-      /** @description Internal Server Error */
-      500: never;
     };
-  };
+    getSellerStandardsProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description This path parameter is used to specify the cycle for which metrics and metadata will be retrieved.<br><br>See <a href="/api-docs/sell/analytics/types/ssp:CycleTypeEnum" target="_blank">CycleTypeEnum</a> for a list of supported values. */
+                cycle: string;
+                /** @description This path parameter is used to specify the seller standards program for which metrics and metadata will be retrieved. <br><br>See <a href="/api-docs/sell/analytics/types/ssp:ProgramEnum" target="_blank">ProgramEnum</a> for a list of supported values. */
+                program: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StandardsProfile"];
+                };
+            };
+            /** @description No content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getTrafficReport: {
+        parameters: {
+            query?: {
+                /** @description This query parameter specifies the <i>dimension</i>, or "attribute," that is applied to the report <b>metric</b>.  <br><br><b>Valid values:</b> <code>DAY</code> or <code>LISTING</code>  <br><br><b>Examples</b> <ul><li>If you specify <code>dimension=DAY</code> and <code>metric=CLICK_THROUGH_RATE</code>, the traffic report contains the number of times an item displayed on a search results page and the buyer clicked through to the View Item page for each day in the date range, as in: <br><code>12-06-17: 32, 12-07-17: 54, ...</code></li> <li>If you specify <code>dimension=LISTING</code> and <code>metric=LISTING_IMPRESSION_STORE</code>, the traffic report contains the number of times that listing appeared on the seller's store during the specified date range. <br><br>For example, <code>LISTING_IMPRESSION_STORE: 157</code> means the item appeared 157 times in the store during the date range.</li><li>If you specify <code>dimension=LISTING</code> without specifying any <b>listing_ids</b> in the parameter filter, the traffic report returned in the response contains a maximum of 200 listings.</li></ul> <!-- Dimension - Enables user to specify input to slice the data that the user is interested in - For example specify listing and days as dimensions to get traffic report for all the sellers listings grouped by listing and days. Refer to DimensionEnum) --> */
+                dimension?: string;
+                /** @description This query parameter refines the information returned in the traffic report. <br><p><span class="tablenote"><b>Note: </b> URL encode all the values you supply in the <b>filter</b> parameter. See <b>URL encoding query parameter values</b> as described in <a href="/api-docs/static/rest-request-components.html#parameters" target="_blank">URL parameters</a>.</span></p>Configure the following properties of the <b>filter</b> parameter to tune the traffic report to your needs: <ul> <li><b>date_range</b> <br>Limits the report to the specified range of dates. This value can be formatted in one of two ways depending on the user's time zone.<ul><li><b>For America/Los_Angeles time zone</b>, input the date range using <code>YYMMDD</code> format. As this is the default time zone used for timestamps in the report, the time zone does not need to be specified. Enclose the earliest date and end date for the report in brackets ("<code>[ ]</code>"), as follows:<br><br><code>[YYYYMMDD..YYYYMMDD]</code><br><br>For example:<br><pre>[20240101..20240131]</pre></li><li><b>For all other time zones</b>, input the date range using <a href="https://www.iso.org/iso-8601-date-and-time-format.html" target="_blank">ISO 8601</a> format, and specify the time zone using a UTC offset. A time zone offset is a positive or negative value that represents the number of hours a time zone is from UTC (see <a href="https://www.utctime.net/utc-time-zone-converter" target="_blank">UTC Time Zone Converter</a> for offset values for your time zone). Enclose the earliest date and end date for the report in brackets ("<code>[ ]</code>"), as follows:<br><br><code>[yyyy-MM-dd'T'HH:mm:ss.SSS+|-hh:mm..yyyy-MM-dd'T'HH:mm:ss.SSS+|-hh:mm]</code><br><br>For example:<br><pre>[2024-01-01T02:00:00.000-05:00..2024-01-31T02:00:00.000-05:00]</pre><span class="tablenote"><b>Note:</b> All time values entered in this format will be dropped, and will be replaced with <code>00:00:00.000</code> for <b>startDate</b> and <code>23:59:59.000</code> for <b>endDate</b> in the response body.</span></li></ul>The maximum range between the start and end dates is 90 days, and the earliest start date you can specify is two years prior to the current date, which is defined as 730 days (365 &#42; 2), not accounting for Leap Year.<br><br><a name="lastUDate"></a>The last date for which traffic data exists is a value called <b>lastUpdatedDate</b>. eBay returns an error if you specify a date range greater than 90 days, or the start date is after the lastUpdatedDate. If the specified end date is beyond the lastUpdatedDate, eBay returns data up to the lastUpdatedDate.<br><br><b>Required:</b> Always</li> <li><b>listing_ids</b> <br>This filter limits the results to only the supplied list of <b>listingId</b> values. <br><br><span class="tablenote"><b>Note:</b> If you specify <code>dimension=LISTING</code> without specifying any listing_ids in this parameter, the traffic report returned in the response contains a maximum of 200 listings.</span><br>You can specify to 200 different <b>listingId</b> values. Enclose the list of IDs with curly braces ("<code>{ }</code>"), and separate multiple values with a pipe character ("<code>|</code>").  <br><br>This filter only returns data for listings that have been either active or sold in last 90 days, and any unsold listings in the last 30 days. All listings must be the seller's and they  must be listed on the marketplace specified by the <b>marketplace_ids</b> filter argument.</li> <li><b>marketplace_ids</b> <br>This filter limits the report to seller data related to only the specified marketplace ID (currently the filter allows only a single marketplace ID). Enclose the marketplace ID in curly braces ("<code>{ }</code>").  <br><br><b>Valid values:</b> <ul class="compact"><li><code>EBAY_AU</code></li> <li><code>EBAY_DE</code></li><li><code>EBAY_ES</code></li><li><code>EBAY_FR</code></li> <li><code>EBAY_GB</code></li> <li><code>EBAY_IT</code></li><li><code>EBAY_US</code></li> <li><code>EBAY_MOTORS_US</code></li></ul> <br><b>Required if</b> you set the <b>dimension</b> parameter to <code>DAY</code>.</li></ul> <br><b>Example filter parameter</b> <br>The following example shows how to configure the <b>filter</b> parameter with the <b>marketplace_ids</b> and <b>date_range</b> filters: <p><code>filter=marketplace_ids:{EBAY_US},date_range:[20170601..20170828]</code><br><br>Encoding this portion of the query parameter sample yields: <p><code>filter=marketplace_ids:%7BEBAY_US%7D,date_range:%5B20230601..20230828%5D</code> </p><br>See <a href=" /api-docs/sell/analytics/resources/traffic_report/methods/getTrafficReport#h2-samples">samples</a> for additional examples.<!-- **Filter results based on the specified filter parameters- window_days (WindowDaysEnum), date_range, marketplace_id (MarketplaceIdEnum - Only EBAY_US, EBAY_MOTORS_US, EBAY_GB, EBAY_AU, EBAY_DE are supported), listing_ids, traffic_source (Takes a list. Supported values: ORGANIC, PROMOTED_LISTINGS). Valid filters come from QueryParamEnum --> For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/sell/analytics/types/csb:FilterField */
+                filter?: string;
+                /** @description <a name="metrics"></a>This query parameter specifies the metrics you want covered in the report. <br><p><span class="tablenote"><b>Note: </b> Unlike names for parameters and enumerated values, metric values are not case sensitive.</span></p><b>Valid values:</b><ul>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#click_through_rate" target="_blank">CLICK_THROUGH_RATE</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_impression_search_results_page" target="_blank">LISTING_IMPRESSION_SEARCH_RESULTS_PAGE</a> </li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_impression_store" target="_blank">LISTING_IMPRESSION_STORE</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_impression_total" target="_blank">LISTING_IMPRESSION_TOTAL</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_views_source_direct" target="_blank">LISTING_VIEWS_SOURCE_DIRECT</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_views_source_off_ebay" target="_blank">LISTING_VIEWS_SOURCE_OFF_EBAY</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_views_source_other_ebay" target="_blank">LISTING_VIEWS_SOURCE_OTHER_EBAY</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_views_source_search_results_page" target="_blank">LISTING_VIEWS_SOURCE_SEARCH_RESULTS_PAGE</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_views_source_store" target="_blank">LISTING_VIEWS_SOURCE_STORE</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#listing_views_total" target="_blank">LISTING_VIEWS_TOTAL</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#sales_conversion_rate" target="_blank">SALES_CONVERSION_RATE</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#total_impression_total" target="_blank">TOTAL_IMPRESSION_TOTAL</a></li>    <li><a href="/api-docs/sell/static/performance/traffic-report.html#transaction" target="_blank">TRANSACTION</a></li></ul>Specify a comma-separated list of the metrics to include them in the report. See <a href="/api-docs/sell/static/performance/traffic-report.html#metric-parameters" target="_blank">Using different metric parameters</a> for more information including detailed metric descriptions and localized names.<!-- Metric - Lets the user specify the list of fields that they would like to see in the report. Allowed values: CLICK_THROUGH_RATE, LISTING_IMPRESSION_SEARCH_RESULTS_PAGE, LISTING_IMPRESSION_STORE, LISTING_IMPRESSION_TOTAL, LISTING_VIEWS_SOURCE_DIRECT, LISTING_VIEWS_SOURCE_OFF_EBAY, LISTING_VIEWS_SOURCE_OTHER_EBAY, LISTING_VIEWS_SOURCE_SEARCH_RESULTS_PAGE, LISTING_VIEWS_SOURCE_STORE, LISTING_VIEWS_TOTAL, SALES_CONVERSION_RATE (DataMetricEnum), TOTAL_IMPRESSION_TOTAL, TRANSACTION --> */
+                metric?: string;
+                /** @description This query parameter sorts the report on the specified metric.  <br><br>You can only specify a single metric in the sort parameter and the specified metric must be included in the configuration of the report's <a href="#metrics">metric</a> parameter.  <br><br>Sorting is helpful when you want to review how a specific metric is performing, such as the CLICK_THROUGH_RATE.  <br><br>Most reports can be sorted in ascending or descending order. Precede the value of a descending-order request with a minus sign ("<code>-</code>"), for example: <code>sort=-CLICK_THROUGH_RATE</code>.<br /><br /><span class="tablenote"><b>Note:</b> There are a couple of constraints on sorting the report by different metrics:<ul><li>Sorting on the <code>SALES_CONVERSION_RATE</code> metric is not supported</li><li>The <code>TRANSACTION</code> metric can only be sorted in the descending order (sorting in the ascending order is not supported).</li></ul></span> <!-- Sort order for a collection of resources: Specify the metric value to be sorted. Allowed values are from DataMetricEnum --> For implementation help, refer to eBay API documentation at https://developer.ebay.com/api-docs/sell/analytics/types/csb:SortField */
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Report"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
 }

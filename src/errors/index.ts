@@ -1,4 +1,3 @@
-// tslint:disable:max-classes-per-file
 import debug from 'debug';
 
 const log = debug('ebay:error');
@@ -55,10 +54,10 @@ export class EbayApiError extends EBayError {
   public readonly firstError?: EBayFirstError
 
   constructor(message: string,
-              description?: string,
-              meta?: EBayErrorMeta,
-              errorCode?: number,
-              firstError?: EBayFirstError) {
+    description?: string,
+    meta?: EBayErrorMeta,
+    errorCode?: number,
+    firstError?: EBayFirstError) {
     super(message, description, meta);
     this.errorCode = errorCode;
     this.firstError = firstError;
@@ -228,7 +227,7 @@ export type EBayErrorBag = {
 function getEBayError(data?: EBayApiErrorResponse): EBayErrorResponse {
   if (!data) {
     return {
-      message: `eBay API Error`,
+      message: 'eBay API Error',
       description: 'No data is set in response result.'
     };
   }
@@ -264,7 +263,7 @@ function getEBayError(data?: EBayApiErrorResponse): EBayErrorResponse {
   }
 
   return {
-    message: `Unknown eBay API Error`,
+    message: 'Unknown eBay API Error',
     description: 'This error response is not known. You should investigate the "meta.res.data" for more information.'
   };
 }
@@ -417,17 +416,17 @@ export const checkEBayTraditionalResponse = (apiResponse: any, data: any) => {
   }
 
   switch (errorCode) {
-    case EBayIAFTokenExpired.code:
-      throw new EBayIAFTokenExpired(message, description, meta, errorCode, firstError);
-    case EBayIAFTokenInvalid.code:
-    case 1.32: // Shopping API: Invalid token. Please specify a valid token as HTTP header.
-      throw new EBayIAFTokenInvalid(message, description, meta, errorCode, firstError);
-    case EBayTokenRequired.code:
-      throw new EBayTokenRequired(message, description, meta, errorCode, firstError);
-    case EBayAuthTokenIsHardExpired.code:
-      throw new EBayAuthTokenIsHardExpired(message, description, meta, errorCode, firstError);
-    case EBayAuthTokenIsInvalid.code:
-      throw new EBayAuthTokenIsInvalid(message, description, meta, errorCode, firstError);
+  case EBayIAFTokenExpired.code:
+    throw new EBayIAFTokenExpired(message, description, meta, errorCode, firstError);
+  case EBayIAFTokenInvalid.code:
+  case 1.32: // Shopping API: Invalid token. Please specify a valid token as HTTP header.
+    throw new EBayIAFTokenInvalid(message, description, meta, errorCode, firstError);
+  case EBayTokenRequired.code:
+    throw new EBayTokenRequired(message, description, meta, errorCode, firstError);
+  case EBayAuthTokenIsHardExpired.code:
+    throw new EBayAuthTokenIsHardExpired(message, description, meta, errorCode, firstError);
+  case EBayAuthTokenIsInvalid.code:
+    throw new EBayAuthTokenIsInvalid(message, description, meta, errorCode, firstError);
   }
 
   throw new EBayApiError(message, description, meta, errorCode, firstError);

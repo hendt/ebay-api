@@ -85,7 +85,7 @@ describe('Traditional', () => {
       expect(post.args[0][1]).to.equal([
         '<?xml version="1.0" encoding="utf-8"?>',
         '<GetAccountRequest xmlns="urn:ebay:apis:eBLBaseComponents">',
-        '<RequesterCredentials><eBayAuthToken>eBayAuthToken</eBayAuthToken></RequesterCredentials></GetAccountRequest>',
+        '<RequesterCredentials><eBayAuthToken>eBayAuthToken</eBayAuthToken></RequesterCredentials></GetAccountRequest>'
       ].join(''));
       expect(data).to.equal('<GetAccountResponse></GetAccountResponse>');
       expect(post.args[0][2].headers['X-EBAY-API-IAF-TOKEN']).to.equal(undefined);

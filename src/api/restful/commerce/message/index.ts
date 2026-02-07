@@ -36,16 +36,16 @@ export default class Message extends Restful implements OpenApi<operations> {
    *        of an eBay user for which to retrieve conversations.
    */
   public getConversations({
-                            limit,
-                            offset,
-                            conversationStatus,
-                            conversationType,
-                            referenceId,
-                            referenceType,
-                            startTime,
-                            endTime,
-                            otherPartyUsername
-                          }: {
+    limit,
+    offset,
+    conversationStatus,
+    conversationType,
+    referenceId,
+    referenceType,
+    startTime,
+    endTime,
+    otherPartyUsername
+  }: {
     limit?: number,
     offset?: number,
     conversationStatus?: string,
@@ -56,7 +56,7 @@ export default class Message extends Restful implements OpenApi<operations> {
     endTime?: string,
     otherPartyUsername?:string,
   } = {}) {
-    return this.get(`/conversation`, {
+    return this.get('/conversation', {
       params: {
         limit,
         offset,
@@ -66,7 +66,7 @@ export default class Message extends Restful implements OpenApi<operations> {
         reference_type: referenceType,
         start_time: startTime,
         end_time: endTime,
-        other_party_username: otherPartyUsername,
+        other_party_username: otherPartyUsername
       }
     });
   }
@@ -80,11 +80,11 @@ export default class Message extends Restful implements OpenApi<operations> {
    * @param offset The number of reports to skip in the result set before returning the first entry in the paginated response.
    */
   public getConversation(conversationId: string,
-                         {
-                           conversationType,
-                           limit,
-                           offset
-                         }: {
+    {
+      conversationType,
+      limit,
+      offset
+    }: {
     conversationType: string,
     limit?: number,
     offset?: number,
@@ -93,7 +93,7 @@ export default class Message extends Restful implements OpenApi<operations> {
       params: {
         conversation_type: conversationType,
         limit,
-        offset,
+        offset
       }
     });
   }
@@ -104,7 +104,7 @@ export default class Message extends Restful implements OpenApi<operations> {
    * @param body UpdateConversationRequest
    */
   public updateConversation(body: UpdateConversationRequest) {
-    return this.post(`/update_conversation`, body);
+    return this.post('/update_conversation', body);
   }
 
   /**
@@ -113,7 +113,7 @@ export default class Message extends Restful implements OpenApi<operations> {
    * @param body BulkUpdateConversationRequest
    */
   public bulkUpdateConversation(body: BulkUpdateConversationRequest) {
-    return this.post(`/bulk_update_conversation`, body);
+    return this.post('/bulk_update_conversation', body);
   }
 
   /**
@@ -123,6 +123,6 @@ export default class Message extends Restful implements OpenApi<operations> {
    * @param body CommerceMessageSendMessageRequest
    */
   public sendMessage(body: CommerceMessageSendMessageRequest) {
-    return this.post(`/send_message`, body);
+    return this.post('/send_message', body);
   };
 }

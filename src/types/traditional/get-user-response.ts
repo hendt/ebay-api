@@ -1,7 +1,7 @@
 // https://developer.ebay.com/Devzone/XML/docs/Reference/eBay/GetUser.html#Output
 import type {
   CountryCodeType,
-  StandardOutputFields,
+  StandardOutputFields
 } from './common.js';
 
 export interface GetUserResponse extends StandardOutputFields {

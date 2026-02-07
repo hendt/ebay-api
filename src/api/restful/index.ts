@@ -17,7 +17,7 @@ const additionalHeaders: Record<string, string> = {
   marketplaceId: 'X-EBAY-C-MARKETPLACE-ID',
   endUserCtx: 'X-EBAY-C-ENDUSERCTX',
   acceptLanguage: 'Accept-Language',
-  contentLanguage: 'Content-Language',
+  contentLanguage: 'Content-Language'
 };
 
 export type RestfulApiConfig = {
@@ -230,7 +230,7 @@ export default abstract class Restful extends Api {
   private async request(
     apiRequest: ApiRequest,
     apiConfig: RestfulApiConfig = this.apiConfig,
-    refreshToken = false,
+    refreshToken = false
   ): Promise<any> {
     const {path, method, data} = apiRequest;
 

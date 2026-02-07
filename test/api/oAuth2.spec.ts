@@ -181,7 +181,7 @@ describe('OAuth2', () => {
       oAuth2.setCredentials(cred);
       await oAuth2.refreshToken();
       // @ts-ignore
-      // tslint:disable-next-line:no-unused-expression
+
       expect(req.postForm.called).to.be.true;
       expect(req.postForm.args[0][1].grant_type).to.equal('refresh_token');
     });
@@ -191,7 +191,7 @@ describe('OAuth2', () => {
       await oAuth2.setClientToken(cred);
       await oAuth2.refreshToken();
       // @ts-ignore
-      // tslint:disable-next-line:no-unused-expression
+
       expect(req.postForm.called).to.be.true;
       expect(req.postForm.args[0][1].grant_type).to.equal('client_credentials');
     });
@@ -211,7 +211,7 @@ describe('OAuth2', () => {
 
       return oAuth2.refreshUserAccessToken().then(() => {
         expect(oAuth2.getUserAccessToken()).equal('new_access_token');
-        // tslint:disable-next-line:no-unused-expression
+  
         expect(refreshAuthToken.called).to.be.true;
         expect(refreshAuthToken.args[0][0].access_token).to.equal('new_access_token');
       });

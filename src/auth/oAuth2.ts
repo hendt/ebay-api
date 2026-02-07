@@ -145,7 +145,7 @@ export default class OAuth2 extends Base {
     try {
       const response = await this.req.postForm(this.identityEndpoint, {
         scope: this.scope.join(' '),
-        grant_type: 'client_credentials',
+        grant_type: 'client_credentials'
       }, {
         auth: {
           username: this.config.appId,

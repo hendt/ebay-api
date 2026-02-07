@@ -44,6 +44,6 @@ export default class AccountV2 extends Restful implements OpenApi<operations> {
    * @param body
    */
   public updatePayoutPercentage(body: UpdatePayoutPercentageRequest) {
-    return this.post(`/payout_settings/update_percentage`, body);
+    return this.post('/payout_settings/update_percentage', body);
   }
 }

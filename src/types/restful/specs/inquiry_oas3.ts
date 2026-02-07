@@ -3,185 +3,426 @@
  * Do not make direct changes to the file.
  */
 
-
 export interface paths {
-  "/inquiry/check_eligibility": {
-    /** @description Check if a buyer is eligible to open an inquiry on an order */
-    post: operations["checkInquiryEligibility"];
-  };
-  "/inquiry/{inquiryId}/close": {
-    /** @description Close an inquiry for the buyer */
-    post: operations["closeInquiry"];
-  };
-  "/inquiry/{inquiryId}/confirm_refund": {
-    /** @description Buyer confirms the refund from an inquiry was received */
-    post: operations["confirmInquiryRefund"];
-  };
-  "/inquiry": {
-    /** @description Buyer confirms the refund from an inquiry was received */
-    post: operations["createInquiry"];
-  };
-  "/inquiry/{inquiryId}/escalate": {
-    /** @description Escalate an inquiry to an INR case */
-    post: operations["escalateInquiry"];
-  };
-  "/inquiry/{inquiryId}": {
-    /** @description Retrieve the history and details related to a specific inquiry */
-    get: operations["getInquiry"];
-  };
-  "/inquiry/{inquiryId}/issue_refund": {
-    /** @description Issue a refund for an inquiry */
-    post: operations["issueInquiryRefund"];
-  };
-  "/inquiry/{inquiryId}/provide_refund_info": {
-    /** @description Provide refund information about an inquiry to the buyer */
-    post: operations["provideInquiryRefundInfo"];
-  };
-  "/inquiry/{inquiryId}/provide_shipment_info": {
-    /** @description Provide shipment information for an inquiry */
-    post: operations["provideInquiryShipmentInfo"];
-  };
-  "/inquiry/search": {
-    /** @description This call is used to search for inquiries using multiple filter types. */
-    get: operations["search"];
-  };
-  "/inquiry/{inquiryId}/send_message": {
-    /** @description Contact the buyer or seller about an inquiry */
-    post: operations["sendInquiryMessage"];
-  };
+    "/inquiry/check_eligibility": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Check if a buyer is eligible to open an inquiry on an order */
+        post: operations["checkInquiryEligibility"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/inquiry/{inquiryId}/close": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Close an inquiry for the buyer */
+        post: operations["closeInquiry"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/inquiry/{inquiryId}/confirm_refund": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Buyer confirms the refund from an inquiry was received */
+        post: operations["confirmInquiryRefund"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/inquiry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Buyer confirms the refund from an inquiry was received */
+        post: operations["createInquiry"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/inquiry/{inquiryId}/escalate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Escalate an inquiry to an INR case */
+        post: operations["escalateInquiry"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/inquiry/{inquiryId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Retrieve the history and details related to a specific inquiry */
+        get: operations["getInquiry"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/inquiry/{inquiryId}/issue_refund": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Issue a refund for an inquiry */
+        post: operations["issueInquiryRefund"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/inquiry/{inquiryId}/provide_refund_info": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Provide refund information about an inquiry to the buyer */
+        post: operations["provideInquiryRefundInfo"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/inquiry/{inquiryId}/provide_shipment_info": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Provide shipment information for an inquiry */
+        post: operations["provideInquiryShipmentInfo"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/inquiry/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This call is used to search for inquiries using multiple filter types. */
+        get: operations["search"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/inquiry/{inquiryId}/send_message": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Contact the buyer or seller about an inquiry */
+        post: operations["sendInquiryMessage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
-
 export type webhooks = Record<string, never>;
-
-export type components = Record<string, never>;
-
-export type external = Record<string, never>;
-
+export interface components {
+    schemas: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
+}
+export type $defs = Record<string, never>;
 export interface operations {
-
-  /** @description Check if a buyer is eligible to open an inquiry on an order */
-  checkInquiryEligibility: {
-    responses: {
-      /** @description OK */
-      200: never;
+    checkInquiryEligibility: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-  };
-  /** @description Close an inquiry for the buyer */
-  closeInquiry: {
-    parameters: {
-      path: {
-        /** @description The unique ID of the inquiry to be closed. */
-        inquiryId: string;
-      };
+    closeInquiry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The unique ID of the inquiry to be closed. */
+                inquiryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-    responses: {
-      /** @description OK */
-      200: never;
+    confirmInquiryRefund: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The unique ID of the inquiry to be closed. */
+                inquiryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-  };
-  /** @description Buyer confirms the refund from an inquiry was received */
-  confirmInquiryRefund: {
-    parameters: {
-      path: {
-        /** @description The unique ID of the inquiry to be closed. */
-        inquiryId: string;
-      };
+    createInquiry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-    responses: {
-      /** @description OK */
-      200: never;
+    escalateInquiry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The unique ID of the inquiry to be closed. */
+                inquiryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-  };
-  /** @description Buyer confirms the refund from an inquiry was received */
-  createInquiry: {
-    responses: {
-      /** @description OK */
-      200: never;
+    getInquiry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The unique ID of the inquiry to be closed. */
+                inquiryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-  };
-  /** @description Escalate an inquiry to an INR case */
-  escalateInquiry: {
-    parameters: {
-      path: {
-        /** @description The unique ID of the inquiry to be closed. */
-        inquiryId: string;
-      };
+    issueInquiryRefund: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The unique ID of the inquiry to be closed. */
+                inquiryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-    responses: {
-      /** @description OK */
-      200: never;
+    provideInquiryRefundInfo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The unique ID of the inquiry to be closed. */
+                inquiryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-  };
-  /** @description Retrieve the history and details related to a specific inquiry */
-  getInquiry: {
-    parameters: {
-      path: {
-        /** @description The unique ID of the inquiry to be closed. */
-        inquiryId: string;
-      };
+    provideInquiryShipmentInfo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The unique ID of the inquiry to be closed. */
+                inquiryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-    responses: {
-      /** @description OK */
-      200: never;
+    search: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-  };
-  /** @description Issue a refund for an inquiry */
-  issueInquiryRefund: {
-    parameters: {
-      path: {
-        /** @description The unique ID of the inquiry to be closed. */
-        inquiryId: string;
-      };
+    sendInquiryMessage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The unique ID of the inquiry to be closed. */
+                inquiryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-    responses: {
-      /** @description OK */
-      200: never;
-    };
-  };
-  /** @description Provide refund information about an inquiry to the buyer */
-  provideInquiryRefundInfo: {
-    parameters: {
-      path: {
-        /** @description The unique ID of the inquiry to be closed. */
-        inquiryId: string;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: never;
-    };
-  };
-  /** @description Provide shipment information for an inquiry */
-  provideInquiryShipmentInfo: {
-    parameters: {
-      path: {
-        /** @description The unique ID of the inquiry to be closed. */
-        inquiryId: string;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: never;
-    };
-  };
-  /** @description This call is used to search for inquiries using multiple filter types. */
-  search: {
-    responses: {
-      /** @description OK */
-      200: never;
-    };
-  };
-  /** @description Contact the buyer or seller about an inquiry */
-  sendInquiryMessage: {
-    parameters: {
-      path: {
-        /** @description The unique ID of the inquiry to be closed. */
-        inquiryId: string;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: never;
-    };
-  };
 }

@@ -31,12 +31,12 @@ export default class Charity extends Restful implements OpenApi<operations> {
    * @param registrationIds A comma-separated list of charitable organization registration IDs.
    */
   public getCharityOrgs({
-                          limit,
-                          offset,
-                          q,
-                          registrationIds
-                        }: { limit?: string, offset?: string, q?: string, registrationIds?: string }) {
-    return this.get(`/charity_org`, {
+    limit,
+    offset,
+    q,
+    registrationIds
+  }: { limit?: string, offset?: string, q?: string, registrationIds?: string }) {
+    return this.get('/charity_org', {
       params: {
         limit,
         offset,
@@ -52,7 +52,7 @@ export default class Charity extends Restful implements OpenApi<operations> {
    * @param legacyCharityOrgId The legacy ID of the charitable organization.
    */
   public getCharityOrgByLegacyId(legacyCharityOrgId: string) {
-    return this.get(`/charity_org/get_charity_org_by_legacy_id`, {
+    return this.get('/charity_org/get_charity_org_by_legacy_id', {
       params: {
         legacy_charity_org_id: legacyCharityOrgId
       }
