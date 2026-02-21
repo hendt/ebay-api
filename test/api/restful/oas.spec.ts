@@ -3,7 +3,7 @@ import 'mocha';
 // @ts-ignore
 import sinon from 'sinon';
 import Auth from '../../../src/auth/index.js';
-import {IEBayApiRequest} from '../../../src/request.js';
+import type {IEBayApiRequest} from '../../../src/request.js';
 
 import buyTests from './buy/index.js';
 import commerceTests from './commerce/index.js';

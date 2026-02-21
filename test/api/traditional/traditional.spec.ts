@@ -4,8 +4,8 @@ import 'mocha';
 import sinon from 'sinon';
 import Traditional from '../../../src/api/traditional/index.js';
 import Auth from '../../../src/auth/index.js';
-import {IEBayApiRequest} from '../../../src/request.js';
-import {eBayConfig} from '../../../src/types/index.js';
+import type {IEBayApiRequest} from '../../../src/request.js';
+import type {eBayConfig} from '../../../src/types/index.js';
 
 describe('Traditional', () => {
   const config: eBayConfig = {
