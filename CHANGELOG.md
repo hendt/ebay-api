@@ -1,4 +1,32 @@
 # eBay API Changelog
+## [10.0.0-RC.1](https://github.com/hendt/ebay-api/compare/v9.4.3...v10.0.0-RC.1) (2026-02-22)
+
+
+### Bug Fixes
+
+* eslint issues ([beb7e46](https://github.com/hendt/ebay-api/commit/beb7e465d2152072edf9588c87d184071c56253b))
+
+## [10.0.0-RC.0](https://github.com/hendt/ebay-api/compare/v9.2.1...v10.0.0-RC.0) (2025-09-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* Removed methods getAlsoBoughtByProduct, getAlsoViewedByProduct from buy marketing API and suppressViolation from sell compliance API. Removed corresponding
+  types AddCartItemInput, RemoveCartItemInput, UpdateCartItemInput, SuppressViolationRequest. These operations were deprecated by eBay and no longer available in updated API
+  specs.
+
+# Conflicts:
+#	specs/sell_fulfillment_v1_oas3.json
+
+### Features
+
+* upgrading several APIs to latest version ([2364543](https://github.com/hendt/ebay-api/commit/236454318c7fbd3ca0a8d3abd353801f47380c60))
+
+
+### Bug Fixes
+
+* trailing space ([de793bf](https://github.com/hendt/ebay-api/commit/de793bfcae34d02cb9ab385b3c5a61c08243f81c))
+
 ## [10.0.0-RC.0](https://github.com/hendt/ebay-api/compare/v9.2.1...v10.0.0-RC.0) (2025-09-08)
 
 
