@@ -3,117 +3,274 @@
  * Do not make direct changes to the file.
  */
 
-
 export interface paths {
-  "/cancellation/{cancelId}/approve": {
-    /** @description Seller approves a cancellation request */
-    post: operations["approveCancellationRequest"];
-  };
-  "/cancellation/check_eligibility": {
-    /** @description Check the eligibility of an order cancellation */
-    post: operations["checkCancellationEligibility"];
-  };
-  "/cancellation/{cancelId}/confirm": {
-    /** @description Buyer confirms the refund from a cancellation was received */
-    post: operations["confirmRefundReceived"];
-  };
-  "/cancellation": {
-    /** @description Request or perform an order cancellation */
-    post: operations["createCancellation"];
-  };
-  "/cancellation/{cancelId}": {
-    /** @description Request or perform an order cancellation */
-    get: operations["getCancellation"];
-  };
-  "/cancellation/{cancelId}/reject": {
-    /** @description Seller rejects a cancellation request */
-    post: operations["rejectCancellationRequest"];
-  };
-  "/cancellation/search": {
-    /** @description Search for cancellations */
-    get: operations["search"];
-  };
+    "/cancellation/{cancelId}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Seller approves a cancellation request */
+        post: operations["approveCancellationRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/cancellation/check_eligibility": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Check the eligibility of an order cancellation */
+        post: operations["checkCancellationEligibility"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/cancellation/{cancelId}/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Buyer confirms the refund from a cancellation was received */
+        post: operations["confirmRefundReceived"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/cancellation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Request or perform an order cancellation */
+        post: operations["createCancellation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/cancellation/{cancelId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Request or perform an order cancellation */
+        get: operations["getCancellation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/cancellation/{cancelId}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Seller rejects a cancellation request */
+        post: operations["rejectCancellationRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/cancellation/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Search for cancellations */
+        get: operations["search"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
-
 export type webhooks = Record<string, never>;
-
-export type components = Record<string, never>;
-
-export type external = Record<string, never>;
-
+export interface components {
+    schemas: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
+}
+export type $defs = Record<string, never>;
 export interface operations {
-
-  /** @description Seller approves a cancellation request */
-  approveCancellationRequest: {
-    parameters: {
-      path: {
-        /** @description The unique eBay-assigned identifier of the cancellation request to be approved. */
-        cancelId: string;
-      };
+    approveCancellationRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The unique eBay-assigned identifier of the cancellation request to be approved. */
+                cancelId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-    responses: {
-      /** @description OK */
-      200: never;
+    checkCancellationEligibility: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-  };
-  /** @description Check the eligibility of an order cancellation */
-  checkCancellationEligibility: {
-    responses: {
-      /** @description OK */
-      200: never;
+    confirmRefundReceived: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The unique eBay-assigned identifier of the cancellation request to be approved. */
+                cancelId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-  };
-  /** @description Buyer confirms the refund from a cancellation was received */
-  confirmRefundReceived: {
-    parameters: {
-      path: {
-        /** @description The unique eBay-assigned identifier of the cancellation request to be approved. */
-        cancelId: string;
-      };
+    createCancellation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-    responses: {
-      /** @description OK */
-      200: never;
+    getCancellation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The unique eBay-assigned identifier of the cancellation request to be approved. */
+                cancelId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-  };
-  /** @description Request or perform an order cancellation */
-  createCancellation: {
-    responses: {
-      /** @description OK */
-      200: never;
+    rejectCancellationRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The unique eBay-assigned identifier of the cancellation request to be approved. */
+                cancelId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-  };
-  /** @description Request or perform an order cancellation */
-  getCancellation: {
-    parameters: {
-      path: {
-        /** @description The unique eBay-assigned identifier of the cancellation request to be approved. */
-        cancelId: string;
-      };
+    search: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
-    responses: {
-      /** @description OK */
-      200: never;
-    };
-  };
-  /** @description Seller rejects a cancellation request */
-  rejectCancellationRequest: {
-    parameters: {
-      path: {
-        /** @description The unique eBay-assigned identifier of the cancellation request to be approved. */
-        cancelId: string;
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: never;
-    };
-  };
-  /** @description Search for cancellations */
-  search: {
-    responses: {
-      /** @description OK */
-      200: never;
-    };
-  };
 }

@@ -10,7 +10,6 @@ import OAuth2 from './oAuth2.js';
 export default class Auth extends Base {
   public readonly authNAuth: AuthNAuth;
   public readonly oAuth2: OAuth2;
-  // tslint:disable-next-line:variable-name
   public readonly OAuth2: OAuth2;
 
   constructor(config: AppConfig, req: IEBayApiRequest) {

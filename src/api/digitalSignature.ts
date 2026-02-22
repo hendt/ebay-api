@@ -64,17 +64,17 @@ export function generateBaseString(headers: Headers, signatureComponents: Signat
 
       if (param.startsWith('@')) {
         switch (param.toLowerCase()) {
-          case '@method':
-            baseString += signatureComponents.method;
-            break;
-          case '@authority':
-            baseString += signatureComponents.authority;
-            break;
-          case '@path':
-            baseString += signatureComponents.path;
-            break;
-          default:
-            throw new Error('Unknown pseudo header ' + param);
+        case '@method':
+          baseString += signatureComponents.method;
+          break;
+        case '@authority':
+          baseString += signatureComponents.authority;
+          break;
+        case '@path':
+          baseString += signatureComponents.path;
+          break;
+        default:
+          throw new Error('Unknown pseudo header ' + param);
         }
       } else {
         if (!headers[param]) {

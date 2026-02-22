@@ -1,4 +1,3 @@
-// tslint:disable:no-console
 import readline from 'readline';
 import eBayApi from '../../src/eBayApi.js';
 
@@ -15,7 +14,7 @@ console.log('Authorize this app by visiting this url:', url);
 
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout,
+  output: process.stdout
 });
 
 rl.question('Enter the code from that page here (from the url query ?code=) : ', async (code: string) => {

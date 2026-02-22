@@ -22,7 +22,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
    *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
    */
   public getItemFeed(params: BuyFeedParams, range: string) {
-    return this.get(`/item`, {
+    return this.get('/item', {
       params,
       headers: {
         'Range': range
@@ -37,7 +37,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
    *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
    */
   public getItemGroupFeed(params: BuyFeedParams, range: string) {
-    return this.get(`/item_group`, {
+    return this.get('/item_group', {
       params,
       headers: {
         'Range': range
@@ -54,7 +54,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
    *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
    */
   public getItemSnapshotFeed(params: BuyFeedParams, snapshotDate: string, range: string) {
-    return this.get(`/item_snapshot`, {
+    return this.get('/item_snapshot', {
       params: {
         ...params,
         snapshot_date: snapshotDate
@@ -74,7 +74,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
    *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
    */
   public getProductFeed(params: BuyFeedParams, snapshotDate: string, range: string) {
-    return this.get(`/product`, {
+    return this.get('/product', {
       params: {
         ...params,
         snapshot_date: snapshotDate

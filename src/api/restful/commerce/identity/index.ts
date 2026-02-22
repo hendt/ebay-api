@@ -21,6 +21,6 @@ export default class Identity extends Restful implements OpenApi<operations> {
    * token. What is returned is controlled by the scopes.
    */
   public getUser() {
-    return this.get(`/user/`);
+    return this.get('/user/');
   }
 }

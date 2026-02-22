@@ -1,4 +1,3 @@
-// tslint:disable:no-console
 // @ts-ignore
 import eBayApi from '../../src/eBayApi.js';
 

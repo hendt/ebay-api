@@ -37,7 +37,7 @@ export default class Cancellation extends Restful {
    * @param legacyOrderId The unique ID of the order being canceled or the order being considered for cancellation.
    */
   public checkCancellationEligibility(legacyOrderId: string) {
-    return this.post(`/cancellation/check_eligibility`, {
+    return this.post('/cancellation/check_eligibility', {
       legacyOrderId
     });
   }
@@ -59,7 +59,7 @@ export default class Cancellation extends Restful {
    * @param payload the CreateCancelRequest
    */
   public createCancellation(payload: CreateCancelRequest) {
-    return this.post(`/cancellation`, payload);
+    return this.post('/cancellation', payload);
   }
 
   /**
@@ -96,7 +96,7 @@ export default class Cancellation extends Restful {
    * @param params the SearchParams
    */
   public search(params: CancellationSearchParams) {
-    return this.get(`/cancellation/search`, {
+    return this.get('/cancellation/search', {
       params
     });
   }

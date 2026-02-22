@@ -21,14 +21,14 @@ export default class KeyManagement extends Restful implements OpenApi<operations
    * and metadata for all keypairs associated with the application key making the call.
    */
   public getSigningKeys() {
-    return this.get(`/signing_key`);
+    return this.get('/signing_key');
   }
 
   /**
    * This method creates keypairs.
    */
   public createSigningKey(signingKeyCipher: 'ED25519' | 'RSA') {
-    return this.post(`/signing_key`, {
+    return this.post('/signing_key', {
       signingKeyCipher
     });
   }

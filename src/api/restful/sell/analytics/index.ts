@@ -17,7 +17,7 @@ export default class Analytics extends Restful implements OpenApi<operations> {
    * This call retrieves all the profiles for the associated seller.
    */
   public findSellerStandardsProfiles() {
-    return this.get(`/seller_standards_profile`);
+    return this.get('/seller_standards_profile');
   }
 
   /**
@@ -42,7 +42,7 @@ export default class Analytics extends Restful implements OpenApi<operations> {
    */
   public getTrafficReport({dimension, filter, metric, sort}:
                             { dimension?: string, filter?: string, metric?: string | Metric | `${Metric}`, sort?: string } = {}) {
-    return this.get(`/traffic_report`, {
+    return this.get('/traffic_report', {
       params: {
         dimension,
         filter,

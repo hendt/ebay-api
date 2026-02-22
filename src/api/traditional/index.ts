@@ -207,11 +207,11 @@ export default class Traditional extends Api {
       },
       digitalSignatureHeaders: payload => {
         return apiConfig.sign ? this.getDigitalSignatureHeaders({
-            method: 'POST', // it's always post
-            authority: host,
-            path: api.path
-          },
-          payload
+          method: 'POST', // it's always post
+          authority: host,
+          path: api.path
+        },
+        payload
         ) : {};
       },
       ...(!useIaf ? {eBayAuthToken} : {})

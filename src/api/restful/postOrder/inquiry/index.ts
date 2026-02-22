@@ -32,7 +32,7 @@ export default class Inquiry extends Restful {
    * @param payload the CheckInquiryEligibilityRequest
    */
   public checkInquiryEligibility(payload: CheckInquiryEligibilityRequest) {
-    return this.post(`/inquiry/check_eligibility`, payload);
+    return this.post('/inquiry/check_eligibility', payload);
   }
 
   /**
@@ -68,7 +68,7 @@ export default class Inquiry extends Restful {
     if (typeof payload.desiredOutcome === 'string') {
       payload.desiredOutcome = payload.desiredOutcome.trim();
     }
-    return this.post(`/inquiry`, payload);
+    return this.post('/inquiry', payload);
   }
 
   /**
@@ -132,7 +132,7 @@ export default class Inquiry extends Restful {
    * @param params the  InquirySearchParams
    */
   public search(params?: InquirySearchParams) {
-    return this.get(`/inquiry/search`, {
+    return this.get('/inquiry/search', {
       params
     });
   }

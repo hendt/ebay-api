@@ -71,14 +71,14 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    * @param offset The value passed in this query parameter sets the page number to retrieve.
    */
   public getInventoryLocations({
-                                 limit,
-                                 offset,
-                               }: { limit?: number; offset?: number } = {}) {
-    return this.get(`/location`, {
+    limit,
+    offset
+  }: { limit?: number; offset?: number } = {}) {
+    return this.get('/location', {
       params: {
         limit,
-        offset,
-      },
+        offset
+      }
     });
   }
 
@@ -163,14 +163,14 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    * @param offset The value passed in this query parameter sets the page number to retrieve.
    */
   public getInventoryItems({
-                             limit,
-                             offset,
-                           }: { limit?: number; offset?: number } = {}) {
-    return this.get(`/inventory_item`, {
+    limit,
+    offset
+  }: { limit?: number; offset?: number } = {}) {
+    return this.get('/inventory_item', {
       params: {
         limit,
-        offset,
-      },
+        offset
+      }
     });
   }
 
@@ -181,7 +181,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    * @param body BulkPriceQuantity
    */
   public bulkUpdatePriceQuantity(body: BulkPriceQuantity) {
-    return this.post(`/bulk_update_price_quantity`, body);
+    return this.post('/bulk_update_price_quantity', body);
   }
 
   /**
@@ -190,7 +190,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    * @param body BulkInventoryItem
    */
   public bulkCreateOrReplaceInventoryItem(body: BulkInventoryItem) {
-    return this.post(`/bulk_create_or_replace_inventory_item`, body);
+    return this.post('/bulk_create_or_replace_inventory_item', body);
   }
 
   /**
@@ -200,7 +200,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    * @param body BulkInventoryItem
    */
   public bulkGetInventoryItem(body: BulkInventoryItem) {
-    return this.post(`/bulk_get_inventory_item`, body);
+    return this.post('/bulk_get_inventory_item', body);
   }
 
   /**
@@ -247,26 +247,26 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    * @param offset The value passed in this query parameter sets the page number to retrieve.
    */
   public getOffers({
-                     sku,
-                     marketplaceId,
-                     format,
-                     limit,
-                     offset,
-                   }: {
+    sku,
+    marketplaceId,
+    format,
+    limit,
+    offset
+  }: {
     sku?: string;
     marketplaceId?: string;
     format?: string;
     limit?: number;
     offset?: number;
   } = {}) {
-    return this.get(`/offer`, {
+    return this.get('/offer', {
       params: {
         sku,
         marketplace_id: marketplaceId,
         format,
         limit,
-        offset,
-      },
+        offset
+      }
     });
   }
 
@@ -286,7 +286,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    * @param body Details of the offer for the channel
    */
   public createOffer(body: EbayOfferDetailsWithKeys) {
-    return this.post(`/offer`, body);
+    return this.post('/offer', body);
   }
 
   /**
@@ -328,7 +328,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
   public publishOfferByInventoryItemGroup(
     body: PublishByInventoryItemGroupRequest
   ) {
-    return this.post(`/offer/publish_by_inventory_item_group`, body);
+    return this.post('/offer/publish_by_inventory_item_group', body);
   }
 
   /**
@@ -340,7 +340,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
   public withdrawOfferByInventoryItemGroup(
     body: WithdrawByInventoryItemGroupRequest
   ) {
-    return this.post(`/offer/withdraw_by_inventory_item_group`, body);
+    return this.post('/offer/withdraw_by_inventory_item_group', body);
   }
 
   /**
@@ -349,7 +349,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    * @param body OfferKeysWithId
    */
   public getListingFees(body: OfferKeysWithId) {
-    return this.post(`/offer/get_listing_fees`, body);
+    return this.post('/offer/get_listing_fees', body);
   }
 
   /**
@@ -358,7 +358,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    * @param body BulkEbayOfferDetailsWithKeys
    */
   public bulkCreateOffer(body: BulkEbayOfferDetailsWithKeys) {
-    return this.post(`/bulk_create_offer`, body);
+    return this.post('/bulk_create_offer', body);
   }
 
   /**
@@ -367,7 +367,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    * @param body BulkOffer
    */
   public bulkPublishOffer(body: BulkOffer) {
-    return this.post(`/bulk_publish_offer`, body);
+    return this.post('/bulk_publish_offer', body);
   }
 
   /**
@@ -419,7 +419,7 @@ export default class Inventory extends Restful implements OpenApi<operations> {
    * @param body BulkMigrateListing
    */
   public bulkMigrateListing(body: BulkMigrateListing) {
-    return this.post(`/bulk_migrate_listing`, body);
+    return this.post('/bulk_migrate_listing', body);
   }
 
   /**

@@ -24,7 +24,7 @@ describe('Restful API', () => {
     certId: 'certId',
     sandbox: true,
     siteId: 0,
-    devId: 'devId',
+    devId: 'devId'
   };
 
   let req: any = null;
@@ -159,7 +159,7 @@ describe('Restful API', () => {
   it('refresh the token on PostOrder call if response is 401', async () => {
     const post = sinon.stub().onCall(0).rejects({
       response: {
-        status: 401,
+        status: 401
       }
     }).onCall(1).resolves({data: {updateThings: 'ok'}});
 
@@ -169,7 +169,7 @@ describe('Restful API', () => {
     }, {
       ...req,
       post,
-      postForm: sinon.stub().resolves(cred),
+      postForm: sinon.stub().resolves(cred)
     }, undefined, {
       basePath: '/post-order/v2'
     });
@@ -185,7 +185,7 @@ describe('Restful API', () => {
   it('refresh the token on Inventory call if response is 403', async () => {
     const post = sinon.stub().onCall(0).rejects({
       response: {
-        status: 403,
+        status: 403
       }
     }).onCall(1).resolves({data: {updateThings: 'ok'}});
 
@@ -195,7 +195,7 @@ describe('Restful API', () => {
     }, {
       ...req,
       post,
-      postForm: sinon.stub().resolves(cred),
+      postForm: sinon.stub().resolves(cred)
     }, undefined, {
       basePath: '/sell/inventory/v1'
     });

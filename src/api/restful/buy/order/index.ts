@@ -56,7 +56,7 @@ export default class Order extends Api implements OpenApi<operations> {
    * @param body The container for the fields used by the initiateCheckoutSession method.
    */
   public initiateCheckoutSession(body?: CreateSignInCheckoutSessionRequest) {
-    return this.post(`/checkout_session/initiate`, body);
+    return this.post('/checkout_session/initiate', body);
   }
 
   /**
@@ -176,7 +176,7 @@ export default class Order extends Api implements OpenApi<operations> {
    * @param body CheckoutSessionRequest
    */
   public initiateGuestCheckoutSession(body?: CreateGuestCheckoutSessionRequest) {
-    return this.post(`/guest_checkout_session/initiate`, body);
+    return this.post('/guest_checkout_session/initiate', body);
   }
 
   /**
@@ -296,7 +296,7 @@ export default class Order extends Api implements OpenApi<operations> {
    * @param body CheckoutSessionRequest
    */
   public initiateProxyGuestCheckoutSession(body?: CheckoutSessionRequestWithoutPayment) {
-    return this.post(`/proxy_guest_checkout_session/initiate`, body);
+    return this.post('/proxy_guest_checkout_session/initiate', body);
   }
 
   /**

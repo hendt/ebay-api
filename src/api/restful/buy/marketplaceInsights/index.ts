@@ -32,18 +32,18 @@ export default class MarketplaceInsights extends Restful implements OpenApi<oper
    * @param sort This field specifies the order and the field name to use to sort the items.
    */
   public search({
-                  aspectFilter,
-                  categoryIds,
-                  epid,
-                  fieldgroups,
-                  filter,
-                  gtin,
-                  limit,
-                  offset,
-                  q,
-                  sort,
-                }: MarketingInsightsSearchParams) {
-    return this.get(`/item_sales/search`, {
+    aspectFilter,
+    categoryIds,
+    epid,
+    fieldgroups,
+    filter,
+    gtin,
+    limit,
+    offset,
+    q,
+    sort
+  }: MarketingInsightsSearchParams) {
+    return this.get('/item_sales/search', {
       params: {
         aspect_filter: aspectFilter,
         category_ids: categoryIds,
@@ -54,7 +54,7 @@ export default class MarketplaceInsights extends Restful implements OpenApi<oper
         limit,
         offset,
         q,
-        sort,
+        sort
       }
     });
   }
