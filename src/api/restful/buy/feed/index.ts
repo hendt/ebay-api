@@ -93,7 +93,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
    *          Format: bytes=startpos-endpos For example, the following retrieves the first 10 MBs of the feed file.
    */
   public getItemPriorityFeed(params: BuyFeedParams, range: string) {
-    return this.get(`/item_priority`, {
+    return this.get('/item_priority', {
       params,
       headers: {
         'Range': range

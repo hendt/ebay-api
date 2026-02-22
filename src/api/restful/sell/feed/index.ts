@@ -33,14 +33,14 @@ export default class Feed extends Restful implements OpenApi<operations> {
    * @param scheduleId The schedule ID associated with the order task.
    */
   public getOrderTasks({
-                         dateRange,
-                         feedType,
-                         limit,
-                         lookBackDays,
-                         offset,
-                         scheduleId
-                       }: SellFeedParams = {}) {
-    return this.get(`/order_task`, {
+    dateRange,
+    feedType,
+    limit,
+    lookBackDays,
+    offset,
+    scheduleId
+  }: SellFeedParams = {}) {
+    return this.get('/order_task', {
       params: {
         date_range: dateRange,
         feed_type: feedType,
@@ -58,7 +58,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
    * @param data The CreateOrderTaskRequest
    */
   public createOrderTask(data: CreateOrderTaskRequest) {
-    return this.post(`/order_task`, data);
+    return this.post('/order_task', data);
   }
 
   /**
@@ -66,7 +66,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
    *
    * @param taskId The ID of the task. This ID is generated when the task was created by the createOrderTask method.
    */
-  public getOrderTask(taskId: string,) {
+  public getOrderTask(taskId: string) {
     taskId = encodeURIComponent(taskId);
 
     return this.get(`/order_task/${taskId}`);
@@ -120,11 +120,11 @@ export default class Feed extends Restful implements OpenApi<operations> {
    * @param offset The number of schedules to skip in the result set before returning the first schedule in the paginated response.
    */
   public getSchedules({
-                        feedType,
-                        limit,
-                        offset,
-                      }: SellFeedParams = {}) {
-    return this.get(`/schedule`, {
+    feedType,
+    limit,
+    offset
+  }: SellFeedParams = {}) {
+    return this.get('/schedule', {
       params: {
         feed_type: feedType,
         limit,
@@ -139,7 +139,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
    * @params data The CreateUserScheduleRequest
    */
   public createSchedule(data: CreateUserScheduleRequest) {
-    return this.post(`/schedule`, data);
+    return this.post('/schedule', data);
   }
 
   /**
@@ -182,8 +182,8 @@ export default class Feed extends Restful implements OpenApi<operations> {
     scheduleId = encodeURIComponent(scheduleId);
     return this.get(`/schedule/${scheduleId}/download_result_file`, {
       responseType: 'arraybuffer',
-      responseEncoding: 'binary',
-  });
+      responseEncoding: 'binary'
+    });
   }
 
   /**
@@ -204,11 +204,11 @@ export default class Feed extends Restful implements OpenApi<operations> {
    * @param offset The number of schedules to skip in the result set before returning the first schedule in the paginated response.
    */
   public getScheduleTemplates({
-                                feedType,
-                                limit,
-                                offset,
-                              }: SellFeedParams = {}) {
-    return this.get(`/schedule_template`, {
+    feedType,
+    limit,
+    offset
+  }: SellFeedParams = {}) {
+    return this.get('/schedule_template', {
       params: {
         feed_type: feedType,
         limit,
@@ -228,14 +228,14 @@ export default class Feed extends Restful implements OpenApi<operations> {
    * @param scheduleId The schedule ID associated with the task.
    */
   public getTasks({
-                    dateRange,
-                    feedType,
-                    limit,
-                    lookBackDays,
-                    offset,
-                    scheduleId
-                  }: SellFeedParams = {}) {
-    return this.get(`/task`, {
+    dateRange,
+    feedType,
+    limit,
+    lookBackDays,
+    offset,
+    scheduleId
+  }: SellFeedParams = {}) {
+    return this.get('/task', {
       params: {
         date_range: dateRange,
         feed_type: feedType,
@@ -253,7 +253,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
    * @param data The CreateTaskRequest.
    */
   public createTask(data: CreateTaskRequest) {
-    return this.post(`/task`, data);
+    return this.post('/task', data);
   }
 
   /**
@@ -275,8 +275,8 @@ export default class Feed extends Restful implements OpenApi<operations> {
     taskId = encodeURIComponent(taskId);
     return this.get(`/task/${taskId}/download_result_file`, {
       responseType: 'arraybuffer',
-      responseEncoding: 'binary',
-  });
+      responseEncoding: 'binary'
+    });
   }
 
   /**
@@ -298,7 +298,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
   public uploadFile(taskId: string, data?: any) {
     taskId = encodeURIComponent(taskId);
     return this.post(`/task/${taskId}/upload_file`, data, {
-      headers: multipartHeader,
+      headers: multipartHeader
     });
   }
 
@@ -313,19 +313,19 @@ export default class Feed extends Restful implements OpenApi<operations> {
    * @param scheduleId The schedule ID associated with the task.
    */
   public getCustomerServiceMetricTasks({
-                                         dateRange,
-                                         feedType,
-                                         limit,
-                                         lookBackDays,
-                                         offset,
-                                       }: SellFeedParams = {}) {
-    return this.get(`/customer_service_metric_task`, {
+    dateRange,
+    feedType,
+    limit,
+    lookBackDays,
+    offset
+  }: SellFeedParams = {}) {
+    return this.get('/customer_service_metric_task', {
       params: {
         date_range: dateRange,
         feed_type: feedType,
         limit,
         look_back_days: lookBackDays,
-        offset,
+        offset
       }
     });
   }
@@ -337,7 +337,7 @@ export default class Feed extends Restful implements OpenApi<operations> {
    * @params data The CreateServiceMetricsTaskRequest
    */
   public createCustomerServiceMetricTask(acceptLanguage: string, data: CreateServiceMetricsTaskRequest) {
-    return this.post(`/customer_service_metric_task`, data, {
+    return this.post('/customer_service_metric_task', data, {
       headers: {
         'accept-language': acceptLanguage
       }

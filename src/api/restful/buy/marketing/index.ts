@@ -27,7 +27,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param params
    */
   public getMerchandisedProducts(params: BuyMarketingGetMerchandisedProductsParams) {
-    return this.get(`/merchandised_product`, {
+    return this.get('/merchandised_product', {
       params
     });
   }

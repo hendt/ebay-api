@@ -1119,7 +1119,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * This method allows sellers to retrieve the suggested budget for an offsite campaign.
    */
   public suggestBudget() {
-    return this.get(`/ad_campaign/suggest_budget`);
+    return this.get('/ad_campaign/suggest_budget');
   }
 
   /**
@@ -1127,7 +1127,7 @@ export default class Marketing extends Restful implements OpenApi<operations> {
    * @param body The request to suggest max CPC
    */
   public suggestMaxCpc(body?: SuggestMaxCpcRequest) {
-    return this.post(`/ad_campaign/suggest_max_cpc`, body);
+    return this.post('/ad_campaign/suggest_max_cpc', body);
   }
 
   /**

@@ -19,7 +19,7 @@ export default class Listing extends Restful implements OpenApi<operations> {
    * @param data The ItemDraft
    */
   public createItemDraft(data?: ItemDraft) {
-    return this.post(`/item_draft/`, data);
+    return this.post('/item_draft/', data);
   }
 
 }

@@ -280,7 +280,7 @@ export default class Metadata extends Restful implements OpenApi<operations> {
    * @param body The specification request
    */
   public getCompatibilitiesBySpecification(body?: SpecificationRequest) {
-    return this.post(`/compatibilities/get_compatibilities_by_specification`, body);
+    return this.post('/compatibilities/get_compatibilities_by_specification', body);
   }
 
   /**
@@ -288,7 +288,7 @@ export default class Metadata extends Restful implements OpenApi<operations> {
    * @param body The property names request
    */
   public getCompatibilityPropertyNames(body?: PropertyNamesRequest) {
-    return this.post(`/compatibilities/get_compatibility_property_names`, body);
+    return this.post('/compatibilities/get_compatibility_property_names', body);
   }
 
   /**
@@ -296,7 +296,7 @@ export default class Metadata extends Restful implements OpenApi<operations> {
    * @param body The property values request
    */
   public getCompatibilityPropertyValues(body?: PropertyValuesRequest) {
-    return this.post(`/compatibilities/get_compatibility_property_values`, body);
+    return this.post('/compatibilities/get_compatibility_property_values', body);
   }
 
   /**
@@ -304,7 +304,7 @@ export default class Metadata extends Restful implements OpenApi<operations> {
    * @param body The multi property values request
    */
   public getMultiCompatibilityPropertyValues(body?: MultiCompatibilityPropertyValuesRequest) {
-    return this.post(`/compatibilities/get_multi_compatibility_property_values`, body);
+    return this.post('/compatibilities/get_multi_compatibility_property_values', body);
   }
 
   /**
@@ -312,6 +312,6 @@ export default class Metadata extends Restful implements OpenApi<operations> {
    * @param body The product compatibilities request
    */
   public getProductCompatibilities(body?: ProductRequest) {
-    return this.post(`/compatibilities/get_product_compatibilities`, body);
+    return this.post('/compatibilities/get_product_compatibilities', body);
   }
 }
