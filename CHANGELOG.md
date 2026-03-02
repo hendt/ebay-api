@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [9.4.4](https://github.com/hendt/ebay-api/compare/v9.4.3...v9.4.4) (2026-03-02)
+
+
+### Bug Fixes
+
+* error handling for restful ([770a43a](https://github.com/hendt/ebay-api/commit/770a43ad29450b0ce5f4e1fecfa5842021f2faa6))
+
 ### [9.4.3](https://github.com/hendt/ebay-api/compare/v9.4.2...v9.4.3) (2026-02-21)
 
 ### [9.4.2](https://github.com/hendt/ebay-api/compare/v9.4.1...v9.4.2) (2026-02-07)
