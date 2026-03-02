@@ -30,6 +30,39 @@
         "inputRefIds": [],
         "httpStatusCode": 400
       }
+    ],
+    "error": [
+      {
+        "errorId": 292024,
+        "domain": "resolutionsErrorDomain",
+        "severity": "ERROR",
+        "category": "REQUEST",
+        "message": "Error Message",
+        "parameter": [
+          {
+            "name": "invalidshippingcarriername",
+            "value": ""
+          }
+        ],
+        "errorName": "InvalidShippingCarrier",
+        "organization": "Marketplace",
+        "actionToTake": "CORRECTINPUTDATA",
+        "inputRefIds": [],
+        "httpStatusCode": 400
+      },
+      {
+        "errorId": 292023,
+        "domain": "resolutionsErrorDomain",
+        "severity": "ERROR",
+        "category": "REQUEST",
+        "message": "Eine gültige Sendungsnummer ist erforderlich.",
+        "parameter": [],
+        "errorName": "InvalidTrackingNumber",
+        "organization": "Marketplace",
+        "actionToTake": "CORRECTINPUTDATA",
+        "inputRefIds": [],
+        "httpStatusCode": 400
+      }
     ]
   },
   "oauth": {

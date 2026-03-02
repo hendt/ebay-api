@@ -137,8 +137,12 @@ export type EBayRestfulError = {
   httpStatusCode: number
 }
 
-export type EBayRestfulErrorResponse = {
+export type EBayRestfulErrorsResponse = {
   errors: EBayRestfulError[]
+}
+
+export type EBayRestfulErrorResponse = {
+  error: EBayRestfulError[]
 }
 
 export type EBaySimpleError = {
@@ -160,6 +164,7 @@ export type EBayOAuthErrorResponse = {
 export type EBayApiErrorResponse =
   string
   | EBayPostOrderErrorResponse
+  | EBayRestfulErrorsResponse
   | EBayRestfulErrorResponse
   | EBayTraditionalErrorResponse
   | EBayOAuthErrorResponse;
@@ -247,13 +252,17 @@ function getEBayError(data?: EBayApiErrorResponse): EBayErrorResponse {
   if ('error' in data && typeof data.error === 'string') {
     return {
       message: data.error,
-      description: data.error_description || ''
+      description: 'error_description' in data ? data.error_description || '' : ''
     };
   }
 
   // RESTful
   if ('errors' in data && Array.isArray(data.errors)) {
     return data.errors[0];
+  }
+
+  if ('error' in data && Array.isArray(data.error)) {
+    return data.error[0];
   }
 
   // PostOrder https://developer.ebay.com/Devzone/post-order/ErrorResponse.html#ErrorResponse
