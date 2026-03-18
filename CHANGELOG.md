@@ -1,4 +1,16 @@
 # eBay API Changelog
+## [9.5.0](https://github.com/hendt/ebay-api/compare/v9.4.4...v9.5.0) (2026-03-18)
+
+
+### Features
+
+* add configurable XML entity expansion limits and global parseOptions ([80e2645](https://github.com/hendt/ebay-api/commit/80e26453d1d571a48380583d4769ddda42934522))
+
+
+### Bug Fixes
+
+* deep-merge processEntities and remove redundant getParseOptions ([26b2e41](https://github.com/hendt/ebay-api/commit/26b2e41bfc6832412872a232383bab92b4931834))
+
 ### [9.4.4](https://github.com/hendt/ebay-api/compare/v9.4.3...v9.4.4) (2026-03-02)
 
 
