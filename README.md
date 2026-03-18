@@ -187,6 +187,7 @@ The first (required) parameter in eBayApi instance takes an object with followin
 | autoRefreshToken                  | Required<pre>Default: `true`</pre>                                                   | Auto refresh the token if it's expired.                                                                                                                                                                                                                                                                        |
 | siteId<br><i>Traditional</i>      | Required<br><pre>Default: `SiteId.EBAY_US`</pre>                                     | eBay site to which you want to send the request (Trading API, Shopping API).                                                                                                                                                                                                                                   |
 | authToken<br><i>Traditional</i>   | Optional                                                                             | The Auth'N'Auth token. The traditional authentication and authorization technology used by the eBay APIs.                                                                                                                                                                                                      |
+| parseOptions<br><i>Traditional</i> | Optional<br><pre>Default: `{ processEntities: { maxTotalExpansions: 10000 } }`</pre> | Global [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser) parse options applied to all Traditional API responses. Can be overridden per-call. |
 | marketplaceId<br><i>RESTful</i>   | Required<br><pre>Default: `MarketplaceId.EBAY_US`</pre>                              | [Docs](https://developer.ebay.com/api-docs/static/rest-request-components.html#marketpl) REST HTTP Header. X-EBAY-C-MARKETPLACE-ID identifies the user's business context and is specified using a marketplace ID value. Note that this header does not indicate a language preference or consumer location.   |
 | scope<br><i>RESTful</i>           | Conditionally<bre><pre>Default:<br>`['https://api.ebay.com/oauth/api_scope']` </pre> | The scopes assigned to your application allow access to different API resources and functionality.                                                                                                                                                                                                             |
 | endUserCtx<br><i>RESTful</i>      | Conditionally recommended<br><i>RESTful</i>                                          | [Docs](https://developer.ebay.com/api-docs/static/rest-request-components.html#headers) X-EBAY\_C\_ENDUSERCTX provides various types of information associated with the request.                                                                                                                               |
@@ -562,12 +563,34 @@ The `errorCode` is extracted from the first error in the API response.
 
 ## Controlling Traditional XML request and response
 
+### Global parse options (constructor)
+
+Pass `parseOptions` in the constructor config to apply [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser) options to **all** Traditional API responses:
+
+```typescript
+const eBay = new eBayApi({
+  appId: '...',
+  certId: '...',
+  devId: '...',
+  siteId: eBayApi.SiteId.EBAY_DE,
+  parseOptions: {
+    processEntities: {
+      maxTotalExpansions: 20000 // raise limit for stores with rich HTML descriptions (default: 10000)
+    }
+  }
+});
+```
+
+Per-call `parseOptions` (see below) are merged on top and take precedence.
+
+### Per-call options
+
 The second parameter in the traditional API has the following options:
 
 ```typescript
 export type Options = {
   raw?: boolean // return raw XML
-  parseOptions?: X2jOptions // https://github.com/NaturalIntelligence/fast-xml-parser
+  parseOptions?: X2jOptions // https://github.com/NaturalIntelligence/fast-xml-parser — merged with global parseOptions
   xmlBuilderOptions?: XmlBuilderOptions // https://github.com/NaturalIntelligence/fast-xml-parser
   useIaf?: boolean // use IAF in header instead of Bearer
   headers?: Headers // additional Headers (key, value)

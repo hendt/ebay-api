@@ -28,6 +28,13 @@ export const defaultXML2JSONParseOptions = {
     leadingZeros: false
   },
   removeNSPrefix: true,
+  processEntities: {
+    enabled: true,
+    maxEntitySize: 10000,
+    maxTotalExpansions: 10000,
+    maxExpandedLength: 100000,
+    maxEntityCount: 100
+  },
   isArray: (name: string, jpath: string) => {
     return /Array$/.test(jpath.slice(0, -name.length - 1));
   }

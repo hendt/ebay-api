@@ -1,4 +1,5 @@
 import {AxiosRequestConfig} from 'axios';
+import type {X2jOptions} from 'fast-xml-parser';
 import {Locale, MarketplaceId, SiteId} from '../enums/index.js';
 
 export type Scope = string[];
@@ -38,7 +39,8 @@ export type eBayConfig = Keyset & {
 
 export type ApiConfig = {
   autoRefreshToken?: boolean,
-  axiosConfig?: AxiosRequestConfig
+  axiosConfig?: AxiosRequestConfig,
+  parseOptions?: X2jOptions
 }
 
 export type Headers = Record<string, string | number | undefined>;
