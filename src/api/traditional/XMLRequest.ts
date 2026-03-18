@@ -132,13 +132,6 @@ export default class XMLRequest {
     } : {};
   }
 
-  private getParseOptions() : X2jOptions {
-    return {
-      ...defaultXML2JSONParseOptions,
-      ...this.config.parseOptions
-    };
-  }
-
   private getHeaders() {
     return {
       ...defaultHeaders,
@@ -153,9 +146,8 @@ export default class XMLRequest {
    * @return     {JSON}         resolves to a JSON representation of the HTML
    */
   public toJSON(xml: string) {
-    const parseOptions = this.getParseOptions();
-    log('parseOption', parseOptions);
-    return new XMLParser(parseOptions).parse(xml);
+    log('parseOption', this.config.parseOptions);
+    return new XMLParser(this.config.parseOptions).parse(xml);
   }
 
   /**

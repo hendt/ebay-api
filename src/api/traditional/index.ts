@@ -156,7 +156,12 @@ export default class Traditional extends Api {
       parseOptions: {
         ...defaultApiConfig.parseOptions,
         ...this.config.parseOptions,
-        ...opts?.parseOptions
+        ...opts?.parseOptions,
+        processEntities: {
+          ...(defaultApiConfig.parseOptions.processEntities as object),
+          ...(this.config.parseOptions?.processEntities as object),
+          ...(opts?.parseOptions?.processEntities as object)
+        }
       }
     };
 
