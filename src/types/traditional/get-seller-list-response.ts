@@ -8,8 +8,9 @@ import type {
 } from './common.js';
 
 export interface GetSellerListResponse extends StandardOutputFields {
+  HasMoreItems?: boolean;
   ItemArray: {
-    Item?: {
+    Item?: Array<{
       ApplicationData?: string;
       AutoPay?: boolean;
       BuyItNowPrice?: number | { value: number; currencyID: CurrencyCodeType };
@@ -547,7 +548,7 @@ export interface GetSellerListResponse extends StandardOutputFields {
       WatchCount?: bigint;
       eBayPlus?: boolean;
       eBayPlusEligible?: boolean;
-    };
+    }>;
   };
   ItemsPerPage: number;
   PageNumber: number;
@@ -560,7 +561,7 @@ export interface GetSellerListResponse extends StandardOutputFields {
     AboutMePage: boolean;
     Email?: string;
     FeedbackPrivate: boolean;
-    FeedbackRatingStar:
+    FeedbackRatingStar?:
       | 'Blue'
       | 'CustomCode'
       | 'Green'
@@ -576,6 +577,7 @@ export interface GetSellerListResponse extends StandardOutputFields {
       | 'Yellow'
       | 'YellowShooting';
     FeedbackScore: number;
+    PositiveFeedbackPercent?: number;
     IDVerified: boolean;
     NewUser: boolean;
     RegistrationDate: string;
@@ -584,9 +586,11 @@ export interface GetSellerListResponse extends StandardOutputFields {
       CIPBankAccountStored: boolean;
       CheckoutEnabled: boolean;
       GoodStanding: boolean;
+      LiveAuctionAuthorized?: boolean;
+      MerchandizingPref?: string;
       QualifiesForB2BVAT: boolean;
       SafePaymentExempt: boolean;
-      SellerLevel:
+      SellerLevel?:
         | 'Bronze'
         | 'CustomCode'
         | 'Gold'
@@ -640,11 +644,12 @@ export interface GetSellerListResponse extends StandardOutputFields {
       | 'TermPending'
       | 'Unconfirmed'
       | 'Unknown';
-    UserAnonymized: boolean;
+    UserAnonymized?: boolean;
     UserID: string;
     UserIDChanged: boolean;
     UserIDLastChanged: string;
     VATStatus: 'CustomCode' | 'NoVATTax' | 'VATExempt' | 'VATTax';
     eBayGoodStanding: boolean;
+    MotorsDealer?: boolean;
   };
 }
