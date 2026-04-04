@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [9.5.1](https://github.com/hendt/ebay-api/compare/v9.5.0...v9.5.1) (2026-04-04)
+
+
+### Bug Fixes
+
+* add missing type for GetSellerListResponse ([4e6448a](https://github.com/hendt/ebay-api/commit/4e6448a13a7a6b68d745c9fa41b2f35bcf0e0b94))
+
 ## [9.5.0](https://github.com/hendt/ebay-api/compare/v9.4.4...v9.5.0) (2026-03-18)
 
 
