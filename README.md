@@ -601,6 +601,8 @@ export type Options = {
 [Fast XML](https://github.com/NaturalIntelligence/fast-xml-parser) is used to parse the XML. You can pass the parse
 option to `parseOptions` parameter.
 
+Important for Traditional request bodies: when an element has both attributes and text content, the text must go under `#value`, not `#text`, because the XML builder is configured with `textNodeName: '#value'`. For example, use `StartPrice: { '@_currencyID': 'EUR', '#value': '20.00' }`. If you use `#text` instead, it will be serialized literally as `<#text>...</#text>`, which causes eBay XML parse errors that do not clearly point back to the JS-to-XML mapping.
+
 ### Parse JSON Array
 ```js
 
