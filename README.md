@@ -75,7 +75,7 @@ For more examples, check out the [examples directory](./examples).
 
 ## Changelog
 
-* `v9.5.1` is the latest release.
+* `v9.5.2` is the latest release.
 * See [here](https://github.com/hendt/ebay-api/blob/master/CHANGELOG.md) for the full changelog.
 
 ## Implementation status

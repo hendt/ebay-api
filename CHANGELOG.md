@@ -1,4 +1,11 @@
 # eBay API Changelog
+### [9.5.2](https://github.com/hendt/ebay-api/compare/v9.5.1...v9.5.2) (2026-05-11)
+
+
+### Bug Fixes
+
+* resolve high-severity serialize-javascript CVEs and fast-xml-parser isArray type ([c380413](https://github.com/hendt/ebay-api/commit/c3804136e4e56c611d5b17366169d2823607f30e))
+
 ### [9.5.1](https://github.com/hendt/ebay-api/compare/v9.5.0...v9.5.1) (2026-04-04)
 
 
