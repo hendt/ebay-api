@@ -1,5 +1,5 @@
 import debug from 'debug';
-import {X2jOptions, XMLBuilder, XmlBuilderOptions, XMLParser} from 'fast-xml-parser';
+import {MatcherView, X2jOptions, XMLBuilder, XmlBuilderOptions, XMLParser} from 'fast-xml-parser';
 import {checkEBayTraditionalResponse, EBayNoCallError} from '../../errors/index.js';
 import {IEBayApiRequest} from '../../request.js';
 import {ApiRequestConfig, Headers} from '../../types/index.js';
@@ -35,8 +35,8 @@ export const defaultXML2JSONParseOptions = {
     maxExpandedLength: 100000,
     maxEntityCount: 100
   },
-  isArray: (name: string, jpath: string) => {
-    return /Array$/.test(jpath.slice(0, -name.length - 1));
+  isArray: (name: string, jpath: string | MatcherView) => {
+    return typeof jpath === 'string' && /Array$/.test(jpath.slice(0, -name.length - 1));
   }
 };
 
