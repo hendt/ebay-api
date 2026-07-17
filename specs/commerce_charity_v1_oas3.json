@@ -10,7 +10,7 @@
       "name": "eBay API License Agreement",
       "url": "https://go.developer.ebay.com/api-license-agreement"
     },
-    "version": "v1.2.0"
+    "version": "v1.2.1"
   },
   "servers": [
     {
@@ -29,7 +29,7 @@
         "tags": [
           "charity_org"
         ],
-        "description": "This call is used to retrieve detailed information about supported charitable organizations. It allows users to retrieve the details for a specific charitable organization using its charity organization ID.<br /><br />The call returns the full details for the charitable organization that matches the specified ID.",
+        "description": "This call is used to retrieve detailed information about supported charitable organizations. It allows users to retrieve the details for a specific charitable organization using its charity organization ID.",
         "operationId": "getCharityOrg",
         "parameters": [
           {
@@ -221,90 +221,6 @@
           }
         ]
       }
-    },
-    "/charity_org/get_charity_org_by_legacy_id": {
-      "get": {
-        "tags": [
-          "charity_org"
-        ],
-        "description": "This call allows users to retrieve the details for a specific charitable organization using its legacy charity ID, which has also been referred to as the charity number, external ID, and PayPal Giving Fund ID. The legacy charity ID is separate from eBay’s generic charity ID.",
-        "operationId": "getCharityOrgByLegacyId",
-        "parameters": [
-          {
-            "name": "X-EBAY-C-MARKETPLACE-ID",
-            "in": "header",
-            "description": "A header used to specify the eBay marketplace ID.<br /><br /><b>Valid Values:</b> <code>EBAY_GB</code> and <code>EBAY_US</code>",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "legacy_charity_org_id",
-            "in": "query",
-            "description": "The legacy ID of the charitable organization.<br /><br /><span class=\"tablenote\"><b>Note: </b>The legacy charity ID is the identifier assigned to an organization upon registration with the PayPal Giving Fund (PPGF). It has also been referred to as the external ID/charity number.</span>",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CharityOrg"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "x-response-codes": {
-              "errors": {
-                "165001": {
-                  "domain": "API_CHARITY",
-                  "category": "REQUEST",
-                  "description": "Invalid, missing or unsupported marketplace. Please refer to documentation."
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "x-response-codes": {
-              "errors": {
-                "165006": {
-                  "domain": "API_CHARITY",
-                  "category": "REQUEST",
-                  "description": "LegacyId is invalid or missing."
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "x-response-codes": {
-              "errors": {
-                "165000": {
-                  "domain": "API_CHARITY",
-                  "category": "APPLICATION",
-                  "description": "There was a problem with an eBay internal system or process. Contact eBay developer support for assistance."
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "api_auth": [
-              "https://api.ebay.com/oauth/api_scope"
-            ]
-          }
-        ]
-      }
     }
   },
   "components": {
@@ -326,7 +242,7 @@
           },
           "country": {
             "type": "string",
-            "description": "The two-letter <a href=\"https://www.iso.org/iso-3166-country-codes.html\">ISO 3166</a> standard of the country of the address. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/charity/types/bas:CountryCodeEnum'>eBay API documentation</a>"
+            "description": "The two-letter <a href=\"https://www.iso.org/iso-3166-country-codes.html \">ISO 3166</a> standard of the country of the address. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/charity/types/bas:CountryCodeEnum'>eBay API documentation</a>"
           }
         },
         "description": "The physical location of the item."

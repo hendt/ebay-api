@@ -11,7 +11,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description This call is used to retrieve detailed information about supported charitable organizations. It allows users to retrieve the details for a specific charitable organization using its charity organization ID.<br /><br />The call returns the full details for the charitable organization that matches the specified ID. */
+        /** @description This call is used to retrieve detailed information about supported charitable organizations. It allows users to retrieve the details for a specific charitable organization using its charity organization ID. */
         get: operations["getCharityOrg"];
         put?: never;
         post?: never;
@@ -38,23 +38,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/charity_org/get_charity_org_by_legacy_id": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description This call allows users to retrieve the details for a specific charitable organization using its legacy charity ID, which has also been referred to as the charity number, external ID, and PayPal Giving Fund ID. The legacy charity ID is separate from eBay’s generic charity ID. */
-        get: operations["getCharityOrgByLegacyId"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -67,7 +50,7 @@ export interface components {
             stateOrProvince?: string;
             /** @description The postal code of the charitable organization. */
             postalCode?: string;
-            /** @description The two-letter <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> standard of the country of the address. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/charity/types/bas:CountryCodeEnum'>eBay API documentation</a> */
+            /** @description The two-letter <a href="https://www.iso.org/iso-3166-country-codes.html ">ISO 3166</a> standard of the country of the address. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/commerce/charity/types/bas:CountryCodeEnum'>eBay API documentation</a> */
             country?: string;
         };
         /** @description The full location, ID, logo and other details of the charity organization. */
@@ -255,53 +238,6 @@ export interface operations {
             };
             /** @description Bad Request */
             400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getCharityOrgByLegacyId: {
-        parameters: {
-            query: {
-                /** @description The legacy ID of the charitable organization.<br /><br /><span class="tablenote"><b>Note: </b>The legacy charity ID is the identifier assigned to an organization upon registration with the PayPal Giving Fund (PPGF). It has also been referred to as the external ID/charity number.</span> */
-                legacy_charity_org_id: string;
-            };
-            header: {
-                /** @description A header used to specify the eBay marketplace ID.<br /><br /><b>Valid Values:</b> <code>EBAY_GB</code> and <code>EBAY_US</code> */
-                "X-EBAY-C-MARKETPLACE-ID": string;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CharityOrg"];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Not found */
-            404: {
                 headers: {
                     [name: string]: unknown;
                 };

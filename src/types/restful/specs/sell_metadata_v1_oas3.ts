@@ -21,6 +21,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/marketplace/{marketplace_id}/get_category_policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method returns eBay category policy metadata for all leaf categories on the specified marketplace.<p>By default, this method returns metadata on all leaf categories. You can limit the size of the result set by using the <b>filter</b> query parameter to specify only the leaf category IDs you want to review.</p><p>If you specify a valid marketplace ID but that marketplace does not contain policy information, or if you filter out all results, a successful call returns a <b>204 No content</b> status code with an empty response body.</p> */
+        get: operations["getCategoryPolicies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/marketplace/{marketplace_id}/get_classified_ad_policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method returns eBay classified ad policy metadata for all leaf categories on the specified marketplace.<p>By default, this method returns metadata on all leaf categories. You can limit the size of the result set by using the <b>filter</b> query parameter to specify only the leaf category IDs you want to review.</p><p>If you specify a valid marketplace ID but that marketplace does not contain policy information, or if you filter out all results, a successful call returns a <b>204 No content</b> status code with an empty response body.</p><p><span class="tablenote"><span style="color:#004680"><strong>Note: </strong>This method does not support classified ads for eBay US Motors categories (EBAY_MOTORS_US). For eBay Motors Pro users, use <a href="/api-docs/sell/metadata/resources/marketplace/methods/getMotorsListingPolicies"  target="_blank">getMotorsListingPolicies</a>.</span></p> */
+        get: operations["getClassifiedAdPolicies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/marketplace/{marketplace_id}/get_currencies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method returns the default currency used by the eBay marketplace specified in the request. This is the currency that the seller should use when providing price data for this marketplace through listing APIs. */
+        get: operations["getCurrencies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/marketplace/{marketplace_id}/get_extended_producer_responsibility_policies": {
         parameters: {
             query?: never;
@@ -45,7 +96,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description This method returns hazardous materials label information for the specified eBay marketplace. The information includes IDs, descriptions, and URLs (as applicable) for the available signal words, statements, and pictograms. The returned statements are localized for the default langauge of the marketplace. If a marketplace does not support hazardous materials label information, an error is returned.<p>This information is used by the seller to add hazardous materials label related information to their listings (see <a href='/api-docs/sell/static/metadata/feature-regulatorhazmatcontainer.html'>Specifying hazardous material related information</a>).</p> */
+        /** @description This method returns hazardous materials label information for the specified eBay marketplace. The information includes IDs, descriptions, and URLs (as applicable) for the available signal words, statements, and pictograms. The returned statements are localized for the default language of the marketplace. If a marketplace does not support hazardous materials label information, no response payload is returned, but only a <b>204 No content</b> status code.<p>This information is used by the seller to add hazardous materials label related information to their listings (see <a href='/api-docs/sell/static/metadata/feature-regulatorhazmatcontainer.html'>Specifying hazardous material related information</a>).</p> */
         get: operations["getHazardousMaterialsLabels"];
         put?: never;
         post?: never;
@@ -62,7 +113,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description This method returns item condition metadata on one, multiple, or all eBay categories on an eBay marketplace. This metadata consists of the different item conditions (with IDs) that an eBay category supports, and a boolean to indicate if an eBay category requires an item condition. <br><br>If applicable, this metadata also shows the different condition descriptors (with IDs) that an eBay category supports.<br><br><span class="tablenote"><b>Note:</b> Currently, condition grading is only applicable to the following trading card categories: <ul><li>Non-Sport Trading Card Singles</li><li>CCG Individual Cards</li><li>Sports Trading Cards Singles</li></ul></span><br>The identifier of the eBay marketplace is passed in as a path parameter, and unless one or more eBay category IDs are passed in through the <b>filter</b> query parameter, this method will return metadata on every single category for the specified marketplace. If you only want to view item condition metadata for one eBay category or a select group of eBay categories, you can pass in up to 50 eBay category ID through the <b>filter</b> query parameter.<br><br><span class="tablenote"><span style="color:#FF0000"><strong>Important:</strong></span> <b>Certified - Refurbished</b>-eligible sellers, and sellers who are eligible to list with the new values (EXCELLENT_REFURBISHED, VERY_GOOD_REFURBISHED, and GOOD_REFURBISHED) must use an OAuth token created with the <a href="/api-docs/static/oauth-authorization-code-grant.html" target="_blank">authorization code grant flow</a> and <b>https://api.ebay.com/oauth/api_scope/sell.inventory</b> scope in order to retrieve the refurbished conditions for the relevant categories.<br/><br/>See the <a href="/api-docs/sell/static/metadata/condition-id-values.html#Category " target="_blank">eBay Refurbished Program - Category and marketplace support</a> topic for the categories and marketplaces that support these refurbished conditions<br/><br/>These restricted item conditions will not be returned if an OAuth token created with the <a href="/api-docs/static/oauth-client-credentials-grant.html" target="_blank">client credentials grant flow</a> and <b>https://api.ebay.com/oauth/api_scope</b> scope is used, or if any seller is not eligible to list with that item condition. <br/><br/> See the <a href="/api-docs/static/oauth-scopes.html" target="_blank">Specifying OAuth scopes</a> topic for more information about specifying scopes.</span><br><br><span class="tablenote"><span style="color:#478415"><strong>Tip:</strong></span> This method can potentially return a very large response payload. eBay recommends that the response payload be compressed by passing in the <b>Accept-Encoding</b> request header and setting the value to <code>gzip</code>.</span> */
+        /** @description This method returns item condition metadata on one, multiple, or all eBay categories on an eBay marketplace. This metadata consists of the different item conditions (with IDs) that an eBay category supports, and a boolean to indicate if an eBay category requires an item condition. <br><br>If applicable, this metadata also shows the different condition descriptors (with IDs) that an eBay category supports.<br><br><span class="tablenote"><b>Note:</b> Currently, condition grading is only applicable to the following trading card categories: <ul><li>Non-Sport Trading Card Singles</li><li>CCG Individual Cards</li><li>Sports Trading Cards Singles</li></ul></span><br>The identifier of the eBay marketplace is passed in as a path parameter, and unless one or more eBay category IDs are passed in through the <b>filter</b> query parameter, this method will return metadata on every single category for the specified marketplace. If you only want to view item condition metadata for one eBay category or a select group of eBay categories, you can pass in up to 50 eBay category ID through the <b>filter</b> query parameter.<br><br><span class="tablenote"><span style="color:#FF0000"><strong>Important:</strong></span> <b>Certified - Refurbished</b>-eligible sellers, and sellers who are eligible to list with the new values (EXCELLENT_REFURBISHED, VERY_GOOD_REFURBISHED, and GOOD_REFURBISHED) must use an OAuth token created with the <a href="/api-docs/static/oauth-authorization-code-grant.html" target="_blank">authorization code grant flow</a> and <b>https://api.ebay.com/oauth/api_scope/sell.inventory</b> scope in order to retrieve the refurbished conditions for the relevant categories.<br/><br/>Refurbished item conditions are only supported in the Australia, Canada, French Canada, Germany, France, Italy, UK, and US marketplaces. See the <a href="https://www.ebay.com/sellercenter/ebay-for-business/ebay-refurbished-program" target="_blank">eBay Refurbished Program</a> page in help center for the categories that support refurbished conditions. <br/><br/>These restricted item conditions will not be returned if an OAuth token created with the <a href="/api-docs/static/oauth-client-credentials-grant.html" target="_blank">client credentials grant flow</a> and <b>https://api.ebay.com/oauth/api_scope</b> scope is used, or if any seller is not eligible to list with that item condition. <br/><br/> See the <a href="/api-docs/static/oauth-scopes.html" target="_blank">Specifying OAuth scopes</a> topic for more information about specifying scopes.</span><br><br><span class="tablenote"><span style="color:#478415"><strong>Tip:</strong></span> This method can potentially return a very large response payload. eBay recommends that the response payload be compressed by passing in the <b>Accept-Encoding</b> request header and setting the value to <code>gzip</code>.</span> */
         get: operations["getItemConditionPolicies"];
         put?: never;
         post?: never;
@@ -89,6 +140,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/marketplace/{marketplace_id}/get_listing_type_policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method returns eBay listing type policy metadata for all leaf categories on the specified marketplace. <p>By default, this method returns metadata on all leaf categories. You can limit the size of the result set by using the <b>filter</b> query parameter to specify only the leaf category IDs you want to review.</p><p>If you specify a valid marketplace ID but that marketplace does not contain policy information, or if you filter out all results, a successful call returns a <b>204 No content</b> status code with an empty response body.</p> */
+        get: operations["getListingTypePolicies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/marketplace/{marketplace_id}/get_motors_listing_policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method returns eBay Motors policy metadata for all leaf categories on the specified marketplace. <p>By default, this method returns metadata on all leaf categories. You can limit the size of the result set by using the <b>filter</b> query parameter to specify only the leaf category IDs you want to review.</p><p>If you specify a valid marketplace ID but that marketplace does not contain policy information, or if you filter out all results, a successful call returns a <b>204 No content</b> status code with an empty response body.</p><p><span class="tablenote"><span style="color:#004680"><strong>Note:</strong></span> To return policy information for eBay US Motors categories, specify <b>marketplace_id</b> as <code>EBAY_MOTORS_US</code>.</span></p> */
+        get: operations["getMotorsListingPolicies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/marketplace/{marketplace_id}/get_negotiated_price_policies": {
         parameters: {
             query?: never;
@@ -106,6 +191,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/marketplace/{marketplace_id}/get_product_safety_labels": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method returns product safety label information for the specified eBay marketplace. The information includes IDs, descriptions, and URLs (as applicable) for the available statements and pictograms. The returned statements are localized for the default language of the marketplace. If a marketplace does not support product safety label information, no response payload is returned, but only a <b>204 No content</b> status code.<p>This information is used by the seller to add product safety label related information to their listings. The <a href="/api-docs/sell/metadata/resources/marketplace/methods/getRegulatoryPolicies" target="_blank">getRegulatoryPolicies</a> method can be used to see which categories recommend or require product safety labels.</p> */
+        get: operations["getProductSafetyLabels"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/marketplace/{marketplace_id}/get_regulatory_policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method returns regulatory policies for one, multiple, or all eBay categories in an eBay marketplace. The identifier of the eBay marketplace is passed in as a path parameter, and unless one or more eBay category IDs are passed in through the filter query parameter, this method will return metadata for every listing category in the specified marketplace.</p><p><span class="tablenote"><span style="color:#478415"><strong>Tip:</strong></span> This method can potentially return a very large response payload. eBay recommends that the response payload be compressed by passing in the <b>Accept-Encoding</b> request header and setting the value to <code>gzip</code>.</span></p> */
+        get: operations["getRegulatoryPolicies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/marketplace/{marketplace_id}/get_return_policies": {
         parameters: {
             query?: never;
@@ -115,6 +234,210 @@ export interface paths {
         };
         /** @description This method returns the eBay policies that define whether or not you must include a return policy for the items you list in the categories of a specific marketplace, plus the guidelines for creating domestic and international return policies in the different eBay categories.  <br><br>By default, this method returns the entire category tree for the specified marketplace. You can limit the size of the result set by using the <b>filter</b> query parameter to specify only the category IDs you want to review.<br><br><span class="tablenote"><span style="color:#478415"><strong>Tip:</strong></span> This method can potentially return a very large response payload. eBay recommends that the response payload be compressed by passing in the <b>Accept-Encoding</b> request header and setting the value to <code>gzip</code>.</span> */
         get: operations["getReturnPolicies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/marketplace/{marketplace_id}/get_shipping_policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method returns eBay shipping policy metadata for all leaf categories on the specified marketplace.<p>By default, this method returns metadata on all leaf categories. You can limit the size of the result set by using the <b>filter</b> query parameter to specify only the leaf category IDs you want to review.</p><p>If you specify a valid marketplace ID but that marketplace does not contain policy information, or if you filter out all results, a successful call returns a <b>204 No content</b> status code with an empty response body. */
+        get: operations["getShippingPolicies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/marketplace/{marketplace_id}/get_site_visibility_policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method returns eBay international site visibility policy metadata for all leaf categories on the specified marketplace.<p>By default, this method returns metadata on all leaf categories. You can limit the size of the result set by using the <b>filter</b> query parameter to specify only the leaf category IDs you want to review.</p><p>If you specify a valid marketplace ID but that marketplace does not contain policy information, or if you filter out all results, a successful call returns a <b>204 No content</b> status code with an empty response body. */
+        get: operations["getSiteVisibilityPolicies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/compatibilities/get_compatibilities_by_specification": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description This method is used to retrieve all compatible application name-value pairs for a part based on the provided specification(s).<br><br>The part's relevant dimensions and/or characteristics can be provided through the <b>specifications</b> container. For example, when retrieving compatible application name-value pairs for a tire, the tire's dimensions (such as the section width or rim diameter) should be provided.<br><br>By default, all compatible application name-value pairs for the specifications are returned. You can limit the size of the result set by using the <b>compatibilityPropertyFilters</b> array to specify the properties (such as make, model, year, or trim) you wish to be included in the response.<br><br><span class="tablenote"><b>Note:</b> The <a href="/api-docs/sell/metadata/resources/compatibilities/methods/getCompatibilityPropertyNames" target="_blank ">getCompatibilityPropertyNames</a> and <a href="/api-docs/sell/metadata/resources/compatibilities/methods/getCompatibilityPropertyValues" target="_blank ">getCompatibilityPropertyValues</a> methods can be used to retrieve valid property names and values that can be used as the name-value pairs to define specifications.</span> */
+        post: operations["getCompatibilitiesBySpecification"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/compatibilities/get_compatibility_property_names": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description This method is used to retrieve product compatibility property names for the specified compatibility-enabled category.<br><br>Compatibility property names can be used alongside the corresponding compatibility property value (retrieved using the <a href="/api-docs/sell/metadata/resources/compatibilities/methods/getCompatibilityPropertyValues" target="_blank ">getCompatibilityPropertyValues</a> method) to describe the assembly for which an item is compatible.<br><br>The <b>categoryId</b> of the compatibility-enabled category for which to retrieve compatibility property names is required in the request body.<br><br>By default, all property names within the compatibility category of the specified compatibility-enable category are returned. You can limit the size of the result set by using the <b>dataset</b> array to specify the types of properties you want returned. */
+        post: operations["getCompatibilityPropertyNames"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/compatibilities/get_compatibility_property_values": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description This method is used to retrieve product compatibility property values associated with a single property name, in the specified category.<br><br>Compatibility property values can be used alongside the corresponding compatibility property name (retrieved using the <a href="/api-docs/sell/metadata/resources/compatibilities/methods/getCompatibilityPropertyNames" target="_blank ">getCompatibilityPropertyNames</a> method) to describe the assembly for which an item is compatible.<br><br>The <b>categoryId</b> of the compatibility-enabled category for which to retrieve compatibility property values is required in the request body, as well as the <b>propertyName</b> for which you wish to retrieve associated values.<br><br>By default, all property values associated with the specified <b>propertyName</b> are returned. You can limit the size of the result set by using the <b>propertyFilter</b> array. Only property values associated with the specified name-value pairs will be returned. */
+        post: operations["getCompatibilityPropertyValues"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/compatibilities/get_multi_compatibility_property_values": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description This method is used to retrieve product compatibility property values associated with multiple property names, in the specified category.<br><br>Compatibility property values can be used alongside the corresponding compatibility property name (retrieved using the <a href="/api-docs/sell/metadata/resources/compatibilities/methods/getCompatibilityPropertyNames" target="_blank ">getCompatibilityPropertyNames</a> method) to describe the assembly for which an item is compatible.<br><br>The <b>categoryId</b> of the compatibility-enabled category for which to retrieve compatibility property values is required in the request body, as well as the <b>propertyNames</b> for which you wish to retrieve associated property values. The <b>propertyFilter</b> array is also required to constrain the output. Only property values associated with the specified name-value pairs will be returned. */
+        post: operations["getMultiCompatibilityPropertyValues"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/compatibilities/get_product_compatibilities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description This method is used to retrieve all available item compatibility details for the specified product.<br><br>Item compatibility details can be used to see the properties for which an item is compatible. For example, if you are searching for a part for a specific vehicle, you can use this method to see the years, engine, and/or trim for which the part is compatible. Item compatibility details are returned as name-value pairs.<br><br>The product for which to retrieve item compatibility details must be provided through the <b>productIdentifier</b> field. This value can be either an eBay specific identifier (such as an ePID) or an external identifier (such as a UPC).<br><br>By default, all available item compatibility details for the specified product are returned. You can limit the size of the result set using the <b>dataset</b> or <b>datasetPropertyName</b> fields to specify the types of properties you want returned in the response. The <b>applicationPropertyFilter</b> array can also be used so that only parts compatible with the specified name-value pairs are returned. */
+        post: operations["getProductCompatibilities"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/shipping/marketplace/{marketplace_id}/get_exclude_shipping_locations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method retrieves a list of locations that the seller can use as excluded shipping locations within their listings or in their fulfillment business policies for the specified marketplace. These are locations that a seller designates as areas where they will not ship items. <p>Excluded shipping locations and ship-to locations are used in tandem at the listing level and in fulfillment business policies. Excluded shipping locations and ship-to locations share a lot of the same values and they should not contradict each other.<p>Manage excluded shipping locations using business policies through the <a href="/api-docs/sell/account/resources/methods#s0-1-30-4-7-5-6-2[1]-h2-fulfillment_policy"  target="_blank">fulfillment_policy</a> resource of the <b>Account v1 API</b>.</p> */
+        get: operations["getExcludeShippingLocations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/shipping/marketplace/{marketplace_id}/get_handling_times": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method retrieves a list of supported handling times for the specified marketplace. The handling time returned specifies the maximum number of business days the eBay site allows for shipping an item to domestic buyers after receiving a cleared payment. Handling times apply to both domestic and international orders. If the handling time is 1 day, the seller commits to dropping the item off for shipment one business day after payment clears. <p>Manage handing times using business policies through the <a href="/api-docs/sell/account/resources/methods#s0-1-30-4-7-5-6-2[1]-h2-fulfillment_policy"  target="_blank">fulfillment_policy</a> resource of the <b>Account v1 API</b>.</p> */
+        get: operations["getHandlingTimes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/shipping/marketplace/{marketplace_id}/get_shipping_carriers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method retrieves a list of supported shipping carriers for the specified marketplace. It provides essential information for sellers to understand which shipping carriers are available for use when listing items on that eBay marketplace. Knowing the supported carriers can help sellers optimize their shipping options and ensure efficient delivery to buyers.<p>The value returned in the <b>shippingCarrier</b> field is the enumerated value required when providing shipment tracking information for that carrier.</p><p><span class="tablenote"><span style="color:#004680"><strong>Tip: </strong> Use the <a href="/api-docs/sell/metadata/resources/shipping:marketplace/methods/getShippingServices"  target="_blank">getShippingServices</a> method to explore available shipping services for each carrier.</span></p><p>Manage shipping carriers using business policies through the <a href="/api-docs/sell/account/resources/methods#s0-1-30-4-7-5-6-2[1]-h2-fulfillment_policy"  target="_blank">fulfillment_policy</a> resource of the <b>Account v1 API</b>.</p> */
+        get: operations["getShippingCarriers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/shipping/marketplace/{marketplace_id}/get_shipping_locations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method retrieves a list of supported shipping locations for the specified marketplace. It provides sellers with information on where they can ship their items. Sellers can use this information to configure their shipping settings. <p><span class="tablenote"><span style="color:#004680"><strong>Tip: </strong> Use the <a href="/api-docs/sell/metadata/resources/shipping:marketplace/methods/getExcludeShippingLocations">getExcludeShippingLocations</a> method to return locations where the seller does not ship.</span></p><p>Manage shipping locations using business policies through the <a href="/api-docs/sell/account/resources/methods#s0-1-30-4-7-5-6-2[1]-h2-fulfillment_policy"  target="_blank">fulfillment_policy</a> resource of the <b>Account v1 API</b>.</p> */
+        get: operations["getShippingLocations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/shipping/marketplace/{marketplace_id}/get_shipping_services": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This method retrieves a list of shipping services supported for the specified marketplace, including valid shipping services, shipping times, and package constraints such as size and weight.<p>Manage shipping services using business policies through the <a href="/api-docs/sell/account/resources/methods#s0-1-30-4-7-5-6-2[1]-h2-fulfillment_policy"  target="_blank">fulfillment_policy</a> resource of the <b>Account v1 API</b>.</p> */
+        get: operations["getShippingServices"];
         put?: never;
         post?: never;
         delete?: never;
@@ -144,8 +467,15 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** @description The type that defines the fields for the currency and a monetary amount. */
+        Amount: {
+            /** @description The three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html " target="_blank">ISO 4217</a> code representing the currency of the amount in the <b> value</b> field.  <br /><br /><b>Restriction: </b> Only the currency of the marketplace is supported. For example, on the US marketplace the only currency supported is USD. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/bas:CurrencyCodeEnum'>eBay API documentation</a> */
+            currency?: string;
+            /** @description The monetary amount, in the currency specified by the <b>currency</b> field. */
+            value?: string;
+        };
         AutomotivePartsCompatibilityPolicy: {
-            /** @description The category ID to which the automotive-parts-compatibility policies apply. */
+            /** @description The category ID to which the automotive parts compatibility policies apply. */
             categoryId?: string;
             /** @description A value that indicates the root node of the category tree used for the response set. Each marketplace is based on a category tree whose root node is indicated by this unique category ID value. All category policy information returned by this call pertains to the categories included below this root node of the tree.    <br><br>A <i>category tree</i> is a hierarchical framework of eBay categories that begins at the root node of the tree and extends to include all the child nodes in the tree. Each child node in the tree is an eBay category that is represented by a unique <b>categoryId</b> value. Within a category tree, the root node has no parent node and <i>leaf nodes</i> are nodes that have no child nodes. */
             categoryTreeId?: string;
@@ -160,10 +490,130 @@ export interface components {
             maxNumberOfCompatibleVehicles?: number;
         };
         AutomotivePartsCompatibilityPolicyResponse: {
-            /** @description A list of category IDs and the automotive-parts-compatibility policies for each of the listed categories. */
+            /** @description A list of category IDs and the automotive parts compatibility policies for each of the listed categories. */
             automotivePartsCompatibilityPolicies?: components["schemas"]["AutomotivePartsCompatibilityPolicy"][];
             /** @description A list of the warnings that were generated as a result of the request. This field is not returned if no warnings were generated by the request. */
             warnings?: components["schemas"]["Error"][];
+        };
+        /** @description This type contains applicable policy metadata for the leaf categories returned for the marketplace. */
+        CategoryPolicy: {
+            /** @description If this field is returned as <code>true</code>, the corresponding category supports immediate payment for listings. The immediate payment feature is applicable to fixed-price listings, to auction listings with the 'Buy It Now' option enabled, and for a motor vehicle listing that requires an initial deposit. If the immediate payment feature is enabled for a listing, the buyer must pay immediately after clicking the 'Buy it Now' button. <p>This field is only returned when <code>true</code> (not returned when false).</p> */
+            autoPayEnabled?: boolean;
+            /** @description If this field is returned as <code>true</code>, the corresponding category supports business-to-business (B2B) VAT listings. If this field is not present, the category does not have B2B VAT listings. This feature is applicable to the eBay Germany (DE), Austria (AT), and Switzerland (CH) sites only.<p>This field is only returned when <code>true</code> (not returned when false).</p> */
+            b2bVatEnabled?: boolean;
+            /** @description The unique identifier of the eBay leaf category for which metadata is being returned. */
+            categoryId?: string;
+            /** @description The unique identifier of the category tree. */
+            categoryTreeId?: string;
+            /** @description This enumerated value indicates whether or not European Article Numbers (EANs) are supported/required when listing products in the category. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:ProductIdentiferEnabledEnum'>eBay API documentation</a> */
+            eanSupport?: string;
+            /** @description If this field is returned as <code>true</code>, the corresponding category is no longer a valid eBay category on the site, and items may not be listed in this category. You can use the <a href="/api-docs/sell/taxonomy/resources/category_tree/methods/getExpiredCategories" target="_blank">getExpiredCategories</a> method (of the <b>Taxonomy API</b>) to find the leaf category that replaced the expired category. <p>This field is only returned when <code>true</code> (not returned when false).</p> */
+            expired?: boolean;
+            /** @description If this field is returned as <code>true</code>, the category supports the listing of intangible goods or services. */
+            intangibleEnabled?: boolean;
+            /** @description This enumerated value indicates whether or not International Standard Book Numbers (ISBNs) are supported/required when listing products in the specified category. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:ProductIdentiferEnabledEnum'>eBay API documentation</a> */
+            isbnSupport?: string;
+            /** @description If this field (Lot Size Disabled) is returned as <code>true</code>, the corresponding category does not support lot listings. A lot listing is a listing that features multiple related items that must be purchased by one buyer in one transaction. <p>This field is only returned when <code>true</code> (not returned when false).</p> */
+            lsd?: boolean;
+            /** @description Indicates the Minimum Reserve Price for an auction listing in this category. If there is no Minimum Reserve Price, a value of <code>0.0</code> is returned in this field. */
+            minimumReservePrice?: number;
+            /** @description This field (Override Reserve Price Allowed) is returned as <code>true</code> if the eBay marketplace's default policy is to allow reserve prices for auction listings, but the corresponding category does not allow a reserve price. <p><span class="tablenote"><span style="color:#004680"><strong>Note: </strong>This field is not returned if the marketplace does not permit reserve prices.</span></p> */
+            orpa?: boolean;
+            /** @description If this field (Override Reduce Reserve Allowed) is returned as <code>true</code>, the seller can reduce or remove a reserve price that had already been reduced for an active auction listing. */
+            orra?: boolean;
+            /** @description An array that indicates the acceptable offline payment methods that can be used when listing an item for sale in the corresponding category. */
+            paymentMethods?: string[];
+            /** @description If this field (Reduce Reserve Allowed) is <code>true</code>, the corresponding leaf category allows the seller to reduce an item's reserve price. If false, this field is not returned in the response and the corresponding leaf category on the site do not normally allow sellers to reduce an item's reserve price.<p>This field is only returned when <code>true</code> (not returned when false).</p> */
+            reduceReserveAllowed?: boolean;
+            /** @description This field indicates whether reserve prices are allowed for auction listings in this category. This field returns as <code>true</code> when the category supports reserve prices, or <code>false</code> if the eBay marketplace does not permit reserve prices or the category override blocks reserve prices (<b>orpa</b> is <code>true</code>). */
+            reservePriceAllowed?: boolean;
+            /** @description This enumerated value indicates whether or not the category on the specified eBay site supports the use of Universal Product Codes (UPCs) to help create a listing. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:ProductIdentiferEnabledEnum'>eBay API documentation</a> */
+            upcSupport?: string;
+            /** @description When returned as <code>true</code>, this boolean indicates that the leaf category for the specified site is designated by eBay as a value category. Value categories can be used as a secondary category for a listing at no extra charge. */
+            valueCategory?: boolean;
+            /** @description If this field is returned as <code>true</code>, the corresponding category is an eBay virtual category, a category in which items may not be listed.<p>This field is only returned when <code>true</code> (not returned when false).</p> */
+            virtual?: boolean;
+        };
+        /** @description This type contains applicable policy metadata for the leaf categories returned for the marketplace. */
+        CategoryPolicyResponse: {
+            /** @description This array contains applicable policy metadata for the leaf categories returned for the marketplace specified in the path parameter <b>marketplace_id</b> and optionally limited by only those leaf category IDs specified in the query parameter <b>filter</b>. */
+            categoryPolicies?: components["schemas"]["CategoryPolicy"][];
+            /** @description An array of the warnings that were generated as a result of the request. This field is not returned if no warnings were generated by the request. */
+            warnings?: components["schemas"]["Error"][];
+        };
+        /** @description This type provides fields that contains applicable Classified Ad policy metadata for the leaf categories returned for the marketplace. */
+        ClassifiedAdPolicy: {
+            /** @description This enumerated value indicates the type or status of available Classified Ad formats for this category. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:AdFormatEnabledEnum'>eBay API documentation</a> */
+            adFormatEnabled?: string;
+            /** @description The unique identifier of the eBay leaf category for which metadata is being returned. */
+            categoryId?: string;
+            /** @description The unique identifier of the category tree. */
+            categoryTreeId?: string;
+            /** @description Indicates whether the category supports the Best Offer Automatic Accept feature for Classified Ad listings. */
+            classifiedAdAutoAcceptEnabled?: boolean;
+            /** @description Indicates whether the category supports the Best Offer Automatic Reject feature for Classified Ad listings. */
+            classifiedAdAutoDeclineEnabled?: boolean;
+            /** @description This enumerated value indicates if Best Offer is enabled, disabled, or required for Classified Ad listings in this category. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:ClassifiedAdBestOfferEnabledEnum'>eBay API documentation</a> */
+            classifiedAdBestOfferEnabled?: string;
+            /** @description Indicates whether this category supports including a company name in the seller's contact information. This element is for <b>For Sale By Owner</b> listings. */
+            classifiedAdCompanyNameEnabled?: boolean;
+            /** @description Indicates whether this category supports including an address in the seller's contact information. This element is for <b>For Sale By Owner</b> listings. */
+            classifiedAdContactByAddressEnabled?: boolean;
+            /** @description Indicates whether most categories support including an email address in the seller's contact information. */
+            classifiedAdContactByEmailEnabled?: boolean;
+            /** @description Indicates whether most categories support including a phone number in the seller's contact information. */
+            classifiedAdContactByPhoneEnabled?: boolean;
+            /** @description Indicates whether counter offers are allowed on Best offers for the category. */
+            classifiedAdCounterOfferEnabled?: boolean;
+            /** @description This enumerated value indicates support for the payment method being displayed to the user for the category. Even if enabled, checkout may or may not be enabled. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:ClassifiedAdPaymentMethodEnabledEnum'>eBay API documentation</a> */
+            classifiedAdPaymentMethodEnabled?: string;
+            /**
+             * Format: int32
+             * @description Indicates how many contact phone numbers can be specified in contact information for the category. This element is for <b>For Sale By Owner</b> listings.
+             */
+            classifiedAdPhoneCount?: number;
+            /** @description Indicates if shipping methods can be specified and displayed in the <b>View Item</b> page for the category. */
+            classifiedAdShippingMethodEnabled?: boolean;
+            /**
+             * Format: int32
+             * @description Indicates how many street addresses can be specified in contact information for the category. This element is for <b>For Sale By Owner</b> listings.
+             */
+            classifiedAdStreetCount?: number;
+            /** @description Indicates whether this category supports seller-level contact information for Classified Ad listings. */
+            sellerContactDetailsEnabled?: boolean;
+        };
+        /** @description This type contains applicable policy metadata for the leaf categories returned for the marketplace. */
+        ClassifiedAdPolicyResponse: {
+            /** @description This array contains applicable policy metadata for the leaf categories returned for the marketplace specified in the path parameter <b>marketplace_id</b> and optionally limited by only those leaf category IDs specified in the query parameter <b>filter</b>. */
+            classifiedAdPolicies?: components["schemas"]["ClassifiedAdPolicy"][];
+            /** @description An array of the warnings that were generated as a result of the request. This field is not returned if no warnings were generated by the request. */
+            warnings?: components["schemas"]["Error"][];
+        };
+        /** @description This type defines the property names and values that are compatible with the property name values specified in the request. */
+        Compatibility: {
+            /** @description This array returns a list of compatibility details associated with the specified property name(s). */
+            compatibilityDetails?: components["schemas"]["CompatibilityDetails"][];
+        };
+        /** @description This type defines the compatible property names and values associated with the product. */
+        CompatibilityDetails: {
+            /** @description The name of the property being described. */
+            propertyName?: string;
+            /** @description The value for the property specified in the <b>propertyName</b> field. */
+            propertyValue?: string;
+        };
+        /** @description The type defining valid currencies for the marketplace. */
+        Currency: {
+            /** @description The three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html " target="_blank">ISO 4217</a> code returned.  <br /><br /><b>Restriction: </b> Only the currency of the marketplace is supported. Examples: on the US marketplace, the only currency supported is the United States dollar, <code>USD</code>; on the Canadian marketplace, the only currency supported is the Canadian dollar, <code>CAD</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/bas:CurrencyCodeEnum'>eBay API documentation</a> */
+            code?: string;
+            /** @description The description of the returned three-letter code. For example, if the code is <code>USD</code>, the description returned would be <code>US Dollar</code>. */
+            description?: string;
+        };
+        /** @description This type defines the booleans used to determine if a product is excluded from eBay selling and/or review. */
+        DisabledProductFilter: {
+            /** @description Specifies whether to filter out products excluded for eBay reviews.<br><br>If set to <code>true</code>, items excluded from eBay reviews are not returned. */
+            excludeForEbayReviews?: boolean;
+            /** @description Specifies whether to filter out products excluded for eBay selling.<br><br>If set to <code>true</code>, items excluded from eBay selling are not returned. */
+            excludeForEbaySelling?: boolean;
         };
         /** @description A container that defines the elements of error and warning messages. */
         Error: {
@@ -189,7 +639,7 @@ export interface components {
             /** @description Name of the domain's subsystem or subdivision. For example, checkout is a subdomain in the buying domain. */
             subdomain?: string;
         };
-        /** @description Container for a error parameter. */
+        /** @description Container for an error parameter. */
         ErrorParameter: {
             /** @description Name of the entity that threw the error. */
             name?: string;
@@ -221,6 +671,13 @@ export interface components {
             /** @description A collection of warnings generated for the request. */
             warnings?: components["schemas"]["Error"][];
         };
+        /** @description This type defines the response fields specifying the default currency for the marketplace. */
+        GetCurrenciesResponse: {
+            /** @description This field specifies the default currency used by the marketplace. */
+            defaultCurrency?: components["schemas"]["Currency"];
+            /** @description The ID of the eBay marketplace to which the default currency applies. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/bas:MarketplaceIdEnum'>eBay API documentation</a> */
+            marketplaceId?: string;
+        };
         /** @description A type that describes hazard statements for hazardous materials labels */
         HazardStatement: {
             /** @description The identifier of the statement. For sample values, see <a href='/api-docs/sell/static/metadata/feature-regulatorhazmatcontainer.html#Hazard'>Hazard statement sample values</a>. */
@@ -234,7 +691,7 @@ export interface components {
             signalWords?: components["schemas"]["SignalWord"][];
             /** @description This array contains available hazardous materials hazard statements for the specified marketplace. */
             statements?: components["schemas"]["HazardStatement"][];
-            /** @description This array contains of available hazardous materials hazard pictograms for the specified marketplace. */
+            /** @description This array contains available hazardous materials hazard pictograms for the specified marketplace. */
             pictograms?: components["schemas"]["Pictogram"][];
         };
         /** @description <span class="tablenote"><b>Note: </b>In all eBay marketplaces, Condition ID 2000 now maps to an item condition of 'Certified Refurbished', and not 'Manufacturer Refurbished'. To list an item as 'Certified Refurbished', a seller must be pre-qualified by eBay for this feature. Any seller who is not eligible for this feature will be blocked if they try to create a new listing or revise an existing listing with this item condition. Any active listings on any eBay marketplace that had 'Manufacturer Refurbished' as the item condition should have been automatically updated by eBay to the 'Seller Refurbished' item condition (Condition ID 2500). <br><br> Any seller that is interested in eligibility requirements to list with 'Certified Refurbished' should see the <a href="https://pages.ebay.com/seller-center/listing-and-marketing/certified-refurbished-program.html " target="_blank">Certified refurbished program</a> page in Seller Center. </span> */
@@ -308,7 +765,7 @@ export interface components {
             categoryTreeId?: string;
             /** @description This flag denotes whether or not you must list the item condition in a listing for the specified category. If set to <code>true</code>, you must specify an item condition for the associated category. */
             itemConditionRequired?: boolean;
-            /** @description The item-condition values allowed in the category.<br><br><span class="tablenote"><b>Note:</b> The â€˜Seller Refurbishedâ€™ item condition (condition ID 2500) has been replaced by the 'Excellent - Refurbished', 'Very Good - Refurbished', and 'Good - Refurbished' item conditions in a select number of eBay marketplaces and categories. See the <a href="/api-docs/sell/static/metadata/condition-id-values.html#Category " target="_blank "> eBay Refurbished Program - Category and marketplace support</a> topic for more details.<br/><br/>Similar to the â€˜Certified Refurbishedâ€™ item condition (condition ID 2000), a sellerâ€™s OAuth user token will have to be used instead of an OAuth application token, since each seller must  go through an application and qualification process before using any of these new refurbished item conditions in supported categories. If a seller is not qualified to use the new refurbished item conditions, these item condition values will not be returned by <b>getItemConditionPolicies</b>.</span> */
+            /** @description The item-condition values allowed in the category.<br><br><span class="tablenote"><b>Note:</b> The ‘Seller Refurbished’ item condition (condition ID 2500) has been replaced by the 'Excellent - Refurbished', 'Very Good - Refurbished', and 'Good - Refurbished' item conditions in a select number of eBay marketplaces and categories.<br/><br/>Similar to the ‘Certified Refurbished’ item condition (condition ID 2000), a seller’s OAuth user token will have to be used instead of an OAuth application token, since each seller must  go through an application and qualification process before using any of these new refurbished item conditions in supported categories. If a seller is not qualified to use the new refurbished item conditions, these item condition values will not be returned by <b>getItemConditionPolicies</b>.</span> */
             itemConditions?: components["schemas"]["ItemCondition"][];
         };
         ItemConditionPolicyResponse: {
@@ -316,6 +773,13 @@ export interface components {
             itemConditionPolicies?: components["schemas"]["ItemConditionPolicy"][];
             /** @description A list of the warnings that were generated as a result of the request. This field is not returned if no warnings were generated by the request. */
             warnings?: components["schemas"]["Error"][];
+        };
+        /** @description This type identifies the kind of listing and its duration periods. */
+        ListingDuration: {
+            /** @description This array defines the supported time duration options available for the listing type. */
+            durationValues?: string[];
+            /** @description The enumerated value returned in this field indicates the listing type for the duration value(s). For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:ListingTypeEnum'>eBay API documentation</a> */
+            listingType?: string;
         };
         ListingStructurePolicy: {
             /** @description The category ID to which the listing-structure policy applies. */
@@ -330,6 +794,174 @@ export interface components {
             listingStructurePolicies?: components["schemas"]["ListingStructurePolicy"][];
             /** @description A list of the warnings that were generated as a result of the request. This field is not returned if no warnings were generated by the request. */
             warnings?: components["schemas"]["Error"][];
+        };
+        /** @description This type contains the selling formats for eBay listings. */
+        ListingTypePoliciesResponse: {
+            /** @description This array contains applicable policy metadata for the leaf categories returned for the marketplace specified in the path parameter <b>marketplace_id</b> and optionally limited by only those leaf category IDs specified in the query parameter <b>filter</b>. */
+            listingTypePolicies?: components["schemas"]["ListingTypePolicy"][];
+            /** @description An array of the warnings that were generated as a result of the request. This field is not returned if no warnings were generated by the request. */
+            warnings?: components["schemas"]["Error"][];
+        };
+        /** @description This type contains the policies governing the listing type by category. */
+        ListingTypePolicy: {
+            /** @description The unique identifier of the eBay leaf category for which metadata is being returned. */
+            categoryId?: string;
+            /** @description The unique identifier of the category tree. */
+            categoryTreeId?: string;
+            /** @description A <code>true</code> value in this field indicates that the leaf category supports the listing of items (such as gift cards) that can be delivered electronically via a download link or sent to a buyer's email address. */
+            digitalGoodDeliveryEnabled?: boolean;
+            /** @description An array of eBay listing types and the supported durations for the corresponding leaf category. If a specific eBay listing type does not appear for a leaf category, it indicates that the category does not support that listing type. */
+            listingDurations?: components["schemas"]["ListingDuration"][];
+            /** @description A true value in this field indicates that items listed in the category (specified in the <b>listingTypePolicies.categoryId</b> field) may be enabled with the 'Click and Collect' feature. With the 'Click and Collect' feature, a buyer can purchase certain items on an eBay site and collect them at a local store. Buyers are notified by eBay once their items are available. A false value in this field indicates that items listed in the category are not eligible for the 'Click and Collect' feature. */
+            pickupDropOffEnabled?: boolean;
+        };
+        /** @description This type contains the kind of distance and radius of the selling area for Local Market Vehicle listings. */
+        LocalListingDistance: {
+            /** @description This array indicates the radius (in miles) of the selling area for Local Market Vehicle listings. */
+            distances?: number[];
+            /** @description This enumerated value indicates the type of local listing distances, such as non-subscription or regular, for items listed by sellers. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:DistanceType'>eBay API documentation</a> */
+            distanceType?: string;
+        };
+        MotorsListingPoliciesResponse: {
+            /** @description This array contains applicable policy metadata for the leaf categories returned for the marketplace specified in the path parameter <b>marketplace_id</b> and optionally limited by only those leaf category IDs specified in the query parameter <b>filter</b>. */
+            motorsListingPolicies?: components["schemas"]["MotorsListingPolicy"][];
+            /** @description An array of the warnings that were generated as a result of the request. This field is not returned if no warnings were generated by the request. */
+            warnings?: components["schemas"]["Error"][];
+        };
+        MotorsListingPolicy: {
+            /** @description The unique identifier of the eBay leaf category for which metadata is being returned. */
+            categoryId?: string;
+            /** @description The unique identifier of the category tree. */
+            categoryTreeId?: string;
+            /** @description This field is returned as <code>true</code> if the corresponding category supports the use of a deposit/down payment on a motor vehicle listing. In an AddItem call, the seller can configure a down payment for a motor vehicle listing using the PaymentDetails container. */
+            depositSupported?: boolean;
+            /** @description Indicates whether or not eBay Motors Pro sellers can use classified ads in this category to sell their vehicles. This element is applicable for eBay Motors Pro users. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:AdFormatEnabledEnum'>eBay API documentation</a> */
+            ebayMotorsProAdFormatEnabled?: string;
+            /** @description Indicates whether or not the category supports the Best Offer Auto Accept feature for eBay Motors Pro listings. This element is for eBay Motors Pro users. */
+            ebayMotorsProAutoAcceptEnabled?: boolean;
+            /** @description Indicates whether or not the category allows auto-decline for Best Offers for eBay Motors Classified Ad listings. This element is for eBay Motors Pro users. */
+            ebayMotorsProAutoDeclineEnabled?: boolean;
+            /** @description This enumerated value indicates whether or not Best Offer features are supported for eBay Motors Classified Ad listings in this category. This element is for eBay Motors Pro users. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:ClassifiedAdBestOfferEnabledEnum'>eBay API documentation</a> */
+            ebayMotorsProBestOfferEnabled?: string;
+            /** @description Indicates whether this category supports including the company name in the seller's contact information. This element is for eBay Motors Pro users. */
+            ebayMotorsProCompanyNameEnabled?: boolean;
+            /** @description Indicates whether this category supports including the address in the seller's contact information. This element is for eBay Motors Pro users. */
+            ebayMotorsProContactByAddressEnabled?: boolean;
+            /** @description Indicates whether this category supports including an email address in the seller's contact information. This element is for eBay Motors Pro users. */
+            ebayMotorsProContactByEmailEnabled?: boolean;
+            /** @description Indicates whether this category supports including the telephone in the seller's contact information. This element is for eBay Motors Pro users. */
+            ebayMotorsProContactByPhoneEnabled?: boolean;
+            /** @description Indicates whether counter offers are allowed on Best Offers for this category in an eBay Motors Classified Ad listing. This element is for eBay Motors Pro users. */
+            ebayMotorsProCounterOfferEnabled?: boolean;
+            /** @description This enumerated value indicates whether this category supports that the payment method should be displayed to the user for this category in an eBay Motors Classified Ad listing. Even if enabled, checkout may or may not be enabled. This element is for eBay Motors Pro users. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:ClassifiedAdPaymentMethodEnabledEnum'>eBay API documentation</a> */
+            ebayMotorsProPaymentMethodCheckOutEnabled?: string;
+            /**
+             * Format: int32
+             * @description Indicates the number of phone numbers that can be included through contact information for this category. This element is for eBay Motors Pro users.
+             */
+            ebayMotorsProPhoneCount?: number;
+            /** @description Indicates whether this category allows seller-level contact information for eBay Motors Classified Ad listings. A value of true means seller-level contact information is available for Classified Ad listings. This element is for eBay Motors Pro users. */
+            ebayMotorsProSellerContactDetailsEnabled?: boolean;
+            /** @description Indicates if shipping options should be displayed to the user for this category in an eBay Motors Classified Ad listing. This element is for eBay Motors Pro users. */
+            ebayMotorsProShippingMethodEnabled?: boolean;
+            /**
+             * Format: int32
+             * @description This field indicates the number of street addresses allowed in contact information for this category. This element is for eBay Motors Pro users.
+             */
+            ebayMotorsProStreetCount?: number;
+            /** @description If returned as <code>true</code>, this indicates the category supports the use of an eBay Product ID (e.g. ePID) to identify which motorcycles and/or scooters are compatible with a motor vehicle part or accessory. ePIDs can only be used to identify motorcycles and scooters on the Germany and UK sites. */
+            epidSupported?: boolean;
+            /** @description This field indicates whether or not the category supports the use of a K type to identify the cars and trucks compatible with a motor vehicle part or accessory. Only the AU, DE, ES, FR, IT, and UK marketplaces support the use of K types. See <a href="/api-docs/user-guides/static/trading-user-guide/manually-specify-compatibility.html#ktype" target="_blank">Compatibility by K type</a> for more information */
+            kTypeSupported?: boolean;
+            /** @description This array shows the supported distances (in miles) for different types of Local Market subscription types in this category. Motor vehicle listings will be shown to buyers located within these proximities of the vehicle's location. */
+            localListingDistances?: components["schemas"]["LocalListingDistance"][];
+            /** @description Specifies whether this category supports Motor Local Market Classified Ad listings. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:AdFormatEnabledEnum'>eBay API documentation</a> */
+            localMarketAdFormatEnabled?: string;
+            /** @description Specifies whether this category supports auto-accept for Best Offers for Motors Local Market Classified Ads. */
+            localMarketAutoAcceptEnabled?: boolean;
+            /** @description Specifies whether this category supports auto-decline for Best Offers for Motors Local Market Classified Ads. */
+            localMarketAutoDeclineEnabled?: boolean;
+            /** @description Indicates if Best Offer is enabled/required for Motors Local Market Classified Ad listings in this category.  For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:ClassifiedAdBestOfferEnabledEnum'>eBay API documentation</a> */
+            localMarketBestOfferEnabled?: string;
+            /** @description Indicates whether the category supports the seller's company name being specified when using Motors Local Market classified ads. */
+            localMarketCompanyNameEnabled?: boolean;
+            /** @description Indicates whether this category supports including the address in the seller's contact information. */
+            localMarketContactByAddressEnabled?: boolean;
+            /** @description Indicates whether the category supports including an email address in the seller's contact information. */
+            localMarketContactByEmailEnabled?: boolean;
+            /** @description Indicates whether this category supports including the telephone in the seller's contact information. */
+            localMarketContactByPhoneEnabled?: boolean;
+            /** @description Indicates whether counter offers are allowed on Best Offers for this category for Motors Local Market Classified Ad listings. */
+            localMarketCounterOfferEnabled?: boolean;
+            /** @description Indicates whether the category supports a seller creating a Motors Local Market listing without a subscription. This feature is only available to licensed vehicle dealers. */
+            localMarketNonSubscription?: boolean;
+            /** @description Indicates if the payment method should be displayed to the user for this category in an Motors Local Market Classified Ad listing. Even if enabled, checkout may or may not be enabled. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:ClassifiedAdPaymentMethodEnabledEnum'>eBay API documentation</a> */
+            localMarketPaymentMethodCheckOutEnabled?: string;
+            /**
+             * Format: int32
+             * @description Indicates the number of phone numbers that can be included through contact information for this category.
+             */
+            localMarketPhoneCount?: number;
+            /** @description Indicates whether the category supports the Premium level subscription Motors Local Market listings. This feature is only available to licensed vehicle dealers. */
+            localMarketPremiumSubscription?: boolean;
+            /** @description Indicates whether the category supports the Regular level subscription to Motors Local Market listings. This feature is only available to licensed vehicle dealers. */
+            localMarketRegularSubscription?: boolean;
+            /** @description Specifies the whether this category allows seller-level contact information for Motors Local Market Classified Ad listings. */
+            localMarketSellerContactDetailsEnabled?: boolean;
+            /** @description Indicates if shipping methods should be displayed to the user for this category in an Motors Local Market Classified Ad listing. Even if enabled, checkout may or may not be enabled. */
+            localMarketShippingMethodEnabled?: boolean;
+            /** @description Indicates whether the category supports the Speciality level subscription to Motors Local Market listings. This feature is only available to licensed vehicle dealers. */
+            localMarketSpecialitySubscription?: boolean;
+            /**
+             * Format: int32
+             * @description Indicates which address option is enabled for the seller's contact information.
+             */
+            localMarketStreetCount?: number;
+            /**
+             * Format: int32
+             * @description Indicates the maximum number of compatible applications allowed per item when adding or revising items with compatibilities provided at the most detailed granularity. For example, in Car and Truck Parts on the US site, the most granular application would include Year, Make, Model, Trim, and Engine.
+             */
+            maxGranularFitmentCount?: number;
+            /**
+             * Format: int32
+             * @description Indicates the maximum number of compatible applications allowed per item when adding or revising items. This is relevant for specifying parts compatibility by application manually only. See <a href="/api-docs/user-guides/static/trading-user-guide/manually-specify-compatibility.html" target="_blank">Specify parts compatibility manually</a> and <a href="/api-docs/sell/static/inventory/managing-product-compatibility.html" target="_blank">Managing product compatibility</a> for more information.
+             */
+            maxItemCompatibility?: number;
+            /**
+             * Format: int32
+             * @description Indicates the minimum number of required compatible applications for listing items. A value of <code>0</code> indicates it is not mandatory to specify parts compatibilities when listing.
+             */
+            minItemCompatibility?: number;
+            /** @description The value in this field indicates whether the category supports Motors Local Market listings if the seller does not have a vehicle subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:GeographicExposureEnum'>eBay API documentation</a> */
+            nonSubscription?: string;
+            /** @description The value in this field indicates whether the category supports Motors Local Market listings if the seller has a Premium vehicle subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:GeographicExposureEnum'>eBay API documentation</a> */
+            premiumSubscription?: string;
+            /** @description The value in this field indicates whether the category supports Motors Local Market listings if the seller has a Regular vehicle subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:GeographicExposureEnum'>eBay API documentation</a> */
+            regularSubscription?: string;
+            /** @description This field is returned as <code>true</code> if the corresponding category supports the use of a seller-provided title for a motor vehicle listing on the US or Canada Motors marketplaces. A seller-provided title is a descriptive title, given by the seller, that appears below eBay's pre-filled listing title for the motor vehicle. Visually, the seller-provided title is similar to a subtitle on other types of eBay listings (non-vehicle). A seller-provided title can assist in helping buyers discover the vehicle. */
+            sellerProvidedTitleSupported?: boolean;
+            /** @description The value in this field indicates whether the category supports Motors Local Market listings if the seller has a Specialty vehicle subscription. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:GeographicExposureEnum'>eBay API documentation</a> */
+            specialitySubscription?: string;
+            /** @description Indicates if Vehicle Identification Number is supported. */
+            vinSupported?: boolean;
+            /** @description Indicates if Vehicle Registration Mark is supported. */
+            vrmSupported?: boolean;
+        };
+        /** @description This type defines the request fields used in the <b>getMultiCompatibilityPropertyValues</b> method. */
+        MultiCompatibilityPropertyValuesRequest: {
+            /** @description The unique identifier of the eBay leaf category for which to retrieve property values.<br><br>Use the <a href="/api-docs/sell/metadata/resources/marketplace/methods/getAutomotivePartsCompatibilityPolicies" target="_blank ">getAutomotivePartsCompatibilityPolicies</a> method to retrieve a list of categories that support parts compatibility. */
+            categoryId?: string;
+            /** @description This array can be used to specify the compatibility properties used to limit the result set. Only values associated with the specified name-value pairs will be returned in the response.<br><br>For example, if the <b>propertyName</b> is set to <code>Year</code> and the <b>propertyValue</b> is set to <code>2022</code>, only compatible vehicles from 2022 will be returned.<br><br>At least one property name-value pair must be used. */
+            propertyFilters?: components["schemas"]["PropertyFilterInner"][];
+            /** @description This comma-delimited array specifies the names of the properties for which to retrieve associated property values.<br><br>For example, typical vehicle property names are 'Make', 'Model', 'Year', 'Engine', and 'Trim', but will vary based on the eBay marketplace and the eBay category. */
+            propertyNames?: string[];
+        };
+        /** @description This type defines the response fields for the <b>getMultiCompatibilityPropertyValues</b> method. */
+        MultiCompatibilityPropertyValuesResponse: {
+            /** @description This container defines the compatibility details associated with the specified property name value(s). */
+            compatibilities?: components["schemas"]["Compatibility"][];
+            /** @description The version number of the metadata. This version is upticked whenever there are compatibility name changes for the specified marketplace. */
+            metadataVersion?: string;
         };
         NegotiatedPricePolicy: {
             /** @description This flag denotes whether or not the category supports the setting of a price at which best offers are automatically accepted. If set to <code>true</code>, the category does support the setting of an automatic price for best-offers. */
@@ -349,6 +981,69 @@ export interface components {
             /** @description A list of the warnings that were generated as a result of the request. This field is not returned if no warnings were generated by the request. */
             warnings?: components["schemas"]["Error"][];
         };
+        /** @description The packageLimits field is used to specify the physical constraints and measurement units of packages, ensuring compliance with various shipping requirements. */
+        PackageLimits: {
+            /** @description Unit of dimensional measurement, for example <code>INCH</code> or <code>CENTIMETER</code>. */
+            dimensionUnit?: string;
+            /** @description The maximum girth allowed for a package shipped through the corresponding shipping service, as measured in units of <a href="/api-docs/sell/metadata/resources/shipping:marketplace/methods/getShippingServices#response.shippingServices.packageLimits.dimensionUnit">dimensionUnit</a>. */
+            maxGirth?: number;
+            /** @description The maximum height allowed for a package shipped through the corresponding shipping service, as measured in units of <a href="/api-docs/sell/metadata/resources/shipping:marketplace/methods/getShippingServices#response.shippingServices.packageLimits.dimensionUnit">dimensionUnit</a>. */
+            maxHeight?: number;
+            /** @description The maximum length allowed for a package shipped through the corresponding shipping service, as measured in units of <a href="/api-docs/sell/metadata/resources/shipping:marketplace/methods/getShippingServices#response.shippingServices.packageLimits.dimensionUnit">dimensionUnit</a>. */
+            maxLength?: number;
+            /** @description The maximum weight allowed for a package shipped through the corresponding shipping service, as measured in units of <a href="/api-docs/sell/metadata/resources/shipping:marketplace/methods/getShippingServices#response.shippingServices.packageLimits.weightUnit">weightUnit</a>. */
+            maxWeight?: number;
+            /** @description The maximum width allowed for a package shipped through the corresponding shipping service, as measured in units of <a href="/api-docs/sell/metadata/resources/shipping:marketplace/methods/getShippingServices#response.shippingServices.packageLimits.dimensionUnit">dimensionUnit</a>. */
+            maxWidth?: number;
+            /** @description The minimum girth allowed for a package shipped through the corresponding shipping service, as measured in units of <a href="/api-docs/sell/metadata/resources/shipping:marketplace/methods/getShippingServices#response.shippingServices.packageLimits.dimensionUnit">dimensionUnit</a>. */
+            minGirth?: number;
+            /** @description The minimum height allowed for a package shipped through the corresponding shipping service, as measured in units of <a href="/api-docs/sell/metadata/resources/shipping:marketplace/methods/getShippingServices#response.shippingServices.packageLimits.dimensionUnit">dimensionUnit</a>. */
+            minHeight?: number;
+            /** @description The minimum length allowed for a package shipped through the corresponding shipping service, as measured in units of <a href="/api-docs/sell/metadata/resources/shipping:marketplace/methods/getShippingServices#response.shippingServices.packageLimits.dimensionUnit">dimensionUnit</a>. */
+            minLength?: number;
+            /** @description The minimum weight allowed for a package shipped through the corresponding shipping service, as measured in units of <a href="/api-docs/sell/metadata/resources/shipping:marketplace/methods/getShippingServices#response.shippingServices.packageLimits.weightUnit">weightUnit</a>. */
+            minWeight?: number;
+            /** @description The minimum width allowed for a package shipped through the corresponding shipping service, as measured in units of <a href="/api-docs/sell/metadata/resources/shipping:marketplace/methods/getShippingServices#response.shippingServices.packageLimits.dimensionUnit">dimensionUnit</a>. */
+            minWidth?: number;
+            /** @description Unit of weight measurement, for example <code>KILOGRAM</code> or <code>OUNCE</code>. */
+            weightUnit?: string;
+        };
+        /** @description This type defines the pagination settings for a result set. */
+        Pagination: {
+            /**
+             * Format: int32
+             * @description The number of results showing on the current page of results.
+             */
+            count?: number;
+            /**
+             * Format: int32
+             * @description The max number of entries that can be returned on a single page.
+             */
+            limit?: number;
+            /**
+             * Format: int32
+             * @description The number of items that will be skipped in the result set before returning the first item in the paginated response.
+             */
+            offset?: number;
+            /**
+             * Format: int32
+             * @description The total number of results in a result set.
+             */
+            total?: number;
+        };
+        /** @description This type defines the fields used to control the pagination of the result set. */
+        PaginationInput: {
+            /**
+             * Format: int32
+             * @description The max number of items, from the current result set, returned on a single page.<br><br><span class="tablenote"><b>Note:</b> For <b>getProductCompatibilities</b>, the max value is 100. If no <b>limit</b> is specified, this field defaults to the max value.</span>
+             */
+            limit?: number;
+            /**
+             * Format: int32
+             * @description The number of items that will be skipped in the result set before returning the first item in the paginated response.<br><br>Combine <b>offset</b> with <b>limit</b> to control the items returned in the response. For example, if you supply an offset of 10 and a limit of 20, the first page of the response contains items 11-30 from the complete result set.<br><br><b>Default:</b> 0
+             */
+            offset?: number;
+        };
         /** @description A type that describes pictograms for hazardous materials labels. */
         Pictogram: {
             /** @description The identifier of the pictogram. For sample values, see <a href='/api-docs/sell/static/metadata/feature-regulatorhazmatcontainer.html#Pictogra'>Pictogram sample values</a>. */
@@ -357,6 +1052,172 @@ export interface components {
             pictogramDescription?: string;
             /** @description The URL of the pictogram. */
             pictogramUrl?: string;
+        };
+        /** @description This type defines the supported product identifiers. */
+        ProductIdentifier: {
+            /** @description The EAN of the item, if applicable. EAN is the European Article Number, a barcode standard for retail product labeling primarily used outside of North America. */
+            ean?: string;
+            /** @description The ePID (eBay Product Identifier) of the item, if applicable. ePID is a unique identifier used by eBay to track products in its catalog.<br><br>Use the <a href="/api-docs/commerce/catalog/resources/product/methods/getProduct" target="_blank ">getProduct</a> method of the Catalog API to retrieve the ePID of an item. */
+            epid?: string;
+            /** @description The ISBN of the item, if applicable. ISBN is the International Standard Book Number, a unique identifier for books. */
+            isbn?: string;
+            /** @description The product ID of the item, if applicable. The product ID is a general term for a unique identifier assigned to a product. */
+            productId?: string;
+            /** @description The UPC of the item, if applicable. UPC stands for Universal Product Code, a unique identifier for products, primarily in North America. */
+            upc?: string;
+        };
+        /** @description This type defines the request fields for the <b>getProductCompatibilities</b> method. */
+        ProductRequest: {
+            /** @description This array is used to filter the properties of an application, such as a vehicle's make or model, that will be returned in the response.<br><br>Application property filters are specified as name-value pairs. Only products compatible with these name-value pairs will be returned. */
+            applicationPropertyFilters?: components["schemas"]["PropertyFilterInner"][];
+            /** @description This array defines the type of properties that are returned for the catalog-enabled category.<br><br>For example, if you specify <code>Searchable</code>, the compatibility details will contain properties that can be used to search for products, such as make or model.<br><br><span class="tablenote"><b>Note:</b> This field cannot be used alongside <b>dataPropertyName</b>. If both are used, an error will occur.</span><br><b>Valid values:</b><ul><li><code>DisplayableProductDetails</code>: Properties for use in a user interface to describe products.</li><li><code>DisplayableSearchResults</code>: Properties for use in results for product searches.</li><li><code>Searchable</code>: Properties for use in searches.</li><li><code>Sortable</code>: Properties that are suitable for sorting.</li></ul><br><b>Default:</b> <code>DisplayableSearchResults</code> */
+            dataset?: string[];
+            /** @description This comma-delimted array can be used to define the specific property name(s) that will be returned in the response.<br><br>For example, if you specify <code>Engine</code>, the result set will only contain engines that are compatible with the input criteria.<br><br><span class="tablenote"><b>Note:</b> This array cannot be used alongside <b>dataset</b>. If both are used, an error will occur.</span> */
+            datasetPropertyName?: string[];
+            /** @description This container can be used to specify whether or not to filter out products which are disabled for selling on eBay and/or disabled for product review. */
+            disabledProductFilter?: components["schemas"]["DisabledProductFilter"];
+            /** @description This container controls the pagination of the result set. */
+            paginationInput?: components["schemas"]["PaginationInput"];
+            /** @description This container is used to provide unique identifier for the product. The product identifier consists of an identifier type and value, and are unique across all sites. */
+            productIdentifier?: components["schemas"]["ProductIdentifier"];
+            /** @description This array controls the sort order of compatibility properties. */
+            sortOrders?: components["schemas"]["SortOrderInner"][];
+        };
+        /** @description This type defines the response fields for the <b>getProductCompatibilities</b> method. */
+        ProductResponse: {
+            /** @description This container provides compatibility details for the specified product. */
+            compatibilityDetails?: components["schemas"]["ProductResponseCompatibilityDetails"][];
+            /** @description This container returns the pagination settings for the result set. */
+            pagination?: components["schemas"]["Pagination"];
+        };
+        /** @description This type defines the compatibility details for a product. */
+        ProductResponseCompatibilityDetails: {
+            /** @description This array returns additional comments about the corresponding product in the form of name-value pairs. */
+            noteDetails?: components["schemas"]["PropertyFilterInner"][];
+            /** @description This array returns details about the product in the form of name-value pairs. */
+            productDetails?: components["schemas"]["PropertyValues"][];
+        };
+        /** @description A type that describes pictograms for product safety labels. */
+        ProductSafetyLabelPictogram: {
+            /** @description The description of the pictogram localized to the default language of the marketplace. */
+            pictogramDescription?: string;
+            /** @description The identifier of the pictogram. */
+            pictogramId?: string;
+            /** @description The URL of the pictogram. */
+            pictogramUrl?: string;
+        };
+        /** @description A type that describes statements for product safety labels. */
+        ProductSafetyLabelStatement: {
+            /** @description The description of the statement localized to the default language of the marketplace. */
+            statementDescription?: string;
+            /** @description The identifier of the statement. */
+            statementId?: string;
+        };
+        /** @description A type that defines the response fields for the <b>getProductSafetyLabels</b> method. */
+        ProductSafetyLabelsResponse: {
+            /** @description This array contains a list of pictograms of product safety labels  for the specified marketplace. */
+            pictograms?: components["schemas"]["ProductSafetyLabelPictogram"][];
+            /** @description This array contains available product safety labels statements for the specified marketplace. */
+            statements?: components["schemas"]["ProductSafetyLabelStatement"][];
+        };
+        /** @description This type is used to define the available compatibility property filters. */
+        PropertyFilterInner: {
+            /** @description The name of the property being described.<br><br>For example, typical vehicle property names are 'Make', 'Model', 'Year', 'Engine', and 'Trim', but will vary based on the eBay marketplace and the eBay category. Use the <a href="/api-docs/sell/metadata/resources/compatibilities/methods/getCompatibilityPropertyNames" target="_blank ">getCompatibilityPropertyNames</a> method to retrieve valid property names for a specified category. */
+            propertyName?: string;
+            /** @description The value for the property specified in the <b>properyName</b> field.<br><br>For example, if the <b>propertyName</b> is <code>Make</code>, then the <b>propertyValue</b> will be the specific make of the vehicle, such as <code>Toyota</code>. Use the <a href="/api-docs/sell/metadata/resources/compatibilities/methods/getCompatibilityPropertyValues" target="_blank ">getCompatibilityPropertyValues</a> to retreive valid property values associated with a specified property name. */
+            propertyValue?: string;
+            /** @description The unit of measurement of the property being described, if applicable. */
+            unitOfMeasurement?: string;
+            /** @description The URL associated with the property being described, if applicable. */
+            url?: string;
+        };
+        /** @description This type defines the request fields for the <b>getCompatibilityPropertyNames</b> method. */
+        PropertyNamesRequest: {
+            /** @description The unique identifier of the eBay leaf category for which to retrieve compatibility property names. This category must be a valid eBay category on the specified eBay marketplace, and the category must support parts compatibility.<br><br>Use the <a href="/api-docs/sell/metadata/resources/marketplace/methods/getAutomotivePartsCompatibilityPolicies" target="_blank ">getAutomotivePartsCompatibilityPolicies</a> method to retrieve a list of categories that support parts compatibility. */
+            categoryId?: string;
+            /** @description This array defines the properties that will be returned for the compatibility-enabled category.<br><br> For example, if you specify <code>Searchable</code>, the compatibility details will contain properties that can be used to search for products, such as make or model.<br><br><b>Valid values:</b><ul><li><code>DisplayableProductDetails</code>: Properties for use in a user interface to describe products.</li><li><code>DisplayableSearchResults</code>: Properties for use in results for product searches.</li><li><code>Searchable</code>: Properties for use in searches.</li><li><code>Sortable</code>: Properties that are suitable for sorting.</li></ul><b>Default:</b> <code>DisplayableSearchResults</code> */
+            dataset?: string[];
+        };
+        /** @description This type defines the fields returned in the <b>getCompatibilityPropertyNames</b> method. */
+        PropertyNamesResponse: {
+            /** @description The unique identifier of the eBay category specified in the request. */
+            categoryId?: string;
+            /** @description This array contains all of the properties for the specified category. */
+            properties?: components["schemas"]["PropertyNamesResponseProperties"][];
+        };
+        /** @description This type defines the properties and dataset for a specified category. */
+        PropertyNamesResponseProperties: {
+            /** @description This field defines the types of properties are returned for the specified catalog-enabled category.<br><br><b>Valid values:</b><ul><li><code>DisplayableProductDetails</code>: Properties for use in a user interface to describe products.</li><li><code>DisplayableSearchResults</code>: Properties for use in results for product searches.</li><li><code>Searchable</code>: Properties for use in searches.</li><li><code>Sortable</code>: Properties that are suitable for sorting.</li></ul> */
+            dataset?: string;
+            /** @description This array specifies the names of the properties associated with the specified category in the specified marketplace.<br><br>For example, typical vehicle property names are 'Make', 'Model', 'Year', 'Engine', and 'Trim', but will vary based on the eBay marketplace and the eBay category. */
+            propertyNames?: components["schemas"]["PropertyNamesResponsePropertyNames"][];
+        };
+        /** @description This type defines the property name metadata. */
+        PropertyNamesResponsePropertyNameMetadata: {
+            /**
+             * Format: int32
+             * @description The numeric value indicating the ordering position of the property.
+             */
+            displaySequence?: number;
+        };
+        /** @description This type defines the fields associated with a property name. */
+        PropertyNamesResponsePropertyNames: {
+            /** @description The display name of a property. This is the localized name of the compatible property. */
+            propertyDisplayName?: string;
+            /** @description The canonical name of a property. This value is used as part of the name-value pairs used to specify compatibility. */
+            propertyName?: string;
+            /** @description The metadata for a property. */
+            propertyNameMetadata?: components["schemas"]["PropertyNamesResponsePropertyNameMetadata"];
+        };
+        /** @description This type defines the name-value pair associated with a property value. */
+        PropertyValues: {
+            /** @description The name of the property.<br><br>For example, typical vehicle property names are 'Make', 'Model', 'Year', 'Engine', and 'Trim', but will vary based on the eBay marketplace and the eBay category. */
+            propertyName?: string;
+            /** @description The value for the property specified in the <b>properyName</b> field.<br><br>For example, if the <b>propertyName</b> is <code>make</code>, then the <b>propertyValue</b> will be the specific make of the vehicle, such as <code>Toyota</code>. */
+            propertyValue?: string;
+        };
+        /** @description This type defines the request fields used in the <b>getCompatibilityPropertyValues</b> method. */
+        PropertyValuesRequest: {
+            /** @description The unique identifier of the eBay leaf category for which to retrieve compatibility property values. This category must be a valid eBay category on the specified eBay marketplace, and the category must support parts compatibility.<br><br>Use the <a href="/api-docs/sell/metadata/resources/marketplace/methods/getAutomotivePartsCompatibilityPolicies" target="_blank ">getAutomotivePartsCompatibilityPolicies</a> method to retrieve a list of categories that support parts compatibility. */
+            categoryId?: string;
+            /** @description This array can be used to specify the compatibility properties used limit the result set. Only values associated with the specified name-value pairs will be returned in the response.<br><br>For example, if the <b>propertyName</b> is set to <code>Make</code> and the <b>propertyValue</b> is set to <code>Honda</code>, only compatible Honda vehicles will be returned. */
+            propertyFilters?: components["schemas"]["PropertyFilterInner"][];
+            /** @description This field specifies the name of the property for which to retrieve associated property values.<br><br>For example, typical vehicle property names are 'Make', 'Model', 'Year', 'Engine', and 'Trim', but will vary based on the eBay marketplace and the eBay category. Use the <a href="/api-docs/sell/metadata/resources/compatibilities/methods/getCompatibilityPropertyNames" target="_blank ">getCompatibilityPropertyNames</a> method to retrieve valid property names for a specified category. */
+            propertyName?: string;
+            /** @description This field specifies the sort order for the property values in the result set.<br><br><b>Valid values:</b><ul><li><code>Ascending</code></li><li>Descending</li></ul><span class="tablenote"><b>Note:</b> If no search order is specified, values are sorted in ascending order.</span> */
+            sortOrder?: string;
+        };
+        /** @description This type defines the response fields used in the <b>getCompatibilityPropertyValues</b> method. */
+        PropertyValuesResponse: {
+            /** @description The version number of the metadata. This version is upticked whenever there are compatibility name changes for the specified marketplace. */
+            metadataVersion?: string;
+            /** @description The name of the property specified in the request. */
+            propertyName?: string;
+            /** @description This array specifies the property values associated with the specified <b>propertyName</b>, in the specified category. */
+            propertyValues?: string[];
+        };
+        /** @description A type that defines the attributes of a regulatory policy. */
+        RegulatoryAttribute: {
+            /** @description A unique value identifying a specific regulatory attribute. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:RegulatoryAttributeEnum'>eBay API documentation</a> */
+            name?: string;
+            /** @description The enumeration value in this field indicates whether the corresponding attribute is recommended or required for the corresponding leaf category. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/metadata/types/sel:GenericUsageEnum'>eBay API documentation</a> */
+            usage?: string;
+        };
+        /** @description A type that defines the regulatory policy. */
+        RegulatoryPolicy: {
+            /** @description The unique identifier of the leaf category to which the corresponding policies pertain. */
+            categoryId?: string;
+            /** @description The unique identifier of the category tree, which reflects the specified marketplace. */
+            categoryTreeId?: string;
+            /** @description A list of supported regulatory attributes for this marketplace. */
+            supportedAttributes?: components["schemas"]["RegulatoryAttribute"][];
+        };
+        /** @description A type that defines the response fields for the <b>getRegulatoryPolicies</b> method. */
+        RegulatoryPolicyResponse: {
+            /** @description A list of eBay policies that define whether or not you must include required regulatory information for leaf categories on the given marketplace. */
+            regulatoryPolicies?: components["schemas"]["RegulatoryPolicy"][];
+            /** @description A list of the warnings that were generated as a result of the request. This field is not returned if no warnings were generated by the request. */
+            warnings?: components["schemas"]["Error"][];
         };
         ReturnPolicy: {
             /** @description The category ID to which the return policies apply. */
@@ -372,17 +1233,17 @@ export interface components {
         };
         /** @description This container defines the category policies that relate to domestic and international return policies (the return shipping is made via a domestic or an international shipping service, respectively). */
         ReturnPolicyDetails: {
-            /** @description If set to <code>true</code>, this flag indicates you can supply a detailed return policy description within your return policy (for example, by populating the <b>returnInstructions</b> field in the Account API's <b>createReturnPolicy</b>). User-supplied return policy details are allowed only in the DE, ES, FR, and IT marketplaces. */
+            /** @description If set to <code>true</code>, this flag indicates you can supply a detailed return policy description within your return policy (for example, by populating the <b>returnInstructions</b> field in the Account API's <b>createReturnPolicy</b>). User-supplied return policy details are allowed only in the DE, ES, FR, and IT marketplaces.<br/><br/><span class="tablenote"><strong>Note:</strong> Depending on the API used to setup your return policy, return instructions are defined differently.<ul><li><b>Account v1 API</b><br/>When using <a href="/api-docs/sell/account/resources/return_policy/methods/createReturnPolicy" target="_blank">createReturnPolicy</a> and <a href="/api-docs/sell/account/resources/return_policy/methods/updateReturnPolicy" target="_blank">updateReturnPolicy</a> to create/manage business policies, use <a href="/api-docs/sell/account/resources/return_policy/methods/createReturnPolicy#request.returnInstructions" target="_blank">returnInstructions</a> to provide both domestic and international return instructions for the business policy.</li><li><b>Trading API or Sell Feed API</b><br/><br.>When using the legacy <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy" target="_blank">ReturnPolicy</a> fields, use <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy.Description" target="_blank">Item.ReturnPolicyDescription</a> to provide both domestic and internation return instructions for the business policy.</li></ul></span> */
             policyDescriptionEnabled?: boolean;
-            /** @description A list of refund methods allowed for the associated category. */
+            /** @description A list of refund methods allowed for the associated category.<br/><br/><span class="tablenote"><strong>Note:</strong> Depending on the API used to setup your return policy, available refund methods are defined differently.<ul><li><b>Account v1 API</b><br/>When using the <a href="/api-docs/sell/account/resources/return_policy/methods/createReturnPolicy" target="_blank">createReturnPolicy</a> and <a href="/api-docs/sell/account/resources/return_policy/methods/updateReturnPolicy" target="_blank">updateReturnPolicy</a> methods to create/manage business policies, use the appropriate <a href="/api-docs/sell/account/resources/return_policy/methods/updateReturnPolicy#request.refundMethod" target="_blank">refundMethod</a> field to specify the refund method for both domestic and international returns for the business policy.</li><li><b>Trading API or Sell Feed API</b><br/><br.>When using legacy <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy" target="_blank">ReturnPolicy</a> fields, use <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy.RefundOption" target="_blank">RefundOption</a> and <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy.InternationalRefundOption" target="_blank">InternationalRefundOption</a> to specify the domestic and international refund method, respectively, for returns for the business policy.<br/><br/>Note that if <b>MONEY_BACK</b> is returned by <b>getReturnPolicies</b>, use <b>MoneyBack</b> in <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy.RefundOption" target="_blank">RefundOption</a> and <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy.InternationalRefundOption" target="_blank">InternationalRefundOption</a>.</li></ul></span> */
             refundMethods?: string[];
-            /** @description A list of return methods allowed for the associated category. */
+            /** @description A list of return methods allowed for the associated category.<br/><br/><span class="tablenote"><strong>Note:</strong> Depending on the API used to setup your return policy, available return methods are defined differently.<ul><li><b>Account v1 API</b><br/>When using <a href="/api-docs/sell/account/resources/return_policy/methods/createReturnPolicy" target="_blank">createReturnPolicy</a> and <a href="/api-docs/sell/account/resources/return_policy/methods/updateReturnPolicy" target="_blank">updateReturnPolicy</a> to create/manage business policies, use <a href="/api-docs/sell/account/resources/return_policy/methods/updateReturnPolicy#request.returnMethod" target="_blank">returnMethod</a> and <a href="/api-docs/sell/account/resources/return_policy/methods/createReturnPolicy#request.internationalOverride.returnMethod" target="_blank">internationalOverride.returnMethod</a> to specify the domestic and international return method, respectively, for the business policy.</li></ul></span> */
             returnMethods?: string[];
-            /** @description A list of return periods allowed for the associated category.  <br><br>Note that different APIs require you to enter the return period in different ways. For example, the Account API uses the complex <b>TimeDuration</b> type, which takes two values (a <b>unit</b> and a <b>value</b>), whereas the Trading API takes a single value (such as <code>Days_30</code>). */
+            /** @description A list of return periods allowed for the associated category.<br/><br/><span class="tablenote"><strong>Note:</strong> Depending on the API used to setup your return policy, return periods are defined differently.<ul><li><b>Account v1 API</b><br/>When using <a href="/api-docs/sell/account/resources/return_policy/methods/createReturnPolicy" target="_blank">createReturnPolicy</a> and <a href="/api-docs/sell/account/resources/return_policy/methods/updateReturnPolicy" target="_blank">updateReturnPolicy</a> to create/manage business policies, use the <a href="/api-docs/sell/account/resources/return_policy/methods/createReturnPolicy#request.returnPeriod" target="_blank">returnPeriod</a> and <a href="/api-docs/sell/account/resources/return_policy/methods/createReturnPolicy#request.internationalOverride.returnPeriod" target="_blank">internationalOverride.returnPeriod</a> containers to set the return period(s) for the business policy. You will use the supported values returned under the <code>returnPeriods</code> array in the <b>getReturnPolicies</b> response.</li><li><b>Trading API or Sell Feed API</b><br/><br.>When using legacy <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy" target="_blank">ReturnPolicy</a> fields, use <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy.ReturnsWithinOption" target="_blank">ReturnsWithinOption</a> and <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy.InternationalReturnsWithinOption" target="_blank">InternationalReturnsWithinOption</a> to pass in one of the supported enum values defined in <a href="/devzone/xml/docs/Reference/eBay/types/ReturnsWithinOptionsCodeType.html" target="_blank">ReturnsWithinOptionsCodeType</a>.<br/><br/>For example, if a value of <b>30</b> is returned in the <a href="/api-docs/sell/metadata/resources/marketplace/methods/getReturnPolicies#response.returnPolicies.domestic.returnPeriods.value" target="_blank">returnPeriods.value</a> field of <b>getReturnPolicies</b>, use <b>Days_30</b> in <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy.ReturnsWithinOption" target="_blank">ReturnsWithinOption</a> or <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy.InternationalReturnsWithinOption" target="_blank">InternationalReturnsWithinOption</a>.</li></ul></span> */
             returnPeriods?: components["schemas"]["TimeDuration"][];
-            /** @description If set to <code>true</code>, this flag indicates the seller can configure how they handle domestic returns. */
+            /** @description A value of <code>true</code> in this field indicates that return policies are applicable to the corresponding leaf category.<br/><br/><span class="tablenote"><strong>Note:</strong> Depending on the API used to setup your return policy, whether or not you accept returns is configured as follows:<ul><li><b>Account v1 API</b><br/>When using <a href="/api-docs/sell/account/resources/return_policy/methods/createReturnPolicy" target="_blank">createReturnPolicy</a> and <a href="/api-docs/sell/account/resources/return_policy/methods/updateReturnPolicy" target="_blank">updateReturnPolicy</a> to create/manage business policies, use <a href="/api-docs/sell/account/resources/return_policy/methods/createReturnPolicy#request.returnsAccepted" target="_blank">returnsAccepted</a> and <a href="/api-docs/sell/account/resources/return_policy/methods/updateReturnPolicy#request.internationalOverride.returnsAccepted" target="_blank">internationalOverride.returnsAccepted</a> to indicate whether or not you accept returns.</li><li><b>Trading API or Sell Feed API</b><br/><br.>When using legacy <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy" target="_blank">ReturnPolicy</a> fields, use <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy.ReturnsAcceptedOption" target="_blank">ReturnsAcceptedOption</a> and <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy.InternationalReturnsAcceptedOption" target="_blank">InternationalReturnsAcceptedOption</a> to indicate whether or not you accept returns.</li></ul></span> */
             returnsAcceptanceEnabled?: boolean;
-            /** @description A list of allowed values for who pays for the return shipping cost.  <br><br>Note that for SNAD returns, the seller is always responsible for the return shipping cost. */
+            /** @description A list of allowed values for who pays for the return shipping cost.<br><br>Note that for SNAD returns, the seller is always responsible for the return shipping cost.<br/><br/><span class="tablenote"><strong>Note:</strong> Depending on the API used to setup your return policy, specifiying that the buyer or seller is responsible for paying for return shipping costs is defined differently.<ul><li><b>Account v1 API</b><br/>When using <a href="/api-docs/sell/account/resources/return_policy/methods/createReturnPolicy" target="_blank">createReturnPolicy</a> and <a href="/api-docs/sell/account/resources/return_policy/methods/updateReturnPolicy" target="_blank">updateReturnPolicy</a> to create/manage business policies, use <a href="/api-docs/sell/account/resources/return_policy/methods/createReturnPolicy#request.returnShippingCostPayer" target="_blank">returnShippingCostPayer</a> and <a href="/api-docs/sell/account/resources/return_policy/methods/createReturnPolicy#request.internationalOverride.returnShippingCostPayer" target="_blank">internationalOverride.returnShippingCostPayer</a> to specify if the buyer or seller is responsible for paying return shipping charges for the business policy.</li><li><b>Trading API or Sell Feed API</b><br/><br.>When using legacy <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy" target="_blank">ReturnPolicy</a> fields, use <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy.ShippingCostPaidByOption" target="_blank">ShippingCostPaidByOption</a> and <a href="/devzone/xml/docs/Reference/eBay/AddItem.html#Request.Item.ReturnPolicy.InternationalShippingCostPaidByOption" target="_blank">InternationalShippingCostPaidByOption</a> fields to specify if the buyer or seller is responsible for paying return shipping charges for the business policy.</li></ul></span> */
             returnShippingCostPayers?: string[];
         };
         ReturnPolicyResponse: {
@@ -401,12 +1262,188 @@ export interface components {
             /** @description A list of sales-tax jurisdictions. */
             salesTaxJurisdictions?: components["schemas"]["SalesTaxJurisdiction"][];
         };
+        /** @description This type provides applicable shipping carrier metadata for the marketplace. */
+        ShippingCarrier: {
+            /** @description The localized description of the shipping carrier, such as <code>UPS</code>, <code>FedEx</code>, and <code>USPS</code>. */
+            description?: string;
+            /** @description An enumerated value describing the shipping carrier returned, for example, <code>UPS</code>, <code>FedEx</code>, and <code>USPS</code>. These values are needed when providing shipment tracking information for each specific shipping carrier. */
+            shippingCarrier?: string;
+        };
+        /** @description This type provides applicable shipping carrier metadata for returned for the marketplace. */
+        ShippingCarrierResponse: {
+            /** @description A list of shipping carriers available for the marketplace. */
+            shippingCarriers?: components["schemas"]["ShippingCarrier"][];
+        };
+        /** @description This type provides applicable locations or region codes to be excluded set by the seller. */
+        ShippingExcludeLocation: {
+            /** @description The localized location name. */
+            description?: string;
+            /** @description The location or region to be excluded. Countries are returned through <a href="https://www.iso.org/iso-3166-country-codes.html" target="_blank">ISO 3166 codes</a>. This field may also include continents and other larger geographical regions (for example, the Middle East, Southeast Asia), as well as domestic/special locations (like APO/FPO, PO Box, Alaska/Hawaii). The values returned in this field are used in fulfillment business policies (such as in <a href="/api-docs/sell/account/resources/fulfillment_policy/methods/createFulfillmentPolicy#request.shippingOptions.shippingServices.shipToLocations.regionExcluded.regionName" target="_blank">regionName</a>) or through the <a href="/Devzone/XML/docs/Reference/eBay/AddItem.html#Request.Item.ShippingDetails.ExcludeShipToLocation" target="_blank">ExcludeShipToLocation</a> field in an <b>AddItem</b> call. */
+            location?: string;
+            /** @description The region of the excluded shipping area specified, such as:<br><ul><li><code>Africa</code> </li> <li><code>Americas</code> </li> <li><code>Asia</code> </li>  <li><code>Central America and Caribbean</code> </li> <li><code>Europe</code> </li> <li><code>Middle East</code> </li> <li><code>North America</code> </li> <li><code>Oceania</code> </li>  <li><code>South America</code> </li> <li><code>Southeast Asia</code> </li></ul> */
+            region?: string;
+        };
+        /** @description This type provides applicable locations or region codes to be excluded. */
+        ShippingExcludeLocationResponse: {
+            /** @description The complete list of geographical regions, countries, domestic areas, and special locations for the specified eBay marketplace that the seller has designated as excluded shipping locations. */
+            excludeShippingLocations?: components["schemas"]["ShippingExcludeLocation"][];
+        };
+        /** @description This type provides applicable shipping handling time metadata. */
+        ShippingHandlingTime: {
+            /** @description The localized description of the maximum handling time. */
+            description?: string;
+            /** @description This field is only returned if its value is <code>true</code>. If returned, it indicates that the corresponding handling time is considered extended handling for the marketplace. Extended handling times may be used for freight shipping, but should generally be avoided if possible, as they might adversely affect the buying decisions of potential customers. */
+            extendedHandling?: boolean;
+            /**
+             * Format: int32
+             * @description The integer value returned in this field indicates the maximum number of business days that the eBay site allows as a seller's handling time measured from when the buyer pays for the order. For example,  if the <b>maxHandlingTime</b> value is set to 1 and  a buyer pays for the order on a Wednesday, the seller would have to ship the item by the next day (Thursday). <br><br>A <b>maxHandlingTime</b> value of <code>0</code> indicates same day handling for an item. In this case, the seller's handling time commitment depends on the order cut off time set in the seller's user preferences. This defaults to 2:00 PM local time on most eBay sites. For orders placed (and cleared payment received) before the local order cut off time, the item must be shipped by the end of the current day. For orders completed on or after the order cut off time, the item must be shipped by the end of the following day (excluding weekends and local holidays).
+             */
+            maxHandlingTime?: number;
+        };
+        /** @description This type provides applicable shipping handling times returned for the specified marketplace. */
+        ShippingHandlingTimeResponse: {
+            /** @description A list of supported handling times for the marketplace. */
+            handlingTimes?: components["schemas"]["ShippingHandlingTime"][];
+        };
+        /** @description This type provides applicable shipping location metadata. */
+        ShippingLocation: {
+            /** @description The localized location name. */
+            description?: string;
+            /** @description The name or abbreviation of the shipping location or region. Countries are returned through <a href="https://www.iso.org/iso-3166-country-codes.html" target="_blank">ISO 3166 codes</a>. This field may also include continents and other larger geographical regions (for example, the Middle East, Southeast Asia), as well as domestic/special locations (like APO/FPO, PO Box, Alaska/Hawaii). The values returned in this field are used in fulfillment business policies (such as in <a href="/api-docs/sell/account/resources/fulfillment_policy/methods/createFulfillmentPolicy#request.shippingOptions.shippingServices.shipToLocations.regionExcluded.regionName" target="_blank">regionName</a>) or through the <a href="/Devzone/XML/docs/Reference/eBay/AddItem.html#Request.Item.ShippingDetails.ExcludeShipToLocation" target="_blank">ExcludeShipToLocation</a> field in an <b>AddItem</b> call. */
+            shippingLocation?: string;
+        };
+        /** @description This type provides applicable shipping location metadata returned. */
+        ShippingLocationResponse: {
+            /** @description The complete list of geographical regions, countries, domestic areas, and special locations for the specified eBay marketplace that can be set as shipping locations. */
+            shippingLocations?: components["schemas"]["ShippingLocation"][];
+        };
+        /** @description This type provides fields applicable for shipping policy metadata for the leaf categories returned for the marketplace. */
+        ShippingPoliciesResponse: {
+            /** @description This array contains applicable policy metadata for the leaf categories returned for the marketplace specified in the path parameter <b>marketplace_id</b> and optionally limited by only those leaf category IDs specified in the query parameter <b>filter</b>. */
+            shippingPolicies?: components["schemas"]["ShippingPolicy"][];
+            /** @description An array of the warnings that were generated as a result of the request. This field is not returned if no warnings were generated by the request. */
+            warnings?: components["schemas"]["Error"][];
+        };
+        ShippingPolicy: {
+            /** @description The unique identifier of the eBay leaf category for which metadata is being returned. */
+            categoryId?: string;
+            /** @description The unique identifier of the category tree. */
+            categoryTreeId?: string;
+            /** @description Indicates if the Global Shipping Program (GSP) is supported for the category. <p><span class="tablenote"><span style="color:#004680"><strong>Note: </strong>GSP is only supported by the eBay UK marketplace (<code>EBAY_GB</code>).</span></p> */
+            globalShippingEnabled?: boolean;
+            /** @description Returns the applicable max cap per shipping cost for shipping service group1. */
+            group1MaxFlatShippingCost?: components["schemas"]["Amount"];
+            /** @description Returns the applicable max cap per shipping cost for shipping service group2. */
+            group2MaxFlatShippingCost?: components["schemas"]["Amount"];
+            /** @description Returns the applicable max cap per shipping cost for shipping service group3. */
+            group3MaxFlatShippingCost?: components["schemas"]["Amount"];
+            /** @description Indicates if a seller's stated handling time is enabled for a category. A handling time is generally needed for items that are shipped to the buyer, but not necessarily applicable to freight shipping or local pickup. */
+            handlingTimeEnabled?: boolean;
+            /** @description The maximum cost the seller can charge for the first domestic flat-rate shipping service. Mutually exclusive with the GroupNMaxFlatShippingCost elements. */
+            maxFlatShippingCost?: components["schemas"]["Amount"];
+            /** @description Indicates whether the category requires sellers to specify shipping details at listing time. */
+            shippingTermsRequired?: boolean;
+        };
+        /** @description This type provides applicable shipping service metadata. */
+        ShippingService: {
+            /** @description This field returns the localized name of the shipping service. */
+            description?: string;
+            /** @description A value of <code>true</code> indicates that the shipping service is international. An international shipping service option is required if an item is being shipped from one country (origin) to another (destination). */
+            internationalService?: boolean;
+            /**
+             * Format: int32
+             * @description This value indicates the maximum number of business days that it takes the <b>shippingCarrier</b> to ship an item using the corresponding <b>shippingService</b>.
+             */
+            maxShippingTime?: number;
+            /**
+             * Format: int32
+             * @description This value indicates the minimum number of business days that it takes the <b>shippingCarrier</b> to ship an item using the corresponding <b>shippingService</b>.
+             */
+            minShippingTime?: number;
+            /** @description This container provides name-value pairs that specify physical constraints and measurement units of packages for the <b>shippingCarrier</b> and the corresponding <b>shippingService</b>. An empty container is returned if the shipping service does not have any package limits defined. */
+            packageLimits?: components["schemas"]["PackageLimits"];
+            /** @description The code for the shipping carrier returned, for example, <code>UPS</code>, <code>FedEx</code>, and <code>USPS</code>. */
+            shippingCarrier?: string;
+            /** @description The shipping category of the shipping service including:  <code>ECONOMY</code>, <code>STANDARD</code>, <code>EXPEDITED</code>, <code>ONE_DAY</code>, <code>PICKUP</code>, and other similar categories. */
+            shippingCategory?: string;
+            /** @description A list of shipping cost types that this shipping service option supports. For example, <code>FLAT_RATE</code>, <code>CALCULATED</code>, and <code>FREIGHT</code>. */
+            shippingCostTypes?: string[];
+            /** @description The name of the shipping service. The shipping service named here can only be used in listings or in business policies if <b>validForSellingFlow</b> is <code>true</code>. The value returned in this field is used in listing APIs and business policies to set the shipping service. */
+            shippingService?: string;
+            /** @description A value of <code>true</code> indicates that the <b>shippingService</b> can be set as an available shipping service in the listing or through the fulfillment business policy. */
+            validForSellingFlow?: boolean;
+        };
+        /** @description This type provides applicable shipping service metadata returned. */
+        ShippingServiceResponse: {
+            /** @description A complete list of shipping service options that can be used on the marketplace for shipping items. */
+            shippingServices?: components["schemas"]["ShippingService"][];
+        };
         /** @description A type that describes signal words for hazardous materials labels. */
         SignalWord: {
             /** @description The identifier of the signal word. For more information, see <a href='/api-docs/sell/static/metadata/feature-regulatorhazmatcontainer.html#Signal'>Signal word information</a>. */
             signalWordId?: string;
             /** @description The description of the signal word localized to the default language of the marketplace. For more information, see <a href='/api-docs/sell/static/metadata/feature-regulatorhazmatcontainer.html#Signal'>Signal word information</a>. */
             signalWordDescription?: string;
+        };
+        /** @description A type that contains eBay international site visibility policy metadata fields. */
+        SiteVisibilityPoliciesResponse: {
+            /** @description This array contains applicable policy metadata for the leaf categories returned for the marketplace specified in the path parameter <b>marketplace_id</b> and optionally limited by only those leaf category IDs specified in the query parameter <b>filter</b>. */
+            siteVisibilityPolicies?: components["schemas"]["SiteVisibilityPolicy"][];
+            /** @description An array of the warnings that were generated as a result of the request. This field is not returned if no warnings were generated by the request. */
+            warnings?: components["schemas"]["Error"][];
+        };
+        /** @description A type that contains eBay international cross border trade policy metadata fields. */
+        SiteVisibilityPolicy: {
+            /** @description The unique identifier of the eBay leaf category for which metadata is being returned. */
+            categoryId?: string;
+            /** @description The unique identifier of the category tree. */
+            categoryTreeId?: string;
+            /** @description If <code>true</code>, the category supports specifying that listings of a seller on the UK marketplace can pass in Australia as a value in a <CrossBorderTrade> field to expose that item on the eBay Australia site (ebay.com.au). For more information, see <a href="/api-docs/user-guides/static/trading-user-guide/cross-border-trading.html"  target="_blank">Cross-border trading</a>. */
+            crossBorderTradeAustraliaEnabled?: boolean;
+            /** @description If <code>true</code>, the category supports specifying that listings of a seller on the US or Canada merketplaces can pass in UK as a value in a <CrossBorderTrade> field to expose that item on the eBay UK (ebay.co.uk) and eBay IE (ebay.ie) sites. For more information, see <a href="/api-docs/user-guides/static/trading-user-guide/cross-border-trading.html"  target="_blank">Cross-border trading</a>. */
+            crossBorderTradeGBEnabled?: boolean;
+            /** @description If <code>true</code>, the category supports specifying that listings of a seller on the US or Canada merketplaces can pass in North America as a value in a <CrossBorderTrade> field to expose that item on the eBay US (ebay.com) and eBay Canada (ebay.ca) sites (English). For more information, see <a href="/api-docs/user-guides/static/trading-user-guide/cross-border-trading.html"  target="_blank">Cross-border trading</a>. */
+            crossBorderTradeNorthAmericaEnabled?: boolean;
+        };
+        /** @description This type is used to provide the sort order of compatibility properties returned in the response. */
+        SortOrderInner: {
+            /** @description This container is used to define the property to be used in the sorting. */
+            sortOrder?: components["schemas"]["SortOrderProperties"];
+            /** @description The priority of the specified sort order provided.<br><br>For example, when a property is assigned <code>Sort1</code>, its values are sorted first. Values for the property assigned <code>Sort2</code> are sorted second, and so on.<br><br><b>Valid values</b>:<ul><li><code>Sort1</code></li><li><code>Sort2</code></li><li><code>Sort3</code></li><li><code>Sort4</code></li><li><code>Sort5</code></li></ul> */
+            sortPriority?: string;
+        };
+        /** @description This type is used to define the property to be used in sorting. */
+        SortOrderProperties: {
+            /** @description Defines the order of the sort.<br><br><b>Valid values</b>:<ul><li><code>Ascending</code></li><li><code>Descending</code></li></ul> */
+            order?: string;
+            /** @description The name of the searchable property to be used for sorting.<br><br>For example, typical vehicle property names are 'Make', 'Model', 'Year', 'Engine', and 'Trim', but will vary based on the eBay marketplace and the eBay category. */
+            propertyName?: string;
+        };
+        /** @description This type provides the properties and specifications to use to search for compatibilities. */
+        SpecificationRequest: {
+            /** @description The unique identifier of the eBay leaf category for which compatibility details are being retrieved. This category must be a valid eBay category on the specified eBay marketplace, and the category must support parts compatibility for cars, trucks, or motorcycles.<br><br>Use the <a href="/api-docs/sell/metadata/resources/marketplace/methods/getAutomotivePartsCompatibilityPolicies" target="_blank ">getAutomotivePartsCompatibilityPolicies</a> method to retrieve a list of categories that support parts compatibility by specification. For the categories in the response that support compatibility by specification, you’ll see <code>SPECIFICATIONS</code> as the value for the <b>compatibilityBasedOn</b> field */
+            categoryId?: string;
+            /** @description This comma-delimited array can be used to restrict the number of compatible application name-value pairs returned in the response by specifying the properties that the seller wishes to be included in the response.<br><br>Only compatible applications with the specified properties will be returned. Properties that can be specified here include make, model, year, and trim. */
+            compatibilityPropertyFilters?: components["schemas"]["PropertyFilterInner"][];
+            /** @description This field can be used to define the type of properties that will be returned in the response.<br><br> For example, if you specify <code>Searchable</code>, the compatibility details will contain properties that can be used to search for products, such as make or model.<br><br><span class="tablenote"><b>Note:</b> This field cannot be used alongside <b>dataPropertyName</b>. If both are used, an error will occur.</span><br><b>Valid values:</b><ul><li><code>DisplayableProductDetails</code>: Properties for use in a user interface to describe products.</li><li><code>DisplayableSearchResults</code>: Properties for use in results for product searches.</li><li><code>Searchable</code>: Properties for use in searches.</li><li><code>Sortable</code>: Properties that are suitable for sorting.</li></ul><b>Default value:</b> <code>DisplayableSearchResults</code> */
+            dataset?: string;
+            /** @description This comma-delimited array can be used to define the specific property name(s) that will be returned in the response.<br><br>For example, if you specify <code>Engine</code>, the result set will only contain engines that are compatible with the input criteria.<br><br><span class="tablenote"><b>Note:</b> This array cannot be used alongside <b>dataset</b>. If both are used, an error will occur.</span> */
+            datasetPropertyName?: string[];
+            /** @description This boolean can be used to specify that the compatibilities returned in the response are to be defined by an exact match on the input value of specification properties.<br><br>By default, an expanded compatibility match is done when it applies, such as for Load Index, where a compatible vehicle is one that has a load index requirement that is less than or equal to the input. By specifying this field as <code>true</code>, only exact matches are returned. */
+            exactMatch?: boolean;
+            /** @description <div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> Pagination is not yet supported by this method. If this container is included in the request, it will be ignored.</p></div> */
+            paginationInput?: components["schemas"]["PaginationInput"];
+            /** @description This array specifies the sorting order of the compatibility properties. Any of the searchable properties can be used to specify search order. Up to 5 levels of sort order may be specified.<br><br><span class="tablenote"><b>Note:</b> If no sort order is specified through this field, the default sort order of <b>popularity descending</b> is applied.</span> */
+            sortOrders?: components["schemas"]["SortOrderInner"][];
+            /** @description This array defines the specifications of the part, in the form of name-value pairs, for which compatible applications will be retrieved. */
+            specifications?: components["schemas"]["PropertyFilterInner"][];
+        };
+        /** @description This type defines the fields used in the <b>getCompatibilitiesBySpecification</b> response. */
+        SpecificationResponse: {
+            /** @description This container returns the list of all compatible application name-value pairs for the given filter criteria. */
+            compatibilityDetails?: components["schemas"]["Compatibility"][];
+            /** @description <div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> Not currently returned. For future use. </p></div> <!-- This container returns the pagination settings for the result set.--> */
+            pagination?: components["schemas"]["Pagination"];
         };
         /** @description A complex type that specifies a period of time using a specified time-measurement unit. */
         TimeDuration: {
@@ -430,7 +1467,7 @@ export interface operations {
     getAutomotivePartsCompatibilityPolicies: {
         parameters: {
             query?: {
-                /** @description This query parameter limits the response by returning policy information for only the selected sections of the category tree. Supply <b>categoryId</b> values for the sections of the tree you want returned. Use the <a href="/api-docs/commerce/taxonomy/overview.html" target="_blank ">Taxonomy API</a> to retrieve category ID values.<br><br>When you specify a <b>categoryId</b> value, the returned category tree includes the policies for that parent node, plus the policies for any leaf nodes below the at parent node.  <br><br>The parameter takes a list of <b>categoryId</b> values and you can specify up to 50 separate category IDs. Separate multiple values with a pipe character ('|'). If you specify more than 50 <code>categoryId</code> values, eBay returns the policies for the first 50 IDs and a warning that not all categories were returned.  <br><br><b>Example:</b> <code>filter=categoryIds:{183521|183523|183524}</code>  <br><br><span class="tablenote"><b>Note: </b>URL-encoding of the parameter list is no longer required.</span> */
+                /** @description This query parameter limits the response by returning policy information for only the selected sections of the category tree. Supply <b>categoryId</b> values for the sections of the tree you want returned. Use the <a href="/api-docs/commerce/taxonomy/overview.html" target="_blank ">Taxonomy API</a> to retrieve category ID values.<br><br>The parameter takes a list of <b>categoryId</b> values and you can specify up to 50 separate category IDs. Separate multiple values with a pipe character ('|'). If you specify more than 50 <code>categoryId</code> values, eBay returns the policies for the first 50 IDs and a warning that not all categories were returned.  <br><br><b>Example:</b> <code>filter=categoryIds:{183521|183523|183524}</code>  <br><br><span class="tablenote"><b>Note: </b>URL-encoding of the parameter list is no longer required.</span> */
                 filter?: string;
             };
             header?: {
@@ -484,6 +1521,174 @@ export interface operations {
             };
         };
     };
+    getCategoryPolicies: {
+        parameters: {
+            query?: {
+                /** @description This query parameter limits the response by only returning metadata for the specified leaf categories. Supply the <b>categoryId</b> for one or more leaf categories. You can verify if a category is a leaf category by using the <a href="/api-docs/commerce/taxonomy/overview.html" target="_blank ">Taxonomy API</a> and looking for a <code>"leafCategory": true</code> tag.  <br><br>The parameter takes a list of <b>categoryId</b> values and you can specify up to 50 separate category IDs. Separate multiple values with a pipe character ('|'). If you specify more than 50 <code>categoryId</code> values, eBay returns the policies for the first 50 IDs and a warning that not all categories were returned.<br><br><b>Example:</b> <code>filter=categoryIds:{3767|171784}</code> */
+                filter?: string;
+            };
+            header?: {
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
+            };
+            path: {
+                /** @description This path parameter specifies the eBay marketplace for which policy information is retrieved.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl" target="_blank">HTTP Request Headers</a> for a list of supported eBay marketplace ID values. */
+                marketplace_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CategoryPolicyResponse"];
+                };
+            };
+            /** @description No content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getClassifiedAdPolicies: {
+        parameters: {
+            query?: {
+                /** @description This query parameter limits the response by only returning metadata for the specified leaf categories. Supply the <b>categoryId</b> for one or more leaf categories. You can verify if a category is a leaf category by using the <a href="/api-docs/commerce/taxonomy/overview.html" target="_blank ">Taxonomy API</a> and looking for a <code>"leafCategory": true</code> tag.   <br><br>The parameter takes a list of <b>categoryId</b> values and you can specify up to 50 separate category IDs. Separate multiple values with a pipe character ('|'). If you specify more than 50 <code>categoryId</code> values, eBay returns the policies for the first 50 IDs and a warning that not all categories were returned.<br><br><b>Example:</b><code>filter=categoryIds:{3767|171784}</code> */
+                filter?: string;
+            };
+            header?: {
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
+            };
+            path: {
+                /** @description This path parameter specifies the eBay marketplace for which policy information is retrieved.<br><br>See <a href="/api-docs/sell/metadata/types/bas:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> for a list of supported eBay marketplace ID values. */
+                marketplace_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClassifiedAdPolicyResponse"];
+                };
+            };
+            /** @description No content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getCurrencies: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description This header is required to retrieve metadata for the French Canada and French Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.<br><br><span class="tablenote"><b>Note:</b> If <code>EBAY_BE</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the Dutch Belgium marketplace.</span></li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code> and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span></ul> */
+                "Accept-Language"?: string;
+            };
+            path: {
+                /** @description This path parameter specifies the eBay marketplace for which currency information is retrieved.<br><br>See the <a href="/api-docs/sell/metadata/types/bas:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> type for a list of supported eBay marketplace ID values. */
+                marketplace_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetCurrenciesResponse"];
+                };
+            };
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getExtendedProducerResponsibilityPolicies: {
         parameters: {
             query?: {
@@ -493,6 +1698,8 @@ export interface operations {
             header?: {
                 /** @description This header indicates the compression-encoding algorithms the client accepts for the response. This value should be set to <code>gzip</code>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
                 "Accept-Encoding"?: string;
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
             };
             path: {
                 /** @description This path parameter specifies the eBay marketplace for which policy information shall be retrieved.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl" target="_blank">HTTP Request Headers</a> for a list of supported eBay marketplace ID values. */
@@ -544,7 +1751,10 @@ export interface operations {
     getHazardousMaterialsLabels: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
+            };
             path: {
                 /** @description This path parameter specifies the eBay marketplace for which hazardous materials label information shall be retrieved.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl" target="_blank">HTTP Request Headers</a> for a list of supported eBay marketplace ID values. */
                 marketplace_id: string;
@@ -561,6 +1771,13 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["HazardousMaterialDetailsResponse"];
                 };
+            };
+            /** @description No content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Bad Request */
             400: {
@@ -594,6 +1811,8 @@ export interface operations {
             header?: {
                 /** @description This header indicates the compression-encoding algorithms the client accepts for the response. This value should be set to <code>gzip</code>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
                 "Accept-Encoding"?: string;
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
             };
             path: {
                 /** @description This path parameter specifies the eBay marketplace for which policy information is retrieved.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl" target="_blank">HTTP Request Headers</a> for a list of supported eBay marketplace ID values. */
@@ -651,6 +1870,8 @@ export interface operations {
             header?: {
                 /** @description This header indicates the compression-encoding algorithms the client accepts for the response. This value should be set to <code>gzip</code>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
                 "Accept-Encoding"?: string;
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
             };
             path: {
                 /** @description This path parameter specifies the eBay marketplace for which policy information is retrieved. <br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl" target="_blank">HTTP Request Headers</a> for a list of supported eBay marketplace ID values. */
@@ -699,6 +1920,120 @@ export interface operations {
             };
         };
     };
+    getListingTypePolicies: {
+        parameters: {
+            query?: {
+                /** @description This query parameter limits the response by only returning metadata for the specified leaf categories. Supply the <b>categoryId</b> for one or more leaf categories. You can verify if a category is a leaf category by using the <a href="/api-docs/commerce/taxonomy/overview.html" target="_blank ">Taxonomy API</a> and looking for a <code>"leafCategory": true</code> tag.<br><br>The parameter takes a list of <b>categoryId</b> values and you can specify up to 50 separate category IDs. Separate multiple values with a pipe character ('|'). If you specify more than 50 <code>categoryId</code> values, eBay returns the policies for the first 50 IDs and a warning that not all categories were returned.<br><br><b>Example:</b> <code>filter=categoryIds:{3767|171784}</code> */
+                filter?: string;
+            };
+            header?: {
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
+            };
+            path: {
+                /** @description This path parameter specifies the eBay marketplace for which policy information is retrieved.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl" target="_blank">HTTP Request Headers</a> for a list of supported eBay marketplace ID values. */
+                marketplace_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListingTypePoliciesResponse"];
+                };
+            };
+            /** @description No content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getMotorsListingPolicies: {
+        parameters: {
+            query?: {
+                /** @description This query parameter limits the response by only returning metadata for the specified leaf categories. Supply the <b>categoryId</b> for one or more leaf categories. You can verify if a category is a leaf category by using the <a href="/api-docs/commerce/taxonomy/overview.html" target="_blank ">Taxonomy API</a> and looking for a <code>"leafCategory": true</code> tag. <br><br>The parameter takes a list of <b>categoryId</b> values and you can specify up to 50 separate category IDs. Separate multiple values with a pipe character ('|'). If you specify more than 50 <code>categoryId</code> values, eBay returns the policies for the first 50 IDs and a warning that not all categories were returned.<br><br><b>Example:</b> <code>filter=categoryIds:{3767|171784}</code> */
+                filter?: string;
+            };
+            header?: {
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
+            };
+            path: {
+                /** @description This path parameter specifies the eBay marketplace for which policy information is retrieved.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl" target="_blank">HTTP Request Headers</a> for a list of supported eBay marketplace ID values. */
+                marketplace_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MotorsListingPoliciesResponse"];
+                };
+            };
+            /** @description No content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getNegotiatedPricePolicies: {
         parameters: {
             query?: {
@@ -708,6 +2043,8 @@ export interface operations {
             header?: {
                 /** @description This header indicates the compression-encoding algorithms the client accepts for the response. This value should be set to <code>gzip</code>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
                 "Accept-Encoding"?: string;
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
             };
             path: {
                 /** @description This path parameter specifies the eBay marketplace for which policy information is retrieved.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl" target="_blank">HTTP Request Headers</a> for a list of supported eBay marketplace ID values. */
@@ -756,6 +2093,114 @@ export interface operations {
             };
         };
     };
+    getProductSafetyLabels: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description This path parameter specifies the eBay marketplace for which policy information is retrieved.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl" target="_blank">HTTP Request Headers</a> for a list of supported eBay marketplace ID values. See the following note for exceptions.<span class="tablenote"><span style="color:#478415"><strong>Note: </strong></span>This method is not supported in the <code>EBAY_HK</code>, <code>EBAY_MY</code>, <code>EBAY_TW</code>, or <code>EBAY_PH</code> marketplaces.</span> */
+                marketplace_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductSafetyLabelsResponse"];
+                };
+            };
+            /** @description No content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getRegulatoryPolicies: {
+        parameters: {
+            query?: {
+                /** @description A query parameter that can be used to limit the response by returning policy information for only the selected sections of the category tree. Supply <b>categoryId</b> values for the sections of the tree that should be returned.<br><br>Pass in the <b>categoryId</b> values using a URL-encoded, pipe-separated ('|') list. For example: <br><br><code>filter=categoryIds%3A%7B100%7C101%7C102%7D</code><br><br><b>Maximum:</b> 50 */
+                filter?: string;
+            };
+            header?: {
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
+            };
+            path: {
+                /** @description This path parameter specifies the eBay marketplace for which policy information shall be retrieved.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl" target="_blank">HTTP Request Headers</a> for a list of supported eBay marketplace ID values.<span class="tablenote"><span style="color:#478415"><strong>Note: </strong></span>This method is not supported in the <code>EBAY_HK</code>, <code>EBAY_MY</code>, <code>EBAY_TW</code>, or <code>EBAY_PH</code> marketplaces.</span> */
+                marketplace_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RegulatoryPolicyResponse"];
+                };
+            };
+            /** @description No content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getReturnPolicies: {
         parameters: {
             query?: {
@@ -765,6 +2210,8 @@ export interface operations {
             header?: {
                 /** @description This header indicates the compression-encoding algorithms the client accepts for the response. This value should be set to <code>gzip</code>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
                 "Accept-Encoding"?: string;
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
             };
             path: {
                 /** @description This path parameter specifies the eBay marketplace for which policy information is retrieved.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl" target="_blank">HTTP Request Headers</a> for a list of supported eBay marketplace ID values. */
@@ -799,6 +2246,610 @@ export interface operations {
             };
             /** @description Not found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getShippingPolicies: {
+        parameters: {
+            query?: {
+                /** @description This query parameter limits the response by only returning metadata for the specified leaf categories. Supply the <b>categoryId</b> for one or more leaf categories. You can verify if a category is a leaf category by using the <a href="/api-docs/commerce/taxonomy/overview.html" target="_blank ">Taxonomy API</a> and looking for a <code>"leafCategory": true</code> tag. <br><br>The parameter takes a list of <b>categoryId</b> values and you can specify up to 50 separate category IDs. Separate multiple values with a pipe character ('|'). If you specify more than 50 <code>categoryId</code> values, eBay returns the policies for the first 50 IDs and a warning that not all categories were returned.<br><br><b>Example:</b> <code>filter=categoryIds:{3767|171784}</code> */
+                filter?: string;
+            };
+            header?: {
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
+            };
+            path: {
+                /** @description This path parameter specifies the eBay marketplace for which policy information is retrieved.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl" target="_blank">HTTP Request Headers</a> for a list of supported eBay marketplace ID values. */
+                marketplace_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShippingPoliciesResponse"];
+                };
+            };
+            /** @description No content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getSiteVisibilityPolicies: {
+        parameters: {
+            query?: {
+                /** @description This query parameter limits the response by only returning metadata for the specified leaf categories. Supply the <b>categoryId</b> for one or more leaf categories. You can verify if a category is a leaf category by using the <a href="/api-docs/commerce/taxonomy/overview.html" target="_blank ">Taxonomy API</a> and looking for a <code>"leafCategory": true</code> tag. <br><br>The parameter takes a list of <b>categoryId</b> values and you can specify up to 50 separate category IDs. Separate multiple values with a pipe character ('|'). If you specify more than 50 <code>categoryId</code> values, eBay returns the policies for the first 50 IDs and a warning that not all categories were returned.<br><br><b>Example:</b><code>filter=categoryIds:{3767|171784}</code> */
+                filter?: string;
+            };
+            header?: {
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
+            };
+            path: {
+                /** @description This path parameter specifies the eBay marketplace for which policy information is retrieved.<br><br>See <a href="/api-docs/static/rest-request-components.html#marketpl" target="_blank">HTTP Request Headers</a> for a list of supported eBay marketplace ID values. */
+                marketplace_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SiteVisibilityPoliciesResponse"];
+                };
+            };
+            /** @description No content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getCompatibilitiesBySpecification: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description This header identifies the seller's eBay marketplace.<br><br>See <a href="/api-docs/sell/metadata/overview.html#requirements" target="_blank ">Metadata API requirements and restrictions</a> for supported values. */
+                "X-EBAY-C-MARKETPLACE-ID": string;
+                /** @description This header indicates the format of the request body provided by the client.<br><br>Its value should be set to <code>application/json</code>.<br><br>For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a> in the <a href="/api-docs/static/ebay-rest-landing.html" target="_blank">Using eBay RESTful APIs</a> guide. */
+                "Content-Type": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This type defines the properties and specifications to use to search for compatibilities. */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["SpecificationRequest"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SpecificationResponse"];
+                };
+            };
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getCompatibilityPropertyNames: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description This header identifies the seller's eBay marketplace.<br><br>See <a href="/api-docs/sell/metadata/overview.html#requirements" target="_blank ">Metadata API requirements and restrictions</a> for supported values. */
+                "X-EBAY-C-MARKETPLACE-ID": string;
+                /** @description This header indicates the format of the request body provided by the client.<br><br>Its value should be set to <code>application/json</code>.<br><br>For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a> in the <a href="/api-docs/static/ebay-rest-landing.html" target="_blank">Using eBay RESTful APIs</a> guide. */
+                "Content-Type": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This type defines the properties used to retrieve compatibility property names. */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PropertyNamesRequest"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PropertyNamesResponse"];
+                };
+            };
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getCompatibilityPropertyValues: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description This header identifies the seller's eBay marketplace.<br><br>See <a href="/api-docs/sell/metadata/overview.html#requirements" target="_blank ">Metadata API requirements and restrictions</a> for supported values. */
+                "X-EBAY-C-MARKETPLACE-ID": string;
+                /** @description This header indicates the format of the request body provided by the client.<br><br>Its value should be set to <code>application/json</code>.<br><br>For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a> in the <a href="/api-docs/static/ebay-rest-landing.html" target="_blank">Using eBay RESTful APIs</a> guide. */
+                "Content-Type": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This type defines the category ID and property name for which to retrieve values. */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PropertyValuesRequest"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PropertyValuesResponse"];
+                };
+            };
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getMultiCompatibilityPropertyValues: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description This header identifies the seller's eBay marketplace.<br><br>See <a href="/api-docs/sell/metadata/overview.html#requirements" target="_blank ">Metadata API requirements and restrictions</a> for supported values. */
+                "X-EBAY-C-MARKETPLACE-ID": string;
+                /** @description This header indicates the format of the request body provided by the client.<br><br>Its value should be set to <code>application/json</code>.<br><br>For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a> in the <a href="/api-docs/static/ebay-rest-landing.html" target="_blank">Using eBay RESTful APIs</a> guide. */
+                "Content-Type": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This type defines the category ID and property names for which to retrieve values. */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["MultiCompatibilityPropertyValuesRequest"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MultiCompatibilityPropertyValuesResponse"];
+                };
+            };
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getProductCompatibilities: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description This header identifies the seller's eBay marketplace.<br><br>See <a href="/api-docs/sell/metadata/overview.html#requirements" target="_blank ">Metadata API requirements and restrictions</a> for supported values. */
+                "X-EBAY-C-MARKETPLACE-ID": string;
+                /** @description This header indicates the format of the request body provided by the client.<br><br>Its value should be set to <code>application/json</code>.<br><br>For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a> in the <a href="/api-docs/static/ebay-rest-landing.html" target="_blank">Using eBay RESTful APIs</a> guide. */
+                "Content-Type": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This type defines properties for which to find compatibilities. */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["ProductRequest"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductResponse"];
+                };
+            };
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getExcludeShippingLocations: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
+            };
+            path: {
+                /** @description This path parameter specifies the eBay marketplace for which excluded shipping locations information is retrieved.<br><br>See <a href="/api-docs/sell/metadata/types/bas:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> for supported eBay marketplace ID values. <p><span class="tablenote"><span style="color:#004680"><strong>Note: </strong> When listing the items on the French Canada, French Belgium, and Dutch Belgium marketplaces, also set the <b>Accept-Language</b> header as needed.</span></p> */
+                marketplace_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShippingExcludeLocationResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getHandlingTimes: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
+            };
+            path: {
+                /** @description This path parameter specifies the eBay marketplace for which handling times information is retrieved.<br><br>See <a href="/api-docs/sell/metadata/types/bas:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> for supported eBay marketplace ID values. <p><span class="tablenote"><span style="color:#004680"><strong>Note: </strong> When listing the items on the French Canada, French Belgium, and Dutch Belgium marketplaces, also set the <b>Accept-Language</b> header as needed.</span></p> */
+                marketplace_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShippingHandlingTimeResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getShippingCarriers: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
+            };
+            path: {
+                /** @description This path parameter specifies the eBay marketplace for which shipping carriers information is retrieved.<br><br>See <a href="/api-docs/sell/metadata/types/bas:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> for supported eBay marketplace ID values. <p><span class="tablenote"><span style="color:#004680"><strong>Note: </strong> When listing the items on the French Canada, French Belgium, and Dutch Belgium marketplaces, also set the <b>Accept-Language</b> header as needed.</span></p> */
+                marketplace_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShippingCarrierResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getShippingLocations: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
+            };
+            path: {
+                /** @description This path parameter specifies the eBay marketplace for which shipping locations information is retrieved.<br><br>See <a href="/api-docs/sell/metadata/types/bas:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> for supported eBay marketplace ID values. <p><span class="tablenote"><span style="color:#004680"><strong>Note: </strong> When listing the items on the French Canada, French Belgium, and Dutch Belgium marketplaces, also set the <b>Accept-Language</b> header as needed.</span></p> */
+                marketplace_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShippingLocationResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getShippingServices: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description This header is required to retrieve metadata for the French Canada, French Belgium, and Dutch Belgium marketplaces.<br><br>Follow the instructions below to retrieve metadata for these three marketplaces:<ul><li><b>French Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-BE</code>.</li><li><b>Dutch Belgium</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_BE</code>, and include the <b>Accept-Language</b> header with a value of <code>nl-BE</code>.</li><li><b>French Canada</b>: Set the <b>marketplace_id</b> path parameter value to <code>EBAY_CA</code>, and include the <b>Accept-Language</b> header with a value of <code>fr-CA</code>.</li></ul><span class="tablenote"><b>Note:</b> If <code>EBAY_CA</code> is set as the <b>marketplace_id</b> path parameter and the <b>Accept-Language</b> header is not used, the marketplace will default to the English Canada marketplace.</span> */
+                "Accept-Language"?: string;
+            };
+            path: {
+                /** @description This path parameter specifies the eBay marketplace for which shipping services information is retrieved.<br><br>See <a href="/api-docs/sell/metadata/types/bas:MarketplaceIdEnum" target="_blank">MarketplaceIdEnum</a> for supported eBay marketplace ID values. <p><span class="tablenote"><span style="color:#004680"><strong>Note: </strong> When listing the items on the French Canada, French Belgium, and Dutch Belgium marketplaces, also set the <b>Accept-Language</b> header as needed.</span></p> */
+                marketplace_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShippingServiceResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
                 headers: {
                     [name: string]: unknown;
                 };

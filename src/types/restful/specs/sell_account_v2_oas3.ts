@@ -11,7 +11,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description This method retrieves an existing rate table identified by the <b>rate_table_id</b> path parameter.<br><br>Shipping rate tables are currently supported by the following marketplaces: United States, Canada, United Kingdom, Germany, Australia, France, Italy, and Spain. A successful call returns detailed information for the specified shipping rate table. */
+        /**
+         * Retrieves details of a specific shipping rate table.
+         * @description This method retrieves an existing rate table identified by the <b>rate_table_id</b> path parameter.<br><br>Shipping rate tables are currently supported by the following marketplaces: United States, Canada, United Kingdom, Germany, Australia, France, Italy, and Spain. A successful call returns detailed information for the specified shipping rate table.
+         */
         get: operations["getRateTable"];
         put?: never;
         post?: never;
@@ -30,7 +33,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description This method allows sellers to update <b>shippingCost</b> and/or <b>additionalCost</b> information for an existing shipping rate table identified by the <b>rate_table_id</b> path parameter.<br><br>A successful call returns an HTTP status code of <b>204 No Content</b>. */
+        /**
+         * Updates one or more shipping rates for a specific shipping rate table.
+         * @description This method allows sellers to update <b>shippingCost</b> and/or <b>additionalCost</b> information for an existing shipping rate table identified by the <b>rate_table_id</b> path parameter.<br><br>A successful call returns an HTTP status code of <b>204 No Content</b>.
+         */
         post: operations["updateShippingCost"];
         delete?: never;
         options?: never;
@@ -45,7 +51,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description <div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> Split-payout functionality is <b>only</b> available to mainland China sellers, who can split payouts between their Payoneer account and bank account. Card payouts are not currently available for sellers in mainland China.</p></div><br/>This method returns details on two payment instruments defined on a seller's account, including the ID, type, status, nickname, last four digits of the account number, and payout percentage for the instruments.<br/><br/>Using the <b>instrumentId</b> returned with this method, sellers can makes changes to the payout split of the instruments with the <b>updatePayoutPercentage</b> method. Note that the <b>instrumentStatus</b> of a payment instrument, also returned using this method, must be <code>ACTIVE</code> in order to do split payouts on that payment instrument. */
+        /**
+         * Retrieves payout percentages and unique IDs for accounts configured to receive seller payouts.
+         * @description <div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span> Split-payout functionality is <b>only</b> available to mainland China sellers, who can split payouts between their Payoneer account and bank account. Card payouts are not currently available for sellers in mainland China.</p></div><br/>This method returns details on two payment instruments defined on a seller's account, including the ID, type, status, nickname, last four digits of the account number, and payout percentage for the instruments.<br/><br/>Using the <b>instrumentId</b> returned with this method, sellers can makes changes to the payout split of the instruments with the <b>updatePayoutPercentage</b> method. Note that the <b>instrumentStatus</b> of a payment instrument, also returned using this method, must be <code>ACTIVE</code> in order to do split payouts on that payment instrument.
+         */
         get: operations["getPayoutSettings"];
         put?: never;
         post?: never;
@@ -64,12 +73,199 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description <div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>  Split-payout functionality is <b>only</b> available to mainland China sellers, who can split payouts between their Payoneer account and bank account. Card payouts are not currently available for sellers in mainland China.</p></div><br/>This method allows sellers in mainland China to configure the split-payout percentage for two payout instruments available for seller payouts. For example, a seller can split payouts to have 70% of the payout go to a bank account and 30% go to a Payoneer account.<br><br><span class="tablenote"><b>Note:</b> The split-payout percentage <b>must</b> always add up to 100%. If the values do not equal 100, the call will fail. Instruments cannot be added/removed using Finance and Account APIs. </span><br/>Users can specify the payout instruments being updated by using the <b>instrumentId</b> associated with each payment instrument in the request payload. This value is returned by using the <b>getPayoutSettings</b> method. Users can specify the percentage of the payout allocated to each instrument using the <b>payoutPercentage</b> request field. This value must be a whole number and cannot exceed 100.<br><br> For more details on configuring split-payout percentages, see <a href="/api-docs/split-payout/playbook.html" target="_blank ">Mainland China Split Payout Playbook.</a> */
+        /**
+         * Updates the split-payout percentage for two payout instruments for sellers in mainland China.
+         * @description <div class="msgbox_important"><p class="msgbox_importantInDiv" data-mc-autonum="&lt;b&gt;&lt;span style=&quot;color: #dd1e31;&quot; class=&quot;mcFormatColor&quot;&gt;Important! &lt;/span&gt;&lt;/b&gt;"><span class="autonumber"><span><b><span style="color: #dd1e31;" class="mcFormatColor">Important!</span></b></span></span>  Split-payout functionality is <b>only</b> available to mainland China sellers, who can split payouts between their Payoneer account and bank account. Card payouts are not currently available for sellers in mainland China.</p></div><br/>This method allows sellers in mainland China to configure the split-payout percentage for two payout instruments available for seller payouts. For example, a seller can split payouts to have 70% of the payout go to a bank account and 30% go to a Payoneer account.<br><br><span class="tablenote"><b>Note:</b> The split-payout percentage <b>must</b> always add up to 100%. If the values do not equal 100, the call will fail. Instruments cannot be added/removed using Finance and Account APIs. </span><br/>Users can specify the payout instruments being updated by using the <b>instrumentId</b> associated with each payment instrument in the request payload. This value is returned by using the <b>getPayoutSettings</b> method. Users can specify the percentage of the payout allocated to each instrument using the <b>payoutPercentage</b> request field. This value must be a whole number and cannot exceed 100.<br><br> For more details on configuring split-payout percentages, see <a href="/api-docs/split-payout/playbook.html" target="_blank">Mainland China Split Payout Playbook.</a>
+         */
         post: operations["updatePayoutPercentage"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/combined_shipping_rules/create_calculated_shipping_rules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Creates calculated shipping rules that determine combined shipping costs based on item attributes, such as weight and dimensions, for the seller's account.
+         * @description This method creates or registers calculated shipping rules that determine combined shipping costs based on weight, item count, or cost parameters for an authenticated seller. <br><br> This shipping rule will apply to eBay listings that use the calculated shipping model.
+         */
+        post: operations["createCalculatedShippingRules"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/combined_shipping_rules/create_flat_shipping_rules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Creates flat-rate rules that apply standard combined shipping costs for a seller's listings.
+         * @description This method is used to create fixed-rate (flat) shipping rules that apply standard combined shipping costs for a seller’s listings.
+         */
+        post: operations["createFlatShippingRules"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/combined_shipping_rules/create_promotional_shipping_rule": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Creates promotional shipping rules, such as discounts or free-shipping thresholds.
+         * @description This method defines promotional shipping rules such as discounts or free-shipping thresholds, configurable by marketplace for the seller.
+         */
+        post: operations["createPromotionalShippingRule"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/combined_shipping_rules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves all combined shipping rule configurations defined for the seller.
+         * @description This method retrieves all existing combined shipping rule configurations defined by the authenticated seller, including calculated, flat, and promotional types.
+         */
+        get: operations["getCombinedShippingRules"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/combined_shipping_rules/update_calculated_shipping_rules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Updates previously defined calculated shipping rules.
+         * @description This method updates previously defined calculated shipping rules to modify discount percentages, weight offsets, or amount parameters for the seller.
+         */
+        post: operations["updateCalculatedShippingRules"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/combined_shipping_rules/update_combined_payments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Updates combined payment settings that determine how unpaid orders can be merged.
+         * @description This method configures or modifies combined payment settings that determine how unpaid orders can be merged for a single invoice within a defined duration for the seller.
+         */
+        post: operations["updateCombinedPayments"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/combined_shipping_rules/update_flat_shipping_rules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Updates existing flat-rate shipping rules.
+         * @description This method updates existing shipping rules.
+         */
+        post: operations["updateFlatShippingRules"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/combined_shipping_rules/update_promotional_shipping_rule": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Updates a promotional shipping rule to adjust discount thresholds, eligibility criteria, or duration for the seller.
+         * @description This method updates an existing promotional shipping rule to adjust discount thresholds, eligibility criteria, or duration for the seller.
+         */
+        post: operations["updatePromotionalShippingRule"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/user_preferences": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves the seller's preferences for a specific eBay marketplace.
+         * @description This method retrieves the seller's preferences for a specific eBay marketplace, such as combined payment preferences, same-day shipping cutoff time, excluded shipping locations, and opt-in status for Business Policies and Out-of-Stock control. The <b>fieldgroups</b> query parameter specifies the type of seller preferences to retrieve. If <b>fieldgroups</b> = <code>ALL</code> or the parameter is omitted, all the supported seller preferences are returned. To retrieve only specific preferences, include the <b>fieldgroups</b> parameter with one or more supported values, delimited by commas.
+         */
+        get: operations["getUserPreferences"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Modifies one or more preferences for a seller on a specific marketplace.
+         * @description This method is used to modify one or more preferences for a seller on a specific marketplace. The preferences that can be modified include combined payment preferences, same-day shipping cutoff time, and opt-in status for Business Policies and Out-of-stock control. This is a PATCH operation, so you only need to include the fields that correspond to the preferences/settings that you are changing.
+         */
+        patch: operations["setUserPreferences"];
         trace?: never;
     };
 }
@@ -78,14 +274,99 @@ export interface components {
     schemas: {
         /** @description A complex type that describes the value of a monetary amount as represented by a global currency. */
         Amount: {
-            /** @description The base currency applied to the <b>value</b> field to establish a monetary amount.<br/><br/>The currency is represented as a 3-letter ISO 4217 currency code. For example, the code for the Canadian Dollar is <code>CAD</code>. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:CurrencyCodeEnum'>eBay API documentation</a> */
-            currency?: string;
+            /** @description The base currency applied to the <b>value</b> field to establish a monetary amount.<br/><br/>The currency is represented as a 3-letter ISO 4217 currency code. For example, the code for the Canadian Dollar is <code>CAD</code>. */
+            currency?: components["schemas"]["CurrencyCodeEnum"];
             /** @description The monetary amount in the specified <b>currency</b>. */
             value?: string;
         };
+        /** @description This type defines the structure for calculated handling fee discounts applicable when combining multiple orders. */
+        CalculatedHandlingRuleType: {
+            /** @description This enumeration value specifies the type of combined-shipping rule applied to handling fees (for example, weight-based, flat-rate, or percentage-based calculation method). */
+            combinedShippingRuleType?: components["schemas"]["CombinedShippingRuleTypeHandlingEnum"];
+            /** @description This container specifies the additional monetary charge applied for each extra item included in a combined shipment. */
+            eachAdditionalAmount?: components["schemas"]["Amount"];
+            /** @description This container represents the fixed monetary discount deducted from the total shipping cost for each additional item in a combined shipment. */
+            eachAdditionalAmountOffShippingCost?: components["schemas"]["Amount"];
+            /** @description This integer specifies the percentage discount applied to the total shipping cost for each additional item in a combined shipment. */
+            eachAdditionalPercentOffShippingCost?: number;
+            /** @description This container represents the handling fee charged for processing a combined order, if applicable. */
+            orderHandlingAmount?: components["schemas"]["Amount"];
+        };
+        /** @description This type describes calculated discount rules determining total shipping cost reductions for combined items. */
+        CalculatedShippingRuleType: {
+            /** @description This array lists the discount rules applied to combined shipments, detailing calculation methods and rule identifiers. <br><br>When used by a create call, there won't be any rule ID. */
+            combinedShippingRules?: components["schemas"]["CombinedShippingRule"][];
+            /** @description This container defines the type of combined-shipping rule applied to calculate discounts, such as weight-based, percentage-based, or flat-rate models. */
+            combinedShippingRuleType?: components["schemas"]["CombinedShippingRuleTypeEnum"];
+        };
+        /** @description This container is used to change the combined payment option. Sellers have the option to combine multiple line items from the same buyer into a combined invoice that can be paid for with one payment. See CombinedPaymentOptionEnum for a description of each value. */
+        CombinedPaymentPreferencesType: {
+            /** @description This enum type defines the available options for handling combined payments when a seller allows multiple line items from the same buyer to be paid for with a single payment. See <code>CombinedPaymentOptionEnum</code> for a description of each value. */
+            combinedPaymentOption?: components["schemas"]["CombinedPaymentOptionEnum"];
+        };
+        /** @description This container defines a discount profile schema for combined shipping, including rule IDs, names, and applicable weight or amount reductions.<br><br><span class="tablenote"><b>Note:</b> This field is not applicable for the create rule use case. */
+        CombinedShippingRule: {
+            /** @description This field represents the unique identifier for the combined-shipping discount profile, <br><br>used to reference or update a specific rule configuration. */
+            combinedShippingRuleId?: string;
+            /** @description This field specifies the unique name identifying the combined shipping discount profile within the seller’s account. This name is configured by the seller and can have a maximum of XX characters. */
+            combinedShippingRuleName?: string;
+            /** @description This containter defines the additional monetary charge applied for each extra item when multiple items are shipped together. */
+            eachAdditionalAmount?: components["schemas"]["Amount"];
+            /** @description This container defines the fixed discount amount deducted from the total shipping cost for each additional item. */
+            eachAdditionalAmountOffShippingCost?: components["schemas"]["Amount"];
+            /** @description This integer specifies the percentage discount applied to the total shipping cost for each additional item in the combined order. */
+            eachAdditionalPercentOffShippingCost?: number;
+            /** @description This field specifies the unique ID that links this combined-shipping rule to another related rule in the seller’s account. */
+            mappedCombinedShippingRuleId?: string;
+            /** @description This container specifies the total weight reduction applied when combining multiple items into one shipment. */
+            weightOffTotalWeight?: components["schemas"]["MeasureType"];
+        };
+        /** @description This type defines the structure of a request to create calculated shipping rules, including handling, duration, and rule type details. */
+        CreateCalculatedShippingRulesRequest: {
+            /** @description This container defines the calculated handling fee rules applied to combined orders, specifying how handling costs are determined or discounted <br><br>based on combined-shipping parameters. */
+            calculatedHandlingRule?: components["schemas"]["CalculatedHandlingRuleType"];
+            /** @description This container defines the calculated shipping rule applied to combined orders, detailing how shipping discounts or costs are computed <br><br>based on item count, total weight, or order value. */
+            calculatedShippingRule: components["schemas"]["CalculatedShippingRuleType"];
+            /** @description This enumerated value specifies the time window during which multiple unpaid orders can be combined into a single payment or invoice, represented by using one of the values in <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-combined_shipping_rules-getcombinedshippingrules.getcombinedshippingrulesresponse.combinedduration" target="_blank">CombinedPaymentPeriodEnum</a>. */
+            combinedDuration?: components["schemas"]["CombinedPaymentPeriodEnum"];
+        };
+        /** @description This type represents a request to configure flat-rate combined shipping rules with specified durations and conditions. */
+        CreateFlatShippingRulesRequest: {
+            /** @description This enumerated value specifies the time window during which multiple unpaid orders can be combined into a single payment or invoice, represented by using one of the values in <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-combined_shipping_rules-getcombinedshippingrules.getcombinedshippingrulesresponse.combinedduration" target="_blank">CombinedPaymentPeriodEnum</a>. */
+            combinedDuration: components["schemas"]["CombinedPaymentPeriodEnum"];
+            /** @description This container defines the flat-rate combined-shipping rule, which applies a fixed shipping cost for multiple items shipped together. */
+            flatShippingRule: components["schemas"]["FlatShippingRuleType"];
+        };
+        /** @description This type represents the request schema for creating promotional shipping rules with combined payment durations. */
+        CreatePromotionalShippingRuleRequest: {
+            /** @description This container specifies the time window during which multiple unpaid orders can be combined into a single payment or invoice, represented by using one of the values in <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-combined_shipping_rules-getcombinedshippingrules.getcombinedshippingrulesresponse.combinedduration" target="_blank">CombinedPaymentPeriodEnum</a>. */
+            combinedDuration?: components["schemas"]["CombinedPaymentPeriodEnum"];
+            /** @description This container defines the promotional combined-shipping rule that offers discounts or free shipping based on order value, item count, or other qualifying conditions. */
+            promotionalShippingRule: components["schemas"]["PromotionalShippingRuleType"];
+        };
+        /** @description This container is used to change the order cut-off time for same-day shipping. */
+        DispatchCutoffTimePreferencesType: {
+            /** @description This field indicates the dispatch cut-off time in Zulu format (<code>HH:mm:ss.SSSZ</code>) - 24-hour format with milliseconds and Z timezone indicator.<br><br><span class="tablenote"><b>Note:</b> Despite the Z that is returned in the timestamp, the cut-off time is actually based on the default timezone of the eBay marketplace for the seller.</span><br><br><span class="tablenote"><b>Note:</b> If an eBay listing supports same-day shipping, and an order is paid for before the cut-off time, the seller is expected to ship the order out that same business day.</span> */
+            cutoffTime?: string;
+        };
+        /** @description This container shows the seller's preferences for the end-of-auction email sent to the winning bidder. */
+        EndOfAuctionEmailPreferencesType: {
+            /** @description This boolean field indicates whether or not the seller is using a customized email to send to winning bidders. */
+            emailCustomized?: boolean;
+            /** @description This boolean field indicates whether or not the seller is using a customized logo in the emails that are sent to winning bidders. */
+            logoCustomized?: boolean;
+            /** @description This enum indicates the type of logo that is used in the email that is sent to winning bidders. See EndOfAuctionLogoTypeEnum type for descriptions of the different logo types. */
+            logoType?: components["schemas"]["EndOfAuctionLogoTypeEnum"];
+            /** @description This field shows the URL path to a seller’s custom logo image that is being used in the email sent to winning bidders. This field is only returned if the seller is using a customized logo in emails. */
+            logoUrl?: string;
+            /** @description This field shows the body text that is being used if the seller is sending customized emails to winning bidders. The template text has a maximum limit  of 1000 characters. */
+            templateText?: string;
+            /** @description This boolean field indicates whether or not the seller is using customized text in the emails that are sent to winning bidders. */
+            textCustomized?: boolean;
+        };
         /** @description This type defines the fields that can be returned in an error. */
         Error: {
-            /** @description Identifies the type of erro. */
+            /** @description Identifies the type of error. */
             category?: string;
             /** @description Name for the primary system where the error occurred. This is relevant for application errors. */
             domain?: string;
@@ -113,81 +394,323 @@ export interface components {
             /** @description The value of the object. */
             value?: string;
         };
+        /** @description This type defines the flat-rate combined-shipping rule, which applies a fixed shipping cost for multiple items shipped together. */
+        FlatShippingRuleType: {
+            /** @description This array specifies the type of combined-shipping rule applied, such as flat-rate or cost-based. */
+            combinedShippingRules: components["schemas"]["CombinedShippingRule"][];
+            /** @description This container defines the type of discount rule applied (e.g., percentage-based, fixed-rate). */
+            combinedShippingRuleType: components["schemas"]["CombinedShippingRuleTypeEnum"];
+        };
+        /** @description The base response type of the getCombinedShippingRules method. <br><br>All of a seller's calculated, flat, and promotional shipping discount rules defined for an eBay marketplace will be returned in the response, along with the current combined duration value. */
+        GetCombinedShippingRulesPublicApiResponse: {
+            /** @description This container will show one or more calculated shipping rules set up for that seller on that ebay marketplace.<br><br><span class="tablenote"><b>Note:</b> This will not be returned if a calculated handling rule is not set up for that seller on that eBay marketplace */
+            calculatedHandlingRule?: components["schemas"]["CalculatedHandlingRuleType"];
+            /** @description This container specifies the type of combined-shipping rule applied, such as flat-rate, weight-based, or cost-based. */
+            calculatedShippingRule?: components["schemas"]["CalculatedShippingRuleType"];
+            /** @description This field is represented by one of the values in the <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-combined_shipping_rules-getcombinedshippingrules.getcombinedshippingrulesresponse.combinedduration" target="_blank">CombinedPaymentPeriodEnum</a>. */
+            combinedDuration?: components["schemas"]["CombinedPaymentPeriodEnum"];
+            /** @description This container will show one or more flat shipping rules set up for that seller on that ebay marketplace. */
+            flatShippingRule?: components["schemas"]["FlatShippingRuleType"];
+            /** @description This container shows the promotional shipping rule that is currently set up on the seller's account for the eBay marketplace. <br><br>This container will not be returned if no promotional shipping rule is currently set up on the seller's account for the eBay marketplace. */
+            promotionalShippingRule?: components["schemas"]["PromotionalShippingRuleType"];
+        };
+        /** @description This container represents the seller's preferences for the list of items that are awaiting payment. */
+        GetItemsAwaitingPaymentPreferencesType: {
+            /** @description This boolean indicates if the item should be automatically relisted. */
+            autoRelist?: boolean;
+            /**
+             * Format: int32
+             * @description This integer indicates the delay in days before cancelling the buyer&#x27;s commitment.
+             */
+            delayBeforeCancellingCommitment?: number;
+            /** @description This string returns the list of sellers excluded from unpaid item assistance. */
+            excludedUsers?: string[];
+            /** @description This boolean indicates if the unpaid item assistance is opted in. */
+            optInStatus?: boolean;
+        };
+        /** @description This type defines the responses for the getUserPreferences method. */
+        GetUserPreferencesResponse: {
+            /** @description This container returns the combined payment preferences when the <code>COMBINED_PAYMENT</code> value is included through the <b>fieldgroups</b> query parameter or when <b>fieldgroups</b>=<code>ALL</code>. It indicates if the seller allows multiple line items from the same buyer to be combined. */
+            combinedPaymentPreferences?: components["schemas"]["CombinedPaymentPreferencesType"];
+            /** @description This container is returned when the <code>DISPATCH_CUTOFF_TIME</code> value is included through the <b>fieldgroups</b> query parameter or when <b>fieldgroups</b>=<code>ALL</code>. */
+            dispatchCutoffTimePreference?: components["schemas"]["DispatchCutoffTimePreferencesType"];
+            /** @description This boolean field indicates whether or not the seller’s account is configured to automatically send an email to buyers with the shipment tracking number for an order. */
+            emailShipmentTrackingNumberPreference?: boolean;
+            /** @description This container allows sellers to customize the email sent to buyers immediately after an auction listing is won. */
+            endOfAuctionEmailPreferences?: components["schemas"]["EndOfAuctionEmailPreferencesType"];
+            /** @description This boolean field indicates whether or not the seller’s new listings on the eBay marketplace will automatically use the Global Shipping Program for international shipping. This field is returned when the <code>GLOBAL_SHIPPING_PROGRAM</code> value is included through the <b>fieldgroups</b> query parameter or when <b>fieldgroups</b>=<code>ALL</code>. </br> <b>Note</b>: The Global Shipping Program is only available for the eBay UK marketplace, and the seller must be opted into the program. */
+            globalShippingProgramListingPreference?: boolean;
+            /** @description This container shows the seller’s preferences for automatically handling unpaid line items. */
+            itemsAwaitingPaymentPreferences?: components["schemas"]["GetItemsAwaitingPaymentPreferencesType"];
+            /** @description This boolean field indicates whether or not the seller is opted into the Global Shipping Program on the eBay marketplace. </br><b>Note</b>: The Global Shipping Program is only available for the eBay UK marketplace. */
+            offerGlobalShippingProgramPreference?: boolean;
+            /** @description This boolean field indicates whether or not the seller is opted into the Out-of-Stock feature. With this feature, a multiple quantity fixed price listing that runs out of stock will be hidden from eBay search but kept alive. Once the sellers add quantity to the listing, the listing will become active and available again. */
+            outOfStockControlPreference?: boolean;
+            /** @description This boolean field indicates whether or not the seller specifies an international shipping service to a particular country for a given listing, the specified service will take precedence and be the listing's default international shipping option for buyers in that country, rather than the Global Shipping Program. </br><b>Note</b>: The Global Shipping Program is only available for the eBay UK marketplace. */
+            overrideGspServiceWithIntlServicePreference?: boolean;
+            /** @description This boolean field indicates whether or not the seller is opted into the Click & Collect feature. </br><b>Note</b>: The Click & Collect feature is only available on the eBay UK, Australia, and Germany marketplaces. */
+            pickupDropoffSellerPreference?: boolean;
+            /** @description This boolean field indicates whether or not the seller’s account is configured to have eBay send occasional purchase reminder emails for unpaid line items. */
+            purchaseReminderEmailPreferences?: boolean;
+            /** @description This boolean field indicates whether or not the buyer is required to provide a shipping phone number during checkout. */
+            requiredShipPhoneNumberPreference?: boolean;
+            /** @description This container shows the list of locations that the seller does not ship to. This list of shipping locations can only be updated in My eBay through Shipping Preferences and not with the <code>setUserPreferences</code> method. */
+            sellerExcludeShipToLocationPreferences?: components["schemas"]["SellerExcludeShipToLocationPreferencesType"];
+            /** @description This container is returned when the <code>SELLER_PROFILE</code> value is included through the <b>fieldgroups</b> query parameter or when <b>fieldgroups</b>=<code>ALL</code>. */
+            sellerProfilePreferences?: components["schemas"]["SellerProfilePreferencesType"];
+            /** @description This container indicates the FedEx, UPS, and US Post Office shipping rate types that are available to the seller. This container is returned when the <code>SHIPPING_CARRIER_RATE</code> value is included through the <b>fieldgroups</b> query parameter or when <b>fieldgroups</b>=<code>ALL</code>. </br><b>Note</b>: This container is only applicable to the eBay US marketplace. */
+            shippingCarrierRatePreferences?: components["schemas"]["ShippingCarrierRatePreferencesType"];
+        };
+        /** @description This type displays measurement type with value, unit, and measurement system. */
+        MeasureType: {
+            /** @description This field defines the unit of measure (e.g., kilograms, pounds) associated with the value field. */
+            unit?: components["schemas"]["WeightUnitOfMeasureEnum"];
+            /** @description This field defines the numeric value representing the measurement, weight, in the specified unit. */
+            value?: string;
+        };
         /** @description This type is used to provide details about one or two of the seller's accounts that are enabled to receive payouts. */
         PayoutInstrument: {
             /** @description The last four digits of the account that the seller uses to receive payouts. This may be the last four digits of a bank account or a payment processor account such as Payoneer. */
-            accountLastFourDigits?: string;
+            accountLastFourDigits: string;
             /** @description The unique reference identifier for a payout instrument. The <b>instrumentId</b> is needed to change the split-payout percentages through an <b>updatePayoutPercentage</b> request. */
-            instrumentId?: string;
-            /** @description The status of a payout instrument. Valid payout instrument statuses include:<br/><ul><li><code>PENDING:</code> This status indicates that the account must be verified before it can be used.</li><li><code>ACTIVE:</code>This status indicates that payouts are enabled on this account.</li><li><code>VERIFICATION_FAILED:</code> This status indicates that verification has failed for this account and payouts are disabled.</li><li><code>INACTIVE:</code> This status indicates that this account has become inactive and payouts are disabled.</li></ul><br/>See <b>InstrumentStatusEnum</b> for more details on each instrument status value.<br><br><span class="tablenote"><b>Note:</b> Payment accounts can only receive payouts if the status of a payout instrument is <code>ACTIVE</code>.</span> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/sel:InstrumentStatusEnum'>eBay API documentation</a> */
-            instrumentStatus?: string;
+            instrumentId: string;
+            /** @description The status of a payout instrument. Valid payout instrument statuses include:<br/><ul><li><code>PENDING:</code> This status indicates that the account must be verified before it can be used.</li><li><code>ACTIVE:</code>This status indicates that payouts are enabled on this account.</li><li><code>VERIFICATION_FAILED:</code> This status indicates that verification has failed for this account and payouts are disabled.</li><li><code>INACTIVE:</code> This status indicates that this account has become inactive and payouts are disabled.</li></ul><br/>See <b>InstrumentStatusEnum</b> for more details on each instrument status value.<br><br><span class="tablenote"><b>Note:</b> Payment accounts can only receive payouts if the status of a payout instrument is <code>ACTIVE</code>.</span> */
+            instrumentStatus: components["schemas"]["InstrumentStatusEnum"];
             /** @description The type of account that received payouts. The value returned in this field may be:<br/><ul><li><code>BANK</code>: Indicates that the payout was made to a seller's bank account.</li><li><code>CARD</code> (<b>Not Currently Available</b>): Indicates that the payout went to a seller's debit card.</li><li>The name of a digital wallet provider or payment processor (e.g., <code>PAYONEER</code>)</li></ul><br><span class="tablenote"><b>Note:</b> Only Payoneer is currently supported for sellers in mainland China. Card payouts are not currently available for sellers in mainland China.</span> */
-            instrumentType?: string;
+            instrumentType: string;
             /** @description When <b>instrumentType</b> returns <code>BANK</code>, this value is the seller-provided nickname that the seller uses to represent the bank account that receives the payout.<br/><br/>When <b>instrumentType</b> returns <code>CARD</code>, this value is the debit card network for the debit card that receives the payout.<br/><br/>When <b>instrumentType</b> returns a provider of digital wallet or payment processing services, the value returned is the name of the service provider (e.g., <code>PAYONEER</code>)<br><br><span class="tablenote"><b>Note:</b> Only Payoneer is currently supported for sellers in mainland China. Card payouts are not currently available for sellers in mainland China.</span> */
-            nickname?: string;
+            nickname: string;
             /** @description The current payout percentage allocated to an instrument. For example, <code>50</code> indicates that 50% of the payout goes to the instrument. */
             payoutPercentage?: string;
         };
         /** @description The base response type of the <b>getPayoutSettings</b> method. */
         PayoutSettingsResponse: {
             /** @description This array provides details about the seller's accounts defined for the seller's account.<br><br> Payment accounts can only receive payouts if the status of the payout instrument is <code>ACTIVE</code>. */
-            payoutInstruments?: components["schemas"]["PayoutInstrument"][];
+            payoutInstruments: components["schemas"]["PayoutInstrument"][];
+        };
+        /** @description This type is used to represent a promotional shipping rule set up by the seller on an eBay marketplace. */
+        PromotionalShippingRuleType: {
+            /** @description This field specifies the type of combined-shipping rule applied, such as flat-rate or cost-based, as defined in the <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-combined_shipping_rules-getcombinedshippingrules.flatshippingruletype.combinedshippingruletype" target="_blank">CombinedShippingRuleTypeEnum</a>. */
+            combinedShippingRuleType?: components["schemas"]["CombinedShippingRuleTypeEnum"];
+            /**
+             * Format: int32
+             * @description This integer indicates the quantity of items that must be purchased by the buyer in order for that buyer to qualify for the promotional discount.
+             */
+            itemCount?: number;
+            /** @description This container specifies the minimum order amount required to qualify for the associated discount or promotional rule. */
+            orderAmount?: components["schemas"]["Amount"];
+            /** @description This container represents the total shipping cost or discounted shipping charge for the combined order. */
+            shippingCost?: components["schemas"]["Amount"];
         };
         /** @description This container details shipping rate information identified by a unique rate ID. A successful call returns the requested shipping rate information. */
         Rate: {
             /** @description An additional shipping cost added to the base shipping rate (i.e., <b>shippingCost</b>).<br/><br/>This amount applies only to the following <b>rateTableBasis</b> options:<ul><li><b>WEIGHT</b>: This is a cost per unit weight and is calculated using the weight of the item(s) being shipped.</li><li><b>SURCHARGE</b>: This is a flat amount that is added to the base shipping rate.</li></ul>This field is returned only when it is applicable to the specified rate ID. */
             additionalCost?: components["schemas"]["Amount"];
             /** @description The unique identifier for rate information.<br/><br/><span class="tablenote"><strong>Note:</strong> This is a string that is automatically assigned by the system when a rate object is created.</span> */
-            rateId?: string;
-            /** @description Indicates the level of shipping service to which the shipping rate information applies.<br/><br/>Available shipping categories are:<ul><li><b>ONE_DAY</b>: <i>This option is not supported when <b>shippingOptionType</b> is INTERNATIONAL.</i> </li><li><b>EXPEDITED</b></li><li><b>STANDARD</b></li><li><b>ECONOMY</b></li><li><b>EXPRESS</b>: <i>This option is supported only when <b>MarketplaceId</b> is <code>EBAY_DE</code> (Germany)</i></li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ShippingCategoryEnum'>eBay API documentation</a> */
-            shippingCategory?: string;
+            rateId: string;
+            /** @description Indicates the level of shipping service to which the shipping rate information applies.<br/><br/>Available shipping categories are:<ul><li><b>ONE_DAY</b>: <i>This option is not supported when <b>shippingOptionType</b> is INTERNATIONAL.</i> </li><li><b>EXPEDITED</b></li><li><b>STANDARD</b></li><li><b>ECONOMY</b></li><li><b>EXPRESS</b>: <i>This option is supported only when <b>MarketplaceId</b> is <code>EBAY_DE</code> (Germany)</i></li></ul> */
+            shippingCategory: components["schemas"]["ShippingCategoryEnum"];
             /** @description Specifies the base shipping rate for an item.<br/><br/>This amount applies only to the following <b>rateTableBasis</b> options:<ul><li><b>ITEM</b>: This is a flat rate shipping cost per item being shipped.</li><li><b>WEIGHT</b>: This is a cost per unit weight and is calculated using the weight of the item(s) being shipped.</li></ul> */
             shippingCost?: components["schemas"]["Amount"];
             /** @description An array of Region names to which the shipping rate information applies.<br/><br/>Returned values may be:<ul><li>Geographical Regions (e.g., <code>Worldwide</code>, <code>Europe</code>, and <code>Middle East</code>)</li><li>Individual countries identified by a two-letter code such as <code>US</code> (United States), <code>CA</code> (Canada), and <code>GB</code> (United Kingdom)</li><li>US states and/or Canadian provinces identified by a two-letter code such as <code>NY</code> (New York) or <code>SK</code> (Saskatchewan)</li><li>Domestic Regions such as <code>AK/HI</code> (Alaska/Hawaii)</li></ul> */
-            shippingRegionNames?: string[];
+            shippingRegionNames: string[];
             /** @description An enum value that indicates the shipping service used for the specified shipping rate. These enum values align with <b>ShippingService</b> metadata returned by a <b>GeteBayDetails</b> call with <b>DetailName</b> set to <code>shippingServiceDetails</code>. */
             shippingServiceCode?: string;
         };
         /** @description This container includes all information pertaining to a shipping rate table. A successful call returns the requested shipping rate information. */
         RateTableDetails: {
-            /** @description Identifies the eBay marketplace to which the shipping rate table applies. For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum'>eBay API documentation</a> */
-            marketplaceId?: string;
+            /** @description Identifies the eBay marketplace to which the shipping rate table applies. */
+            marketplaceId: components["schemas"]["MarketplaceIdEnum"];
             /** @description The seller-defined name for the shipping rate table. Names must be unique for each table assigned to the same seller, shippingOptionType, and eBay marketplace.<br/><br/><b>Max length:</b> 50 */
-            name?: string;
+            name: string;
             /** @description An array of rate objects associated with the specified shipping rate table. Each rate object is identified by a unique system-generated ID and defines specific shipping rate information. */
-            rates?: components["schemas"]["Rate"][];
-            /** @description The rate calculation type provides three methods of calculating the shipping cost based on the seller's selection/input:<ul><li><b>ITEM</b>: Specifies the flat rate shipping cost that buyers in the specified shipping region will pay. When this option is selected, information specified in the rate table overrides all shipping options/costs that are specified at the listing level. Buyers in the specified regions will only see the services provided in the rate table. Buyers in other regions that are not specified in the rate table will see the shipping services associated with the listing.</li><li><b>WEIGHT</b>: Seller can provide minimum shipping cost and an additional shipping cost per pound. The additional cost will be calculated based on the weight the seller provide at the time of listing. Buyers will see the total shipping cost and won’t see these calculations.  Buyers in the specified regions will only see the services provided in the rate table. Buyers in other regions that were not specified in the rate table, will see the shipping services associated with the listing.</li><li><b>SURCHARGE</b>: Lists surcharges for buyers within specified regions, or indicates a flat amount added to the shipping cost specified within an item's listing. Buyers will see only the total shipping cost as well as shipping services associated with the item's listing. If a SURCHARGE is specified in the rate table for certain regions, buyers in those regions will see the (shipping cost + SURCHARGE) total.</li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ShippingRateCalculationEnum'>eBay API documentation</a> */
-            rateTableBasis?: string;
+            rates: components["schemas"]["Rate"][];
+            /** @description The rate calculation type provides three methods of calculating the shipping cost based on the seller's selection/input:<ul><li><b>ITEM</b>: Specifies the flat rate shipping cost that buyers in the specified shipping region will pay. When this option is selected, information specified in the rate table overrides all shipping options/costs that are specified at the listing level. Buyers in the specified regions will only see the services provided in the rate table. Buyers in other regions that are not specified in the rate table will see the shipping services associated with the listing.</li><li><b>WEIGHT</b>: Seller can provide minimum shipping cost and an additional shipping cost per pound. The additional cost will be calculated based on the weight the seller provide at the time of listing. Buyers will see the total shipping cost and won’t see these calculations.  Buyers in the specified regions will only see the services provided in the rate table. Buyers in other regions that were not specified in the rate table, will see the shipping services associated with the listing.</li><li><b>SURCHARGE</b>: Lists surcharges for buyers within specified regions, or indicates a flat amount added to the shipping cost specified within an item's listing. Buyers will see only the total shipping cost as well as shipping services associated with the item's listing. If a SURCHARGE is specified in the rate table for certain regions, buyers in those regions will see the (shipping cost + SURCHARGE) total.</li></ul> */
+            rateTableBasis?: components["schemas"]["ShippingRateCalculationEnum"];
             /** @description A unique, system-generated ID assigned to the shipping rate table when it is initially created. */
-            rateTableId?: string;
-            /** @description The region serviced by the shipping rate table. Valid values are:<ul><li><b>DOMESTIC</b>: Indicates that the shipping rate table applies to shipping destinations within the country in which an item has been listed (i.e., the <i>source</i> country).</li><li><b>INTERNATIONAL</b>: Indicates that the shipping rate table applies to shipping destinations outside of the country in which an item has been listed.</li></ul> For implementation help, refer to <a href='https://developer.ebay.com/api-docs/sell/account/types/api:ShippingOptionTypeEnum'>eBay API documentation</a> */
-            shippingOptionType?: string;
+            rateTableId: string;
+            /** @description The region serviced by the shipping rate table. Valid values are:<ul><li><b>DOMESTIC</b>: Indicates that the shipping rate table applies to shipping destinations within the country in which an item has been listed (i.e., the <i>source</i> country).</li><li><b>INTERNATIONAL</b>: Indicates that the shipping rate table applies to shipping destinations outside of the country in which an item has been listed.</li></ul> */
+            shippingOptionType: components["schemas"]["ShippingOptionTypeEnum"];
         };
         /** @description This type is used by the request payload of the <b>updateShippingCost</b> method to pass updated shipping cost information for a rate table identified by <b>rateTableId</b>. */
         RateTableUpdate: {
             /** @description An array of rate objects for which <b>shippingCost</b> and/or <b>additionalCost</b> are to be updated. */
-            rates?: components["schemas"]["RateUpdate"][];
+            rates: components["schemas"]["RateUpdate"][];
         };
         /** @description This container defines the updated shipping cost information for a rate object identified by <b>rateId</b>.<br/><br/>To view a list of all rate objects and corresponding <b>rateID</b> values, issue <b>getRateTable</b> for the rate table identified by <b>rateTableId</b>. */
         RateUpdate: {
             /** @description An additional shipping cost added to the base shipping rate (i.e., <b>shippingCost</b>).<br/><br/>This amount applies only to the following <b>rateTableBasis</b> options:<ul><li><b>WEIGHT</b>: This is a cost per unit weight and is calculated using the weight of the item(s) being shipped.</li><li><b>SURCHARGE</b>: This is a flat amount that is added to the base shipping rate.</li></ul>This field is returned only when it is applicable to the specified rate ID. */
             additionalCost?: components["schemas"]["Amount"];
             /** @description The identifier for the rate object.<br/><br/><span class="tablenote"><strong>Note:</strong> This is a string automatically assigned by the system when the rate object is created. It cannot be changed or updated.</span> */
-            rateId?: string;
+            rateId: string;
             /** @description This is the base shipping rate for an item.<br/><br/>This amount applies only to the following <b>rateTableBasis</b> options:<ul><li><b>ITEM</b>: This is a flat rate shipping cost per item being shipped.</li><li><b>WEIGHT</b>: This is a cost per unit weight and is calculated using the weight of the item(s) being shipped.</li></ul> */
             shippingCost?: components["schemas"]["Amount"];
         };
+        /** @description This container represents the list of locations that the seller wants to exclude from shipping. */
+        SellerExcludeShipToLocationPreferencesType: {
+            /** @description This array shows the list of locations that the seller does not ship to. Excluded locations may include continents and large geographical areas. For example, 'Middle East', individual countries represented by two-letter codes, or special locations within a country such as 'Alaska/Hawaii' or 'PO Box'. */
+            excludeShipToLocations?: string[];
+        };
+        /** @description This container indicates whether or not the seller is opted into Business Policies. If a seller is opted into Business Policies, they must use Payment,Return, and Shipping business policies instead of individual payment, return, and shipping fields. */
+        SellerProfilePreferencesType: {
+            /** @description This boolean indicates whether the seller has opted in to seller profiles. */
+            sellerProfileOptedIn?: boolean;
+        };
+        /** @description This field is included if the seller wishes to add or modify the shipping carrier rate type that is available to the seller. This field is only returned if set. </br><b>Note</b>: This container is only applicable to the eBay US marketplace. */
+        ShippingCarrierRatePreferencesType: {
+            /** @description This enum is included if the seller wishes to add or modify the FedEx shipping carrier rate. </br><b>Note</b>: This preference is only applicable to the eBay US marketplace. */
+            fedexRateOption?: components["schemas"]["FedexRateOptionEnum"];
+            /** @description This enum is included if the seller wishes to add or modify the UPS shipping carrier rate. </br><b>Note</b>: This preference is only applicable to the eBay US marketplace. */
+            upsRateOption?: components["schemas"]["UPSRateOptionEnum"];
+        };
+        /** @description This type is used to update calculated shipping rules. */
+        UpdateCalculatedShippingRulesRequest: {
+            /** @description This container specifies the calculated handling rule that determines how handling fees are automatically computed based on order weight, quantity, or value in a combined shipment. */
+            calculatedHandlingRule?: components["schemas"]["CalculatedHandlingRuleType"];
+            /** @description This container defines the calculated shipping rule that determines shipping costs or discounts based on factors such as total weight, price, or item count in a combined order. */
+            calculatedShippingRule?: components["schemas"]["CalculatedShippingRuleType"];
+            /** @description This enumerated value specifies the duration within which multiple unpaid orders may be combined into a single invoice, represented by one of the values in <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-combined_shipping_rules-getcombinedshippingrules.getcombinedshippingrulesresponse.combinedduration" target="_blank">CombinedPaymentPeriodEnum</a>. */
+            combinedDuration?: components["schemas"]["CombinedPaymentPeriodEnum"];
+        };
+        /** @description This type is used to update the combined payment duration */
+        UpdateCombinedPaymentsRequest: {
+            /** @description This field specifies the duration within which multiple unpaid orders may be combined into a single invoice. <br><br>One of the values in <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-combined_shipping_rules-getcombinedshippingrules.getcombinedshippingrulesresponse.combinedduration" target="_blank">CombinedPaymentPeriodEnum</a> must be used in this field. */
+            combinedDuration: components["schemas"]["CombinedPaymentPeriodEnum"];
+        };
+        /** @description This type defines a request to update flat shipping rules. */
+        UpdateFlatShippingRulesRequest: {
+            /** @description This field specifies the duration within which multiple unpaid orders may be combined into a single invoice. <br><br> One of the values in <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-combined_shipping_rules-getcombinedshippingrules.getcombinedshippingrulesresponse.combinedduration" target="_blank">CombinedPaymentPeriodEnum</a> must be used in this field. */
+            combinedDuration: components["schemas"]["CombinedPaymentPeriodEnum"];
+            /** @description This container defines the flat-rate combined-shipping rule, which applies a fixed shipping cost for multiple items shipped together. */
+            flatShippingRule: components["schemas"]["FlatShippingRuleType"];
+        };
         /** @description This type allows the user to change the payout percentages for two active payment instruments. */
         UpdatePayoutPercentage: {
-            /** @description The unique reference identifier for a payout instrument. This value is returned in the <a href="/api-docs/sell/account/v2/resources/payout_settings/methods/getPayoutSettings" target="_blank ">getPayoutSettings</a> response and is needed to change split-payout percentages through an <b>updatePayoutPercentage</b> request. */
-            instrumentId?: string;
+            /** @description The unique reference identifier for a payout instrument. This value is returned in the <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-payout_settings-getpayoutsettings" target="_blank">getPayoutSettings</a> response and is needed to change split-payout percentages through an <b>updatePayoutPercentage</b> request. */
+            instrumentId: string;
             /** @description The user-defined payout percentage allocated to this instrument. For example, <code>50</code> indicates that 50% of the payout goes to this instrument.<br/><br/>The split-payout percentage <b>must</b> be a positive integer value from 0-100. The values of two instruments <b>must</b> always add up to 100%. If the values do not equal 100, the call will fail. */
-            payoutPercentage?: string;
+            payoutPercentage: string;
         };
         /** @description This type is used by the request payload of the <b>updatePayoutPercentage</b> method to allow a seller to configure the split-payout percentages for two payout instruments. */
         UpdatePayoutPercentageRequest: {
             /** @description This array allows the seller to set the payout split percentages for two accounts enabled to receive payouts. */
-            payoutInstruments?: components["schemas"]["UpdatePayoutPercentage"][];
+            payoutInstruments: components["schemas"]["UpdatePayoutPercentage"][];
+        };
+        /** @description This type defines a request to update promotional shipping rule. */
+        UpdatePromotionalShippingRuleRequest: {
+            /** @description This container specifies the duration within which multiple unpaid orders may be combined into a single invoice.<br><br>One of the values in <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-combined_shipping_rules-getcombinedshippingrules.getcombinedshippingrulesresponse.combinedduration" target="_blank">CombinedPaymentPeriodEnum</a> must be used in this field. */
+            combinedDuration?: components["schemas"]["CombinedPaymentPeriodEnum"];
+            /** @description This container specifies the promotional shipping rule that offers discounts or free-shipping options based on defined order thresholds, item counts, or marketplace conditions. */
+            promotionalShippingRule?: components["schemas"]["PromotionalShippingRuleType"];
+        };
+        /**
+         * @description This enum type defines the available options for handling combined payments when a seller allows multiple line items from the same buyer to be paid for with a single payment. See <code>CombinedPaymentOptionEnum</code> for a description of each value. | - **NO_COMBINED_PAYMENT**: Indicates that combined payments are not allowed. - **DISCOUNT_SPECIFIED**: Indicates that a combined-payment discount has been specified. - **SPECIFY_DISCOUNT_LATER**: Indicates that the seller will specify the combined-payment discount later.
+         * @enum {string}
+         */
+        CombinedPaymentOptionEnum: "NO_COMBINED_PAYMENT" | "DISCOUNT_SPECIFIED" | "SPECIFY_DISCOUNT_LATER";
+        /**
+         * @description This enumerated type defines the allowable time durations (e.g., 3, 7, 14 days) within which multiple unpaid items may be merged into a combined invoice. | - **DAYS_14**: Indicates that eligible unpaid line items can be combined into one payment for up to 14 days. - **DAYS_3**: Indicates that eligible unpaid line items can be combined into one payment for up to 3 days. - **DAYS_30**: Indicates that eligible unpaid line items can be combined into one payment for up to 30 days. - **DAYS_5**: Indicates that eligible unpaid line items can be combined into one payment for up to 5 days. - **DAYS_7**: Indicates that eligible unpaid line items can be combined into one payment for up to 7 days. - **INELIGIBLE**: Indicates that the buyer is not eligible to combine unpaid line items into one payment.
+         * @enum {string}
+         */
+        CombinedPaymentPeriodEnum: "DAYS_14" | "DAYS_3" | "DAYS_30" | "DAYS_5" | "DAYS_7" | "INELIGIBLE";
+        /**
+         * @description This enumeration type defines the available types of combined-shipping rules, such as weight-based, cost-based, or flat-rate discount models. | - **COMBINED_ITEM_WEIGHT**: Indicates that combined shipping is calculated from the combined weight of the items in the order. - **EACH_ADDITIONAL_AMOUNT**: Indicates that a specified amount is charged for each additional item in the order. - **EACH_ADDITIONAL_AMOUNT_OFF**: Indicates that a specified amount is subtracted from the shipping cost for each additional item in the order. - **EACH_ADDITIONAL_PERCENT_OFF**: Indicates that a specified percentage is subtracted from the shipping cost for each additional item in the order. - **INDIVIDUAL_ITEM_WEIGHT**: Indicates that combined shipping is calculated from the individual item weights. - **MAXIMUM_SHIPPING_COST_PER_ORDER**: Indicates that the combined shipping cost is capped at a maximum amount for the order. - **SHIPPING_COST_X_FOR_AMOUNT_Y**: Indicates that the shipping cost is a specified amount when the order amount meets a configured threshold. - **SHIPPING_COST_X_FOR_ITEM_COUNT_N**: Indicates that the shipping cost is a specified amount when the order item count meets a configured threshold. - **WEIGHT_OFF**: Indicates that a specified weight amount is subtracted from the total order weight.
+         * @enum {string}
+         */
+        CombinedShippingRuleTypeEnum: "COMBINED_ITEM_WEIGHT" | "EACH_ADDITIONAL_AMOUNT" | "EACH_ADDITIONAL_AMOUNT_OFF" | "EACH_ADDITIONAL_PERCENT_OFF" | "INDIVIDUAL_ITEM_WEIGHT" | "MAXIMUM_SHIPPING_COST_PER_ORDER" | "SHIPPING_COST_X_FOR_AMOUNT_Y" | "SHIPPING_COST_X_FOR_ITEM_COUNT_N" | "WEIGHT_OFF";
+        /**
+         * @description This enumeration type calculates all valid handling discount rule types that govern how combined order handling costs are applied. | - **COMBINED_HANDLING_FEE**: Indicates that handling fees are combined for the order. - **EACH_ADDITIONAL_AMOUNT**: Indicates that a specified handling amount is charged for each additional item. - **EACH_ADDITIONAL_AMOUNT_OFF**: Indicates that a specified amount is subtracted from the handling cost for each additional item. - **EACH_ADDITIONAL_PERCENT_OFF**: Indicates that a specified percentage is subtracted from the handling cost for each additional item. - **INDIVIDUAL_HANDLING_FEE**: Indicates that handling fees are calculated separately for individual items.
+         * @enum {string}
+         */
+        CombinedShippingRuleTypeHandlingEnum: "COMBINED_HANDLING_FEE" | "EACH_ADDITIONAL_AMOUNT" | "EACH_ADDITIONAL_AMOUNT_OFF" | "EACH_ADDITIONAL_PERCENT_OFF" | "INDIVIDUAL_HANDLING_FEE";
+        /**
+         * @description This enumerated type lists the three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html" title="https://www.iso.org " target="_blank">ISO 4217</a> codes representing the supported world currencies. | - **AED**: Indicates the currency is United Arab Emirates dirham. - **AFN**: Indicates the currency is Afghan afghani. - **ALL**: Indicates the currency is Albanian lek. - **AMD**: Indicates the currency is Armenian dram. - **ANG**: Indicates the currency is Netherlands Antillean guilder. - **AOA**: Indicates the currency is Angolan kwanza. - **ARS**: Indicates the currency is Argentine peso. - **AUD**: Indicates the currency is Australian dollar. - **AWG**: Indicates the currency is Aruban florin. - **AZN**: Indicates the currency is Azerbaijani manat. - **BAM**: Indicates the currency is Bosnia and Herzegovina convertible mark. - **BBD**: Indicates the currency is Barbados dollar. - **BDT**: Indicates the currency is Bangladeshi taka. - **BGN**: Indicates the currency is Bulgarian lev. - **BHD**: Indicates the currency is Bahraini dinar. - **BIF**: Indicates the currency is Burundian franc. - **BMD**: Indicates the currency is Bermudian dollar. - **BND**: Indicates the currency is Brunei dollar. - **BOB**: Indicates the currency is Bolivian boliviano. - **BRL**: Indicates the currency is Brazilian real. - **BSD**: Indicates the currency is Bahamian dollar. - **BTN**: Indicates the currency is Bhutanese ngultrum. - **BWP**: Indicates the currency is Botswana pula. - **BYR**: Indicates the currency is Belarusian ruble. - **BZD**: Indicates the currency is Belize dollar. - **CAD**: Indicates the currency is Canadian dollar. - **CDF**: Indicates the currency is Congolese franc. - **CHF**: Indicates the currency is Swiss franc. - **CLP**: Indicates the currency is Chilean peso. - **CNY**: Indicates the currency is Chinese yuan. - **COP**: Indicates the currency is Colombian peso. - **CRC**: Indicates the currency is Costa Rican colon. - **CUP**: Indicates the currency is Cuban peso. - **CVE**: Indicates the currency is Cape Verdean escudo. - **CZK**: Indicates the currency is Czech koruna. - **DJF**: Indicates the currency is Djiboutian franc. - **DKK**: Indicates the currency is Danish krone. - **DOP**: Indicates the currency is Dominican peso. - **DZD**: Indicates the currency is Algerian dinar. - **EGP**: Indicates the currency is Egyptian pound. - **ERN**: Indicates the currency is Eritrean nakfa. - **ETB**: Indicates the currency is Ethiopian birr. - **EUR**: Indicates the currency is Euro. - **FJD**: Indicates the currency is Fiji dollar. - **FKP**: Indicates the currency is Falkland Islands pound. - **GBP**: Indicates the currency is Pound sterling. - **GEL**: Indicates the currency is Georgian lari. - **GHS**: Indicates the currency is Ghanaian cedi. - **GIP**: Indicates the currency is Gibraltar pound. - **GMD**: Indicates the currency is Gambian dalasi. - **GNF**: Indicates the currency is Guinean franc. - **GTQ**: Indicates the currency is Guatemalan quetzal. - **GYD**: Indicates the currency is Guyanese dollar. - **HKD**: Indicates the currency is Hong Kong dollar. - **HNL**: Indicates the currency is Honduran lempira. - **HRK**: Indicates the currency is Croatian kuna. - **HTG**: Indicates the currency is Haitian gourde. - **HUF**: Indicates the currency is Hungarian forint. - **IDR**: Indicates the currency is Indonesian rupiah. - **ILS**: Indicates the currency is Israeli new shekel. - **INR**: Indicates the currency is Indian rupee. - **IQD**: Indicates the currency is Iraqi dinar. - **IRR**: Indicates the currency is Iranian rial. - **ISK**: Indicates the currency is Icelandic krona. - **JMD**: Indicates the currency is Jamaican dollar. - **JOD**: Indicates the currency is Jordanian dinar. - **JPY**: Indicates the currency is Japanese yen. - **KES**: Indicates the currency is Kenyan shilling. - **KGS**: Indicates the currency is Kyrgyzstani som. - **KHR**: Indicates the currency is Cambodian riel. - **KMF**: Indicates the currency is Comorian franc. - **KPW**: Indicates the currency is North Korean won. - **KRW**: Indicates the currency is South Korean won. - **KWD**: Indicates the currency is Kuwaiti dinar. - **KYD**: Indicates the currency is Cayman Islands dollar. - **KZT**: Indicates the currency is Kazakhstani tenge. - **LAK**: Indicates the currency is Lao kip. - **LBP**: Indicates the currency is Lebanese pound. - **LKR**: Indicates the currency is Sri Lankan rupee. - **LRD**: Indicates the currency is Liberian dollar. - **LSL**: Indicates the currency is Lesotho loti. - **LTL**: Indicates the currency is Lithuanian litas. - **LYD**: Indicates the currency is Libyan dinar. - **MAD**: Indicates the currency is Moroccan dirham. - **MDL**: Indicates the currency is Moldovan leu. - **MGA**: Indicates the currency is Malagasy ariary. - **MKD**: Indicates the currency is Macedonian denar. - **MMK**: Indicates the currency is Myanmar kyat. - **MNT**: Indicates the currency is Mongolian tugrik. - **MOP**: Indicates the currency is Macanese pataca. - **MRO**: Indicates the currency is Mauritanian ouguiya. - **MUR**: Indicates the currency is Mauritian rupee. - **MVR**: Indicates the currency is Maldivian rufiyaa. - **MWK**: Indicates the currency is Malawian kwacha. - **MXN**: Indicates the currency is Mexican peso. - **MYR**: Indicates the currency is Malaysian ringgit. - **MZN**: Indicates the currency is Mozambican metical. - **NAD**: Indicates the currency is Namibian dollar. - **NGN**: Indicates the currency is Nigerian naira. - **NIO**: Indicates the currency is Nicaraguan cordoba. - **NOK**: Indicates the currency is Norwegian krone. - **NPR**: Indicates the currency is Nepalese rupee. - **NZD**: Indicates the currency is New Zealand dollar. - **OMR**: Indicates the currency is Omani rial. - **PAB**: Indicates the currency is Panamanian balboa. - **PEN**: Indicates the currency is Peruvian sol. - **PGK**: Indicates the currency is Papua New Guinean kina. - **PHP**: Indicates the currency is Philippine peso. - **PKR**: Indicates the currency is Pakistani rupee. - **PLN**: Indicates the currency is Polish zloty. - **PYG**: Indicates the currency is Paraguayan guarani. - **QAR**: Indicates the currency is Qatari riyal. - **RON**: Indicates the currency is Romanian leu. - **RSD**: Indicates the currency is Serbian dinar. - **RUB**: Indicates the currency is Russian ruble. - **RWF**: Indicates the currency is Rwandan franc. - **SAR**: Indicates the currency is Saudi riyal. - **SBD**: Indicates the currency is Solomon Islands dollar. - **SCR**: Indicates the currency is Seychelles rupee. - **SDG**: Indicates the currency is Sudanese pound. - **SEK**: Indicates the currency is Swedish krona. - **SGD**: Indicates the currency is Singapore dollar. - **SHP**: Indicates the currency is Saint Helena pound. - **SLL**: Indicates the currency is Sierra Leonean leone. - **SOS**: Indicates the currency is Somali shilling. - **SRD**: Indicates the currency is Surinamese dollar. - **STD**: Indicates the currency is Sao Tome and Principe dobra. - **SYP**: Indicates the currency is Syrian pound. - **SZL**: Indicates the currency is Swazi lilangeni. - **THB**: Indicates the currency is Thai baht. - **TJS**: Indicates the currency is Tajikistani somoni. - **TMT**: Indicates the currency is Turkmenistan manat. - **TND**: Indicates the currency is Tunisian dinar. - **TOP**: Indicates the currency is Tongan paanga. - **TRY**: Indicates the currency is Turkish lira. - **TTD**: Indicates the currency is Trinidad and Tobago dollar. - **TWD**: Indicates the currency is New Taiwan dollar. - **TZS**: Indicates the currency is Tanzanian shilling. - **UAH**: Indicates the currency is Ukrainian hryvnia. - **UGX**: Indicates the currency is Ugandan shilling. - **USD**: Indicates the currency is United States dollar. - **UYU**: Indicates the currency is Uruguayan peso. - **UZS**: Indicates the currency is Uzbekistani som. - **VEF**: Indicates the currency is Venezuelan bolivar. - **VND**: Indicates the currency is Vietnamese dong. - **VUV**: Indicates the currency is Vanuatu vatu. - **WST**: Indicates the currency is Samoan tala. - **XAF**: Indicates the currency is Central African CFA franc. - **XCD**: Indicates the currency is East Caribbean dollar. - **XOF**: Indicates the currency is West African CFA franc. - **XPF**: Indicates the currency is CFP franc. - **YER**: Indicates the currency is Yemeni rial. - **ZAR**: Indicates the currency is South African rand. - **ZMW**: Indicates the currency is Zambian kwacha. - **ZWL**: Indicates the currency is Zimbabwean dollar.
+         * @enum {string}
+         */
+        CurrencyCodeEnum: "AED" | "AFN" | "ALL" | "AMD" | "ANG" | "AOA" | "ARS" | "AUD" | "AWG" | "AZN" | "BAM" | "BBD" | "BDT" | "BGN" | "BHD" | "BIF" | "BMD" | "BND" | "BOB" | "BRL" | "BSD" | "BTN" | "BWP" | "BYR" | "BZD" | "CAD" | "CDF" | "CHF" | "CLP" | "CNY" | "COP" | "CRC" | "CUP" | "CVE" | "CZK" | "DJF" | "DKK" | "DOP" | "DZD" | "EGP" | "ERN" | "ETB" | "EUR" | "FJD" | "FKP" | "GBP" | "GEL" | "GHS" | "GIP" | "GMD" | "GNF" | "GTQ" | "GYD" | "HKD" | "HNL" | "HRK" | "HTG" | "HUF" | "IDR" | "ILS" | "INR" | "IQD" | "IRR" | "ISK" | "JMD" | "JOD" | "JPY" | "KES" | "KGS" | "KHR" | "KMF" | "KPW" | "KRW" | "KWD" | "KYD" | "KZT" | "LAK" | "LBP" | "LKR" | "LRD" | "LSL" | "LTL" | "LYD" | "MAD" | "MDL" | "MGA" | "MKD" | "MMK" | "MNT" | "MOP" | "MRO" | "MUR" | "MVR" | "MWK" | "MXN" | "MYR" | "MZN" | "NAD" | "NGN" | "NIO" | "NOK" | "NPR" | "NZD" | "OMR" | "PAB" | "PEN" | "PGK" | "PHP" | "PKR" | "PLN" | "PYG" | "QAR" | "RON" | "RSD" | "RUB" | "RWF" | "SAR" | "SBD" | "SCR" | "SDG" | "SEK" | "SGD" | "SHP" | "SLL" | "SOS" | "SRD" | "STD" | "SYP" | "SZL" | "THB" | "TJS" | "TMT" | "TND" | "TOP" | "TRY" | "TTD" | "TWD" | "TZS" | "UAH" | "UGX" | "USD" | "UYU" | "UZS" | "VEF" | "VND" | "VUV" | "WST" | "XAF" | "XCD" | "XOF" | "XPF" | "YER" | "ZAR" | "ZMW" | "ZWL";
+        /**
+         * @description This enum type defines the supported logo types that can be used in end-of-auction emails sent to winning bidders. | - **WINNING_BIDDER_NOTICE**: Indicates that the winning-bidder notice logo is used. - **STORE**: Indicates that the seller's eBay Store logo is used. - **CUSTOMIZED**: Indicates that the seller uses a customized logo. - **NONE**: Indicates that no logo is used.
+         * @enum {string}
+         */
+        EndOfAuctionLogoTypeEnum: "WINNING_BIDDER_NOTICE" | "STORE" | "CUSTOMIZED" | "NONE";
+        /**
+         * @description This enum type defines the FedEx shipping rate options that are available to the seller. | - **FEDEX_STANDARD_LIST**: Indicates that FedEx standard list rates are used. - **FEDEX_COUNTER**: Indicates that FedEx counter rates are used.
+         * @enum {string}
+         */
+        FedexRateOptionEnum: "FEDEX_STANDARD_LIST" | "FEDEX_COUNTER";
+        /**
+         * @description This enumeration type lists the different possible instrument statuses that can be returned with the <b>getPayoutSettings</b> method.<br><br><span class="tablenote"><b>Note:</b> Payout splits can only be modified for accounts in <code>ACTIVE</code> state.</span> | - **PENDING**: This status indicates that the account must be verified before it can be used. - **ACTIVE**: This status indicates that payouts are enabled on this account. - **VERIFICATION_FAILED**: This status indicates that verification has failed for this account and payouts are disabled. - **INACTIVE**: This status indicates that this account has become inactive and payouts are disabled.
+         * @enum {string}
+         */
+        InstrumentStatusEnum: "PENDING" | "ACTIVE" | "VERIFICATION_FAILED" | "INACTIVE";
+        /**
+         * @description This enumerated type defines the unique eBay-assigned IDs for each of the eBay marketplaces. | - **EBAY_AT**: Indicates the eBay marketplace for Austria (https://www.ebay.at). - **EBAY_AU**: Indicates the eBay marketplace for Australia (https://www.ebay.com.au). - **EBAY_BE**: Indicates the eBay marketplace for Belgium (https://www.ebay.be/). - **EBAY_CA**: Indicates the eBay marketplace for Canada (https://www.ebay.ca). - **EBAY_CH**: Indicates the eBay marketplace for Switzerland (https://www.ebay.ch). - **EBAY_CN**: Reserved for future use. - **EBAY_CZ**: Reserved for future use. - **EBAY_DE**: Indicates the eBay marketplace for Germany (https://www.ebay.de). - **EBAY_DK**: Reserved for future use. - **EBAY_ES**: Indicates the eBay marketplace for Spain (https://www.ebay.es). - **EBAY_FI**: Reserved for future use. - **EBAY_FR**: Indicates the eBay marketplace for France (https://www.ebay.fr). - **EBAY_GB**: Indicates the eBay marketplace for Great Britain (https://www.ebay.co.uk). - **EBAY_GR**: Reserved for future use. - **EBAY_HK**: Indicates the eBay marketplace for Hong Kong (https://www.ebay.com.hk). - **EBAY_HU**: Reserved for future use. - **EBAY_ID**: Reserved for future use. - **EBAY_IE**: Indicates the eBay marketplace for Ireland (https://www.ebay.ie). - **EBAY_IL**: Reserved for future use. - **EBAY_IN**: Indicates the eBay marketplace for India (https://www.ebay.in). - **EBAY_IT**: Indicates the eBay marketplace for Italy (https://www.ebay.it). - **EBAY_JP**: Reserved for future use. - **EBAY_MY**: Indicates the eBay marketplace for Malaysia (https://www.ebay.com.my). - **EBAY_NL**: Indicates the eBay marketplace for the Netherlands (https://www.ebay.nl). - **EBAY_NO**: Reserved for future use. - **EBAY_NZ**: Reserved for future use. - **EBAY_PE**: Reserved for future use. - **EBAY_PH**: Indicates the eBay marketplace for the Philippines (https://www.ebay.ph). - **EBAY_PL**: Indicates the eBay marketplace for Poland (https://www.ebay.pl). - **EBAY_PR**: Reserved for future use. - **EBAY_PT**: Reserved for future use. - **EBAY_RU**: Reserved for future use. - **EBAY_SE**: Reserved for future use. - **EBAY_SG**: Indicates the eBay marketplace for Singapore (https://www.ebay.com.sg). - **EBAY_TH**: Indicates the eBay marketplace for Thailand (https://info.ebay.co.th). - **EBAY_TW**: Indicates the eBay marketplace for Taiwan (https://www.ebay.com.tw). - **EBAY_US**: Indicates the eBay marketplace for the United States (https://www.ebay.com). - **EBAY_VN**: Indicates the eBay marketplace for Vietnam (https://www.ebay.vn). - **EBAY_ZA**: Reserved for future use. - **EBAY_HALF_US**: No longer used. - **EBAY_MOTORS_US**: Indicates the parent category for Auto Parts and Vehicles on the EBAY_US marketplace (https://www.ebay.com/motors).
+         * @enum {string}
+         */
+        MarketplaceIdEnum: "EBAY_AT" | "EBAY_AU" | "EBAY_BE" | "EBAY_CA" | "EBAY_CH" | "EBAY_CN" | "EBAY_CZ" | "EBAY_DE" | "EBAY_DK" | "EBAY_ES" | "EBAY_FI" | "EBAY_FR" | "EBAY_GB" | "EBAY_GR" | "EBAY_HK" | "EBAY_HU" | "EBAY_ID" | "EBAY_IE" | "EBAY_IL" | "EBAY_IN" | "EBAY_IT" | "EBAY_JP" | "EBAY_MY" | "EBAY_NL" | "EBAY_NO" | "EBAY_NZ" | "EBAY_PE" | "EBAY_PH" | "EBAY_PL" | "EBAY_PR" | "EBAY_PT" | "EBAY_RU" | "EBAY_SE" | "EBAY_SG" | "EBAY_TH" | "EBAY_TW" | "EBAY_US" | "EBAY_VN" | "EBAY_ZA" | "EBAY_HALF_US" | "EBAY_MOTORS_US";
+        /**
+         * @description An enum that defines the available levels of shipping service. | - **ONE_DAY**: Shipping rate applies to One-Day delivery services. Note: This option is not supported when <b>shippingOptionType</b> is <code>INTERNATIONAL</code>. - **EXPEDITED**: Shipping rate applies to Expedited delivery services. This generally indicates that a shipment can arrive at the shipping destination within one or two business days. - **STANDARD**: Shipping rate applies to Standard delivery services. - **ECONOMY**: Shipping rate applies to Economy delivery services. This generally indicates that shipping rates are minimized but it will take longer for the shipment to arrive at the shipping destination. - **EXPRESS**: Shipping rate applies to Express delivery services. Note: This option is supported only when <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-rate_table-getratetable.ratetabledetails.marketplaceid" target="_blank">MarketplaceIdEnum</a> is <code>EBAY_DE</code> (Germany).
+         * @enum {string}
+         */
+        ShippingCategoryEnum: "ONE_DAY" | "EXPEDITED" | "STANDARD" | "ECONOMY" | "EXPRESS";
+        /**
+         * @description An enum defining a region that is either domestic (within the country from where the item is listed or shipped) or international (a country outside the country from where the item is listed or shipped). | - **DOMESTIC**: <code>DOMESTIC</code> indicates a region that is within the source country. - **INTERNATIONAL**: <code>INTERNATIONAL</code> indicates a region that is external to the source country.
+         * @enum {string}
+         */
+        ShippingOptionTypeEnum: "DOMESTIC" | "INTERNATIONAL";
+        /**
+         * @description An enum that specifies the how a shipping rate is calculated. | - **ITEM**: Specifies the flat rate shipping cost that buyers in the specified shipping region will pay. - **WEIGHT**: Specifies that the shipping cost is calculated using the weight of the item or items being shipped. - **SURCHARGE**: Specifies a flat amount that is added to the shipping cost specified within an item's listing.
+         * @enum {string}
+         */
+        ShippingRateCalculationEnum: "ITEM" | "WEIGHT" | "SURCHARGE";
+        /**
+         * @description This enum type defines the UPS shipping rate options that are available to the seller. | - **UPS_DAILY_RATES**: Indicates that UPS Daily Rates are used. - **UPS_ON_DEMAND_RATES**: Indicates that UPS On Demand Rates are used.
+         * @enum {string}
+         */
+        UPSRateOptionEnum: "UPS_DAILY_RATES" | "UPS_ON_DEMAND_RATES";
+        /**
+         * @description This enumeration type defines the supported weight measurement units (e.g., kilograms, pounds, ounces) used in shipping calculations and rule configurations. | - **POUND**: Indicates the unit of measure is pounds. - **KILOGRAM**: Indicates the unit of measure is kilograms. - **OUNCE**: Indicates the unit of measure is ounces. - **GRAM**: Indicates the unit of measure is grams.
+         * @enum {string}
+         */
+        WeightUnitOfMeasureEnum: "POUND" | "KILOGRAM" | "OUNCE" | "GRAM";
+        /** @description This container represents the seller's preferences for the items that are awaiting payment. */
+        SetItemsAwaitingPaymentPreferencesType: {
+            /** @description This boolean field is included if the seller wishes to toggle the setting that controls whether or not the line item should be automatically relisted when cancelled. For this field to be set to <code>true</code>, the <code>optInStatus</code> field should also be <code>true</code>. </br> <b>Note</b>: If the line item was part of an auction listing or a single-quantity fixed price listing, a new listing will actually be created. If the line item was part of a multiple-quantity fixed price listing, eBay will only adjust the quantity based on the cancelled line item’s quantity. */
+            autoRelist?: boolean;
+            /**
+             * Format: int32
+             * @description This integer field is included if the seller wishes to set or change the number of business days without payment that must elapse before the line item is cancelled. This is a required field if the optInStatus field is <code>true</code>. </br><b>Note</b>: The supported integer values (representing business days) varies by eBay marketplace.
+             */
+            delayBeforeCancellingCommitment?: number;
+            /** @description This array is used if the seller wishes to exclude one or more eBay users from the unpaid item assistance mechanism. The seller would need to manually cancel any unpaid line items for all users on this list. This array will not be returned if there are no users on the excluded users list. </br><b>Note</b>: The eBay public username is used for each excluded user, and a comma is used to delimit each user in the array. */
+            excludedUsers?: string[];
+            /** @description This boolean field is included if the seller wishes to toggle the setting that controls whether or not the seller is opted into the unpaid item assistance mechanism. If the seller is not opted in, no other fields under <code>itemsAwaitingPaymentPreferences</code> are applicable. */
+            optInStatus?: boolean;
+            /** @description This boolean field is included and set to <code>true</code> if the seller wishes to remove all eBay users from the current excluded users list. If this field is included and set to <code>true</code>, the <code>excludedUsers</code> array should not be included. */
+            removeAllExcludedUsers?: boolean;
+        };
+        /** @description This type defines the request fields for the seller preferences configuration for eBay services. */
+        SetUserPreferencesRequest: {
+            /** @description This container is included if the seller wishes to allow combined invoices if the buyer has multiple unpaid orders from the same seller. */
+            combinedPaymentPreferences?: components["schemas"]["CombinedPaymentPreferencesType"];
+            /** @description This container is included if the seller wishes to set or modify the order cut-off time for same-day shipping. */
+            dispatchCutoffTimePreference?: components["schemas"]["DispatchCutoffTimePreferencesType"];
+            /** @description This field is included if the seller wishes to enable or disable the setting that will automatically email the buyer with the tracking number when it becomes available. */
+            emailShipmentTrackingNumberPreference?: boolean;
+            /** @description This container is included if the seller wishes to change one or more of the end of auction email preferences. */
+            endOfAuctionEmailPreferences?: components["schemas"]["EndOfAuctionEmailPreferencesType"];
+            /** @description This boolean field is included if the seller wishes to toggle the setting that controls whether or not the seller’s new listings on the eBay UK marketplace will automatically use the Global Shipping Program for international shipping. </br><b>Note</b>: The Global Shipping Program is only available for the eBay UK marketplace, and the seller must be opted into the program, that is <code>offerGlobalShippingProgramPreference = true</code> */
+            globalShippingProgramListingPreference?: boolean;
+            /** @description This container is included if the seller wishes to change one or more of the items awaiting payment preferences. */
+            itemsAwaitingPaymentPreferences?: components["schemas"]["SetItemsAwaitingPaymentPreferencesType"];
+            /** @description This boolean field is included if the seller wishes to toggle the setting that controls whether or not the seller is opted into the Out-of-Stock feature. With this feature, a multiple quantity fixed price listing that runs out of stock will be hidden from eBay search but kept alive. Once the sellers add quantity to the listing, the listing will become active and available again. */
+            outOfStockControlPreference?: boolean;
+            /** @description This boolean field is included if the seller wishes to toggle the setting that controls whether or not the buyer is expected to provide a shipping phone number upon checkout. Some shipping carriers require the receiver's phone number. */
+            purchaseReminderEmailPreferences?: boolean;
+            /** @description This boolean indicates whether the seller wishes to require phone numbers for shipping or not. */
+            requiredShipPhoneNumberPreference?: boolean;
+            /** @description This container is included if the seller wishes to add or modify a FedEx, UPS, and/or US Post Office shipping rate type that is available to the seller. </br><b>Note</b>: This container is only applicable to the eBay US marketplace. */
+            shippingCarrierRatePreferences?: components["schemas"]["ShippingCarrierRatePreferencesType"];
         };
     };
     responses: never;
@@ -203,7 +726,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                /** @description This path parameter is the unique identifier for the shipping rate table to retrieve.<br/><br/> Use the <a href="/api-docs/sell/account/resources/rate_table/methods/getRateTables" target="_blank">getRateTables</a> method of the <a href="/api-docs/sell/account/static/overview.html " target="_blank">Account API v1</a> to retrieve rate table IDs. */
+                /** @description This path parameter is the unique identifier for the shipping rate table to retrieve.<br/><br/> Use the <a href="/develop/api/sell/account_api#sell-account_api-rate_table-getratetables" target="_blank">getRateTables</a> method of the <a href="/develop/api/sell/account_api" target="_blank">Account API v1</a> to retrieve rate table IDs. */
                 rate_table_id: string;
             };
             cookie?: never;
@@ -224,21 +747,27 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
             };
             /** @description Not found */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
             };
         };
     };
@@ -246,11 +775,11 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                /** @description This header indicates the format of the request body provided by the client. It's value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+                /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br>For more information, refer to <a href="/develop/guides-v2/using-ebay-restful-apis#request-components" target="_blank">HTTP request headers</a>. */
                 "Content-Type": string;
             };
             path: {
-                /** @description This path parameter is the unique identifier for the shipping rate table for which shipping costs will be updated.<br/><br/> Use the <a href="/api-docs/sell/account/resources/rate_table/methods/getRateTables" target="_blank">getRateTables</a> method of the <a href="/api-docs/sell/account/static/overview.html " target="_blank">Account API v1</a> to retrieve rate table IDs. */
+                /** @description This path parameter is the unique identifier for the shipping rate table for which shipping costs will be updated.<br/><br/> Use the <a href="/develop/api/sell/account_api#sell-account_api-rate_table-getratetables" target="_blank">getRateTables</a> method of the <a href="/develop/api/sell/account_api" target="_blank">Account API v1</a> to retrieve rate table IDs. */
                 rate_table_id: string;
             };
             cookie?: never;
@@ -274,28 +803,36 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
             };
             /** @description Not Found */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
             };
             /** @description Conflict */
             409: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
             };
         };
     };
@@ -322,7 +859,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
             };
         };
     };
@@ -330,7 +869,7 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+                /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br>For more information, refer to <a href="/develop/guides-v2/using-ebay-restful-apis#request-components" target="_blank">HTTP request headers</a>. */
                 "Content-Type": string;
             };
             path?: never;
@@ -354,14 +893,456 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
             };
             /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    createCalculatedShippingRules: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description This required header sets the eBay marketplace where the request is processed. For the full list of eBay marketplace values, see the <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-rate_table-getratetable.ratetabledetails.marketplaceid" target="_blank">MarketplaceIdEnum</a> type. */
+                "X-EBAY-C-MARKETPLACE-ID": components["schemas"]["MarketplaceIdEnum"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This type is used to define and configure calculated combined shipping and handling rules and/or change the combined payment duration. */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CreateCalculatedShippingRulesRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    createFlatShippingRules: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description This required header sets the eBay marketplace where the request is processed. For the full list of eBay marketplace values, see the <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-rate_table-getratetable.ratetabledetails.marketplaceid" target="_blank">MarketplaceIdEnum</a> type. */
+                "X-EBAY-C-MARKETPLACE-ID": components["schemas"]["MarketplaceIdEnum"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This type is used to define and configure flat-rate combined shipping rules and/or change the combined payment duration. */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CreateFlatShippingRulesRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    createPromotionalShippingRule: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description This required header sets the eBay marketplace where the request is processed. For the full list of eBay marketplace values, see the <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-rate_table-getratetable.ratetabledetails.marketplaceid" target="_blank">MarketplaceIdEnum</a> type. */
+                "X-EBAY-C-MARKETPLACE-ID": components["schemas"]["MarketplaceIdEnum"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This type is used to define and configure the promotional combined shipping rule and/or change the combined payment duration. */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CreatePromotionalShippingRuleRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    getCombinedShippingRules: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description This required header sets the eBay marketplace where the request is processed. For the full list of eBay marketplace values, see the <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-rate_table-getratetable.ratetabledetails.marketplaceid" target="_blank">MarketplaceIdEnum</a> type. */
+                "X-EBAY-C-MARKETPLACE-ID": components["schemas"]["MarketplaceIdEnum"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetCombinedShippingRulesPublicApiResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    updateCalculatedShippingRules: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description This required header sets the eBay marketplace where the request is processed. For the full list of eBay marketplace values, see the <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-rate_table-getratetable.ratetabledetails.marketplaceid" target="_blank">MarketplaceIdEnum</a> type. */
+                "X-EBAY-C-MARKETPLACE-ID": components["schemas"]["MarketplaceIdEnum"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This type is used for creating and updating calculated combined-shipping rules. */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UpdateCalculatedShippingRulesRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    updateCombinedPayments: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description This required header sets the eBay marketplace where the request is processed. For the full list of eBay marketplace values, see the <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-rate_table-getratetable.ratetabledetails.marketplaceid" target="_blank">MarketplaceIdEnum</a> type. */
+                "X-EBAY-C-MARKETPLACE-ID": components["schemas"]["MarketplaceIdEnum"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This type is used for updating combined-payment settings. <br><br>It defines how multiple unpaid orders from the same buyer are combined into a single payment, including configuration parameters such as eligible duration, order-merge criteria, and marketplace context. */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UpdateCombinedPaymentsRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    updateFlatShippingRules: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description This required header sets the eBay marketplace where the request is processed. For the full list of eBay marketplace values, see the <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-rate_table-getratetable.ratetabledetails.marketplaceid" target="_blank">MarketplaceIdEnum</a> type. */
+                "X-EBAY-C-MARKETPLACE-ID": components["schemas"]["MarketplaceIdEnum"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This type is used for creating and updating flat-rate combined-shipping rules. */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UpdateFlatShippingRulesRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    updatePromotionalShippingRule: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description This required header sets the eBay marketplace where the request is processed. For the full list of eBay marketplace values, see the <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-rate_table-getratetable.ratetabledetails.marketplaceid" target="_blank">MarketplaceIdEnum</a> type. */
+                "X-EBAY-C-MARKETPLACE-ID": components["schemas"]["MarketplaceIdEnum"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        /** @description This type is used for updating an existing promotional combined-shipping rules. */
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UpdatePromotionalShippingRuleRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    getUserPreferences: {
+        parameters: {
+            query?: {
+                /** @description The <b>fieldgroups</b> query parameter specifies the type of seller preferences to retrieve. <br><br>If <b>fieldgroups</b>=<code>ALL</code> or is omitted, all the supported seller preferences are returned. <br><br>To retrieve specific seller preferences, include the <b>fieldgroups</b> parameter and specify one or more values, with each value delimited by a comma. <br><br>For example, <code>fieldgroups = SHIPPING_CARRIER_RATE,COMBINED_PAYMENT</code>. <br><br>The value can be <code>ALL</code> or any combination of the following (comma-separated):<br><code>COMBINED_PAYMENT</code>, <code>DISPATCH_CUTOFF_TIME</code>, <code>EMAIL_SHIPMENT_TRACKING_NUMBER</code>, <code>END_OF_AUCTION_EMAIL</code>, <code>GLOBAL_SHIPPING_PROGRAM</code>, <code>GLOBAL_SHIPPING_PROGRAM_LISTING</code>, <code>ITEMS_AWAITING_PAYMENT</code>, <code>OUT_OF_STOCK_CONTROL SELLER_PROFILE</code>, <code>OVERRIDE_GSP_SERVICE_WITH_INTL_SERVICE</code>, <code>PICKUP_DROPOFF_SELLER</code>, <code>PURCHASE_REMINDER_EMAIL</code>, <code>REQUIRED_SHIP_PHONE_NUMBER</code>, <code>SELLER_EXCLUDE_SHIP_TO_LOCATION</code>, <code>SHIPPING_CARRIER_RATE</code> */
+                fieldgroups?: string;
+            };
+            header: {
+                /** @description This required header sets the eBay marketplace where the request is processed. For the full list of eBay marketplace values, see the <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-rate_table-getratetable.ratetabledetails.marketplaceid" target="_blank">MarketplaceIdEnum</a> type. */
+                "X-EBAY-C-MARKETPLACE-ID": components["schemas"]["MarketplaceIdEnum"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GetUserPreferencesResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    setUserPreferences: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description This required header sets the eBay marketplace where the request is processed. For the full list of eBay marketplace values, see the <a href="/develop/api/sell/account_api_v2#sell-account_api_v2-rate_table-getratetable.ratetabledetails.marketplaceid" target="_blank">MarketplaceIdEnum</a> type. */
+                "X-EBAY-C-MARKETPLACE-ID": components["schemas"]["MarketplaceIdEnum"];
+                /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br>For more information, refer to <a href="/develop/guides-v2/using-ebay-restful-apis#request-components" target="_blank">HTTP request headers</a>. */
+                "Content-Type": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["SetUserPreferencesRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
             };
         };
     };

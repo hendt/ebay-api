@@ -166,7 +166,10 @@ export interface operations {
     createSigningKey: {
         parameters: {
             query?: never;
-            header?: never;
+            header: {
+                /** @description This header indicates the format of the request body provided by the client. Its value should be set to <b>application/json</b>. <br><br> For more information, refer to <a href="/api-docs/static/rest-request-components.html#HTTP" target="_blank ">HTTP request headers</a>. */
+                "Content-Type": string;
+            };
             path?: never;
             cookie?: never;
         };
