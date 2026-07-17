@@ -1,5 +1,6 @@
 import {
   CommerceNotificationConfig,
+  CreateSubscriptionFilterRequest,
   CreateSubscriptionRequest,
   DestinationRequest,
   NotificationParams,
@@ -205,5 +206,50 @@ export default class Notification extends Restful implements OpenApi<operations>
    */
   public updateConfig(body: CommerceNotificationConfig) {
     return this.put('/config', body);
+  }
+
+  /**
+   * This method allows applications to create a filter for a subscription.
+   *
+   * @param subscriptionId The unique identifier for the subscription.
+   * @param body The filter payload for the subscription.
+   */
+  public createSubscriptionFilter(subscriptionId: string, body?: CreateSubscriptionFilterRequest) {
+    subscriptionId = encodeURIComponent(subscriptionId);
+    return this.post(`/subscription/${subscriptionId}/filter`, body);
+  }
+
+  /**
+   * This method allows applications to retrieve a subscription filter.
+   *
+   * @param subscriptionId The unique identifier for the subscription.
+   * @param filterId The unique identifier for the subscription filter.
+   */
+  public getSubscriptionFilter(subscriptionId: string, filterId: string) {
+    subscriptionId = encodeURIComponent(subscriptionId);
+    filterId = encodeURIComponent(filterId);
+    return this.get(`/subscription/${subscriptionId}/filter/${filterId}`);
+  }
+
+  /**
+   * This method allows applications to delete a subscription filter.
+   *
+   * @param subscriptionId The unique identifier for the subscription.
+   * @param filterId The unique identifier for the subscription filter.
+   */
+  public deleteSubscriptionFilter(subscriptionId: string, filterId: string) {
+    subscriptionId = encodeURIComponent(subscriptionId);
+    filterId = encodeURIComponent(filterId);
+    return this.delete(`/subscription/${subscriptionId}/filter/${filterId}`);
+  }
+
+  /**
+   * This method triggers a mocked test payload to be sent to the specified subscription's destination endpoint.
+   *
+   * @param subscriptionId The unique identifier for the subscription.
+   */
+  public testSubscription(subscriptionId: string) {
+    subscriptionId = encodeURIComponent(subscriptionId);
+    return this.post(`/subscription/${subscriptionId}/test`);
   }
 }

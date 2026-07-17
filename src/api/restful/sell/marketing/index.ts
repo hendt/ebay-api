@@ -20,7 +20,6 @@ import {
   CreateReportTask,
   ItemPriceMarkdown,
   ItemPromotion,
-  QuickSetupRequest,
   TargetedBidRequest,
   TargetedKeywordRequest,
   UpdateAdGroupRequest,
@@ -28,6 +27,8 @@ import {
   UpdateBidPercentageRequest,
   UpdateCampaignBudgetRequest,
   UpdateCampaignIdentificationRequest,
+  SuggestMaxCpcRequest,
+  UpdateBiddingStrategyRequest,
   UpdateCampaignRequest,
   UpdateKeywordRequest,
   UpdateNegativeKeywordRequest
@@ -148,23 +149,6 @@ export default class Marketing extends Restful implements OpenApi<operations> {
   public bulkUpdateAdsStatusByListingId(campaignId: string, body: BulkUpdateAdStatusByListingIdRequest) {
     campaignId = encodeURIComponent(campaignId);
     return this.post(`/ad_campaign/${campaignId}/bulk_update_ads_status_by_listing_id`, body);
-  }
-
-  /**
-   * This method launches a Promoted Listings Advanced campaign.
-   * @param campaignId teh campaign id
-   */
-  public launchCampaign(campaignId: string) {
-    campaignId = encodeURIComponent(campaignId);
-    return this.post(`/ad_campaign/${campaignId}/launch`);
-  }
-
-  /**
-   * This method allows the seller to expedite the creation of a Promoted Listings Advanced (PLA) campaign.
-   * @param body This type defines the fields to create a quick setup Promoted Listings Advanced (PLA) campaign.
-   */
-  public setupQuickCampaign(body: QuickSetupRequest) {
-    return this.post('/ad_campaign/setup_quick_campaign', body);
   }
 
   /**
@@ -1111,6 +1095,31 @@ export default class Marketing extends Restful implements OpenApi<operations> {
         endDate
       }
     });
+  }
+
+  /**
+   * This method allows sellers to retrieve the suggested budget for a smart targeting campaign.
+   */
+  public suggestBudget() {
+    return this.get('/ad_campaign/suggest_budget');
+  }
+
+  /**
+   * This method allows sellers to retrieve the suggested maximum cost-per-click value for a smart targeting campaign.
+   * @param body This type defines the fields for the suggest max CPC request.
+   */
+  public suggestMaxCpc(body?: SuggestMaxCpcRequest) {
+    return this.post('/ad_campaign/suggest_max_cpc', body);
+  }
+
+  /**
+   * This method allows sellers to change the bidding strategy for a specified Cost Per Click (CPC) campaign.
+   * @param campaignId A unique eBay-assigned ID for an ad campaign that's generated when a campaign is created.
+   * @param body This type defines the fields for the update bidding strategy request.
+   */
+  public updateBiddingStrategy(campaignId: string, body?: UpdateBiddingStrategyRequest) {
+    campaignId = encodeURIComponent(campaignId);
+    return this.post(`/ad_campaign/${campaignId}/update_bidding_strategy`, body);
   }
 
 }

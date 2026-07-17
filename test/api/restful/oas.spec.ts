@@ -26,6 +26,7 @@ function createReq(): IEBayApiRequest<any> {
     get: sinon.stub().returns(Promise.resolve({data: {}})),
     delete: sinon.stub().returns(Promise.resolve({data: {}})),
     put: sinon.stub().returns(Promise.resolve({data: {}})),
+    patch: sinon.stub().returns(Promise.resolve({data: {}})),
     post: sinon.stub().returns(Promise.resolve({data: {}})),
     postForm: sinon.stub().returns(Promise.resolve({data: {}})),
     instance: sinon.stub().returns(Promise.resolve({data: {}}))

@@ -139,4 +139,75 @@ export default class Finances extends Restful implements OpenApi<operations> {
   public getSellerFundsSummary() {
     return this.get('/seller_funds_summary');
   }
+
+  /**
+   * This method retrieves the total earnings of the seller's orders.
+   *
+   * @param filter One or more comma-separated criteria for narrowing down the collection of order earnings returned.
+   * @param limit The number of order earnings to return per page of the result set.
+   * @param offset The number of order earnings to skip in the result set before returning the first order earning.
+   * @param sort Sorts the returned order earnings.
+   */
+  public getOrderEarnings({filter, limit, offset, sort}: {
+    filter?: string;
+    limit?: string;
+    offset?: string;
+    sort?: string;
+  } = {}) {
+    return this.get('/order_earnings', {
+      params: {
+        filter,
+        limit,
+        offset,
+        sort
+      }
+    });
+  }
+
+  /**
+   * This method retrieves the earnings of a specific order.
+   *
+   * @param orderId The unique identifier of the order.
+   */
+  public getOrderEarningsById(orderId: string) {
+    orderId = encodeURIComponent(orderId);
+    return this.get(`/order_earnings/${orderId}`);
+  }
+
+  /**
+   * This method retrieves a summary of the total earnings of the seller's orders.
+   *
+   * @param filter One or more comma-separated criteria for narrowing down the order earnings included in the summary.
+   */
+  public getOrderEarningsSummary(filter?: string) {
+    return this.get('/order_earnings_summary', {
+      params: {
+        filter
+      }
+    });
+  }
+
+  /**
+   * This method retrieves a seller's billing activity.
+   *
+   * @param filter One or more comma-separated criteria for narrowing down the collection of billing activities returned.
+   * @param limit The number of billing activities to return per page of the result set.
+   * @param offset The number of billing activities to skip in the result set before returning the first activity.
+   * @param sort Sorts the returned billing activities.
+   */
+  public getBillingActivities({filter, limit, offset, sort}: {
+    filter?: string;
+    limit?: string;
+    offset?: string;
+    sort?: string;
+  } = {}) {
+    return this.get('/billing_activity', {
+      params: {
+        filter,
+        limit,
+        offset,
+        sort
+      }
+    });
+  }
 }

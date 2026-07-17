@@ -1,5 +1,6 @@
 import {PaymentsProgramType} from '../../../../enums/index.js';
 import {
+  BulkSalesTaxInput,
   CustomPolicyCreateRequest,
   CustomPolicyRequest,
   FulfillmentPolicyRequest,
@@ -519,6 +520,15 @@ export default class AccountV1 extends Restful implements OpenApi<operations> {
   public getSalesTaxJurisdictions(countryCode: string) {
     countryCode = encodeURIComponent(countryCode);
     return this.get(`/country/${countryCode}/sales_tax_jurisdiction`);
+  }
+
+  /**
+   * This method allows sellers to create or replace multiple sales tax rates in a single call.
+   *
+   * @param body This type defines the fields for the bulk create or replace sales tax request.
+   */
+  public bulkCreateOrReplaceSalesTax(body: BulkSalesTaxInput) {
+    return this.post('/bulk_create_or_replace_sales_tax', body);
   }
 
 }

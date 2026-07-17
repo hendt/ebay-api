@@ -160,6 +160,10 @@ export default abstract class Restful extends Api {
     return this.doRequest({method: 'put', path, data, config}, apiConfig);
   }
 
+  public async patch(path: string, data?: any, config: any = {}, apiConfig?: RestfulApiConfig) {
+    return this.doRequest({method: 'patch', path, data, config}, apiConfig);
+  }
+
   get additionalHeaders() {
     return Object.keys(additionalHeaders)
       // @ts-ignore

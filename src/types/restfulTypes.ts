@@ -30,11 +30,11 @@ import {components as commerceMessage} from './restful/specs/commerce_message_v1
 
 import {components as sellAccountV1} from './restful/specs/sell_account_v1_oas3.js';
 import {components as sellAccountV2} from './restful/specs/sell_account_v2_oas3.js';
-import {components as sellCompliance} from './restful/specs/sell_compliance_v1_oas3.js';
 
 import {components as sellFulfillment} from './restful/specs/sell_fulfillment_v1_oas3.js';
 import {components as sellInventory} from './restful/specs/sell_inventory_v1_oas3.js';
 import {components as sellMarketing} from './restful/specs/sell_marketing_v1_oas3.js';
+import {components as sellMetadata} from './restful/specs/sell_metadata_v1_oas3.js';
 import {components as sellRecommendation} from './restful/specs/sell_recommendation_v1_oas3.js';
 
 export type BrowseSearchParams = {
@@ -431,6 +431,7 @@ export type VoidLabelRequest = {
 
 // OpenApi
 export type CreateSubscriptionRequest = commerceNotification['schemas']['CreateSubscriptionRequest']
+export type CreateSubscriptionFilterRequest = commerceNotification['schemas']['CreateSubscriptionFilterRequest']
 export type UpdateSubscriptionRequest = commerceNotification['schemas']['UpdateSubscriptionRequest']
 export type DestinationRequest = commerceNotification['schemas']['DestinationRequest']
 export type CommerceNotificationConfig = commerceNotification['schemas']['Config']
@@ -440,7 +441,9 @@ export type TranslateRequest = commerceTranslation['schemas']['TranslateRequest'
 export type CommerceCatalogSearchParams = commerceCatalogOperations['search']['parameters']['query']
 
 export type CreateVideoRequest = commerceMedia['schemas']['CreateVideoRequest'];
-export type InputStream = commerceMedia['schemas']['InputStream'];
+export type CreateImageFromUrlRequest = commerceMedia['schemas']['CreateImageFromUrlRequest'];
+export type CreateDocumentRequest = commerceMedia['schemas']['CreateDocumentRequest'];
+export type CreateDocumentFromUrlRequest = commerceMedia['schemas']['CreateDocumentFromUrlRequest'];
 
 export type UpdateConversationRequest = commerceMessage['schemas']['UpdateConversationRequest'];
 export type BulkUpdateConversationRequest = commerceMessage['schemas']['BulkUpdateConversationsRequest'];
@@ -448,9 +451,6 @@ export type CommerceMessageSendMessageRequest = commerceMessage['schemas']['Send
 
 export type AttributeNameValue = buyBrowse['schemas']['AttributeNameValue']
 export type CompatibilityPayload = buyBrowse['schemas']['CompatibilityPayload']
-export type AddCartItemInput = buyBrowse['schemas']['AddCartItemInput']
-export type RemoveCartItemInput = buyBrowse['schemas']['RemoveCartItemInput']
-export type UpdateCartItemInput = buyBrowse['schemas']['UpdateCartItemInput']
 export type PlaceProxyBidRequest = buyOffer['schemas']['PlaceProxyBidRequest']
 export type SearchByImageRequest = buyBrowse['schemas']['SearchByImageRequest']
 
@@ -459,8 +459,6 @@ export type BuyBrowseSearchByImageParams = buyBrowseOperations['searchByImage'][
 export type BuyBrowseGetItemsParams = buyBrowseOperations['getItems']['parameters']['query'];
 export type BuyBrowseItemByLegacyIdParams = buyBrowseOperations['getItemByLegacyId']['parameters']['query'];
 
-export type BuyMarketingGetAlsoBoughtByProductParams = buyMarketingOperations['getAlsoBoughtByProduct']['parameters']['query'];
-export type BuyMarketingGetAlsoViewedByProductParams = buyMarketingOperations['getAlsoViewedByProduct']['parameters']['query'];
 export type BuyMarketingGetMerchandisedProductsParams = buyMarketingOperations['getMerchandisedProducts']['parameters']['query'];
 
 export type CreateGuestCheckoutSessionRequest = buyOrder['schemas']['CreateGuestCheckoutSessionRequest']
@@ -474,8 +472,6 @@ export type UpdatePaymentInformation = buyOrder['schemas']['UpdatePaymentInforma
 export type UpdateQuantity = buyOrder['schemas']['UpdateQuantity']
 export type UpdateShippingOption = buyOrder['schemas']['UpdateShippingOption']
 
-export type SuppressViolationRequest = sellCompliance['schemas']['SuppressViolationRequest'];
-
 export type CustomPolicyCreateRequest = sellAccountV1['schemas']['CustomPolicyCreateRequest'];
 export type CustomPolicyRequest = sellAccountV1['schemas']['CustomPolicyRequest'];
 export type FulfillmentPolicyRequest = sellAccountV1['schemas']['FulfillmentPolicyRequest'];
@@ -483,9 +479,18 @@ export type FulfillmentSellAccountProgram = sellAccountV1['schemas']['Program'];
 export type PaymentPolicyRequest = sellAccountV1['schemas']['PaymentPolicyRequest'];
 export type ReturnPolicyRequest = sellAccountV1['schemas']['ReturnPolicyRequest'];
 export type SalesTaxBase = sellAccountV1['schemas']['SalesTaxBase'];
+export type BulkSalesTaxInput = sellAccountV1['schemas']['BulkSalesTaxInput'];
 
 export type RateTableUpdate = sellAccountV2['schemas']['RateTableUpdate'];
 export type UpdatePayoutPercentageRequest = sellAccountV2['schemas']['UpdatePayoutPercentageRequest'];
+export type CreateCalculatedShippingRulesRequest = sellAccountV2['schemas']['CreateCalculatedShippingRulesRequest'];
+export type CreateFlatShippingRulesRequest = sellAccountV2['schemas']['CreateFlatShippingRulesRequest'];
+export type CreatePromotionalShippingRuleRequest = sellAccountV2['schemas']['CreatePromotionalShippingRuleRequest'];
+export type UpdateCalculatedShippingRulesRequest = sellAccountV2['schemas']['UpdateCalculatedShippingRulesRequest'];
+export type UpdateCombinedPaymentsRequest = sellAccountV2['schemas']['UpdateCombinedPaymentsRequest'];
+export type UpdateFlatShippingRulesRequest = sellAccountV2['schemas']['UpdateFlatShippingRulesRequest'];
+export type UpdatePromotionalShippingRuleRequest = sellAccountV2['schemas']['UpdatePromotionalShippingRuleRequest'];
+export type SetUserPreferencesRequest = sellAccountV2['schemas']['SetUserPreferencesRequest'];
 
 export type LineItemReference = sellFulfillment['schemas']['LineItemReference'];
 export type UpdateEvidencePaymentDisputeRequest = sellFulfillment['schemas']['UpdateEvidencePaymentDisputeRequest'];
@@ -544,7 +549,14 @@ export type UpdateKeywordRequest = sellMarketing['schemas']['UpdateKeywordReques
 export type UpdateNegativeKeywordRequest = sellMarketing['schemas']['UpdateNegativeKeywordRequest']
 export type CreateEmailCampaignRequest = sellMarketing['schemas']['CreateEmailCampaignRequest']
 export type UpdateCampaignRequest = sellMarketing['schemas']['UpdateCampaignRequest']
-export type QuickSetupRequest = sellMarketing['schemas']['QuickSetupRequest']
+export type SuggestMaxCpcRequest = sellMarketing['schemas']['SuggestMaxCpcRequest']
+export type UpdateBiddingStrategyRequest = sellMarketing['schemas']['UpdateBiddingStrategyRequest']
+
+export type SpecificationRequest = sellMetadata['schemas']['SpecificationRequest']
+export type PropertyNamesRequest = sellMetadata['schemas']['PropertyNamesRequest']
+export type PropertyValuesRequest = sellMetadata['schemas']['PropertyValuesRequest']
+export type MultiCompatibilityPropertyValuesRequest = sellMetadata['schemas']['MultiCompatibilityPropertyValuesRequest']
+export type ProductRequest = sellMetadata['schemas']['ProductRequest']
 
 export type FindListingRecommendationRequest = sellRecommendation['schemas']['FindListingRecommendationRequest']
 

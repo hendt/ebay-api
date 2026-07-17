@@ -1,4 +1,15 @@
-import {RateTableUpdate, UpdatePayoutPercentageRequest} from '../../../../types/index.js';
+import {
+  CreateCalculatedShippingRulesRequest,
+  CreateFlatShippingRulesRequest,
+  CreatePromotionalShippingRuleRequest,
+  RateTableUpdate,
+  SetUserPreferencesRequest,
+  UpdateCalculatedShippingRulesRequest,
+  UpdateCombinedPaymentsRequest,
+  UpdateFlatShippingRulesRequest,
+  UpdatePayoutPercentageRequest,
+  UpdatePromotionalShippingRuleRequest
+} from '../../../../types/index.js';
 import {operations} from '../../../../types/restful/specs/sell_account_v2_oas3.js';
 
 import Restful, {OpenApi} from '../../index.js';
@@ -45,5 +56,88 @@ export default class AccountV2 extends Restful implements OpenApi<operations> {
    */
   public updatePayoutPercentage(body: UpdatePayoutPercentageRequest) {
     return this.post('/payout_settings/update_percentage', body);
+  }
+
+  /**
+   * This method retrieves the combined shipping rules configured on the seller's account.
+   */
+  public getCombinedShippingRules() {
+    return this.get('/combined_shipping_rules');
+  }
+
+  /**
+   * This method creates calculated combined shipping rules for the seller's account.
+   * @param body This request payload contains the calculated shipping rules to create.
+   */
+  public createCalculatedShippingRules(body?: CreateCalculatedShippingRulesRequest) {
+    return this.post('/combined_shipping_rules/create_calculated_shipping_rules', body);
+  }
+
+  /**
+   * This method creates flat-rate combined shipping rules for the seller's account.
+   * @param body This request payload contains the flat shipping rules to create.
+   */
+  public createFlatShippingRules(body?: CreateFlatShippingRulesRequest) {
+    return this.post('/combined_shipping_rules/create_flat_shipping_rules', body);
+  }
+
+  /**
+   * This method creates a promotional combined shipping rule for the seller's account.
+   * @param body This request payload contains the promotional shipping rule to create.
+   */
+  public createPromotionalShippingRule(body?: CreatePromotionalShippingRuleRequest) {
+    return this.post('/combined_shipping_rules/create_promotional_shipping_rule', body);
+  }
+
+  /**
+   * This method updates the calculated combined shipping rules for the seller's account.
+   * @param body This request payload contains the calculated shipping rules to update.
+   */
+  public updateCalculatedShippingRules(body?: UpdateCalculatedShippingRulesRequest) {
+    return this.post('/combined_shipping_rules/update_calculated_shipping_rules', body);
+  }
+
+  /**
+   * This method updates the combined payments settings for the seller's account.
+   * @param body This request payload contains the combined payments settings to update.
+   */
+  public updateCombinedPayments(body?: UpdateCombinedPaymentsRequest) {
+    return this.post('/combined_shipping_rules/update_combined_payments', body);
+  }
+
+  /**
+   * This method updates the flat-rate combined shipping rules for the seller's account.
+   * @param body This request payload contains the flat shipping rules to update.
+   */
+  public updateFlatShippingRules(body?: UpdateFlatShippingRulesRequest) {
+    return this.post('/combined_shipping_rules/update_flat_shipping_rules', body);
+  }
+
+  /**
+   * This method updates a promotional combined shipping rule for the seller's account.
+   * @param body This request payload contains the promotional shipping rule to update.
+   */
+  public updatePromotionalShippingRule(body?: UpdatePromotionalShippingRuleRequest) {
+    return this.post('/combined_shipping_rules/update_promotional_shipping_rule', body);
+  }
+
+  /**
+   * This method retrieves the seller's preferences for the specified marketplace.
+   * @param fieldgroups This query parameter specifies the preference groups to return.
+   */
+  public getUserPreferences(fieldgroups?: string) {
+    return this.get('/user_preferences', {
+      params: {
+        fieldgroups
+      }
+    });
+  }
+
+  /**
+   * This method configures the seller's preferences for the specified marketplace.
+   * @param body This request payload contains the seller preferences to set.
+   */
+  public setUserPreferences(body?: SetUserPreferencesRequest) {
+    return this.patch('/user_preferences', body);
   }
 }
