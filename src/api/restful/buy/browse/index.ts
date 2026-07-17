@@ -1,13 +1,10 @@
 import {
-  AddCartItemInput,
   BuyBrowseGetItemsParams,
   BuyBrowseItemByLegacyIdParams,
   BuyBrowseSearchByImageParams,
   BuyBrowseSearchParams,
   CompatibilityPayload,
-  RemoveCartItemInput,
-  SearchByImageRequest,
-  UpdateCartItemInput
+  SearchByImageRequest
 } from '../../../../types/index.js';
 import {operations} from '../../../../types/restful/specs/buy_browse_v1_oas3.js';
 import Restful, {OpenApi} from '../../index.js';
@@ -114,46 +111,5 @@ export default class Browse extends Restful implements OpenApi<operations> {
   public checkCompatibility(itemId: string, body?: CompatibilityPayload) {
     const id = encodeURIComponent(itemId);
     return this.post(`/item/${id}/check_compatibility`, body);
-  }
-
-  //
-  // Shopping Cart
-  //
-
-  /**
-   * This is an Experimental method. This method creates an eBay cart for the eBay member, if one does not exist, and
-   * adds items to that cart.
-   *
-   * @param {Object} item AddCartItemInput
-   */
-  public addItem(item: AddCartItemInput) {
-    return this.post('/shopping_cart/add_item', item);
-  }
-
-  /**
-   * This is an experimental method. This method retrieves all the items in the eBay member's cart;
-   * items added to the cart while on ebay.com as well as items added to the cart using the Browse API.
-   */
-  public getShoppingCart() {
-    return this.get('/shopping_cart/');
-  }
-
-  /**
-   * This is an experimental method. This method removes a specific item from the eBay member's cart.
-   *
-   *  @param {Object} item RemoveCartItemInput
-   */
-  public removeItem(item: RemoveCartItemInput) {
-    return this.post('/shopping_cart/remove_item', item);
-  }
-
-  /**
-   * This is an experimental method. This method updates the quantity value of a specific item in the eBay member's
-   * cart.
-   *
-   * @param {UpdateCartItemInput} item UpdateCartItemInput
-   */
-  public updateQuantity(item: UpdateCartItemInput) {
-    return this.post('/shopping_cart/update_quantity', item);
   }
 }

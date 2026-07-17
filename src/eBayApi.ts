@@ -13,7 +13,7 @@ import * as errors from './errors/index.js';
 import {ApiEnvError} from './errors/index.js';
 import {IEBayApiRequest} from './request.js';
 import * as types from './types/index.js';
-import {AppConfig, ClientAlerts, Finding, Keyset, Merchandising, Shopping, Signature, Trading} from './types/index.js';
+import {AppConfig, ClientAlerts, Keyset, Merchandising, Signature, Trading} from './types/index.js';
 
 const defaultConfig: Omit<AppConfig, keyof Keyset> = {
   sandbox: false,
@@ -85,8 +85,6 @@ export default class eBayApi extends Api {
 
   // Traditional API
   private _trading?: Trading;
-  private _finding?: Finding;
-  private _shopping?: Shopping;
 
   private _merchandising?: Merchandising;
   private _clientAlerts?: ClientAlerts;
@@ -129,14 +127,6 @@ export default class eBayApi extends Api {
   // Traditional
   get trading(): Trading {
     return this._trading || (this._trading = this.factory.createTradingApi());
-  }
-
-  get finding(): Finding {
-    return this._finding || (this._finding = this.factory.createFindingApi());
-  }
-
-  get shopping(): Shopping {
-    return this._shopping || (this._shopping = this.factory.createShoppingApi());
   }
 
   get merchandising(): Merchandising {

@@ -1,4 +1,4 @@
-import {ClientAlerts, Finding, Merchandising, Shopping, Trading} from '../types/index.js';
+import {ClientAlerts, Merchandising, Trading} from '../types/index.js';
 import Api from './index.js';
 import {
   Browse,
@@ -28,7 +28,6 @@ import {
   AccountV1,
   AccountV2,
   Analytics as SellAnalytics,
-  Compliance,
   Feed as SellFeed,
   Finances,
   Fulfillment,
@@ -96,7 +95,6 @@ export default class ApiFactory extends Api {
       account: this.createRestfulApi(AccountV1),
       accountV2: this.createRestfulApi(AccountV2),
       analytics: this.createRestfulApi(SellAnalytics),
-      compliance: this.createRestfulApi(Compliance),
       fulfillment: this.createRestfulApi(Fulfillment),
       inventory: this.createRestfulApi(Inventory),
       marketing: this.createRestfulApi(SellMarketing),
@@ -120,14 +118,6 @@ export default class ApiFactory extends Api {
 
   public createTradingApi(): Trading {
     return this.traditional.createTradingApi();
-  }
-
-  public createShoppingApi(): Shopping {
-    return this.traditional.createShoppingApi();
-  }
-
-  public createFindingApi(): Finding {
-    return this.traditional.createFindingApi();
   }
 
   public createClientAlertsApi(): ClientAlerts {

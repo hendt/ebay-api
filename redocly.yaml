@@ -95,10 +95,6 @@ apis:
     root: specs/sell_analytics_v1_oas3.json
     x-openapi-ts:
       output: src/types/restful/specs/sell_analytics_v1_oas3.ts
-  sell_compliance_v1:
-    root: specs/sell_compliance_v1_oas3.json
-    x-openapi-ts:
-      output: src/types/restful/specs/sell_compliance_v1_oas3.ts
   sell_feed_v1:
     root: specs/sell_feed_v1_oas3.json
     x-openapi-ts:
