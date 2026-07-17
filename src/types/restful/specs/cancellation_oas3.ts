@@ -38,23 +38,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/cancellation/{cancelId}/confirm": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Buyer confirms the refund from a cancellation was received */
-        post: operations["confirmRefundReceived"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/cancellation": {
         parameters: {
             query?: never;
@@ -161,27 +144,6 @@ export interface operations {
             query?: never;
             header?: never;
             path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    confirmRefundReceived: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned identifier of the cancellation request to be approved. */
-                cancelId: string;
-            };
             cookie?: never;
         };
         requestBody?: never;

@@ -4,74 +4,6 @@
  */
 
 export interface paths {
-    "/inquiry/check_eligibility": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Check if a buyer is eligible to open an inquiry on an order */
-        post: operations["checkInquiryEligibility"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/inquiry/{inquiryId}/close": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Close an inquiry for the buyer */
-        post: operations["closeInquiry"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/inquiry/{inquiryId}/confirm_refund": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Buyer confirms the refund from an inquiry was received */
-        post: operations["confirmInquiryRefund"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/inquiry": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Buyer confirms the refund from an inquiry was received */
-        post: operations["createInquiry"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/inquiry/{inquiryId}/escalate": {
         parameters: {
             query?: never;
@@ -117,23 +49,6 @@ export interface paths {
         put?: never;
         /** @description Issue a refund for an inquiry */
         post: operations["issueInquiryRefund"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/inquiry/{inquiryId}/provide_refund_info": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Provide refund information about an inquiry to the buyer */
-        post: operations["provideInquiryRefundInfo"];
         delete?: never;
         options?: never;
         head?: never;
@@ -203,84 +118,6 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    checkInquiryEligibility: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    closeInquiry: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique ID of the inquiry to be closed. */
-                inquiryId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    confirmInquiryRefund: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique ID of the inquiry to be closed. */
-                inquiryId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    createInquiry: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     escalateInquiry: {
         parameters: {
             query?: never;
@@ -324,27 +161,6 @@ export interface operations {
         };
     };
     issueInquiryRefund: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique ID of the inquiry to be closed. */
-                inquiryId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    provideInquiryRefundInfo: {
         parameters: {
             query?: never;
             header?: never;

@@ -1,12 +1,8 @@
 import Restful from '../../index.js';
 import {
-  BuyerCloseInquiryRequest,
-  CheckInquiryEligibilityRequest,
-  CreateInquiryRequest,
   EscalateInquiryRequest,
   InquirySearchParams,
   InquiryVoluntaryRefundRequest,
-  SellerProvideRefundInfoRequest,
   SendMessageRequest,
   ShipmentInfoRequest
 } from '../../../../types/index.js';
@@ -24,51 +20,6 @@ export default class Inquiry extends Restful {
 
   get useIaf() {
     return true;
-  }
-
-  /**
-   * Check if a buyer is eligible to open an inquiry on an order.
-   *
-   * @param payload the CheckInquiryEligibilityRequest
-   */
-  public checkInquiryEligibility(payload: CheckInquiryEligibilityRequest) {
-    return this.post('/inquiry/check_eligibility', payload);
-  }
-
-  /**
-   * Close an inquiry for the buyer
-   *
-   * @param inquiryId The unique ID of the inquiry to be closed.
-   * @param payload the BuyerCloseInquiryRequest
-   */
-  public closeInquiry(inquiryId: string, payload?: BuyerCloseInquiryRequest) {
-    inquiryId = encodeURIComponent(inquiryId);
-    if (typeof payload?.closeReason === 'string') {
-      payload.closeReason = payload.closeReason.trim();
-    }
-    return this.post(`/inquiry/${inquiryId}/close`, payload);
-  }
-
-  /**
-   * Buyer confirms the refund from an inquiry was received
-   *
-   * @param inquiryId The unique identifier of a case.
-   */
-  public confirmInquiryRefund(inquiryId: string) {
-    inquiryId = encodeURIComponent(inquiryId);
-    return this.post(`/inquiry/${inquiryId}/confirm_refund`);
-  }
-
-  /**
-   * Create an inquiry for the buyer.
-   *
-   * @param payload the CreateInquiryRequest
-   */
-  public createInquiry(payload: CreateInquiryRequest) {
-    if (typeof payload.desiredOutcome === 'string') {
-      payload.desiredOutcome = payload.desiredOutcome.trim();
-    }
-    return this.post('/inquiry', payload);
   }
 
   /**
@@ -102,17 +53,6 @@ export default class Inquiry extends Restful {
   public issueInquiryRefund(inquiryId: string, payload?: InquiryVoluntaryRefundRequest) {
     inquiryId = encodeURIComponent(inquiryId);
     return this.post(`/inquiry/${inquiryId}/issue_refund`, payload);
-  }
-
-  /**
-   * Provide refund information about an inquiry to the buyer.
-   *
-   * @param inquiryId The unique ID of the inquiry for which to provide refund information.
-   * @param payload   the InquiryVoluntaryRefundRequest
-   */
-  public provideInquiryRefundInfo(inquiryId: string, payload: SellerProvideRefundInfoRequest) {
-    inquiryId = encodeURIComponent(inquiryId);
-    return this.post(`/inquiry/${inquiryId}/provide_refund_info`, payload);
   }
 
   /**

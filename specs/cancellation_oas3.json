@@ -50,28 +50,6 @@
         }
       }
     },
-    "/cancellation/{cancelId}/confirm": {
-      "post": {
-        "description": "Buyer confirms the refund from a cancellation was received",
-        "operationId": "confirmRefundReceived",
-        "parameters": [
-          {
-            "name": "cancelId",
-            "in": "path",
-            "description": "The unique eBay-assigned identifier of the cancellation request to be approved.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/cancellation": {
       "post": {
         "description": "Request or perform an order cancellation",

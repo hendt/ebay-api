@@ -17,72 +17,6 @@
     }
   ],
   "paths": {
-    "/inquiry/check_eligibility": {
-      "post": {
-        "description": "Check if a buyer is eligible to open an inquiry on an order",
-        "operationId": "checkInquiryEligibility",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/inquiry/{inquiryId}/close": {
-      "post": {
-        "description": "Close an inquiry for the buyer",
-        "operationId": "closeInquiry",
-        "parameters": [
-          {
-            "name": "inquiryId",
-            "in": "path",
-            "description": "The unique ID of the inquiry to be closed.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/inquiry/{inquiryId}/confirm_refund": {
-      "post": {
-        "description": "Buyer confirms the refund from an inquiry was received",
-        "operationId": "confirmInquiryRefund",
-        "parameters": [
-          {
-            "name": "inquiryId",
-            "in": "path",
-            "description": "The unique ID of the inquiry to be closed.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/inquiry": {
-      "post": {
-        "description": "Buyer confirms the refund from an inquiry was received",
-        "operationId": "createInquiry",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/inquiry/{inquiryId}/escalate": {
       "post": {
         "description": "Escalate an inquiry to an INR case",
@@ -139,28 +73,6 @@
       "post": {
         "description": "Issue a refund for an inquiry",
         "operationId": "issueInquiryRefund",
-        "parameters": [
-          {
-            "name": "inquiryId",
-            "in": "path",
-            "description": "The unique ID of the inquiry to be closed.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/inquiry/{inquiryId}/provide_refund_info": {
-      "post": {
-        "description": "Provide refund information about an inquiry to the buyer",
-        "operationId": "provideInquiryRefundInfo",
         "parameters": [
           {
             "name": "inquiryId",

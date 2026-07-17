@@ -21,74 +21,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/return/{returnId}/cancel": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Cancel a return request */
-        post: operations["cancelReturnRequest"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/return/check_eligibility": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Check to see if an item is eligible for a return */
-        post: operations["checkReturnEligibility"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/return/{returnId}/check_label_print_eligibility": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Validate the eligibility of an existing shipping label */
-        get: operations["checkShippingLabelEligibility"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/return/draft": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Create a return draft */
-        post: operations["createReturnDraft"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/return": {
         parameters: {
             query?: never;
@@ -101,40 +33,6 @@ export interface paths {
         /** @description Request a return for an item */
         post: operations["createReturnRequest"];
         delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/return/{returnId}/initiate_shipping_label": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Create an eBay shipping label for the buyer */
-        post: operations["createReturnShippingLabel"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/return/draft/{draftId}/file/{fileId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** @description Delete a file associated with a return draft */
-        delete: operations["deleteReturnDraftFile"];
         options?: never;
         head?: never;
         patch?: never;
@@ -174,58 +72,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/return/draft/{draftId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Retrieve a return draft */
-        get: operations["getReturnDraft"];
-        /** @description Update an existing return draft */
-        put: operations["updateReturnDraft"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/return/draft/{draftId}/files": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Retrieve the files associated with a return draft */
-        get: operations["getReturnDraftFiles"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/return/estimate": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Buyer-facing call to retrieve the estimated refund amount and return shipping costs associated with returning an item. */
-        post: operations["getReturnEstimate"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/return/{returnId}/files": {
         parameters: {
             query?: never;
@@ -255,23 +101,6 @@ export interface paths {
         put?: never;
         /** @description Set seller's return preferences */
         post: operations["setReturnPreferences"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/return/{returnId}/get_shipping_label": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Retrieve the data for an existing shipping label */
-        get: operations["getReturnShippingLabel"];
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -329,57 +158,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/return/{returnId}/mark_refund_received": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Mark a refund as received */
-        post: operations["markReturnRefundReceived"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/return/{returnId}/mark_refund_sent": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Notify the buyer that a refund has been issued */
-        post: operations["markReturnRefundSent"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/return/{returnId}/mark_as_shipped": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Mark a return as shipped */
-        post: operations["markReturnShipped"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/return/{returnId}/decide": {
         parameters: {
             query?: never;
@@ -431,74 +209,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/return/{returnId}/send_shipping_label": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Send a shipping label to an email address */
-        post: operations["sendReturnShippingLabel"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/return/{returnId}/file/submit": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Activate the files associated with a return */
-        post: operations["submitReturnFile"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/return/{returnId}/update_tracking": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** @description Update shipment tracking information for an item being returned. */
-        put: operations["updateShipmentTrackingInfo"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/return/draft/{draftId}/file/upload": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Upload the files relating to a return draft */
-        post: operations["uploadReturnDraftFile"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/return/{returnId}/file/upload": {
         parameters: {
             query?: never;
@@ -510,23 +220,6 @@ export interface paths {
         put?: never;
         /** @description Upload the files relating to a return */
         post: operations["uploadReturnFile"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/return/{returnId}/void_shipping_label": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Void a shipping label */
-        post: operations["voidShippingLabel"];
         delete?: never;
         options?: never;
         head?: never;
@@ -566,133 +259,11 @@ export interface operations {
             };
         };
     };
-    cancelReturnRequest: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created. */
-                returnId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    checkReturnEligibility: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    checkShippingLabelEligibility: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created. */
-                returnId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    createReturnDraft: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     createReturnRequest: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    createReturnShippingLabel: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created. */
-                returnId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    deleteReturnDraftFile: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return draft. The draftId value is required to identify the return draft containing the file to be deleted. */
-                draftId: string;
-                /** @description The unique eBay-assigned ID of the draft file. The fileId value is required to identify the the file to be deleted. */
-                fileId: string;
-            };
             cookie?: never;
         };
         requestBody?: never;
@@ -735,87 +306,6 @@ export interface operations {
                 /** @description The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created. */
                 returnId: string;
             };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getReturnDraft: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return draft. The draftId value is required to identify the return draft containing the file to be deleted. */
-                draftId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    updateReturnDraft: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return draft. The draftId value is required to identify the return draft containing the file to be deleted. */
-                draftId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getReturnDraftFiles: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return draft. The draftId value is required to identify the return draft containing the file to be deleted. */
-                draftId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getReturnEstimate: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -886,27 +376,6 @@ export interface operations {
             };
         };
     };
-    getReturnShippingLabel: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created. */
-                returnId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     getShipmentTrackingInfo: {
         parameters: {
             query?: never;
@@ -950,69 +419,6 @@ export interface operations {
         };
     };
     markReturnReceived: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created. */
-                returnId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    markReturnRefundReceived: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created. */
-                returnId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    markReturnRefundSent: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created. */
-                returnId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    markReturnShipped: {
         parameters: {
             query?: never;
             header?: never;
@@ -1093,112 +499,7 @@ export interface operations {
             };
         };
     };
-    sendReturnShippingLabel: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created. */
-                returnId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    submitReturnFile: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created. */
-                returnId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    updateShipmentTrackingInfo: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created. */
-                returnId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    uploadReturnDraftFile: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created. */
-                returnId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     uploadReturnFile: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique eBay-assigned ID of the return. The returnId value is required to identify the return for which a return shipping label is being created. */
-                returnId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    voidShippingLabel: {
         parameters: {
             query?: never;
             header?: never;

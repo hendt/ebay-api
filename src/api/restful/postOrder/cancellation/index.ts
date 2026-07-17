@@ -1,7 +1,6 @@
 import Restful from '../../index.js';
 import {
   CancellationSearchParams,
-  ConfirmRefundRequest,
   CreateCancelRequest,
   RejectCancelRequest
 } from '../../../../types/index.js';
@@ -40,17 +39,6 @@ export default class Cancellation extends Restful {
     return this.post('/cancellation/check_eligibility', {
       legacyOrderId
     });
-  }
-
-  /**
-   * Buyer confirms the refund from a cancellation was received
-   *
-   * @param cancelId The unique eBay-assigned identifier of the cancellation/refund being confirmed.
-   * @param payload the ConfirmRefundReceivedPayload
-   */
-  public confirmRefundReceived(cancelId: string, payload?: ConfirmRefundRequest) {
-    cancelId = encodeURIComponent(cancelId);
-    return this.post(`/cancellation/${cancelId}/confirm`, payload);
   }
 
   /**

@@ -21,23 +21,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/casemanagement/{caseId}/close": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Buyer closes a case */
-        post: operations["closeCase"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/casemanagement/{caseId}": {
         parameters: {
             query?: never;
@@ -49,57 +32,6 @@ export interface paths {
         get: operations["getCase"];
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/casemanagement/{caseId}/issue_refund": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Seller issues a refund for a case */
-        post: operations["issueCaseRefund"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/casemanagement/{caseId}/provide_shipment_info": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Buyer provides return shipment information */
-        post: operations["provideReturnShipmentInfo"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/casemanagement/{caseId}/provide_return_address": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Seller provides a return address to the buyer */
-        post: operations["providesReturnAddress"];
         delete?: never;
         options?: never;
         head?: never;
@@ -156,91 +88,7 @@ export interface operations {
             };
         };
     };
-    closeCase: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique identifier of a case. This URI parameter is required in order to identify the case for which an appeal will be filed against. The case is identified by the caseId that is passed in as part of the call URI. */
-                caseId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     getCase: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique identifier of a case. This URI parameter is required in order to identify the case for which an appeal will be filed against. The case is identified by the caseId that is passed in as part of the call URI. */
-                caseId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    issueCaseRefund: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique identifier of a case. This URI parameter is required in order to identify the case for which an appeal will be filed against. The case is identified by the caseId that is passed in as part of the call URI. */
-                caseId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    provideReturnShipmentInfo: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The unique identifier of a case. This URI parameter is required in order to identify the case for which an appeal will be filed against. The case is identified by the caseId that is passed in as part of the call URI. */
-                caseId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    providesReturnAddress: {
         parameters: {
             query?: never;
             header?: never;
