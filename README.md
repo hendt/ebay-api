@@ -39,7 +39,7 @@ It supports `client credentials grant` and `authorization code grant` \(Auth'N'A
 
 ## 🚀 Quick Start
 
-* `v10.0.0` is the latest release.
+* `v10.0.1` is the latest release.
 * See [here](https://github.com/hendt/ebay-api/blob/master/CHANGELOG.md) for the full changelog.
 
 Sign up for an API key here: [Developer Account](https://developer.ebay.com/signin?tab=register).
