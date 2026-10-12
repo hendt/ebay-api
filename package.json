@@ -88,10 +88,10 @@
     "gen-openapi": "npx openapi-typescript"
   },
   "dependencies": {
-    "axios": "^1.12.0",
+    "axios": "^1.20.0",
     "debug": "^4.3.4",
     "fast-xml-parser": "^5.3.4",
-    "qs": "^6.11.0"
+    "qs": "^6.16.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^29.0.0",
@@ -104,7 +104,7 @@
     "@types/qs": "^6.14.0",
     "@typescript-eslint/eslint-plugin": "^8.54.0",
     "@typescript-eslint/parser": "^8.54.0",
-    "@vitest/coverage-v8": "^4.1.10",
+    "@vitest/coverage-v8": "^4.1.11",
     "eslint": "^10.0.1",
     "form-data": "^4.0.0",
     "openapi-typescript": "7.13.0",
@@ -114,7 +114,7 @@
     "standard-version": "^9.0.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.11"
   },
   "overrides": {
     "brace-expansion": "^5.0.8",
