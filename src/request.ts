@@ -55,33 +55,33 @@ export class AxiosRequest implements IEBayApiRequest {
 
   public get<R = any>(url: string, config?: AxiosRequestConfig): Promise<R> {
     log('get: ' + url, config);
-    return this.instance.get(url, config);
+    return this.instance.get<any, R>(url, config) as Promise<R>;
   }
 
   public post<R = any>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<R> {
     log('post: ' + url, {payload, config});
-    return this.instance.post(url, payload, config);
+    return this.instance.post<any, R>(url, payload, config) as Promise<R>;
   }
 
   public delete<R = any>(url: string, config?: AxiosRequestConfig): Promise<R> {
     log('delete: ' + url, config);
-    return this.instance.delete(url, config);
+    return this.instance.delete<any, R>(url, config) as Promise<R>;
   }
 
   public put<R = any>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<R> {
     log('put: ' + url, {payload, config});
-    return this.instance.put(url, payload, config);
+    return this.instance.put<any, R>(url, payload, config) as Promise<R>;
   }
 
   public patch<R = any>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<R> {
     log('patch: ' + url, {payload, config});
-    return this.instance.patch(url, payload, config);
+    return this.instance.patch<any, R>(url, payload, config) as Promise<R>;
   }
 
   public postForm<R = any>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<R> {
     log('postForm: ' + url);
     const body = stringify(payload);
-    return this.instance.post(url, body, config);
+    return this.instance.post<any, R>(url, body, config) as Promise<R>;
   }
 
 }
