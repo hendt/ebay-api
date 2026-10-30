@@ -803,6 +803,8 @@ Check [here](https://github.com/hendt/ebay-api/blob/master/CONTRIBUTING.md)
 
 ## Supported By
 
+[knorky.com](https://knorky.com/)
+
 [leaderboarded.com](https://leaderboarded.com/)
 
 [rootle.de](https://rootle.de)
